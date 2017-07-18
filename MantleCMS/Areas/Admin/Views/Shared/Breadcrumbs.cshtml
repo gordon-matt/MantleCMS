@@ -1,0 +1,30 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Web
+@{
+    var workContext = EngineContext.Current.Resolve<IWebWorkContext>();
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="#" title="Home Page">
+            <i class="kore-icon kore-icon-home"></i> @T[MantleWebLocalizableStrings.General.Home]
+        </a>
+        <span class="divider"></span>
+    </li>
+
+    @foreach (var item in workContext.Breadcrumbs)
+    {
+        if (!string.IsNullOrEmpty(item.Url))
+        {
+            <li><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a><span class="divider"></span></li>
+        }
+        else
+        {
+            <li><i class="@item.Icon"></i>@item.Text<span class="divider"></span></li>
+        }
+    }
+    @{
+        // Empty the list for next page
+        workContext.Breadcrumbs.Clear();
+    }
+</ul>

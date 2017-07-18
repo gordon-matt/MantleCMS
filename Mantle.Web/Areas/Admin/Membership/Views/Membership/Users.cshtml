@@ -1,0 +1,28 @@
+﻿@{
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
+}
+
+<div id="users-grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <a data-bind="click: userModel.create" class="btn btn-primary">
+                <i class="kore-icon kore-icon-add"></i>
+                @T[MantleWebLocalizableStrings.General.Create]
+            </a>
+            <a data-bind="click: viewRoles" class="btn btn-default">
+                <i class="kore-icon kore-icon-group"></i>
+                @T[MantleWebLocalizableStrings.Membership.Roles]
+            </a>
+        </div>
+        <div class="pull-right">
+            @Html.Mantle().RolesDropDownList("RoleFilter", null, new { @class = "form-control", data_bind = "value: userModel.filterRoleId, event: { change: userModel.filterRole }" }, string.Empty)
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-md-12 @rtlClass">
+        <div id="UsersGrid"></div>
+    </div>
+</div>

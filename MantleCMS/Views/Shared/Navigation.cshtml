@@ -1,0 +1,51 @@
+﻿<aside id="left-panel">
+
+    @*<!-- User info -->
+    <div class="login-info">
+        <span>
+            <!-- User image size is adjusted inside CSS, it should stay as it -->
+
+            <a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+                <img src="~/img/male.png" alt="me" class="online" />
+                <span>
+                    john.doe
+                </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+        </span>
+    </div>
+    <!-- end user info -->*@
+    <!-- NAVIGATION : This navigation is also responsive-->
+    <nav>
+        <!--
+        NOTE: Notice the gaps after each icon usage <i></i>..
+        Please note that these links work a bit different than
+        traditional href="" links. See documentation for details.
+        -->
+
+        <ul>
+            <li class="active">
+                <a href="/" title="Home">
+                    <i class="fa fa-lg fa-fw fa-home"></i>
+                    <span class="menu-item-parent">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" title="About">
+                    <i class="fa fa-lg fa-fw fa-info"></i>
+                    <span class="menu-item-parent">About</span>
+                </a>
+            </li>
+            <li>
+                <a href="/contact" title="Contact">
+                    <i class="fa fa-lg fa-fw fa-envelope"></i>
+                    <span class="menu-item-parent">Contact Us</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>

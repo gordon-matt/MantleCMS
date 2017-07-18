@@ -1,0 +1,28 @@
+﻿<div id="user-roles-form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.UpdateUserRoles])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="user-roles-form-section-form" role="form">
+                    <fieldset>
+                        <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
+                                @Html.Mantle().RolesCheckBoxList("UserRoles", null, new { @class = "checkbox" }, new { data_bind = "checked: userModel.roles" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: userModel.editRoles_cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: userModel.editRoles_save"><i class="kore-icon kore-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+    </article>
+</div>

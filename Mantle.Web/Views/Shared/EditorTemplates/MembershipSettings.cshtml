@@ -1,0 +1,60 @@
+﻿@using Mantle.Web
+@using Mantle.Web.Security.Membership
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
+@model MembershipSettings
+
+<div id="settings-content">
+    <p>Generated Passwords</p>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GeneratedPasswordLength)
+        @Html.TextBoxFor(m => m.GeneratedPasswordLength, new { type = "number", @class = "form-control", data_bind = "value: generatedPasswordLength" })
+        @Html.ValidationMessageFor(m => m.GeneratedPasswordLength)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars)
+        @Html.TextBoxFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars, new { type = "number", @class = "form-control", data_bind = "value: generatedPasswordNumberOfNonAlphanumericChars" })
+        @Html.ValidationMessageFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars)
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.DisallowUnconfirmedUserLogin) @T[MantleWebLocalizableStrings.Settings.Membership.DisallowUnconfirmedUserLogin]
+        </label>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function updateModel(viewModel, data) {
+        viewModel.disallowUnconfirmedUserLogin = ko.observable(false);
+        viewModel.generatedPasswordLength = ko.observable(7);
+        viewModel.generatedPasswordNumberOfNonAlphanumericChars = ko.observable(3);
+
+        if (data) {
+            if (data.DisallowUnconfirmedUserLogin && (typeof data.DisallowUnconfirmedUserLogin === 'boolean')) {
+                viewModel.disallowUnconfirmedUserLogin(data.DisallowUnconfirmedUserLogin);
+            }
+            if (data.GeneratedPasswordLength) {
+                viewModel.generatedPasswordLength(data.GeneratedPasswordLength);
+            }
+            if (data.GeneratedPasswordNumberOfNonAlphanumericChars) {
+                viewModel.generatedPasswordNumberOfNonAlphanumericChars(data.GeneratedPasswordNumberOfNonAlphanumericChars);
+            }
+        }
+    };
+
+    function cleanUp(viewModel) {
+        delete viewModel.disallowUnconfirmedUserLogin;
+        delete viewModel.generatedPasswordLength;
+        delete viewModel.generatedPasswordNumberOfNonAlphanumericChars;
+    }
+
+    function onBeforeSave(viewModel) {
+        var data = {
+            DisallowUnconfirmedUserLogin: viewModel.disallowUnconfirmedUserLogin(),
+            GeneratedPasswordLength: viewModel.generatedPasswordLength(),
+            GeneratedPasswordNumberOfNonAlphanumericChars: viewModel.generatedPasswordNumberOfNonAlphanumericChars()
+        };
+
+        viewModel.value(ko.mapping.toJSON(data));
+    };
+</script>

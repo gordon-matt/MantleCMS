@@ -1,0 +1,38 @@
+﻿using System.Collections.Generic;
+using Mantle.Web.Mvc.MantleUI.Providers;
+
+namespace Mantle.Web.Mvc.MantleUI
+{
+    public static class MantleUISettings
+    {
+        private static IKoreUIProvider defaultAdminProvider;
+        private static IKoreUIProvider defaultFrontendProvider;
+
+        static MantleUISettings()
+        {
+            AreaUIProviders = new Dictionary<string, IKoreUIProvider>();
+        }
+
+        public static Dictionary<string, IKoreUIProvider> AreaUIProviders { get; private set; }
+
+        public static IKoreUIProvider DefaultAdminProvider
+        {
+            get { return defaultAdminProvider ?? (defaultAdminProvider = new Bootstrap3UIProvider()); }
+            set { defaultAdminProvider = value; }
+        }
+
+        public static IKoreUIProvider DefaultFrontendProvider
+        {
+            get { return defaultFrontendProvider ?? (defaultFrontendProvider = new Bootstrap3UIProvider()); }
+            set { defaultFrontendProvider = value; }
+        }
+
+        public static void RegisterAreaUIProvider(string area, IKoreUIProvider provider)
+        {
+            if (!AreaUIProviders.ContainsKey(area))
+            {
+                AreaUIProviders.Add(area, provider);
+            }
+        }
+    }
+}

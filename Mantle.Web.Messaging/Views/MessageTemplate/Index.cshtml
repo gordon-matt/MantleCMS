@@ -1,0 +1,88 @@
+﻿@{
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
+}
+
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+@Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
+
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: create" class="btn btn-primary">
+            <i class="kore-icon kore-icon-add"></i>
+            @T(KoreWebLocalizableStrings.General.Create)
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+<div id="form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T(KoreWebLocalizableStrings.General.Details))) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="form-section-form" role="form">
+                    <fieldset>
+                        <legend id="form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Name", T(KoreCmsLocalizableStrings.Messaging.MessageTemplateModel.Name), new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="kore-icon kore-icon-file"></i>
+                                    </span>
+                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: name" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Subject", T(KoreCmsLocalizableStrings.Messaging.MessageTemplateModel.Subject), new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="kore-icon kore-icon-file"></i>
+                                    </span>
+                                    @Html.TextBox("Subject", null, new { @class = "form-control", data_bind = "value: subject" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 col-md-10">
+                            <div class="form-group">
+                                @Html.Label("Body", T(KoreCmsLocalizableStrings.Messaging.MessageTemplateModel.Body), new { @class = "control-label" })
+                                @Html.TextArea("Body", null, new { @class = "form-control", data_bind = "wysiwyg: body, wysiwygConfig: tinyMCEConfig" })
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                            <div class="panel panel-default" style="margin-top:23px">
+                                <div class="panel-heading">@T(KoreCmsLocalizableStrings.Messaging.MessageTemplateModel.Tokens)</div>
+                                <div class="panel-body">
+                                    <ul id="tokens-list" class="list-unstyled"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBox("Enabled", new { data_bind = "checked: enabled" }) @T(KoreCmsLocalizableStrings.Messaging.MessageTemplateModel.Enabled)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T(KoreWebLocalizableStrings.General.Cancel)</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: save"><i class="kore-icon kore-icon-save"></i> @T(KoreWebLocalizableStrings.General.Save)</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+    </article>
+</div>

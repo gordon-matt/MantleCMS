@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNetCore.Html
+@using MenuItem = Mantle.Web.Navigation.MenuItem
+@inject Mantle.Web.Navigation.INavigationManager navigationManager
+@{ 
+    var menuItems = navigationManager.BuildMenu("Admin");
+}
+
+@{
+    Func<MenuItem, IHtmlContent> DisplayMenuItems = null;
+    DisplayMenuItems = (menuItem) => new Func<MenuItem, IHtmlContent>(
+        @<text>
+        <li class="@(menuItem.Selected ? "active" : "")">
+            @{ 
+                int iconCount = menuItem.Icons.Count();
+            }
+            @if (menuItem.Items.Any())
+            {
+                <a href="@menuItem.Href">
+                    @if (iconCount == 1)
+                    {
+                        <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
+                    }
+                    else if (iconCount > 1)
+                    {
+                        // We only support 2 icons max:
+                        string firstIcon = menuItem.Icons.ElementAt(0);
+                        string secondIcon = menuItem.Icons.ElementAt(1);
+                        <span class="fa-stack">
+                            <i class="@firstIcon fa-stack-1x"></i>
+                            <i class="@secondIcon fa-stack-1x" style="top:-7px;left:7px;"></i>
+                        </span>
+                    }
+                    <span>@menuItem.Text</span>
+                </a>
+                <ul>
+                    @foreach (var childMenuItem in menuItem.Items)
+                    {
+                        @DisplayMenuItems(childMenuItem)
+                    }
+                </ul>
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(menuItem.Href))
+                {
+                    <a href="@menuItem.Href">
+                        @if (iconCount == 1)
+                        {
+                            <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
+                        }
+                        else if (iconCount > 1)
+                        {
+                            // We only support 2 icons max:
+                            string firstIcon = menuItem.Icons.ElementAt(0);
+                            string secondIcon = menuItem.Icons.ElementAt(1);
+                            <span class="fa-stack">
+                                <i class="@firstIcon fa-stack-1x"></i>
+                                <i class="@secondIcon fa-stack-1x" style="top:-7px;left:7px;"></i>
+                            </span>
+                        }
+                        <span>@menuItem.Text</span>
+                    </a>
+                }
+            }
+        </li>
+        </text>)(null);
+}
+
+<ul>
+    @foreach (var menuItem in menuItems)
+    {
+        @DisplayMenuItems(menuItem)
+    }
+</ul>
