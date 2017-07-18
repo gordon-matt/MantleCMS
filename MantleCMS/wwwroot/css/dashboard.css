@@ -1,0 +1,80 @@
+﻿.container {
+    width: 98% !important;
+}
+
+body {
+    padding-top: 90px;
+}
+
+.fa-sub {
+    position: relative;
+    left: 1em;
+    width: .2em;
+    top: -0.75em;
+    text-shadow: 0 0 1px black;
+}
+
+div.tile > i{
+    color: #fff;
+}
+
+#primary-nav > li > a {
+    text-align: center;
+}
+
+    #primary-nav > li > a > i {
+        font-size: 2em;
+    }
+
+    #primary-nav > li > a > span {
+        display: block;
+    }
+
+.navbar-brand {
+    margin-top: 15px;
+}
+
+.k-detail-cell > .tabstrip {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.k-treeview span.k-state-selected a {
+    color: #FFF !important;
+}
+
+#page-preview {
+    border: 3px solid #ddd;
+    padding: 5px;
+}
+
+label.checkbox-list-group-label {
+    background-image: linear-gradient(to bottom, #fff 0px, #e0e0e0 100%);
+    border: 1px solid #ccc;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    display: block;
+    padding: 5px 7px;
+}
+
+    label.checkbox-list-group-label ~ label.checkbox {
+        margin-left: 20px;
+    }
+
+#block-content .tab-pane {
+    margin-bottom: 15px;
+}
+
+/* Fix field width. More info here:
+  http://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content */
+@-moz-document url-prefix() {
+    fieldset {
+        display: table-cell;
+    }
+}
+
+.detail-grid {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: black;
+}

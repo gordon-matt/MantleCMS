@@ -17,6 +17,7 @@ namespace Mantle.Web.Localization
         {
             this.cacheManager = cacheManager;
             this.cultureManager = cultureManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         #region IWorkContextStateProvider Members

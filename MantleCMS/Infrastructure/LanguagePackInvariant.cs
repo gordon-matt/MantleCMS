@@ -18,7 +18,10 @@ namespace MantleCMS.Infrastructure
             {
                 return new Dictionary<string, string>
                 {
-                    { LocalizableStrings.Manage, "Manage" },
+                    { LocalizableStrings.Dashboard.Administration, "Administration" },
+                    { LocalizableStrings.Dashboard.Frontend, "Frontend" },
+                    { LocalizableStrings.Dashboard.Title, "Dashboard" },
+                    { LocalizableStrings.Dashboard.ToggleNavigation, "Toggle Navigation" },
                 };
             }
         }

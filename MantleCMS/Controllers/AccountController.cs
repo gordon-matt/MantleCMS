@@ -7,6 +7,7 @@ using Mantle.Identity.Services;
 using Mantle.Security.Membership;
 using Mantle.Web.Security.Membership;
 using MantleCMS.Data.Domain;
+using MantleCMS.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,7 @@ namespace MantleCMS.Controllers
         [Route("login")]
         public override IActionResult Login(string returnUrl = null)
         {
+            StartupTask.Execute(); // <-- Temporary until installation page is done...
             return base.Login(returnUrl);
         }
 
