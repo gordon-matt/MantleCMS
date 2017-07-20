@@ -64,11 +64,11 @@ namespace Mantle.Web.Areas.Admin
             //    .Icons("fa fa-search")
             //    .Permission(StandardPermissions.FullAccess));
 
-            //// Plugins
-            //builder.Add(T[MantleWebLocalizableStrings.Plugins.Title], "5", item => item
-            //    .Url("#plugins")
-            //    .Icons("fa fa-puzzle-piece")
-            //    .Permission(StandardPermissions.FullAccess));
+            // Plugins
+            builder.Add(T[MantleWebLocalizableStrings.Plugins.Title], "5", item => item
+                .Url("#plugins")
+                .Icons("fa fa-puzzle-piece")
+                .Permission(StandardPermissions.FullAccess));
 
             // Settings
             builder.Add(T[MantleWebLocalizableStrings.General.Settings], "5", item => item

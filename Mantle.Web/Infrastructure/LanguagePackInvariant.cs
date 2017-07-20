@@ -160,6 +160,16 @@ namespace Mantle.Web.Infrastructure
                     { MantleWebLocalizableStrings.Membership.UserModel.UserName, "Username" },
                     { MantleWebLocalizableStrings.Membership.Users, "Users" },
 
+                    { MantleWebLocalizableStrings.Plugins.InstallPluginError, "There was an error when installing the plugin." },
+                    { MantleWebLocalizableStrings.Plugins.InstallPluginSuccess, "Successfully installed the specified plugin." },
+                    { MantleWebLocalizableStrings.Plugins.ManagePlugins, "Manage Plugins" },
+                    { MantleWebLocalizableStrings.Plugins.Title, "Plugins" },
+                    { MantleWebLocalizableStrings.Plugins.Model.Group, "Group" },
+                    { MantleWebLocalizableStrings.Plugins.Model.PluginInfo, "Plugin Info" },
+                    { MantleWebLocalizableStrings.Plugins.Model.DisplayOrder, "Display Order" },
+                    { MantleWebLocalizableStrings.Plugins.Model.FriendlyName, "Friendly Name" },
+                    { MantleWebLocalizableStrings.Plugins.Model.LimitedToTenants, "Limited to Tenants" },
+
                     { MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskError, "There was an error when executing the task." },
                     { MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskSuccess, "Successfully executed task." },
                     { MantleWebLocalizableStrings.ScheduledTasks.ManageScheduledTasks, "Manage Scheduled Tasks" },

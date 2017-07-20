@@ -365,13 +365,13 @@ namespace Mantle.Infrastructure
             }
         }
 
-        private Assembly LoadFromAssemblyPath(string assemblyPath)
+        public Assembly LoadFromAssemblyPath(string assemblyPath)
         {
             return assemblyLoader.LoadFromAssemblyPath(assemblyPath);
             //return AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
         }
 
-        private Assembly LoadFromAssemblyName(AssemblyName assemblyName)
+        public Assembly LoadFromAssemblyName(AssemblyName assemblyName)
         {
             return assemblyLoader.LoadFromAssemblyName(assemblyName);
             //return AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName);

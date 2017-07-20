@@ -40,6 +40,7 @@ using NLog.Extensions.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
+using Mantle.Web.Plugins;
 
 namespace MantleCMS
 {
@@ -195,6 +196,8 @@ namespace MantleCMS
             }
 
             ServiceProvider = provider;
+
+            PluginManager.Initialize();
 
             //if (DataSettingsHelper.IsDatabaseInstalled && MantleConfigurationSection.Instance.ScheduledTasks.Enabled)
             //{

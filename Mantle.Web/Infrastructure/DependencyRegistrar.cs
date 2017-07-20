@@ -12,6 +12,7 @@ using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Rendering;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
+using Mantle.Web.Plugins;
 using Mantle.Web.Security.Membership;
 using Mantle.Web.Security.Membership.Permissions;
 
@@ -26,8 +27,13 @@ namespace Mantle.Web.Infrastructure
             //web helper
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
 
+            //plugins
+            builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
+
+            //cache manager
             builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
 
+            //work context, themes, routes, etc
             builder.RegisterType<WebWorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ThemeContext>().As<IThemeContext>().InstancePerLifetimeScope();

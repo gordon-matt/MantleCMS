@@ -141,6 +141,7 @@
     <Content Include="wwwroot\lib\jquery\src\var\support.js" />
     <Content Include="wwwroot\lib\jquery\src\var\toString.js" />
     <Content Include="wwwroot\lib\jquery\src\wrap.js" />
+    <Content Include="wwwroot\Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.deps.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
@@ -182,6 +183,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.dll" />
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.pdb" />
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.dll" />
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.pdb" />
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.Web.dll" />
+    <None Include="wwwroot\Plugins\Caching.Redis\Mantle.Web.pdb" />
   </ItemGroup>
 
 </Project>

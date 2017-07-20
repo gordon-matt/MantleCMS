@@ -48,7 +48,7 @@ namespace Mantle.Web
             public const string Localization = "Admin/Localization";
             public const string Log = "Admin/Log";
             public const string Membership = "Admin/Membership";
-            //public const string Plugins = "Admin/Plugins";
+            public const string Plugins = "Admin/Plugins";
             public const string ScheduledTasks = "Admin/ScheduledTasks";
             public const string Tenants = "Admin/Tenants";
         }

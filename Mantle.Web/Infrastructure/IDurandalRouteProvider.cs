@@ -70,13 +70,13 @@ namespace Mantle.Web.Infrastructure
                     Title = T[MantleWebLocalizableStrings.Log.Title]
                 });
 
-                //routes.Add(new DurandalRoute
-                //{
-                //    ModuleId = "viewmodels/admin/plugins",
-                //    Route = "plugins",
-                //    JsPath = scriptRegister.GetBundleUrl("kore-web/plugins"),
-                //    Title = T[MantleWebLocalizableStrings.Plugins.Title]
-                //});
+                routes.Add(new DurandalRoute
+                {
+                    ModuleId = "viewmodels/admin/plugins",
+                    Route = "plugins",
+                    JsPath = "/Mantle.Web.Areas.Admin.Plugins.Scripts.index",
+                    Title = T[MantleWebLocalizableStrings.Plugins.Title]
+                });
 
                 routes.Add(new DurandalRoute
                 {

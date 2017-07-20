@@ -193,6 +193,25 @@
             }
         }
 
+        public static class Plugins
+        {
+            public static class Model
+            {
+                public const string Group = "Mantle.Web/Plugins.Model.Group";
+                public const string PluginInfo = "Mantle.Web/Plugins.Model.PluginInfo";
+                public const string FriendlyName = "Mantle.Web/Plugins.Model.FriendlyName";
+                public const string DisplayOrder = "Mantle.Web/Plugins.Model.DisplayOrder";
+                public const string LimitedToTenants = "Mantle.Web/Plugins.Model.LimitedToTenants";
+            }
+
+            public const string InstallPluginError = "Mantle.Web/Plugins.InstallPluginError";
+            public const string InstallPluginSuccess = "Mantle.Web/Plugins.InstallPluginSuccess";
+            public const string ManagePlugins = "Mantle.Web/Plugins.ManagePlugins";
+            public const string Title = "Mantle.Web/Plugins.Title";
+            public const string UninstallPluginError = "Mantle.Web/Plugins.UninstallPluginError";
+            public const string UninstallPluginSuccess = "Mantle.Web/Plugins.UninstallPluginSuccess";
+        }
+
         public static class ScheduledTasks
         {
             public static class Model
