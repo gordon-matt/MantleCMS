@@ -1,0 +1,35 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model LastPostModel
+
+@if (Model.Id > 0)
+{
+    <div class="date">
+        @Model.PostCreatedOnStr
+    </div>
+    if (Model.ShowTopic)
+    {
+        <div class="origin">
+            <label>@T(LocalizableStrings.In)</label>
+            @Html.ActionLink(Model.ForumTopicSubject, "Topic", new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName })
+        </div>
+    }
+    <div class="author">
+        <label>@T(LocalizableStrings.By)</label>
+        @if (Model.AllowViewingProfiles)
+        {
+            @* TODO: Maybe we need to use a different profile page for forums only? *@
+            @Html.ActionLink(Model.UserName, "ViewProfile", "Account", new { area = string.Empty, userId = Model.UserId })
+        }
+        else
+        {
+            <span>@Model.UserName</span>
+        }
+    </div>
+}
+else
+{
+    <div class="no-post">
+        @T(LocalizableStrings.NoPosts)
+    </div>
+}

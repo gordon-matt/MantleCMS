@@ -1,0 +1,18 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Web.Helpers
+
+@{
+    var dateTimeHelper = EngineContext.Current.Resolve<IDateTimeHelper>();
+}
+
+<div class="well forums-header">
+    <div class="row">
+        @Html.Partial("_SearchBox")
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="pull-right">
+                @dateTimeHelper.ConvertToUserTime(DateTime.UtcNow).ToString("F")
+            </div>
+        </div>
+    </div>
+</div>

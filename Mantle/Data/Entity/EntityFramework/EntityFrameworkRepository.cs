@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Mantle.Collections;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Exceptions;
-using Mantle.Logging;
 using Mantle.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,7 +19,6 @@ namespace Mantle.Data.Entity.EntityFramework
 
         private readonly IDbContextFactory contextFactory;
         private readonly ILogger logger;
-        private readonly Lazy<IEntityFrameworkHelper> efHelper;
 
         #endregion Private Members
 
@@ -28,12 +26,10 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public EntityFrameworkRepository(
             IDbContextFactory contextFactory,
-            Lazy<IEntityFrameworkHelper> efHelper,
             ILoggerFactory loggerFactory)
         {
             this.contextFactory = contextFactory;
-            this.efHelper = efHelper;
-            this.logger = loggerFactory.CreateLogger<EntityFrameworkRepository<TEntity>>();
+            logger = loggerFactory.CreateLogger<EntityFrameworkRepository<TEntity>>();
         }
 
         #endregion Constructor

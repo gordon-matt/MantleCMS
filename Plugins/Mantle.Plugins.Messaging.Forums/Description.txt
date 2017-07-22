@@ -1,0 +1,8 @@
+﻿Group: Messaging
+FriendlyName: Forums
+SystemName: Mantle.Plugins.Messaging.Forums
+Version: 1.0.0
+SupportedVersions: 1.00
+Author: Widecommerce
+DisplayOrder: 1
+FileName: Mantle.Plugins.Messaging.Forums.dll

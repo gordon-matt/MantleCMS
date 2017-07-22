@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Misc", "_Misc", "{38B88D80
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{79878135-6B83-45F2-897B-D20570D203A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Plugins.Caching.Redis", "Plugins\Mantle.Plugins.Caching.Redis\Mantle.Plugins.Caching.Redis.csproj", "{E564A2F6-FFCB-48DE-AF24-06609F74E953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Caching.Redis", "Plugins\Mantle.Plugins.Caching.Redis\Mantle.Plugins.Caching.Redis.csproj", "{E564A2F6-FFCB-48DE-AF24-06609F74E953}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Plugins.Messaging.Forums", "Plugins\Mantle.Plugins.Messaging.Forums\Mantle.Plugins.Messaging.Forums.csproj", "{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,11 +79,16 @@ Global
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953} = {79878135-6B83-45F2-897B-D20570D203A7}
+		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888} = {79878135-6B83-45F2-897B-D20570D203A7}
 	EndGlobalSection
 EndGlobal

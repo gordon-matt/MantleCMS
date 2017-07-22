@@ -1,0 +1,9 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model EditForumPostModel
+
+@{
+    ViewBag.Title = T(LocalizableStrings.PageTitle.PostNew);
+}
+
+@Html.Partial("_CreateUpdatePost", Model)

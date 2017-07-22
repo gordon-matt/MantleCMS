@@ -1,11 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Html
 @using MenuItem = Mantle.Web.Navigation.MenuItem
 @inject Mantle.Web.Navigation.INavigationManager navigationManager
-@{
-    var menuItems = navigationManager.BuildMenu("Admin");
-}
 
 @{
+    var menuItems = navigationManager.BuildMenu("Admin");
+
     Func<MenuItem, IHtmlContent> DisplayMenuItems = null;
     DisplayMenuItems = (menuItem) => new Func<MenuItem, IHtmlContent>(
         @<text>

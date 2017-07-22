@@ -1,0 +1,15 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Plugins.Messaging.Forums
+
+@{
+    var settings = EngineContext.Current.Resolve<ForumSettings>();
+
+    if (!string.IsNullOrEmpty(settings.LayoutPathOverride))
+    {
+        Layout = settings.LayoutPathOverride;
+    }
+    else
+    {
+        Layout = MantleWebConstants.DefaultFrontendLayoutPath;
+    }
+}

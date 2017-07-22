@@ -1,0 +1,203 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Data.Domain
+@using Mantle.Plugins.Messaging.Forums.Extensions
+@using Mantle.Plugins.Messaging.Forums.Models
+@model ForumPageModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+<div class="page forum-page">
+    @Html.Action("ForumBreadcrumb", new { forumId = Model.Id })
+    @Html.Partial("_ForumHeader")
+
+    <hr class="clearfix" />
+
+    <div class="row forum-info">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="forum-name">
+                @if (Model.ForumFeedsEnabled)
+                {
+                    <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-xs link-rss" title="@T(LocalizableStrings.ForumRSSLinkTitle)">
+                        <i class="kore-icon forum-rss"></i>
+                        @T(LocalizableStrings.RSS)
+                    </a>
+                }
+                <h1>@Model.Name</h1>
+            </div>
+            <div class="forum-description">
+                <p>@Model.Description</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row forum-actions">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 actions">
+            <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-primary">
+                <i class="kore-icon forum-create"></i>
+                @T(LocalizableStrings.NewTopic)
+            </a>
+
+            @if (Model.IsUserAllowedToSubscribe)
+            {
+                <a class="btn btn-success" href="#" id="watch-forum">
+                    <i class="kore-icon forum-watch"></i>
+                    @Model.WatchForumText
+                </a>
+
+                using (Script.AtFoot())
+                {
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#watch-forum').click(function () {
+                                $.ajax({
+                                    cache: false,
+                                    type: 'POST',
+                                    url: '@Url.Action("ForumWatch", new { id = Model.Id })',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        $('#watch-forum').text(data.Text);
+                                    },
+                                    error: function (xhr, ajaxOptions, thrownError) {
+                                        alert('Failed to watch');
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                }
+            }
+        </div>
+        @{
+            var pager = Html.Pager(new PagerModel
+            {
+                PageSize = Model.TopicPageSize,
+                TotalRecords = Model.TopicTotalRecords,
+                PageIndex = Model.TopicPageIndex,
+                ShowTotalSummary = false,
+                RouteActionName = "Forum",
+                //UseRouteLinks = true,
+                RouteValues = new RouteValues { id = Model.Id, slug = Model.SeName }
+            });
+        }
+        @if (!MvcHtmlString.IsNullOrEmpty(pager))
+        {
+            <div class="pager upper">
+                @pager
+            </div>
+        }
+    </div>
+
+    <div class="row forums-table-section topic-group">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @if (Model.ForumTopics.Count > 0)
+            {
+                <div class="table-wrapper">
+                    <table class="table table-bordered">
+                        <colgroup>
+                            <col width="1" />
+                            <col />
+                            <col width="1" />
+                            <col width="1" />
+                            <col width="1" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="topic-details" colspan="2">
+                                    @T(LocalizableStrings.TopicTitle)
+                                </th>
+                                <th class="replies">
+                                    @T(LocalizableStrings.Replies)
+                                </th>
+                                <th class="views">
+                                    @T(LocalizableStrings.Views)
+                                </th>
+                                <th class="latest-post">
+                                    @T(LocalizableStrings.LatestPost)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var topic in Model.ForumTopics)
+                            {
+                                var topicType = "post";
+                                var topicText = string.Empty;
+                                switch (topic.TopicType)
+                                {
+                                    case ForumTopicType.Normal:
+                                        topicType = "post";
+                                        break;
+                                    case ForumTopicType.Sticky:
+                                        topicType = "sticky";
+                                        topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Sticky));
+                                        break;
+                                    case ForumTopicType.Announcement:
+                                        topicType = "announcement";
+                                        topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Announcement));
+                                        break;
+                                    default:
+                                        topicType = "post";
+                                        break;
+                                }
+                                <tr>
+                                    <td class="image">
+                                        <div class="@topicType"></div>
+                                    </td>
+                                    <td class="topic-details">
+                                        <div class="topic-title">
+                                            @Html.ActionLink(topic.Subject, "Topic", new { id = topic.Id, slug = topic.SeName })
+                                            @if (!string.IsNullOrEmpty(topicText))
+                                            {
+                                                <span class="topic-type">@topicText</span>
+                                            }
+                                        </div>
+                                        @if (topic.NumPosts > Model.PostsPageSize)
+                                        {
+                                            <div class="topic-pager">
+                                                @Html.ForumTopicSmallPager(topic)
+                                            </div>
+                                        }
+                                        <div class="topic-starter">
+                                            @if (!string.IsNullOrEmpty(topic.UserId))
+                                            {
+                                                <label>@T(LocalizableStrings.Author)</label>
+                                                if (topic.AllowViewingProfiles)
+                                                {
+                                                    @* TODO: Maybe we need to use a different profile page for forums only? *@
+                                                    @Html.ActionLink(topic.UserName, "ViewProfile", "Account", new { area = string.Empty, userId = topic.UserId })
+                                                }
+                                                else
+                                                {
+                                                    @topic.UserName
+                                                }
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="replies">
+                                        @topic.NumReplies
+                                    </td>
+                                    <td class="views">
+                                        @topic.Views
+                                    </td>
+                                    <td class="latest-post">
+                                        @Html.Action("LastPost", new { forumPostId = topic.LastPostId, showTopic = false })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    @if (!MvcHtmlString.IsNullOrEmpty(pager))
+    {
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="pager lower">
+                    @pager
+                </div>
+            </div>
+        </div>
+    }
+</div>

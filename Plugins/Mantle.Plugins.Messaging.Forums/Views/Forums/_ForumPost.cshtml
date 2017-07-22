@@ -1,0 +1,129 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model ForumPostModel
+
+<a name="@Model.Id"></a>
+
+<tr class="topic-post-header-row" id="@Html.Encode(string.Concat("post", Model.Id))">
+    <th class="post-user">
+        @if (Model.AllowViewingProfiles)
+        {
+            @* TODO: Maybe we need to use a different profile page for forums only? *@
+            @Html.ActionLink(Model.UserName, "ViewProfile", "Account", new { area = string.Empty, userId = Model.UserId }, new { @class = "username" })
+        }
+        else
+        {
+            <span class="username">@Model.UserName</span>
+        }
+        @if (!string.IsNullOrEmpty(Model.UserAvatarUrl))
+        {
+            <div class="avatar">
+                @if (Model.AllowViewingProfiles)
+                {
+                    @* TODO: Maybe we need to use a different profile page for forums only? *@
+                    <a href="@Url.Action("ViewProfile", "Account", new { area = string.Empty, userId = Model.UserId })" class="avatar-img-link">
+                        <img src="@(Model.UserAvatarUrl)" class="avatar-img" alt="Avatar" />
+                    </a>
+                }
+                else
+                {
+                    <img src="@(Model.UserAvatarUrl)" class="avatar-img" alt="Avatar" />
+                }
+            </div>
+        }
+    </th>
+    <th class="post-time">
+        <label>@T(LocalizableStrings.Posted)</label>
+        <span class="stat-value">@Model.PostCreatedOnStr</span>
+    </th>
+    <th class="post-id">
+        @if (Model.CurrentTopicPage > 1)
+        {
+            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName, page = Model.CurrentTopicPage }, new { @class = "btn btn-xs post-link-button", title = T(LocalizableStrings.PostLinkTitle) })
+        }
+        else
+        {
+            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName }, new { @class = "btn btn-xs post-link-button", title = T(LocalizableStrings.PostLinkTitle) })
+        }
+    </th>
+    <th class="post-actions">
+        <div class="manage-post">
+            @if (Model.IsCurrentUserAllowedToEditPost)
+            {
+                <a href="@Url.Action("PostEdit", new { id = Model.Id })" class="btn btn-xs edit-post-button">
+                    <i class="kore-icon forum-edit"></i>
+                    @T(LocalizableStrings.EditPost)
+                </a>
+            }
+            @if (Model.IsCurrentUserAllowedToDeletePost)
+            {
+                <a href="@Url.Action("PostDelete", new { id = Model.Id })" onclick="return confirm('@T(MantleWebLocalizableStrings.General.AreYouSure)');" class="btn btn-xs text-danger delete-post-button">
+                    <i class="kore-icon forum-delete"></i>
+                    @T(LocalizableStrings.DeletePost)
+                </a>
+            }
+            <a href="@Url.Action("PostCreate", new { Model.ForumTopicId, quote = Model.Id })" class="btn btn-xs quote-post-button">
+                <i class="kore-icon forum-quote"></i>
+                @T(LocalizableStrings.QuotePost)
+            </a>
+        </div>
+        @*<div class="quote-post">
+            @Html.ActionLink(T(LocalizableStrings.QuotePost), "PostCreate", new { id = Model.ForumTopicId, quote = Model.Id }, new { @class = "btn btn-xs quote-post-button" })
+        </div>*@
+    </th>
+</tr>
+<tr class="topic-post-content-row">
+    <td class="user-stats">
+        <ul class="list-unstyled">
+            @if (Model.IsUserForumModerator)
+            {
+                <li class="status">
+                    <label>@T(LocalizableStrings.Status)</label>
+                    <span>@T(LocalizableStrings.Moderator)</span>
+                </li>
+            }
+            @if (Model.ShowUsersPostCount)
+            {
+                <li class="total-posts">
+                    <label>@T(LocalizableStrings.TotalPosts)</label>
+                    <span>@Model.ForumPostCount</span>
+                </li>
+            }
+            @if (Model.ShowUsersJoinDate)
+            {
+                <li class="joined">
+                    <label>@T(LocalizableStrings.Joined)</label>
+                    <span>@Model.UserJoinDate.ToString("d")</span>
+                </li>
+            }
+            @if (Model.ShowUsersLocation && !string.IsNullOrEmpty(Model.UserLocation))
+            {
+                <li class="location">
+                    <label>@T(LocalizableStrings.Location)</label>
+                    <span>@Model.UserLocation</span>
+                </li>
+            }
+        </ul>
+        @if (Model.AllowPrivateMessages)
+        {
+            <div class="send-pm">
+                <a href="@Url.Action("SendPM", "PrivateMessages", new { toUserId = Model.UserId })" class="btn btn-xs pm-button">
+                    <i class="kore-icon forum-comment"></i>
+                    @T(LocalizableStrings.PrivateMessages.PM)
+                </a>
+            </div>
+        }
+    </td>
+    <td colspan="3" class="post-content">
+        <div class="post-body">
+            @Html.Raw(Model.FormattedText)
+            @Html.Hidden("Id", Model.Id)
+        </div>
+        @if (Model.SignaturesEnabled & !string.IsNullOrEmpty(Model.FormattedSignature))
+        {
+            <div class="signature">
+                @Html.Raw(Model.FormattedSignature)
+            </div>
+        }
+    </td>
+</tr>

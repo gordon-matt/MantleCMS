@@ -1,0 +1,9 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model EditForumTopicModel
+
+@{
+    ViewBag.Title = T(LocalizableStrings.PageTitle.TopicNew);  
+}
+
+@Html.Partial("_CreateUpdateTopic", Model)

@@ -22,7 +22,7 @@ namespace MantleCMS.Infrastructure
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
-            builder.RegisterType<SqlDbHelper>().As<IDbHelper>().SingleInstance();
+            //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
             builder.RegisterType<SqlEntityFrameworkHelper>().As<IEntityFrameworkHelper>().InstancePerDependency();
 
             builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();

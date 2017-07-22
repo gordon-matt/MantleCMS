@@ -1,96 +1,86 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Data.Entity.EntityFramework
 {
     public interface IEntityFrameworkHelper
     {
-        //bool SupportsBulkInsert { get; }
-
-        //bool SupportsEFExtended { get; }
-
-        void EnsureTables<TContext>(TContext context) where TContext : DbContext;
+        void EnsureTables<TContext>(TContext context)
+            where TContext : DbContext;
     }
 
     public class SqlEntityFrameworkHelper : IEntityFrameworkHelper
     {
-        //public bool SupportsBulkInsert
-        //{
-        //    get { return true; }
-        //}
-
-        //public bool SupportsEFExtended
-        //{
-        //    get { return true; }
-        //}
-
-        public void EnsureTables<TContext>(TContext context) where TContext : DbContext
+        public void EnsureTables<TContext>(TContext context)
+            where TContext : DbContext
         {
-            throw new NotImplementedException();
+            string script = context.Database.GenerateCreateScript();
+            if (!string.IsNullOrEmpty(script))
+            {
+                try
+                {
+                    var connection = context.Database.GetDbConnection();
 
-            //var script = ((IObjectContextAdapter)context).ObjectContext.CreateDatabaseScript();
-            //if (!string.IsNullOrEmpty(script))
-            //{
-            //    try
-            //    {
-            //        var connection = context.Database.Connection;
-            //        var isConnectionClosed = connection.State == ConnectionState.Closed;
-            //        if (isConnectionClosed)
-            //        {
-            //            connection.Open();
-            //        }
+                    bool isConnectionClosed = connection.State == ConnectionState.Closed;
 
-            //        var existingTableNames = new List<string>();
-            //        var command = connection.CreateCommand();
-            //        command.CommandText =
-            //            "SELECT table_name from INFORMATION_SCHEMA.TABLES WHERE table_type = 'base table'";
-            //        var reader = command.ExecuteReader();
+                    if (isConnectionClosed)
+                    {
+                        connection.Open();
+                    }
 
-            //        while (reader.Read())
-            //        {
-            //            existingTableNames.Add(reader.GetString(0).ToLowerInvariant());
-            //        }
+                    var existingTableNames = new List<string>();
+                    using (var command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT table_name from INFORMATION_SCHEMA.TABLES WHERE table_type = 'base table'";
 
-            //        reader.Close();
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                existingTableNames.Add(reader.GetString(0).ToLowerInvariant());
+                            }
+                        }
+                    }
 
-            //        var split = script.Split(new[] { "create table " }, StringSplitOptions.RemoveEmptyEntries);
-            //        foreach (var sql in split)
-            //        {
-            //            var tableName = sql.Substring(0, sql.IndexOf("(", StringComparison.Ordinal));
-            //            tableName = tableName.Split('.').Last();
-            //            tableName = tableName.Trim().TrimStart('[').TrimEnd(']').ToLowerInvariant();
+                    var split = script.Split(new[] { "CREATE TABLE " }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string sql in split)
+                    {
+                        var tableName = sql.Substring(0, sql.IndexOf("(", StringComparison.OrdinalIgnoreCase));
+                        tableName = tableName.Split('.').Last();
+                        tableName = tableName.Trim().TrimStart('[').TrimEnd(']').ToLowerInvariant();
 
-            //            if (existingTableNames.Contains(tableName))
-            //            {
-            //                continue;
-            //            }
+                        if (existingTableNames.Contains(tableName))
+                        {
+                            continue;
+                        }
 
-            //            try
-            //            {
-            //                var createCommand = connection.CreateCommand();
-            //                createCommand.CommandText = "CREATE TABLE" + sql;
-            //                createCommand.ExecuteNonQuery();
-            //            }
-            //            catch (DbException)
-            //            {
-            //                // Ignore when existing
-            //            }
-            //        }
+                        try
+                        {
+                            using (var createCommand = connection.CreateCommand())
+                            {
+                                createCommand.CommandText = "CREATE TABLE " + sql.Substring(0, sql.LastIndexOf(";"));
+                                createCommand.ExecuteNonQuery();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // Ignore
+                        }
+                    }
 
-            //        if (isConnectionClosed)
-            //        {
-            //            connection.Close();
-            //        }
-            //    }
-            //    catch (DbException)
-            //    {
-            //        // Ignore when have database exception
-            //    }
-            //    catch (Exception)
-            //    {
-            //        // Ignore when have database exception
-            //    }
-            //}
+                    if (isConnectionClosed)
+                    {
+                        connection.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    // Ignore
+                }
+            }
         }
     }
 }

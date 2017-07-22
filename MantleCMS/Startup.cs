@@ -41,6 +41,8 @@ using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
 using Mantle.Web.Plugins;
+using Mantle.Web.Common.Areas.Admin.Regions;
+using Mantle.Data.Entity.EntityFramework;
 
 namespace MantleCMS
 {
@@ -137,6 +139,7 @@ namespace MantleCMS
             EmbeddedFileProviders = new List<EmbeddedFileProvider>
             {
                 new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
+                new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
                 //TODO: Add more - and better to detect them automatically somehow
             };
 
@@ -306,6 +309,13 @@ namespace MantleCMS
             appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
             TryUpdateNLogConnectionString();
+
+            var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+            using (var context = contextFactory.GetContext())
+            {
+                var efHelper = EngineContext.Current.Resolve<IEntityFrameworkHelper>();
+                efHelper.EnsureTables(context);
+            }
         }
 
         /// <summary>

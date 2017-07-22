@@ -1,0 +1,65 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model ForumGroupModel
+
+<div class="row forums-table-section forum-group">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-primary forum-group-panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @Html.ActionLink(Model.Name, "ForumGroup", new { id = Model.Id, slug = Model.SeName })
+                </h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <colgroup>
+                        <col width="1" />
+                        <col />
+                        <col width="1" />
+                        <col width="1" />
+                        <col width="1" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="forum-details" colspan="2">
+                                @T(LocalizableStrings.Forum)
+                            </th>
+                            <th class="topics">
+                                @T(LocalizableStrings.Topics)
+                            </th>
+                            <th class="posts">
+                                @T(LocalizableStrings.Posts)
+                            </th>
+                            <th class="latest-post">
+                                @T(LocalizableStrings.LatestPost)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var forum in Model.Forums)
+                        {
+                            <tr>
+                                <td class="image">
+                                    <div class="post"></div>
+                                </td>
+                                <td class="forum-details">
+                                    <div class="forum-title">
+                                        @Html.ActionLink(forum.Name, "Forum", new { id = forum.Id, slug = forum.SeName })
+                                    </div>
+                                    <div class="forum-description">
+                                        @forum.Description
+                                    </div>
+                                </td>
+                                <td class="topics">@forum.NumTopics</td>
+                                <td class="posts">@forum.NumPosts</td>
+                                <td class="latest-post">
+                                    @Html.Action("LastPost", new { forumPostId = forum.LastPostId, showTopic = true })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

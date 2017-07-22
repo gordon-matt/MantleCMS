@@ -1,0 +1,14 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model ForumGroupModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="page forum-group-page">
+    @Html.Action("ForumBreadcrumb", new { forumGroupId = Model.Id })
+    @Html.Partial("_ForumHeader")
+    <hr class="clearfix" />
+    @Html.Partial("_ForumGroup", Model)
+</div>

@@ -1,0 +1,20 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model IndexModel
+
+@{
+    ViewBag.Title = T(LocalizableStrings.PageTitle.Default);
+}
+
+@*<div class="page forums-main-page">*@
+    @*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
+    @Html.Partial("_ForumHeader")
+    <hr class="clearfix" />
+    @foreach (var forumGroup in Model.ForumGroups)
+    {
+        Html.RenderPartial("_ForumGroup", forumGroup);
+    }
+
+    @Html.Action("ActiveDiscussionsSmall")
+@*</div>*@

@@ -1,0 +1,13 @@
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Models
+@model ActiveDiscussionsModel
+
+@{
+    ViewBag.Title = T(LocalizableStrings.PageTitle.ActiveDiscussions);
+}
+<div class="page active-discussions-page">
+    @Html.Action("ForumBreadcrumb")
+    @Html.Partial("_ForumHeader")
+    <hr class="clearfix" />
+    @Html.Partial("_ActiveTopics", Model)
+</div>

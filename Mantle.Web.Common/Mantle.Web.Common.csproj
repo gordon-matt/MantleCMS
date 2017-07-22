@@ -1,4 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
@@ -9,10 +13,45 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Areas\Admin\Regions\Content\Images\WorldMap.jpg" />
+    <None Remove="Areas\Admin\Regions\Scripts\index.js" />
+    <None Remove="Areas\Admin\Regions\Scripts\jquery.imagemapster.js" />
+    <None Remove="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js" />
+    <None Remove="Areas\Admin\Regions\Views\Region\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Regions\Content\Images\WorldMap.jpg" />
+    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.js" />
+    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js" />
+    <EmbeddedResource Include="Areas\Admin\Regions\Views\Region\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Areas\Admin\Regions\Scripts\index.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Areas\Admin\Regions\Scripts\jquery.imagemapster-mod.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Areas\Admin\Regions\Scripts\jquery.maphilight.min.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
