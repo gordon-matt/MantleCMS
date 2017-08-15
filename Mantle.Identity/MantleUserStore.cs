@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Mantle.Identity
 {
     public abstract class MantleUserStore<TUser, TRole, TContext>
-        : UserStore<TUser, TRole, TContext, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, IdentityUserToken<string>>
+        : UserStore<TUser, TRole, TContext, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, IdentityUserToken<string>, IdentityRoleClaim<string>>
         where TUser : MantleIdentityUser
         where TRole : MantleIdentityRole
         where TContext : DbContext

@@ -7,7 +7,6 @@ using Mantle.Identity.Services;
 using Mantle.Security.Membership;
 using Mantle.Web.Security.Membership;
 using MantleCMS.Data.Domain;
-using MantleCMS.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,27 +22,21 @@ namespace MantleCMS.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ISmsSender smsSender,
-            ILoggerFactory loggerFactory,
+            ILogger<MantleAccountController<ApplicationUser>> logger,
             IMembershipService membershipService,
             Lazy<IEnumerable<IUserProfileProvider>> userProfileProviders)
-            : base(userManager, signInManager, emailSender, smsSender, loggerFactory, membershipService, userProfileProviders)
+            : base(userManager, signInManager, emailSender, logger, membershipService, userProfileProviders)
         {
         }
 
-        //
-        // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
         [Route("login")]
-        public override IActionResult Login(string returnUrl = null)
+        public override async Task<IActionResult> Login(string returnUrl = null)
         {
-            StartupTask.Execute(); // <-- Temporary until installation page is done...
-            return base.Login(returnUrl);
+            return await base.Login(returnUrl);
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -53,8 +46,48 @@ namespace MantleCMS.Controllers
             return await base.Login(model, returnUrl);
         }
 
-        //
-        // GET: /Account/Register
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("login-with-2fa")]
+        public override async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
+        {
+            return await base.LoginWith2fa(rememberMe, returnUrl);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [Route("login-with-2fa")]
+        public override async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
+        {
+            return await base.LoginWith2fa(model, rememberMe, returnUrl);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("login-with-recovery-code")]
+        public override async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
+        {
+            return await base.LoginWithRecoveryCode(returnUrl);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [Route("login-with-recovery-code")]
+        public override async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
+        {
+            return await base.LoginWithRecoveryCode(model, returnUrl);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("lockout")]
+        public override IActionResult Lockout()
+        {
+            return base.Lockout();
+        }
+
         [HttpGet]
         [AllowAnonymous]
         [Route("register")]
@@ -63,8 +96,6 @@ namespace MantleCMS.Controllers
             return base.Register(returnUrl);
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -74,18 +105,14 @@ namespace MantleCMS.Controllers
             return await base.Register(model, returnUrl);
         }
 
-        //
-        // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("log-off")]
-        public override async Task<IActionResult> LogOff()
+        [Route("logout")]
+        public override async Task<IActionResult> Logout()
         {
-            return await base.LogOff();
+            return await base.Logout();
         }
 
-        //
-        // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -95,8 +122,6 @@ namespace MantleCMS.Controllers
             return base.ExternalLogin(provider, returnUrl);
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
         [Route("external-login-callback")]
@@ -105,18 +130,15 @@ namespace MantleCMS.Controllers
             return await base.ExternalLoginCallback(returnUrl, remoteError);
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Route("external-login-confirmation")]
-        public override async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        public override async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
         {
             return await base.ExternalLoginConfirmation(model, returnUrl);
         }
 
-        // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
         [Route("confirm-email")]
@@ -125,8 +147,6 @@ namespace MantleCMS.Controllers
             return await base.ConfirmEmail(userId, code);
         }
 
-        //
-        // GET: /Account/ForgotPassword
         [HttpGet]
         [AllowAnonymous]
         [Route("forgot-password")]
@@ -135,8 +155,6 @@ namespace MantleCMS.Controllers
             return base.ForgotPassword();
         }
 
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -146,8 +164,6 @@ namespace MantleCMS.Controllers
             return await base.ForgotPassword(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
         [HttpGet]
         [AllowAnonymous]
         [Route("forgot-password-confirmation")]
@@ -156,8 +172,6 @@ namespace MantleCMS.Controllers
             return base.ForgotPasswordConfirmation();
         }
 
-        //
-        // GET: /Account/ResetPassword
         [HttpGet]
         [AllowAnonymous]
         [Route("reset-password")]
@@ -166,8 +180,6 @@ namespace MantleCMS.Controllers
             return base.ResetPassword(code);
         }
 
-        //
-        // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -177,8 +189,6 @@ namespace MantleCMS.Controllers
             return await base.ResetPassword(model);
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
         [HttpGet]
         [AllowAnonymous]
         [Route("reset-password-confirmation")]
@@ -187,55 +197,11 @@ namespace MantleCMS.Controllers
             return base.ResetPasswordConfirmation();
         }
 
-        //
-        // GET: /Account/SendCode
         [HttpGet]
-        [AllowAnonymous]
-        [Route("send-code")]
-        public override async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
-        {
-            return await base.SendCode(returnUrl, rememberMe);
-        }
-
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        [Route("send-code")]
-        public override async Task<IActionResult> SendCode(SendCodeViewModel model)
-        {
-            return await base.SendCode(model);
-        }
-
-        //
-        // GET: /Account/VerifyCode
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("verify-code")]
-        public override async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
-        {
-            return await base.VerifyCode(provider, rememberMe, returnUrl);
-        }
-
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        [Route("verify-code")]
-        public override async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            return await base.VerifyCode(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
         [Route("access-denied")]
-        public virtual IActionResult AccessDenied(string returnUrl = null)
+        public override IActionResult AccessDenied()
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return base.AccessDenied();
         }
 
         #region User Profile

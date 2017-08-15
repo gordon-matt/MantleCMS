@@ -19,7 +19,8 @@ namespace Mantle.Plugins.Messaging.Forums
             string content = Feed.Serialize();
             var bytes = Encoding.UTF8.GetBytes(content);
             context.HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
-            return TaskCache.CompletedTask;
+            return null;//TODO
+            //return TaskCache.CompletedTask;
         }
     }
 }

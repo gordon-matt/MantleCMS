@@ -574,7 +574,7 @@ namespace MantleCMS.Services
             string rId = roleId.ToString();
             var role = await roleManager.Roles.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == rId);
 
-            var userIds = role.Users.Select(x => x.UserId).ToList();
+            var userIds = role.Users.Select(x => x.Id).ToList();
             var users = await userManager.Users.Where(x => userIds.Contains(x.Id)).ToHashSetAsync();
 
             return users.Select(x => new MantleUser
@@ -604,7 +604,7 @@ namespace MantleCMS.Services
                     .FirstOrDefaultAsync(x => x.TenantId == null && x.Name == roleName);
             }
 
-            var userIds = role.Users.Select(x => x.UserId).ToList();
+            var userIds = role.Users.Select(x => x.Id).ToList();
             var users = await userManager.Users.Where(x => userIds.Contains(x.Id)).ToHashSetAsync();
 
             return users.Select(x => new MantleUser

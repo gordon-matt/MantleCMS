@@ -43,6 +43,7 @@ using NLog.Web;
 using Mantle.Web.Plugins;
 using Mantle.Web.Common.Areas.Admin.Regions;
 using Mantle.Data.Entity.EntityFramework;
+using System.IO;
 
 namespace MantleCMS
 {
@@ -98,17 +99,19 @@ namespace MantleCMS
             // For further info, see: https://github.com/aspnet/Identity/issues/1112
             services.AddScoped(typeof(IRoleValidator<ApplicationRole>), typeof(ApplicationRoleValidator));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            services.ConfigureApplicationCookie(options =>
             {
-                options.Cookies.ApplicationCookie.LoginPath = new PathString("/account/login");
-                options.Cookies.ApplicationCookie.LogoutPath = new PathString("/account/log-off");
-                options.Cookies.ApplicationCookie.AccessDeniedPath = new PathString("/account/access-denied");//TODO
-            })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddUserStore<ApplicationUserStore>()
-            .AddRoleStore<ApplicationRoleStore>()
-            //.AddRoleValidator<ApplicationRoleValidator>()
-            .AddDefaultTokenProviders();
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/log-off";
+                options.AccessDeniedPath = "/account/access-denied";
+            });
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<ApplicationUserStore>()
+                .AddRoleStore<ApplicationRoleStore>()
+                //.AddRoleValidator<ApplicationRoleValidator>()
+                .AddDefaultTokenProviders();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -133,7 +136,7 @@ namespace MantleCMS
 
             services.AddMantleLocalization();
 
-            services.AddMvc(ConfigureMvc)
+            var mvcBuilder = services.AddMvc(ConfigureMvc)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
             EmbeddedFileProviders = new List<EmbeddedFileProvider>
@@ -200,7 +203,7 @@ namespace MantleCMS
 
             ServiceProvider = provider;
 
-            PluginManager.Initialize();
+            PluginManager.Initialize(mvcBuilder.PartManager, HostingEnvironment);
 
             //if (DataSettingsHelper.IsDatabaseInstalled && MantleConfigurationSection.Instance.ScheduledTasks.Enabled)
             //{
@@ -263,23 +266,36 @@ namespace MantleCMS
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
 
-            app.UseStaticFiles(
-               new StaticFileOptions()
-               {
-                   // Override file provider to allow embedded resources
-                   FileProvider = new CompositeFileProvider(
-                       new EmbeddedScriptFileProvider(),
-                       HostingEnvironment.WebRootFileProvider),
+            // embedded files
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                // Override file provider to allow embedded resources
+                FileProvider = new CompositeFileProvider(
+                    new EmbeddedScriptFileProvider(),
+                    HostingEnvironment.WebRootFileProvider),
 
-                   OnPrepareResponse = (context) =>
-                   {
-                       var headers = context.Context.Response.GetTypedHeaders();
-                       headers.CacheControl = new CacheControlHeaderValue()
-                       {
-                           MaxAge = TimeSpan.FromDays(7)
-                       };
-                   }
-               });
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue()
+                    {
+                        MaxAge = TimeSpan.FromDays(7)
+                    };
+                }
+            });
+
+            // plugins
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
+                RequestPath = new PathString("/Plugins"),
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800");
+                    //if (!string.IsNullOrEmpty(nopConfig.StaticFilesCacheControl))
+                    //    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, mantleConfig.StaticFilesCacheControl);
+                }
+            });
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()

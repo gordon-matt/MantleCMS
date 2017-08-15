@@ -6,6 +6,7 @@ using Mantle.Localization.Domain;
 using Mantle.Logging.Domain;
 using Mantle.Tasks.Domain;
 using Mantle.Tenants.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using LanguageEntity = Mantle.Localization.Domain.Language;

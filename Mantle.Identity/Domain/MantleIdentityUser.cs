@@ -1,5 +1,6 @@
 ﻿using System;
 using Mantle.Tenants.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Mantle.Identity.Domain

@@ -5,9 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Mantle.ComponentModel;
 using Mantle.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 //Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
@@ -25,33 +28,27 @@ namespace Mantle.Web.Plugins
 
         private const string InstalledPluginsFilePath = "~/App_Data/InstalledPlugins.txt";
         private const string PluginsPath = "~/Plugins";
+        private const string PluginsPathName = "Plugins";
         private const string ShadowCopyPath = "~/Plugins/bin";
+        private const string RefsPathName = "refs";
         public const string CurrentVersion = "1.00";
 
-        #endregion Const
+        #endregion
 
         #region Fields
 
-        private static readonly ReaderWriterLockSlim locker = new ReaderWriterLockSlim();
-        private static DirectoryInfo shadowCopyFolder;
+        private static readonly ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
+        private static DirectoryInfo _shadowCopyFolder;
+        private static List<string> BaseAppLibraries;
+
         private static Dictionary<string, bool> installedPlugins = null;
+        private static ILoggerFactory loggerFactory;
+        private static ILogger logger;
+        private static IWebHelper webHelper;
+        private static PluginOptions pluginOptions;
+        private static ITypeFinder typeFinder;
 
-        #endregion Fields
-
-        private static readonly ILoggerFactory loggerFactory;
-        private static readonly ILogger logger;
-        private static readonly IWebHelper webHelper;
-        private static readonly PluginOptions pluginOptions;
-        private static readonly ITypeFinder typeFinder;
-
-        static PluginManager()
-        {
-            loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
-            logger = loggerFactory.CreateLogger("PluginManager");
-            webHelper = EngineContext.Current.Resolve<IWebHelper>();
-            pluginOptions = EngineContext.Current.Resolve<IOptions<PluginOptions>>().Value;
-            typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
-        }
+        #endregion
 
         #region Methods
 
@@ -68,150 +65,194 @@ namespace Mantle.Web.Plugins
         /// <summary>
         /// Initialize
         /// </summary>
-        public static void Initialize()
+        /// <param name="applicationPartManager">Application part manager</param>
+        /// <param name="config">Config</param>
+        public static void Initialize(
+            ApplicationPartManager applicationPartManager,
+            IHostingEnvironment hostingEnvironment)
         {
-            locker.EnterWriteLock();
-
-            // TODO: Add verbose exception handling / raising here since this is happening on app startup and could
-            // prevent app from starting altogether
-            var pluginFolder = new DirectoryInfo(webHelper.MapPath(PluginsPath));
-            shadowCopyFolder = new DirectoryInfo(webHelper.MapPath(ShadowCopyPath));
-
-            var referencedPlugins = new List<PluginDescriptor>();
-            var incompatiblePlugins = new List<string>();
-
-            try
+            if (applicationPartManager == null)
             {
-                var installedPluginSystemNames = PluginFileParser.ParseInstalledPluginsFile(GetInstalledPluginsFilePath());
+                throw new ArgumentNullException(nameof(applicationPartManager));
+            }
 
-                Debug.WriteLine("Creating shadow copy folder and querying for dlls");
-                //ensure folders are created
-                Directory.CreateDirectory(pluginFolder.FullName);
-                Directory.CreateDirectory(shadowCopyFolder.FullName);
+            if (hostingEnvironment == null)
+            {
+                throw new ArgumentNullException(nameof(hostingEnvironment));
+            }
 
-                //get list of all files in bin
-                var binFiles = shadowCopyFolder.GetFiles("*", SearchOption.AllDirectories);
-                if (pluginOptions.ClearPluginsShadowDirectoryOnStartup)
+            var loggerFactory = new LoggerFactory();
+            logger = loggerFactory.CreateLogger("PluginManager");
+            webHelper = new WebHelper(hostingEnvironment, new HttpContextAccessor());
+            pluginOptions = new PluginOptions(); // TODO: Find a way to resolve this...
+            typeFinder = new WebAppTypeFinder();
+            
+            //get all libraries from /bin/{version}/ directory
+            BaseAppLibraries = new DirectoryInfo(AppContext.BaseDirectory)
+                .GetFiles("*.dll", SearchOption.TopDirectoryOnly).Select(fi => fi.Name)
+                .ToList();
+
+            string currentDirectory = Directory.GetCurrentDirectory();
+
+            //get all libraries from base site directory
+            if (!AppContext.BaseDirectory.Equals(currentDirectory, StringComparison.OrdinalIgnoreCase))
+            {
+                BaseAppLibraries.AddRange(new DirectoryInfo(currentDirectory).GetFiles("*.dll", SearchOption.TopDirectoryOnly).Select(fi => fi.Name));
+            }
+
+            //get all libraries from refs directory
+            var refsPathName = new DirectoryInfo(Path.Combine(currentDirectory, RefsPathName));
+            if (refsPathName.Exists)
+            {
+                BaseAppLibraries.AddRange(refsPathName.GetFiles("*.dll", SearchOption.TopDirectoryOnly).Select(fi => fi.Name));
+            }
+
+            using (new WriteLockDisposable(Locker))
+            {
+                // TODO: Add verbose exception handling / raising here since this is happening on app startup and could
+                // prevent app from starting altogether
+                var pluginFolder = new DirectoryInfo(webHelper.MapPath(PluginsPath, webHelper.ContentRootPath));
+                _shadowCopyFolder = new DirectoryInfo(webHelper.MapPath(ShadowCopyPath, webHelper.ContentRootPath));
+
+                var referencedPlugins = new List<PluginDescriptor>();
+                var incompatiblePlugins = new List<string>();
+
+                try
                 {
-                    //clear out shadow copied plugins
-                    foreach (var f in binFiles)
+                    var installedPluginSystemNames = PluginFileParser.ParseInstalledPluginsFile(GetInstalledPluginsFilePath());
+
+                    Debug.WriteLine("Creating shadow copy folder and querying for dlls");
+                    //ensure folders are created
+                    Directory.CreateDirectory(pluginFolder.FullName);
+                    Directory.CreateDirectory(_shadowCopyFolder.FullName);
+
+                    //get list of all files in bin
+                    var binFiles = _shadowCopyFolder.GetFiles("*", SearchOption.AllDirectories);
+                    if (pluginOptions.ClearPluginsShadowDirectoryOnStartup)
                     {
-                        Debug.WriteLine("Deleting " + f.Name);
+                        //clear out shadow copied plugins
+                        foreach (var f in binFiles)
+                        {
+                            Debug.WriteLine("Deleting " + f.Name);
+                            try
+                            {
+                                //ignore index.htm
+                                var fileName = Path.GetFileName(f.FullName);
+                                if (fileName.Equals("index.htm", StringComparison.OrdinalIgnoreCase))
+                                    continue;
+
+                                File.Delete(f.FullName);
+                            }
+                            catch (Exception exc)
+                            {
+                                Debug.WriteLine("Error deleting file " + f.Name + ". Exception: " + exc);
+                            }
+                        }
+                    }
+
+
+                    //load description files
+                    foreach (var dfd in GetDescriptionFilesAndDescriptors(pluginFolder))
+                    {
+                        var descriptionFile = dfd.Key;
+                        var pluginDescriptor = dfd.Value;
+
+                        //ensure that version of plugin is valid
+                        if (!pluginDescriptor.SupportedVersions.Contains(CurrentVersion, StringComparer.OrdinalIgnoreCase))
+                        {
+                            incompatiblePlugins.Add(pluginDescriptor.SystemName);
+                            continue;
+                        }
+
+                        //some validation
+                        if (String.IsNullOrWhiteSpace(pluginDescriptor.SystemName))
+                            throw new Exception(string.Format("A plugin '{0}' has no system name. Try assigning the plugin a unique name and recompiling.", descriptionFile.FullName));
+                        if (referencedPlugins.Contains(pluginDescriptor))
+                            throw new Exception(string.Format("A plugin with '{0}' system name is already defined", pluginDescriptor.SystemName));
+
+                        //set 'Installed' property
+                        pluginDescriptor.Installed = installedPluginSystemNames
+                            .FirstOrDefault(x => x.Equals(pluginDescriptor.SystemName, StringComparison.OrdinalIgnoreCase)) != null;
+
                         try
                         {
-                            File.Delete(f.FullName);
+                            if (descriptionFile.Directory == null)
+                                throw new Exception(string.Format("Directory cannot be resolved for '{0}' description file", descriptionFile.Name));
+                            //get list of all DLLs in plugins (not in bin!)
+                            var pluginFiles = descriptionFile.Directory.GetFiles("*.dll", SearchOption.AllDirectories)
+                                //just make sure we're not registering shadow copied plugins
+                                .Where(x => !binFiles.Select(q => q.FullName).Contains(x.FullName))
+                                .Where(x => IsPackagePluginFolder(x.Directory))
+                                .ToList();
+
+                            //other plugin description info
+                            var mainPluginFile = pluginFiles
+                                .FirstOrDefault(x => x.Name.Equals(pluginDescriptor.PluginFileName, StringComparison.OrdinalIgnoreCase));
+                            pluginDescriptor.OriginalAssemblyFile = mainPluginFile;
+
+                            //shadow copy main plugin file
+                            pluginDescriptor.ReferencedAssembly = PerformFileDeploy(mainPluginFile, applicationPartManager);
+
+                            //load all other referenced assemblies now
+                            foreach (var plugin in pluginFiles
+                                .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.OrdinalIgnoreCase))
+                                .Where(x => !IsAlreadyLoaded(x)))
+                                PerformFileDeploy(plugin, applicationPartManager);
+
+                            //init plugin type (only one plugin per assembly is allowed)
+                            foreach (var t in pluginDescriptor.ReferencedAssembly.GetTypes())
+                            {
+                                if (typeof(IPlugin).IsAssignableFrom(t))
+                                {
+                                    var typeInfo = t.GetTypeInfo();
+                                    if (!typeInfo.IsInterface)
+                                    {
+                                        if (typeInfo.IsClass && !typeInfo.IsAbstract)
+                                        {
+                                            pluginDescriptor.PluginType = t;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            referencedPlugins.Add(pluginDescriptor);
                         }
-                        catch (Exception x)
+                        catch (ReflectionTypeLoadException ex)
                         {
-                            logger.LogError(new EventId(), x, "Error deleting file " + f.Name);
-                            Debug.WriteLine("Error deleting file " + f.Name + ". Exception: " + x);
+                            //add a plugin name. this way we can easily identify a problematic plugin
+                            var msg = string.Format("Plugin '{0}'. ", pluginDescriptor.FriendlyName);
+                            foreach (var e in ex.LoaderExceptions)
+                                msg += e.Message + Environment.NewLine;
+
+                            var fail = new Exception(msg, ex);
+                            throw fail;
+                        }
+                        catch (Exception ex)
+                        {
+                            //add a plugin name. this way we can easily identify a problematic plugin
+                            var msg = string.Format("Plugin '{0}'. {1}", pluginDescriptor.FriendlyName, ex.Message);
+
+                            var fail = new Exception(msg, ex);
+                            throw fail;
                         }
                     }
                 }
-
-                //load description files
-                foreach (var dfd in GetDescriptionFilesAndDescriptors(pluginFolder))
+                catch (Exception ex)
                 {
-                    var descriptionFile = dfd.Key;
-                    var pluginDescriptor = dfd.Value;
+                    var msg = string.Empty;
+                    for (var e = ex; e != null; e = e.InnerException)
+                        msg += e.Message + Environment.NewLine;
 
-                    //ensure that version of plugin is valid
-                    if (!pluginDescriptor.SupportedVersions.Contains(CurrentVersion, StringComparer.OrdinalIgnoreCase))
-                    {
-                        incompatiblePlugins.Add(pluginDescriptor.SystemName);
-                        continue;
-                    }
-
-                    //some validation
-                    if (string.IsNullOrWhiteSpace(pluginDescriptor.SystemName))
-                    {
-                        throw new Exception(string.Format("A plugin '{0}' has no system name. Try assigning the plugin a unique name and recompiling.", descriptionFile.FullName));
-                    }
-                    if (referencedPlugins.Contains(pluginDescriptor))
-                    {
-                        throw new Exception(string.Format("A plugin with '{0}' system name is already defined", pluginDescriptor.SystemName));
-                    }
-
-                    //set 'Installed' property
-                    pluginDescriptor.Installed = installedPluginSystemNames
-                        .FirstOrDefault(x => x.Equals(pluginDescriptor.SystemName, StringComparison.OrdinalIgnoreCase)) != null;
-
-                    try
-                    {
-                        if (descriptionFile.Directory == null)
-                        {
-                            throw new Exception(string.Format("Directory cannot be resolved for '{0}' description file", descriptionFile.Name));
-                        }
-
-                        //get list of all DLLs in plugins (not in bin!)
-                        var pluginFiles = descriptionFile.Directory.GetFiles("*.dll", SearchOption.AllDirectories)
-                            //just make sure we're not registering shadow copied plugins
-                            .Where(x => !binFiles.Select(q => q.FullName).Contains(x.FullName))
-                            .Where(x => IsPackagePluginFolder(x.Directory))
-                            .ToList();
-
-                        //other plugin description info
-                        var mainPluginFile = pluginFiles
-                            .FirstOrDefault(x => x.Name.Equals(pluginDescriptor.PluginFileName, StringComparison.OrdinalIgnoreCase));
-                        pluginDescriptor.OriginalAssemblyFile = mainPluginFile;
-
-                        //shadow copy main plugin file
-                        pluginDescriptor.ReferencedAssembly = PerformFileDeploy(mainPluginFile);
-
-                        //load all other referenced assemblies now
-                        foreach (var plugin in pluginFiles
-                            .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.OrdinalIgnoreCase))
-                            .Where(x => !IsAlreadyLoaded(x)))
-                        {
-                            PerformFileDeploy(plugin);
-                        }
-
-                        //init plugin type (only one plugin per assembly is allowed)
-                        pluginDescriptor.PluginType = pluginDescriptor.ReferencedAssembly.GetTypes()
-                            .Where(t =>
-                                typeof(IPlugin).IsAssignableFrom(t) &&
-                                !t.GetTypeInfo().IsInterface &&
-                                t.GetTypeInfo().IsClass &&
-                                !t.GetTypeInfo().IsAbstract)
-                            .FirstOrDefault();
-
-                        referencedPlugins.Add(pluginDescriptor);
-                    }
-                    catch (ReflectionTypeLoadException x)
-                    {
-                        var msg = string.Empty;
-                        foreach (var e in x.LoaderExceptions)
-                        {
-                            msg += e.Message + Environment.NewLine;
-                        }
-
-                        var fail = new Exception(msg, x);
-                        logger.LogError(new EventId(), fail, fail.Message);
-                        Debug.WriteLine(fail.Message, fail);
-
-                        throw fail;
-                    }
-                }
-            }
-            catch (Exception x)
-            {
-                var msg = string.Empty;
-                for (var e = x; e != null; e = e.InnerException)
-                {
-                    msg += e.Message + Environment.NewLine;
+                    var fail = new Exception(msg, ex);
+                    throw fail;
                 }
 
-                var fail = new Exception(msg, x);
-                logger.LogError(new EventId(), fail, fail.Message);
-                Debug.WriteLine(fail.Message, fail);
 
-                throw fail;
+                ReferencedPlugins = referencedPlugins;
+                IncompatiblePlugins = incompatiblePlugins;
+
             }
-
-            ReferencedPlugins = referencedPlugins;
-            IncompatiblePlugins = incompatiblePlugins;
-
-            locker.ExitWriteLock();
         }
 
         /// <summary>
@@ -221,29 +262,20 @@ namespace Mantle.Web.Plugins
         public static void MarkPluginAsInstalled(string systemName)
         {
             if (String.IsNullOrEmpty(systemName))
-            {
-                throw new ArgumentNullException("systemName");
-            }
+                throw new ArgumentNullException(nameof(systemName));
 
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath);
+            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
             if (!File.Exists(filePath))
-            {
                 using (File.Create(filePath))
                 {
                     //we use 'using' to close the file after it's created
                 }
-            }
 
             var installedPluginSystemNames = PluginFileParser.ParseInstalledPluginsFile(GetInstalledPluginsFilePath());
-
             bool alreadyMarkedAsInstalled = installedPluginSystemNames
-                .FirstOrDefault(x => x.Equals(systemName, StringComparison.OrdinalIgnoreCase)) != null;
-
+                                .FirstOrDefault(x => x.Equals(systemName, StringComparison.OrdinalIgnoreCase)) != null;
             if (!alreadyMarkedAsInstalled)
-            {
                 installedPluginSystemNames.Add(systemName);
-            }
-
             PluginFileParser.SaveInstalledPluginsFile(installedPluginSystemNames, filePath);
         }
 
@@ -253,30 +285,22 @@ namespace Mantle.Web.Plugins
         /// <param name="systemName">Plugin system name</param>
         public static void MarkPluginAsUninstalled(string systemName)
         {
-            if (string.IsNullOrEmpty(systemName))
-            {
-                throw new ArgumentNullException("systemName");
-            }
+            if (String.IsNullOrEmpty(systemName))
+                throw new ArgumentNullException(nameof(systemName));
 
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath);
+            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
             if (!File.Exists(filePath))
-            {
                 using (File.Create(filePath))
                 {
                     //we use 'using' to close the file after it's created
                 }
-            }
+
 
             var installedPluginSystemNames = PluginFileParser.ParseInstalledPluginsFile(GetInstalledPluginsFilePath());
-
             bool alreadyMarkedAsInstalled = installedPluginSystemNames
-                .FirstOrDefault(x => x.Equals(systemName, StringComparison.OrdinalIgnoreCase)) != null;
-
+                                .FirstOrDefault(x => x.Equals(systemName, StringComparison.OrdinalIgnoreCase)) != null;
             if (alreadyMarkedAsInstalled)
-            {
                 installedPluginSystemNames.Remove(systemName);
-            }
-
             PluginFileParser.SaveInstalledPluginsFile(installedPluginSystemNames, filePath);
         }
 
@@ -285,63 +309,50 @@ namespace Mantle.Web.Plugins
         /// </summary>
         public static void MarkAllPluginsAsUninstalled()
         {
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath);
+            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
             if (File.Exists(filePath))
-            {
                 File.Delete(filePath);
-            }
         }
 
-        public static bool IsPluginInstalled(string systemName)
+        /// <summary>
+        /// Find a plugin descriptor by some type which is located into the same assembly as plugin
+        /// </summary>
+        /// <param name="typeInAssembly">Type</param>
+        /// <returns>Plugin descriptor if exists; otherwise null</returns>
+        public static PluginDescriptor FindPlugin(Type typeInAssembly)
         {
-            if (installedPlugins == null)
-            {
-                installedPlugins = new Dictionary<string, bool>();
-            }
+            if (typeInAssembly == null)
+                throw new ArgumentNullException(nameof(typeInAssembly));
 
-            if (!installedPlugins.ContainsKey(systemName))
-            {
-                bool isInstalled = ReferencedPlugins.Any(x => x.SystemName == systemName && x.Installed);
-                installedPlugins.Add(systemName, isInstalled);
-            }
+            if (ReferencedPlugins == null)
+                return null;
 
-            return installedPlugins[systemName];
+            return ReferencedPlugins.FirstOrDefault(plugin => plugin.ReferencedAssembly != null
+                && plugin.ReferencedAssembly.FullName.Equals(typeInAssembly.GetTypeInfo().Assembly.FullName, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool IsPluginLimitedToTenants(string systemName)
-        {
-            if (IsPluginInstalled(systemName))
-            {
-                return ReferencedPlugins.First(x => x.SystemName == systemName).LimitedToTenants.Any();
-            }
-            return false;
-        }
-
-        #endregion Methods
+        #endregion
 
         #region Utilities
 
         /// <summary>
         /// Get description files
         /// </summary>
-        /// <param name="pluginFolder">Plugin direcotry info</param>
+        /// <param name="pluginFolder">Plugin directory info</param>
         /// <returns>Original and parsed description files</returns>
         private static IEnumerable<KeyValuePair<FileInfo, PluginDescriptor>> GetDescriptionFilesAndDescriptors(DirectoryInfo pluginFolder)
         {
             if (pluginFolder == null)
-            {
-                throw new ArgumentNullException("pluginFolder");
-            }
+                throw new ArgumentNullException(nameof(pluginFolder));
 
             //create list (<file info, parsed plugin descritor>)
             var result = new List<KeyValuePair<FileInfo, PluginDescriptor>>();
+
             //add display order and path to list
             foreach (var descriptionFile in pluginFolder.GetFiles("Description.txt", SearchOption.AllDirectories))
             {
                 if (!IsPackagePluginFolder(descriptionFile.Directory))
-                {
                     continue;
-                }
 
                 //parse file
                 var pluginDescriptor = PluginFileParser.ParsePluginDescriptionFile(descriptionFile.FullName);
@@ -351,7 +362,7 @@ namespace Mantle.Web.Plugins
             }
 
             //sort list by display order. NOTE: Lowest DisplayOrder will be first i.e 0 , 1, 1, 1, 5, 10
-            //it's required
+            //it's required: http://www.nopcommerce.com/boards/t/17455/load-plugins-based-on-their-displayorder-on-startup.aspx
             result.Sort((firstPair, nextPair) => firstPair.Value.DisplayOrder.CompareTo(nextPair.Value.DisplayOrder));
             return result;
         }
@@ -363,11 +374,18 @@ namespace Mantle.Web.Plugins
         /// <returns>Result</returns>
         private static bool IsAlreadyLoaded(FileInfo fileInfo)
         {
+            //search library file name in base directory to ignore already existing (loaded) libraries
+            //(we do it because not all libraries are loaded immediately after application start)
+            if (BaseAppLibraries.Any(sli => sli.Equals(fileInfo.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+                return true;
+            }
+
             //compare full assembly name
             //var fileAssemblyName = AssemblyName.GetAssemblyName(fileInfo.FullName);
             //foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
             //{
-            //    if (a.FullName.Equals(fileAssemblyName.FullName, StringComparison.InvariantCultureIgnoreCase))
+            //    if (a.FullName.Equals(fileAssemblyName.FullName, StringComparison.OrdinalIgnoreCase))
             //        return true;
             //}
             //return false;
@@ -375,25 +393,24 @@ namespace Mantle.Web.Plugins
             //do not compare the full assembly name, just filename
             try
             {
-                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.FullName);
-                if (fileNameWithoutExt == null)
+                var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+                if (string.IsNullOrEmpty(fileNameWithoutExt))
                 {
-                    throw new Exception(string.Format("Cannot get file extnension for {0}", fileInfo.Name));
+                    throw new Exception(string.Format("Cannot get file extension for {0}", fileInfo.Name));
                 }
 
                 foreach (var a in typeFinder.GetAssemblies())
                 {
-                    string assemblyName = a.FullName.Split(new[] { ',' }).FirstOrDefault();
+                    var assemblyName = a.FullName.Split(',').FirstOrDefault();
                     if (fileNameWithoutExt.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }
                 }
             }
-            catch (Exception x)
+            catch (Exception exc)
             {
-                logger.LogError(new EventId(), x, "Cannot validate whether an assembly is already loaded.");
-                Debug.WriteLine("Cannot validate whether an assembly is already loaded. " + x);
+                Debug.WriteLine("Cannot validate whether an assembly is already loaded. " + exc);
             }
             return false;
         }
@@ -401,96 +418,34 @@ namespace Mantle.Web.Plugins
         /// <summary>
         /// Perform file deply
         /// </summary>
-        /// <param name="plugin">Plugin file info</param>
+        /// <param name="plug">Plugin file info</param>
+        /// <param name="applicationPartManager">Application part manager</param>
         /// <returns>Assembly</returns>
-        private static Assembly PerformFileDeploy(FileInfo plugin)
+        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager)
         {
-            if (plugin.Directory.Parent == null)
-            {
-                throw new InvalidOperationException("The plugin directory for the " + plugin.Name +
-                      " file exists in a folder outside of the allowed kore folder heirarchy");
+            if (plug.Directory == null || plug.Directory.Parent == null)
+            { throw new InvalidOperationException("The plugin directory for the " + plug.Name + " file exists in a folder outside of the allowed nopCommerce folder hierarchy");
             }
 
-            FileInfo shadowCopiedPlugin;
-
-            var shadowCopyPlugFolder = Directory.CreateDirectory(shadowCopyFolder.FullName);
-            shadowCopiedPlugin = InitializeMediumTrust(plugin, shadowCopyPlugFolder);
-
-            //if (WebHelper.GetTrustLevel() != AspNetHostingPermissionLevel.Unrestricted)
-            //{
-            //    //all plugins will need to be copied to ~/Plugins/bin/
-            //    //this is aboslutely required because all of this relies on probingPaths being set statically in the web.config
-
-            //    //we're running in med trust, so copy to custom bin folder
-            //    var shadowCopyPlugFolder = Directory.CreateDirectory(shadowCopyFolder.FullName);
-            //    shadowCopiedPlugin = InitializeMediumTrust(plugin, shadowCopyPlugFolder);
-            //}
-            //else
-            //{
-            //    var directory = AppDomain.CurrentDomain.DynamicDirectory;
-            //    Debug.WriteLine(plugin.FullName + " to " + directory);
-            //    //were running in full trust so copy to standard dynamic folder
-            //    shadowCopiedPlugin = InitializeFullTrust(plugin, new DirectoryInfo(directory));
-            //}
+            //but in order to avoid possible issues we still copy libraries into ~/Plugins/bin/ directory
+            var shadowCopyPlugFolder = Directory.CreateDirectory(_shadowCopyFolder.FullName);
+            var shadowCopiedPlug = ShadowCopyFile(plug, shadowCopyPlugFolder);
 
             //we can now register the plugin definition
-            var shadowCopiedAssembly = typeFinder.LoadFromAssemblyPath(shadowCopiedPlugin.FullName);
-
-            //var shadowCopiedAssembly = Assembly.Load(AssemblyName.GetAssemblyName(shadowCopiedPlugin.FullName));
-
-            ////add the reference to the build manager
-            //Debug.WriteLine("Adding to BuildManager: '{0}'", shadowCopiedAssembly.FullName);
-
-            //BuildManager.AddReferencedAssembly(shadowCopiedAssembly);
+            var shadowCopiedAssembly = typeFinder.LoadFromAssemblyPath(shadowCopiedPlug.FullName);
+            Debug.WriteLine("Adding to ApplicationParts: '{0}'", shadowCopiedAssembly.FullName);
+            applicationPartManager.ApplicationParts.Add(new AssemblyPart(shadowCopiedAssembly));
 
             return shadowCopiedAssembly;
         }
 
         /// <summary>
-        /// Used to initialize plugins when running in Full Trust
+        /// Copy the plugin file to shadow copy directory
         /// </summary>
         /// <param name="plug"></param>
         /// <param name="shadowCopyPlugFolder"></param>
         /// <returns></returns>
-        private static FileInfo InitializeFullTrust(FileInfo plug, DirectoryInfo shadowCopyPlugFolder)
-        {
-            var shadowCopiedPlug = new FileInfo(Path.Combine(shadowCopyPlugFolder.FullName, plug.Name));
-            try
-            {
-                File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
-            }
-            catch (IOException x)
-            {
-                string msg = shadowCopiedPlug.FullName + " is locked, attempting to rename.";
-                logger.LogError(new EventId(), x, msg);
-                Debug.WriteLine(msg);
-                //this occurs when the files are locked,
-                //for some reason devenv locks plugin files some times and for another crazy reason you are allowed to rename them
-                //which releases the lock, so that it what we are doing here, once it's renamed, we can re-shadow copy
-                try
-                {
-                    var oldFile = shadowCopiedPlug.FullName + Guid.NewGuid().ToString("N") + ".old";
-                    File.Move(shadowCopiedPlug.FullName, oldFile);
-                }
-                catch (IOException x2)
-                {
-                    msg = shadowCopiedPlug.FullName + " rename failed, cannot initialize plugin.";
-                    logger.LogError(new EventId(), x, msg);
-                    throw new IOException(msg, x2);
-                }
-                //ok, we've made it this far, now retry the shadow copy
-                File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
-            }
-            return shadowCopiedPlug;
-        }
-
-        /// <summary>
-        /// Used to initialize plugins when running in Medium Trust
-        /// </summary>
-        /// <param name="plug"></param>
-        /// <param name="shadowCopyPlugFolder"></param>
-        /// <returns></returns>
-        private static FileInfo InitializeMediumTrust(FileInfo plug, DirectoryInfo shadowCopyPlugFolder)
+        private static FileInfo ShadowCopyFile(FileInfo plug, DirectoryInfo shadowCopyPlugFolder)
         {
             var shouldCopy = true;
             var shadowCopiedPlug = new FileInfo(Path.Combine(shadowCopyPlugFolder.FullName, plug.Name));
@@ -510,39 +465,36 @@ namespace Mantle.Web.Plugins
                 {
                     //delete an existing file
 
+                    //More info: http://www.nopcommerce.com/boards/t/11511/access-error-nopplugindiscountrulesbillingcountrydll.aspx?p=4#60838
                     Debug.WriteLine("New plugin found; Deleting the old file: '{0}'", shadowCopiedPlug.Name);
                     File.Delete(shadowCopiedPlug.FullName);
                 }
             }
 
-            if (shouldCopy)
+            if (!shouldCopy)
+                return shadowCopiedPlug;
+
+            try
             {
+                File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
+            }
+            catch (IOException)
+            {
+                Debug.WriteLine(shadowCopiedPlug.FullName + " is locked, attempting to rename");
+                //this occurs when the files are locked,
+                //for some reason devenv locks plugin files some times and for another crazy reason you are allowed to rename them
+                //which releases the lock, so that it what we are doing here, once it's renamed, we can re-shadow copy
                 try
                 {
-                    File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
+                    var oldFile = shadowCopiedPlug.FullName + Guid.NewGuid().ToString("N") + ".old";
+                    File.Move(shadowCopiedPlug.FullName, oldFile);
                 }
-                catch (IOException x)
+                catch (IOException exc)
                 {
-                    string msg = shadowCopiedPlug.FullName + " is locked, attempting to rename.";
-                    logger.LogError(new EventId(), x, msg);
-                    Debug.WriteLine(msg);
-                    //this occurs when the files are locked,
-                    //for some reason devenv locks plugin files some times and for another crazy reason you are allowed to rename them
-                    //which releases the lock, so that it what we are doing here, once it's renamed, we can re-shadow copy
-                    try
-                    {
-                        var oldFile = shadowCopiedPlug.FullName + Guid.NewGuid().ToString("N") + ".old";
-                        File.Move(shadowCopiedPlug.FullName, oldFile);
-                    }
-                    catch (IOException x2)
-                    {
-                        msg = shadowCopiedPlug.FullName + " rename failed, cannot initialize plugin.";
-                        logger.LogError(new EventId(), x2, msg);
-                        throw new IOException(msg, x2);
-                    }
-                    //ok, we've made it this far, now retry the shadow copy
-                    File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
+                    throw new IOException(shadowCopiedPlug.FullName + " rename failed, cannot initialize plugin", exc);
                 }
+                //ok, we've made it this far, now retry the shadow copy
+                File.Copy(plug.FullName, shadowCopiedPlug.FullName, true);
             }
 
             return shadowCopiedPlug;
@@ -555,12 +507,9 @@ namespace Mantle.Web.Plugins
         /// <returns></returns>
         private static bool IsPackagePluginFolder(DirectoryInfo folder)
         {
-            if (folder == null ||
-                folder.Parent == null ||
-                !folder.Parent.Name.Equals("Plugins", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
+            if (folder == null) return false;
+            if (folder.Parent == null) return false;
+            if (!folder.Parent.Name.Equals(PluginsPathName, StringComparison.OrdinalIgnoreCase)) return false;
 
             return true;
         }
@@ -571,10 +520,25 @@ namespace Mantle.Web.Plugins
         /// <returns></returns>
         private static string GetInstalledPluginsFilePath()
         {
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath);
-            return filePath;
+            return webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
         }
 
-        #endregion Utilities
+        public static bool IsPluginInstalled(string systemName)
+        {
+            if (installedPlugins == null)
+            {
+                installedPlugins = new Dictionary<string, bool>();
+            }
+
+            if (!installedPlugins.ContainsKey(systemName))
+            {
+                bool isInstalled = ReferencedPlugins.Any(x => x.SystemName == systemName && x.Installed);
+                installedPlugins.Add(systemName, isInstalled);
+            }
+
+            return installedPlugins[systemName];
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Mantle.Identity;
 using Mantle.Identity.Models.ManageViewModels;
 using Mantle.Identity.Services;
@@ -18,109 +19,42 @@ namespace MantleCMS.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
-            : base(userManager, signInManager, emailSender, smsSender, loggerFactory)
+            ILogger<MantleManageController<ApplicationUser>> logger,
+            UrlEncoder urlEncoder)
+            : base(userManager, signInManager, emailSender, logger, urlEncoder)
         {
         }
 
-        //
-        // GET: /Manage/Index
         [HttpGet]
         [Route("")]
-        public override async Task<IActionResult> Index(ManageMessageId? message = null)
+        public override async Task<IActionResult> Index()
         {
-            return await base.Index(message);
+            return await base.Index();
         }
 
-        //
-        // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("remove-login")]
-        public override async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
+        [Route("")]
+        public override async Task<IActionResult> Index(IndexViewModel model)
         {
-            return await base.RemoveLogin(account);
+            return await base.Index(model);
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
-        [Route("add-phone-number")]
-        public override IActionResult AddPhoneNumber()
-        {
-            return base.AddPhoneNumber();
-        }
-
-        //
-        // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("add-phone-number")]
-        public override async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        [Route("send-verification-email")]
+        public override async Task<IActionResult> SendVerificationEmail(IndexViewModel model)
         {
-            return await base.AddPhoneNumber(model);
+            return await base.SendVerificationEmail(model);
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("enable-two-factor-authentication")]
-        public override async Task<IActionResult> EnableTwoFactorAuthentication()
-        {
-            return await base.EnableTwoFactorAuthentication();
-        }
-
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("disable-two-factor-authentication")]
-        public override async Task<IActionResult> DisableTwoFactorAuthentication()
-        {
-            return await base.DisableTwoFactorAuthentication();
-        }
-
-        //
-        // GET: /Manage/VerifyPhoneNumber
-        [HttpGet]
-        [Route("verify-phone-number")]
-        public override async Task<IActionResult> VerifyPhoneNumber(string phoneNumber)
-        {
-            return await base.VerifyPhoneNumber(phoneNumber);
-        }
-
-        //
-        // POST: /Manage/VerifyPhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("verify-phone-number")]
-        public override async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
-        {
-            return await base.VerifyPhoneNumber(model);
-        }
-
-        //
-        // POST: /Manage/RemovePhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("remove-phone-number")]
-        public override async Task<IActionResult> RemovePhoneNumber()
-        {
-            return await base.RemovePhoneNumber();
-        }
-
-        //
-        // GET: /Manage/ChangePassword
         [HttpGet]
         [Route("change-password")]
-        public override IActionResult ChangePassword()
+        public override async Task<IActionResult> ChangePassword()
         {
-            return base.ChangePassword();
+            return await base.ChangePassword();
         }
 
-        //
-        // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("change-password")]
@@ -129,17 +63,13 @@ namespace MantleCMS.Controllers
             return await base.ChangePassword(model);
         }
 
-        //
-        // GET: /Manage/SetPassword
         [HttpGet]
         [Route("set-password")]
-        public override IActionResult SetPassword()
+        public override async Task<IActionResult> SetPassword()
         {
-            return base.SetPassword();
+            return await base.SetPassword();
         }
 
-        //
-        // POST: /Manage/SetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("set-password")]
@@ -148,31 +78,93 @@ namespace MantleCMS.Controllers
             return await base.SetPassword(model);
         }
 
-        //GET: /Manage/ManageLogins
         [HttpGet]
-        [Route("manage-logins")]
-        public override async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
+        [Route("external-logins")]
+        public override async Task<IActionResult> ExternalLogins()
         {
-            return await base.ManageLogins(message);
+            return await base.ExternalLogins();
         }
 
-        //
-        // POST: /Manage/LinkLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("link-login")]
-        public override IActionResult LinkLogin(string provider)
+        public override async Task<IActionResult> LinkLogin(string provider)
         {
-            return base.LinkLogin(provider);
+            return await base.LinkLogin(provider);
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
         [HttpGet]
         [Route("link-login-callback")]
-        public override async Task<ActionResult> LinkLoginCallback()
+        public override async Task<IActionResult> LinkLoginCallback()
         {
             return await base.LinkLoginCallback();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("remove-login")]
+        public override async Task<IActionResult> RemoveLogin(RemoveLoginViewModel model)
+        {
+            return await base.RemoveLogin(model);
+        }
+
+        [HttpGet]
+        [Route("two-factor-authentication")]
+        public override async Task<IActionResult> TwoFactorAuthentication()
+        {
+            return await base.TwoFactorAuthentication();
+        }
+
+        [HttpGet]
+        [Route("disable-2fa-warning")]
+        public override async Task<IActionResult> Disable2faWarning()
+        {
+            return await base.Disable2faWarning();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("disable-2fa")]
+        public override async Task<IActionResult> Disable2fa()
+        {
+            return await base.Disable2fa();
+        }
+
+        [HttpGet]
+        [Route("enable-authenticator")]
+        public override async Task<IActionResult> EnableAuthenticator()
+        {
+            return await base.EnableAuthenticator();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("enable-authenticator")]
+        public override async Task<IActionResult> EnableAuthenticator(EnableAuthenticatorViewModel model)
+        {
+            return await base.EnableAuthenticator(model);
+        }
+
+        [HttpGet]
+        [Route("reset-authenticator-warning")]
+        public override IActionResult ResetAuthenticatorWarning()
+        {
+            return base.ResetAuthenticatorWarning();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("reset-authenticator")]
+        public override async Task<IActionResult> ResetAuthenticator()
+        {
+            return await base.ResetAuthenticator();
+        }
+
+        [HttpGet]
+        [Route("generate-recovery-codes")]
+        public override async Task<IActionResult> GenerateRecoveryCodes()
+        {
+            return await base.GenerateRecoveryCodes();
         }
     }
 }

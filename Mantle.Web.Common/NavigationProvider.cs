@@ -21,7 +21,7 @@ namespace Mantle.Web.Common
                 menu => menu.Add(T[LocalizableStrings.Regions.Title], "5", item => item
                     .Url("#regions")
                     //.Action("Index", "Region", new { area = Constants.Areas.Regions })
-                    .Icons("mantle-icon mantle-icon-globe")
+                    .Icons("fa fa-globe")
                     .Permission(Permissions.RegionsRead)));
         }
     }

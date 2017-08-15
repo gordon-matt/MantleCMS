@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using Mantle.Reflection;
+using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.DependencyModel;
 
 namespace Mantle.Infrastructure
@@ -31,12 +32,13 @@ namespace Mantle.Infrastructure
         /// </summary>
         private readonly List<Type> assemblyAttributesSearched = new List<Type>();
 
-        private readonly AssemblyLoader assemblyLoader;
+        private readonly AssemblyLoadContext assemblyLoader;
 
         /// <summary>Creates a new instance of the AppDomainTypeFinder.</summary>
         public AppDomainTypeFinder()
         {
-            assemblyLoader = new AssemblyLoader();
+            //assemblyLoader = new AssemblyLoader();
+            assemblyLoader = AssemblyLoadContext.Default;
             LoadAppDomainAssemblies = true;
             AssemblyNames = new List<string>();
 
@@ -229,11 +231,12 @@ namespace Mantle.Infrastructure
                 }
             }
         }
-
+        
         public IEnumerable<Assembly> GetReferencingAssemblies()
         {
             var assemblies = new List<Assembly>();
             var dependencies = DependencyContext.Default.RuntimeLibraries;
+            
             foreach (var library in dependencies)
             {
                 if (IsCandidateLibrary(library))

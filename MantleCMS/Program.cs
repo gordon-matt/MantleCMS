@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -9,61 +9,35 @@ namespace MantleCMS
 {
     public class Program
     {
-        /// <summary>
-        /// The main entry-point to the application.
-        /// </summary>
-        /// <param name="args">The arguments to the application.</param>
-        /// <returns>
-        /// The exit code from the application.
-        /// </returns>
-        public static int Main(string[] args) => Run(args);
-
-        /// <summary>
-        /// Runs ths application.
-        /// </summary>
-        /// <param name="args">The arguments to the application.</param>
-        /// <param name="cancellationToken">The optional cancellation token to use.</param>
-        /// <returns>
-        /// The exit code from the application.
-        /// </returns>
-        public static int Run(string[] args, CancellationToken cancellationToken = default(CancellationToken))
+        public static void Main(string[] args)
         {
             try
             {
-                var configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("hosting.json", true)
-                    .AddEnvironmentVariables()
-                    .Build();
-
-                var builder = new WebHostBuilder()
-                    .UseKestrel((p) => p.AddServerHeader = false)
-                    .ConfigureServices(services => services.AddAutofac())
-                    .UseConfiguration(configuration)
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseIISIntegration()
-                    .UseStartup<Startup>()
-                    .CaptureStartupErrors(true);
-
-                using (var host = builder.Build())
-                using (var tokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-                {
-                    Console.CancelKeyPress += (_, e) =>
-                    {
-                        tokenSource.Cancel();
-                        e.Cancel = true;
-                    };
-
-                    host.Run(tokenSource.Token);
-                }
-
-                return 0;
+                BuildWebHost(args).Run();
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Unhandled exception: {ex}");
-                return -1;
             }
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("hosting.json", true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            return WebHost.CreateDefaultBuilder(args)
+                .UseKestrel((p) => p.AddServerHeader = false)
+                .ConfigureServices(services => services.AddAutofac())
+                .UseConfiguration(configuration)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .CaptureStartupErrors(true)
+                .Build();
         }
     }
 }
