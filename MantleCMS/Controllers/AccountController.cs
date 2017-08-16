@@ -22,7 +22,7 @@ namespace MantleCMS.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<MantleAccountController<ApplicationUser>> logger,
+            ILogger<AccountController> logger,
             IMembershipService membershipService,
             Lazy<IEnumerable<IUserProfileProvider>> userProfileProviders)
             : base(userManager, signInManager, emailSender, logger, membershipService, userProfileProviders)

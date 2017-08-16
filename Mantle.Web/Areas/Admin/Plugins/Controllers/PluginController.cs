@@ -77,7 +77,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
 
             try
             {
-                var pluginDescriptor = pluginFinder.Value.GetPluginDescriptors(false)
+                var pluginDescriptor = pluginFinder.Value.GetPluginDescriptors(LoadPluginsMode.All)
                     .FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.OrdinalIgnoreCase));
 
                 if (pluginDescriptor == null)
@@ -124,7 +124,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
 
             try
             {
-                var pluginDescriptor = pluginFinder.Value.GetPluginDescriptors(false)
+                var pluginDescriptor = pluginFinder.Value.GetPluginDescriptors(LoadPluginsMode.All)
                     .FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.OrdinalIgnoreCase));
 
                 if (pluginDescriptor == null)

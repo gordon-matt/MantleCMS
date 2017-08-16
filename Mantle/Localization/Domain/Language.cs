@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Localization.Domain
 {
@@ -40,11 +41,10 @@ namespace Mantle.Localization.Domain
         #endregion IEntity Members
     }
 
-    public class LanguageMap : IEntityTypeConfiguration
+    public class LanguageMap : IEntityTypeConfiguration<Language>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Language> builder)
         {
-            var builder = modelBuilder.Entity<Language>();
             builder.ToTable("Mantle_Languages");
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

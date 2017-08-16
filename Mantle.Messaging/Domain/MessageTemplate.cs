@@ -2,6 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Messaging.Domain
 {
@@ -46,11 +47,10 @@ namespace Mantle.Messaging.Domain
         #endregion IEntity Members
     }
 
-    public class MessageTemplateMap : IEntityTypeConfiguration
+    public class MessageTemplateMap : IEntityTypeConfiguration<MessageTemplate>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<MessageTemplate> builder)
         {
-            var builder = modelBuilder.Entity<MessageTemplate>();
             builder.ToTable("Mantle_MessageTemplates");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

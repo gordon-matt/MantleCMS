@@ -1,6 +1,7 @@
 ﻿using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MantleCMS.Data.Domain
 {
@@ -24,11 +25,10 @@ namespace MantleCMS.Data.Domain
         public virtual ApplicationRole Role { get; set; }
     }
 
-    public class RolePermissionMap : IEntityTypeConfiguration
+    public class RolePermissionMap : IEntityTypeConfiguration<RolePermission>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<RolePermission> builder)
         {
-            var builder = modelBuilder.Entity<RolePermission>();
             builder.ToTable(Constants.Tables.RolePermissions);
             builder.HasKey(x => new { x.PermissionId, x.RoleId });
             builder.Property(x => x.PermissionId).IsRequired();

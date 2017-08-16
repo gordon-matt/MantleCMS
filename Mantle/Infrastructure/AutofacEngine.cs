@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Collections;
+using Mantle.Exceptions;
 using Mantle.Infrastructure.DependencyManagement;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -121,6 +122,31 @@ namespace Mantle.Infrastructure
         public IEnumerable<T> ResolveAllNamed<T>(string name)
         {
             return ContainerManager.ResolveAllNamed<T>(name);
+        }
+
+        public virtual object ResolveUnregistered(Type type)
+        {
+            foreach (var constructor in type.GetConstructors())
+            {
+                try
+                {
+                    //try to resolve constructor parameters
+                    var parameters = constructor.GetParameters().Select(parameter =>
+                    {
+                        var service = Resolve(parameter.ParameterType);
+                        if (service == null)
+                        {
+                            throw new MantleException("Unknown dependency");
+                        }
+                        return service;
+                    });
+
+                    //all is ok, so create instance
+                    return Activator.CreateInstance(type, parameters.ToArray());
+                }
+                catch (MantleException) { }
+            }
+            throw new MantleException("No constructor was found that had all the dependencies satisfied.");
         }
 
         public bool TryResolve<T>(out T instance)

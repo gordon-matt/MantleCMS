@@ -3,6 +3,7 @@ using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Web.Plugins;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Messaging.Forums.Data.Domain
 {
@@ -34,11 +35,10 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
         #endregion IEntity Members
     }
 
-    public class ForumPostMap : IEntityTypeConfiguration
+    public class ForumPostMap : IEntityTypeConfiguration<ForumPost>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<ForumPost> builder)
         {
-            var builder = modelBuilder.Entity<ForumPost>();
             builder.ToTable(Constants.Tables.Posts);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.TopicId).IsRequired();

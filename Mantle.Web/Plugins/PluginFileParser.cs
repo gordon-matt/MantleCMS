@@ -15,15 +15,11 @@ namespace Mantle.Web.Plugins
         {
             //read and parse the file
             if (!File.Exists(filePath))
-            {
                 return new List<string>();
-            }
 
             var text = File.ReadAllText(filePath);
-            if (string.IsNullOrEmpty(text))
-            {
+            if (String.IsNullOrEmpty(text))
                 return new List<string>();
-            }
 
             //Old way of file reading. This leads to unexpected behavior when a user's FTP program transfers these files as ASCII (\r\n becomes \n).
             //var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -34,24 +30,19 @@ namespace Mantle.Web.Plugins
                 string str;
                 while ((str = reader.ReadLine()) != null)
                 {
-                    if (string.IsNullOrWhiteSpace(str))
-                    {
+                    if (String.IsNullOrWhiteSpace(str))
                         continue;
-                    }
-
                     lines.Add(str.Trim());
                 }
             }
             return lines;
         }
 
-        public static void SaveInstalledPluginsFile(IList<string> pluginSystemNames, string filePath)
+        public static void SaveInstalledPluginsFile(IList<String> pluginSystemNames, string filePath)
         {
             string result = "";
             foreach (var sn in pluginSystemNames)
-            {
-                result += string.Format("{0}{1}", sn, System.Environment.NewLine);
-            }
+                result += $"{sn}{Environment.NewLine}";
 
             File.WriteAllText(filePath, result);
         }
@@ -60,10 +51,8 @@ namespace Mantle.Web.Plugins
         {
             var descriptor = new PluginDescriptor();
             var text = File.ReadAllText(filePath);
-            if (string.IsNullOrEmpty(text))
-            {
+            if (String.IsNullOrEmpty(text))
                 return descriptor;
-            }
 
             var settings = new List<string>();
             using (var reader = new StringReader(text))
@@ -71,10 +60,8 @@ namespace Mantle.Web.Plugins
                 string str;
                 while ((str = reader.ReadLine()) != null)
                 {
-                    if (string.IsNullOrWhiteSpace(str))
-                    {
+                    if (String.IsNullOrWhiteSpace(str))
                         continue;
-                    }
                     settings.Add(str.Trim());
                 }
             }
@@ -94,39 +81,52 @@ namespace Mantle.Web.Plugins
 
                 switch (key)
                 {
-                    case "Group": descriptor.Group = value; break;
-                    case "FriendlyName": descriptor.FriendlyName = value; break;
-                    case "SystemName": descriptor.SystemName = value; break;
-                    case "Version": descriptor.Version = value; break;
+                    case "Group":
+                        descriptor.Group = value;
+                        break;
+
+                    case "FriendlyName":
+                        descriptor.FriendlyName = value;
+                        break;
+
+                    case "SystemName":
+                        descriptor.SystemName = value;
+                        break;
+
+                    case "Version":
+                        descriptor.Version = value;
+                        break;
 
                     case "SupportedVersions":
                         {
                             //parse supported versions
-                            descriptor.SupportedVersions = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                            descriptor.SupportedVersions = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                 .Select(x => x.Trim())
                                 .ToList();
                         }
                         break;
 
-                    case "Author": descriptor.Author = value; break;
+                    case "Author":
+                        descriptor.Author = value;
+                        break;
 
                     case "DisplayOrder":
                         {
-                            int displayOrder;
-                            int.TryParse(value, out displayOrder);
+                            int.TryParse(value, out int displayOrder);
                             descriptor.DisplayOrder = displayOrder;
                         }
                         break;
 
-                    case "FileName": descriptor.PluginFileName = value; break;
+                    case "FileName":
+                        descriptor.PluginFileName = value;
+                        break;
 
                     case "LimitedToTenants":
                         {
                             //parse list of store IDs
-                            foreach (var item in value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()))
+                            foreach (var str1 in value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()))
                             {
-                                int tenantId = 0;
-                                if (int.TryParse(item, out tenantId))
+                                if (int.TryParse(str1, out int tenantId))
                                 {
                                     descriptor.LimitedToTenants.Add(tenantId);
                                 }
@@ -134,14 +134,29 @@ namespace Mantle.Web.Plugins
                         }
                         break;
 
-                    default: break;
+                    case "LimitedToUserRoles":
+                        {
+                            //parse list of user role IDs
+                            foreach (string id in value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()))
+                            {
+                                descriptor.LimitedToUserRoles.Add(id);
+                            }
+                        }
+                        break;
+
+                    case "Description":
+                        descriptor.Description = value;
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
-            ////nopCommerce 2.00 didn't have 'SupportedVersions' parameter
-            ////so let's set it to "2.00"
-            //if (descriptor.SupportedVersions.Count == 0)
-            //    descriptor.SupportedVersions.Add("2.00");
+            //nopCommerce 2.00 didn't have 'SupportedVersions' parameter
+            //so let's set it to "2.00"
+            if (!descriptor.SupportedVersions.Any())
+                descriptor.SupportedVersions.Add("2.00");
 
             return descriptor;
         }
@@ -149,21 +164,14 @@ namespace Mantle.Web.Plugins
         public static void SavePluginDescriptionFile(PluginDescriptor plugin)
         {
             if (plugin == null)
-            {
                 throw new ArgumentException("plugin");
-            }
 
             //get the Description.txt file path
             if (plugin.OriginalAssemblyFile == null)
-            {
-                throw new Exception(string.Format("Cannot load original assembly path for {0} plugin.", plugin.SystemName));
-            }
-
+                throw new Exception($"Cannot load original assembly path for {plugin.SystemName} plugin.");
             var filePath = Path.Combine(plugin.OriginalAssemblyFile.Directory.FullName, "Description.txt");
             if (!File.Exists(filePath))
-            {
-                throw new Exception(string.Format("Description file for {0} plugin does not exist. {1}", plugin.SystemName, filePath));
-            }
+                throw new Exception($"Description file for {plugin.SystemName} plugin does not exist. {filePath}");
 
             var keyValues = new List<KeyValuePair<string, string>>();
             keyValues.Add(new KeyValuePair<string, string>("Group", plugin.Group));
@@ -174,32 +182,22 @@ namespace Mantle.Web.Plugins
             keyValues.Add(new KeyValuePair<string, string>("Author", plugin.Author));
             keyValues.Add(new KeyValuePair<string, string>("DisplayOrder", plugin.DisplayOrder.ToString()));
             keyValues.Add(new KeyValuePair<string, string>("FileName", plugin.PluginFileName));
+            keyValues.Add(new KeyValuePair<string, string>("Description", plugin.Description));
 
-            if (plugin.LimitedToTenants.Count > 0)
-            {
-                string tenantList = "";
-                for (int i = 0; i < plugin.LimitedToTenants.Count; i++)
-                {
-                    tenantList += plugin.LimitedToTenants[i];
-                    if (i != plugin.LimitedToTenants.Count - 1)
-                    {
-                        tenantList += ",";
-                    }
-                }
-                keyValues.Add(new KeyValuePair<string, string>("LimitedToTenants", tenantList));
-            }
+            if (plugin.LimitedToTenants.Any())
+                keyValues.Add(new KeyValuePair<string, string>("LimitedToTenants", string.Join(",", plugin.LimitedToTenants)));
+
+            if (plugin.LimitedToUserRoles.Any())
+                keyValues.Add(new KeyValuePair<string, string>("LimitedToUserRoles", string.Join(",", plugin.LimitedToUserRoles)));
 
             var sb = new StringBuilder();
             for (int i = 0; i < keyValues.Count; i++)
             {
-                string key = keyValues[i].Key;
-                string value = keyValues[i].Value;
-
+                var key = keyValues[i].Key;
+                var value = keyValues[i].Value;
                 sb.AppendFormat("{0}: {1}", key, value);
                 if (i != keyValues.Count - 1)
-                {
-                    sb.Append(System.Environment.NewLine);
-                }
+                    sb.Append(Environment.NewLine);
             }
             //save the file
             File.WriteAllText(filePath, sb.ToString());

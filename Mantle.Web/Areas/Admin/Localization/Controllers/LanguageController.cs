@@ -64,6 +64,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
                 InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
                 InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
                 Localize = T[MantleWebLocalizableStrings.Localization.Localize].Value,
+                ResetLocalizableStringsConfirm = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsConfirm].Value,
                 ResetLocalizableStringsError = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsError].Value,
                 ResetLocalizableStringsSuccess = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess].Value,
                 UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,

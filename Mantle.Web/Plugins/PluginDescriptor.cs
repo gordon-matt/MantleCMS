@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Mantle.Infrastructure;
 
@@ -11,22 +10,18 @@ namespace Mantle.Web.Plugins
     {
         public PluginDescriptor()
         {
-            SupportedVersions = new List<string>();
-            LimitedToTenants = new List<int>();
-            OtherAssemblyFiles = new List<FileInfo>();
+            this.SupportedVersions = new List<string>();
+            this.LimitedToTenants = new List<int>();
+            this.LimitedToUserRoles = new List<string>();
         }
 
-        public PluginDescriptor(
-            Assembly referencedAssembly,
-            FileInfo originalAssemblyFile,
-            IEnumerable<FileInfo> otherAssemblyFiles,
+        public PluginDescriptor(Assembly referencedAssembly, FileInfo originalAssemblyFile,
             Type pluginType)
             : this()
         {
-            ReferencedAssembly = referencedAssembly;
-            OriginalAssemblyFile = originalAssemblyFile;
-            PluginType = pluginType;
-            OtherAssemblyFiles = otherAssemblyFiles.ToList();
+            this.ReferencedAssembly = referencedAssembly;
+            this.OriginalAssemblyFile = originalAssemblyFile;
+            this.PluginType = pluginType;
         }
 
         /// <summary>
@@ -49,8 +44,6 @@ namespace Mantle.Web.Plugins
         /// </summary>
         public virtual FileInfo OriginalAssemblyFile { get; internal set; }
 
-        public virtual ICollection<FileInfo> OtherAssemblyFiles { get; internal set; }
-
         /// <summary>
         /// Gets or sets the plugin group
         /// </summary>
@@ -72,7 +65,7 @@ namespace Mantle.Web.Plugins
         public virtual string Version { get; set; }
 
         /// <summary>
-        /// Gets or sets the supported versions of kore
+        /// Gets or sets the supported versions of nopCommerce
         /// </summary>
         public virtual IList<string> SupportedVersions { get; set; }
 
@@ -82,33 +75,45 @@ namespace Mantle.Web.Plugins
         public virtual string Author { get; set; }
 
         /// <summary>
+        /// Gets or sets the description
+        /// </summary>
+        public virtual string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the display order
         /// </summary>
         public virtual int DisplayOrder { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of tenant identifiers in which this plugin is available. If empty, then this plugin is available in all tenants
+        /// Gets or sets the list of store identifiers in which this plugin is available. If empty, then this plugin is available in all stores
         /// </summary>
         public virtual IList<int> LimitedToTenants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of user role identifiers for which this plugin is available. If empty, then this plugin is available for all ones.
+        /// </summary>
+        public virtual IList<string> LimitedToUserRoles { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating whether plugin is installed
         /// </summary>
         public virtual bool Installed { get; set; }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="load">True to load the real assembly into the app domain</param>
-        /// <returns></returns>
         public virtual T Instance<T>() where T : class, IPlugin
         {
-            object instance;
-            if (!EngineContext.Current.ContainerManager.TryResolve(PluginType, out instance)) //TODO: Test
+            object instance = null;
+            try
+            {
+                instance = EngineContext.Current.Resolve(PluginType);
+            }
+            catch
+            {
+                //try resolve
+            }
+            if (instance == null)
             {
                 //not resolved
-                instance = EngineContext.Current.ContainerManager.ResolveUnregistered(PluginType);
+                instance = EngineContext.Current.ResolveUnregistered(PluginType);
             }
             var typedInstance = instance as T;
             if (typedInstance != null)
@@ -127,8 +132,8 @@ namespace Mantle.Web.Plugins
         {
             if (DisplayOrder != other.DisplayOrder)
                 return DisplayOrder.CompareTo(other.DisplayOrder);
-            else
-                return FriendlyName.CompareTo(other.FriendlyName);
+
+            return FriendlyName.CompareTo(other.FriendlyName);
         }
 
         public override string ToString()

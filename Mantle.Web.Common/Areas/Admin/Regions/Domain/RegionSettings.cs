@@ -1,6 +1,7 @@
 ﻿using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
 {
@@ -24,13 +25,12 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
         #endregion IEntity Members
     }
 
-    public class RegionSettingsMap : IEntityTypeConfiguration
+    public class RegionSettingsMap : IEntityTypeConfiguration<RegionSettings>, IMantleEntityTypeConfiguration
     {
         #region IEntityTypeConfiguration Members
 
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<RegionSettings> builder)
         {
-            var builder = modelBuilder.Entity<RegionSettings>();
             builder.ToTable(Constants.Tables.RegionSettings);
             builder.HasKey(m => m.Id);
             builder.Property(m => m.RegionId).IsRequired();

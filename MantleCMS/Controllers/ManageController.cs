@@ -19,7 +19,7 @@ namespace MantleCMS.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<MantleManageController<ApplicationUser>> logger,
+            ILogger<ManageController> logger,
             UrlEncoder urlEncoder)
             : base(userManager, signInManager, emailSender, logger, urlEncoder)
         {

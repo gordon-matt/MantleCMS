@@ -2,6 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Configuration.Domain
 {
@@ -38,11 +39,10 @@ namespace Mantle.Configuration.Domain
         }
     }
 
-    public class SettingMap : IEntityTypeConfiguration
+    public class SettingMap : IEntityTypeConfiguration<Setting>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Setting> builder)
         {
-            var builder = modelBuilder.Entity<Setting>();
             builder.ToTable("Mantle_Settings");
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

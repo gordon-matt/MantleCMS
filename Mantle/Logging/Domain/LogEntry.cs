@@ -2,6 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Logging.Domain
 {
@@ -41,11 +42,10 @@ namespace Mantle.Logging.Domain
         #endregion IEntity Members
     }
 
-    public class LogEntryMap : IEntityTypeConfiguration
+    public class LogEntryMap : IEntityTypeConfiguration<LogEntry>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<LogEntry> builder)
         {
-            var builder = modelBuilder.Entity<LogEntry>();
             builder.ToTable("Mantle_Log");
             builder.HasKey(m => m.Id);
             builder.Property(m => m.EventDateTime).IsRequired();

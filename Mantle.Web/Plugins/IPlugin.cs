@@ -7,6 +7,11 @@
     public interface IPlugin
     {
         /// <summary>
+        /// Gets a configuration page URL
+        /// </summary>
+        string GetConfigurationPageUrl();
+
+        /// <summary>
         /// Gets or sets the plugin descriptor
         /// </summary>
         PluginDescriptor PluginDescriptor { get; set; }
@@ -20,11 +25,5 @@
         /// Uninstall plugin
         /// </summary>
         void Uninstall();
-
-        /// <summary>
-        /// Notify the plugin that settings have been modified (generally speaking,
-        /// we're only interested in the "LimitedToTenants" property
-        /// </summary>
-        void Modified();
     }
 }

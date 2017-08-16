@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Localization.Domain
 {
@@ -34,11 +35,10 @@ namespace Mantle.Localization.Domain
         #endregion IEntity Members
     }
 
-    public class LocalizableStringMap : IEntityTypeConfiguration
+    public class LocalizableStringMap : IEntityTypeConfiguration<LocalizableString>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<LocalizableString> builder)
         {
-            var builder = modelBuilder.Entity<LocalizableString>();
             builder.ToTable("Mantle_LocalizableStrings");
             builder.HasKey(m => m.Id);
             builder.Property(m => m.CultureCode).HasMaxLength(10).IsUnicode(false);

@@ -13,7 +13,7 @@ namespace Mantle.Data.Entity.EntityFramework
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             var entityTypeConfigurations = typeFinder
-                .FindClassesOfType(typeof(IEntityTypeConfiguration))
+                .FindClassesOfType(typeof(IMantleEntityTypeConfiguration))
                 .ToHashSet();
 
             foreach (var configuration in entityTypeConfigurations)
@@ -23,11 +23,11 @@ namespace Mantle.Data.Entity.EntityFramework
                     continue;
                 }
 
-                var isEnabled = (Activator.CreateInstance(configuration) as IEntityTypeConfiguration).IsEnabled;
+                var isEnabled = (Activator.CreateInstance(configuration) as IMantleEntityTypeConfiguration).IsEnabled;
 
                 if (isEnabled)
                 {
-                    builder.RegisterType(configuration).As(typeof(IEntityTypeConfiguration)).InstancePerLifetimeScope();
+                    builder.RegisterType(configuration).As(typeof(IMantleEntityTypeConfiguration)).InstancePerLifetimeScope();
                 }
             }
         }

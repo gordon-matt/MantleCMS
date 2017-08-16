@@ -2,7 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
 {
@@ -43,11 +43,10 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
         #endregion IEntity Members
     }
 
-    public class RegionMap : IEntityTypeConfiguration
+    public class RegionMap : IEntityTypeConfiguration<Region>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Region> builder)
         {
-            var builder = modelBuilder.Entity<Region>();
             builder.ToTable(Constants.Tables.Regions);
             builder.HasKey(m => m.Id);
             builder.Property(m => m.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

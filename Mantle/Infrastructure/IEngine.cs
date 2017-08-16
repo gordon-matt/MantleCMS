@@ -22,6 +22,8 @@ namespace Mantle.Infrastructure
 
         IEnumerable<T> ResolveAllNamed<T>(string name);
 
+        object ResolveUnregistered(Type type);
+
         bool TryResolve<T>(out T instance);
 
         bool TryResolve(Type serviceType, out object instance);

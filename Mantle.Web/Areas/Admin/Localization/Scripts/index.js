@@ -287,23 +287,25 @@
         //    self.name(cultureName);
         //};
         self.clear = function () {
-            $.ajax({
-                url: apiUrl + "/Default.ResetLocalizableStrings",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ dummy: true }), // Prevent 415 error
-                dataType: "json"
-            })
-            .done(function (json) {
-                $.notify(self.translations.resetLocalizableStringsSuccess, "success");
-                setTimeout(function () {
-                    window.location.reload();
-                }, 500);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.resetLocalizableStringsError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            if (confirm(self.translations.resetLocalizableStringsConfirm)) {
+                $.ajax({
+                    url: apiUrl + "/Default.ResetLocalizableStrings",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ dummy: true }), // Prevent 415 error
+                    dataType: "json"
+                })
+                .done(function (json) {
+                    $.notify(self.translations.resetLocalizableStringsSuccess, "success");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.resetLocalizableStringsError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
+            }
         };
         self.importLanguagePack = function () {
             switchSection($("#upload-section"));

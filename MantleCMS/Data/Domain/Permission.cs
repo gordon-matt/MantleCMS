@@ -2,6 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MantleCMS.Data.Domain
 {
@@ -29,11 +30,10 @@ namespace MantleCMS.Data.Domain
         public virtual ICollection<RolePermission> RolesPermissions { get; set; }
     }
 
-    public class PermissionMap : IEntityTypeConfiguration
+    public class PermissionMap : IEntityTypeConfiguration<Permission>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Permission> builder)
         {
-            var builder = modelBuilder.Entity<Permission>();
             builder.ToTable(Constants.Tables.Permissions);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50).IsUnicode(true);

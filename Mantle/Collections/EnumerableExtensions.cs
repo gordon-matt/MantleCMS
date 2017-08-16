@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Globalization;
 
 //using System.Data;
 using System.Linq;
@@ -151,67 +153,67 @@ namespace Mantle.Collections
             return first.Union(second);
         }
 
-        //public static DataTable ToDataTable<T>(this IEnumerable<T> enumerable)
-        //{
-        //    return enumerable.ToDataTable(string.Concat(typeof(T).Name, "_Table"));
-        //}
+        public static DataTable ToDataTable<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToDataTable(string.Concat(typeof(T).Name, "_Table"));
+        }
 
-        ///// <summary>
-        ///// Creates and returns a System.Data.DataTable from the specified System.Collections.Generic.IEnumerable&lt;T&gt;.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="enumerable">This instance of System.Collections.Generic.IEnumerable&lt;T&gt;.</param>
-        ///// <param name="tableName">The value to set for the DataTable's Name property.</param>
-        ///// <returns></returns>
-        //public static DataTable ToDataTable<T>(this IEnumerable<T> enumerable, string tableName)
-        //{
-        //    var table = new DataTable(tableName) { Locale = CultureInfo.InvariantCulture };
+        /// <summary>
+        /// Creates and returns a System.Data.DataTable from the specified System.Collections.Generic.IEnumerable&lt;T&gt;.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable">This instance of System.Collections.Generic.IEnumerable&lt;T&gt;.</param>
+        /// <param name="tableName">The value to set for the DataTable's Name property.</param>
+        /// <returns></returns>
+        public static DataTable ToDataTable<T>(this IEnumerable<T> enumerable, string tableName)
+        {
+            var table = new DataTable(tableName) { Locale = CultureInfo.InvariantCulture };
 
-        //    var properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetProperties();
 
-        //    #region If T Is String Or Has No Properties
+            #region If T Is String Or Has No Properties
 
-        //    if (properties.IsNullOrEmpty() || typeof(T) == typeof(string))
-        //    {
-        //        table.Columns.Add(new DataColumn("Value", typeof(string)));
+            if (properties.IsNullOrEmpty() || typeof(T) == typeof(string))
+            {
+                table.Columns.Add(new DataColumn("Value", typeof(string)));
 
-        //        foreach (T item in enumerable)
-        //        {
-        //            DataRow row = table.NewRow();
+                foreach (T item in enumerable)
+                {
+                    DataRow row = table.NewRow();
 
-        //            row["Value"] = item.ToString();
+                    row["Value"] = item.ToString();
 
-        //            table.Rows.Add(row);
-        //        }
+                    table.Rows.Add(row);
+                }
 
-        //        return table;
-        //    }
+                return table;
+            }
 
-        //    #endregion If T Is String Or Has No Properties
+            #endregion If T Is String Or Has No Properties
 
-        //    #region Else Normal Collection
+            #region Else Normal Collection
 
-        //    foreach (PropertyInfo property in properties)
-        //    {
-        //        table.Columns.Add(new DataColumn(property.Name, property.PropertyType));
-        //    }
+            foreach (PropertyInfo property in properties)
+            {
+                table.Columns.Add(new DataColumn(property.Name, property.PropertyType));
+            }
 
-        //    foreach (T item in enumerable)
-        //    {
-        //        DataRow row = table.NewRow();
+            foreach (T item in enumerable)
+            {
+                DataRow row = table.NewRow();
 
-        //        foreach (PropertyInfo property in properties)
-        //        {
-        //            row[property.Name] = property.GetValue(item, null);
-        //        }
+                foreach (PropertyInfo property in properties)
+                {
+                    row[property.Name] = property.GetValue(item, null);
+                }
 
-        //        table.Rows.Add(row);
-        //    }
+                table.Rows.Add(row);
+            }
 
-        //    #endregion Else Normal Collection
+            #endregion Else Normal Collection
 
-        //    return table;
-        //}
+            return table;
+        }
 
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source)
         {

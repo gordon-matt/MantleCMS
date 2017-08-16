@@ -143,15 +143,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Key",
-                    title: self.translations.Columns.Key,
+                    title: self.translations.columns.key,
                     filterable: true
                 }, {
                     field: "InvariantValue",
-                    title: self.translations.Columns.InvariantValue,
+                    title: self.translations.columns.invariantValue,
                     filterable: true
                 }, {
                     field: "LocalizedValue",
-                    title: self.translations.Columns.LocalizedValue,
+                    title: self.translations.columns.localizedValue,
                     filterable: true
                 }, {
                     command: ["edit", "destroy"],

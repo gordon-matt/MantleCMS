@@ -33,7 +33,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
                 return Unauthorized();
             }
 
-            var query = pluginFinder.GetPluginDescriptors(false).Select(x => (EdmPluginDescriptor)x).AsQueryable();
+            var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
             var grid = new CustomKendoGridEx<EdmPluginDescriptor>(request, query);
             return Json(grid);
         }
@@ -48,7 +48,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
             }
 
             string systemName = key.Replace('-', '.');
-            var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, false);
+            var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
             EdmPluginDescriptor entity = pluginDescriptor;
 
             return Json(JObject.FromObject(entity));
@@ -71,7 +71,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
             try
             {
                 string systemName = key.Replace('-', '.');
-                var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, false);
+                var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
 
                 if (pluginDescriptor == null)
                 {

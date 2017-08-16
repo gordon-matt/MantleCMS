@@ -2,6 +2,7 @@
 using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Localization.Domain
 {
@@ -36,11 +37,10 @@ namespace Mantle.Localization.Domain
         #endregion IEntity Members
     }
 
-    public class LocalizablePropertyMap : IEntityTypeConfiguration
+    public class LocalizablePropertyMap : IEntityTypeConfiguration<LocalizableProperty>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<LocalizableProperty> builder)
         {
-            var builder = modelBuilder.Entity<LocalizableProperty>();
             builder.ToTable("Mantle_LocalizableProperties");
             builder.HasKey(m => m.Id);
             builder.Property(m => m.CultureCode).HasMaxLength(10).IsUnicode(false);

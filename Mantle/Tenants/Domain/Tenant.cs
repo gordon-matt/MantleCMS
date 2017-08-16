@@ -30,11 +30,10 @@ namespace Mantle.Tenants.Domain
         #endregion IEntity Members
     }
 
-    public class TenantMap : IEntityTypeConfiguration
+    public class TenantMap : IEntityTypeConfiguration<Tenant>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<Tenant> builder)
         {
-            var builder = modelBuilder.Entity<Tenant>();
             builder.ToTable("Mantle_Tenants");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

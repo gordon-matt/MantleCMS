@@ -92,6 +92,7 @@
             public const string Localize = "Mantle.Web/Localization.Localize";
             public const string ManageLanguages = "Mantle.Web/Localization.ManageLanguages";
             public const string ManageLocalizableStrings = "Mantle.Web/Localization.ManageLocalizableStrings";
+            public const string ResetLocalizableStringsConfirm = "Mantle.Web/Localization.ResetLocalizableStringsConfirm";
             public const string ResetLocalizableStringsError = "Mantle.Web/Localization.ResetLocalizableStringsError";
             public const string ResetLocalizableStringsSuccess = "Mantle.Web/Localization.ResetLocalizableStringsSuccess";
             public const string SelectLanguage = "Mantle.Web/Localization.SelectLanguage";

@@ -2,6 +2,7 @@
 //using Mantle.Data.Entity.EntityFramework;
 //using Mantle.Tenants.Domain;
 //using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 //namespace Mantle.Messaging.Domain
 //{
@@ -56,11 +57,10 @@
 //        #endregion IEntity Members
 //    }
 
-//    public class QueuedSmsMap : IEntityTypeConfiguration
+//    public class QueuedSmsMap : IEntityTypeConfiguration<QueuedSms>, IMantleEntityTypeConfiguration
 //    {
-//        public void Configure(ModelBuilder modelBuilder)
+//        public void Configure(EntityTypeBuilder<QueuedSms> builder)
 //        {
-//            var builder = modelBuilder.Entity<QueuedSms>();
 //            builder.ToTable("Mantle_QueuedSMS");
 //            builder.HasKey(x => x.Id);
 //            builder.Property(x => x.Priority).IsRequired();

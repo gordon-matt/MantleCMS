@@ -9,10 +9,17 @@ using Mantle.Localization.Domain;
 
 namespace Mantle.Web.Plugins
 {
+    /// <summary>
+    /// Base plugin
+    /// </summary>
     public abstract class BasePlugin : IPlugin
     {
-        protected BasePlugin()
+        /// <summary>
+        /// Gets a configuration page URL
+        /// </summary>
+        public virtual string GetConfigurationPageUrl()
         {
+            return null;
         }
 
         /// <summary>
@@ -35,30 +42,6 @@ namespace Mantle.Web.Plugins
         {
             PluginManager.MarkPluginAsUninstalled(this.PluginDescriptor.SystemName);
         }
-
-        /// <summary>
-        /// Notify the plugin that settings have been modified (generally speaking,
-        /// we're only interested in the "LimitedToTenants" property
-        /// </summary>
-        public virtual void Modified()
-        {
-            // By default, do nothing (very few plugins care)
-        }
-
-        //protected bool CheckIfTableExists(DbContext dbContext, string tableName)
-        //{
-        //    return dbContext.Database
-        //        .SqlQuery<int?>(string.Format("SELECT 1 FROM sys.tables WHERE Name = '{0}'", tableName))
-        //        .SingleOrDefault() != null;
-        //}
-
-        //protected void DropTable(DbContext dbContext, string tableName)
-        //{
-        //    if (CheckIfTableExists(dbContext, tableName))
-        //    {
-        //        dbContext.Database.ExecuteSqlCommand(string.Format("DROP TABLE [dbo].[{0}]", tableName));
-        //    }
-        //}
 
         protected virtual void InstallLanguagePack<TLanguagePack>() where TLanguagePack : ILanguagePack, new()
         {

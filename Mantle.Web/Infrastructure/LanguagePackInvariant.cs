@@ -112,6 +112,10 @@ namespace Mantle.Web.Infrastructure
                     { MantleWebLocalizableStrings.Localization.Translate, "Translate" },
                     { MantleWebLocalizableStrings.Localization.Translations, "Translations" },
 
+                    { MantleWebLocalizableStrings.Localization.ResetLocalizableStringsConfirm, "This will clear all the localizable strings in the database. Are you sure you want to do this?" },
+                    { MantleWebLocalizableStrings.Localization.ResetLocalizableStringsError, "There was an error when resetting the localized strings." },
+                    { MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess, "Successfully reset the localized strings." },
+
                     { MantleWebLocalizableStrings.Log.ClearConfirm, "Are you sure you want to clear the log?" },
                     { MantleWebLocalizableStrings.Log.ClearError, "Error when trying to clear the log." },
                     { MantleWebLocalizableStrings.Log.ClearSuccess, "Successfully cleared the log." },

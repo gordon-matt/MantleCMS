@@ -1,6 +1,7 @@
 ﻿using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MantleCMS.Data.Domain
 {
@@ -26,11 +27,10 @@ namespace MantleCMS.Data.Domain
         #endregion IEntity Members
     }
 
-    public class UserProfileEntryMap : IEntityTypeConfiguration
+    public class UserProfileEntryMap : IEntityTypeConfiguration<UserProfileEntry>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<UserProfileEntry> builder)
         {
-            var builder = modelBuilder.Entity<UserProfileEntry>();
             builder.ToTable(Constants.Tables.UserProfiles);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(false);

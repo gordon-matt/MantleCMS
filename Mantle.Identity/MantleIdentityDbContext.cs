@@ -87,11 +87,11 @@ namespace Mantle.Identity
 
             //rolesTable.HasMany(x => x.Users).WithRequired().HasForeignKey(x => x.RoleId);
 
-            var configurations = EngineContext.Current.ResolveAll<IEntityTypeConfiguration>();
+            var configurations = EngineContext.Current.ResolveAll<IMantleEntityTypeConfiguration>();
 
-            foreach (var configuration in configurations)
+            foreach (dynamic configuration in configurations)
             {
-                configuration.Configure(modelBuilder);
+                modelBuilder.ApplyConfiguration(configuration);
             }
         }
     }

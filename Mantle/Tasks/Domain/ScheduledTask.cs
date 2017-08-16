@@ -2,6 +2,7 @@
 using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Tasks.Domain
 {
@@ -49,11 +50,11 @@ namespace Mantle.Tasks.Domain
 
         #endregion IEntity Members
     }
-    public class ScheduledTaskMap : IEntityTypeConfiguration
+
+    public class ScheduledTaskMap : IEntityTypeConfiguration<ScheduledTask>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<ScheduledTask> builder)
         {
-            var builder = modelBuilder.Entity<ScheduledTask>();
             builder.ToTable("Mantle_ScheduledTasks");
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

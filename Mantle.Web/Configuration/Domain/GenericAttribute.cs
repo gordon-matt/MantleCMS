@@ -1,6 +1,7 @@
 ﻿using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Configuration.Domain
 {
@@ -26,11 +27,10 @@ namespace Mantle.Web.Configuration.Domain
         #endregion IEntity Members
     }
 
-    public class GenericAttributeMap : IEntityTypeConfiguration
+    public class GenericAttributeMap : IEntityTypeConfiguration<GenericAttribute>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<GenericAttribute> builder)
         {
-            var builder = modelBuilder.Entity<GenericAttribute>();
             builder.ToTable("Mantle_GenericAttributes");
             builder.HasKey(m => m.Id);
             builder.Property(x => x.EntityType).IsRequired().HasMaxLength(512).IsUnicode(false);

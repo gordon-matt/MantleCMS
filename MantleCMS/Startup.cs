@@ -44,6 +44,7 @@ using Mantle.Web.Plugins;
 using Mantle.Web.Common.Areas.Admin.Regions;
 using Mantle.Data.Entity.EntityFramework;
 using System.IO;
+using Mantle.Web.Configuration;
 
 namespace MantleCMS
 {
@@ -188,6 +189,10 @@ namespace MantleCMS
             //===================================================================
             // FRAMEWORK CONFIG
             //===================================================================
+            var config = new MantleWebOptions();
+            Configuration.Bind(config);
+            services.AddSingleton(config);
+
             // Tell Mantle it is a website (not something like unit test or whatever)
             Mantle.Hosting.HostingEnvironment.IsHosted = true;
 
@@ -203,7 +208,8 @@ namespace MantleCMS
 
             ServiceProvider = provider;
 
-            PluginManager.Initialize(mvcBuilder.PartManager, HostingEnvironment);
+            var mantleWebOptions = provider.GetRequiredService<MantleWebOptions>();
+            PluginManager.Initialize(mvcBuilder.PartManager, HostingEnvironment, mantleWebOptions);
 
             //if (DataSettingsHelper.IsDatabaseInstalled && MantleConfigurationSection.Instance.ScheduledTasks.Enabled)
             //{

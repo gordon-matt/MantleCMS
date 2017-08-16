@@ -3,6 +3,7 @@ using Mantle.Data;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Web.Plugins;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Messaging.Forums.Data.Domain
 {
@@ -38,11 +39,10 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
         #endregion IEntity Members
     }
 
-    public class PrivateMessageMap : IEntityTypeConfiguration
+    public class PrivateMessageMap : IEntityTypeConfiguration<PrivateMessage>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<PrivateMessage> builder)
         {
-            var builder = modelBuilder.Entity<PrivateMessage>();
             builder.ToTable(Constants.Tables.PrivateMessages);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.FromUserId).IsRequired().HasMaxLength(128).IsUnicode(true);

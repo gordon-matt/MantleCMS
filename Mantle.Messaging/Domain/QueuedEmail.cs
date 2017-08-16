@@ -2,6 +2,7 @@
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MimeKit;
 
 namespace Mantle.Messaging.Domain
@@ -83,14 +84,13 @@ namespace Mantle.Messaging.Domain
             return message;
         }
 
-        #endregion
+        #endregion IMailMessage Members
     }
 
-    public class QueuedEmailMap : IEntityTypeConfiguration
+    public class QueuedEmailMap : IEntityTypeConfiguration<QueuedEmail>, IMantleEntityTypeConfiguration
     {
-        public void Configure(ModelBuilder modelBuilder)
+        public void Configure(EntityTypeBuilder<QueuedEmail> builder)
         {
-            var builder = modelBuilder.Entity<QueuedEmail>();
             builder.ToTable("Mantle_QueuedEmails");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Priority).IsRequired();
