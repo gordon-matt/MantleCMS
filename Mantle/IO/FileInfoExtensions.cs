@@ -1,10 +1,31 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 using System.IO.Compression;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using Mantle.Collections;
 
 namespace Mantle.IO
 {
     public static class FileInfoExtensions
     {
+        /// <summary>
+        /// Deserializes the Binary data contained in the specified file.
+        /// </summary>
+        /// <typeparam name="T">The type of System.Object to be deserialized.</typeparam>
+        /// <param name="fileInfo">This System.IO.FileInfo instance.</param>
+        /// <returns>The System.Object being deserialized.</returns>
+        public static T BinaryDeserialize<T>(this FileInfo fileInfo) where T : ISerializable
+        {
+            using (Stream stream = File.Open(fileInfo.FullName, FileMode.Open))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                T item = (T)binaryFormatter.Deserialize(stream);
+                stream.Close();
+                return item;
+            }
+        }
+
         /// <summary>
         /// Compresses the file using the Deflate algorithm and returns the name of the compressed file.
         /// </summary>
@@ -160,6 +181,73 @@ namespace Mantle.IO
                 }
             }
         }
+
+        //public static DataTable ReadCsv(this FileInfo fileInfo, bool hasHeaderRow, params string[] delimeters)
+        //{
+        //    if (delimeters.IsNullOrEmpty())
+        //    {
+        //        delimeters = new[] { "," };
+        //    }
+
+        //    using (var parser = new TextFieldParser(fileInfo.FullName))
+        //    {
+        //        parser.TextFieldType = FieldType.Delimited;
+        //        parser.SetDelimiters(delimeters);
+        //        parser.HasFieldsEnclosedInQuotes = false;
+
+        //        var table = new DataTable(Path.GetFileNameWithoutExtension(fileInfo.Name));
+
+        //        int lineNumber = 1;
+        //        while (!parser.EndOfData)
+        //        {
+        //            string[] fields;
+        //            try
+        //            {
+        //                fields = parser.ReadFields();
+        //            }
+        //            catch (MalformedLineException x)
+        //            {
+        //                var logger = LoggingUtilities.Resolve();
+        //                logger.Error("Error when reading CSV file: " + fileInfo.FullName, x);
+        //                continue;
+        //            }
+
+        //            if (lineNumber == 1)
+        //            {
+        //                if (hasHeaderRow)
+        //                {
+        //                    foreach (string field in fields)
+        //                    {
+        //                        table.Columns.Add(field);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    for (int i = 0; i < fields.Count(); i++)
+        //                    {
+        //                        table.Columns.Add("Column" + (i + 1));
+        //                    }
+        //                    table.Rows.Add(fields);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                var row = table.NewRow();
+        //                for (int i = 0; i < table.Columns.Count; i++)
+        //                {
+        //                    row[i] = fields[i];
+        //                }
+        //                table.Rows.Add(row);
+
+        //                //table.Rows.Add(fields); //  <-- this version breaks when accidenteally have extra comma at end of line
+        //            }
+
+        //            lineNumber++;
+        //        }
+
+        //        return table;
+        //    }
+        //}
 
         /// <summary>
         /// Deserializes the XML data contained in the specified file.

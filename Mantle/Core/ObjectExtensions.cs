@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -9,6 +13,55 @@ namespace Mantle
 {
     public static class ObjectExtensions
     {
+        /// <summary>
+        /// Serializes the specified System.Object and returns the data.
+        /// </summary>
+        /// <typeparam name="T">This item's type</typeparam>
+        /// <param name="item">This item</param>
+        /// <returns>Serialized data of specified System.Object as a Base64 encoded String</returns>
+        public static string Base64Serialize<T>(this T item)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(memoryStream, item);
+                var bytes = memoryStream.GetBuffer();
+                return string.Concat(bytes.Length, ":", Convert.ToBase64String(bytes, 0, bytes.Length, Base64FormattingOptions.None));
+            }
+        }
+
+        /// <summary>
+        /// Serializes the specified System.Object and returns the data.
+        /// </summary>
+        /// <typeparam name="T">This item's type</typeparam>
+        /// <param name="item">This item</param>
+        /// <returns>Serialized data of specified System.Object as System.Byte[]</returns>
+        public static byte[] BinarySerialize<T>(this T item)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(memoryStream, item);
+                return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Serializes the specified System.Object and writes the data to the specified file.
+        /// </summary>
+        /// <typeparam name="T">This item's type</typeparam>
+        /// <param name="item">This item</param>
+        /// <param name="fileName">The name of the file to save the serialized data to.</param>
+        public static void BinarySerialize<T>(this T item, string fileName)
+        {
+            using (Stream stream = File.Open(fileName, FileMode.Create))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(stream, item);
+                stream.Close();
+            }
+        }
+
         public static T ConvertTo<T>(this object source)
         {
             //return (T)Convert.ChangeType(source, typeof(T));
@@ -68,27 +121,6 @@ namespace Mantle
         {
             return EqualityComparer<T>.Default.Equals(item, other);
         }
-
-        //public static string SharpSerialize<T>(this T item)
-        //{
-        //    var sharpSettings = new SharpSerializerXmlSettings
-        //    {
-        //        IncludeAssemblyVersionInTypeName = false,
-        //        IncludeCultureInTypeName = false,
-        //        IncludePublicKeyTokenInTypeName = false
-        //    };
-
-        //    using (var stream = new MemoryStream())
-        //    {
-        //        new SharpSerializer(sharpSettings).Serialize(item, stream);
-        //        stream.Position = 0;
-
-        //        using (var reader = new StreamReader(stream))
-        //        {
-        //            return reader.ReadToEnd();
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// <para>Serializes the specified System.Object and writes the XML document</para>
@@ -175,5 +207,30 @@ namespace Mantle
                 }
             }
         }
+
+        #region Compute Hash
+
+        public static string ComputeMD5Hash(this object instance)
+        {
+            return ComputeHash(instance, new MD5CryptoServiceProvider());
+        }
+
+        public static string ComputeSHA1Hash(this object instance)
+        {
+            return ComputeHash(instance, new SHA1CryptoServiceProvider());
+        }
+
+        private static string ComputeHash<T>(object instance, T cryptoServiceProvider) where T : HashAlgorithm, new()
+        {
+            var serializer = new DataContractSerializer(instance.GetType());
+            using (var memoryStream = new MemoryStream())
+            {
+                serializer.WriteObject(memoryStream, instance);
+                cryptoServiceProvider.ComputeHash(memoryStream.ToArray());
+                return Convert.ToBase64String(cryptoServiceProvider.Hash);
+            }
+        }
+
+        #endregion Compute Hash
     }
 }

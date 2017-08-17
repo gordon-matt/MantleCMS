@@ -147,24 +147,14 @@ namespace Mantle
             return dt.AddDays(diff).Date;
         }
 
-        public static string ToShortDateString(this DateTime dateTime)
+        public static DateTime StartOfMonth(this DateTime source)
         {
-            return dateTime.ToString("d");
+            return new DateTime(source.Year, source.Month, 1, 0, 0, 0, source.Kind);
         }
 
-        public static string ToShortTimeString(this DateTime dateTime)
+        public static DateTime StartOfYear(this DateTime source)
         {
-            return dateTime.ToString("t");
-        }
-
-        public static string ToLongDateString(this DateTime dateTime)
-        {
-            return dateTime.ToString("D");
-        }
-
-        public static string ToLongTimeString(this DateTime dateTime)
-        {
-            return dateTime.ToString("T");
+            return new DateTime(source.Year, 1, 1, 0, 0, 0, source.Kind);
         }
     }
 }

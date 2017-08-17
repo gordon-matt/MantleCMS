@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using Mantle.Data.Common;
 using Npgsql;
 using NpgsqlTypes;
 
@@ -12,6 +13,11 @@ namespace Mantle.Data.PostgreSql
 {
     public static class NpgsqlConnectionExtensions
     {
+        public static int GetRowCount(this NpgsqlConnection connection, string schema, string tableName)
+        {
+            return (int)connection.ExecuteScalar<long>(string.Format(@"SELECT COUNT(*) FROM {0}.""{1}""", schema, tableName));
+        }
+
         public static IEnumerable<string> GetDatabaseNames(this NpgsqlConnection connection)
         {
             const string CMD_SELECT_DATABASE_NAMES = "SELECT datname FROM pg_database;";

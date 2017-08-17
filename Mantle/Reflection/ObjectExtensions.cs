@@ -293,34 +293,34 @@ namespace Mantle.Reflection
             return fieldInfo.GetValue(item);
         }
 
-        ///// <summary>
-        ///// <para>Sets the value for the specified private Property on the specified Object.</para>
-        ///// <para>Throws an ArgumentOutOfRangeException if the Property is not found.</para>
-        ///// </summary>
-        ///// <typeparam name="T">The type of System.Object.</typeparam>
-        ///// <typeparam name="TValue"></typeparam>
-        ///// <param name="item">The System.Object.</param>
-        ///// <param name="propertyName">The name of the property to set the value for.</param>
-        ///// <param name="value">The value to set for the specified property on the specified System.Object.</param>
-        //public static void SetPrivatePropertyValue<T, TValue>(this T item, string propertyName, TValue value)
-        //{
-        //    Type type = typeof(T);
-        //    var typeInfo = type.GetTypeInfo();
+        /// <summary>
+        /// <para>Sets the value for the specified private Property on the specified Object.</para>
+        /// <para>Throws an ArgumentOutOfRangeException if the Property is not found.</para>
+        /// </summary>
+        /// <typeparam name="T">The type of System.Object.</typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="item">The System.Object.</param>
+        /// <param name="propertyName">The name of the property to set the value for.</param>
+        /// <param name="value">The value to set for the specified property on the specified System.Object.</param>
+        public static void SetPrivatePropertyValue<T, TValue>(this T item, string propertyName, TValue value)
+        {
+            Type type = typeof(T);
+            var typeInfo = type.GetTypeInfo();
 
-        //    if (typeInfo.GetProperty(
-        //        propertyName,
-        //        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) == null)
-        //    {
-        //        throw new ArgumentOutOfRangeException(
-        //            "propertyName",
-        //            string.Format("Property {0} was not found in Type {1}", propertyName, typeof(T).FullName));
-        //    }
-        //    type.InvokeMember(
-        //        propertyName,
-        //        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
-        //        null, item,
-        //        new object[] { value });
-        //}
+            if (typeInfo.GetProperty(
+                propertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) == null)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "propertyName",
+                    string.Format("Property {0} was not found in Type {1}", propertyName, typeof(T).FullName));
+            }
+            type.InvokeMember(
+                propertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
+                null, item,
+                new object[] { value });
+        }
 
         /// <summary>
         /// <para>Sets the value for the specified private Field on the specified Object.</para>

@@ -54,7 +54,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +73,7 @@
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Options\" />
     <Folder Include="Services\" />
     <Folder Include="App_Data\" />
   </ItemGroup>

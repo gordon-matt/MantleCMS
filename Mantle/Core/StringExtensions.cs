@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
@@ -106,27 +107,51 @@ namespace Mantle
         }
 
         //[Obsolete("Use StringExtensions.Base64Deserialize<T> instead")]
-        public static string Base64Decode(this string encodedData)
-        {
-            if (string.IsNullOrEmpty(encodedData))
-            {
-                return encodedData;
-            }
+        //public static string Base64Decode(this string encodedData)
+        //{
+        //    if (string.IsNullOrEmpty(encodedData))
+        //    {
+        //        return encodedData;
+        //    }
 
-            byte[] bytes = Convert.FromBase64String(encodedData);
-            return Encoding.UTF8.GetString(bytes);
+        //    byte[] bytes = Convert.FromBase64String(encodedData);
+        //    return Encoding.UTF8.GetString(bytes);
+        //}
+
+        public static T Base64Deserialize<T>(this string s)
+        {
+            // We need to know the exact length of the string - Base64 can sometimes pad us by a byte or two
+            int lengthDelimiterPosition = s.IndexOf(':');
+
+            if (lengthDelimiterPosition == -1)
+            {
+                var bytes = Convert.FromBase64String(s);
+                return bytes.BinaryDeserialize<T>();
+            }
+            else
+            {
+                int length = int.Parse(s.Substring(0, lengthDelimiterPosition));
+
+                var bytes = Convert.FromBase64String(s.Substring(lengthDelimiterPosition + 1));
+                using (var memoryStream = new MemoryStream(bytes, 0, length))
+                {
+                    var binaryFormatter = new BinaryFormatter();
+                    return (T)binaryFormatter.Deserialize(memoryStream);
+                }
+            }
         }
 
-        public static string Base64Encode(this string plainText)
-        {
-            if (string.IsNullOrEmpty(plainText))
-            {
-                return plainText;
-            }
+        //[Obsolete("Use ObjectExtensions.Base64Serialize<T> instead")]
+        //public static string Base64Encode(this string plainText)
+        //{
+        //    if (string.IsNullOrEmpty(plainText))
+        //    {
+        //        return plainText;
+        //    }
 
-            byte[] bytes = Encoding.UTF8.GetBytes(plainText);
-            return Convert.ToBase64String(bytes);
-        }
+        //    byte[] bytes = Encoding.UTF8.GetBytes(plainText);
+        //    return Convert.ToBase64String(bytes);
+        //}
 
         //public static T Base64Deserialize<T>(this string s)
         //{
@@ -578,9 +603,9 @@ namespace Mantle
             return ret;
         }
 
-        public static Nullable<T> ParseNullable<T>(this string s) where T : struct
+        public static T? ParseNullable<T>(this string s) where T : struct
         {
-            var result = new Nullable<T>();
+            var result = new T?();
             try
             {
                 if (!string.IsNullOrWhiteSpace(s))
@@ -855,29 +880,6 @@ namespace Mantle
             return ret;
         }
 
-        //public static T SharpDeserialize<T>(this string s)
-        //{
-        //    if (string.IsNullOrEmpty(s))
-        //    {
-        //        return default(T);
-        //    }
-
-        //    var settings = new SharpSerializerXmlSettings
-        //    {
-        //        IncludeAssemblyVersionInTypeName = false,
-        //        IncludeCultureInTypeName = false,
-        //        IncludePublicKeyTokenInTypeName = false
-        //    };
-
-        //    var sharpSerializer = new SharpSerializer(settings);
-
-        //    var byteArray = Encoding.UTF8.GetBytes(s);
-        //    using (var stream = new MemoryStream(byteArray))
-        //    {
-        //        return (T)sharpSerializer.Deserialize(stream);
-        //    }
-        //}
-
         /// <summary>
         /// <para>Give Pascal Text and will return separate words. For example:</para>
         /// <para>MyPascalText will become "My Pascal Text"</para>
@@ -1003,28 +1005,19 @@ namespace Mantle
         /// <returns>The specified string converted to Title Case.</returns>
         public static string ToTitleCase(this string s)
         {
-            var tokens = s.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                var token = tokens[i];
-                tokens[i] = token.Substring(0, 1).ToUpper() + token.Substring(1);
-            }
-
-            return string.Join(" ", tokens);
-
-            //return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(s);
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(s);
         }
 
-        ///// <summary>
-        ///// Converts the specified string to Title Case.
-        ///// </summary>
-        ///// <param name="s">The string to convert.</param>
-        ///// <param name="cultureInfo">The System.Globalization.CultureInfo to use for converting to Title Case.</param>
-        ///// <returns>The specified string converted to Title Case.</returns>
-        //public static string ToTitleCase(this string s, CultureInfo cultureInfo)
-        //{
-        //    return cultureInfo.TextInfo.ToTitleCase(s);
-        //}
+        /// <summary>
+        /// Converts the specified string to Title Case.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="cultureInfo">The System.Globalization.CultureInfo to use for converting to Title Case.</param>
+        /// <returns>The specified string converted to Title Case.</returns>
+        public static string ToTitleCase(this string s, CultureInfo cultureInfo)
+        {
+            return cultureInfo.TextInfo.ToTitleCase(s);
+        }
 
         /// <summary>
         /// Converts a string that has been encoded for transmission in a URL into a decoded string.
@@ -1071,15 +1064,14 @@ namespace Mantle
 
             var locker = new object();
             var stringReader = new StringReader(s);
-            //var reader = new XmlTextReader(stringReader);
-            var reader = XmlReader.Create(stringReader);
+            var reader = new XmlTextReader(stringReader);
             try
             {
                 var xmlSerializer = new XmlSerializer(typeof(T));
                 lock (locker)
                 {
                     var item = (T)xmlSerializer.Deserialize(reader);
-                    //reader.Close();
+                    reader.Close();
                     return item;
                 }
             }
@@ -1087,10 +1079,10 @@ namespace Mantle
             {
                 return default(T);
             }
-            //finally
-            //{
-            //    reader.Close();
-            //}
+            finally
+            {
+                reader.Close();
+            }
         }
 
         /// <summary>
@@ -1108,15 +1100,14 @@ namespace Mantle
 
             var locker = new object();
             var stringReader = new StringReader(s);
-            //var reader = new XmlTextReader(stringReader);
-            var reader = XmlReader.Create(stringReader);
+            var reader = new XmlTextReader(stringReader);
             try
             {
                 var xmlSerializer = new XmlSerializer(type);
                 lock (locker)
                 {
                     var item = xmlSerializer.Deserialize(reader);
-                    //reader.Close();
+                    reader.Close();
                     return item;
                 }
             }
@@ -1124,10 +1115,10 @@ namespace Mantle
             {
                 return null;
             }
-            //finally
-            //{
-            //    reader.Close();
-            //}
+            finally
+            {
+                reader.Close();
+            }
         }
 
         public static string SafeTrim(this string s, params char[] trimChars)
@@ -1147,9 +1138,9 @@ namespace Mantle
 
             using (var memoryStream = new MemoryStream())
             {
-                using (var gZipStream = new DeflateStream(memoryStream, CompressionMode.Compress, true))
+                using (var deflateStream = new DeflateStream(memoryStream, CompressionMode.Compress, true))
                 {
-                    gZipStream.Write(bytes, 0, bytes.Length);
+                    deflateStream.Write(bytes, 0, bytes.Length);
                 }
                 memoryStream.Position = 0;
                 var compressed = new byte[memoryStream.Length];
@@ -1163,16 +1154,16 @@ namespace Mantle
 
         public static string DeflateDecompress(this string compressedText)
         {
-            var gZipBuffer = Convert.FromBase64String(compressedText);
+            var compressedBuffer = Convert.FromBase64String(compressedText);
             using (var memoryStream = new MemoryStream())
             {
-                int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
-                memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
+                int dataLength = BitConverter.ToInt32(compressedBuffer, 0);
+                memoryStream.Write(compressedBuffer, 4, compressedBuffer.Length - 4);
                 var buffer = new byte[dataLength];
                 memoryStream.Position = 0;
-                using (var gZipStream = new DeflateStream(memoryStream, CompressionMode.Decompress))
+                using (var deflateStream = new DeflateStream(memoryStream, CompressionMode.Decompress))
                 {
-                    gZipStream.Read(buffer, 0, buffer.Length);
+                    deflateStream.Read(buffer, 0, buffer.Length);
                 }
                 return Encoding.UTF8.GetString(buffer);
             }
@@ -1429,5 +1420,94 @@ namespace Mantle
         }
 
         #endregion From: WebMatrix.WebData
+
+        //#region Pluralization
+
+        //private static IDictionary<string, PluralizationService> pluralizationServices;
+
+        ///// <summary>
+        ///// Determines whether the specified word is plural.
+        ///// </summary>
+        ///// <param name="word">The value to be analyzed.</param>
+        ///// <returns>true if the word is plural; otherwise, false.</returns>
+        //public static bool IsPlural(this string word, string cultureCode = "en")
+        //{
+        //    var pluralizationService = GetPluralizationService(cultureCode);
+        //    return pluralizationService.IsPlural(word);
+        //}
+
+        ///// <summary>
+        ///// Determines whether the specified word is singular.
+        ///// </summary>
+        ///// <param name="word">The value to be analyzed.</param>
+        ///// <returns>true if the word is singular; otherwise, false.</returns>
+        //public static bool IsSingular(this string word, string cultureCode = "en")
+        //{
+        //    var pluralizationService = GetPluralizationService(cultureCode);
+        //    return pluralizationService.IsSingular(word);
+        //}
+
+        ///// <summary>
+        ///// Returns the plural form of the specified word.
+        ///// </summary>
+        ///// <param name="word">The word to be made plural.</param>
+        ///// <returns>The plural form of the input parameter.</returns>
+        //public static string Pluralize(this string word, string cultureCode = "en")
+        //{
+        //    if (string.IsNullOrWhiteSpace(word))
+        //    {
+        //        return word;
+        //    }
+
+        //    if (word.IsSingular())
+        //    {
+        //        var pluralizationService = GetPluralizationService(cultureCode);
+        //        return pluralizationService.Pluralize(word);
+        //    }
+        //    return word;
+        //}
+
+        ///// <summary>
+        ///// Returns the singular form of the specified word.
+        ///// </summary>
+        ///// <param name="word">The word to be made singular.</param>
+        ///// <returns>The singular form of the input parameter.</returns>
+        //public static string Singularize(this string word, string cultureCode = "en")
+        //{
+        //    if (string.IsNullOrWhiteSpace(word))
+        //    {
+        //        return word;
+        //    }
+        //    if (word.IsPlural())
+        //    {
+        //        var pluralizationService = GetPluralizationService(cultureCode);
+        //        return pluralizationService.Singularize(word);
+        //    }
+        //    return word;
+        //}
+
+        //private static PluralizationService GetPluralizationService(string cultureCode)
+        //{
+        //    if (pluralizationServices == null)
+        //    {
+        //        pluralizationServices = new Dictionary<string, PluralizationService>();
+        //    }
+
+        //    if (string.IsNullOrEmpty(cultureCode))
+        //    {
+        //        cultureCode = "en";
+        //    }
+
+        //    if (!pluralizationServices.ContainsKey(cultureCode))
+        //    {
+        //        var pluralizationService = PluralizationService.CreateService(new CultureInfo(cultureCode));
+        //        pluralizationServices.Add(cultureCode, pluralizationService);
+        //        return pluralizationService;
+        //    }
+
+        //    return pluralizationServices[cultureCode];
+        //}
+
+        //#endregion Pluralization
     }
 }

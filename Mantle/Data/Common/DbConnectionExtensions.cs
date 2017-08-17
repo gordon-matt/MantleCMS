@@ -5,7 +5,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Mantle.Collections;
+using Mantle.Reflection;
 
 namespace Mantle.Data.Common
 {
@@ -13,30 +15,14 @@ namespace Mantle.Data.Common
     {
         public static DbParameter CreateParameter(this DbConnection connection, string parameterName, object value)
         {
-            if (connection is SqlConnection)
-            {
-                return new SqlParameter(parameterName, value);
-            }
-            //if (connection is OleDbConnection)
-            //{
-            //    return new OleDbParameter(parameterName, value);
-            //}
-            //if (connection is OdbcConnection)
-            //{
-            //    return new OdbcParameter(parameterName, value);
-            //}
-            return null;
+            var param = GetDbProviderFactory(connection).CreateParameter();
+            param.ParameterName = parameterName;
+            param.Value = value;
+            return param;
         }
 
         public static int ExecuteScalar(this DbConnection connection, string queryText)
         {
-            return connection.ExecuteScalar<int>(queryText);
-        }
-
-        public static T ExecuteScalar<T>(this DbConnection connection, string queryText)
-        {
-            T result;
-
             bool alreadyOpen = (connection.State != ConnectionState.Closed);
 
             if (!alreadyOpen)
@@ -44,68 +30,83 @@ namespace Mantle.Data.Common
                 connection.Open();
             }
 
-            using (DbCommand command = connection.CreateCommand())
+            return connection.ExecuteScalar<int>(queryText);
+        }
+
+        public static T ExecuteScalar<T>(this DbConnection connection, string queryText)
+        {
+            bool alreadyOpen = (connection.State != ConnectionState.Closed);
+
+            if (!alreadyOpen)
+            {
+                connection.Open();
+            }
+
+            using (var command = connection.CreateCommand())
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = queryText;
                 command.CommandTimeout = 300;
-
-                result = (T)command.ExecuteScalar();
+                return (T)command.ExecuteScalar();
             }
-
-            if (!alreadyOpen)
-            {
-                connection.Close();
-            }
-
-            return result;
         }
 
-        //public static DbProviderFactory GetDbProviderFactory(this DbConnection connection)
-        //{
-        //    return DbProviderFactories.GetFactory(connection);
-        //}
+        public static DbProviderFactory GetDbProviderFactory(this DbConnection connection)
+        {
+            if (connection is SqlConnection)
+            {
+                return SqlClientFactory.Instance;
+            }
 
-        //public static DataSet ExecuteStoredProcedure(this DbConnection connection, string storedProcedure, IEnumerable<DbParameter> parameters)
-        //{
-        //    Dictionary<string, object> outputValues;
-        //    return connection.ExecuteStoredProcedure(storedProcedure, parameters, out outputValues);
-        //}
+            // Only use reflection as last option
+            // NOTE: Not sure if this still works with .NET Core, as it did with the old .NET Framework
+            return (DbProviderFactory)connection.GetPrivatePropertyValue("DbProviderFactory");
 
-        //public static DataSet ExecuteStoredProcedure(this DbConnection connection, string storedProcedure, IEnumerable<DbParameter> parameters, out Dictionary<string, object> outputValues)
-        //{
-        //    using (DbCommand command = connection.CreateCommand())
-        //    {
-        //        command.CommandType = CommandType.StoredProcedure;
-        //        command.CommandText = storedProcedure;
-        //        parameters.ForEach(p => command.Parameters.Add(p));
-        //        command.Parameters.EnsureDbNulls();
-        //        DataSet dataSet = new DataSet();
+            // This would be best, but currently it has not been implemented for .NET Core.
+            //  For more info, see: https://github.com/dotnet/corefx/issues/20903
+            //return DbProviderFactories.GetFactory(connection);
+        }
 
-        //        var factory = connection.GetDbProviderFactory();
-        //        using (DbDataAdapter adapter = factory.CreateDataAdapter())
-        //        {
-        //            adapter.SelectCommand = command;
-        //            adapter.Fill(dataSet);
-        //        }
+        public static DataSet ExecuteStoredProcedure(this DbConnection connection, string storedProcedure, IEnumerable<DbParameter> parameters)
+        {
+            Dictionary<string, object> outputValues;
+            return connection.ExecuteStoredProcedure(storedProcedure, parameters, out outputValues);
+        }
 
-        //        outputValues = new Dictionary<string, object>();
+        public static DataSet ExecuteStoredProcedure(this DbConnection connection, string storedProcedure, IEnumerable<DbParameter> parameters, out Dictionary<string, object> outputValues)
+        {
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = storedProcedure;
+                parameters.ForEach(p => command.Parameters.Add(p));
+                command.Parameters.EnsureDbNulls();
+                var dataSet = new DataSet();
 
-        //        foreach (DbParameter param in command.Parameters)
-        //        {
-        //            if (param.Direction == ParameterDirection.Output)
-        //            {
-        //                outputValues.Add(param.ParameterName, param.Value);
-        //            }
-        //        }
+                var factory = connection.GetDbProviderFactory();
+                using (var adapter = factory.CreateDataAdapter())
+                {
+                    adapter.SelectCommand = command;
+                    adapter.Fill(dataSet);
+                }
 
-        //        return dataSet;
-        //    }
-        //}
+                outputValues = new Dictionary<string, object>();
+
+                foreach (DbParameter param in command.Parameters)
+                {
+                    if (param.Direction == ParameterDirection.Output)
+                    {
+                        outputValues.Add(param.ParameterName, param.Value);
+                    }
+                }
+
+                return dataSet;
+            }
+        }
 
         public static int ExecuteNonQueryStoredProcedure(this DbConnection connection, string storedProcedure, IEnumerable<DbParameter> parameters)
         {
-            using (DbCommand command = connection.CreateCommand())
+            using (var command = connection.CreateCommand())
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandText = storedProcedure;
@@ -141,7 +142,7 @@ namespace Mantle.Data.Common
         /// <returns>Number of rows affected.</returns>
         public static int Insert<T>(this DbConnection connection, T entity, string tableName)
         {
-            Dictionary<string, string> mappings = typeof(T).GetTypeInfo().GetProperties()
+            var mappings = typeof(T).GetTypeInfo().GetProperties()
                 .ToDictionary(k => k.Name, v => v.Name);
 
             return connection.Insert(entity, tableName, mappings);
@@ -166,9 +167,9 @@ namespace Mantle.Data.Common
             string fieldNames = mappings.Values.Join(",");
             string parameterNames = fieldNames.Replace(",", ",@").Prepend("@");
 
-            PropertyInfo[] properties = typeof(T).GetTypeInfo().GetProperties();
+            var properties = typeof(T).GetTypeInfo().GetProperties();
 
-            using (DbCommand command = connection.CreateCommand())
+            using (var command = connection.CreateCommand())
             {
                 string commandText = string.Format(INSERT_INTO_FORMAT, tableName, fieldNames, parameterNames);
                 command.CommandType = CommandType.Text;
@@ -176,9 +177,9 @@ namespace Mantle.Data.Common
 
                 mappings.ForEach(mapping =>
                 {
-                    DbParameter parameter = command.CreateParameter();
+                    var parameter = command.CreateParameter();
                     parameter.ParameterName = string.Concat("@", mapping.Value);
-                    PropertyInfo property = properties.Single(p => p.Name == mapping.Key);
+                    var property = properties.Single(p => p.Name == mapping.Key);
                     parameter.DbType = DataTypeConvertor.GetDbType(property.GetType());
                     parameter.Value = GetFormattedValue(property.PropertyType, property.GetValue(entity, null));
                     command.Parameters.Add(parameter);
@@ -212,7 +213,7 @@ namespace Mantle.Data.Common
         /// <param name="tableName">The table to insert the entities into.</param>
         public static void InsertCollection<T>(this DbConnection connection, IEnumerable<T> entities, string tableName)
         {
-            Dictionary<string, string> mappings = typeof(T).GetTypeInfo().GetProperties()
+            var mappings = typeof(T).GetTypeInfo().GetProperties()
                 .ToDictionary(k => k.Name, v => v.Name);
 
             connection.InsertCollection(entities, tableName, mappings);
@@ -277,57 +278,116 @@ namespace Mantle.Data.Common
             }
         }
 
-        ///// <summary>
-        ///// Tries to establish a connection.
-        ///// </summary>
-        ///// <param name="connection">The DbConnection</param>
-        ///// <returns>True if successful. Otherwise, false</returns>
-        //public static bool Validate(this DbConnection connection)
-        //{
-        //    return connection.Validate(5);
-        //}
+        public static void InsertDataTable(
+            this DbConnection connection,
+            DataTable table,
+            string tableName,
+            IDictionary<string, string> mappings,
+            Func<string, string> encloseIdentifier)
+        {
+            string fieldNames = mappings.Values.Select(x => encloseIdentifier(x)).Join(",");
+            string parameterNames = mappings.Values.Join(",").Replace(",", ",@").Prepend("@");
 
-        ///// <summary>
-        ///// Tries to establish a connection.
-        ///// </summary>
-        ///// <param name="connection">The DbConnection</param>
-        ///// <param name="maxTries">The number of times to try connecting.</param>
-        ///// <returns>True if successful. Otherwise, false</returns>
-        //public static bool Validate(this DbConnection connection, byte maxTries)
-        //{
-        //    try
-        //    {
-        //        bool alreadyOpen = (connection.State != ConnectionState.Closed);
+            var columns = table.Columns.OfType<DataColumn>().Select(x => new { x.ColumnName, x.DataType });
 
-        //        if (!alreadyOpen)
-        //        {
-        //            connection.Open();
-        //        }
+            const string INSERT_INTO_FORMAT = "INSERT INTO {0}({1}) VALUES({2})";
+            using (var command = connection.CreateCommand())
+            {
+                string commandText = string.Format(
+                    INSERT_INTO_FORMAT,
+                    tableName,
+                    fieldNames,
+                    parameterNames);
 
-        //        byte numberOfTries = 1;
-        //        while (connection.State == ConnectionState.Connecting && numberOfTries <= maxTries)
-        //        {
-        //            Thread.Sleep(100);
-        //            numberOfTries++;
-        //        }
-        //        bool valid = connection.State == ConnectionState.Open;
+                command.CommandType = CommandType.Text;
+                command.CommandText = commandText;
 
-        //        if (!alreadyOpen)
-        //        {
-        //            connection.Close();
-        //        }
+                mappings.ForEach(mapping =>
+                {
+                    var parameter = command.CreateParameter();
+                    parameter.ParameterName = string.Concat("@", mapping.Value);
+                    var column = columns.Single(x => x.ColumnName == mapping.Key);
+                    parameter.DbType = DataTypeConvertor.GetDbType(column.DataType);
+                    command.Parameters.Add(parameter);
+                });
 
-        //        return valid;
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        return false;
-        //    }
-        //    catch (DbException)
-        //    {
-        //        return false;
-        //    }
-        //}
+                bool alreadyOpen = (connection.State != ConnectionState.Closed);
+
+                if (!alreadyOpen)
+                {
+                    connection.Open();
+                }
+
+                foreach (DataRow row in table.Rows)
+                {
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        command.Parameters["@" + column.ColumnName].Value = row[column];
+
+                        //command.Parameters["@" + column.ColumnName].Value =
+                        //    GetFormattedValue(column.DataType, row[column]);
+                    }
+                    command.ExecuteNonQuery();
+                }
+
+                //if (!alreadyOpen)
+                //{
+                //    connection.Close();
+                //}
+            }
+        }
+
+        /// <summary>
+        /// Tries to establish a connection.
+        /// </summary>
+        /// <param name="connection">The DbConnection</param>
+        /// <returns>True if successful. Otherwise, false</returns>
+        public static bool Validate(this DbConnection connection)
+        {
+            return connection.Validate(5);
+        }
+
+        /// <summary>
+        /// Tries to establish a connection.
+        /// </summary>
+        /// <param name="connection">The DbConnection</param>
+        /// <param name="maxTries">The number of times to try connecting.</param>
+        /// <returns>True if successful. Otherwise, false</returns>
+        public static bool Validate(this DbConnection connection, byte maxTries)
+        {
+            try
+            {
+                bool alreadyOpen = (connection.State != ConnectionState.Closed);
+
+                if (!alreadyOpen)
+                {
+                    connection.Open();
+                }
+
+                byte numberOfTries = 1;
+                while (connection.State == ConnectionState.Connecting && numberOfTries <= maxTries)
+                {
+                    Thread.Sleep(100);
+                    numberOfTries++;
+                }
+                bool valid = connection.State == ConnectionState.Open;
+
+                if (!alreadyOpen)
+                {
+                    connection.Close();
+                }
+
+                return valid;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            catch (DbException)
+            {
+                return false;
+            }
+        }
 
         private static string GetFormattedValue(Type type, object value)
         {

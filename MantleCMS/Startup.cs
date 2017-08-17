@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
-using MantleCMS.Data;
-using MantleCMS.Data.Domain;
-using MantleCMS.Identity;
-using MantleCMS.Options;
-using MantleCMS.Services;
 using Mantle.Collections;
+using Mantle.Data.Entity.EntityFramework;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tasks;
 using Mantle.Tenants.Domain;
 using Mantle.Web;
+using Mantle.Web.Common.Areas.Admin.Regions;
+using Mantle.Web.Configuration;
 using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
+using Mantle.Web.Plugins;
 using Mantle.Web.Tenants;
+using MantleCMS.Data;
+using MantleCMS.Data.Domain;
+using MantleCMS.Identity;
+using MantleCMS.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -40,11 +43,6 @@ using NLog.Extensions.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
-using Mantle.Web.Plugins;
-using Mantle.Web.Common.Areas.Admin.Regions;
-using Mantle.Data.Entity.EntityFramework;
-using System.IO;
-using Mantle.Web.Configuration;
 
 namespace MantleCMS
 {
@@ -119,13 +117,15 @@ namespace MantleCMS
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddSingleton((p) => p.GetRequiredService<IOptions<SiteOptions>>().Value);
 
             services
                 .AddMemoryCache()
                 .AddDistributedMemoryCache();
 
-            services.AddCors(ConfigureCors);
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
 
             services.AddRouting((p) =>
             {
@@ -140,6 +140,7 @@ namespace MantleCMS
             var mvcBuilder = services.AddMvc(ConfigureMvc)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
+            //TODO: Make some interface and resolve all of them here to register
             EmbeddedFileProviders = new List<EmbeddedFileProvider>
             {
                 new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
@@ -269,6 +270,8 @@ namespace MantleCMS
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseCors("AllowAll");
+
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
 
@@ -361,34 +364,6 @@ namespace MantleCMS
             options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
 
             return options.SerializerSettings;
-        }
-
-        /// <summary>
-        /// Configures CORS.
-        /// </summary>
-        /// <param name="corsOptions">The <see cref="CorsOptions"/> to configure.</param>
-        private void ConfigureCors(CorsOptions corsOptions)
-        {
-            var siteOptions = ServiceProvider.GetService<SiteOptions>();
-
-            corsOptions.AddPolicy(
-                DefaultCorsPolicyName,
-                (builder) =>
-                {
-                    builder
-                        .WithExposedHeaders(siteOptions.Api.Cors.ExposedHeaders)
-                        .WithHeaders(siteOptions.Api.Cors.Headers)
-                        .WithMethods(siteOptions.Api.Cors.Methods);
-
-                    if (HostingEnvironment.IsDevelopment())
-                    {
-                        builder.AllowAnyOrigin();
-                    }
-                    else
-                    {
-                        builder.WithOrigins(siteOptions.Api.Cors.Origins);
-                    }
-                });
         }
 
         /// <summary>

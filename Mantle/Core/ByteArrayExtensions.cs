@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 //using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -9,6 +10,24 @@ namespace Mantle
 {
     public static class ByteArrayExtensions
     {
+        /// <summary>
+        /// Deserializes the Binary data contained in the specified System.Byte[].
+        /// </summary>
+        /// <typeparam name="T">The type of System.Object to be deserialized.</typeparam>
+        /// <param name="data">This System.Byte[] instance.</param>
+        /// <returns>The System.Object being deserialized.</returns>
+        public static T BinaryDeserialize<T>(this byte[] data)
+        {
+            using (var stream = new MemoryStream(data))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                stream.Seek(0, SeekOrigin.Begin);
+                var item = (T)binaryFormatter.Deserialize(stream);
+                stream.Close();
+                return item;
+            }
+        }
+
         public static MemoryStream ToStream(this byte[] bytes)
         {
             return new MemoryStream(bytes);

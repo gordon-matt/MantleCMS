@@ -7,22 +7,17 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mantle.Caching
 {
     /// <summary>
-    /// Represents a MemoryCacheCache
+    /// Represents a MemoryCache
     /// </summary>
-    public partial class MemoryCacheManager : ICacheManager
+    public class MemoryCacheManager : ICacheManager
     {
+        private IMemoryCache cache;
         private readonly HashSet<string> keys;
-        private readonly IServiceProvider serviceProvider;
 
         public MemoryCacheManager(IServiceProvider serviceProvider)
         {
-            this.keys = new HashSet<string>();
-            this.serviceProvider = serviceProvider;
-        }
-
-        protected IMemoryCache Cache
-        {
-            get { return serviceProvider.GetService<IMemoryCache>(); }
+            keys = new HashSet<string>();
+            cache = serviceProvider.GetService<IMemoryCache>();
         }
 
         /// <summary>
@@ -33,7 +28,7 @@ namespace Mantle.Caching
         /// <returns>The value associated with the specified key.</returns>
         public virtual T Get<T>(string key)
         {
-            return Cache.Get<T>(key);
+            return cache.Get<T>(key);
         }
 
         /// <summary>
@@ -52,9 +47,9 @@ namespace Mantle.Caching
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromMinutes(cacheTimeInMinutes));
 
-            Cache.Set(key, data, cacheEntryOptions);
+            cache.Set(key, data, cacheEntryOptions);
 
-            if (!keys.Contains(key))
+            if (!IsSet(key))
             {
                 keys.Add(key);
             }
@@ -67,10 +62,22 @@ namespace Mantle.Caching
         /// <returns>Result</returns>
         public virtual bool IsSet(string key)
         {
-            return keys.Contains(key);
+            // It might be set in "keys", but expired (set to null) in the actual cache!
+            //  So we need to ALWAYS check actual cache!
+            object cacheEntry = null;
+            cache.TryGetValue(key, out cacheEntry);
 
-            //object cacheEntry;
-            //return Cache.TryGetValue(key, out cacheEntry);
+            bool isSet = (cacheEntry != null);
+
+            if (!isSet)
+            {
+                if (keys.Contains(key))
+                {
+                    keys.Remove(key);
+                }
+            }
+
+            return isSet;
         }
 
         /// <summary>
@@ -79,9 +86,9 @@ namespace Mantle.Caching
         /// <param name="key">/key</param>
         public virtual void Remove(string key)
         {
-            Cache.Remove(key);
+            cache.Remove(key);
 
-            if (keys.Contains(key))
+            if (IsSet(key))
             {
                 keys.Remove(key);
             }

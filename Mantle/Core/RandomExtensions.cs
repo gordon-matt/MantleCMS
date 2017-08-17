@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+
 //using System.Drawing;
 using System.Linq;
 
@@ -15,6 +17,27 @@ namespace Mantle
         public static bool NextBoolean(this Random random)
         {
             return random.Next(byte.MinValue, byte.MaxValue) > (byte.MaxValue / 2);
+        }
+
+        //TODO: These can probably be moved to a Kore.Drawing namespace in future if needed
+        /// <summary>
+        /// Returns a random System.Drawing.Color.
+        /// </summary>
+        /// <param name="random">This instance of System.Random.</param>
+        /// <returns>System.Drawing.Color</returns>
+        public static Color NextColor(this Random random)
+        {
+            return Color.FromArgb(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
+        }
+
+        /// <summary>
+        /// Returns a random System.Drawing.Color.
+        /// </summary>
+        /// <param name="random">This instance of System.Random.</param>
+        /// <returns>System.Drawing.Color</returns>
+        public static Color NextColorWithAlpha(this Random random)
+        {
+            return Color.FromArgb(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
         }
 
         /// <summary>

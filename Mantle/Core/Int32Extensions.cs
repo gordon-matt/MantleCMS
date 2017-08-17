@@ -2,6 +2,11 @@
 {
     public static class Int32Extensions
     {
+        public static bool Between(this int value, int lower, int higher)
+        {
+            return value > lower && value < higher;
+        }
+
         /// <summary>
         /// Indicates whether this System.Int32 is a multiple of the specified System.Int32.
         /// </summary>

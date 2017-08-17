@@ -28,9 +28,5 @@ namespace Mantle.Infrastructure
         IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies);
 
         IEnumerable<Assembly> FindAssembliesWithAttribute<T>(DirectoryInfo assemblyPath);
-
-        Assembly LoadFromAssemblyPath(string assemblyPath);
-
-        Assembly LoadFromAssemblyName(AssemblyName assemblyName);
     }
 }

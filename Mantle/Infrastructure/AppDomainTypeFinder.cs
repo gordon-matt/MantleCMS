@@ -4,11 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Loader;
 using System.Text.RegularExpressions;
-using Mantle.Reflection;
-using Microsoft.DotNet.PlatformAbstractions;
-using Microsoft.Extensions.DependencyModel;
 
 namespace Mantle.Infrastructure
 {
@@ -20,68 +16,86 @@ namespace Mantle.Infrastructure
     /// </summary>
     public class AppDomainTypeFinder : ITypeFinder
     {
+        #region Fields
+
         private bool ignoreReflectionErrors = true;
+        private bool loadAppDomainAssemblies = true;
+        private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha";
+        private string assemblyRestrictToLoadingPattern = ".*";
+        private IList<string> assemblyNames = new List<string>();
 
         /// <summary>
         /// Caches attributed assembly information so they don't have to be re-read
         /// </summary>
-        private readonly List<AttributedAssembly> _attributedAssemblies;
+        private readonly List<AttributedAssembly> _attributedAssemblies = new List<AttributedAssembly>();
 
         /// <summary>
         /// Caches the assembly attributes that have been searched for
         /// </summary>
-        private readonly List<Type> assemblyAttributesSearched = new List<Type>();
+        private readonly List<Type> _assemblyAttributesSearched = new List<Type>();
 
-        private readonly AssemblyLoadContext assemblyLoader;
+        #endregion Fields
+
+        #region Ctor
 
         /// <summary>Creates a new instance of the AppDomainTypeFinder.</summary>
         public AppDomainTypeFinder()
         {
-            //assemblyLoader = new AssemblyLoader();
-            assemblyLoader = AssemblyLoadContext.Default;
-            LoadAppDomainAssemblies = true;
-            AssemblyNames = new List<string>();
-
-            // TODO: Review this (assemblySkipLoadingPattern) and modify if needed:
-            AssemblySkipLoadingPattern = "^System|^NETStandard|^runtime|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha";
-            AssemblyRestrictToLoadingPattern = ".*";
-            assemblyAttributesSearched = new List<Type>();
         }
+
+        #endregion Ctor
 
         #region Properties
 
+        /// <summary>The app domain to look for types in.</summary>
+        public virtual AppDomain App
+        {
+            get { return AppDomain.CurrentDomain; }
+        }
+
         /// <summary>Gets or sets wether Kore should iterate assemblies in the app domain when loading Kore types. Loading patterns are applied when loading these assemblies.</summary>
-        public bool LoadAppDomainAssemblies { get; set; }
+        public bool LoadAppDomainAssemblies
+        {
+            get { return loadAppDomainAssemblies; }
+            set { loadAppDomainAssemblies = value; }
+        }
 
         /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-        public ICollection<string> AssemblyNames { get; set; }
+        public IList<string> AssemblyNames
+        {
+            get { return assemblyNames; }
+            set { assemblyNames = value; }
+        }
 
         /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
-        public string AssemblySkipLoadingPattern { get; set; }
+        public string AssemblySkipLoadingPattern
+        {
+            get { return assemblySkipLoadingPattern; }
+            set { assemblySkipLoadingPattern = value; }
+        }
 
         /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
         /// <remarks>If you change this so that Kore assemblies aren't investigated (e.g. by not including something like "^Kore|..." you may break core functionality.</remarks>
-        public string AssemblyRestrictToLoadingPattern { get; set; }
+        public string AssemblyRestrictToLoadingPattern
+        {
+            get { return assemblyRestrictToLoadingPattern; }
+            set { assemblyRestrictToLoadingPattern = value; }
+        }
 
         #endregion Properties
 
-        #region ITypeFinder Members
+        #region Nested classes
 
-        /// <summary>Gets tne assemblies related to the current implementation.</summary>
-        /// <returns>A list of assemblies that should be loaded by the Kore factory.</returns>
-        public virtual IEnumerable<Assembly> GetAssemblies()
+        private class AttributedAssembly
         {
-            var addedAssemblyNames = new List<string>();
-            var assemblies = new List<Assembly>();
+            internal Assembly Assembly { get; set; }
 
-            if (LoadAppDomainAssemblies)
-            {
-                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
-            }
-            AddConfiguredAssemblies(addedAssemblyNames, assemblies);
-
-            return assemblies;
+            internal Type PluginAttributeType { get; set; }
         }
+
+        #endregion Nested classes
+
+        #region Methods
 
         public IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true)
         {
@@ -122,14 +136,13 @@ namespace Mantle.Infrastructure
                     {
                         foreach (var t in types)
                         {
-                            var typeInfo = t.GetTypeInfo();
-                            if (assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.GetTypeInfo().IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom)))
+                            if (assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom)))
                             {
-                                if (!typeInfo.IsInterface)
+                                if (!t.IsInterface)
                                 {
                                     if (onlyConcreteClasses)
                                     {
-                                        if (typeInfo.IsClass && !typeInfo.IsAbstract)
+                                        if (t.IsClass && !t.IsAbstract)
                                         {
                                             result.Add(t);
                                         }
@@ -148,9 +161,7 @@ namespace Mantle.Infrastructure
             {
                 var msg = string.Empty;
                 foreach (var e in ex.LoaderExceptions)
-                {
                     msg += e.Message + Environment.NewLine;
-                }
 
                 var fail = new Exception(msg, ex);
                 Debug.WriteLine(fail.Message, fail);
@@ -174,14 +185,14 @@ namespace Mantle.Infrastructure
         public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies)
         {
             //check if we've already searched this assembly);)
-            if (!assemblyAttributesSearched.Contains(typeof(T)))
+            if (!_assemblyAttributesSearched.Contains(typeof(T)))
             {
                 var foundAssemblies = (from assembly in assemblies
-                                       let customAttributes = assembly.GetCustomAttributes(typeof(T))
+                                       let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
                                        where customAttributes.Any()
                                        select assembly).ToList();
                 //now update the cache
-                assemblyAttributesSearched.Add(typeof(T));
+                _assemblyAttributesSearched.Add(typeof(T));
                 foreach (var a in foundAssemblies)
                 {
                     _attributedAssemblies.Add(new AttributedAssembly { Assembly = a, PluginAttributeType = typeof(T) });
@@ -198,17 +209,31 @@ namespace Mantle.Infrastructure
         public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(DirectoryInfo assemblyPath)
         {
             var assemblies = (from f in Directory.GetFiles(assemblyPath.FullName, "*.dll")
-                              select LoadFromAssemblyPath(f)
+                              select Assembly.LoadFrom(f)
                                   into assembly
-                              let customAttributes = assembly.GetCustomAttributes(typeof(T))
+                              let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
                               where customAttributes.Any()
                               select assembly).ToList();
             return FindAssembliesWithAttribute<T>(assemblies);
         }
 
-        #endregion ITypeFinder Members
+        /// <summary>Gets tne assemblies related to the current implementation.</summary>
+        /// <returns>A list of assemblies that should be loaded by the Kore factory.</returns>
+        public virtual IEnumerable<Assembly> GetAssemblies()
+        {
+            var addedAssemblyNames = new List<string>();
+            var assemblies = new List<Assembly>();
 
-        #region Non-Public Methods
+            if (LoadAppDomainAssemblies)
+                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
+            AddConfiguredAssemblies(addedAssemblyNames, assemblies);
+
+            return assemblies;
+        }
+
+        #endregion Methods
+
+        #region Utilities
 
         /// <summary>
         /// Iterates all assemblies in the AppDomain and if it's name matches the configured patterns add it to our list.
@@ -217,69 +242,19 @@ namespace Mantle.Infrastructure
         /// <param name="assemblies"></param>
         private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
-            //var entryAssembly = Assembly.GetEntryAssembly();
-            //var referencedAssemblies = GetReferencingAssemblies(entryAssembly.GetName().Name)
-            //    .Where(x => Matches(x.FullName));
-
-            var referencedAssemblies = GetReferencingAssemblies();
-            foreach (var assembly in referencedAssemblies)
+            var referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in referencedAssemblies)
             {
-                if (!addedAssemblyNames.Contains(assembly.FullName))
+                if (Matches(assembly.FullName))
                 {
-                    assemblies.Add(assembly);
-                    addedAssemblyNames.Add(assembly.FullName);
-                }
-            }
-        }
-        
-        public IEnumerable<Assembly> GetReferencingAssemblies()
-        {
-            var assemblies = new List<Assembly>();
-            var dependencies = DependencyContext.Default.RuntimeLibraries;
-            
-            foreach (var library in dependencies)
-            {
-                if (IsCandidateLibrary(library))
-                {
-                    try
+                    if (!addedAssemblyNames.Contains(assembly.FullName))
                     {
-                        var assembly = Assembly.Load(new AssemblyName(library.Name));
                         assemblies.Add(assembly);
-                    }
-                    catch
-                    {
+                        addedAssemblyNames.Add(assembly.FullName);
                     }
                 }
             }
-            return assemblies;
         }
-
-        private bool IsCandidateLibrary(RuntimeLibrary library)
-        {
-            return Matches(library.Name)
-                || library.Dependencies.Any(d => Matches(d.Name));
-        }
-
-        //public IEnumerable<Assembly> GetReferencingAssemblies(string assemblyName)
-        //{
-        //    var assemblies = new List<Assembly>();
-        //    var dependencies = DependencyContext.Default.RuntimeLibraries;
-        //    foreach (var library in dependencies)
-        //    {
-        //        if (IsCandidateLibrary(library, assemblyName))
-        //        {
-        //            var assembly = Assembly.Load(new AssemblyName(library.Name));
-        //            assemblies.Add(assembly);
-        //        }
-        //    }
-        //    return assemblies;
-        //}
-
-        //private bool IsCandidateLibrary(RuntimeLibrary library, string assemblyName)
-        //{
-        //    return library.Name == assemblyName
-        //        || library.Dependencies.Any(d => d.Name.StartsWith(assemblyName));
-        //}
 
         /// <summary>
         /// Adds specificly configured assemblies.
@@ -290,8 +265,7 @@ namespace Mantle.Infrastructure
         {
             foreach (string assemblyName in AssemblyNames)
             {
-                // TODO: Test this: AssemblyName(assemblyName)
-                Assembly assembly = LoadFromAssemblyName(new AssemblyName(assemblyName));
+                Assembly assembly = Assembly.Load(assemblyName);
                 if (!addedAssemblyNames.Contains(assembly.FullName))
                 {
                     assemblies.Add(assembly);
@@ -355,29 +329,24 @@ namespace Mantle.Infrastructure
             {
                 try
                 {
-                    var assemblyName = AssemblyLoadContext.GetAssemblyName(dllPath);
-                    if (Matches(assemblyName.FullName) && !loadedAssemblyNames.Contains(assemblyName.FullName))
+                    var an = AssemblyName.GetAssemblyName(dllPath);
+                    if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
                     {
-                        LoadFromAssemblyPath(dllPath);
+                        App.Load(an);
                     }
+
+                    //old loading stuff
+                    //Assembly a = Assembly.ReflectionOnlyLoadFrom(dllPath);
+                    //if (Matches(a.FullName) && !loadedAssemblyNames.Contains(a.FullName))
+                    //{
+                    //    App.Load(a.FullName);
+                    //}
                 }
                 catch (BadImageFormatException ex)
                 {
                     Trace.TraceError(ex.ToString());
                 }
             }
-        }
-
-        public Assembly LoadFromAssemblyPath(string assemblyPath)
-        {
-            return assemblyLoader.LoadFromAssemblyPath(assemblyPath);
-            //return AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
-        }
-
-        public Assembly LoadFromAssemblyName(AssemblyName assemblyName)
-        {
-            return assemblyLoader.LoadFromAssemblyName(assemblyName);
-            //return AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName);
         }
 
         /// <summary>
@@ -391,12 +360,10 @@ namespace Mantle.Infrastructure
             try
             {
                 var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
-                foreach (var implementedInterface in type.GetTypeInfo().FindInterfaces((objType, objCriteria) => true, null))
+                foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
                 {
-                    if (!implementedInterface.GetTypeInfo().IsGenericType)
-                    {
+                    if (!implementedInterface.IsGenericType)
                         continue;
-                    }
 
                     var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
                     return isMatch;
@@ -409,17 +376,6 @@ namespace Mantle.Infrastructure
             }
         }
 
-        #endregion Non-Public Methods
-
-        #region Nested Types
-
-        private class AttributedAssembly
-        {
-            internal Assembly Assembly { get; set; }
-
-            internal Type PluginAttributeType { get; set; }
-        }
-
-        #endregion Nested Types
+        #endregion Utilities
     }
 }
