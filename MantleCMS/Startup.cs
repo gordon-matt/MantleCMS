@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using Mantle.Collections;
+using Mantle.Configuration;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
@@ -190,9 +191,14 @@ namespace MantleCMS
             //===================================================================
             // FRAMEWORK CONFIG
             //===================================================================
-            var config = new MantleWebOptions();
-            Configuration.Bind(config);
-            services.AddSingleton(config);
+
+            var mantleOptions = new MantleOptions();
+            Configuration.Bind(mantleOptions);
+            services.AddSingleton(mantleOptions);
+
+            var webOptions = new MantleWebOptions();
+            Configuration.Bind(webOptions);
+            services.AddSingleton(webOptions);
 
             // Tell Mantle it is a website (not something like unit test or whatever)
             Mantle.Hosting.HostingEnvironment.IsHosted = true;

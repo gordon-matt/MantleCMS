@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle", "Mantle\Mantle.csproj", "{B36FCCF0-715C-4930-B6C4-3A4D3390111D}"
 EndProject
@@ -33,7 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Caching.Redi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Messaging.Forums", "Plugins\Mantle.Plugins.Messaging.Forums\Mantle.Plugins.Messaging.Forums.csproj", "{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Web.ContentManagement", "Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj", "{1C1FAC96-7B35-49D5-895E-ABA761DEE820}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Web.ContentManagement", "Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj", "{1C1FAC96-7B35-49D5-895E-ABA761DEE820}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Data.Dapper", "Mantle.Data.Dapper\Mantle.Data.Dapper.csproj", "{52F59D56-39AD-4F36-BCCC-E771DF4C0886}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Data.Dapper.PostgreSql", "Mantle.Data.Dapper.PostgreSql\Mantle.Data.Dapper.PostgreSql.csproj", "{349A5E6B-5A6B-4C96-A683-45771B36BD3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,14 @@ Global
 		{1C1FAC96-7B35-49D5-895E-ABA761DEE820}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C1FAC96-7B35-49D5-895E-ABA761DEE820}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C1FAC96-7B35-49D5-895E-ABA761DEE820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52F59D56-39AD-4F36-BCCC-E771DF4C0886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52F59D56-39AD-4F36-BCCC-E771DF4C0886}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52F59D56-39AD-4F36-BCCC-E771DF4C0886}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52F59D56-39AD-4F36-BCCC-E771DF4C0886}.Release|Any CPU.Build.0 = Release|Any CPU
+		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,5 +108,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888} = {79878135-6B83-45F2-897B-D20570D203A7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD3BDB32-43FC-4A5D-A901-AD0506138BA9}
 	EndGlobalSection
 EndGlobal
