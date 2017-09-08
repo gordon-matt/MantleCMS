@@ -1,9 +1,8 @@
-- Upgrade to .NET Core 2.0 when it's released
 - Copy all code from old KoreCMS projects (or as much as is possible)
 - Plugins
 - CMS Features
 - Integrate Mosaico for Email Templates
 - Integrate GrapesJS for HTML Builder (wait for version with Bootstrap Blocks. See roadmap: https://github.com/artf/grapesjs/issues/74)
-- Change Admin UI to some open source Bootstrap theme
+- Change Admin UI to some open source Bootstrap theme? Also, use Bootstrap 4
 - Installation page
 - Media manager (Can hopefully still use Responsive File Manager from KoreCMS, but need to use PeachPie, which is the PHP compilter to use for .NET Core, much like Phalanger was used in MVC5)

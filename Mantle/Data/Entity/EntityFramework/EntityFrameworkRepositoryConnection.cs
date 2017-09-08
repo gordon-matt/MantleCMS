@@ -13,9 +13,11 @@ namespace Mantle.Data.Entity.EntityFramework
 
         private bool isContextOwner;
         private bool disposed;
-        internal readonly DbContext context;
+        private readonly DbContext context;
 
         #endregion Private Members
+
+        public DbContext Context => context;
 
         #region Constructor / Destructor
 

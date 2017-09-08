@@ -67,30 +67,37 @@ namespace Mantle.Web
                     return cachedTenant;
                 }
 
-                // Try to determine the current tenant by HTTP_HOST
-                string host = webHelper.GetUrlHost();
-
-                if (host.Contains(":"))
+                try
                 {
-                    host = host.LeftOf(':');
+                    // Try to determine the current tenant by HTTP_HOST
+                    string host = webHelper.GetUrlHost();
+
+                    if (host.Contains(":"))
+                    {
+                        host = host.LeftOf(':');
+                    }
+
+                    var tenantService = EngineContext.Current.Resolve<ITenantService>();
+                    var allTenants = tenantService.Find();
+                    var tenant = allTenants.FirstOrDefault(s => s.ContainsHostValue(host));
+
+                    if (tenant == null)
+                    {
+                        // Load the first found tenant
+                        tenant = allTenants.FirstOrDefault();
+                    }
+                    if (tenant == null)
+                    {
+                        throw new MantleException("No tenant could be loaded");
+                    }
+
+                    cachedTenant = tenant;
+                    return cachedTenant;
                 }
-
-                var tenantService = EngineContext.Current.Resolve<ITenantService>();
-                var allTenants = tenantService.Find();
-                var tenant = allTenants.FirstOrDefault(s => s.ContainsHostValue(host));
-
-                if (tenant == null)
+                catch
                 {
-                    // Load the first found tenant
-                    tenant = allTenants.FirstOrDefault();
+                    return null;
                 }
-                if (tenant == null)
-                {
-                    throw new MantleException("No tenant could be loaded");
-                }
-
-                cachedTenant = tenant;
-                return cachedTenant;
             }
         }
 

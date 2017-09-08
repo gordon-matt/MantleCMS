@@ -33,7 +33,7 @@ namespace Mantle.Web.Configuration.Services
         {
             string type = typeof(TSettings).FullName;
             string key = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, tenantId, type);
-            return cacheManager.Get<TSettings>(key, () =>
+            return cacheManager.Get(key, () =>
             {
                 Setting settings = null;
 
@@ -59,7 +59,7 @@ namespace Mantle.Web.Configuration.Services
         {
             string type = settingsType.FullName;
             string key = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, tenantId, type);
-            return cacheManager.Get<ISettings>(key, () =>
+            return cacheManager.Get(key, () =>
             {
                 Setting settings = null;
 

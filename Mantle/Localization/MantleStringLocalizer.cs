@@ -96,7 +96,7 @@ namespace Mantle.Localization
         protected virtual IDictionary<string, string> LoadCulture(int tenantId, string cultureCode)
         {
             string cacheKey = string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode);
-            return cacheManager.Get<Dictionary<string, string>>(cacheKey, () =>
+            return cacheManager.Get(cacheKey, () =>
             {
                 return LoadTranslationsForCulture(tenantId, cultureCode);
             });

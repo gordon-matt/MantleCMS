@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Mantle.Collections;
+using Mantle.Infrastructure;
 using Mantle.Tenants;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
@@ -14,7 +16,8 @@ namespace Mantle.Web.Tenants
 {
     public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
     {
-        private readonly IEnumerable<Tenant> tenants;
+        private readonly ITenantService tenantService;
+        private IEnumerable<Tenant> tenants;
 
         public MantleTenantResolver(
             IMemoryCache cache,
@@ -22,6 +25,7 @@ namespace Mantle.Web.Tenants
             ITenantService tenantService)
             : base(cache, loggerFactory)
         {
+            this.tenantService = tenantService;
             tenants = tenantService.Find();
         }
 
@@ -39,19 +43,54 @@ namespace Mantle.Web.Tenants
         {
             TenantContext<Tenant> tenantContext = null;
 
-            var loggerFactory = Mantle.Infrastructure.EngineContext.Current.Resolve<ILoggerFactory>();
+            var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(this.GetType());
 
-            string host = context.Request.Host.Value.ToLower();
-
-            logger.LogInformation("[Host]: " + host);
-
-            var tenant = tenants.FirstOrDefault(s => s.ContainsHostValue(host));
-
-            if (tenant != null)
+            try
             {
+                string host = context.Request.Host.Value.ToLower();
+
+                if (string.IsNullOrEmpty(host))
+                {
+                    host = "unknown-host";
+                }
+
+                logger.LogInformation("[Host]: " + host);
+
+                Tenant tenant;
+
+                if (tenants.IsNullOrEmpty())
+                {
+                    tenants = tenantService.Find();
+                }
+
+                if (tenants.IsNullOrEmpty())
+                {
+                    logger.LogError("No tenants found! Inserting a new one...");
+                    tenant = new Tenant
+                    {
+                        Name = "Default Tenant",
+                        Hosts = host,
+                        Url = host
+                    };
+                    tenantService.Insert(tenant);
+                }
+                else
+                {
+                    tenant = tenants.FirstOrDefault(s => s.ContainsHostValue(host));
+                }
+
+                if (tenant == null)
+                {
+                    tenant = tenants.First();
+                }
+
                 logger.LogInformation("[Tenant]: ID: {0}, Name: {1}, Hosts: {2}", tenant.Id, tenant.Name, tenant.Hosts);
                 tenantContext = new TenantContext<Tenant>(tenant);
+            }
+            catch (Exception x)
+            {
+                logger.LogError(new EventId(), x, x.GetBaseException().Message);
             }
 
             return Task.FromResult(tenantContext);

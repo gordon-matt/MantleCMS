@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <UserSecretsId>aspnet-FrameworkDemo-dd30e59a-eb1e-4655-8b5b-04fe651ac56f</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>

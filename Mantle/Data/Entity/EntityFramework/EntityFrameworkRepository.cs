@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Mantle.Collections;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Exceptions;
+using Mantle.Infrastructure;
 using Mantle.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ namespace Mantle.Data.Entity.EntityFramework
     {
         #region Private Members
 
-        private readonly IDbContextFactory contextFactory;
+        private IDbContextFactory contextFactory;
         private readonly ILogger logger;
 
         #endregion Private Members
@@ -25,10 +26,8 @@ namespace Mantle.Data.Entity.EntityFramework
         #region Constructor
 
         public EntityFrameworkRepository(
-            IDbContextFactory contextFactory,
             ILoggerFactory loggerFactory)
         {
-            this.contextFactory = contextFactory;
             logger = loggerFactory.CreateLogger<EntityFrameworkRepository<TEntity>>();
         }
 
@@ -51,7 +50,7 @@ namespace Mantle.Data.Entity.EntityFramework
             }
 
             var otherConnection = (connection as EntityFrameworkRepositoryConnection<TOther>);
-            return new EntityFrameworkRepositoryConnection<TEntity>(otherConnection.context, false);
+            return new EntityFrameworkRepositoryConnection<TEntity>(otherConnection.Context, false);
         }
 
         #region Find
@@ -236,7 +235,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 return await context.Set<TEntity>().AsNoTracking().CountAsync(predicate);
             }
@@ -248,7 +247,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int DeleteAll()
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>().AsNoTracking();
                 // TODO: This will cause out-of-memory exceptions with tables that have too many records. We need a better solution!
@@ -260,7 +259,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int Delete(Expression<Func<TEntity, bool>> predicate)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>();
                 // TODO: This will cause out-of-memory exceptions with tables that have too many records. We need a better solution!
@@ -272,7 +271,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int Delete(TEntity entity)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>();
 
@@ -300,7 +299,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int Delete(IEnumerable<TEntity> entities)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>();
 
@@ -331,7 +330,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> DeleteAllAsync()
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>().AsNoTracking();
                 // TODO: This will cause out-of-memory exceptions with tables that have too many records. We need a better solution!
@@ -343,7 +342,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>().AsNoTracking();
                 // TODO: This will cause out-of-memory exceptions with tables that have too many records. We need a better solution!
@@ -355,7 +354,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> DeleteAsync(TEntity entity)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>();
 
@@ -383,7 +382,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> DeleteAsync(IEnumerable<TEntity> entities)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 var set = context.Set<TEntity>();
 
@@ -418,7 +417,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int Insert(TEntity entity)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 context.Set<TEntity>().Add(entity);
                 return context.SaveChanges();
@@ -427,7 +426,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public int Insert(IEnumerable<TEntity> entities)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 foreach (var entity in entities)
                 {
@@ -439,7 +438,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> InsertAsync(TEntity entity)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 context.Set<TEntity>().Add(entity);
                 return await context.SaveChangesAsync();
@@ -448,7 +447,7 @@ namespace Mantle.Data.Entity.EntityFramework
 
         public async Task<int> InsertAsync(IEnumerable<TEntity> entities)
         {
-            using (var context = contextFactory.GetContext())
+            using (var context = GetContext())
             {
                 int count = entities.Count();
                 foreach (var entity in entities)
@@ -472,7 +471,7 @@ namespace Mantle.Data.Entity.EntityFramework
                     throw new ArgumentNullException(nameof(entity));
                 }
 
-                using (var context = contextFactory.GetContext())
+                using (var context = GetContext())
                 {
                     var set = context.Set<TEntity>();
 
@@ -516,7 +515,7 @@ namespace Mantle.Data.Entity.EntityFramework
                     throw new ArgumentNullException(nameof(entities));
                 }
 
-                using (var context = contextFactory.GetContext())
+                using (var context = GetContext())
                 {
                     var set = context.Set<TEntity>();
 
@@ -561,7 +560,7 @@ namespace Mantle.Data.Entity.EntityFramework
                     throw new ArgumentNullException(nameof(entity));
                 }
 
-                using (var context = contextFactory.GetContext())
+                using (var context = GetContext())
                 {
                     var set = context.Set<TEntity>();
 
@@ -605,7 +604,7 @@ namespace Mantle.Data.Entity.EntityFramework
                     throw new ArgumentNullException(nameof(entities));
                 }
 
-                using (var context = contextFactory.GetContext())
+                using (var context = GetContext())
                 {
                     var set = context.Set<TEntity>();
 
@@ -644,5 +643,14 @@ namespace Mantle.Data.Entity.EntityFramework
         #endregion Update
 
         #endregion IRepository<TEntity> Members
+
+        protected virtual DbContext GetContext()
+        {
+            if (contextFactory == null)
+            {
+                contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+            }
+            return contextFactory.GetContext();
+        }
     }
 }

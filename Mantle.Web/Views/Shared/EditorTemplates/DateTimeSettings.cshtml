@@ -23,10 +23,10 @@
         viewModel.allowUsersToSetTimeZone = ko.observable(false);
 
         if (data) {
-            if (data.PublicKey) {
+            if (data.DefaultTimeZoneId) {
                 viewModel.defaultTimeZoneId(data.DefaultTimeZoneId);
             }
-            if (data.PrivateKey) {
+            if (data.AllowUsersToSetTimeZone) {
                 viewModel.allowUsersToSetTimeZone(data.AllowUsersToSetTimeZone);
             }
         }

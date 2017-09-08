@@ -35,9 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Messaging.Fo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Web.ContentManagement", "Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj", "{1C1FAC96-7B35-49D5-895E-ABA761DEE820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Data.Dapper", "Mantle.Data.Dapper\Mantle.Data.Dapper.csproj", "{52F59D56-39AD-4F36-BCCC-E771DF4C0886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper", "Mantle.Data.Dapper\Mantle.Data.Dapper.csproj", "{52F59D56-39AD-4F36-BCCC-E771DF4C0886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Data.Dapper.PostgreSql", "Mantle.Data.Dapper.PostgreSql\Mantle.Data.Dapper.PostgreSql.csproj", "{349A5E6B-5A6B-4C96-A683-45771B36BD3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper.PostgreSql", "Mantle.Data.Dapper.PostgreSql\Mantle.Data.Dapper.PostgreSql.csproj", "{349A5E6B-5A6B-4C96-A683-45771B36BD3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.JQQueryBuilder", "Mantle.JQQueryBuilder\Mantle.JQQueryBuilder.csproj", "{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

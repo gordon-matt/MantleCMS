@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
@@ -16,7 +17,7 @@ namespace Mantle.Web.Mvc.Rendering
     // Based on: https://ppolyzos.com/2016/09/09/asp-net-core-render-view-to-string/
     public interface IRazorViewRenderService
     {
-        Task<string> RenderToStringAsync(string viewName, object model = null, RouteData routeData = null);
+        Task<string> RenderToStringAsync(string viewName, object model = null, RouteData routeData = null, bool useActionContext = false);
     }
 
     public class RazorViewRenderService : IRazorViewRenderService
@@ -30,7 +31,7 @@ namespace Mantle.Web.Mvc.Rendering
             this.tempDataProvider = tempDataProvider;
         }
 
-        public async Task<string> RenderToStringAsync(string viewName, object model = null, RouteData routeData = null)
+        public async Task<string> RenderToStringAsync(string viewName, object model = null, RouteData routeData = null, bool useActionContext = false)
         {
             ActionContext actionContext;
             if (routeData == null)
@@ -48,7 +49,16 @@ namespace Mantle.Web.Mvc.Rendering
 
             using (var stringWriter = new StringWriter())
             {
-                var viewResult = razorViewEngine.FindView(actionContext, viewName, false);
+                ViewEngineResult viewResult;
+                if (useActionContext)
+                {
+                    viewResult = razorViewEngine.FindView(actionContext, viewName, false);
+                }
+                else
+                {
+                    viewResult = razorViewEngine.GetView(viewName, viewName, false);
+                }
+
                 if (viewResult.View == null)
                 {
                     throw new ArgumentNullException("View", $"{viewName} does not match any available view");
