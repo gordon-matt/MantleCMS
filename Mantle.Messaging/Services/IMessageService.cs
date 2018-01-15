@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Messaging.Domain;
-using Mantle.Web;
-using MimeKit;
 
 namespace Mantle.Messaging.Services
 {
@@ -16,7 +16,7 @@ namespace Mantle.Messaging.Services
 
         Guid SendEmailMessage(int tenantId, string subject, string body, string toEmailAddress, string toName = null);
 
-        Guid SendEmailMessage(int tenantId, MimeMessage mailMessage);
+        Guid SendEmailMessage(int tenantId, MailMessage mailMessage);
     }
 
     public class MessageService : GenericDataService<QueuedEmail>, IMessageService, IQueuedMessageProvider
@@ -56,31 +56,32 @@ namespace Mantle.Messaging.Services
 
         public Guid SendEmailMessage(int tenantId, string subject, string body, string toEmailAddress, string toName = null)
         {
-            var mailMessage = new MimeMessage
+            var mailMessage = new MailMessage
             {
-                //SubjectEncoding = Encoding.UTF8,
-                //BodyEncoding = Encoding.UTF8,
+                SubjectEncoding = Encoding.UTF8,
+                BodyEncoding = Encoding.UTF8,
                 Subject = subject,
-                Body = new TextPart("html") { Text = body },
-                //IsBodyHtml = true
+                Body = body,
+                IsBodyHtml = true
             };
-            mailMessage.To.Add(new MailboxAddress(toEmailAddress, toName));
+            mailMessage.To.Add(new MailAddress(toEmailAddress, toName));
 
             return SendEmailMessage(tenantId, mailMessage);
         }
 
-        public Guid SendEmailMessage(int tenantId, MimeMessage mailMessage)
+        public Guid SendEmailMessage(int tenantId, MailMessage mailMessage)
         {
-            var address = mailMessage.To[0] as MailboxAddress;
+            var mailMessageWrap = new MailMessageWrapper(mailMessage);
+
             var queuedEmail = new QueuedEmail
             {
                 Id = Guid.NewGuid(),
                 TenantId = tenantId,
                 Priority = 5,
-                ToAddress = address.Address,
-                ToName = address.Name,
+                ToAddress = mailMessage.To[0].Address,
+                ToName = mailMessage.To[0].DisplayName,
                 Subject = mailMessage.Subject,
-                MailMessage = mailMessage.ToJson(),
+                MailMessage = mailMessageWrap.ToString(),
                 CreatedOnUtc = DateTime.UtcNow
             };
 
@@ -91,7 +92,7 @@ namespace Mantle.Messaging.Services
 
         private Guid SendMessage(
             int tenantId,
-            MessageTemplate messageTemplate,
+            Domain.MessageTemplate messageTemplate,
             IEnumerable<Token> tokens,
             string toEmailAddress,
             string toName)
