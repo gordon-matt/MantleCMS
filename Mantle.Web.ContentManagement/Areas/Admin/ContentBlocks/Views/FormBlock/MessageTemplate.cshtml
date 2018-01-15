@@ -1,0 +1,37 @@
+﻿@model IDictionary<string, object>
+
+@{
+    Layout = null;
+}
+
+<table style="font-family:'Arial',Source Sans Pro,sans-serif;font-size:1.2em;padding:7px;width:80%;border-collapse:collapse;border-spacing:0;">
+    @*<thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>*@
+    <tbody>
+        @foreach (var keyValue in Model)
+        {
+            string value = keyValue.Value.ToString();
+
+            // Checkboxes
+            if (value.Equals("true", StringComparison.InvariantCultureIgnoreCase) ||
+                value.Equals("on", StringComparison.InvariantCultureIgnoreCase))
+            {
+                value = "Yes";
+            }
+            else if (value.Equals("false", StringComparison.InvariantCultureIgnoreCase) ||
+                value.Equals("off", StringComparison.InvariantCultureIgnoreCase))
+            {
+                value = "No";
+            }
+            
+            <tr>
+                <td style="border-color:#DDDDDD;border-style:solid;border-width:1px;color:#000000;font-size:1.2em;padding:7px;">@keyValue.Key</td>
+                <td style="border-color:#DDDDDD;border-style:solid;border-width:1px;color:#000000;font-size:1.2em;padding:7px;">@value</td>
+            </tr>
+        }
+    </tbody>
+</table>

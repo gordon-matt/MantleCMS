@@ -1,0 +1,104 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Localization
+@using Mantle.Web
+@using Mantle.Web.Configuration
+@using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
+@using Mantle.Web.Mvc.Recaptcha
+
+@model FormBlock
+
+@{
+    var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
+    string formId = "form-block-" + Model.Id;
+}
+
+<style type="text/css">
+    .modal-dialog {
+        width: 80% !important;
+    }
+</style>
+
+<form id="@formId" method="post" action="@Url.Action("Save", "FormBlock", new { area = string.Empty })" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ThankYouMessage)
+    @Html.HiddenFor(m => m.RedirectUrl)
+    @Html.HiddenFor(m => m.EmailAddress)
+    @Html.HiddenFor(m => m.FormUrl)
+    @Html.Hidden("ContentBlockTitle", Model.Title)
+
+    @{
+        string htmlTemplate = Model.HtmlTemplate;
+    }
+
+    @if (Model.HtmlTemplate.Contains("[Captcha]"))
+    {
+        @Html.Hidden("EnableCaptcha", true)
+        
+        string captcha = Html.Recaptcha(captchaSettings.PublicKey, captchaSettings.Theme).ToString();
+        htmlTemplate = htmlTemplate.Replace("[Captcha]", captcha);
+    }
+    else
+    {
+        @Html.Hidden("EnableCaptcha", false)
+    }
+    
+    @Html.Raw(htmlTemplate)
+</form>
+
+@if (Model.UseAjax)
+{
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    using (Script.AtFoot())
+    { 
+        <script type="text/javascript">
+            $("#@formId").submit(function (e) {
+                $.ajax({
+                    url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
+                    type: "POST",
+                    data: $('#@formId').serialize()
+                })
+                .done(function (json) {
+                    $('#modal-message').html(json.Message);
+
+                    if (json.Success) {
+                        $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Success)');
+                    }
+                    else {
+                        $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Error)');
+                    }
+
+                    $('#myModal').modal('show');
+
+                    // Wait 2 seconds before redirect
+                    if (json.Success) {
+                        setTimeout(function () {
+                            window.location = json.RedirectUrl;
+                        }, 4000);
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Error) - ' + errorThrown);
+                    $('#modal-message').html(jqXHR.responseText || textStatus + ': ' + errorThrown);
+                    $('#myModal').modal('show');
+                    //alert(jqXHR.responseText || textStatus + ': ' + errorThrown);
+                });
+
+                return false;
+            });
+        </script>
+    }
+}

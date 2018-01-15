@@ -1,0 +1,28 @@
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models
+
+@model SaveResultModel
+
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"><\/script>');
+    }
+</script>
+
+@Html.Raw(Model.Message)
+
+
+<div style="text-align:center;margin-top:140px;">
+    <p>
+        @T(MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultIfNotRedirectPleaseClick)
+        <a href="@Model.RedirectUrl" class="btn btn-primary">@T(MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultRedirect)</a>
+    </p>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function () {
+            window.location.replace('@Model.RedirectUrl');
+        }, 5000);
+    });
+</script>
+

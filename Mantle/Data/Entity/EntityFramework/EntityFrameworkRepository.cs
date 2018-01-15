@@ -26,8 +26,10 @@ namespace Mantle.Data.Entity.EntityFramework
         #region Constructor
 
         public EntityFrameworkRepository(
+            IDbContextFactory contextFactory,
             ILoggerFactory loggerFactory)
         {
+            this.contextFactory = contextFactory;
             logger = loggerFactory.CreateLogger<EntityFrameworkRepository<TEntity>>();
         }
 

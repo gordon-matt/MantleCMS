@@ -1,0 +1,65 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+@using Mantle.Web.Mvc.MantleUI
+@model TagCloudBlock
+
+@{
+    Style.IncludeBundle("third-party/jQCloud");
+    Script.IncludeBundle("third-party/jQCloud");
+
+    var postTagService = EngineContext.Current.Resolve<IBlogPostTagService>();
+    var tagService = EngineContext.Current.Resolve<IBlogTagService>();
+    Dictionary<int, int> data = null;
+    Dictionary<int, BlogTag> tags = null;
+    
+    using (var connection = postTagService.OpenConnection())
+    {
+        data = connection.Query()
+            .GroupBy(x => x.TagId)
+            .ToDictionary(k => k.Key, v => v.Count());
+    }
+
+    using (var connection = tagService.OpenConnection())
+    {
+        tags = connection.Query().ToDictionary(k => k.Id, v => v);
+    }
+
+    string controlId = "blog-tag-cloud-" + Guid.NewGuid();
+    string options = Model.GetOptions();
+}
+
+@*<style type="text/css">
+    .tag-cloud {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        height: 250px;
+    }
+        .tag-cloud span {
+            text-shadow: 0px 1px 1px #fff;
+        }
+</style>*@
+
+@using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+{
+    using (var header = panel.BeginHeader(T(MantleCmsLocalizableStrings.Blog.Tags))) { }
+    using (var body = panel.BeginBody())
+    {
+        <div id="@controlId" class="tag-cloud"></div>
+    }
+}
+
+@using (Script.AtFoot())
+{
+    <script type="text/javascript">
+        var words = [
+            @foreach (var item in data)
+            {
+                @:{ text: '@tags[item.Key].Name', weight: @item.Value, link: '/blog/tag/@tags[item.Key].UrlSlug' },
+            }
+        ];
+        $('#@controlId').jQCloud(words, @Html.Raw(options));
+    </script>
+}

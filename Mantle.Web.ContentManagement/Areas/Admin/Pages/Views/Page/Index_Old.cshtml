@@ -1,0 +1,198 @@
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
+@using Mantle.Web.ContentManagement.Extensions;
+@using CMSPage = Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.Page
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    Style.IncludeBundle("kendo-ui");
+
+    Script.IncludeBundle("kendo-ui");
+    Script.IncludeBundle("knockout");
+    Script.IncludeBundle("knockout-mapping");
+    Script.IncludeBundle("tinymce");
+    Script.IncludeBundle("notify");
+
+    Script.IncludeBundle("kore-cms/pages");
+}
+
+<div id="grid-section" class="row">
+    <div class="col-md-12">
+        <a data-bind="click: create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T(MantleWebLocalizableStrings.General.Create)
+        </a>
+        <a data-bind="click: showPageTypes" class="btn btn-info">
+            <i class="fa fa-crop"></i>
+            @T(MantleCmsLocalizableStrings.Pages.PageTypes)
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-md-12">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+<div id="form-section" class="row" style="display:none">
+    <article class="col-sm-12 col-md-12">
+        <form id="form-section-form" role="form">
+            <fieldset>
+                <legend id="form-section-legend"></legend>
+                <div id="form-section-pageTypeId" class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.Label("PageTypeId", "Page Type", new { @class = "control-label" })
+                        @Html.MantleCMS().PageTypesDropDownList("PageTypeId", null, null, new { @class = "form-control", data_bind = "value: pageTypeId" })
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Name", "Name", new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-file-o"></i>
+                            </span>
+                            @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: name" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        @Html.Label("Slug", "Slug", new { @class = "control-label" })
+                        @Html.TextBox("Slug", null, new { @class = "form-control", data_bind = "value: slug" })
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("IsEnabled", new { data_bind = "checked: isEnabled" }) Enabled
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset id="fields-definition"></fieldset>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group pull-right">
+                    <button type="button" class="btn btn-default" data-bind="click: cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: save">@T(MantleWebLocalizableStrings.General.Save)</button>
+                </div>
+            </div>
+        </form>
+    </article>
+</div>
+
+<div id="culture-selector-section" class="row" style="display:none">
+    <article class="col-sm-12 col-md-12">
+        <form id="culture-selector-form" role="form">
+            @Html.Hidden("CultureSelector_PageId")
+            <div class="form-group">
+                @Html.Label("CultureSelector_CultureCode", "Culture", new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-globe"></i>
+                    </span>
+                    @Html.Mantle().LanguagesDropDownList("CultureSelector_CultureCode", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group pull-right">
+                    <button type="button" class="btn btn-default" data-bind="click: cultureSelector_onCancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: cultureSelector_onSelected">@T(MantleWebLocalizableStrings.General.OK)</button>
+                </div>
+            </div>
+        </form>
+    </article>
+</div>
+
+<div id="page-type-grid-section" class="row" style="display:none">
+    <div class="col-md-12">
+        <a data-bind="click: pageType.create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T(MantleWebLocalizableStrings.General.Create)
+        </a>
+        <a data-bind="click: pageType.showPages" class="btn btn-info">
+            <i class="fa fa-file-o"></i>
+            @T(MantleCmsLocalizableStrings.Pages.Title)
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-md-12">
+        <div id="PageTypesGrid"></div>
+    </div>
+</div>
+
+<div id="page-type-form-section" class="row" style="display:none">
+    <article class="col-sm-12 col-md-12">
+        <form id="page-type-form-section-form" role="form">
+            <fieldset>
+                <legend id="page-type-form-section-legend"></legend>
+                <div class="col-sm-4 col-md-4">
+                    <div class="form-group">
+                        @Html.Label("PageType_Name", "Name", new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-file-o"></i>
+                            </span>
+                            @Html.TextBox("PageType_Name", null, new { @class = "form-control", data_bind = "value: pageType.name" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.Label("PageType_LayoutPath", "Layout Path", new { @class = "control-label" })
+                        @Html.TextBox("PageType_LayoutPath", null, new { @class = "form-control", data_bind = "value: pageType.layoutPath" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.Label("PageType_DisplayTemplatePath", "Display Template Path", new { @class = "control-label" })
+                        @Html.TextBox("PageType_DisplayTemplatePath", null, new { @class = "form-control", data_bind = "value: pageType.displayTemplatePath" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                        @Html.Label("PageType_EditorTemplatePath", "Editor Template Path", new { @class = "control-label" })
+                        @Html.TextBox("PageType_EditorTemplatePath", null, new { @class = "form-control", data_bind = "value: pageType.editorTemplatePath" })
+                    </div>
+                </div>
+            </fieldset>
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group pull-right">
+                    <button type="button" class="btn btn-default" data-bind="click: pageType.cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: pageType.save">@T(MantleWebLocalizableStrings.General.Save)</button>
+                </div>
+            </div>
+        </form>
+    </article>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var translations = {
+            Create: '@T(MantleWebLocalizableStrings.General.Create).Text',
+            Delete: '@T(MantleWebLocalizableStrings.General.Delete).Text',
+            DeleteRecordConfirm: '@T(MantleWebLocalizableStrings.Messages.ConfirmDeleteRecord).Text',
+            DeleteRecordError: '@T(MantleWebLocalizableStrings.Messages.DeleteRecordError).Text',
+            DeleteRecordSuccess: '@T(MantleWebLocalizableStrings.Messages.DeleteRecordSuccess).Text',
+            Edit: '@T(MantleWebLocalizableStrings.General.Edit).Text',
+            GetRecordError: '@T(MantleWebLocalizableStrings.Messages.GetRecordError).Text',
+            GetTranslationError: '@T(MantleCmsLocalizableStrings.Messages.GetTranslationError).Text',
+            History: '@T(MantleCmsLocalizableStrings.Pages.History).Text',
+            InsertRecordError: '@T(MantleWebLocalizableStrings.Messages.InsertRecordError).Text',
+            InsertRecordSuccess: '@T(MantleWebLocalizableStrings.Messages.InsertRecordSuccess).Text',
+            Toggle: '@T(MantleWebLocalizableStrings.General.Toggle).Text',
+            Translations: '@T(MantleCmsLocalizableStrings.Pages.Translations).Text',
+            UpdateRecordError: '@T(MantleWebLocalizableStrings.Messages.UpdateRecordError).Text',
+            UpdateRecordSuccess: '@T(MantleWebLocalizableStrings.Messages.UpdateRecordSuccess).Text',
+            UpdateTranslationError: '@T(MantleCmsLocalizableStrings.Messages.UpdateTranslationError).Text',
+            UpdateTranslationSuccess: '@T(MantleCmsLocalizableStrings.Messages.UpdateTranslationSuccess).Text',
+            Widgets: '@T(MantleCmsLocalizableStrings.Widgets.Title).Text'
+        }
+    </script>
+}

@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Matt Gordon</Authors>
+    <Company />
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>Mantle - Dapper PostgreSQL</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using Mantle.Collections;
+using Newtonsoft.Json;
 
 namespace Mantle
 {
@@ -465,6 +466,36 @@ namespace Mantle
             // rough blacklist regex == m/^[^/?#[]@"^{}|\s`<>]+$/ (leaving off % to keep the regex simple)
 
             return !segment.Any(validSegmentChars);
+        }
+
+        public static T JsonDeserialize<T>(this string json, JsonSerializerSettings settings = null)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return default(T);
+            }
+
+            if (settings == null)
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+
+            return JsonConvert.DeserializeObject<T>(json, settings);
+        }
+
+        public static object JsonDeserialize(this string json, Type type, JsonSerializerSettings settings = null)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+
+            if (settings == null)
+            {
+                return JsonConvert.DeserializeObject(json, type);
+            }
+
+            return JsonConvert.DeserializeObject(json, type, settings);
         }
 
         /// <summary>

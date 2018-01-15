@@ -1,0 +1,11 @@
+﻿@model Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.HtmlBlock
+
+@Html.Raw(Model.BodyContent)
+
+@if (!string.IsNullOrWhiteSpace(Model.Script))
+{
+    using (Script.AtFoot())
+    {
+        @Html.Raw(Model.Script)
+    }
+}

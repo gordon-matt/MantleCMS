@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Messaging.Forums\*.*"</PostBuildEvent>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Company />
+    <Description />
+    <Authors>Matt Gordon</Authors>
   </PropertyGroup>
 
   <ItemGroup>

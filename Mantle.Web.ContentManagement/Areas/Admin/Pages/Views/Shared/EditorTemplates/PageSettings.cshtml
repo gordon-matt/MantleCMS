@@ -1,0 +1,33 @@
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Pages
+
+@model PageSettings
+
+<div id="settings-content">
+    <div class="form-group">
+        @Html.LabelFor(m => m.NumberOfPageVersionsToKeep)
+        @Html.TextBox("NumberOfPageVersionsToKeep", null, new { @class = "form-control", data_bind = "value: numberOfPageVersionsToKeep" })
+        @Html.ValidationMessageFor(m => m.NumberOfPageVersionsToKeep)
+    </div>
+</div>
+
+<script type="text/javascript">
+    function updateModel(viewModel, data) {
+        viewModel.numberOfPageVersionsToKeep = ko.observable("");
+
+        if (data && data.NumberOfPageVersionsToKeep) {
+            viewModel.numberOfPageVersionsToKeep(data.NumberOfPageVersionsToKeep);
+        }
+    };
+
+    function cleanUp(viewModel) {
+        delete viewModel.numberOfPageVersionsToKeep;
+    }
+
+    function onBeforeSave(viewModel) {
+        var data = {
+            NumberOfPageVersionsToKeep: viewModel.numberOfPageVersionsToKeep()
+        };
+
+        viewModel.value(ko.mapping.toJSON(data));
+    };
+</script>

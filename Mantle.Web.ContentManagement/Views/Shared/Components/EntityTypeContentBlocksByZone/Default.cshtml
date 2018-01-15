@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.IContentBlock>
+
+@{
+    Layout = null;
+}
+
+@foreach (var block in Model.OrderBy(x => x.Order))
+{
+    if (!string.IsNullOrEmpty(block.CustomTemplatePath))
+    {
+        @Html.Partial(block.CustomTemplatePath, block)
+    }
+    else
+    {
+        @Html.Partial(block.DisplayTemplatePath, block)
+    }
+}

@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Mantle.IO;
+using Newtonsoft.Json;
 
 namespace Mantle
 {
@@ -120,6 +121,21 @@ namespace Mantle
         public static bool GenericEquals<T>(this T item, T other)
         {
             return EqualityComparer<T>.Default.Equals(item, other);
+        }
+
+        public static string ToJson<T>(this T item, JsonSerializerSettings settings = null)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            if (settings == null)
+            {
+                return JsonConvert.SerializeObject(item);
+            }
+
+            return JsonConvert.SerializeObject(item, settings);
         }
 
         /// <summary>

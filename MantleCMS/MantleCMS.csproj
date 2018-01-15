@@ -7,6 +7,9 @@
   <PropertyGroup>
     <UserSecretsId>aspnet-FrameworkDemo-dd30e59a-eb1e-4655-8b5b-04fe651ac56f</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Matt Gordon</Authors>
+    <Company />
+    <Description />
   </PropertyGroup>
 
   <ItemGroup>

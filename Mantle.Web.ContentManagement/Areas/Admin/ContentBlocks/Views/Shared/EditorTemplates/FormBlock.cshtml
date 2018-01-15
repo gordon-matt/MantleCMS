@@ -1,0 +1,131 @@
+﻿@model Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.FormBlock
+
+@{
+    string textAlign = IsRightToLeft ? "right" : "left";
+}
+
+<div id="block-content">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                @Html.LabelFor(m => m.HtmlTemplate, new { @class = "control-label" })
+                @Html.TextAreaFor(m => m.HtmlTemplate, new { @class = "form-control", data_bind = "wysiwyg: blockModel.htmlTemplate, wysiwygConfig: blockModel.tinyMCEConfig" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
+                @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            @Html.LabelFor(m => m.FormUrl, new { @class = "control-label col-xs-12 col-sm-12 col-md-12 col-lg-12" })
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                @Html.TextBoxFor(m => m.FormUrl, new { @class = "form-control", data_bind = "value: blockModel.formUrl" })
+                @Html.HelpTextFor(m => m.FormUrl)
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.RedirectUrl, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3", style = "text-align:" + textAlign + ";" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.TextBoxFor(m => m.RedirectUrl, new { @class = "form-control", data_bind = "value: blockModel.redirectUrl" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: blockModel.useAjax" }) @T(MantleCmsLocalizableStrings.ContentBlocks.FormBlock.UseAjax)
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.EmailAddress, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", data_bind = "value: blockModel.emailAddress" })
+                @Html.HelpTextFor(m => m.EmailAddress)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function stripHTML(html) {
+        return $("<div/>").html(html).text();
+    };
+
+    var contentBlockModel = (function () {
+        var f = {};
+        f.updateModel = function (blockModel) {
+            blockModel.htmlTemplate = ko.observable("");
+            blockModel.thankYouMessage = ko.observable("");
+            blockModel.redirectUrl = ko.observable("");
+            blockModel.emailAddress = ko.observable("");
+            blockModel.formUrl = ko.observable(null);
+            blockModel.useAjax = ko.observable(false);
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if (data) {
+                if (data.HtmlTemplate) {
+                    blockModel.htmlTemplate(data.HtmlTemplate());
+                }
+                if (data.ThankYouMessage) {
+                    blockModel.thankYouMessage(data.ThankYouMessage());
+                }
+                if (data.RedirectUrl) {
+                    blockModel.redirectUrl(data.RedirectUrl());
+                }
+                if (data.EmailAddress) {
+                    blockModel.emailAddress(data.EmailAddress());
+                }
+                if (data.FormUrl) {
+                    blockModel.formUrl(data.FormUrl());
+                }
+                if (data.UseAjax && typeof data.UseAjax() === 'boolean') {
+                    blockModel.useAjax(data.UseAjax());
+                }
+            }
+
+            blockModel.tinyMCEConfig = koreDefaultTinyMCEConfig;
+        };
+        f.cleanUp = function (blockModel) {
+            delete blockModel.htmlTemplate;
+            delete blockModel.thankYouMessage;
+            delete blockModel.redirectUrl;
+            delete blockModel.emailAddress;
+            delete blockModel.formUrl;
+            delete blockModel.useAjax;
+            delete blockModel.tinyMCEConfig;
+        };
+        f.onBeforeSave = function (blockModel) {
+
+            var thankYouMessage = blockModel.thankYouMessage();
+            if (blockModel.useAjax()) {
+                thankYouMessage = stripHTML(thankYouMessage);
+            }
+
+            var data = {
+                HtmlTemplate: blockModel.htmlTemplate(),
+                ThankYouMessage: thankYouMessage,
+                RedirectUrl: blockModel.redirectUrl(),
+                EmailAddress: blockModel.emailAddress(),
+                FormUrl: blockModel.formUrl(),
+                UseAjax: blockModel.useAjax()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

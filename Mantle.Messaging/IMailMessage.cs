@@ -1,9 +1,9 @@
-﻿using MimeKit;
+﻿using System.Net.Mail;
 
 namespace Mantle.Messaging
 {
     public interface IMailMessage
     {
-        MimeMessage GetMailMessage();
+        MailMessage GetMailMessage();
     }
 }

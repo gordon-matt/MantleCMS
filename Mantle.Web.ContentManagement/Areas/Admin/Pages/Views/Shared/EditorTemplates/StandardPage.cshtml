@@ -1,0 +1,76 @@
+﻿@model Mantle.Web.ContentManagement.Areas.Admin.Pages.StandardPage
+
+<div id="fields-content">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            @Html.Label("MetaTitle", T(MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaTitle), new { @class = "control-label" })
+            @Html.TextBox("MetaTitle", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaTitle" })
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            @Html.Label("MetaKeywords", T(MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaKeywords), new { @class = "control-label" })
+            @Html.TextBox("MetaKeywords", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaKeywords" })
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            @Html.Label("MetaDescription", T(MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription), new { @class = "control-label" })
+            @Html.TextBox("MetaDescription", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaDescription" })
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="form-group">
+            @Html.Label("BodyContent", T(MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent), new { @class = "control-label" })
+            @Html.TextArea("BodyContent", null, new { @class = "form-control", data_bind = "wysiwyg: pageVersionModel.bodyContent, wysiwygConfig: pageVersionModel.tinyMCE_bodyContent" })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var pageModel = (function () {
+        var f = {};
+        f.updateModel = function (pageVersionModel) {
+            pageVersionModel.metaTitle = ko.observable("");
+            pageVersionModel.metaKeywords = ko.observable("");
+            pageVersionModel.metaDescription = ko.observable("");
+            pageVersionModel.bodyContent = ko.observable("");
+
+            var data = ko.mapping.fromJSON(pageVersionModel.fields());
+
+            if (data) {
+                if (data.MetaTitle) {
+                    pageVersionModel.metaTitle(data.MetaTitle());
+                }
+                if (data.MetaKeywords) {
+                    pageVersionModel.metaKeywords(data.MetaKeywords());
+                }
+                if (data.MetaDescription) {
+                    pageVersionModel.metaDescription(data.MetaDescription());
+                }
+                if (data.BodyContent) {
+                    pageVersionModel.bodyContent(data.BodyContent());
+                }
+            }
+
+            pageVersionModel.tinyMCE_bodyContent = koreAdvancedTinyMCEConfig;
+        };
+        f.cleanUp = function (pageVersionModel) {
+            delete pageVersionModel.metaTitle;
+            delete pageVersionModel.metaKeywords;
+            delete pageVersionModel.metaDescription;
+            delete pageVersionModel.bodyContent;
+            delete pageVersionModel.tinyMCE_bodyContent;
+        };
+        f.onBeforeSave = function (pageVersionModel) {
+            var data = {
+                MetaTitle: pageVersionModel.metaTitle(),
+                MetaKeywords: pageVersionModel.metaKeywords(),
+                MetaDescription: pageVersionModel.metaDescription(),
+                BodyContent: pageVersionModel.bodyContent()
+            };
+            pageVersionModel.fields(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

@@ -1,43 +1,11 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace Mantle.Web
 {
     public static class StringExtensions
     {
-        public static T JsonDeserialize<T>(this string json, JsonSerializerSettings settings = null)
-        {
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return default(T);
-            }
-
-            if (settings == null)
-            {
-                return JsonConvert.DeserializeObject<T>(json);
-            }
-
-            return JsonConvert.DeserializeObject<T>(json, settings);
-        }
-
-        public static object JsonDeserialize(this string json, Type type, JsonSerializerSettings settings = null)
-        {
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                return null;
-            }
-
-            if (settings == null)
-            {
-                return JsonConvert.DeserializeObject(json, type);
-            }
-
-            return JsonConvert.DeserializeObject(json, type, settings);
-        }
-
         public static string ToSlugUrl(this string value)
         {
             string stringFormKd = value.Normalize(NormalizationForm.FormKD);

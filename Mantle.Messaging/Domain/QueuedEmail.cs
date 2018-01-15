@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Net.Mail;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MimeKit;
 
 namespace Mantle.Messaging.Domain
 {
@@ -71,17 +71,10 @@ namespace Mantle.Messaging.Domain
 
         #region IMailMessage Members
 
-        public MimeMessage GetMailMessage()
+        public MailMessage GetMailMessage()
         {
-            var message = new MimeMessage
-            {
-                Subject = Subject,
-                Body = new TextPart("html") { Text = MailMessage }
-            };
-
-            message.From.Add(new MailboxAddress(FromName, FromAddress));
-            message.To.Add(new MailboxAddress(ToName, ToAddress));
-            return message;
+            var wrap = MailMessageWrapper.Create(MailMessage);
+            return wrap.ToMailMessage();
         }
 
         #endregion IMailMessage Members

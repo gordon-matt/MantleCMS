@@ -15,6 +15,8 @@
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
+    <Authors>Matt Gordon</Authors>
+    <Description>Mantle - Web. Includes admin pages for Membership, Localization, Configuration, Tenants, Scheduled Tasks, etc. Also includes many extensions and helper classes.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Indexing\**" />
+    <Content Remove="Indexing\**" />
+    <EmbeddedResource Remove="Indexing\**" />
+    <None Remove="Indexing\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="KendoGridBinderEx" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201712181325" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.0" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
@@ -31,6 +41,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mvc\Recaptcha\" />
   </ItemGroup>
 
 </Project>

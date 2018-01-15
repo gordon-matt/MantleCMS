@@ -1,13 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Text;
+using System.Text.RegularExpressions;
 using Mantle.Web.Messaging.Configuration;
-using MailKit.Net.Smtp;
-using MimeKit;
 
 namespace Mantle.Web.Messaging.Services
 {
     public interface IEmailSender
     {
-        void Send(MimeMessage mailMessage);
+        void Send(MailMessage mailMessage);
 
         void Send(string subject, string body, string toEmailAddress);
     }
@@ -22,14 +23,19 @@ namespace Mantle.Web.Messaging.Services
             this.smtpSettings = smtpSettings;
         }
 
-        public void Send(MimeMessage mailMessage)
+        public void Send(MailMessage mailMessage)
         {
             using (var smtpClient = new SmtpClient())
             {
                 if (smtpSettings != null && !string.IsNullOrEmpty(smtpSettings.Host))
                 {
-                    smtpClient.Connect(smtpSettings.Host, smtpSettings.Port, smtpSettings.EnableSsl);
-                    smtpClient.Authenticate(smtpSettings.Username, smtpSettings.Password);
+                    smtpClient.UseDefaultCredentials = smtpSettings.UseDefaultCredentials;
+                    smtpClient.Host = smtpSettings.Host;
+                    smtpClient.Port = smtpSettings.Port;
+                    smtpClient.EnableSsl = smtpSettings.EnableSsl;
+                    smtpClient.Credentials = smtpSettings.UseDefaultCredentials
+                        ? CredentialCache.DefaultNetworkCredentials
+                        : new NetworkCredential(smtpSettings.Username, smtpSettings.Password);
 
                     if (mailMessage.From == null && IsValidEmailAddress(smtpSettings.Username))
                     {
@@ -38,26 +44,25 @@ namespace Mantle.Web.Messaging.Services
                         {
                             displayName = smtpSettings.DisplayName;
                         }
-                        mailMessage.From.Add(new MailboxAddress(smtpSettings.Username, displayName));
+                        mailMessage.From = new MailAddress(smtpSettings.Username, displayName);
                     }
                 }
 
                 smtpClient.Send(mailMessage);
-                smtpClient.Disconnect(true);
             }
         }
 
         public void Send(string subject, string body, string toEmailAddress)
         {
-            var mailMessage = new MimeMessage
+            var mailMessage = new MailMessage
             {
                 Subject = subject,
-                //SubjectEncoding = Encoding.UTF8,
-                Body = new TextPart("html") { Text = body },
-                //BodyEncoding = Encoding.UTF8,
-                //IsBodyHtml = true
+                SubjectEncoding = Encoding.UTF8,
+                Body = body,
+                BodyEncoding = Encoding.UTF8,
+                IsBodyHtml = true
             };
-            mailMessage.To.Add(new MailboxAddress(toEmailAddress));
+            mailMessage.To.Add(toEmailAddress);
             Send(mailMessage);
         }
 

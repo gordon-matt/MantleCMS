@@ -1,0 +1,88 @@
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+@using WebEnumExtensions = Mantle.Web.EnumExtensions
+
+@model FilteredPostsBlock
+
+<div id="block-content">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.Label("FilterType", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.DropDownList(
+                "FilterType",
+                WebEnumExtensions.ToSelectList<FilterType>(),
+                new { @class = "form-control", data_bind = "value: blockModel.filterType" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group" data-bind="visible: filterType() == 1">
+            @Html.Label("CategoryId", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="kore-icon kore-icon-categories"></i>
+                    </span>
+                    @Html.MantleCMS().BlogCategoryDropDownList(
+                        "CategoryId",
+                        emptyText: string.Empty,
+                        htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.categoryId" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group" data-bind="visible: filterType() == 2">
+            @Html.Label("TagId", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="kore-icon kore-icon-tags"></i>
+                    </span>
+                    @Html.MantleCMS().BlogTagDropDownList(
+                        "TagId",
+                        emptyText: string.Empty,
+                        htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.tagId" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var contentBlockModel = (function () {
+        var f = {};
+        f.updateModel = function (blockModel) {
+            blockModel.filterType = ko.observable(0);
+            blockModel.categoryId = ko.observable(null);
+            blockModel.tagId = ko.observable(null);
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if (data) {
+                if (data.FilterType) {
+                    blockModel.filterType(data.FilterType());
+                }
+                if (data.CategoryId) {
+                    blockModel.categoryId(data.CategoryId());
+                }
+                if (data.TagId) {
+                    blockModel.tagId(data.TagId());
+                }
+            }
+        };
+        f.cleanUp = function (blockModel) {
+            delete blockModel.filterType;
+            delete blockModel.categoryId;
+            delete blockModel.tagId;
+        };
+        f.onBeforeSave = function (blockModel) {
+            var data = {
+                FilterType: blockModel.filterType(),
+                CategoryId: blockModel.categoryId(),
+                TagId: blockModel.tagId()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

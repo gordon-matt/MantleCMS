@@ -1,0 +1,44 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+@using Mantle.Web.Mvc.MantleUI
+@model CategoriesBlock
+
+@{
+    var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
+    List<BlogCategory> entries = null;
+
+    using (var connection = categoryService.OpenConnection())
+    {
+        if (Model.NumberOfCategories > 0)
+        {
+            entries = connection.Query()
+                .OrderBy(x => x.Name)
+                .Take(Model.NumberOfCategories)
+                .ToList();
+        }
+        else
+        {
+            entries = connection.Query()
+                .OrderBy(x => x.Name)
+                .ToList();
+        }
+    }
+}
+
+@using (var panel = Html.MantleUI(MantleUISettings.DefaultFrontendProvider).Begin(new Panel(state: State.Primary)))
+{
+    using (var header = panel.BeginHeader(T(MantleCmsLocalizableStrings.Blog.Categories))) { }
+    using (var body = panel.BeginBody())
+    {
+        <ul class="list-unstyled blog-categories-list">
+            @foreach (var entry in entries)
+            {
+                <li>
+                    @Html.ActionLink(entry.Name, "Category", "BlogContent", new { area = string.Empty, categorySlug = entry.UrlSlug }, null)
+                </li>
+            }
+        </ul>
+    }
+}

@@ -16,6 +16,7 @@ using Mantle.Web.Configuration;
 using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
+using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Plugins;
 using Mantle.Web.Tenants;
 using MantleCMS.Data;
@@ -333,6 +334,9 @@ namespace MantleCMS
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
+                routePublisher.RegisterRoutes(routes);
             });
 
             // If you want to dispose of resources that have been resolved in the

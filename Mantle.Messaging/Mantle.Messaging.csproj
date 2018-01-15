@@ -8,7 +8,8 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Authors>Mantle.Messaging</Authors>
+    <Authors>Matt Gordon</Authors>
+    <Description>Mantle - Messaging</Description>
   </PropertyGroup>
 
   <ItemGroup>

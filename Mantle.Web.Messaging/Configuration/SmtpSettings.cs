@@ -47,6 +47,9 @@ namespace Mantle.Web.Messaging.Configuration
         [LocalizedDisplayName(LocalizableStrings.Settings.Smtp.EnableSsl)]
         public bool EnableSsl { get; set; }
 
+        [LocalizedDisplayName(LocalizableStrings.Settings.Smtp.UseDefaultCredentials)]
+        public bool UseDefaultCredentials { get; set; }
+
         [LocalizedDisplayName(LocalizableStrings.Settings.Smtp.Username)]
         public string Username { get; set; }
 

@@ -8,6 +8,8 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Matt Gordon</Authors>
+    <Description>Mantle - Common Resources: Includes embedded JavaScript used by many of the framework's projects.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Matt Gordon</Authors>
+    <Company />
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Description>Content Management package for the Mantle framework</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
+    <Compile Remove="Areas\Admin\ContentBlocks\Scripting\**" />
+    <EmbeddedResource Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
+    <EmbeddedResource Remove="Areas\Admin\ContentBlocks\Scripting\**" />
+    <None Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripting\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201712181325" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Web.CommonResources\Mantle.Web.CommonResources.csproj" />
+    <ProjectReference Include="..\Mantle.Web.Messaging\Mantle.Web.Messaging.csproj" />
+    <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
+    <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Localization\Views\Shared\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Views\Shared\Components\AutoBreadcrumbs\" />
+    <Folder Include="Views\Shared\Components\AutoSubMenu\" />
+  </ItemGroup>
+
+</Project>

@@ -4,7 +4,6 @@ using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
-using Mantle.Web;
 using Mantle.Web.Mvc;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;

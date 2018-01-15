@@ -8,11 +8,12 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Matt Gordon</Authors>
+    <Description>This package includes admin pages for email templates, queued emails, etc.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
-    <PackageReference Include="MailKit" Version="1.18.1.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,11 @@
+﻿@model Mantle.Web.ContentManagement.Areas.Admin.Pages.StandardPage
+
+@{
+    Layout = Model.LayoutPath;
+    ViewBag.Title = string.IsNullOrWhiteSpace(Model.InstanceName) ? Model.MetaTitle : Model.InstanceName;
+    SetMeta("keywords", Model.MetaKeywords);
+    SetMeta("description", Model.MetaDescription);
+    SetMeta("title", Model.MetaTitle);
+}
+
+@Html.Raw(Model.BodyContent)

@@ -10,6 +10,7 @@ using Mantle.Web.Localization;
 using Mantle.Web.Localization.Services;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Rendering;
+using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Mantle.Web.Plugins;
@@ -39,6 +40,7 @@ namespace Mantle.Web.Infrastructure
             builder.RegisterType<ThemeContext>().As<IThemeContext>().InstancePerLifetimeScope();
 
             builder.RegisterType<EmbeddedResourceResolver>().As<IEmbeddedResourceResolver>().SingleInstance();
+            builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
 
             builder.RegisterType<RolesBasedAuthorizationService>().As<IAuthorizationService>().SingleInstance();
 

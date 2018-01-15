@@ -1,0 +1,39 @@
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+@model LastNPostsBlock
+
+<div id="block-content">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.NumberOfEntries, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.TextBoxFor(m => m.NumberOfEntries, new { type = "number", @class = "form-control", data_bind = "value: blockModel.numberOfEntries" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var contentBlockModel = (function () {
+        var f = {};
+        f.updateModel = function (blockModel) {
+            blockModel.numberOfEntries = ko.observable(5);
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if (data && data.NumberOfEntries) {
+                blockModel.numberOfEntries(data.NumberOfEntries());
+            }
+        };
+        f.cleanUp = function (blockModel) {
+            delete blockModel.numberOfEntries;
+        };
+        f.onBeforeSave = function (blockModel) {
+            var data = {
+                NumberOfEntries: blockModel.numberOfEntries()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

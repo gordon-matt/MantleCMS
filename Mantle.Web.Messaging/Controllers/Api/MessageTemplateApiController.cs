@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
 using Mantle.Localization.Services;
 using Mantle.Messaging.Domain;
 using Mantle.Messaging.Services;
 using Mantle.Web.Mvc;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Messaging.Controllers.Api

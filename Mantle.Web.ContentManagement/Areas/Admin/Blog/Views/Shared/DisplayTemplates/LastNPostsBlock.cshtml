@@ -1,0 +1,42 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+@using Mantle.Web.Mvc.MantleUI
+@model LastNPostsBlock
+
+@{
+    var blogService = EngineContext.Current.Resolve<IBlogPostService>();
+    List<BlogPost> entries = null;
+    
+    using (var connection = blogService.OpenConnection())
+    {
+        entries = connection.Query()
+            .OrderByDescending(x => x.DateCreatedUtc)
+            .Take(Model.NumberOfEntries)
+            .ToList();
+    }
+}
+
+@using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+{
+    using (var header = panel.BeginHeader(T(MantleCmsLocalizableStrings.Blog.Posts))) { }
+    using (var body = panel.BeginBody())
+    {
+        <ul class="list-unstyled latest-blog-entries-list">
+            @foreach (var entry in entries)
+            {
+                <li>
+                    @if (entry.UseExternalLink)
+                    {
+                        @Html.Link(entry.Headline, entry.ExternalLink, PageTarget.Blank)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(entry.Headline, "Details", "BlogContent", new { area = string.Empty, slug = entry.Slug }, null)
+                    }
+                </li>
+            }
+        </ul>
+    }
+}
