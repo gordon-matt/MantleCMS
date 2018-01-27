@@ -1,10 +1,10 @@
 ﻿using System;
 using Mantle.Localization.Domain;
+using Mantle.Messaging.Domain;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Messaging.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;

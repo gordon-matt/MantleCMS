@@ -1,13 +1,14 @@
 ﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @model IEnumerable<BlogPost>
 
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
-    
+
     bool isChildAction = ViewBag.IsChildAction;
-    
+
     if (isChildAction)
     {
         Layout = null;
@@ -43,7 +44,7 @@
                 string teaserImageUrl = string.IsNullOrEmpty(entry.TeaserImageUrl)
                     ? "http://placehold.it/280x136&text=Image+Missing"
                     : entry.TeaserImageUrl;
-                
+
                 <article class="media blog-teaser">
                     <div class="media-left">
                         <img class="img-responsive" src="@teaserImageUrl" style="width:200px" />
@@ -61,9 +62,9 @@
                         </h4>
                         <p>
                             @Html.Raw(string.Format(
-                                T(MantleCmsLocalizableStrings.Blog.PostedByXOnX),
-                                string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
-                                string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
+                                     T(MantleCmsLocalizableStrings.Blog.PostedByXOnX),
+                                     string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
+                                     string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
                         </p>
                         @if (!entry.Tags.IsNullOrEmpty())
                         {
@@ -72,11 +73,11 @@
                                 @foreach (var postTag in entry.Tags)
                                 {
                                     @Html.ActionLink(
-                                        tags[postTag.TagId],
-                                        "Tag",
-                                        "BlogContent",
-                                        new { tagSlug = tagUrls[postTag.TagId] },
-                                        new { @class = "badge", style = "margin-right:5px" })
+                                             tags[postTag.TagId],
+                                             "Tag",
+                                             "BlogContent",
+                                             new { tagSlug = tagUrls[postTag.TagId] },
+                                             new { @class = "badge", style = "margin-right:5px" })
                                 }
                             </p>
                         }
@@ -91,11 +92,11 @@
             }
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-            @Html.ContentZone("Blog_Categories")
+            @Component.ContentZone("Blog_Categories")
             <div class="clearfix"></div>
-            @Html.ContentZone("Blog_Tags")
+            @Component.ContentZone("Blog_Tags")
             <div class="clearfix"></div>
-            @Html.ContentZone("Blog_LatestPosts")
+            @Component.ContentZone("Blog_LatestPosts")
         </div>
     </div>
     <div class="row">

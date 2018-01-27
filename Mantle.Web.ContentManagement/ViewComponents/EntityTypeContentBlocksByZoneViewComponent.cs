@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.ViewComponents
 {
+    [ViewComponent(Name = "EntityTypeContentBlocksByZone")]
     public class EntityTypeContentBlocksByZoneViewComponent : ViewComponent
     {
         private readonly IEnumerable<IEntityTypeContentBlockProvider> providers;
@@ -14,7 +16,12 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             this.providers = providers;
         }
 
-        public IViewComponentResult Invoke(string zoneName, string entityType, object entityId, bool renderAsWidgets = false, WidgetColumns widgetColumns = WidgetColumns.Default)
+        public async Task<IViewComponentResult> InvokeAsync(
+            string zoneName,
+            string entityType,
+            object entityId,
+            bool renderAsWidgets = false,
+            WidgetColumns widgetColumns = WidgetColumns.Default)
         {
             var contentBlocks = providers
                 .SelectMany(x => x.GetContentBlocks(zoneName, entityType, entityId.ToString()))

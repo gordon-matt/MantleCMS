@@ -1,7 +1,7 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
+﻿using Mantle.Messaging.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Messaging.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Microsoft.EntityFrameworkCore;

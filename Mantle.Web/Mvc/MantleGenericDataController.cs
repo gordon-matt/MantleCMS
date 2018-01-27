@@ -26,7 +26,7 @@ namespace Mantle.Web.Mvc
 
         protected IGenericDataService<TEntity> Service { get; private set; }
 
-        protected ILogger Logger { get; private set; }
+        //protected ILogger Logger { get; private set; }
 
         #endregion Non-Public Properties
 
@@ -36,7 +36,7 @@ namespace Mantle.Web.Mvc
         {
             Service = service;
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
-            Logger = loggerFactory.CreateLogger(GetType());
+            //Logger = loggerFactory.CreateLogger(GetType());
         }
 
         public MantleGenericDataController(IRepository<TEntity> repository)
@@ -44,7 +44,7 @@ namespace Mantle.Web.Mvc
             var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
             Service = new GenericDataService<TEntity>(cacheManager, repository);
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
-            Logger = loggerFactory.CreateLogger(GetType());
+            //Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #endregion Constructors
@@ -272,17 +272,17 @@ namespace Mantle.Web.Mvc
         {
         }
 
-        protected static bool CheckPermission(Permission permission)
-        {
-            if (permission == null)
-            {
-                return true;
-            }
+        //protected static bool CheckPermission(Permission permission)
+        //{
+        //    if (permission == null)
+        //    {
+        //        return true;
+        //    }
 
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-        }
+        //    var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
+        //    var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        //    return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
+        //}
 
         protected abstract Permission ReadPermission { get; }
 

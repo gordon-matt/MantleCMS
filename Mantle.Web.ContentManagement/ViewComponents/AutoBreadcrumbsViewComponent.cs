@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Infrastructure;
-using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.ViewComponents
 {
+    [ViewComponent(Name = "AutoBreadcrumbs")]
     public class AutoBreadcrumbsViewComponent : ViewComponent
     {
         private readonly BlogSettings blogSettings;
@@ -24,11 +25,11 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             this.workContext = workContext;
         }
 
-        public IViewComponentResult Invoke(string templateViewName)
+        public async Task<IViewComponentResult> InvokeAsync(string templateViewName)
         {
             var breadcrumbs = new List<Breadcrumb>();
 
-            string currentUrlSlug = Request.Url.LocalPath.TrimStart('/');
+            string currentUrlSlug = Request.Path.Value.TrimStart('/'); // TODO: Test
 
             if (currentUrlSlug == "blog")
             {
@@ -66,7 +67,7 @@ namespace Mantle.Web.ContentManagement.ViewComponents
                         break;
                     }
 
-                    bool hasAccess = AsyncHelper.RunSync(() => PageSecurityHelper.CheckUserHasAccessToPage(parentPage, User));
+                    bool hasAccess = await PageSecurityHelper.CheckUserHasAccessToPage(parentPage, User);
                     if (hasAccess)
                     {
                         var currentVersion = pageVersionService.GetCurrentVersion(tenantId, parentPage.Id, workContext.CurrentCultureCode);

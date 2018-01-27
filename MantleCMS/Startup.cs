@@ -319,7 +319,8 @@ namespace MantleCMS
                     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
                 });
 
-            app.UseIdentity();
+            //app.UseIdentity();
+            app.UseAuthentication();
 
             app.UseMultitenancy<Tenant>();
 

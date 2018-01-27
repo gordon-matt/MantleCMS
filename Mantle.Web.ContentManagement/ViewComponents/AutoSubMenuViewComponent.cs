@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.ViewComponents
 {
+    [ViewComponent(Name = "AutoSubMenu")]
     public class AutoSubMenuViewComponent : ViewComponent
     {
         private readonly IPageVersionService pageVersionService;
@@ -32,18 +34,18 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             this.workContext = workContext;
         }
 
-        public IViewComponentResult Invoke(string templateViewName)
+        public async Task<IViewComponentResult> InvokeAsync(string templateViewName)
         {
             // we need a better way to get slug, because it could be something like /store/categories/category-1/product-1
             // and this current way would only return product-1
-            string currentUrlSlug = Request.Url.LocalPath.TrimStart('/');
+            string currentUrlSlug = Request.Path.Value.TrimStart('/'); // TODO: Test
             var menuItems = new List<MenuItem>();
             var menuId = Guid.NewGuid();
 
             // If home page
             if (string.IsNullOrEmpty(currentUrlSlug))
             {
-                bool hasAccess = AsyncHelper.RunSync(() => PageSecurityHelper.CheckUserHasAccessToBlog(User));
+                bool hasAccess = await PageSecurityHelper.CheckUserHasAccessToBlog(User);
                 if (blogSettings.ShowOnMenus && hasAccess)
                 {
                     menuItems.Add(new MenuItem

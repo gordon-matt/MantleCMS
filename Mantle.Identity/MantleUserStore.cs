@@ -210,7 +210,7 @@ namespace Mantle.Identity
             }
         }
 
-        protected virtual Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
+        protected override Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
             return Roles.SingleOrDefaultAsync(r =>
                 r.NormalizedName == normalizedRoleName
@@ -218,7 +218,7 @@ namespace Mantle.Identity
                 cancellationToken);
         }
 
-        protected virtual Task<IdentityUserRole<string>> FindUserRoleAsync(string userId, string roleId, CancellationToken cancellationToken)
+        protected override Task<IdentityUserRole<string>> FindUserRoleAsync(string userId, string roleId, CancellationToken cancellationToken)
         {
             return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken);
         }

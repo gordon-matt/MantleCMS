@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Mantle.Web.ContentManagement.ViewComponents
 {
+    [ViewComponent(Name = "AutoMenu")]
     public class AutoMenuViewComponent : ViewComponent
     {
         private readonly IPageService pageService;
@@ -37,7 +39,7 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             this.workContext = workContext;
         }
 
-        public IViewComponentResult Invoke(string templateViewName, bool includeHomePageLink = true)
+        public async Task<IViewComponentResult> InvokeAsync(string templateViewName, bool includeHomePageLink = true)
         {
             var menuItems = new List<MenuItem>();
             var menuId = Guid.NewGuid();
@@ -78,7 +80,7 @@ namespace Mantle.Web.ContentManagement.ViewComponents
 
             menuItems.AddRange(items);
 
-            bool hasAccess = AsyncHelper.RunSync(() => PageSecurityHelper.CheckUserHasAccessToBlog(User));
+            bool hasAccess = await PageSecurityHelper.CheckUserHasAccessToBlog(User);
             if (hasAccess && blogSettings.ShowOnMenus)
             {
                 menuItems.Add(new MenuItem

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KendoGridBinderEx.ModelBinder.AspNetCore;
-using Mantle.Infrastructure;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Mvc;
 using Mantle.Web.Mvc.KendoUI;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
@@ -150,13 +148,6 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
                 //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
                 //return Updated(dataEntity);
             }
-        }
-
-        protected static bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
         }
     }
 

@@ -14,10 +14,10 @@ namespace Mantle.Web.Mvc.Rendering
 
         public FluentTagBuilder(string tagName, TagRenderMode renderMode = TagRenderMode.Normal, FluentTagBuilder parent = null)
         {
-            this.tagBuilder = new TagBuilder(tagName);
+            tagBuilder = new TagBuilder(tagName);
             tagBuilder.TagRenderMode = renderMode;
             this.parent = parent;
-            this.stringBuilder = new StringBuilder();
+            stringBuilder = new StringBuilder();
         }
 
         public FluentTagBuilder StartTag(string tagName, TagRenderMode renderMode = TagRenderMode.Normal)

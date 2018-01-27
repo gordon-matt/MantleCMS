@@ -24,6 +24,11 @@ namespace Mantle.Web.Mvc
 
         protected virtual bool CheckPermission(Permission permission)
         {
+            if (permission == null)
+            {
+                return true;
+            }
+
             var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
             return authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser);
         }

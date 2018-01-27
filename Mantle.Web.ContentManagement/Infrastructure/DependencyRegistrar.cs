@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Messaging;
+using Mantle.Messaging.Services;
 using Mantle.Tasks;
 using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
@@ -11,8 +13,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Localization;
 using Mantle.Web.ContentManagement.Areas.Admin.Media.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
-using Mantle.Web.ContentManagement.Areas.Admin.Messaging;
-using Mantle.Web.ContentManagement.Areas.Admin.Messaging.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Services;
@@ -20,6 +20,7 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Events;
 using Mantle.Web.Infrastructure;
+using Mantle.Web.Messaging;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
@@ -145,7 +146,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             //builder.RegisterType<PagesIndexingContentProvider>().As<IIndexingContentProvider>().InstancePerDependency(); // TODO
             //builder.RegisterType<BlogIndexingContentProvider>().As<IIndexingContentProvider>().InstancePerDependency(); // TODO
 
-            builder.RegisterType<NewsletterMessageTemplates>().As<IMessageTemplatesProvider>().InstancePerDependency();
+            //builder.RegisterType<NewsletterMessageTemplates>().As<IMessageTemplatesProvider>().InstancePerDependency();
 
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
