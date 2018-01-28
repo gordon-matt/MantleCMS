@@ -3,10 +3,12 @@ using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
+    [Route("api/menus")]
     public class MenuApiController : GenericTenantODataController<Menu, Guid>
     {
         public MenuApiController(IMenuService service)

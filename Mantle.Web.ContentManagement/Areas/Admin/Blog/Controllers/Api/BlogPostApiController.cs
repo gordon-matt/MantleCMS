@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
+    [Route("api/blog/posts")]
     public class BlogPostApiController : GenericTenantODataController<BlogPost, Guid>
     {
         private readonly Lazy<IMembershipService> membershipService;

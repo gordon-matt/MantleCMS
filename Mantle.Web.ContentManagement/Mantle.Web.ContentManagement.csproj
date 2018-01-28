@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,6 +6,9 @@
     <Company />
     <NeutralLanguage>en-US</NeutralLanguage>
     <Description>Content Management package for the Mantle framework</Description>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +18,42 @@
     <EmbeddedResource Remove="Areas\Admin\ContentBlocks\Scripting\**" />
     <None Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
     <None Remove="Areas\Admin\ContentBlocks\Scripting\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\Admin\Blog\Scripts\blog.js" />
+    <None Remove="Areas\Admin\Blog\Scripts\blogContent.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\contentBlocks.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\entityTypeContentBlocks.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\zoneModel.js" />
+    <None Remove="Areas\Admin\Media\Scripts\media.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menus.js" />
+    <None Remove="Areas\Admin\Newsletters\Scripts\subscribers.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\index.js" />
+    <None Remove="Areas\Admin\Sitemap\Scripts\index.js" />
+    <None Remove="Scripts\jqcloud.min.js" />
+    <None Remove="Scripts\jquery.dom.form_params.min.js" />
+    <None Remove="Scripts\jquery.form-extension.js" />
+    <None Remove="Scripts\kore-cms-localization.js" />
+    <None Remove="Scripts\moment.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blogContent.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\contentBlocks.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entityTypeContentBlocks.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zoneModel.js" />
+    <EmbeddedResource Include="Areas\Admin\Media\Scripts\media.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
+    <EmbeddedResource Include="Areas\Admin\Newsletters\Scripts\subscribers.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\index.js" />
+    <EmbeddedResource Include="Scripts\jqcloud.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.dom.form_params.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.form-extension.js" />
+    <EmbeddedResource Include="Scripts\kore-cms-localization.js" />
+    <EmbeddedResource Include="Scripts\moment.js" />
   </ItemGroup>
 
   <ItemGroup>

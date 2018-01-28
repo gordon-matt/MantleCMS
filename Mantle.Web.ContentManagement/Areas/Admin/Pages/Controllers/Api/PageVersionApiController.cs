@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
+    [Route("api/page-versions")]
     public class PageVersionApiController : GenericTenantODataController<PageVersion, Guid>
     {
         private readonly Lazy<IPageService> pageService;

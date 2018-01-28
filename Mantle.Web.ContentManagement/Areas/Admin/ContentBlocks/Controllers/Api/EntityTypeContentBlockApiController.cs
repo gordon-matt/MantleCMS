@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {
+    [Route("api/blocks/entity-type-content-blocks")]
     public class EntityTypeContentBlockApiController : GenericODataController<EntityTypeContentBlock, Guid>
     {
         private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;

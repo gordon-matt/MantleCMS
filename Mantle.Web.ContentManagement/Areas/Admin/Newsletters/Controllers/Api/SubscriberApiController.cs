@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
 {
+    [Route("api/newsletters/subscribers")]
     public class SubscriberApiController : ODataController
     {
         private readonly IMembershipService membershipService;

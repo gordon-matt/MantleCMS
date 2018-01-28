@@ -12,7 +12,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers
 {
     [Authorize]
     [Area(CmsConstants.Areas.Blocks)]
-    [Route("content-blocks")]
+    [Route("admin/blocks/content-blocks")]
     public class ContentBlockController : MantleController
     {
         private readonly Lazy<IContentBlockService> contentBlockService;

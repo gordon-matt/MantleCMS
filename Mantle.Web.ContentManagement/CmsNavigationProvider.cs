@@ -26,76 +26,60 @@ namespace Mantle.Web.ContentManagement
 
         private void BuildCmsMenu(NavigationItemBuilder builder)
         {
-            builder.Icons("kore-icon kore-icon-cms");
+            builder.Icons("fa fa-edit");
 
             // Blog
             builder.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value, "5", item => item
                 .Url("#blog")
-                //.Action("Index", "Blog", new { area = CmsConstants.Areas.Blog })
-                .Icons("kore-icon kore-icon-blog")
+                .Icons("fa fa-bullhorn")
                 .Permission(CmsPermissions.BlogRead));
 
             // Content Blocks
             builder.Add(T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value, "5", item => item
                 .Url("#blocks/content-blocks")
-                //.Action("Index", "ContentBlock", new { area = CmsConstants.Areas.Blocks, pageId = UrlParameter.Optional })
-                .Icons("kore-icon kore-icon-content-blocks")
+                .Icons("fa fa-th-large")
                 .Permission(CmsPermissions.ContentBlocksRead));
-
-            // Localization
-            builder.Add(T[MantleCmsLocalizableStrings.Localization.Title].Value, "5", item => item
-                .Url("#localization/languages")
-                //.Action("Index", "Language", new { area = CmsConstants.Areas.Localization })
-                .Icons("kore-icon kore-icon-localization")
-                .Permission(CmsPermissions.LanguagesRead));
-
+            
             // Media
             builder.Add(T[MantleCmsLocalizableStrings.Media.Title].Value, "5", item => item
                 .Url("#media")
-                //.Action("Index", "Media", new { area = CmsConstants.Areas.Media })
-                .Icons("kore-icon kore-icon-media")
+                .Icons("fa fa-picture-o")
                 .Permission(CmsPermissions.MediaRead));
 
             // Menus
             builder.Add(T[MantleCmsLocalizableStrings.Menus.Title].Value, "5", item => item
                 .Url("#menus")
-                //.Action("Index", "Menu", new { area = CmsConstants.Areas.Menus })
-                .Icons("kore-icon kore-icon-menus")
+                .Icons("fa fa-arrow-right")
                 .Permission(CmsPermissions.MenusRead));
 
             // Messaging
             builder.Add(T[MantleCmsLocalizableStrings.Messaging.MessageTemplates].Value, "5", item => item
                 .Url("#messaging/templates")
-                //.Action("Index", "MessageTemplate", new { area = CmsConstants.Areas.Messaging })
-                .Icons("kore-icon kore-icon-message-templates")
+                .Icons("fa fa-crop")
                 .Permission(CmsPermissions.MessageTemplatesRead));
 
             // Pages
             builder.Add(T[MantleCmsLocalizableStrings.Pages.Title].Value, "5", item => item
                 .Url("#pages")
-                //.Action("Index", "Page", new { area = CmsConstants.Areas.Pages })
-                .Icons("kore-icon kore-icon-pages")
+                .Icons("fa fa-file-o")
                 .Permission(CmsPermissions.PagesRead));
 
             // Queued Emails
             builder.Add(T[MantleCmsLocalizableStrings.Messaging.QueuedEmails].Value, "5", item => item
                 .Url("#messaging/queued-email")
-                //.Action("Index", "QueuedEmail", new { area = CmsConstants.Areas.Messaging })
-                .Icons("kore-icon kore-icon-message-queue")
+                .Icons("fa fa-envelope-o")
                 .Permission(CmsPermissions.QueuedEmailsRead));
 
             // Subscribers
             builder.Add(T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value, "5", item => item
                 .Url("#newsletters/subscribers")
-                //.Action("Index", "Subscriber", new { area = CmsConstants.Areas.Newsletters })
-                .Icons("kore-icon kore-icon-subscribers")
+                .Icons("fa fa-users")
                 .Permission(CmsPermissions.NewsletterRead));
 
             // XML Sitemap
             builder.Add(T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value, "5", item => item
                 .Url("#sitemap/xml-sitemap")
-                //.Action("Index", "XmlSitemap", new { area = CmsConstants.Areas.Sitemap })
-                .Icons("kore-icon kore-icon-sitemap")
+                .Icons("fa fa-sitemap")
                 .Permission(CmsPermissions.SitemapRead));
         }
     }

@@ -13,6 +13,7 @@ using Mantle.Tenants.Domain;
 using Mantle.Web;
 using Mantle.Web.Common.Areas.Admin.Regions;
 using Mantle.Web.Configuration;
+using Mantle.Web.ContentManagement;
 using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
@@ -147,6 +148,7 @@ namespace MantleCMS
             {
                 new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
                 new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
+                new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
                 //TODO: Add more - and better to detect them automatically somehow
             };
 

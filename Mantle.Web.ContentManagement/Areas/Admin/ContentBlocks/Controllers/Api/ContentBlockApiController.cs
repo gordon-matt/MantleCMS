@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
+    [Route("api/blocks/content-blocks")]
     public class ContentBlockApiController : GenericODataController<ContentBlock, Guid>
     {
         private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;

@@ -14,7 +14,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers
 {
     [Authorize]
     [Area(CmsConstants.Areas.Newsletters)]
-    [Route("subscribers")]
+    [Route("admin/newsletters/subscribers")]
     public class SubscriberController : MantleController
     {
         private readonly Lazy<IMembershipService> membershipService;

@@ -1,7 +1,7 @@
 - Copy all code from old KoreCMS projects (or as much as is possible)
 - Plugins
 - CMS Features
-- Integrate Mosaico for Email Templates
+- Integrate GrapesJS for Email Templates
 - Integrate GrapesJS for HTML Builder (wait for version with Bootstrap Blocks. See roadmap: https://github.com/artf/grapesjs/issues/74)
 - Change Admin UI to some open source Bootstrap theme? Also, use Bootstrap 4
 - Installation page

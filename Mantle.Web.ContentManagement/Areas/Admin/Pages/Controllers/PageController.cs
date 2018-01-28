@@ -18,6 +18,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
 {
     [Authorize]
     [Area(CmsConstants.Areas.Pages)]
+    [Route("admin/pages")]
     public class PageController : MantleController
     {
         protected static Regex ContentZonePattern = new Regex(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);

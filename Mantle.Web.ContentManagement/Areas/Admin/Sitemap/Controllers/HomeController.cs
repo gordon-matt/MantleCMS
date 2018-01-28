@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers
 {
-    [Area("")]
+    //[Area("")]
     public class HomeController : MantleController
     {
         private readonly IWebHelper webHelper;

@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
 {
     [Area(CmsConstants.Areas.Pages)]
+    [Route("admin/pages")]
     public class PageContentController : MantleController
     {
         protected static Regex ContentZonePattern = new Regex(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
@@ -50,6 +51,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
         }
 
         //[OutputCache(Duration = 600, VaryByParam = "slug")] //TODO: Uncomment this when ready
+        //[Route("{slug}")]
         public async Task<ActionResult> Index(string slug)
         {
             // Hack to make it search the correct path for the view

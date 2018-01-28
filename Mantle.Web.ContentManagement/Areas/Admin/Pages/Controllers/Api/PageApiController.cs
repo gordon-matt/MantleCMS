@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
+    [Route("api/pages")]
     public class PageApiController : GenericTenantODataController<Page, Guid>
     {
         private readonly IPageVersionService pageVersionService;

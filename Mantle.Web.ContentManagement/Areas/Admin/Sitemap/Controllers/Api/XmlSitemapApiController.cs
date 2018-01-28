@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
 {
+    [Route("api/sitemap/xml-sitemap")]
     public class XmlSitemapApiController : GenericTenantODataController<SitemapConfig, int>
     {
         private readonly IPageService pageService;
