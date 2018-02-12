@@ -5,6 +5,6 @@ namespace Mantle.Web.Infrastructure
 {
     public interface IODataRegistrar
     {
-        void Register(IRouteBuilder routeBuilder, IServiceProvider serviceProvider);
+        void Register(IRouteBuilder routes, IServiceProvider services);
     }
 }

@@ -12,15 +12,15 @@
     require('tinymce-jquery');
     require('tinymce-knockout');
 
-    require('kore-common');
-    require('kore-section-switching');
-    require('kore-jqueryval');
-    require('kore-chosen-knockout');
-    require('kore-tinymce');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
+    require('mantle-chosen-knockout');
+    require('mantle-tinymce');
 
-    var postApiUrl = "/odata/kore/cms/BlogPostApi";
-    var categoryApiUrl = "/odata/kore/cms/BlogCategoryApi";
-    var tagApiUrl = "/odata/kore/cms/BlogTagApi";
+    var postApiUrl = "/odata/mantle/cms/BlogPostApi";
+    var categoryApiUrl = "/odata/mantle/cms/BlogCategoryApi";
+    var tagApiUrl = "/odata/mantle/cms/BlogTagApi";
 
     var PostModel = function (parent) {
         var self = this;
@@ -57,7 +57,7 @@
             });
 
             $.ajax({
-                url: '/odata/kore/cms/BlogTagApi?$orderby=Name',
+                url: '/odata/mantle/cms/BlogTagApi?$orderby=Name',
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -136,11 +136,11 @@
                 scrollable: false,
                 columns: [{
                     field: "Headline",
-                    title: self.parent.translations.Columns.Post.Headline,
+                    title: self.parent.translations.columns.post.headline,
                     filterable: true
                 }, {
                     field: "DateCreatedUtc",
-                    title: self.parent.translations.Columns.Post.DateCreatedUtc,
+                    title: self.parent.translations.columns.post.dateCreatedUtc,
                     filterable: true,
                     format: '{0:G}',
                     width: 200
@@ -148,8 +148,8 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: postModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: postModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: postModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: postModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -172,7 +172,7 @@
 
             self.validator.resetForm();
             switchSection($("#post-form-section"));
-            $("#post-form-section-legend").html(self.parent.translations.Create);
+            $("#post-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
@@ -201,15 +201,15 @@
 
                 self.validator.resetForm();
                 switchSection($("#post-form-section"));
-                $("#post-form-section-legend").html(self.parent.translations.Edit);
+                $("#post-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: postApiUrl + "(" + id + ")",
                     type: "DELETE",
@@ -219,10 +219,10 @@
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -270,10 +270,10 @@
 
                     switchSection($("#post-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -292,10 +292,10 @@
 
                     switchSection($("#post-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -382,14 +382,14 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Category.Name,
+                    title: self.parent.translations.columns.category.name,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: categoryModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: categoryModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: categoryModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: categoryModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -404,7 +404,7 @@
 
             self.validator.resetForm();
             switchSection($("#category-form-section"));
-            $("#category-form-section-legend").html(self.parent.translations.Create);
+            $("#category-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
@@ -420,15 +420,15 @@
 
                 self.validator.resetForm();
                 switchSection($("#category-form-section"));
-                $("#category-form-section-legend").html(self.parent.translations.Edit);
+                $("#category-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: categoryApiUrl + "(" + id + ")",
                     type: "DELETE",
@@ -438,10 +438,10 @@
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -474,10 +474,10 @@
 
                     switchSection($("#category-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -496,10 +496,10 @@
 
                     switchSection($("#category-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -585,14 +585,14 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Tag.Name,
+                    title: self.parent.translations.columns.tag.name,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: tagModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: tagModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: tagModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: tagModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -607,7 +607,7 @@
 
             self.validator.resetForm();
             switchSection($("#tag-form-section"));
-            $("#tag-form-section-legend").html(self.parent.translations.Create);
+            $("#tag-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
@@ -623,15 +623,15 @@
 
                 self.validator.resetForm();
                 switchSection($("#tag-form-section"));
-                $("#tag-form-section-legend").html(self.parent.translations.Edit);
+                $("#tag-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: tagApiUrl + "(" + id + ")",
                     type: "DELETE",
@@ -641,10 +641,10 @@
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -677,10 +677,10 @@
 
                     switchSection($("#tag-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -699,10 +699,10 @@
 
                     switchSection($("#tag-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -721,7 +721,7 @@
         self.postModel = false;
         self.categoryModel = false;
         self.tagModel = false;
-        self.tinyMCE_fullDescription = koreDefaultTinyMCEConfig;
+        self.tinyMCE_fullDescription = mantleDefaultTinyMCEConfig;
 
         self.modalDismissed = false;
 

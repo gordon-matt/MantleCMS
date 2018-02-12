@@ -22,9 +22,9 @@ namespace Mantle.Web.ContentManagement.Infrastructure
     {
         #region IWebApiRegistrar Members
 
-        public void Register(IRouteBuilder routeBuilder, IServiceProvider serviceProvider)
+        public void Register(IRouteBuilder routes, IServiceProvider services)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(serviceProvider);
+            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
 
             // Blog
             builder.EntitySet<BlogCategory>("BlogCategoryApi");
@@ -69,7 +69,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             RegisterPageVersionODataActions(builder);
             RegisterXmlSitemapODataActions(builder);
 
-            routeBuilder.MapODataServiceRoute("OData_Mantle_CMS", "odata/kore/cms", builder.GetEdmModel());
+            routes.MapODataServiceRoute("OData_Mantle_CMS", "odata/mantle/cms", builder.GetEdmModel());
         }
 
         #endregion IWebApiRegistrar Members

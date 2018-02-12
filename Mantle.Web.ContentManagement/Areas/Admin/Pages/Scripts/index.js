@@ -12,10 +12,10 @@
     require('tinymce-jquery');
     require('tinymce-knockout');
 
-    require('kore-common');
-    require('kore-section-switching');
-    require('kore-jqueryval');
-    require('kore-tinymce');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
+    require('mantle-tinymce');
 
     ko.mapping = koMap;
 
@@ -43,7 +43,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/PageTypeApi",
+                            url: "/odata/mantle/cms/PageTypeApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -96,13 +96,13 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.PageType.Name,
+                    title: self.parent.translations.columns.pageType.name,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
-                        '<a data-bind="click: pageTypeModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>',
+                        '<a data-bind="click: pageTypeModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -111,7 +111,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/kore/cms/PageTypeApi(" + id + ")",
+                url: "/odata/mantle/cms/PageTypeApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -129,10 +129,10 @@
 
                 self.validator.resetForm();
                 switchSection($("#page-type-form-section"));
-                $("#page-type-form-section-legend").html(self.parent.translations.Edit);
+                $("#page-type-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
@@ -151,7 +151,7 @@
 
             if (isNew) {
                 $.ajax({
-                    url: "/odata/kore/cms/PageTypeApi",
+                    url: "/odata/mantle/cms/PageTypeApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -164,16 +164,16 @@
 
                     switchSection($("#page-type-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 $.ajax({
-                    url: "/odata/kore/cms/PageTypeApi(" + self.id() + ")",
+                    url: "/odata/mantle/cms/PageTypeApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -186,10 +186,10 @@
 
                     switchSection($("#page-type-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -225,7 +225,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/PageVersionApi?$filter=CultureCode eq null",
+                            url: "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq null",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -280,15 +280,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Title",
-                    title: self.parent.translations.Columns.PageVersion.Title,
+                    title: self.parent.translations.columns.pageVersion.title,
                     filterable: true
                 }, {
                     field: "Slug",
-                    title: self.parent.translations.Columns.PageVersion.Slug,
+                    title: self.parent.translations.columns.pageVersion.slug,
                     filterable: true
                 }, {
                     field: "DateModifiedUtc",
-                    title: self.parent.translations.Columns.PageVersion.DateModifiedUtc,
+                    title: self.parent.translations.columns.pageVersion.dateModifiedUtc,
                     filterable: true,
                     width: 180,
                     type: "date",
@@ -298,8 +298,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: pageVersionModel.restore.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs">' + self.parent.translations.Restore + '</a>' +
-                        '<a data-bind="click: pageVersionModel.preview.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Preview + '</a>' +
+                        '<a data-bind="click: pageVersionModel.restore.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs">' + self.parent.translations.restore + '</a>' +
+                        '<a data-bind="click: pageVersionModel.preview.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.preview + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -308,19 +308,19 @@
             });
         };
         self.restore = function (id) {
-            if (confirm(self.parent.translations.PageHistoryRestoreConfirm)) {
+            if (confirm(self.parent.translations.pageHistoryRestoreConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/PageVersionApi(" + id + ")/Default.RestoreVersion",
+                    url: "/odata/mantle/cms/PageVersionApi(" + id + ")/Default.RestoreVersion",
                     type: "POST"
                 })
                 .done(function (json) {
                     $('#PageVersionGrid').data('kendoGrid').dataSource.read();
                     $('#PageVersionGrid').data('kendoGrid').refresh();
                     switchSection($("#page-grid-section"));
-                    $.notify(self.parent.translations.PageHistoryRestoreSuccess, "success");
+                    $.notify(self.parent.translations.pageHistoryRestoreSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.PageHistoryRestoreError, "error");
+                    $.notify(self.parent.translations.pageHistoryRestoreError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             };
@@ -384,7 +384,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/PageApi",
+                            url: "/odata/mantle/cms/PageApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -453,18 +453,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Page.Name,
+                    title: self.parent.translations.columns.page.name,
                     filterable: true
                 }, {
                     field: "IsEnabled",
-                    title: self.parent.translations.Columns.Page.IsEnabled,
+                    title: self.parent.translations.columns.page.isEnabled,
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "ShowOnMenus",
-                    title: self.parent.translations.Columns.Page.ShowOnMenus,
+                    title: self.parent.translations.columns.page.showOnMenus,
                     template: '<i class="fa #=ShowOnMenus ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -474,32 +474,32 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-xs" title="' + self.parent.translations.Edit + '">' +
-                            '<i class="kore-icon kore-icon-edit"></i></a>' +
+                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-xs" title="' + self.parent.translations.edit + '">' +
+                            '<i class="mantle-icon mantle-icon-edit"></i></a>' +
 
-                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-xs" title="' + self.parent.translations.Delete + '">' +
-                            '<i class="kore-icon kore-icon-trash"></i></a>' +
+                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-xs" title="' + self.parent.translations.delete + '">' +
+                            '<i class="mantle-icon mantle-icon-trash"></i></a>' +
 
-                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.Create + '">' +
-                            '<i class="kore-icon kore-icon-add"></i></a>' +
+                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.create + '">' +
+                            '<i class="mantle-icon mantle-icon-add"></i></a>' +
 
-                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs" title="' + self.parent.translations.PageHistory + '">' +
-                            '<i class="kore-icon kore-icon-history"></i></a>' +
+                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs" title="' + self.parent.translations.pageHistory + '">' +
+                            '<i class="mantle-icon mantle-icon-history"></i></a>' +
 
-                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-xs" title="' + self.parent.translations.ContentBlocks + '">' +
-                            '<i class="kore-icon kore-icon-content-blocks"></i></a>' +
+                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-xs" title="' + self.parent.translations.contentBlocks + '">' +
+                            '<i class="mantle-icon mantle-icon-content-blocks"></i></a>' +
 
-                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-xs" title="' + self.parent.translations.Toggle + '">' +
-                            '<i class="kore-icon kore-icon-toggle-on"></i></a>' +
+                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-xs" title="' + self.parent.translations.toggle + '">' +
+                            '<i class="mantle-icon mantle-icon-toggle-on"></i></a>' +
 
-                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.Localize + '">' +
-                            '<i class="kore-icon kore-icon-globe"></i></a>' +
+                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.localize + '">' +
+                            '<i class="mantle-icon mantle-icon-globe"></i></a>' +
 
-                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-xs" title="' + self.parent.translations.Preview + '">' +
-                            '<i class="kore-icon kore-icon-preview"></i></a>' +
+                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-xs" title="' + self.parent.translations.preview + '">' +
+                            '<i class="mantle-icon mantle-icon-preview"></i></a>' +
 
-                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-xs" title="' + self.parent.translations.Move + '">' +
-                            '<i class="kore-icon kore-icon-move"></i></a>' +
+                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-xs" title="' + self.parent.translations.move + '">' +
+                            '<i class="mantle-icon mantle-icon-move"></i></a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -531,7 +531,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.Create);
+            $("#form-section-legend").html(self.parent.translations.create);
         };
         self.setupVersionCreateSection = function () {
             self.parent.pageVersionModel.id(emptyGuid);
@@ -572,7 +572,7 @@
             }
 
             $.ajax({
-                url: "/odata/kore/cms/PageApi(" + id + ")",
+                url: "/odata/mantle/cms/PageApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -596,7 +596,7 @@
                 }
 
                 $.ajax({
-                    url: "/odata/kore/cms/PageVersionApi/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')",
+                    url: "/odata/mantle/cms/PageVersionApi/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')",
                     type: "GET",
                     dataType: "json",
                     async: false
@@ -605,7 +605,7 @@
                     self.setupVersionEditSection(json);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.GetRecordError, "error");
+                    $.notify(self.parent.translations.getRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
 
@@ -613,10 +613,10 @@
 
                 self.validator.resetForm();
                 switchSection($("#form-section"));
-                $("#form-section-legend").html(self.parent.translations.Edit);
+                $("#form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
@@ -694,25 +694,25 @@
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
 
             self.versionValidator.resetForm();
         };
         self.remove = function (id, parentId) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/PageApi(" + id + ")",
+                    url: "/odata/mantle/cms/PageApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
                 .done(function (json) {
                     self.refreshGrid(parentId);
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -747,7 +747,7 @@
 
             if (isNew) {
                 $.ajax({
-                    url: "/odata/kore/cms/PageApi",
+                    url: "/odata/mantle/cms/PageApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -755,16 +755,16 @@
                     async: false
                 })
                 .done(function (json) {
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 $.ajax({
-                    url: "/odata/kore/cms/PageApi(" + self.id() + ")",
+                    url: "/odata/mantle/cms/PageApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -772,10 +772,10 @@
                     async: false
                 })
                 .done(function (json) {
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
 
@@ -824,7 +824,7 @@
 
             // UPDATE only (no option for insert here)
             $.ajax({
-                url: "/odata/kore/cms/PageVersionApi(" + self.parent.pageVersionModel.id() + ")",
+                url: "/odata/mantle/cms/PageVersionApi(" + self.parent.pageVersionModel.id() + ")",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -832,10 +832,10 @@
                 async: false
             })
             .done(function (json) {
-                $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.UpdateRecordError, "error");
+                $.notify(self.parent.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
@@ -867,7 +867,7 @@
             };
 
             $.ajax({
-                url: "/odata/kore/cms/PageApi(" + id + ")",
+                url: "/odata/mantle/cms/PageApi(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -876,19 +876,19 @@
             })
             .done(function (json) {
                 self.refreshGrid(parentId);
-                $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.UpdateRecordError, "error");
+                $.notify(self.parent.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.showPageHistory = function (id) {
             if (self.parent.currentCulture == null || self.parent.currentCulture == "") {
-                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/kore/cms/PageVersionApi?$filter=CultureCode eq null and PageId eq " + id;
+                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq null and PageId eq " + id;
             }
             else {
-                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/kore/cms/PageVersionApi?$filter=CultureCode eq '" + self.parent.currentCulture + "' and PageId eq " + id;
+                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq '" + self.parent.currentCulture + "' and PageId eq " + id;
             }
             self.pageVersionGrid.dataSource.page(1);
 
@@ -924,7 +924,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/PageApi",
+                            url: "/odata/mantle/cms/PageApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -993,18 +993,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Page.Name,
+                    title: self.parent.translations.columns.page.name,
                     filterable: true
                 }, {
                     field: "IsEnabled",
-                    title: self.parent.translations.Columns.Page.IsEnabled,
+                    title: self.parent.translations.columns.page.isEnabled,
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "ShowOnMenus",
-                    title: self.parent.translations.Columns.Page.ShowOnMenus,
+                    title: self.parent.translations.columns.page.showOnMenus,
                     template: '<i class="fa #=ShowOnMenus ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -1014,32 +1014,32 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-xs" title="' + self.parent.translations.Edit + '">' +
-                            '<i class="kore-icon kore-icon-edit"></i></a>' +
+                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-xs" title="' + self.parent.translations.edit + '">' +
+                            '<i class="mantle-icon mantle-icon-edit"></i></a>' +
 
-                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-xs" title="' + self.parent.translations.Delete + '">' +
-                            '<i class="kore-icon kore-icon-trash"></i></a>' +
+                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-xs" title="' + self.parent.translations.delete + '">' +
+                            '<i class="mantle-icon mantle-icon-trash"></i></a>' +
 
-                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.Create + '">' +
-                            '<i class="kore-icon kore-icon-add"></i></a>' +
+                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.create + '">' +
+                            '<i class="mantle-icon mantle-icon-add"></i></a>' +
 
-                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs" title="' + self.parent.translations.PageHistory + '">' +
-                            '<i class="kore-icon kore-icon-history"></i></a>' +
+                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-xs" title="' + self.parent.translations.pageHistory + '">' +
+                            '<i class="mantle-icon mantle-icon-history"></i></a>' +
 
-                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-xs" title="' + self.parent.translations.ContentBlocks + '">' +
-                            '<i class="kore-icon kore-icon-content-blocks"></i></a>' +
+                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-xs" title="' + self.parent.translations.contentBlocks + '">' +
+                            '<i class="mantle-icon mantle-icon-content-blocks"></i></a>' +
 
-                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-xs" title="' + self.parent.translations.Toggle + '">' +
-                            '<i class="kore-icon kore-icon-toggle-on"></i></a>' +
+                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-xs" title="' + self.parent.translations.toggle + '">' +
+                            '<i class="mantle-icon mantle-icon-toggle-on"></i></a>' +
 
-                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.Localize + '">' +
-                            '<i class="kore-icon kore-icon-globe"></i></a>' +
+                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs" title="' + self.parent.translations.localize + '">' +
+                            '<i class="mantle-icon mantle-icon-globe"></i></a>' +
 
-                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-xs" title="' + self.parent.translations.Preview + '">' +
-                            '<i class="kore-icon kore-icon-preview"></i></a>' +
+                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-xs" title="' + self.parent.translations.preview + '">' +
+                            '<i class="mantle-icon mantle-icon-preview"></i></a>' +
 
-                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-xs" title="' + self.parent.translations.Move + '">' +
-                            '<i class="kore-icon kore-icon-move"></i></a>' +
+                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-xs" title="' + self.parent.translations.move + '">' +
+                            '<i class="mantle-icon mantle-icon-move"></i></a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -1065,7 +1065,7 @@
         };
         self.reloadTopLevelPages = function () {
             $.ajax({
-                url: "/odata/kore/cms/PageApi/Default.GetTopLevelPages()",
+                url: "/odata/mantle/cms/PageApi/Default.GetTopLevelPages()",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -1089,7 +1089,7 @@
                 ko.applyBindings(self.parent, elementToBind);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
@@ -1110,7 +1110,7 @@
             };
 
             $.ajax({
-                url: "/odata/kore/cms/PageApi(" + id + ")",
+                url: "/odata/mantle/cms/PageApi(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -1120,10 +1120,10 @@
             .done(function (json) {
                 $("#parentPageModal").modal("hide");
                 self.refreshGrid(parentId);
-                $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.UpdateRecordError, "error");
+                $.notify(self.parent.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };

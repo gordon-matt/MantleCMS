@@ -14,6 +14,7 @@ using Mantle.Web;
 using Mantle.Web.Common.Areas.Admin.Regions;
 using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement;
+using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
@@ -24,6 +25,8 @@ using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
 using MantleCMS.Services;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +36,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +44,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OData.Edm;
 using Newtonsoft.Json;
 using NLog;
 using NLog.Extensions.Logging;
@@ -51,10 +56,10 @@ namespace MantleCMS
 {
     public class Startup
     {
-        /// <summary>
-        /// The name of the default CORS policy.
-        /// </summary>
-        internal const string DefaultCorsPolicyName = "DefaultCorsPolicy";
+        ///// <summary>
+        ///// The name of the default CORS policy.
+        ///// </summary>
+        //internal const string DefaultCorsPolicyName = "DefaultCorsPolicy";
 
         public Startup(IHostingEnvironment env)
         {
@@ -139,6 +144,8 @@ namespace MantleCMS
             services.AddMultitenancy<Tenant, MantleTenantResolver>();
 
             services.AddMantleLocalization();
+
+            services.AddOData();
 
             var mvcBuilder = services.AddMvc(ConfigureMvc)
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
@@ -327,9 +334,18 @@ namespace MantleCMS
             app.UseMultitenancy<Tenant>();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
+            
             app.UseMvc(routes =>
             {
+                // Enable all OData functions
+                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
+
+                var registrars = EngineContext.Current.ResolveAll<IODataRegistrar>();
+                foreach (var registrar in registrars)
+                {
+                    registrar.Register(routes, app.ApplicationServices);
+                }
+
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -355,7 +371,7 @@ namespace MantleCMS
                 efHelper.EnsureTables(context);
             }
         }
-
+        
         /// <summary>
         /// Configures the JSON serializer for MVC.
         /// </summary>

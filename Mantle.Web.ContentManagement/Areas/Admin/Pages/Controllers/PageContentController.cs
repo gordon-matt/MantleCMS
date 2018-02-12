@@ -51,7 +51,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
         }
 
         //[OutputCache(Duration = 600, VaryByParam = "slug")] //TODO: Uncomment this when ready
-        //[Route("{slug}")]
+        [Route("{slug}")]
         public async Task<ActionResult> Index(string slug)
         {
             // Hack to make it search the correct path for the view

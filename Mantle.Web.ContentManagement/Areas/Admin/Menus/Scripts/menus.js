@@ -8,9 +8,9 @@
     require('kendo');
     require('notify');
 
-    require('kore-common');
-    require('kore-section-switching');
-    require('kore-jqueryval');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
 
     var MenuItemModel = function (parent) {
         var self = this;
@@ -46,7 +46,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/MenuItemApi",
+                            url: "/odata/mantle/cms/MenuItemApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -114,20 +114,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Text",
-                    title: self.parent.translations.Columns.MenuItem.Text,
+                    title: self.parent.translations.columns.menuItem.text,
                     filterable: true
                 }, {
                     field: "Url",
-                    title: self.parent.translations.Columns.MenuItem.Url,
+                    title: self.parent.translations.columns.menuItem.url,
                     filterable: true
                 }, {
                     field: "Position",
-                    title: self.parent.translations.Columns.MenuItem.Position,
+                    title: self.parent.translations.columns.menuItem.position,
                     filterable: true,
                     width: 70
                 }, {
                     field: "Enabled",
-                    title: self.parent.translations.Columns.MenuItem.Enabled,
+                    title: self.parent.translations.columns.menuItem.enabled,
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -136,10 +136,10 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\', null)" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
-                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.NewItem + '</a>' +
-                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.Toggle + '</a></div>',
+                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\', null)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.newItem + '</a>' +
+                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.toggle + '</a></div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 220
@@ -166,7 +166,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/kore/cms/MenuItemApi(" + id + ")",
+                url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -188,24 +188,24 @@
                 switchSection($("#items-edit-section"));
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id, parentId) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/MenuItemApi(" + id + ")",
+                    url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
                     type: "DELETE",
                     dataType: "json",
                     async: false
                 })
                 .done(function (json) {
                     self.refreshGrid(parentId);
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -234,7 +234,7 @@
             if (self.id() == emptyGuid) {
                 // INSERT
                 $.ajax({
-                    url: "/odata/kore/cms/MenuItemApi",
+                    url: "/odata/mantle/cms/MenuItemApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -244,17 +244,17 @@
                 .done(function (json) {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 // UPDATE
                 $.ajax({
-                    url: "/odata/kore/cms/MenuItemApi(" + self.id() + ")",
+                    url: "/odata/mantle/cms/MenuItemApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -264,10 +264,10 @@
                 .done(function (json) {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -284,7 +284,7 @@
             };
 
             $.ajax({
-                url: "/odata/kore/cms/MenuItemApi(" + id + ")",
+                url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -293,10 +293,10 @@
             })
             .done(function (json) {
                 self.refreshGrid(parentId);
-                $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.UpdateRecordError, "error");
+                $.notify(self.parent.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
@@ -332,7 +332,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/MenuItemApi",
+                            url: "/odata/mantle/cms/MenuItemApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -391,20 +391,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Text",
-                    title: self.parent.translations.Columns.MenuItem.Text,
+                    title: self.parent.translations.columns.menuItem.text,
                     filterable: true
                 }, {
                     field: "Url",
-                    title: self.parent.translations.Columns.MenuItem.Url,
+                    title: self.parent.translations.columns.menuItem.url,
                     filterable: true
                 }, {
                     field: "Position",
-                    title: self.parent.translations.Columns.MenuItem.Position,
+                    title: self.parent.translations.columns.menuItem.position,
                     filterable: true,
                     width: 70
                 }, {
                     field: "Enabled",
-                    title: self.parent.translations.Columns.MenuItem.Enabled,
+                    title: self.parent.translations.columns.menuItem.enabled,
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -413,10 +413,10 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\',\'#=ParentId#\')" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
-                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.NewItem + '</a>' +
-                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.Toggle + '</a></div>',
+                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\',\'#=ParentId#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.newItem + '</a>' +
+                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.toggle + '</a></div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 220
@@ -450,7 +450,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/MenuApi",
+                            url: "/odata/mantle/cms/MenuApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -505,18 +505,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Menu.Name,
+                    title: self.parent.translations.columns.menu.name,
                     filterable: true
                 }, {
                     field: "UrlFilter",
-                    title: self.parent.translations.Columns.Menu.UrlFilter,
+                    title: self.parent.translations.columns.menu.urlFilter,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: menuModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: menuModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: menuModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '<a data-bind="click: menuModel.items.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs">Items</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
@@ -532,11 +532,11 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.Create);
+            $("#form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/kore/cms/MenuApi(" + id + ")",
+                url: "/odata/mantle/cms/MenuApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -548,17 +548,17 @@
 
                 self.validator.resetForm();
                 switchSection($("#form-section"));
-                $("#form-section-legend").html(self.parent.translations.Edit);
+                $("#form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/MenuApi(" + id + ")",
+                    url: "/odata/mantle/cms/MenuApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -566,10 +566,10 @@
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -589,7 +589,7 @@
             if (self.id() == emptyGuid) {
                 // INSERT
                 $.ajax({
-                    url: "/odata/kore/cms/MenuApi",
+                    url: "/odata/mantle/cms/MenuApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -602,17 +602,17 @@
 
                     switchSection($("#grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 // UPDATE
                 $.ajax({
-                    url: "/odata/kore/cms/MenuApi(" + self.id() + ")",
+                    url: "/odata/mantle/cms/MenuApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -625,10 +625,10 @@
 
                     switchSection($("#grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
