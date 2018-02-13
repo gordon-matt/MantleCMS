@@ -1,9 +1,13 @@
-﻿@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
+﻿@using Mantle.Web
+@using Mantle.Web.Mvc
+@using Mantle.Web.ContentManagement
 @using Mantle.Web.Mvc.MantleUI
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+
 @{
-    string rtlClass = IsRightToLeft ? "k-rtl" : string.Empty;
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
@@ -12,7 +16,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: menuModel.create" class="btn btn-primary">
             <i class="kore-icon kore-icon-add"></i>
-            @T(MantleWebLocalizableStrings.General.Create)
+            @T[MantleWebLocalizableStrings.General.Create]
         </a>
     </div>
 
@@ -28,7 +32,7 @@
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
         {
-            using (var header = panel.BeginHeader(T(MantleWebLocalizableStrings.General.Details))) { }
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
             {
                 <form id="form-section-form" role="form">
@@ -36,7 +40,7 @@
                         <legend id="form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Name", T(MantleCmsLocalizableStrings.Menus.MenuModel.Name), new { @class = "control-label" })
+                                @Html.Label("Name", T[MantleCmsLocalizableStrings.Menus.MenuModel.Name], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-file"></i>
@@ -47,7 +51,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("UrlFilter", T(MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter), new { @class = "control-label" })
+                                @Html.Label("UrlFilter", T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-filter"></i>
@@ -58,8 +62,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="kore-icon kore-icon-save"></i> @T(MantleWebLocalizableStrings.General.Save)</button>
+                                <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="kore-icon kore-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>
@@ -73,11 +77,11 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: menuItemModel.create.bind($data,menuModel.id(), null)" class="btn btn-primary">
             <i class="kore-icon kore-icon-add"></i>
-            @T(MantleWebLocalizableStrings.General.Create)
+            @T[MantleWebLocalizableStrings.General.Create]
         </a>
         <a data-bind="click: menuItemModel.goBack" class="btn btn-default">
             <i class="kore-icon kore-icon-arrow-left"></i>
-            @T(MantleWebLocalizableStrings.General.Back)
+            @T[MantleWebLocalizableStrings.General.Back]
         </a>
     </div>
 
@@ -93,7 +97,7 @@
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
         {
-            using (var header = panel.BeginHeader(T(MantleWebLocalizableStrings.General.Details))) { }
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
             {
                 <form id="item-edit-section-form" role="form">
@@ -101,7 +105,7 @@
                         <legend id="item-edit-section-legend"></legend>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Item_Text", T(MantleCmsLocalizableStrings.Menus.MenuItemModel.Text), new { @class = "control-label" })
+                                @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-file"></i>
@@ -112,7 +116,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Item_Url", T(MantleCmsLocalizableStrings.Menus.MenuItemModel.Url), new { @class = "control-label" })
+                                @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-globe"></i>
@@ -123,7 +127,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Item_Description", T(MantleCmsLocalizableStrings.Menus.MenuItemModel.Description), new { @class = "control-label" })
+                                @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-file"></i>
@@ -134,7 +138,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Item_CssClass", T(MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass), new { @class = "control-label" })
+                                @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-font"></i>
@@ -145,7 +149,7 @@
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Item_Position", T(MantleCmsLocalizableStrings.Menus.MenuItemModel.Position), new { @class = "control-label" })
+                                @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="kore-icon kore-icon-sort-numeric-asc"></i>
@@ -157,14 +161,14 @@
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="checkbox">
                                 <label>
-                                    @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T(MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled)
+                                    @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
                                 </label>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="kore-icon kore-icon-save"></i> @T(MantleWebLocalizableStrings.General.Save)</button>
+                                <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="kore-icon kore-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>
@@ -178,7 +182,7 @@
     <div class="tabstrip">
         <ul>
             <li class="k-state-active">
-                @T(MantleCmsLocalizableStrings.Menus.MenuItems)
+                @T[MantleCmsLocalizableStrings.Menus.MenuItems]
             </li>
         </ul>
         <div>

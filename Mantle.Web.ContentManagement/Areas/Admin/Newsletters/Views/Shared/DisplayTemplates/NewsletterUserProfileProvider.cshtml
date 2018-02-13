@@ -1,9 +1,12 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.Newsletters
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Newsletters
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model NewsletterUserProfileProvider
 
 <div class="checkbox">
     <label>
-        @Html.CheckBoxFor(m => m.SubscribeToNewsletters, new { disabled = "disabled" }) @T(MantleCmsLocalizableStrings.UserProfile.Newsletter.SubscribeToNewsletters)
+        @Html.CheckBoxFor(m => m.SubscribeToNewsletters, new { disabled = "disabled" }) @T[MantleCmsLocalizableStrings.UserProfile.Newsletter.SubscribeToNewsletters]
     </label>
 </div>

@@ -1,14 +1,12 @@
-﻿@using Mantle.Infrastructure
-@using Mantle.Localization
-@using Mantle.Web
-@using Mantle.Web.Configuration
+﻿@using Mantle.Web
 @using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
-@using Mantle.Web.Mvc.Recaptcha
-
+@*@using Mantle.Web.Mvc.Recaptcha*@
 @model FormBlock
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
+    //var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
     string formId = "form-block-" + Model.Id;
 }
 
@@ -31,18 +29,18 @@
         string htmlTemplate = Model.HtmlTemplate;
     }
 
-    @if (Model.HtmlTemplate.Contains("[Captcha]"))
-    {
-        @Html.Hidden("EnableCaptcha", true)
-        
-        string captcha = Html.Recaptcha(captchaSettings.PublicKey, captchaSettings.Theme).ToString();
-        htmlTemplate = htmlTemplate.Replace("[Captcha]", captcha);
-    }
-    else
-    {
-        @Html.Hidden("EnableCaptcha", false)
-    }
-    
+    @*@if (Model.HtmlTemplate.Contains("[Captcha]"))
+        {
+            @Html.Hidden("EnableCaptcha", true)
+
+            string captcha = Html.Recaptcha(captchaSettings.PublicKey, captchaSettings.Theme).ToString();
+            htmlTemplate = htmlTemplate.Replace("[Captcha]", captcha);
+        }
+        else
+        {*@
+    @Html.Hidden("EnableCaptcha", false)
+    @*}*@
+
     @Html.Raw(htmlTemplate)
 </form>
 
@@ -61,10 +59,10 @@
             </div>
         </div>
     </div>
-    
-    using (Script.AtFoot())
-    { 
-        <script type="text/javascript">
+
+    //using (Script.AtFoot())
+    //{
+    <script type="text/javascript">
             $("#@formId").submit(function (e) {
                 $.ajax({
                     url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
@@ -75,10 +73,10 @@
                     $('#modal-message').html(json.Message);
 
                     if (json.Success) {
-                        $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Success)');
+                        $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Success]');
                     }
                     else {
-                        $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Error)');
+                        $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error]');
                     }
 
                     $('#myModal').modal('show');
@@ -91,7 +89,7 @@
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $('#modal-title').html('@T(MantleWebLocalizableStrings.General.Error) - ' + errorThrown);
+                    $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error] - ' + errorThrown);
                     $('#modal-message').html(jqXHR.responseText || textStatus + ': ' + errorThrown);
                     $('#myModal').modal('show');
                     //alert(jqXHR.responseText || textStatus + ': ' + errorThrown);
@@ -99,6 +97,6 @@
 
                 return false;
             });
-        </script>
-    }
+    </script>
+    //}
 }

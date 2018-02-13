@@ -1,6 +1,9 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models
 
 @model SaveResultModel
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <script>
     if (!window.jQuery) {
@@ -13,8 +16,8 @@
 
 <div style="text-align:center;margin-top:140px;">
     <p>
-        @T(MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultIfNotRedirectPleaseClick)
-        <a href="@Model.RedirectUrl" class="btn btn-primary">@T(MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultRedirect)</a>
+        @T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultIfNotRedirectPleaseClick]
+        <a href="@Model.RedirectUrl" class="btn btn-primary">@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.SaveResultRedirect]</a>
     </p>
 
 </div>

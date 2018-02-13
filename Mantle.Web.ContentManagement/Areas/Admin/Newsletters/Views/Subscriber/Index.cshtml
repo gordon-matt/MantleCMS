@@ -1,15 +1,18 @@
 ﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+
 @{
-    string rtlClass = IsRightToLeft ? "k-rtl" : string.Empty;
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: downloadCsv" class="btn btn-primary">
             <i class="kore-icon kore-icon-save"></i>
-            @T(MantleCmsLocalizableStrings.Newsletters.ExportToCSV)
+            @T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]
         </a>
     </div>
 

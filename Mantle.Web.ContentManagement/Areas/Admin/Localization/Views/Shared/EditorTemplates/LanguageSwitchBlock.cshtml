@@ -3,12 +3,14 @@
 
 @model LanguageSwitchBlock
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div id="block-content">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             @Html.LabelFor(m => m.Style, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.EnumDropDownListFor(m => m.Style, null, new { @class = "form-control", data_bind = "value: blockModel.style" })
+                @Html.DropDownListFor(m => m.Style, Html.GetEnumSelectList<LanguageSwitchBlock.LanguageSwitchStyle>(), new { @class = "form-control", data_bind = "value: blockModel.style" })
             </div>
         </div>
     </div>

@@ -1,9 +1,12 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.Sitemap
+﻿@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
 @model IEnumerable<SitemapConfig>
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+
 @{
-    string rtlClass = IsRightToLeft ? "k-rtl" : string.Empty;
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
@@ -12,7 +15,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: generateFile" href="javascript:void(0)" class="btn btn-success">
             <i class="kore-icon kore-icon-save"></i>
-            @T(MantleCmsLocalizableStrings.Sitemap.GenerateFile)
+            @T[MantleCmsLocalizableStrings.Sitemap.GenerateFile]
         </a>
     </div>
 

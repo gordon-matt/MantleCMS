@@ -4,8 +4,8 @@
 
 @if (!string.IsNullOrWhiteSpace(Model.Script))
 {
-    using (Script.AtFoot())
-    {
+    //using (Script.AtFoot())
+    //{
         @Html.Raw(Model.Script)
-    }
+    //}
 }

@@ -4,6 +4,8 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Localization
 @model LanguageSwitchBlock
 
+@inject Mantle.Web.IWebWorkContext WorkContext
+
 @{
     var languages = EngineContext.Current.Resolve<ILanguageService>().GetActiveLanguages(WorkContext.CurrentTenant.Id).ToList();
 
@@ -31,34 +33,34 @@
                 </a>
                 <ul role="menu" class="dropdown-menu">
                     @*@if (Model.UseUrlPrefix)
+                        {
+                            foreach (var language in languages)
+                            {
+                                <li>
+                                    <a href="/@language.CultureCode">
+                                        @if (language.CultureCode == WorkContext.CurrentCultureCode)
+                                        {
+                                            <span class="kore-icon kore-icon-fw kore-icon-ok"></span>
+                                        }
+                                        @language.Name
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {*@
+                    @foreach (var language in languages)
                     {
-                        foreach (var language in languages)
-                        {
-                            <li>
-                                <a href="/@language.CultureCode">
-                                    @if (language.CultureCode == WorkContext.CurrentCultureCode)
-                                    {
-                                        <span class="kore-icon kore-icon-fw kore-icon-ok"></span>
-                                    }
-                                    @language.Name
-                                </a>
-                            </li>
-                        }
+                        <li>
+                            <a href="#" onclick="changeLanguage('@language.CultureCode');">
+                                @if (language.CultureCode == WorkContext.CurrentCultureCode)
+                                {
+                                    <span class="kore-icon kore-icon-fw kore-icon-ok"></span>
+                                }
+                                @language.Name
+                            </a>
+                        </li>
                     }
-                    else
-                    {*@
-                        @foreach (var language in languages)
-                        {
-                            <li>
-                                <a href="#" onclick="changeLanguage('@language.CultureCode');">
-                                    @if (language.CultureCode == WorkContext.CurrentCultureCode)
-                                    {
-                                        <span class="kore-icon kore-icon-fw kore-icon-ok"></span>
-                                    }
-                                    @language.Name
-                                </a>
-                            </li>
-                        }
                     @*}*@
                 </ul>
             </li>
@@ -88,17 +90,17 @@
             {
                 <li class="lang-@language.CultureCode">
                     @*@if (Model.UseUrlPrefix)
-                    {
-                        <a href="/@language.CultureCode">@language.Name</a>
-                    }
-                    else
-                    {*@
-                        <a href="javascript:void(0)" onclick="changeLanguage('@language.CultureCode');">@language.Name</a>
+                        {
+                            <a href="/@language.CultureCode">@language.Name</a>
+                        }
+                        else
+                        {*@
+                    <a href="javascript:void(0)" onclick="changeLanguage('@language.CultureCode');">@language.Name</a>
                     @*}*@
                 </li>
             }
         </ul>
-            break;
+        break;
 }
 
 <script type="text/javascript">
