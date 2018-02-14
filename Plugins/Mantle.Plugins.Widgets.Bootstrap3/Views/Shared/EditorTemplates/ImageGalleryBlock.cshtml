@@ -1,0 +1,147 @@
+﻿@using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
+@model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3ImageGalleryBlock
+
+@inject Mantle.Web.IWebWorkContext WorkContext
+
+<div id="block-content">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.MediaFolder, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
+                    @*@Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control", data_bind = "value: blockModel.mediaFolder" })*@
+                    <span class="input-group-addon">
+                        <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
+                            <i class="kore-icon kore-icon-search"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ImagesPerRowXS, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.DropDownListFor(m => m.ImagesPerRowXS, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowXS" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ImagesPerRowS, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.DropDownListFor(m => m.ImagesPerRowS, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowS" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="form-group">
+            @Html.LabelFor(m => m.ImagesPerRowM, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.DropDownListFor(m => m.ImagesPerRowM, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowM" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ImagesPerRowL, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                @Html.DropDownListFor(m => m.ImagesPerRowL, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowL" })
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .modal-dialog {
+            width: 80% !important;
+        }
+    </style>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="dismissModal();" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Select Folder</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=MediaFolder&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var modalDismissed = false;
+
+    function dismissModal() {
+        modalDismissed = true;
+        $('#myModal').modal('hide');
+    };
+
+    $(document).ready(function () {
+        $('#myModal').on('hidden.bs.modal', function () {
+            if (!modalDismissed) {
+                var url = $('#MediaFolder').val();
+                var idx = url.indexOf("Uploads");
+                url = url.substring(idx);
+                $('#MediaFolder').val(url);
+                //blockModel.mediaFolder(url);
+            }
+            modalDismissed = false;
+        })
+    });
+
+    var contentBlockModel = (function () {
+        var f = {};
+        f.updateModel = function (blockModel) {
+            //blockModel.mediaFolder = ko.observable("");
+            blockModel.imagesPerRowXS = ko.observable(2);
+            blockModel.imagesPerRowS = ko.observable(3);
+            blockModel.imagesPerRowM = ko.observable(3);
+            blockModel.imagesPerRowL = ko.observable(4);
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if ((isFunction(data) && data()) || data) {
+                if (data.MediaFolder == undefined) {
+                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
+                    return;
+                }
+                if (isFunction(data.MediaFolder)) {
+                    $('#MediaFolder').val(data.MediaFolder());
+                    //blockModel.mediaFolder(data.MediaFolder());
+                }
+                if (isFunction(data.ImagesPerRowXS)) {
+                    blockModel.imagesPerRowXS(data.ImagesPerRowXS());
+                }
+                if (isFunction(data.ImagesPerRowS)) {
+                    blockModel.imagesPerRowS(data.ImagesPerRowS());
+                }
+                if (isFunction(data.ImagesPerRowM)) {
+                    blockModel.imagesPerRowM(data.ImagesPerRowM());
+                }
+                if (isFunction(data.ImagesPerRowL)) {
+                    blockModel.imagesPerRowL(data.ImagesPerRowL());
+                }
+            }
+        };
+        f.cleanUp = function (blockModel) {
+            //delete blockModel.mediaFolder;
+            delete blockModel.imagesPerRowXS;
+            delete blockModel.imagesPerRowS;
+            delete blockModel.imagesPerRowM;
+            delete blockModel.imagesPerRowL;
+        };
+        f.onBeforeSave = function (blockModel) {
+            var data = {
+                MediaFolder: $('#MediaFolder').val(),
+                //MediaFolder: blockModel.mediaFolder(),
+                ImagesPerRowXS: blockModel.imagesPerRowXS(),
+                ImagesPerRowS: blockModel.imagesPerRowS(),
+                ImagesPerRowM: blockModel.imagesPerRowM(),
+                ImagesPerRowL: blockModel.imagesPerRowL()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

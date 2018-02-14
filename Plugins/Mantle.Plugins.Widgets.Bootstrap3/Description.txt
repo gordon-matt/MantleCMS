@@ -1,0 +1,8 @@
+﻿Group: Widgets
+FriendlyName: Bootstrap 3
+SystemName: Mantle.Plugins.Widgets.Bootstrap3
+Version: 1.00
+SupportedVersions: 1.00
+Author: Widecommerce
+DisplayOrder: 1
+FileName: Mantle.Plugins.Widgets.Bootstrap3.dll

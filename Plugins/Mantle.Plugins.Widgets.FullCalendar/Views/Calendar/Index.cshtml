@@ -1,0 +1,121 @@
+﻿@using Mantle.Plugins.Widgets.FullCalendar
+@using Mantle.Web
+@using Mantle.Web.Mvc
+@using Mantle.Web.Mvc.MantleUI
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+
+@{
+    //Script.IncludeExternal("//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js");
+
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
+}
+
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: calendarModel.create" class="btn btn-primary">
+            <i class="Mantle-icon Mantle-icon-add"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+<div id="form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="form-section-form" role="form">
+                    <fieldset>
+                        <legend id="form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Name", T[LocalizableStrings.CalendarModel.Name], new { @class = "control-label" })
+                                @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: calendarModel.name" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: calendarModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: calendarModel.save"><i class="Mantle-icon Mantle-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+    </article>
+</div>
+
+<div id="events-grid-section" class="row" style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: eventModel.create" class="btn btn-primary">
+            <i class="Mantle-icon Mantle-icon-add"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+        <a data-bind="click: eventModel.goBack" class="btn btn-default">
+            <i class="Mantle-icon Mantle-icon-arrow-left"></i>
+            @T[MantleWebLocalizableStrings.General.Back]
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="EventGrid"></div>
+    </div>
+</div>
+
+<div id="events-form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="events-form-section-form" role="form">
+                    <fieldset>
+                        <legend id="events-form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Event_Name", T[LocalizableStrings.CalendarEventModel.Name], new { @class = "control-label" })
+                                @Html.TextBox("Event_Name", null, new { @class = "form-control", data_bind = "value: eventModel.name" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Event_StartDateTime", T[LocalizableStrings.CalendarEventModel.StartDateTime], new { @class = "control-label" })
+                                @Html.TextBox("Event_StartDateTime", null, new { data_bind = "value: eventModel.startDateTime" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Event_EndDateTime", T[LocalizableStrings.CalendarEventModel.EndDateTime], new { @class = "control-label" })
+                                @Html.TextBox("Event_EndDateTime", null, new { data_bind = "value: eventModel.endDateTime" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: eventModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: eventModel.save"><i class="Mantle-icon Mantle-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+    </article>
+</div>

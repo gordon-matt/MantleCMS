@@ -1,0 +1,354 @@
+﻿@using Mantle.Plugins.Widgets.FullCalendar
+@using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks
+@using Mantle.Web.Mvc
+@using Mantle.Web.Mvc.MantleUI
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
+@model FullCalendarBlock
+
+<div id="block-content">
+    @using (var tabs = Html.MantleUI().Begin(new Tabs()))
+    {
+        tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.General], "General");
+        tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.AgendaOptions], "AgendaOptions");
+        tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.Selection], "Selection");
+        tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.EventRendering], "EventRendering");
+
+        using (var panel = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CalendarId, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.FullCalendar().CalendarDropDownListFor(m => m.CalendarId, new { @class = "form-control", data_bind = "value: blockModel.calendarId" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FirstDay, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.DropDownListFor(m => m.FirstDay, Html.GetEnumSelectList<DayOfWeek>(), new { @class = "form-control", data_bind = "value: blockModel.firstDay" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AspectRatio, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.AspectRatio, new { @class = "form-control", data_bind = "value: blockModel.aspectRatio" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("Theme", new { data_bind = "checked: blockModel.theme" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Theme]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("Weekends", new { data_bind = "checked: blockModel.weekends" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Weekends]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("FixedWeekCount", new { data_bind = "checked: blockModel.fixedWeekCount" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.FixedWeekCount]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("WeekNumbers", new { data_bind = "checked: blockModel.weekNumbers" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.WeekNumbers]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("HandleWindowResize", new { data_bind = "checked: blockModel.handleWindowResize" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.HandleWindowResize]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        using (var panel = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("SlotEventOverlap", new { data_bind = "checked: blockModel.slotEventOverlap" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.SlotEventOverlap]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("AllDaySlot", new { data_bind = "checked: blockModel.allDaySlot" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AllDaySlot]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AllDayText, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.AllDayText, new { @class = "form-control", data_bind = "value: blockModel.allDayText" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SlotDuration, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.SlotDuration, new { @class = "form-control", data_bind = "value: blockModel.slotDuration" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ScrollTime, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.ScrollTime, new { @class = "form-control", data_bind = "value: blockModel.scrollTime" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.MinTime, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.MinTime, new { @class = "form-control", data_bind = "value: blockModel.minTime" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.MaxTime, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.MaxTime, new { @class = "form-control", data_bind = "value: blockModel.maxTime" })
+                    </div>
+                </div>
+            </div>
+        }
+        using (var panel = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("Selectable", new { data_bind = "checked: blockModel.selectable" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Selectable]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("UnselectAuto", new { data_bind = "checked: blockModel.unselectAuto" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.UnselectAuto]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("SelectOverlap", new { data_bind = "checked: blockModel.selectOverlap" }) @T[LocalizableStrings.ContentBlocks.FullCalendarBlock.SelectOverlap]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        using (var panel = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EventColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.EventColor, new { @class = "form-control", data_bind = "value: blockModel.eventColor" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EventBackgroundColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.EventBackgroundColor, new { @class = "form-control", data_bind = "value: blockModel.eventBackgroundColor" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EventBorderColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.EventBorderColor, new { @class = "form-control", data_bind = "value: blockModel.eventBorderColor" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EventTextColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.EventTextColor, new { @class = "form-control", data_bind = "value: blockModel.eventTextColor" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NextDayThreshold, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.NextDayThreshold, new { @class = "form-control", data_bind = "value: blockModel.nextDayThreshold" })
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+    var contentBlockModel = (function () {
+        var f = {};
+        f.updateModel = function (blockModel) {
+            blockModel.calendarId = ko.observable(0);
+            blockModel.firstDay = ko.observable(0);
+            blockModel.theme = ko.observable(false);
+            blockModel.weekends = ko.observable(true);
+            blockModel.fixedWeekCount = ko.observable(true);
+            blockModel.weekNumbers = ko.observable(false);
+            blockModel.aspectRatio = ko.observable(1.35);
+            blockModel.handleWindowResize = ko.observable(true);
+
+            blockModel.allDaySlot = ko.observable(true);
+            blockModel.allDayText = ko.observable(null);
+            blockModel.slotDuration = ko.observable('00:30:00');
+            blockModel.scrollTime = ko.observable('06:00:00');
+            blockModel.minTime = ko.observable('00:00:00');
+            blockModel.maxTime = ko.observable('24:00:00');
+            blockModel.slotEventOverlap = ko.observable(true);
+
+            blockModel.selectable = ko.observable(false);
+            blockModel.unselectAuto = ko.observable(true);
+            blockModel.selectOverlap = ko.observable(true);
+
+            blockModel.eventColor = ko.observable(null);
+            blockModel.eventBackgroundColor = ko.observable(null);
+            blockModel.eventBorderColor = ko.observable(null);
+            blockModel.eventTextColor = ko.observable(null);
+            blockModel.nextDayThreshold = ko.observable('09:00:00');
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if (data) {
+                if (data.CalendarId) {
+                    blockModel.calendarId(data.CalendarId());
+                }
+                if (data.FirstDay) {
+                    blockModel.firstDay(data.FirstDay());
+                }
+                if (data.Theme) {
+                    blockModel.theme(data.Theme());
+                }
+                if (data.Weekends) {
+                    blockModel.weekends(data.Weekends());
+                }
+                if (data.FixedWeekCount) {
+                    blockModel.fixedWeekCount(data.FixedWeekCount());
+                }
+                if (data.WeekNumbers) {
+                    blockModel.weekNumbers(data.WeekNumbers());
+                }
+                if (data.AspectRatio) {
+                    blockModel.aspectRatio(data.AspectRatio());
+                }
+                if (data.HandleWindowResize) {
+                    blockModel.handleWindowResize(data.HandleWindowResize());
+                }
+
+                if (data.AllDaySlot) {
+                    blockModel.allDaySlot(data.AllDaySlot());
+                }
+                if (data.AllDayText) {
+                    blockModel.allDayText(data.AllDayText());
+                }
+                if (data.SlotDuration) {
+                    blockModel.slotDuration(data.SlotDuration());
+                }
+                if (data.ScrollTime) {
+                    blockModel.scrollTime(data.ScrollTime());
+                }
+                if (data.MinTime) {
+                    blockModel.minTime(data.MinTime());
+                }
+                if (data.MaxTime) {
+                    blockModel.maxTime(data.MaxTime());
+                }
+                if (data.SlotEventOverlap) {
+                    blockModel.slotEventOverlap(data.SlotEventOverlap());
+                }
+
+                if (data.Selectable) {
+                    blockModel.selectable(data.Selectable());
+                }
+                if (data.UnselectAuto) {
+                    blockModel.unselectAuto(data.UnselectAuto());
+                }
+                if (data.SelectOverlap) {
+                    blockModel.selectOverlap(data.SelectOverlap());
+                }
+
+                if (data.EventColor) {
+                    blockModel.eventColor(data.EventColor());
+                }
+                if (data.EventBackgroundColor) {
+                    blockModel.eventBackgroundColor(data.EventBackgroundColor());
+                }
+                if (data.EventBorderColor) {
+                    blockModel.eventBorderColor(data.EventBorderColor());
+                }
+                if (data.EventTextColor) {
+                    blockModel.eventTextColor(data.EventTextColor());
+                }
+                if (data.NextDayThreshold) {
+                    blockModel.nextDayThreshold(data.NextDayThreshold());
+                }
+            }
+        };
+        f.cleanUp = function (blockModel) {
+            delete blockModel.calendarId;
+            delete blockModel.firstDay;
+            delete blockModel.theme;
+            delete blockModel.weekends;
+            delete blockModel.fixedWeekCount;
+            delete blockModel.weekNumbers;
+            delete blockModel.aspectRatio;
+            delete blockModel.handleWindowResize;
+            delete blockModel.allDaySlot;
+            delete blockModel.allDayText;
+            delete blockModel.slotDuration;
+            delete blockModel.scrollTime;
+            delete blockModel.minTime;
+            delete blockModel.maxTime;
+            delete blockModel.slotEventOverlap;
+            delete blockModel.selectable;
+            delete blockModel.unselectAuto;
+            delete blockModel.selectOverlap;
+            delete blockModel.eventColor;
+            delete blockModel.eventBackgroundColor;
+            delete blockModel.eventBorderColor;
+            delete blockModel.eventTextColor;
+            delete blockModel.nextDayThreshold;
+        };
+        f.onBeforeSave = function (blockModel) {
+            var data = {
+                CalendarId: blockModel.calendarId(),
+                FirstDay: blockModel.firstDay(),
+                Theme: blockModel.theme(),
+                Weekends: blockModel.weekends(),
+                FixedWeekCount: blockModel.fixedWeekCount(),
+                WeekNumbers: blockModel.weekNumbers(),
+                AspectRatio: blockModel.aspectRatio(),
+                HandleWindowResize: blockModel.handleWindowResize(),
+                AllDaySlot: blockModel.allDaySlot(),
+                AllDayText: blockModel.allDayText(),
+                SlotDuration: blockModel.slotDuration(),
+                ScrollTime: blockModel.scrollTime(),
+                MinTime: blockModel.minTime(),
+                MaxTime: blockModel.maxTime(),
+                SlotEventOverlap: blockModel.slotEventOverlap(),
+                Selectable: blockModel.selectable(),
+                UnselectAuto: blockModel.unselectAuto(),
+                SelectOverlap: blockModel.selectOverlap(),
+                EventColor: blockModel.eventColor(),
+                EventBackgroundColor: blockModel.eventBackgroundColor(),
+                EventBorderColor: blockModel.eventBorderColor(),
+                EventTextColor: blockModel.eventTextColor(),
+                NextDayThreshold: blockModel.nextDayThreshold()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

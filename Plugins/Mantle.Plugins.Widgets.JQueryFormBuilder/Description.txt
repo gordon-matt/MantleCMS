@@ -1,0 +1,8 @@
+﻿Group: Widgets
+FriendlyName: jQuery Form Builder
+SystemName: Mantle.Plugins.Widgets.JQueryFormBuilder
+Version: 1.00
+SupportedVersions: 1.00
+Author: Kevin Chappell / Widecommerce
+DisplayOrder: 1
+FileName: Mantle.Plugins.Widgets.JQueryFormBuilder.dll

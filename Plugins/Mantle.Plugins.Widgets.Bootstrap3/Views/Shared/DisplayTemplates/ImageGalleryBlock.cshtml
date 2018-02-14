@@ -1,0 +1,42 @@
+﻿@using Mantle
+@using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
+@using Mantle.Web
+@using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
+
+@model Bootstrap3ImageGalleryBlock
+
+@{
+    //Style.IncludeBundle("bootstrap");
+    //Script.IncludeBundle("bootstrap");
+
+    // TODO
+    var mediaService = EngineContext.Current.Resolve<IMediaService>();
+    var images = mediaService.GetMediaFiles(Model.MediaFolder);
+
+    string thumbSizeCss = string.Concat(
+        Bootstrap3ImageGalleryBlock.GetThumbSizeCss(Model.ImagesPerRowXS, "xs"), " ",
+        Bootstrap3ImageGalleryBlock.GetThumbSizeCss(Model.ImagesPerRowS, "sm"), " ",
+        Bootstrap3ImageGalleryBlock.GetThumbSizeCss(Model.ImagesPerRowM, "md"), " ",
+        Bootstrap3ImageGalleryBlock.GetThumbSizeCss(Model.ImagesPerRowL, "lg"));
+}
+
+<style type="text/css">
+    .thumb {
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">@Model.Title</h1>
+    </div>
+    @foreach (var image in images)
+    {
+        <div class="@thumbSizeCss thumb">
+            <a class="thumbnail" href="@image.MediaPath" target="_blank">
+                <img class="img-responsive" src="@image.MediaPath" alt="@image.Name">
+            </a>
+        </div>
+    }
+</div>

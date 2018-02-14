@@ -1,0 +1,118 @@
+﻿@using Mantle
+@using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.FullCalendar.Services
+@using Mantle.Web
+@model Mantle.Plugins.Widgets.FullCalendar.ContentBlocks.FullCalendarBlock
+
+@inject Mantle.Web.IWebWorkContext WorkContext
+
+@{
+    string lang = WorkContext.CurrentCultureCode.LeftOf('-');
+    
+    var eventService = EngineContext.Current.Resolve<ICalendarEventService>();
+    var events = eventService.Find(x => x.CalendarId == Model.CalendarId);
+    string json = events.Select(x => new
+    {
+        title = x.Name,
+        start = x.StartDateTime,
+        end = x.EndDateTime
+    }).ToJson();
+    string blockId = "calendar-" + Guid.NewGuid();
+}
+
+<link href="/Plugins/Widgets.FullCalendar/Content/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+<link href="/Plugins/Widgets.FullCalendar/Content/fullcalendar.print.css" rel="stylesheet" type="text/css" media="print" />
+
+<div id="@blockId"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script type="text/javascript" src="~/Scripts/fullcalendar-2.3.1/fullcalendar.min.js"></script>
+
+@if (!string.IsNullOrEmpty(lang) && lang != "en")
+{
+    <script type="text/javascript" src="~/Scripts/fullcalendar-2.3.1/lang/@(lang).js"></script>
+}
+
+<script type="text/javascript">
+    $('#@blockId').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        isRTL: @System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft.ToString().ToLowerInvariant(),
+        @if (Model.FirstDay != DayOfWeek.Sunday)
+        {
+            @:firstDay: @((int)Model.FirstDay),
+        }
+
+        theme: @Model.Theme.ToString().ToLowerInvariant(),
+        weekends: @Model.Weekends.ToString().ToLowerInvariant(),
+        fixedWeekCount: @Model.FixedWeekCount.ToString().ToLowerInvariant(),
+        weekNumbers: @Model.WeekNumbers.ToString().ToLowerInvariant(),
+        @if (Model.AspectRatio != 1.35f)
+        {
+            @:aspectRatio: @Model.AspectRatio,
+        }
+
+        handleWindowResize: @Model.HandleWindowResize.ToString().ToLowerInvariant(),
+
+        allDaySlot: @Model.AllDaySlot.ToString().ToLowerInvariant(),
+        @if (!string.IsNullOrEmpty(Model.AllDayText))
+        {
+            @:allDayText: '@Model.AllDayText',
+        }
+
+        @if (Model.SlotDuration != "00:30:00")
+        {
+            @:slotDuration: '@Model.SlotDuration',
+        }
+
+        @if (Model.ScrollTime != "06:00:00")
+        {
+            @:scrollTime: '@Model.ScrollTime',
+        }
+
+        @if (Model.MinTime != "00:00:00")
+        {
+            @:minTime: '@Model.MinTime',
+        }
+
+        @if (Model.MaxTime != "24:00:00")
+        {
+            @:maxTime: '@Model.MaxTime',
+        }
+
+        slotEventOverlap: @Model.SlotEventOverlap.ToString().ToLowerInvariant(),
+
+        selectable: @Model.Selectable.ToString().ToLowerInvariant(),
+        unselectAuto: @Model.UnselectAuto.ToString().ToLowerInvariant(),
+        selectOverlap: @Model.SelectOverlap.ToString().ToLowerInvariant(),
+        @if (!string.IsNullOrEmpty(Model.EventColor))
+        {
+            @:eventColor: '@Model.EventColor',
+        }
+
+        @if (!string.IsNullOrEmpty(Model.EventBackgroundColor))
+        {
+            @:eventBackgroundColor: '@Model.EventBackgroundColor',
+        }
+
+        @if (!string.IsNullOrEmpty(Model.EventBorderColor))
+        {
+            @:eventBorderColor: '@Model.EventBorderColor',
+        }
+
+        @if (!string.IsNullOrEmpty(Model.EventTextColor))
+        {
+            @:eventTextColor: '@Model.EventTextColor',
+        }
+
+        @if (Model.NextDayThreshold != "09:00:00")
+        {
+            @:nextDayThreshold: '@Model.NextDayThreshold',
+        }
+
+        events: @Html.Raw(json)
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.Bootstrap3\*.*"</PostBuildEvent>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Company />
+    <Description />
+    <Authors>Matt Gordon</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Description.txt" />
+    <None Remove="Views\Shared\DisplayTemplates\CarouselBlock.cshtml" />
+    <None Remove="Views\Shared\DisplayTemplates\ImageGalleryBlock.cshtml" />
+    <None Remove="Views\Shared\EditorTemplates\CarouselBlock.cshtml" />
+    <None Remove="Views\Shared\EditorTemplates\ImageGalleryBlock.cshtml" />
+    <None Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\CarouselBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\ImageGalleryBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\CarouselBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\ImageGalleryBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
+    <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
+    <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

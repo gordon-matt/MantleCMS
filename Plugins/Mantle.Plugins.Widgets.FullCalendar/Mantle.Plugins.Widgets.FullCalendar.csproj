@@ -1,0 +1,287 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.FullCalendar\*.*"</PostBuildEvent>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Company />
+    <Description />
+    <Authors>Matt Gordon</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\fullcalendar.css" />
+    <None Remove="Content\fullcalendar.min.css" />
+    <None Remove="Content\fullcalendar.print.css" />
+    <None Remove="Description.txt" />
+    <None Remove="Scripts\fullcalendar-2.3.1\changelog.txt" />
+    <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.min.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\gcal.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang-all.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-ma.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-sa.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-tn.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\bg.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ca.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\cs.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\da.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\de-at.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\de.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\el.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-au.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-ca.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-gb.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\es.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\fa.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\fi.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\fr-ca.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\fr.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\he.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\hi.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\hr.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\hu.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\id.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\is.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\it.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ja.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ko.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\lt.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\lv.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\nb.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\nl.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\pl.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\pt-br.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\pt.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ro.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\ru.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\sk.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\sl.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\sr-cyrl.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\sr.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\sv.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\th.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\tr.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\uk.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\vi.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\zh-cn.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\lang\zh-tw.js" />
+    <None Remove="Scripts\fullcalendar-2.3.1\license.txt" />
+    <None Remove="Scripts\index.js" />
+    <None Remove="Views\Calendar\Index.cshtml" />
+    <None Remove="Views\Shared\DisplayTemplates\FullCalendarBlock.cshtml" />
+    <None Remove="Views\Shared\EditorTemplates\FullCalendarBlock.cshtml" />
+    <None Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\fullcalendar.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fullcalendar.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fullcalendar.print.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\changelog.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\fullcalendar.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\fullcalendar.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\gcal.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang-all.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ar-ma.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ar-sa.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ar-tn.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ar.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\bg.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ca.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\cs.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\da.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\de-at.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\de.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\el.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\en-au.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\en-ca.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\en-gb.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\es.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\fa.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\fi.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\fr-ca.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\fr.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\he.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\hi.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\hr.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\hu.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\id.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\is.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\it.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ja.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ko.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\lt.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\lv.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\nb.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\nl.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\pl.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\pt-br.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\pt.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ro.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\ru.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\sk.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\sl.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\sr-cyrl.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\sr.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\sv.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\th.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\tr.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\uk.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\vi.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\zh-cn.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\lang\zh-tw.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\fullcalendar-2.3.1\license.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\index.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Calendar\Index.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\FullCalendarBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\FullCalendarBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
+    <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
+    <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

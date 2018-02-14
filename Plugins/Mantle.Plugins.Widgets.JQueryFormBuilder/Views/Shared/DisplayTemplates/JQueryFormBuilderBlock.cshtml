@@ -1,0 +1,55 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks
+@using Mantle.Web.Configuration
+
+@model JQueryFormBuilderBlock
+
+@{
+    //var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
+    string formId = "form-block-" + Model.Id;
+}
+
+<form id="@formId" method="post" action="@Url.Action("Save", "FormBlock", new { area = string.Empty })" enctype="multipart/form-data">
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ThankYouMessage)
+    @Html.HiddenFor(m => m.RedirectUrl)
+    @Html.HiddenFor(m => m.EmailAddress)
+    @Html.Hidden("ContentBlockTitle", Model.Title)
+    <div id="render-wrap"></div>
+</form>
+
+<script type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/Scripts/form-render.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        @*if (!window.jQuery) {
+            document.write('<script type="text/javascript" src="@Script.GetBundleUrl("jquery")"><\/script>');
+        }*@
+        $('#render-wrap').formRender({
+            formData: @Html.Raw(Model.Metadata)
+        });
+    });
+</script>
+@if (Model.UseAjax)
+{
+    <script type="text/javascript">
+        $("#@formId").submit(function (e) {
+            $.ajax({
+                url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
+                type: "POST",
+                data: $('#@formId').serialize()
+            })
+            .done(function (json) {
+                alert(json.Message);
+
+                if (json.Success) {
+                    window.location = json.RedirectUrl;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText || textStatus + ': ' + errorThrown);
+            });
+
+            return false;
+        });
+    </script>
+}
