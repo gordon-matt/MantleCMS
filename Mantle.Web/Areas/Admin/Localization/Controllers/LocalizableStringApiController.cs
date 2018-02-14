@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
@@ -8,7 +9,6 @@ using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.Mvc;
 using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers

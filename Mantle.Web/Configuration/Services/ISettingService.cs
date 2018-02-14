@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Mantle.Caching;
+using Mantle.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Infrastructure;
-using Mantle.Configuration.Domain;
 
 namespace Mantle.Web.Configuration.Services
 {

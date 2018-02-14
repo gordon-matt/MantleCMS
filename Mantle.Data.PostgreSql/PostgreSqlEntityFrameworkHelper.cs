@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Data.PostgreSql

@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Mantle.Caching;
 using Mantle.Infrastructure;
-using Mantle.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace Mantle.Data.Services
@@ -59,7 +58,7 @@ namespace Mantle.Data.Services
         #region Constructor
 
         public GenericDataService(
-            ICacheManager cacheManager, 
+            ICacheManager cacheManager,
             IRepository<TEntity> repository)
         {
             this.cacheManager = cacheManager;

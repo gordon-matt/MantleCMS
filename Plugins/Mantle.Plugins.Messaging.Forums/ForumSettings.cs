@@ -97,7 +97,7 @@ namespace Mantle.Plugins.Messaging.Forums
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.AllowUsersToDeletePosts)]
         public bool AllowUsersToDeletePosts { get; set; }
 
-        #endregion
+        #endregion Permissions
 
         #region Text Lengths
 
@@ -113,7 +113,7 @@ namespace Mantle.Plugins.Messaging.Forums
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.PostMaxLength)]
         public int PostMaxLength { get; set; }
 
-        #endregion
+        #endregion Text Lengths
 
         #region Page Sizes
 
@@ -141,7 +141,7 @@ namespace Mantle.Plugins.Messaging.Forums
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.ForumSubscriptionsPageSize)]
         public int ForumSubscriptionsPageSize { get; set; }
 
-        #endregion
+        #endregion Page Sizes
 
         [LocalizedDisplayName(LocalizableStrings.Settings.ShowUsersPostCount)]
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.ShowUsersPostCount)]
@@ -181,7 +181,7 @@ namespace Mantle.Plugins.Messaging.Forums
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.PMTextMaxLength)]
         public int PMTextMaxLength { get; set; }
 
-        #endregion
+        #endregion Private Messages
 
         [LocalizedDisplayName(LocalizableStrings.Settings.HomePageActiveDiscussionsTopicCount)]
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.HomePageActiveDiscussionsTopicCount)]
@@ -209,7 +209,7 @@ namespace Mantle.Plugins.Messaging.Forums
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.ActiveDiscussionsFeedCount)]
         public int ActiveDiscussionsFeedCount { get; set; }
 
-        #endregion
+        #endregion RSS Feeds
 
         [LocalizedDisplayName(LocalizableStrings.Settings.PageTitle)]
         public string PageTitle { get; set; }

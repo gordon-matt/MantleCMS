@@ -17,8 +17,8 @@ namespace Mantle.Data.Entity.EntityFramework
         }
 
         public static async Task<HashSet<TSource>> ToHashSetAsync<TSource>(
-                this IQueryable<TSource> source,
-                CancellationToken cancellationToken = default(CancellationToken))
+            this IQueryable<TSource> source,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var asyncEnumerator = source.AsAsyncEnumerable().GetEnumerator();
 

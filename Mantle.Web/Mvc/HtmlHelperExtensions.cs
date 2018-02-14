@@ -8,7 +8,6 @@ using System.Text;
 using Mantle.Collections;
 using Mantle.ComponentModel;
 using Mantle.Infrastructure;
-using Mantle.Localization;
 using Mantle.Security.Membership;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
@@ -827,7 +826,7 @@ namespace Mantle.Web.Mvc
                         emptyText);
             }
         }
-        
+
         private static IEnumerable<SelectListItem> GetTenantsSelectList(string selectedValue = null, string emptyText = null)
         {
             var service = EngineContext.Current.Resolve<ITenantService>();

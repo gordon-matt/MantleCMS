@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Mantle.Caching;
-using Mantle.Localization;
 using Mantle.Localization.Services;
 using Mantle.Logging.Services;
 using Mantle.Tasks;

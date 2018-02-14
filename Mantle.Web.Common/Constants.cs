@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Mantle.Web.Common
+﻿namespace Mantle.Web.Common
 {
     public static class Constants
     {

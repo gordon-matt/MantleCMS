@@ -1,5 +1,4 @@
-﻿using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity.EntityFramework;
 using Mantle.Infrastructure;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
@@ -24,7 +23,7 @@ namespace Mantle.Web.Common
         }
 
         #endregion IStartupTask Members
-        
+
         private void EnsureData(DbContext dbContext)
         {
             var regionService = EngineContext.Current.Resolve<IRegionService>();
@@ -57,12 +56,13 @@ namespace Mantle.Web.Common
             //var dataSettings = EngineContext.Current.Resolve<DataSettings>();//TODO
             //if (dataSettings.CreateSampleData)
             //{
-                #region Insert Countries
 
-                #region North America
+            #region Insert Countries
 
-                regionService.Insert(new[]
-                {
+            #region North America
+
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Anguilla", CountryCode = "AI", RegionType = RegionType.Country, ParentId = northAmerica.Id },
                     new Region { Name = "Antigua and Barbuda", CountryCode = "AG", RegionType = RegionType.Country, ParentId = northAmerica.Id },
                     new Region { Name = "Aruba", CountryCode = "AW", RegionType = RegionType.Country, ParentId = northAmerica.Id },
@@ -106,12 +106,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "Virgin Islands, U.S.", CountryCode = "VI", RegionType = RegionType.Country, ParentId = northAmerica.Id },
                 });
 
-                #endregion North America
+            #endregion North America
 
-                #region South America
+            #region South America
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Argentina", CountryCode = "AR", RegionType = RegionType.Country, ParentId = southAmerica.Id },
                     new Region { Name = "Bolivia, Plurinational State of", CountryCode = "BO", RegionType = RegionType.Country, ParentId = southAmerica.Id },
                     new Region { Name = "Brazil", CountryCode = "BR", RegionType = RegionType.Country, ParentId = southAmerica.Id },
@@ -128,12 +128,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "Venezuela, Bolivarian Republic of", CountryCode = "VE", RegionType = RegionType.Country, ParentId = southAmerica.Id },
                 });
 
-                #endregion South America
+            #endregion South America
 
-                #region Australasia
+            #region Australasia
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "American Samoa", CountryCode = "AS", RegionType = RegionType.Country, ParentId = australasia.Id },
                     new Region { Name = "Australia", CountryCode = "AU", RegionType = RegionType.Country, ParentId = australasia.Id },
                     new Region { Name = "Cook Islands", CountryCode = "CK", RegionType = RegionType.Country, ParentId = australasia.Id },
@@ -161,12 +161,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "Wallis and Futuna", CountryCode = "WF", RegionType = RegionType.Country, ParentId = australasia.Id },
                 });
 
-                #endregion Australasia
+            #endregion Australasia
 
-                #region Asia and Middle East
+            #region Asia and Middle East
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Afghanistan", CountryCode = "AF", RegionType = RegionType.Country, ParentId = asiaAndMiddleEast.Id },
                     new Region { Name = "Armenia", CountryCode = "AM", RegionType = RegionType.Country, ParentId = asiaAndMiddleEast.Id },
                     new Region { Name = "Azerbaijan", CountryCode = "AZ", RegionType = RegionType.Country, ParentId = asiaAndMiddleEast.Id },
@@ -223,12 +223,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "Yemen", CountryCode = "YE", RegionType = RegionType.Country, ParentId = asiaAndMiddleEast.Id }
                 });
 
-                #endregion Asia and Middle East
+            #endregion Asia and Middle East
 
-                #region Africa
+            #region Africa
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Algeria", CountryCode = "DZ", RegionType = RegionType.Country, ParentId = africa.Id },
                     new Region { Name = "Angola", CountryCode = "AO", RegionType = RegionType.Country, ParentId = africa.Id },
                     new Region { Name = "Benin", CountryCode = "BJ", RegionType = RegionType.Country, ParentId = africa.Id },
@@ -290,12 +290,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "Zimbabwe", CountryCode = "ZW", RegionType = RegionType.Country, ParentId = africa.Id },
                 });
 
-                #endregion Africa
+            #endregion Africa
 
-                #region Europe
+            #region Europe
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Åland Islands", CountryCode = "AX", RegionType = RegionType.Country, ParentId = europe.Id },
                     new Region { Name = "Albania", CountryCode = "AL", RegionType = RegionType.Country, ParentId = europe.Id },
                     new Region { Name = "Andorra", CountryCode = "AD", RegionType = RegionType.Country, ParentId = europe.Id },
@@ -351,12 +351,12 @@ namespace Mantle.Web.Common
                     new Region { Name = "United Kingdom", CountryCode = "GB", RegionType = RegionType.Country, ParentId = europe.Id },
                 });
 
-                #endregion Europe
+            #endregion Europe
 
-                #region Antarctica
+            #region Antarctica
 
-                regionService.Insert(new[]
-                {
+            regionService.Insert(new[]
+            {
                     new Region { Name = "Antarctica", CountryCode = "AQ", RegionType = RegionType.Country, ParentId = antarctica.Id },
                     new Region { Name = "Bouvet Island", CountryCode = "BV", RegionType = RegionType.Country, ParentId = antarctica.Id },
                     new Region { Name = "French Southern Territories", CountryCode = "TF", RegionType = RegionType.Country, ParentId = antarctica.Id },
@@ -364,9 +364,10 @@ namespace Mantle.Web.Common
                     new Region { Name = "South Georgia and the South Sandwich Islands", CountryCode = "GS", RegionType = RegionType.Country, ParentId = antarctica.Id },
                 });
 
-                #endregion Antarctica
+            #endregion Antarctica
 
-                #endregion Insert Countries
+            #endregion Insert Countries
+
             //}
         }
     }

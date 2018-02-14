@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace Mantle.Data
+﻿namespace Mantle.Data
 {
-    
     public sealed class ForeignKeyInfo
     {
         public string ForeignKeyTable { get; set; }

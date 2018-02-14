@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Mantle.Security.Membership;
+﻿using Mantle.Security.Membership;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Events
 {

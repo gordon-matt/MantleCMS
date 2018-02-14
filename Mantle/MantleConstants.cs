@@ -23,6 +23,7 @@
         public static class StateProviders
         {
             public const string CurrentCultureCode = "CurrentCultureCode";
+
             //public const string CurrentDesktopTheme = "CurrentDesktopTheme";
             //public const string CurrentMobileTheme = "CurrentMobileTheme";
             public const string CurrentUser = "CurrentUser";

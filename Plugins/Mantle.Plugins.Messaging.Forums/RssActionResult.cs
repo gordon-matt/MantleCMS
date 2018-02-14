@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Internal;
 using SyndicationFeed = WilderMinds.RssSyndication.Feed;
 
 namespace Mantle.Plugins.Messaging.Forums

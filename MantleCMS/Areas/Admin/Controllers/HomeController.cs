@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MantleCMS.Models;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc;
+using MantleCMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

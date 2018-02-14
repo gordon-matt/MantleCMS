@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
 using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api

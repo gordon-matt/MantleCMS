@@ -1,7 +1,6 @@
-﻿using System.Reflection;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 using System.Linq;
+using System.Reflection;
 using Dapper;
 
 namespace Mantle.Data.Dapper

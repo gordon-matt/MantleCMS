@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Mantle.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Data.Entity.EntityFramework

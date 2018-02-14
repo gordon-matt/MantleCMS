@@ -25,7 +25,6 @@ using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
 using MantleCMS.Services;
-using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,7 +43,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using Microsoft.OData.Edm;
 using Newtonsoft.Json;
 using NLog;
 using NLog.Extensions.Logging;
@@ -334,7 +332,7 @@ namespace MantleCMS
             app.UseMultitenancy<Tenant>();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-            
+
             app.UseMvc(routes =>
             {
                 // Enable all OData functions
@@ -371,7 +369,7 @@ namespace MantleCMS
                 efHelper.EnsureTables(context);
             }
         }
-        
+
         /// <summary>
         /// Configures the JSON serializer for MVC.
         /// </summary>

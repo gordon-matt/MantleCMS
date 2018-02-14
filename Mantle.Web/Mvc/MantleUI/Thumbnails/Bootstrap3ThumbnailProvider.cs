@@ -1,11 +1,8 @@
 ﻿using System.IO;
-using Mantle.Infrastructure;
 using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Mantle.Web.Mvc.MantleUI

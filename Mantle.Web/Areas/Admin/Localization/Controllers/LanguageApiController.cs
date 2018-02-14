@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using LanguageEntity = Mantle.Localization.Domain.Language;
 
@@ -99,7 +98,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
             await localizableStringService.Value.InsertAsync(toInsert);
 
             cacheManager.Value.RemoveByPattern(MantleConstants.CacheKeys.LocalizableStringsPatternFormat);
-            
+
             return Json(new { Success = true, Message = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess].Value });
         }
 

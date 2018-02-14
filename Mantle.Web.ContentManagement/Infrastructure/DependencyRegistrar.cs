@@ -123,14 +123,14 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             #endregion Content Blocks
 
             #region Other: Content Blocks
-            
+
             builder.RegisterType<DefaultContentBlockProvider>().As<IContentBlockProvider>().InstancePerDependency();
             builder.RegisterType<DefaultEntityTypeContentBlockProvider>().As<IEntityTypeContentBlockProvider>().InstancePerDependency();
-            
+
             #endregion Other: Content Blocks
-            
+
             #region Other: Messaging
-            
+
             builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerDependency();
 
             #endregion Other: Messaging

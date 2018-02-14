@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Mantle.Data
+﻿namespace Mantle.Data
 {
     public interface IMantleDbHelper
     {

@@ -88,7 +88,6 @@
 //            return false;
 //        }
 
-
 //        public MvcHtmlString RenderMetas()
 //        {
 //            var metas = resourcesManager.GetRegisteredMetas().ToList();

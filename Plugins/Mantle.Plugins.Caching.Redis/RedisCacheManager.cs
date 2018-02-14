@@ -1,9 +1,8 @@
-﻿using Mantle.Web;
-using System;
-using Mantle.Caching;
-using StackExchange.Redis;
-using Mantle.Reflection;
+﻿using System;
 using System.Collections;
+using Mantle.Caching;
+using Mantle.Reflection;
+using StackExchange.Redis;
 
 namespace Mantle.Plugins.Caching.Redis
 {

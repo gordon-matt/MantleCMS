@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Data;
 using Mantle.Tasks.Domain;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MantleTask = Mantle.Tasks.Task;

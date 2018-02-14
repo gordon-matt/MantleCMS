@@ -20,7 +20,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 {
     public class ODataRegistrar : IODataRegistrar
     {
-        #region IWebApiRegistrar Members
+        #region IODataRegistrar Members
 
         public void Register(IRouteBuilder routes, IServiceProvider services)
         {
@@ -72,7 +72,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             routes.MapODataServiceRoute("OData_Mantle_CMS", "odata/mantle/cms", builder.GetEdmModel());
         }
 
-        #endregion IWebApiRegistrar Members
+        #endregion IODataRegistrar Members
 
         private static void RegisterContentBlockODataActions(ODataModelBuilder builder)
         {

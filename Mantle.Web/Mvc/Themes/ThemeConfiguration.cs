@@ -14,7 +14,7 @@ namespace Mantle.Web.Mvc.Themes
             themeConfig.ThemeName = themeName;
             return themeConfig;
         }
-        
+
         [XmlIgnore]
         public string ThemeName { get; set; }
 

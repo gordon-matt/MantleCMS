@@ -1,7 +1,7 @@
 namespace Mantle.Data.QueryBuilder
 {
     using System.Collections.Generic;
-    
+
     public class WhereStatement
     {
         public WhereStatement()

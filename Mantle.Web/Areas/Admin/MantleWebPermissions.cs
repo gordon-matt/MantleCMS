@@ -10,7 +10,7 @@ namespace Mantle.Web.Areas.Admin
         public static readonly Permission LanguagesWrite = new Permission { Name = "Languages_Write", Category = "Localization", Description = "Mantle - Languages: Write" };
         public static readonly Permission LocalizableStringsRead = new Permission { Name = "LocalizableStrings_Read", Category = "Localization", Description = "Mantle - Localizable Strings: Read" };
         public static readonly Permission LocalizableStringsWrite = new Permission { Name = "LocalizableStrings_Write", Category = "Localization", Description = "Mantle - Localizable Strings: Write" };
-        
+
         // Log
         public static readonly Permission LogRead = new Permission { Name = "Log_Read", Category = "Log", Description = "Mantle - Log: Read" };
 
@@ -49,10 +49,10 @@ namespace Mantle.Web.Areas.Admin
 
             yield return SettingsRead;
             yield return SettingsWrite;
-            
+
             yield return ThemesRead;
             yield return ThemesWrite;
-            
+
             yield return MembershipManage;
             yield return MembershipPermissionsRead;
             yield return MembershipPermissionsWrite;

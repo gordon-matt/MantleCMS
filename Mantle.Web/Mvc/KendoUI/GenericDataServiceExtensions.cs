@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using Mantle.Collections;
-using Mantle.Data.Services;
 using KendoGridBinderEx.Containers;
 using KendoGridBinderEx.ModelBinder.AspNetCore;
+using Mantle.Collections;
+using Mantle.Data.Services;
 
 namespace Mantle.Web.Mvc.KendoUI
 {

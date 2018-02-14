@@ -74,6 +74,7 @@
                 //public const string CenterX = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.CenterX";
                 //public const string CenterY = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.CenterY";
                 public const string AutoResize = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.AutoResize";
+
                 public const string Steps = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.Steps";
                 public const string ClassPattern = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.ClassPattern";
                 public const string AfterCloudRender = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.AfterCloudRender";
@@ -86,7 +87,7 @@
                 public const string FontSizeTo = "Mantle.Web.ContentManagement/ContentBlocks.TagCloudBlock.FontSizeTo";
             }
 
-            #endregion
+            #endregion Blog
 
             public static class FormBlock
             {

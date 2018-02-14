@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            
+
             services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizerFactory), typeof(MantleStringLocalizerFactory), ServiceLifetime.Scoped));
             services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizer), typeof(MantleStringLocalizer), ServiceLifetime.Scoped));
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mantle.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Microsoft.Extensions.Localization;

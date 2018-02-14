@@ -1,9 +1,7 @@
-﻿using System.Data;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using Mantle.Collections;
 
 namespace Mantle.IO
 {

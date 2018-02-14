@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Identity.Domain;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +38,7 @@ namespace Mantle.Identity
         }
 
         private async Task ValidateRoleName(
-            RoleManager<TRole> manager, 
+            RoleManager<TRole> manager,
             TRole role,
             ICollection<IdentityError> errors)
         {

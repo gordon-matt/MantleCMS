@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Infrastructure;
 using Mantle.Security;
 using Mantle.Security.Membership;
@@ -8,7 +8,6 @@ using Mantle.Threading;
 using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Security.Membership;
 using Mantle.Web.Security.Membership.Permissions;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

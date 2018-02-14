@@ -42,7 +42,7 @@
 //            this.membershipService = membershipService;
 //            this.razorViewEngine = razorViewEngine;
 //        }
-        
+
 //        [Route("")]
 //        public async Task<ActionResult> Index()
 //        {
@@ -82,7 +82,7 @@
 //                return await Posts(pageIndex, model);
 //            }
 //        }
-        
+
 //        [Route("category/{categorySlug}")]
 //        public async Task<ActionResult> Category(string categorySlug)
 //        {
@@ -132,7 +132,7 @@
 //                return await Posts(pageIndex, model);
 //            }
 //        }
-        
+
 //        [Route("tag/{tagSlug}")]
 //        public async Task<ActionResult> Tag(string tagSlug)
 //        {
@@ -242,7 +242,7 @@
 //            }
 //            return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.IndexAjax");
 //        }
-        
+
 //        [Route("{slug}")]
 //        public async Task<ActionResult> Details(string slug)
 //        {

@@ -13,7 +13,6 @@ using Mantle.Web;
 using Mantle.Web.Security.Membership;
 using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MantleCMS.Services

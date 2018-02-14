@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mantle.Infrastructure;
-using Mantle.Web.Mvc.EmbeddedResources;
 using Microsoft.Extensions.Localization;
 
 namespace Mantle.Web.Infrastructure

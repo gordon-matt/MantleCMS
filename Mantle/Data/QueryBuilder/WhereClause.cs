@@ -1,7 +1,7 @@
 namespace Mantle.Data.QueryBuilder
 {
     using System.Collections.Generic;
-    
+
     public class WhereClause
     {
         public WhereClause(LogicOperator logicOperator, string table, string column, ComparisonOperator comparisonOperator, object value)

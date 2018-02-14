@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Mantle.ComponentModel;
+﻿using Mantle.ComponentModel;
 using Mantle.Web.Configuration;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages

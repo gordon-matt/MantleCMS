@@ -39,7 +39,7 @@ namespace Mantle.Web.ContentManagement
                 .Url("#blocks/content-blocks")
                 .Icons("fa fa-th-large")
                 .Permission(CmsPermissions.ContentBlocksRead));
-            
+
             // Media
             builder.Add(T[MantleCmsLocalizableStrings.Media.Title].Value, "5", item => item
                 .Url("#media")
