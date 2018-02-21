@@ -3,6 +3,6 @@ FriendlyName: Full Calendar
 SystemName: Mantle.Plugins.Widgets.FullCalendar
 Version: 2.3.1
 SupportedVersions: 1.00
-Author: Widecommerce
+Author: Matt Gordon
 DisplayOrder: 1
 FileName: Mantle.Plugins.Widgets.FullCalendar.dll

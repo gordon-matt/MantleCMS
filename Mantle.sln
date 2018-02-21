@@ -47,6 +47,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.JQue
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.FullCalendar", "Plugins\Mantle.Plugins.Widgets.FullCalendar\Mantle.Plugins.Widgets.FullCalendar.csproj", "{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.FlexSlider", "Plugins\Mantle.Plugins.Widgets.FlexSlider\Mantle.Plugins.Widgets.FlexSlider.csproj", "{ED84E3EB-073F-4A12-A69A-99B408AF9CBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.View360", "Plugins\Mantle.Plugins.Widgets.View360\Mantle.Plugins.Widgets.View360.csproj", "{F6E124F6-9E0C-47BF-9041-7C648EF81BF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +129,14 @@ Global
 		{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E124F6-9E0C-47BF-9041-7C648EF81BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E124F6-9E0C-47BF-9041-7C648EF81BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E124F6-9E0C-47BF-9041-7C648EF81BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E124F6-9E0C-47BF-9041-7C648EF81BF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +147,8 @@ Global
 		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86} = {79878135-6B83-45F2-897B-D20570D203A7}
+		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB} = {79878135-6B83-45F2-897B-D20570D203A7}
+		{F6E124F6-9E0C-47BF-9041-7C648EF81BF9} = {79878135-6B83-45F2-897B-D20570D203A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD3BDB32-43FC-4A5D-A901-AD0506138BA9}

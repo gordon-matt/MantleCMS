@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.FlexSlider\*.*"</PostBuildEvent>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Company />
+    <Description />
+    <Authors>Matt Gordon</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\FlexSlider\flexslider.css" />
+    <None Remove="Content\FlexSlider\fonts\flexslider-icon.eot" />
+    <None Remove="Content\FlexSlider\fonts\flexslider-icon.svg" />
+    <None Remove="Content\FlexSlider\fonts\flexslider-icon.ttf" />
+    <None Remove="Content\FlexSlider\fonts\flexslider-icon.woff" />
+    <None Remove="Content\FlexSlider\images\bg_play_pause.png" />
+    <None Remove="Description.txt" />
+    <None Remove="Scripts\jquery.flexslider-min.js" />
+    <None Remove="Views\Shared\DisplayTemplates\FlexSliderBlock.cshtml" />
+    <None Remove="Views\Shared\EditorTemplates\FlexSliderBlock.cshtml" />
+    <None Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\FlexSlider\flexslider.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FlexSlider\fonts\flexslider-icon.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FlexSlider\fonts\flexslider-icon.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FlexSlider\fonts\flexslider-icon.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FlexSlider\fonts\flexslider-icon.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\FlexSlider\images\bg_play_pause.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.flexslider-min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\DisplayTemplates\FlexSliderBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\EditorTemplates\FlexSliderBlock.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.2" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
+    <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
+    <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,8 @@
+﻿Group: Widgets
+FriendlyName: View360
+SystemName: Mantle.Plugins.Widgets.View360
+Version: 1.00
+SupportedVersions: 1.00
+Author: Matt Gordon
+DisplayOrder: 1
+FileName: Mantle.Plugins.Widgets.View360.dll

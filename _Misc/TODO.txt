@@ -6,3 +6,4 @@
 - Change Admin UI to some open source Bootstrap theme? Also, use Bootstrap 4
 - Installation page
 - Media manager (Can hopefully still use Responsive File Manager from KoreCMS, but need to use PeachPie, which is the PHP compilter to use for .NET Core, much like Phalanger was used in MVC5)
+- Integrate Identity Server 4?

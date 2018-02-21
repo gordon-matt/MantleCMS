@@ -3,6 +3,6 @@ FriendlyName: Forums
 SystemName: Mantle.Plugins.Messaging.Forums
 Version: 1.0.0
 SupportedVersions: 1.00
-Author: Widecommerce
+Author: Matt Gordon
 DisplayOrder: 1
 FileName: Mantle.Plugins.Messaging.Forums.dll

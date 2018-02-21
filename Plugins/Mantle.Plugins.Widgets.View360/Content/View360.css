@@ -1,0 +1,255 @@
+
+/*
+ * Wide360 version 1.0.6
+ */
+ 
+.View360-holder div, .View360-holder p, .View360-navigation{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none; 
+    user-select: none;
+}
+
+.View360-holder{
+    display:inline-block;
+    position:relative;    
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius:10px;-o-border-radius:10px;-icab-border-radius:10px;-khtml-border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;
+    float:left;
+   }
+
+.View360-holderFullscreen{
+    border:0px solid white;
+    background:white;
+    display:block;
+    position:absolute;
+    top:0px;
+    left:0px;
+    overflow: hidden;
+    z-index:9999;
+}
+
+.View360-canvasHolder{
+
+}
+
+.View360-loaderHolder{
+    top:0px;
+    left:0px;
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: transparent;
+    z-index: 250;
+    text-align: center;
+}
+
+.View360-fullSizeLoaderHolder{
+    top:0px;
+    left:0px;
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: transparent;
+    z-index: 251;
+    text-align: left;
+    background: rgba(0,0,0,0);
+}
+
+.View360-clickableArea{
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background: transparent;
+    z-index: 300;
+    cursor:default;
+    -webkit-transition: opacity 1s ease-in-out; -moz-transition: opacity 1s ease-in-out;  -o-transition: opacity 1s ease-in-out; transition: opacity 1s ease-in-out;
+
+
+}
+
+/*LOADER CSS*/
+.View360-loaderInnerHolder{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+.View360-loaderBackground{
+    position:absolute;
+    top:0px;
+    width:100%;
+    height:100%;
+}
+
+.View360-loader{
+    position: relative;
+    top: 40%;
+    transform: translateY(-50%);
+}  
+.View360-fullSizeLoader .View360-loader{
+    position: relative;
+    top: 10px;
+    left: 10px;
+    transform: none;
+}
+
+.View360-loadingTitle{
+    font-family: Verdana;
+    font-size: 30px;
+    line-height: 38px;
+    color:#222;
+
+}  
+
+.View360-fullSizeLoader .View360-loadingTitle{ 
+    font-family: Verdana;
+    font-size: 20px;
+    line-height: 38px;
+    color: #222;
+    position:absolute;
+    left:60px;
+    top:5px;
+}
+.View360-loadingSubtitle{
+    font-family: Verdana;
+    font-size: 20px;
+    line-height: 32px;
+    color:#222;
+}
+
+.View360-loadingMessage{
+    font-family: Verdana;
+    font-size: 13px;
+    line-height: 23px;
+    color:#222;
+}
+
+.View360-visual{
+    position:relative;
+}
+
+.View360-visualHolder{
+    display:inline-block;
+}
+
+.View360-fullSizeLoader  .View360-visual{
+    position:relative;
+    width:50px;
+    height:50px;
+}
+
+.View360-visualCanvas{
+
+}
+
+.View360-percentHolder{
+    position:absolute;
+    width: 70px;
+    height: 70px;
+    top:0px;
+}
+
+.View360-percent{  
+    font-family: Arial;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;    
+    top: 0px;
+    width: 70px;
+    height: 70px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.View360-fullSizeLoader .View360-percent{
+    font-size: 15px;
+    top: 15px;
+    color:#000;
+}
+
+/*>> LOADER*/ 
+.View360-navigationHolder{
+    position:absolute;
+    bottom:-50px;
+    left:0px;
+    right:0px;
+    z-index:400;
+
+}
+
+.View360-navigation{
+    height:50px;
+    text-align:center;
+    white-space: nowrap;
+}
+
+.View360-navigationBtn{
+    background-position: 0px 0px; 
+    background-size: 40px 40px;
+    width:40px;
+    height:40px;
+    /*border:1px solid rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.1);*/
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.View360-navigationBtn:hover {
+    box-shadow: 2px 2px 2px #888888;
+}
+
+.View360-navigationBtn:active {
+    background-position: 1px 1px; 
+    box-shadow: 2px 2px 2px #888888;
+}
+
+.View360-navigationPlay{
+    left:0px;
+    background-image: url(images/play.png);
+}
+
+.View360-navigationPause{
+    left:60px;
+    background-image: url(images/pause.png);
+}
+
+.View360-navigationZoomIn{
+    /* margin-left: 20px;*/
+    left:120px;
+    background-image: url(images/zoom-in.png);
+}
+
+.View360-navigationZoomOut{
+    background-image: url(images/zoom-out.png);
+}
+
+.View360-navigationFullscreenEnter{
+    background-image: url(images/fullscreen-enter.png);
+}
+
+.View360-navigationFullscreenExit{
+    background-image: url(images/fullscreen-exit.png);
+}
+
+.View360-navigationTurnLeft{
+    background-image: url(images/turn-left.png);
+}
+
+.View360-navigationTurnRight{
+    background-image: url(images/turn-right.png);
+}
+
+.View360-navigationHand{
+    background-image: url(images/hand.png);
+}
+
+.View360-navigationRotate{
+    background-image: url(images/rotate.png);
+}

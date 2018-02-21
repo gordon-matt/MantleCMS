@@ -1,0 +1,563 @@
+﻿@using Mantle.Plugins.Widgets.View360
+@using Mantle.Web.Mvc
+@using Mantle.Web.Mvc.MantleUI
+
+@model View360Block
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.IWebWorkContext WorkContext
+
+<div id="block-content">
+    @using (var tabs = Html.MantleUI().Begin(new Tabs()))
+    {
+        tabs.Tab(T[LocalizableStrings.EditorTabs.General], "tab-general");
+        tabs.Tab(T[LocalizableStrings.EditorTabs.MainConfiguration], "tab-main");
+        tabs.Tab(T[LocalizableStrings.EditorTabs.Navigation], "tab-navigation");
+        tabs.Tab(T[LocalizableStrings.EditorTabs.LoaderInfoConfig], "tab-loader-info");
+
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mode, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.DropDownListFor(m => m.Mode, Html.GetEnumSelectList<Mode>(), new { @class = "form-control", data_bind = "value: blockModel.mode" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ImagesPattern, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.ImagesPattern, new { @class = "form-control", data_bind = "value: blockModel.imagesPattern" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ImagesDirectory, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control" })
+                            @*@Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.imagesDirectory" })*@
+                            <span class="input-group-addon">
+                                <a data-toggle="modal" href="javascript:void(0);" data-target="#imagesDirectoryModal">
+                                    <i class="kore-icon kore-icon-search"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FullSizeImagesDirectory, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control" })
+                            @*@Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.fullSizeImagesDirectory" })*@
+                            <span class="input-group-addon">
+                                <a data-toggle="modal" href="javascript:void(0);" data-target="#fullSizeImagesDirectoryModal">
+                                    <i class="kore-icon kore-icon-search"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.AutoRotate, new { data_bind = "checked: blockModel.autoRotate" }) @T[LocalizableStrings.AutoRotate]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.AutoRotateStopOnMove, new { data_bind = "checked: blockModel.autoRotateStopOnMove" }) @T[LocalizableStrings.AutoRotateStopOnMove]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.LoadFullSizeImagesOnZoom, new { data_bind = "checked: blockModel.loadFullSizeImagesOnZoom" }) @T[LocalizableStrings.LoadFullSizeImagesOnZoom]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.LoadFullSizeImagesOnFullscreen, new { data_bind = "checked: blockModel.loadFullSizeImagesOnFullscreen" }) @T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AutoRotateDirection, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.DropDownListFor(m => m.AutoRotateDirection, Html.GetEnumSelectList<AutoRotateDirection>(), new { @class = "form-control", data_bind = "value: blockModel.autoRotateDirection" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AutoRotateSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.AutoRotateSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.autoRotateSpeed" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Width, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.Width, new { type = "number", @class = "form-control", data_bind = "value: blockModel.width" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Height, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.Height, new { type = "number", @class = "form-control", data_bind = "value: blockModel.height" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Rows, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.Rows, new { type = "number", @class = "form-control", data_bind = "value: blockModel.rows" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Columns, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.Columns, new { type = "number", @class = "form-control", data_bind = "value: blockModel.columns" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.XAxisSensitivity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.XAxisSensitivity, new { type = "number", @class = "form-control", data_bind = "value: blockModel.xAxisSensitivity" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.YAxisSensitivity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.YAxisSensitivity, new { type = "number", @class = "form-control", data_bind = "value: blockModel.yAxisSensitivity" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.InertiaConstant, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.InertiaConstant, new { type = "number", @class = "form-control", data_bind = "value: blockModel.inertiaConstant" })
+                    </div>
+                </div>
+
+            </div>
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ButtonWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.ButtonWidth, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonWidth" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ButtonHeight, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.ButtonHeight, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonHeight" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ButtonMargin, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.ButtonMargin, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonMargin" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.TurnSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.TurnSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.turnSpeed" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowButtons, new { data_bind = "checked: blockModel.showButtons" }) @T[LocalizableStrings.ShowButtons]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowTool, new { data_bind = "checked: blockModel.showTool" }) @T[LocalizableStrings.ShowTool]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowPlay, new { data_bind = "checked: blockModel.showPlay" }) @T[LocalizableStrings.ShowPlay]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowPause, new { data_bind = "checked: blockModel.showPause" }) @T[LocalizableStrings.ShowPause]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowZoom, new { data_bind = "checked: blockModel.showZoom" }) @T[LocalizableStrings.ShowZoom]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowTurn, new { data_bind = "checked: blockModel.showTurn" }) @T[LocalizableStrings.ShowTurn]
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.ShowFullscreen, new { data_bind = "checked: blockModel.showFullscreen" }) @T[LocalizableStrings.ShowFullscreen]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.DisplayLoader, new { data_bind = "checked: blockModel.displayLoader" }) @T[LocalizableStrings.DisplayLoader]
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderHolderClassName, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderHolderClassName, new { @class = "form-control", data_bind = "value: blockModel.loaderHolderClassName" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoadingTitle, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoadingTitle, new { @class = "form-control", data_bind = "value: blockModel.loadingTitle" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoadingSubtitle, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoadingSubtitle, new { @class = "form-control", data_bind = "value: blockModel.loadingSubtitle" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoadingMessage, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoadingMessage, new { @class = "form-control", data_bind = "value: blockModel.loadingMessage" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderModalBackground, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderModalBackground, new { @class = "form-control", data_bind = "value: blockModel.loaderModalBackground" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderModalOpacity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderModalOpacity, new { @class = "form-control", data_bind = "value: blockModel.loaderModalOpacity" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderCircleWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderCircleWidth, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleWidth" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderCircleLineWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderCircleLineWidth, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleLineWidth" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderCircleLineColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderCircleLineColor, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleLineColor" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LoaderCircleBackgroundColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        @Html.TextBoxFor(m => m.LoaderCircleBackgroundColor, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleBackgroundColor" })
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <style type="text/css">
+        .modal-dialog {
+            width: 80% !important;
+        }
+    </style>
+
+    <div class="modal fade" id="imagesDirectoryModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="dismissModal('imagesDirectoryModal');" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Select Folder</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=ImagesDirectory&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fullSizeImagesDirectoryModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="dismissModal('fullSizeImagesDirectoryModal');" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Select Folder</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=FullSizeImagesDirectory&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var modalDismissed = false;
+
+    function dismissModal(modalId) {
+        modalDismissed = true;
+        $('#' + modalId).modal('hide');
+    };
+
+    $(document).ready(function () {
+        $('#imagesDirectoryModal').on('hidden.bs.modal', function () {
+            if (!modalDismissed) {
+                var url = $('#ImagesDirectory').val();
+                var idx = url.indexOf("Uploads");
+                url = url.substring(idx);
+                //blockModel.imagesDirectory(url);
+                $('#ImagesDirectory').val(url);
+            }
+            modalDismissed = false;
+        })
+        $('#fullSizeImagesDirectoryModal').on('hidden.bs.modal', function () {
+            if (!modalDismissed) {
+                var url = $('#FullSizeImagesDirectory').val();
+                var idx = url.indexOf("Uploads");
+                url = url.substring(idx);
+                //blockModel.fullSizeImagesDirectory(url);
+                $('#FullSizeImagesDirectory').val(url);
+            }
+            modalDismissed = false;
+        })
+    });
+
+    var contentBlockModel = (function () {
+        var f = {};
+        f.internalModel = false;
+        f.updateModel = function (blockModel) {
+            internalModel = blockModel;
+            blockModel.mode = ko.observable(0);
+            blockModel.imagesPattern = ko.observable("image-%COL-%ROW.jpg");
+            //blockModel.imagesDirectory = ko.observable("");
+            //blockModel.fullSizeImagesDirectory = ko.observable("");
+            blockModel.autoRotate = ko.observable(false);
+            blockModel.autoRotateDirection = ko.observable(1);
+            blockModel.autoRotateSpeed = ko.observable(50);
+            blockModel.autoRotateStopOnMove = ko.observable(true);
+            blockModel.loadFullSizeImagesOnZoom = ko.observable(true);
+            blockModel.loadFullSizeImagesOnFullscreen = ko.observable(true);
+            blockModel.width = ko.observable(620);
+            blockModel.height = ko.observable(350);
+            blockModel.rows = ko.observable(1);
+            blockModel.columns = ko.observable(36);
+            blockModel.xAxisSensitivity = ko.observable(10);
+            blockModel.yAxisSensitivity = ko.observable(40);
+            blockModel.inertiaConstant = ko.observable(10);
+            blockModel.buttonWidth = ko.observable(40);
+            blockModel.buttonHeight = ko.observable(40);
+            blockModel.buttonMargin = ko.observable(5);
+            blockModel.turnSpeed = ko.observable(40);
+            blockModel.showButtons = ko.observable(true);
+            blockModel.showTool = ko.observable(true);
+            blockModel.showPlay = ko.observable(true);
+            blockModel.showPause = ko.observable(true);
+            blockModel.showZoom = ko.observable(true);
+            blockModel.showTurn = ko.observable(true);
+            blockModel.showFullscreen = ko.observable(true);
+            blockModel.displayLoader = ko.observable(true);
+            blockModel.loaderHolderClassName = ko.observable("");
+            blockModel.loadingTitle = ko.observable("");
+            blockModel.loadingSubtitle = ko.observable("");
+            blockModel.loadingMessage = ko.observable("");
+            blockModel.loaderModalBackground = ko.observable("#FFF");
+            blockModel.loaderModalOpacity = ko.observable(0.5);
+            blockModel.loaderCircleWidth = ko.observable(70);
+            blockModel.loaderCircleLineWidth = ko.observable(10);
+            blockModel.loaderCircleLineColor = ko.observable("#555");
+            blockModel.loaderCircleBackgroundColor = ko.observable("#FFF");
+
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
+
+            if ((isFunction(data) && data()) || data) {
+                if (data.Mode == undefined) {
+                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
+                    return;
+                }
+                blockModel.mode(data.Mode());
+                blockModel.imagesPattern(data.ImagesPattern());
+
+                $('#ImagesDirectory').val(data.ImagesDirectory());
+                $('#FullSizeImagesDirectory').val(data.FullSizeImagesDirectory());
+
+                //blockModel.imagesDirectory(data.ImagesDirectory());
+                //blockModel.fullSizeImagesDirectory(data.FullSizeImagesDirectory());
+                blockModel.autoRotate(data.AutoRotate());
+                blockModel.autoRotateDirection(data.AutoRotateDirection());
+                blockModel.autoRotateSpeed(data.AutoRotateSpeed());
+                blockModel.autoRotateStopOnMove(data.AutoRotateStopOnMove());
+                blockModel.loadFullSizeImagesOnZoom(data.LoadFullSizeImagesOnZoom());
+                blockModel.loadFullSizeImagesOnFullscreen(data.LoadFullSizeImagesOnFullscreen());
+                blockModel.width(data.Width());
+                blockModel.height(data.Height());
+                blockModel.rows(data.Rows());
+                blockModel.columns(data.Columns());
+                blockModel.xAxisSensitivity(data.XAxisSensitivity());
+                blockModel.yAxisSensitivity(data.YAxisSensitivity());
+                blockModel.inertiaConstant(data.InertiaConstant());
+                blockModel.buttonWidth(data.ButtonWidth());
+                blockModel.buttonHeight(data.ButtonHeight());
+                blockModel.buttonMargin(data.ButtonMargin());
+                blockModel.turnSpeed(data.TurnSpeed());
+                blockModel.showButtons(data.ShowButtons());
+                blockModel.showTool(data.ShowTool());
+                blockModel.showPlay(data.ShowPlay());
+                blockModel.showPause(data.ShowPause());
+                blockModel.showZoom(data.ShowZoom());
+                blockModel.showTurn(data.ShowTurn());
+                blockModel.showFullscreen(data.ShowFullscreen());
+                blockModel.displayLoader(data.DisplayLoader());
+                blockModel.loaderHolderClassName(data.LoaderHolderClassName());
+                blockModel.loadingTitle(data.LoadingTitle());
+                blockModel.loadingSubtitle(data.LoadingSubtitle());
+                blockModel.loadingMessage(data.LoadingMessage());
+                blockModel.loaderModalBackground(data.LoaderModalBackground());
+                blockModel.loaderModalOpacity(data.LoaderModalOpacity());
+                blockModel.loaderCircleWidth(data.LoaderCircleWidth());
+                blockModel.loaderCircleLineWidth(data.LoaderCircleLineWidth());
+                blockModel.loaderCircleLineColor(data.LoaderCircleLineColor());
+                blockModel.loaderCircleBackgroundColor(data.LoaderCircleBackgroundColor());
+            }
+        };
+        f.cleanUp = function (blockModel) {
+            delete blockModel.mode;
+            delete blockModel.imagesPattern;
+            //delete blockModel.imagesDirectory;
+            //delete blockModel.fullSizeImagesDirectory;
+            delete blockModel.autoRotate;
+            delete blockModel.autoRotateDirection;
+            delete blockModel.autoRotateSpeed;
+            delete blockModel.autoRotateStopOnMove;
+            delete blockModel.loadFullSizeImagesOnZoom;
+            delete blockModel.loadFullSizeImagesOnFullscreen;
+            delete blockModel.width;
+            delete blockModel.height;
+            delete blockModel.rows;
+            delete blockModel.columns;
+            delete blockModel.xAxisSensitivity;
+            delete blockModel.yAxisSensitivity;
+            delete blockModel.inertiaConstant;
+            delete blockModel.buttonWidth;
+            delete blockModel.buttonHeight;
+            delete blockModel.buttonMargin;
+            delete blockModel.turnSpeed;
+            delete blockModel.showButtons;
+            delete blockModel.showTool;
+            delete blockModel.showPlay;
+            delete blockModel.showPause;
+            delete blockModel.showZoom;
+            delete blockModel.showTurn;
+            delete blockModel.showFullscreen;
+            delete blockModel.displayLoader;
+            delete blockModel.loaderHolderClassName;
+            delete blockModel.loadingTitle;
+            delete blockModel.loadingSubtitle;
+            delete blockModel.loadingMessage;
+            delete blockModel.loaderModalBackground;
+            delete blockModel.loaderModalOpacity;
+            delete blockModel.loaderCircleWidth;
+            delete blockModel.loaderCircleLineWidth;
+            delete blockModel.loaderCircleLineColor;
+            delete blockModel.loaderCircleBackgroundColor;
+        };
+        f.onBeforeSave = function (blockModel) {
+            var data = {
+                Mode: blockModel.mode(),
+                ImagesPattern: blockModel.imagesPattern(),
+                ImagesDirectory: $('#ImagesDirectory').val(),
+                FullSizeImagesDirectory: $('#FullSizeImagesDirectory').val(),
+                //ImagesDirectory: blockModel.imagesDirectory(),
+                //FullSizeImagesDirectory: blockModel.fullSizeImagesDirectory(),
+                AutoRotate: blockModel.autoRotate(),
+                AutoRotateDirection: blockModel.autoRotateDirection(),
+                AutoRotateSpeed: blockModel.autoRotateSpeed(),
+                AutoRotateStopOnMove: blockModel.autoRotateStopOnMove(),
+                LoadFullSizeImagesOnZoom: blockModel.loadFullSizeImagesOnZoom(),
+                LoadFullSizeImagesOnFullscreen: blockModel.loadFullSizeImagesOnFullscreen(),
+                Width: blockModel.width(),
+                Height: blockModel.height(),
+                Rows: blockModel.rows(),
+                Columns: blockModel.columns(),
+                XAxisSensitivity: blockModel.xAxisSensitivity(),
+                YAxisSensitivity: blockModel.yAxisSensitivity(),
+                InertiaConstant: blockModel.inertiaConstant(),
+                ButtonWidth: blockModel.buttonWidth(),
+                ButtonHeight: blockModel.buttonHeight(),
+                ButtonMargin: blockModel.buttonMargin(),
+                TurnSpeed: blockModel.turnSpeed(),
+                ShowButtons: blockModel.showButtons(),
+                ShowTool: blockModel.showTool(),
+                ShowPlay: blockModel.showPlay(),
+                ShowPause: blockModel.showPause(),
+                ShowZoom: blockModel.showZoom(),
+                ShowTurn: blockModel.showTurn(),
+                ShowFullscreen: blockModel.showFullscreen(),
+                DisplayLoader: blockModel.displayLoader(),
+                LoaderHolderClassName: blockModel.loaderHolderClassName(),
+                LoadingTitle: blockModel.loadingTitle(),
+                LoadingSubtitle: blockModel.loadingSubtitle(),
+                LoadingMessage: blockModel.loadingMessage(),
+                LoaderModalBackground: blockModel.loaderModalBackground(),
+                LoaderModalOpacity: blockModel.loaderModalOpacity(),
+                LoaderCircleWidth: blockModel.loaderCircleWidth(),
+                LoaderCircleLineWidth: blockModel.loaderCircleLineWidth(),
+                LoaderCircleLineColor: blockModel.loaderCircleLineColor(),
+                LoaderCircleBackgroundColor: blockModel.loaderCircleBackgroundColor()
+            };
+
+            blockModel.blockValues(ko.mapping.toJSON(data));
+        };
+        return f;
+    })();
+</script>

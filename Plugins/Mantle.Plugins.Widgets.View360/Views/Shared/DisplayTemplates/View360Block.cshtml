@@ -1,0 +1,65 @@
+﻿@model Mantle.Plugins.Widgets.View360.View360Block
+
+<link rel="stylesheet" type="text/css" href="/Plugins/Widgets.View360/Content/View360.css" />
+
+<div id="view360"></div>
+
+<script type="text/javascript" src="/Plugins/Widgets.FullCalendar/Scripts/View360.js"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", onLoaded);
+
+    function onLoaded() {
+
+        var view = new View360();
+        view.setMode('@Model.Mode.ToString().ToLower()');
+        view.setImagesPattern('@Model.ImagesPattern');
+        view.setImagesDirectory('@Model.ImagesDirectory');
+        @if (!string.IsNullOrEmpty(Model.FullSizeImagesDirectory))
+        {
+        @:view.setFullSizeImagesDirectory('@Model.FullSizeImagesDirectory');
+        }
+        view.setConfig({
+            autoRotate:@Model.AutoRotate.ToString().ToLower(),
+            autoRotateDirection:@(((sbyte)Model.AutoRotateDirection).ToString()),
+            autoRotateSpeed:@Model.AutoRotateSpeed,
+            autoRotateStopOnMove:@Model.AutoRotateStopOnMove.ToString().ToLower(),
+            loadFullSizeImagesOnZoom:@Model.LoadFullSizeImagesOnZoom.ToString().ToLower(),
+            loadFullSizeImagesOnFullscreen:@Model.LoadFullSizeImagesOnFullscreen.ToString().ToLower(),
+            width:@Model.Width,
+            height:@Model.Height,
+            rows:@Model.Rows,
+            columns:@Model.Columns,
+            xAxisSensitivity:@Model.XAxisSensitivity,
+            yAxisSensitivity:@Model.YAxisSensitivity,
+            inertiaConstant:@Model.InertiaConstant
+        });
+        view.setNavigationConfig({
+            btnWidth:@Model.ButtonWidth,
+            btnHeight:@Model.ButtonHeight,
+            btnMargin:@Model.ButtonMargin,
+            turnSpeed:@Model.TurnSpeed,
+            showButtons:@Model.ShowButtons.ToString().ToLower(),
+            showTool:@Model.ShowTool.ToString().ToLower(),
+            showPlay:@Model.ShowPlay.ToString().ToLower(),
+            showPause:@Model.ShowPause.ToString().ToLower(),
+            showZoom:@Model.ShowZoom.ToString().ToLower(),
+            showTurn:@Model.ShowTurn.ToString().ToLower(),
+            showFullscreen:@Model.ShowFullscreen.ToString().ToLower()
+        });
+        view.setLoaderInfoConfig({
+            display:@Model.DisplayLoader.ToString().ToLower(),
+            holderClassName:'@Model.LoaderHolderClassName',
+            loadingTitle:'@Model.LoadingTitle',
+            loadingSubtitle:'@Model.LoadingSubtitle',
+            loadingMessage:'@Model.LoadingMessage',
+            modalBackground:"@Model.LoaderModalBackground",
+            modalOpacity:@Model.LoaderModalOpacity,
+            circleWidth:@Model.LoaderCircleWidth,
+            circleLineWidth:"@Model.LoaderCircleLineWidth",
+            circleLineColor:"@Model.LoaderCircleLineColor",
+            circleBackgroundColor:"@Model.LoaderCircleBackgroundColor"
+        });
+
+        view.start(document.getElementById("view360"));
+    }
+</script>

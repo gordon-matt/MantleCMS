@@ -1,0 +1,50 @@
+﻿@using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
+@using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
+@using Mantle.Web.Mvc
+
+@model FlexSliderBlock
+
+@{
+    Style.IncludePluginStyle("FlexSlider/flexslider.css", order: 99999);
+    //Script.IncludeBundle("jquery");
+    Script.IncludePluginScript("jquery.flexslider-min.js", order: 99999);
+
+    // TODO
+    var mediaService = EngineContext.Current.Resolve<IMediaService>();
+    var images = mediaService.GetMediaFiles(Model.MediaFolder);
+
+    var html = Model.ToHtmlString();
+}
+
+@* Flex Slider does not support rtl and will be blank if you try. Therefore we force ltr here *@
+<section class="slider" dir="ltr">
+    <div id="@Model.ControlId" class="flexslider effect2">
+        <ul class="slides">
+            @foreach (var slide in images)
+            {
+                if (Model.ControlNav == ControlNavOption.Thumbnails)
+                {
+                    string thumbPath = slide.MediaPath.Replace("/Media/", "/Media/.tmb_Media/");//TODO: Use thumb Hash
+                    <li data-thumb="@thumbPath">
+                        @Html.Image(slide.MediaPath, slide.Name)
+                        @*<p class="flex-caption">@slide.Caption</p>*@
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Html.Image(slide.MediaPath, slide.Name)
+                        @*<p class="flex-caption">@slide.Caption</p>*@
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @html
+    });
+</script>
