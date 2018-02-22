@@ -16,20 +16,11 @@ namespace Mantle.Web.Configuration
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "Site Settings"; }
-        }
+        public string Name => "Site Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            get { return "Mantle.Web.Views.Shared.EditorTemplates.SiteSettings"; }
-        }
+        public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.SiteSettings.cshtml";
 
         #endregion ISettings Members
 

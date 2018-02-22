@@ -26,13 +26,13 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             this.localizablePropertyService = localizablePropertyService;
         }
 
-        public override async Task<IActionResult> Post(EntityTypeContentBlock entity)
+        public override async Task<IActionResult> Post([FromBody] EntityTypeContentBlock entity)
         {
             SetValues(entity);
             return await base.Post(entity);
         }
 
-        public override async Task<IActionResult> Put([FromODataUri] Guid key, EntityTypeContentBlock entity)
+        public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] EntityTypeContentBlock entity)
         {
             SetValues(entity);
             return await base.Put(key, entity);

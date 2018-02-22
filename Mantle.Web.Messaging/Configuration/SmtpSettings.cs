@@ -14,22 +14,13 @@ namespace Mantle.Web.Messaging.Configuration
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "SMTP Settings"; }
-        }
+        public string Name => "SMTP Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            // Using an Embedded View in this case, since this assembly is not a plugin or the main app
-            //TODO: Need to find a way to separate this: since it relies on the CMS project
-            get { return "Mantle.Web.Messaging.Views.Shared.EditorTemplates.SmtpSettings"; }
-        }
+        // Using an Embedded View in this case, since this assembly is not a plugin or the main app
+        //TODO: Need to find a way to separate this: since it relies on the CMS project
+        public string EditorTemplatePath => "Mantle.Web.Messaging.Views.Shared.EditorTemplates.SmtpSettings.cshtml";
 
         #endregion ISettings Members
 

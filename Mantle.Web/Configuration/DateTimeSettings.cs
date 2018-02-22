@@ -14,20 +14,11 @@ namespace Mantle.Web.Configuration
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "Date/Time Settings"; }
-        }
+        public string Name => "Date/Time Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            get { return "Mantle.Web.Views.Shared.EditorTemplates.DateTimeSettings"; }
-        }
+        public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.DateTimeSettings.cshtml";
 
         #endregion ISettings Members
     }

@@ -137,7 +137,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             return Updated(entity);
         }
 
-        public override async Task<IActionResult> Post(PageVersion entity)
+        public override async Task<IActionResult> Post([FromBody] PageVersion entity)
         {
             entity.DateCreatedUtc = DateTime.UtcNow;
             entity.DateModifiedUtc = DateTime.UtcNow;
@@ -145,7 +145,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             return await base.Post(entity);
         }
 
-        public override async Task<IActionResult> Put([FromODataUri] Guid key, PageVersion entity)
+        public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] PageVersion entity)
         {
             if (!CanModifyEntity(entity))
             {

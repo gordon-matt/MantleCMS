@@ -41,7 +41,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
                 subpath = subpath.Substring(1);
             }
 
-            if (!IsEmbeddedScript(subpath))
+            if (!IsEmbeddedView(subpath))
             {
                 return null;
             }
@@ -98,7 +98,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
             return path.IndexOfAny(invalidFileNameChars) != -1;
         }
 
-        private bool IsEmbeddedScript(string subpath)
+        private bool IsEmbeddedView(string subpath)
         {
             if (string.IsNullOrEmpty(subpath))
             {

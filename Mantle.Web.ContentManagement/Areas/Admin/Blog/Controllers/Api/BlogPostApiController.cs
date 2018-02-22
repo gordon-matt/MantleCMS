@@ -50,7 +50,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
             return await base.Get(key);
         }
 
-        public override async Task<IActionResult> Post(BlogPost entity)
+        public override async Task<IActionResult> Post([FromBody] BlogPost entity)
         {
             int tenantId = GetTenantId();
             entity.TenantId = tenantId;
@@ -94,7 +94,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
             return result;
         }
 
-        public override async Task<IActionResult> Put([FromODataUri] Guid key, BlogPost entity)
+        public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] BlogPost entity)
         {
             var currentEntry = await Service.FindOneAsync(entity.Id);
             entity.TenantId = currentEntry.TenantId;

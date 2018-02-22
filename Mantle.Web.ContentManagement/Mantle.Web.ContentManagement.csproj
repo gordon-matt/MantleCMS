@@ -1,134 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Matt Gordon</Authors>
-    <Company />
+    <AssemblyName>Mantle.Web.ContentManagement</AssemblyName>
+    <PackageId>Mantle.Web.ContentManagement</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Description>Content Management package for the Mantle framework</Description>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <Authors>Matt Gordon</Authors>
+    <Description>Content Management package for the Mantle framework</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
-    <Compile Remove="Areas\Admin\ContentBlocks\Scripting\**" />
-    <EmbeddedResource Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
-    <EmbeddedResource Remove="Areas\Admin\ContentBlocks\Scripting\**" />
-    <None Remove="Areas\Admin\ContentBlocks\RuleEngine\**" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripting\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Areas\Admin\Blog\Views\BlogContent\Details.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\BlogContent\Index.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\BlogContent\IndexAjax.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Blog\Index.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\DisplayTemplates\CategoriesBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\DisplayTemplates\FilteredPostsBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\DisplayTemplates\LastNPostsBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\DisplayTemplates\TagCloudBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\EditorTemplates\BlogSettings.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\EditorTemplates\CategoriesBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\EditorTemplates\FilteredPostsBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\EditorTemplates\LastNPostsBlock.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\EditorTemplates\TagCloudBlock.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\ContentBlock\Index.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\EntityTypeContentBlock\Index.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\FormBlock\MessageTemplate.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\FormBlock\SaveResult.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\FormBlock.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\HtmlBlock.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\FormBlock.cshtml" />
-    <Content Remove="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\HtmlBlock.cshtml" />
-    <Content Remove="Areas\Admin\Localization\Views\Shared\DisplayTemplates\LanguageSwitchBlock.cshtml" />
-    <Content Remove="Areas\Admin\Localization\Views\Shared\EditorTemplates\LanguageSwitchBlock.cshtml" />
-    <Content Remove="Areas\Admin\Media\Views\Media\Index.cshtml" />
-    <Content Remove="Areas\Admin\Media\Views\Shared\DisplayTemplates\VideoBlock.cshtml" />
-    <Content Remove="Areas\Admin\Media\Views\Shared\EditorTemplates\VideoBlock.cshtml" />
-    <Content Remove="Areas\Admin\Menus\Views\Menu\Index.cshtml" />
-    <Content Remove="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterSubscriptionBlock.cshtml" />
-    <Content Remove="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterUserProfileProvider.cshtml" />
-    <Content Remove="Areas\Admin\Newsletters\Views\Shared\EditorTemplates\NewsletterUserProfileProvider.cshtml" />
-    <Content Remove="Areas\Admin\Newsletters\Views\Subscriber\Index.cshtml" />
-    <Content Remove="Areas\Admin\Pages\Views\Page\Index.cshtml" />
-    <Content Remove="Areas\Admin\Pages\Views\Shared\DisplayTemplates\StandardPage.cshtml" />
-    <Content Remove="Areas\Admin\Pages\Views\Shared\EditorTemplates\PageSettings.cshtml" />
-    <Content Remove="Areas\Admin\Pages\Views\Shared\EditorTemplates\StandardPage.cshtml" />
-    <Content Remove="Areas\Admin\Sitemap\Views\XmlSitemap\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Areas\Admin\Blog\Scripts\blog.js" />
-    <None Remove="Areas\Admin\Blog\Scripts\blogContent.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\contentBlocks.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\entityTypeContentBlocks.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\zoneModel.js" />
-    <None Remove="Areas\Admin\Media\Scripts\media.js" />
-    <None Remove="Areas\Admin\Menus\Scripts\menus.js" />
-    <None Remove="Areas\Admin\Newsletters\Scripts\subscribers.js" />
-    <None Remove="Areas\Admin\Pages\Scripts\index.js" />
-    <None Remove="Areas\Admin\Sitemap\Scripts\index.js" />
-    <None Remove="Scripts\jqcloud.min.js" />
-    <None Remove="Scripts\jquery.dom.form_params.min.js" />
-    <None Remove="Scripts\jquery.form-extension.js" />
-    <None Remove="Scripts\kore-cms-localization.js" />
-    <None Remove="Scripts\moment.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blogContent.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Details.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\IndexAjax.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Blog\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\CategoriesBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\FilteredPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\LastNPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\TagCloudBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\BlogSettings.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\CategoriesBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\FilteredPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\LastNPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\TagCloudBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\contentBlocks.js" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entityTypeContentBlocks.js" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zoneModel.js" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\ContentBlock\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\EntityTypeContentBlock\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\FormBlock\MessageTemplate.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\FormBlock\SaveResult.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\FormBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\HtmlBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\FormBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\HtmlBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\Shared\DisplayTemplates\LanguageSwitchBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\Shared\EditorTemplates\LanguageSwitchBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Scripts\media.js" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Media\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Shared\DisplayTemplates\VideoBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Shared\EditorTemplates\VideoBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Views\Menu\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Scripts\subscribers.js" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterSubscriptionBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterUserProfileProvider.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\EditorTemplates\NewsletterUserProfileProvider.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Subscriber\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Page\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\DisplayTemplates\StandardPage.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\PageSettings.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\StandardPage.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Sitemap\Views\XmlSitemap\Index.cshtml" />
-    <EmbeddedResource Include="Scripts\jqcloud.min.js" />
-    <EmbeddedResource Include="Scripts\jquery.dom.form_params.min.js" />
-    <EmbeddedResource Include="Scripts\jquery.form-extension.js" />
-    <EmbeddedResource Include="Scripts\kore-cms-localization.js" />
-    <EmbeddedResource Include="Scripts\moment.js" />
+    <EmbeddedResource Include="Views\**\*.cshtml;Areas\Admin\**\Views\**\*.cshtml;Scripts\**\*.js;Areas\Admin\**\Scripts\**\*.js" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -142,12 +34,6 @@
     <ProjectReference Include="..\Mantle.Web.Messaging\Mantle.Web.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Views\Shared\Components\AutoBreadcrumbs\" />
-    <Folder Include="Views\Shared\Components\AutoSubMenu\" />
   </ItemGroup>
 
 </Project>

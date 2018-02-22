@@ -8,25 +8,13 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages
 {
     public class StandardPage : MantlePageType
     {
-        public override string Name
-        {
-            get { return "Standard Page"; }
-        }
+        public override string Name => "Standard Page";
 
-        public override bool IsEnabled
-        {
-            get { return true; }
-        }
+        public override bool IsEnabled => true;
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Shared.DisplayTemplates.StandardPage"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Shared.DisplayTemplates.StandardPage.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Shared.EditorTemplates.StandardPage"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Shared.EditorTemplates.StandardPage.cshtml";
 
         public override void InitializeInstance(PageVersion pageVersion)
         {

@@ -22,20 +22,11 @@ namespace Mantle.Web.Security.Membership
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "Membership Settings"; }
-        }
+        public string Name => "Membership Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            get { return "Mantle.Web.Views.Shared.EditorTemplates.MembershipSettings"; }
-        }
+        public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.MembershipSettings.cshtml";
 
         #endregion ISettings Members
     }

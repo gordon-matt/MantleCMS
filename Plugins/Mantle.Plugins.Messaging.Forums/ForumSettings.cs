@@ -50,20 +50,11 @@ namespace Mantle.Plugins.Messaging.Forums
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "Forum Settings"; }
-        }
+        public string Name => "Forum Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            get { return "/Plugins/Messaging.Forums/Views/Shared/EditorTemplates/ForumSettings.cshtml"; }
-        }
+        public string EditorTemplatePath => "/Plugins/Messaging.Forums/Views/Shared/EditorTemplates/ForumSettings.cshtml";
 
         #endregion ISettings Members
 

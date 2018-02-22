@@ -40,20 +40,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog
 
         #region ISettings Members
 
-        public string Name
-        {
-            get { return "CMS: Blog Settings"; }
-        }
+        public string Name => "CMS: Blog Settings";
 
-        public bool IsTenantRestricted
-        {
-            get { return false; }
-        }
+        public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.BlogSettings"; }
-        }
+        public string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.BlogSettings.cshtml";
 
         #endregion ISettings Members
     }
