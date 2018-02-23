@@ -28,20 +28,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "Form Content Block"; }
-        }
+        public override string Name => "Form Content Block";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.FormBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.FormBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.FormBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.FormBlock.cshtml";
 
         #endregion ContentBlockBase Overrides
     }

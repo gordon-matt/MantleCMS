@@ -118,20 +118,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "Blog: Tag Cloud"; }
-        }
+        public override string Name => "Blog: Tag Cloud";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.TagCloudBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.TagCloudBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.TagCloudBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.TagCloudBlock.cshtml";
 
         #endregion ContentBlockBase Overrides
 

@@ -15,7 +15,7 @@
     require('mantle-common');
     require('mantle-section-switching');
     require('mantle-jqueryval');
-    require('mantle-chosen-knockout');
+    require('mantle-knockout-chosen');
     require('mantle-tinymce');
 
     var postApiUrl = "/odata/mantle/cms/BlogPostApi";

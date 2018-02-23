@@ -11,7 +11,7 @@
         @Html.Partial(block.CustomTemplatePath, block)
     }
     else
-    {
-        @Html.Partial(block.DisplayTemplatePath, block)
+    {   // Html.Partial won't be able to find the view if the ".cshtml" extension is present
+        @Html.Partial(block.DisplayTemplatePath.Replace(".cshtml", string.Empty), block)
     }
 }

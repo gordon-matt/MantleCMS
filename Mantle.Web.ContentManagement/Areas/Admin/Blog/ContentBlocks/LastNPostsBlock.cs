@@ -10,20 +10,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "Blog: Last (N) Posts"; }
-        }
+        public override string Name => "Blog: Last (N) Posts";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.LastNPostsBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.LastNPostsBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.LastNPostsBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.LastNPostsBlock.cshtml";
 
         #endregion ContentBlockBase Overrides
     }

@@ -5,6 +5,7 @@
     'transitions': '../../durandal/transitions',
 
     'bootstrap': '../../bootstrap/bootstrap.min',
+    'chosen': '../../chosen.jquery',
     'jqueryval': '../../jquery.validate',
     'jqueryval-unobtrusive': '../../jquery.validate.unobtrusive',
     'kendo': '../../kendo/2014.1.318/kendo.web.min',

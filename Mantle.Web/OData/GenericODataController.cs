@@ -305,7 +305,7 @@ namespace Mantle.Web.OData
 
         #endregion Non-Public Methods
 
-        private IRepositoryConnection<TEntity> GetDisposableConnection()
+        protected IRepositoryConnection<TEntity> GetDisposableConnection()
         {
             if (disposableConnection == null)
             {

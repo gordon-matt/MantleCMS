@@ -6,20 +6,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
     {
         #region IContentBlock Members
 
-        public override string Name
-        {
-            get { return "Html Content Block"; }
-        }
+        public override string Name => "Html Content Block";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.HtmlBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.HtmlBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.HtmlBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.HtmlBlock.cshtml";
 
         #endregion IContentBlock Members
 

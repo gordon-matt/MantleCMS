@@ -1,8 +1,13 @@
-﻿@using Mantle.Infrastructure
+﻿@using Mantle.Collections
+@using Mantle.Infrastructure
+@using Mantle.Web
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+@using Mantle.Web.Mvc
 @model IEnumerable<BlogPost>
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
@@ -62,9 +67,9 @@
                         </h4>
                         <p>
                             @Html.Raw(string.Format(
-                                     T(MantleCmsLocalizableStrings.Blog.PostedByXOnX),
-                                     string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
-                                     string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
+                                T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
+                                string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
+                                string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
                         </p>
                         @if (!entry.Tags.IsNullOrEmpty())
                         {
@@ -73,11 +78,11 @@
                                 @foreach (var postTag in entry.Tags)
                                 {
                                     @Html.ActionLink(
-                                             tags[postTag.TagId],
-                                             "Tag",
-                                             "BlogContent",
-                                             new { tagSlug = tagUrls[postTag.TagId] },
-                                             new { @class = "badge", style = "margin-right:5px" })
+                                        tags[postTag.TagId],
+                                        "Tag",
+                                        "BlogContent",
+                                        new { tagSlug = tagUrls[postTag.TagId] },
+                                        new { @class = "badge", style = "margin-right:5px" })
                                 }
                             </p>
                         }
@@ -92,11 +97,11 @@
             }
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-            @Component.ContentZone("Blog_Categories")
+            @await Component.ContentZoneAsync("Blog_Categories")
             <div class="clearfix"></div>
-            @Component.ContentZone("Blog_Tags")
+            @await Component.ContentZoneAsync("Blog_Tags")
             <div class="clearfix"></div>
-            @Component.ContentZone("Blog_LatestPosts")
+            @await Component.ContentZoneAsync("Blog_LatestPosts")
         </div>
     </div>
     <div class="row">
@@ -106,8 +111,8 @@
     </div>
 </div>
 
-@using (Script.AtFoot())
-{
+@*@using (Script.AtFoot())
+{*@
     <script type="text/javascript">
         $('#pager').bootpag({
             total: @pageCount,
@@ -119,4 +124,4 @@
             window.location.href = '@Url.Action("Index", "BlogContent", new { area = string.Empty })' + '?pageIndex=' + num;
         });
     </script>
-}
+@*}*@

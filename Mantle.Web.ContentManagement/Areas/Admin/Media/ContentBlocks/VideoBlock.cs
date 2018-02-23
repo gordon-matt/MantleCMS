@@ -32,20 +32,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Media.ContentBlocks
 
         #region IContentBlock Members
 
-        public override string Name
-        {
-            get { return "Video Block"; }
-        }
+        public override string Name => "Video Block";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.DisplayTemplates.VideoBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.DisplayTemplates.VideoBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.EditorTemplates.VideoBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.EditorTemplates.VideoBlock.cshtml";
 
         #endregion IContentBlock Members
     }

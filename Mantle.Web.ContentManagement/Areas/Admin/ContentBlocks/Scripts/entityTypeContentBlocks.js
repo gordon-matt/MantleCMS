@@ -16,7 +16,7 @@
     require('mantle-common');
     require('mantle-section-switching');
     require('mantle-jqueryval');
-    require('mantle-chosen-knockout');
+    require('mantle-knockout-chosen');
     require('mantle-tinymce');
 
     ko.mapping = koMap;
@@ -249,7 +249,7 @@
                     ko.cleanNode(elementToBind);
                     $("#block-details").html("");
 
-                    var result = $(json.Content);
+                    var result = $(json.content);
 
                     // Add new HTML
                     var content = $(result.filter('#block-content')[0]);

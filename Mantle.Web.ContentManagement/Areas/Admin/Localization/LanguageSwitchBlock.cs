@@ -26,20 +26,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Localization
 
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "Language Switch"; }
-        }
+        public override string Name => "Language Switch";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.DisplayTemplates.LanguageSwitchBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.DisplayTemplates.LanguageSwitchBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.EditorTemplates.LanguageSwitchBlock"; }
-        }
+        public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.EditorTemplates.LanguageSwitchBlock.cshtml";
 
         #endregion ContentBlockBase Overrides
     }

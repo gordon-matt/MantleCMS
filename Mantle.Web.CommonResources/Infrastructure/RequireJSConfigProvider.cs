@@ -14,7 +14,7 @@ namespace Mantle.Web.CommonResources.Infrastructure
                 var paths = new Dictionary<string, string>();
 
                 paths.Add("mantle-common", "/Mantle.Web.CommonResources.Scripts.mantle-common");
-                paths.Add("mantle-chosen-knockout", "/Mantle.Web.CommonResources.Scripts.mantle-knockout-chosen");
+                paths.Add("mantle-knockout-chosen", "/Mantle.Web.CommonResources.Scripts.mantle-knockout-chosen");
                 paths.Add("mantle-jqueryval", "/Mantle.Web.CommonResources.Scripts.mantle-jqval");
                 paths.Add("mantle-section-switching", "/Mantle.Web.CommonResources.Scripts.mantle-section-switching");
                 paths.Add("mantle-tinymce", "/Mantle.Web.CommonResources.Scripts.mantle-tinymce");
@@ -33,7 +33,7 @@ namespace Mantle.Web.CommonResources.Infrastructure
             {
                 var shim = new Dictionary<string, string[]>();
 
-                shim.Add("mantle-chosen-knockout", new[] { "chosen", "knockout" });
+                shim.Add("mantle-knockout-chosen", new[] { "chosen", "knockout" });
                 shim.Add("mantle-jqueryval", new[] { "jqueryval" });
                 shim.Add("mantle-tinymce", new[] { "tinymce" });
                 //shim.Add("bootstrap-fileinput", new[] { "jquery", "bootstrap" });

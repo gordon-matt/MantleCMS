@@ -1,5 +1,10 @@
 ﻿@* This page is a kind of sandbox, just for testing things... *@
+@using Mantle.Web.ContentManagement
 
-@Url.Script("/js/knockout-3.4.0.js")
+@*@Url.Script("/js/knockout-3.4.0.js")*@
 
 TEST PAGE!
+<br />
+@await Component.ContentZoneAsync("Zone1")
+<br />
+END TEST

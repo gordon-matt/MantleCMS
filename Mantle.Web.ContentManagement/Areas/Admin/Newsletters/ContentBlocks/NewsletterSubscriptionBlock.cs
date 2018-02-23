@@ -7,15 +7,9 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.ContentBlocks
     {
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "Newsletter Subscription Block"; }
-        }
+        public override string Name => "Newsletter Subscription Block";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Shared.DisplayTemplates.NewsletterSubscriptionBlock"; }
-        }
+        public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Shared.DisplayTemplates.NewsletterSubscriptionBlock.cshtml";
 
         public override string EditorTemplatePath
         {

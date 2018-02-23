@@ -54,11 +54,18 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             };
             options.Validate(settings);
 
-            using (var connection = Service.OpenConnection())
-            {
-                var results = options.ApplyTo(connection.Query(x => x.PageId == null));
-                return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
-            }
+            //using (var connection = Service.OpenConnection())
+            //{
+            //    var results = options.ApplyTo(connection.Query(x => x.PageId == null));
+            //    return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
+            //}
+
+            // NOTE: Change due to: https://github.com/OData/WebApi/issues/1235
+            var connection = GetDisposableConnection();
+            var query = connection.Query(x => x.PageId == null);
+            query = ApplyMandatoryFilter(query);
+            var results = options.ApplyTo(query);
+            return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
         }
 
         //[EnableQuery]
