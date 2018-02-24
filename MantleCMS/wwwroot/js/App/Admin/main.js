@@ -6,6 +6,7 @@
 
     'bootstrap': '../../bootstrap/bootstrap.min',
     'chosen': '../../chosen.jquery',
+    'elfinder': '../../elfinder/elfinder.min',
     'jqueryval': '../../jquery.validate',
     'jqueryval-unobtrusive': '../../jquery.validate.unobtrusive',
     'kendo': '../../kendo/2014.1.318/kendo.web.min',

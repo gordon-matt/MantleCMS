@@ -137,6 +137,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
             // Other
             //builder.RegisterType<ResourceBundleRegistrar>().As<IResourceBundleRegistrar>().SingleInstance(); // TODO?
+            //builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
             builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
 
             // Scheduled Tasks

@@ -84,7 +84,7 @@ namespace Mantle.Web
                 basePath = WebRootPath;
             }
 
-            path = path.Replace("~/", "").TrimStart('/').Replace('/', '\\');
+            path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
             return Path.Combine(basePath, path);
         }
 

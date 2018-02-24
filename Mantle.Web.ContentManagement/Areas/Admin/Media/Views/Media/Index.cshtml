@@ -1,2 +1,11 @@
-﻿@inject Mantle.Web.IWebWorkContext WorkContext
-<iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=0&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+﻿@*@inject Mantle.Web.IWebWorkContext WorkContext
+    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=0&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>*@
+
+@using Mantle.Web.Mvc
+
+@*// TODO: Move this to somewhere else? Use "MantleWebAssets" *@
+@Url.Style("/lib/jquery-ui/themes/base/all.css")
+@Url.Style("/css/elfinder/css/elfinder.full.css")
+@Url.Style("/css/elfinder/themes/material/theme.css")
+
+<div id="elfinder"></div>

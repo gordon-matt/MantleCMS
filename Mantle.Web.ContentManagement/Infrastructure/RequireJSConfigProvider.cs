@@ -1,11 +1,5 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Mantle.Infrastructure;
+﻿//using System.Collections.Generic;
 //using Mantle.Web.Infrastructure;
-//using Mantle.Web.Mvc.Resources;
 
 //namespace Mantle.Web.ContentManagement.Infrastructure
 //{
@@ -17,12 +11,9 @@
 //        {
 //            get
 //            {
-//                var workContext = EngineContext.Current.Resolve<IWebWorkContext>();
-//                var scriptRegister = new ScriptRegister(workContext);
-
 //                var paths = new Dictionary<string, string>();
 
-//                paths.Add("blog-posts", scriptRegister.GetBundleUrl("kore-cms/blog-posts"));
+//                paths.Add("mantle-EXAMPLE", "/Mantle.Web.ContentManagement.Scripts.mantle-EXAMPLE");
 
 //                return paths;
 //            }
@@ -34,12 +25,12 @@
 //            {
 //                var shim = new Dictionary<string, string[]>();
 
-//                shim.Add("blog", new[] { "blog-posts", "blog-categories", "blog-tags" });
+//                shim.Add("mantle-EXAMPLE", new[] { "chosen", "knockout" });
 
 //                return shim;
 //            }
 //        }
 
-//        #endregion
+//        #endregion IRequireJSConfigProvider Members
 //    }
 //}
