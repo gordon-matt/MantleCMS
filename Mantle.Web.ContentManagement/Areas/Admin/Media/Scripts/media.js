@@ -8,7 +8,7 @@
         var self = this;
         
         self.attached = function () {
-            var myCommands = elFinder.prototype._options.commands;
+            var myCommands = elfinder.prototype._options.commands;
 
             var disabled = ['extract', 'archive', 'resize', 'help', 'select']; // Not yet implemented commands in ElFinder.Net
 

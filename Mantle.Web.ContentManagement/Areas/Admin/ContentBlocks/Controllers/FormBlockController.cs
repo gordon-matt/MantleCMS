@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers
 {
-    //[Area("")]
     [Route("kore-cms")]
     public class FormBlockController : MantleController
     {

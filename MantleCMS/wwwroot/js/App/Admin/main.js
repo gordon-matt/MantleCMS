@@ -7,6 +7,7 @@
     'bootstrap': '../../bootstrap/bootstrap.min',
     'chosen': '../../chosen.jquery',
     'elfinder': '../../elfinder/elfinder.min',
+    'jquery-ui': '../../../lib/jquery-ui/jquery-ui.min',
     'jqueryval': '../../jquery.validate',
     'jqueryval-unobtrusive': '../../jquery.validate.unobtrusive',
     'kendo': '../../kendo/2014.1.318/kendo.web.min',
@@ -25,6 +26,7 @@
 
 var shim = {
     'bootstrap': ['jquery'],
+    'elfinder': ['jquery', 'jquery-ui'],
     'jqueryval': ['jquery'],
     'jqueryval-unobtrusive': ['jquery', 'jqueryval'],
     'kendo-knockout': ['kendo', 'knockout'],

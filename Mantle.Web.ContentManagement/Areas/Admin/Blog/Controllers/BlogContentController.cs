@@ -15,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers
 {
-    [Area("")]
     [Route("blog")]
     public class BlogContentController : MantleController
     {

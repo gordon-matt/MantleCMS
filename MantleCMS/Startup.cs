@@ -253,7 +253,8 @@ namespace MantleCMS
                     Styles = new List<Asset>
                     {
                         new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
-                        new Asset { Path = "/css/elfinder/themes/material/theme.css" }
+                        new Asset { Path = "/css/elfinder/css/theme.css" }, // <-- NOTE: This file may make some of the themes look not quite right. Comment this line if changing the theme below.
+                        new Asset { Path = "/css/elfinder/themes/material/css/theme-gray.min.css" }
                     }
                 }
             });

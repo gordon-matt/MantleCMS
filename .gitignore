@@ -37,7 +37,9 @@ bld/
 MantleCMS/Plugins/
 MantleCMS/wwwroot/App_Data/
 MantleCMS/wwwroot/lib/
+MantleCMS/wwwroot/Media/
 MantleCMS/wwwroot/Plugins/
+Plugins/Mantle.Plugins.XXX.YYY
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
