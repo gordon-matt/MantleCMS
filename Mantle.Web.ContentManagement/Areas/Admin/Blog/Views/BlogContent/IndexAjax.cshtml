@@ -1,4 +1,6 @@
 ﻿@using Mantle.Infrastructure
+@using Mantle.Web
+@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 
 @{
@@ -15,6 +17,8 @@
     ViewBag.Title = settings.PageTitle;
 }
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div class="blog-container">
     <div id="main-section" class="row blog-section">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -28,7 +32,7 @@
                     </h2>
                     <p>
                         @Html.Raw(string.Format(
-                            T(MantleCmsLocalizableStrings.Blog.PostedByXOnX),
+                            T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
                             "<span data-bind='text: userName'></span>",
                             "<span data-bind='text: dateCreatedUtc'></span>"))
                     </p>
@@ -55,12 +59,12 @@
     <div id="details-section" class="row blog-section" style="display:none">
         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="pull-right">
-                <a class="btn btn-default" data-bind="click: showMain">@T(MantleWebLocalizableStrings.General.Back)</a>
+                <a class="btn btn-default" data-bind="click: showMain">@T[MantleWebLocalizableStrings.General.Back]</a>
             </div>
             <h1 class="blog-headline" data-bind="text: selected().headline"></h1>
             <p>
                 @Html.Raw(string.Format(
-                    T(MantleCmsLocalizableStrings.Blog.PostedByXOnX),
+                    T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
                     "<span data-bind='text: selected().userName'></span>",
                     "<span data-bind='text: selected().dateCreatedUtc'></span>"))
             </p>
@@ -68,10 +72,10 @@
             <p class="blog-full-desc" data-bind="html: selected().fullDescription"></p>
 
             <div class="pull-left" data-bind="visible: $root.canShowPrevious()">
-                <a class="btn btn-default" data-bind="click: showPrevious">@T(MantleWebLocalizableStrings.General.Previous)</a>
+                <a class="btn btn-default" data-bind="click: showPrevious">@T[MantleWebLocalizableStrings.General.Previous]</a>
             </div>
             <div class="pull-right" data-bind="visible: $root.canShowNext()">
-                <a class="btn btn-default" data-bind="click: showNext">@T(MantleWebLocalizableStrings.General.Next)</a>
+                <a class="btn btn-default" data-bind="click: showNext">@T[MantleWebLocalizableStrings.General.Next]</a>
             </div>
         </article>
     </div>

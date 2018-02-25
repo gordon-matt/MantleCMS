@@ -105,7 +105,9 @@ namespace Mantle.Web.ContentManagement.ViewComponents
                 .ToList();
 
             ViewBag.MenuId = menuId;
-            return View(templateViewName, menuItems);
+            ViewBag.TemplateViewName = templateViewName;
+
+            return View(menuItems);
         }
     }
 }

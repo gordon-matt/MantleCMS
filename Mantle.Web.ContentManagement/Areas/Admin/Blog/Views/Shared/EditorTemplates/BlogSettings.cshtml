@@ -1,7 +1,10 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.Mvc
 
 @model BlogSettings
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="settings-content">
     <div class="form-group">
@@ -22,7 +25,7 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T(MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus)
+                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]
             </label>
         </div>
     </div>
@@ -34,7 +37,7 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: useAjax" }) @T(MantleCmsLocalizableStrings.Settings.Blog.UseAjax)
+                @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: useAjax" }) @T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]
             </label>
         </div>
     </div>
@@ -61,7 +64,7 @@
 
         viewModel.accessRestrictions = null;
         viewModel.roles = ko.observableArray([]);
-        
+
         if (data) {
             if (data.PageTitle) {
                 viewModel.pageTitle(data.PageTitle);

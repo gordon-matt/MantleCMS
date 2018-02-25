@@ -45,7 +45,9 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             var menuItems = menuItemService.GetMenuItems(menu.Id, true);
 
             ViewBag.MenuId = menu.Id;
-            return View(templateViewName, menuItems);
+            ViewBag.TemplateViewName = templateViewName;
+
+            return View(menuItems);
         }
     }
 }

@@ -236,17 +236,24 @@ namespace MantleCMS
 
             // Unfortunately, at the moment, we don't have any better way than this to let libraries
             //  know where to find shared assets that they will need.
+            // TODO: Find some way for partial views to tell layout what scripts and styles to render (sections dont work for partial views)
             MantleWebAssets.Init(new MantleWebAssets
             {
                 BootstrapFileInput = new AssetCollection
                 {
-                    Scripts = new List<Asset>
-                    {
-                        new Asset { Path = "/js/bootstrapFileInput/fileinput.js" }
-                    },
+                    Scripts = new List<Asset> { new Asset { Path = "/js/bootstrapFileInput/fileinput.js" } },
+                    Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
+                }
+            });
+            MantleCmsAssets.Init(new MantleCmsAssets
+            {
+                ElFinder = new AssetCollection
+                {
+                    Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min" } },
                     Styles = new List<Asset>
                     {
-                        new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" }
+                        new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
+                        new Asset { Path = "/css/elfinder/themes/material/theme.css" }
                     }
                 }
             });
@@ -344,16 +351,16 @@ namespace MantleCMS
                     registrar.Register(routes, app.ApplicationServices);
                 }
 
-                routes.MapRoute(
-                    name: "areaRoute",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
                 var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
                 routePublisher.RegisterRoutes(routes);
+
+                //routes.MapRoute(
+                //    name: "areaRoute",
+                //    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             // If you want to dispose of resources that have been resolved in the

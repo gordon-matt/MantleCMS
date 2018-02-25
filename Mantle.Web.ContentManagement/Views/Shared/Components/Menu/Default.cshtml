@@ -1,1 +1,8 @@
-﻿
+﻿@model IEnumerable<Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain.MenuItem>
+
+@{
+    string templateViewName = ViewBag.TemplateViewName;
+    Guid menuId = ViewBag.MenuId;
+}
+
+@Html.Partial(templateViewName, Model)

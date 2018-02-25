@@ -18,8 +18,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
 {
-    [Area(CmsConstants.Areas.Pages)]
-    [Route("admin/pages")]
+    //[Area(CmsConstants.Areas.Pages)]
+    //[Route("admin/pages")]
     public class PageContentController : MantleController
     {
         protected static Regex ContentZonePattern = new Regex(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
@@ -54,11 +54,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
         [Route("{slug}")]
         public async Task<ActionResult> Index(string slug)
         {
-            // Hack to make it search the correct path for the view
-            if (!this.ControllerContext.RouteData.DataTokens.ContainsKey("area"))
-            {
-                this.ControllerContext.RouteData.DataTokens.Add("area", CmsConstants.Areas.Pages);
-            }
+            //// Hack to make it search the correct path for the view
+            //if (!this.ControllerContext.RouteData.DataTokens.ContainsKey("area"))
+            //{
+            //    this.ControllerContext.RouteData.DataTokens.Add("area", CmsConstants.Areas.Pages);
+            //}
 
             int tenantId = WorkContext.CurrentTenant.Id;
             var currentCulture = WorkContext.CurrentCultureCode;

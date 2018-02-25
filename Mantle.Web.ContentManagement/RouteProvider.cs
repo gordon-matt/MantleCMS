@@ -9,12 +9,12 @@ namespace Mantle.Web.ContentManagement
         public void RegisterRoutes(IRouteBuilder routes)
         {
             // register CMS pages route
-            routes.MapRoute(
-                name: "CmsRoute",
-                template: "{*slug}",
-                defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
-                //constraints: new { slug = new CmsRouteConstraint() }
-            );
+            //routes.MapRoute(
+            //    name: "CmsRoute",
+            //    template: "{*slug}",
+            //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
+            //    //constraints: new { slug = new CmsRouteConstraint() }
+            //);
         }
 
         public int Priority

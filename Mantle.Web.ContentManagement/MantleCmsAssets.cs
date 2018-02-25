@@ -1,14 +1,14 @@
 ﻿using Mantle.Exceptions;
 using Mantle.Web.Mvc.Assets;
 
-namespace Mantle.Web
+namespace Mantle.Web.ContentManagement
 {
-    public class MantleWebAssets
+    public class MantleCmsAssets
     {
         private static bool isInitialized = false;
-        private static MantleWebAssets instance = null;
+        private static MantleCmsAssets instance = null;
 
-        public static MantleWebAssets Instance
+        public static MantleCmsAssets Instance
         {
             get
             {
@@ -21,12 +21,12 @@ namespace Mantle.Web
             private set { instance = value; }
         }
 
-        public static void Init(MantleWebAssets assets)
+        public static void Init(MantleCmsAssets assets)
         {
             Instance = assets;
             isInitialized = true;
         }
 
-        public AssetCollection BootstrapFileInput { get; set; }
+        public AssetCollection ElFinder { get; set; }
     }
 }

@@ -1,9 +1,13 @@
 ﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+@using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 @model TagCloudBlock
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @{
     Style.IncludeBundle("third-party/jQCloud");
@@ -13,7 +17,7 @@
     var tagService = EngineContext.Current.Resolve<IBlogTagService>();
     Dictionary<int, int> data = null;
     Dictionary<int, BlogTag> tags = null;
-    
+
     using (var connection = postTagService.OpenConnection())
     {
         data = connection.Query()
@@ -31,20 +35,20 @@
 }
 
 @*<style type="text/css">
-    .tag-cloud {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 600px;
-        height: 250px;
-    }
-        .tag-cloud span {
-            text-shadow: 0px 1px 1px #fff;
+        .tag-cloud {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            height: 250px;
         }
-</style>*@
+            .tag-cloud span {
+                text-shadow: 0px 1px 1px #fff;
+            }
+    </style>*@
 
 @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
 {
-    using (var header = panel.BeginHeader(T(MantleCmsLocalizableStrings.Blog.Tags))) { }
+    using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
     using (var body = panel.BeginBody())
     {
         <div id="@controlId" class="tag-cloud"></div>

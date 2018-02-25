@@ -1,0 +1,19 @@
+﻿@using MantleCMS.Extensions
+@using MenuItem = Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain.MenuItem
+@model IEnumerable<MenuItem>
+
+@{
+    Layout = null;
+    Guid menuId = ViewBag.MenuId;
+}
+
+<ul id="mantle-menu-@menuId" class="nav navbar-nav">
+    @{
+        string currentUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}";
+
+        foreach (var menuItem in Model.Where(x => x.ParentId == null).OrderBy(x => x.Position).ThenBy(x => x.Text))
+        {
+            @Html.DemoApp().BuildMainMenuItems(Model, menuItem, currentUrl, true)
+        }
+    }
+</ul>

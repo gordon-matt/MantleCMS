@@ -1,0 +1,30 @@
+﻿@using Breadcrumb = Mantle.Web.Navigation.Breadcrumb
+@model IEnumerable<Breadcrumb>
+
+@{
+    Layout = null;
+}
+
+<ul class="breadcrumb">
+    <li>
+        <a href="@Url.Action("Index", "Home", new { area = string.Empty })" title="Go to Home">
+            <i class="fa fa-home"></i> @T[MantleWebLocalizableStrings.General.Home]
+        </a>
+        <span class="divider"></span>
+    </li>
+
+    @if (!Model.IsNullOrEmpty())
+    {
+        foreach (var item in Model)
+        {
+            if (!string.IsNullOrEmpty(item.Url))
+            {
+                <li><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a><span class="divider"></span></li>
+            }
+            else
+            {
+                <li><i class="@item.Icon"></i>@item.Text<span class="divider"></span></li>
+            }
+        }
+    }
+</ul>

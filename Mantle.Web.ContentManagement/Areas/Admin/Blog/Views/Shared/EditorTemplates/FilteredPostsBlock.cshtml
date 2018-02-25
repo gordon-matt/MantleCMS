@@ -1,23 +1,26 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using WebEnumExtensions = Mantle.Web.EnumExtensions
 
 @model FilteredPostsBlock
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div id="block-content">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
-            @Html.Label("FilterType", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.Label("FilterType", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 @Html.DropDownList(
-                "FilterType",
-                WebEnumExtensions.ToSelectList<FilterType>(),
-                new { @class = "form-control", data_bind = "value: blockModel.filterType" })
+                     "FilterType",
+                     WebEnumExtensions.ToSelectList<FilterType>(),
+                     new { @class = "form-control", data_bind = "value: blockModel.filterType" })
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group" data-bind="visible: filterType() == 1">
-            @Html.Label("CategoryId", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -31,7 +34,7 @@
             </div>
         </div>
         <div class="form-group" data-bind="visible: filterType() == 2">
-            @Html.Label("TagId", T(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId), new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.Label("TagId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
                     <span class="input-group-addon">

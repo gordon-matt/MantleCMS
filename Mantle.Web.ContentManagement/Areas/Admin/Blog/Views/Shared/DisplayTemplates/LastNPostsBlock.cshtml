@@ -1,14 +1,18 @@
 ﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+@using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 @model LastNPostsBlock
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @{
     var blogService = EngineContext.Current.Resolve<IBlogPostService>();
     List<BlogPost> entries = null;
-    
+
     using (var connection = blogService.OpenConnection())
     {
         entries = connection.Query()
@@ -20,7 +24,7 @@
 
 @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
 {
-    using (var header = panel.BeginHeader(T(MantleCmsLocalizableStrings.Blog.Posts))) { }
+    using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Posts])) { }
     using (var body = panel.BeginBody())
     {
         <ul class="list-unstyled latest-blog-entries-list">
