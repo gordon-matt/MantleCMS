@@ -30,7 +30,7 @@
         self.enabled = ko.observable(false);
 
         self.validator = false;
-        self.tinyMCEConfig = koreDefaultTinyMCEConfig;
+        self.tinyMCEConfig = mantleDefaultTinyMCEConfig;
 
         self.attached = function () {
             currentSection = $("#grid-section");

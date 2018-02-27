@@ -9,7 +9,7 @@
 
 @foreach (var asset in MantleCmsAssets.Instance.ElFinder.Styles.OrderBy(x => x.Order))
 {
-    <link type="text/css" rel="stylesheet" href="@asset.Path" />
+    @Url.Style(asset.Path)
 }
 
 <div id="elfinder"></div>

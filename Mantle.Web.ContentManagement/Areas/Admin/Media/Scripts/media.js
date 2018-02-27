@@ -17,7 +17,7 @@
                 (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
             });
 
-            var selectedFile = null;
+            //var selectedFile = null;
 
             var options = {
                 url: '/admin/media/elfinder/connector',

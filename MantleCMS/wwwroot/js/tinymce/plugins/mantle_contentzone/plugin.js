@@ -1,12 +1,12 @@
-﻿tinymce.PluginManager.add('kore_contentzone', function (editor, url) {
+﻿tinymce.PluginManager.add('mantle_contentzone', function (editor, url) {
     // Add a button that opens a window
     editor.addButton('contentzone', {
         title: 'Content Zone',
-        image: url + '/img/kore_contentzone.png',
+        image: url + '/img/mantle_contentzone.png',
         onclick: function () {
             // Open window
             editor.windowManager.open({
-                title: 'Kore Content Zone Plugin',
+                title: 'Mantle Content Zone Plugin',
                 body: [
                     { type: 'textbox', name: 'zone', label: 'Zone Name' }
                 ],

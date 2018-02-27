@@ -249,7 +249,7 @@ namespace MantleCMS
             {
                 ElFinder = new AssetCollection
                 {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min" } },
+                    Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min.js" } },
                     Styles = new List<Asset>
                     {
                         new Asset { Path = "/css/elfinder/css/elfinder.full.css" },

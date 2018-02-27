@@ -43,7 +43,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Controllers
 
             var root = new Root(
                 new DirectoryInfo(webHelper.MapPath("~/Media/Uploads")),
-                string.Format("http://{0}/Media/Uploads", uri.Authority),
+                string.Format("http://{0}/Media/Uploads/", uri.Authority),
                 string.Format("http://{0}/admin/media/elfinder/thumb/", uri.Authority))
             {
                 // Sample using ASP.NET built in Membership functionality...
