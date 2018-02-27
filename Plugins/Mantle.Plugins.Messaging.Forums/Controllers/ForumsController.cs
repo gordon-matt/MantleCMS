@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Exceptions;
+using Mantle.Helpers;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Plugins.Messaging.Forums.Models;

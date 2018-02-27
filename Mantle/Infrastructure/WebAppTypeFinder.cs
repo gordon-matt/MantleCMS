@@ -11,7 +11,7 @@ namespace Mantle.Infrastructure
         public WebAppTypeFinder() : base()
         {
             EnsureBinFolderAssembliesLoaded = true; //TODO: put into web.config
-            //this._ensureBinFolderAssembliesLoaded = KoreConfigurationSection.Instance.DynamicDiscovery;
+            //this._ensureBinFolderAssembliesLoaded = MantleConfigurationSection.Instance.DynamicDiscovery;
         }
 
         /// <summary>

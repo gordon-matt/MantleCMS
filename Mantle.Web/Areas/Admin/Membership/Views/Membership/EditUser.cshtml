@@ -13,7 +13,7 @@
                                 @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="kore-icon kore-icon-user"></i>
+                                        <i class="fa fa-user"></i>
                                     </span>
                                     @Html.TextBox("UserName", null, new { @class = "form-control", data_bind = "value: userModel.userName" })
                                 </div>
@@ -24,7 +24,7 @@
                                 @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="kore-icon kore-icon-mail"></i>
+                                        <i class="fa fa-envelope-o"></i>
                                     </span>
                                     @Html.TextBox("Email", null, new { @class = "form-control", data_bind = "value: userModel.email" })
                                 </div>
@@ -40,7 +40,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
                                 <button type="button" class="btn btn-default" data-bind="click: userModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: userModel.save"><i class="kore-icon kore-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: userModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>

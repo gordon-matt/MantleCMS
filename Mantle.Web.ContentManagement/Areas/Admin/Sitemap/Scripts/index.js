@@ -1,7 +1,7 @@
 ﻿define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
     'use strict'
 
-    var odataBaseUrl = "/odata/kore/cms/XmlSitemapApi/";
+    var odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi/";
 
     var ViewModel = function () {
         var self = this;

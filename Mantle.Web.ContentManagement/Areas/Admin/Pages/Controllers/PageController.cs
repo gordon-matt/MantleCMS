@@ -132,12 +132,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
             }
 
             var pageType = pageTypeService.Value.FindOne(pageVersion.Page.PageTypeId);
-            var korePageTypes = pageTypeService.Value.GetMantlePageTypes();
+            var mantlePageTypes = pageTypeService.Value.GetMantlePageTypes();
 
-            var korePageType = pageTypeService.Value.GetMantlePageType(pageType.Name);
-            korePageType.InitializeInstance(pageVersion);
+            var mantlePageType = pageTypeService.Value.GetMantlePageType(pageType.Name);
+            mantlePageType.InitializeInstance(pageVersion);
 
-            string content = await razorViewRenderService.Value.RenderToStringAsync(korePageType.EditorTemplatePath, korePageType);
+            string content = await razorViewRenderService.Value.RenderToStringAsync(mantlePageType.EditorTemplatePath, mantlePageType);
             return Json(new { Content = content });
         }
 
@@ -182,20 +182,20 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
                 WorkContext.Breadcrumbs.Add(pageVersion.Title);
 
                 var pageType = await pageTypeService.Value.FindOneAsync(pageVersion.Page.PageTypeId);
-                var korePageType = pageTypeService.Value.GetMantlePageType(pageType.Name);
-                korePageType.InstanceName = pageVersion.Title;
-                korePageType.InstanceParentId = pageVersion.Page.ParentId;
+                var mantlePageType = pageTypeService.Value.GetMantlePageType(pageType.Name);
+                mantlePageType.InstanceName = pageVersion.Title;
+                mantlePageType.InstanceParentId = pageVersion.Page.ParentId;
 
-                korePageType.LayoutPath = string.IsNullOrWhiteSpace(pageType.LayoutPath)
+                mantlePageType.LayoutPath = string.IsNullOrWhiteSpace(pageType.LayoutPath)
                     ? MantleWebConstants.DefaultFrontendLayoutPath
                     : pageType.LayoutPath;
 
-                korePageType.InitializeInstance(pageVersion);
+                mantlePageType.InitializeInstance(pageVersion);
 
                 var contentBlocks = contentBlockService.Value.GetContentBlocks(pageVersion.Id, WorkContext.CurrentCultureCode);
-                korePageType.ReplaceContentTokens(x => InsertContentBlocks(x, contentBlocks));
+                mantlePageType.ReplaceContentTokens(x => InsertContentBlocks(x, contentBlocks));
 
-                return View(korePageType.DisplayTemplatePath, korePageType);
+                return View(mantlePageType.DisplayTemplatePath, mantlePageType);
             }
 
             return NotFound();

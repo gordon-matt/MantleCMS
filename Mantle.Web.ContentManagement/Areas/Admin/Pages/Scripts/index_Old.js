@@ -23,7 +23,7 @@ var PageTypeVM = function () {
 
     self.edit = function (id) {
         $.ajax({
-            url: "/odata/kore/cms/PageTypes(guid'" + id + "')",
+            url: "/odata/mantle/cms/PageTypes(guid'" + id + "')",
             type: "GET",
             dataType: "json",
             async: false
@@ -48,7 +48,7 @@ var PageTypeVM = function () {
     self.delete = function (id) {
         if (confirm(translations.DeleteRecordConfirm)) {
             $.ajax({
-                url: "/odata/kore/cms/PageTypes(guid'" + id + "')",
+                url: "/odata/mantle/cms/PageTypes(guid'" + id + "')",
                 type: "DELETE",
                 async: false
             })
@@ -78,7 +78,7 @@ var PageTypeVM = function () {
 
         if (isNew) {
             $.ajax({
-                url: "/odata/kore/cms/PageTypes",
+                url: "/odata/mantle/cms/PageTypes",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -100,7 +100,7 @@ var PageTypeVM = function () {
         }
         else {
             $.ajax({
-                url: "/odata/kore/cms/PageTypes(guid'" + self.id() + "')",
+                url: "/odata/mantle/cms/PageTypes(guid'" + self.id() + "')",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -191,7 +191,7 @@ var ViewModel = function () {
 
     self.edit = function (id) {
         $.ajax({
-            url: "/odata/kore/cms/Pages(guid'" + id + "')",
+            url: "/odata/mantle/cms/Pages(guid'" + id + "')",
             type: "GET",
             dataType: "json",
             async: false
@@ -271,7 +271,7 @@ var ViewModel = function () {
     self.delete = function (id) {
         if (confirm(translations.DeleteRecordConfirm)) {
             $.ajax({
-                url: "/odata/kore/cms/Pages(guid'" + id + "')",
+                url: "/odata/mantle/cms/Pages(guid'" + id + "')",
                 type: "DELETE",
                 async: false
             })
@@ -318,7 +318,7 @@ var ViewModel = function () {
         if (self.id() == emptyGuid) {
             // INSERT
             $.ajax({
-                url: "/odata/kore/cms/Pages",
+                url: "/odata/mantle/cms/Pages",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -341,7 +341,7 @@ var ViewModel = function () {
         else {
             // UPDATE
             $.ajax({
-                url: "/odata/kore/cms/Pages(guid'" + self.id() + "')",
+                url: "/odata/mantle/cms/Pages(guid'" + self.id() + "')",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -391,7 +391,7 @@ var ViewModel = function () {
         };
 
         $.ajax({
-            url: "/odata/kore/cms/Pages(guid'" + id + "')",
+            url: "/odata/mantle/cms/Pages(guid'" + id + "')",
             type: "PATCH",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(patch),
@@ -446,7 +446,7 @@ var ViewModel = function () {
         };
 
         $.ajax({
-            url: "/odata/kore/cms/Pages/Translate",
+            url: "/odata/mantle/cms/Pages/Translate",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data),
@@ -548,7 +548,7 @@ $(document).ready(function () {
             type: "odata",
             transport: {
                 read: {
-                    url: "/odata/kore/cms/Pages",
+                    url: "/odata/mantle/cms/Pages",
                     dataType: "json"
                 }
             },
@@ -619,7 +619,7 @@ $(document).ready(function () {
             type: "odata",
             transport: {
                 read: {
-                    url: "/odata/kore/cms/PageTypes",
+                    url: "/odata/mantle/cms/PageTypes",
                     dataType: "json"
                 }
             },

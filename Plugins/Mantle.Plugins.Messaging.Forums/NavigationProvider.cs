@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums
             builder.Add(T[MantleWebLocalizableStrings.Plugins.Title],
                 menu => menu.Add(T[LocalizableStrings.Forums], "5", item => item
                     .Url("#plugins/messaging/forums")
-                    .Icons("kore-icon kore-icon-forums")
+                    .Icons("fa fa-comments")
                     .Permission(ForumPermissions.ReadForums)));
         }
     }

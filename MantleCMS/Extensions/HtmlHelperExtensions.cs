@@ -78,9 +78,7 @@ namespace MantleCMS.Extensions
                     }
                 }
 
-                tagBuiler = tagBuiler
-                    .EndTag() // </ul>
-                    .EndTag(); // </li>
+                tagBuiler = tagBuiler.EndTag(); // </ul>
             }
             else
             {
@@ -112,8 +110,7 @@ namespace MantleCMS.Extensions
                 .AddCssClass("list-group-item")
                 .AddCssClass(cssClass)
                 .MergeAttribute("href", url)
-                .SetInnerHtml(menuItem.Text)
-                .EndTag();
+                .SetInnerHtml(menuItem.Text);
 
             return new HtmlString(tagBuiler.ToString());
         }

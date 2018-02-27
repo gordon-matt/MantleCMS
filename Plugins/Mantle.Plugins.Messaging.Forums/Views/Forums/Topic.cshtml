@@ -18,34 +18,34 @@
             @if (Model.IsUserAllowedToEditTopic)
             {
                 <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-default edit-topic-button">
-                    <i class="kore-icon forum-edit"></i>
+                    <i class="fa fa-edit"></i>
                     @T(LocalizableStrings.EditTopic)
                 </a>
             }
             @if (Model.IsUserAllowedToDeleteTopic)
             {
                 <a href="@Url.Action("TopicDelete", new { id = Model.Id })" class="btn btn-danger delete-topic-button" onclick="return confirm('@T(MantleWebLocalizableStrings.General.AreYouSure)');">
-                    <i class="kore-icon forum-delete"></i>
+                    <i class="fa fa-remove"></i>
                     @T(LocalizableStrings.DeleteTopic)
                 </a>
             }
             @if (Model.IsUserAllowedToMoveTopic)
             {
                 <a href="@Url.Action("TopicMove", new { id = Model.Id })" class="btn btn-warning move-topic-button">
-                    <i class="kore-icon forum-move"></i>
+                    <i class="fa fa-arrow-right"></i>
                     @T(LocalizableStrings.MoveTopic)
                 </a>
             }
             
             <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
-                <i class="kore-icon forum-reply"></i>
+                <i class="fa fa-mail-reply"></i>
                 @T(LocalizableStrings.Reply)
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
                 <a class="btn btn-success watch-topic-button" href="#" id="watch-topic-top">
-                    <i class="kore-icon forum-watch"></i>
+                    <i class="fa fa-binoculars"></i>
                     @Model.WatchTopicText
                 </a>
 
@@ -112,14 +112,14 @@
     <div class="topic-actions lower">
         <div class="actions">
             <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
-                <i class="kore-icon forum-reply"></i>
+                <i class="fa fa-mail-reply"></i>
                 @T(LocalizableStrings.Reply)
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
                 <a class="btn btn-success" href="#" id="watch-topic-bottom">
-                    <i class="kore-icon forum-watch"></i>
+                    <i class="fa fa-binoculars"></i>
                     @Model.WatchTopicText
                 </a>
                 

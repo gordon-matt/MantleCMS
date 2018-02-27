@@ -13,7 +13,7 @@
                                 @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="kore-icon kore-icon-group"></i>
+                                        <i class="fa fa-users"></i>
                                     </span>
                                     @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: roleModel.name" })
                                 </div>
@@ -22,7 +22,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
                                 <button type="button" class="btn btn-default" data-bind="click: roleModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: roleModel.save"><i class="kore-icon kore-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: roleModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>

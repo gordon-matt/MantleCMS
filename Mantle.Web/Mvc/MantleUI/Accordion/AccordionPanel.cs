@@ -7,9 +7,9 @@ namespace Mantle.Web.Mvc.MantleUI
     public class AccordionPanel : IDisposable
     {
         private readonly TextWriter textWriter;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
-        internal AccordionPanel(IKoreUIProvider provider, TextWriter writer, string title, string panelId, string parentAccordionId, bool expanded = false)
+        internal AccordionPanel(IMantleUIProvider provider, TextWriter writer, string title, string panelId, string parentAccordionId, bool expanded = false)
         {
             if (string.IsNullOrEmpty(title))
             {

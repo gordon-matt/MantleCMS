@@ -60,8 +60,8 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages
                     var roleIds = selectedRoles.Split(',');
                     var roles = await membershipService.GetRolesByIds(roleIds);
 
-                    var koreUser = await membershipService.GetUserByName(page.TenantId, user.Identity.Name);
-                    var userRoles = await membershipService.GetRolesForUser(koreUser.Id);
+                    var mantleUser = await membershipService.GetUserByName(page.TenantId, user.Identity.Name);
+                    var userRoles = await membershipService.GetRolesForUser(mantleUser.Id);
                     var userRoleIds = userRoles.Select(x => x.Id);
 
                     return userRoleIds.ContainsAny(selectedRoles.Split(','));

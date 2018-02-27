@@ -91,7 +91,7 @@ var ViewModel = function () {
 };
 
 breeze.config.initializeAdapterInstances({ dataService: "OData" });
-var manager = new breeze.EntityManager('/odata/kore/cms');
+var manager = new breeze.EntityManager('/odata/mantle/cms');
 
 var pagerInitialized = false;
 var userIds = [];

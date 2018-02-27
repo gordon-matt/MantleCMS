@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers
 {
-    [Route("kore-cms")]
+    [Route("mantle-cms")]
     public class FormBlockController : MantleController
     {
         private readonly IEmailSender emailSender;

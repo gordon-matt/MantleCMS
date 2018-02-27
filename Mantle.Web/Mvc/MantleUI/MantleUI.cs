@@ -8,9 +8,9 @@ namespace Mantle.Web.Mvc.MantleUI
     public class MantleUI<TModel>
     {
         private readonly IHtmlHelper<TModel> html;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
-        internal MantleUI(IHtmlHelper<TModel> html, IKoreUIProvider provider = null)
+        internal MantleUI(IHtmlHelper<TModel> html, IMantleUIProvider provider = null)
         {
             this.html = html;
             this.provider = provider ?? MantleUISettings.DefaultAdminProvider;

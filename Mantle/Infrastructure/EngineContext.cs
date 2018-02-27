@@ -30,16 +30,16 @@ namespace Mantle.Infrastructure
 
         public static IEngine CreateEngineInstance()
         {
-            //if (KoreConfiguration.Instance != null && !string.IsNullOrEmpty(KoreConfiguration.Instance.Engine.Type))
+            //if (MantleConfiguration.Instance != null && !string.IsNullOrEmpty(MantleConfiguration.Instance.Engine.Type))
             //{
-            //    var engineType = Type.GetType(KoreConfiguration.Instance.Engine.Type);
+            //    var engineType = Type.GetType(MantleConfiguration.Instance.Engine.Type);
             //    if (engineType == null)
             //    {
-            //        throw new KoreException("The type '" + engineType + "' could not be found. Please check the configuration or check for missing assemblies.");
+            //        throw new MantleException("The type '" + engineType + "' could not be found. Please check the configuration or check for missing assemblies.");
             //    }
             //    if (!typeof(IEngine).GetTypeInfo().IsAssignableFrom(engineType))
             //    {
-            //        throw new KoreException("The type '" + engineType + "' doesn't implement 'Kore.Infrastructure.IEngine' and cannot be configured for that purpose.");
+            //        throw new MantleException("The type '" + engineType + "' doesn't implement 'Mantle.Infrastructure.IEngine' and cannot be configured for that purpose.");
             //    }
             //    return Activator.CreateInstance(engineType) as IEngine;
             //}

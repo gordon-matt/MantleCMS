@@ -7,7 +7,7 @@ namespace Mantle.Infrastructure
 {
     /// <summary>
     /// Classes implementing this interface provide information about types
-    /// to various services in the Kore engine.
+    /// to various services in the Mantle engine.
     /// </summary>
     public interface ITypeFinder
     {

@@ -1,4 +1,6 @@
 ﻿using System;
+using Mantle.Helpers;
+using Mantle.Infrastructure;
 
 namespace Mantle
 {
@@ -77,8 +79,7 @@ namespace Mantle
                 DateTime tmp1 = dateTime;
                 if (convertToUserTime)
                 {
-                    //TODO
-                    //tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
+                    tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
                 }
 
                 //default formatting

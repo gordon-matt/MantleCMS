@@ -486,7 +486,7 @@
             grid.dataSource.transport.parameterMap = function (options) {
                 return { regionType: 'State', parentId: countryId };
             }
-            //grid.dataSource.transport.options.read.url = "/odata/kore/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
+            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
             grid.dataSource.page(1);
 
             switchSection($("#state-grid-section"));
@@ -500,7 +500,7 @@
             grid.dataSource.transport.parameterMap = function (options) {
                 return { regionType: 'City', parentId: countryId };
             }
-            //grid.dataSource.transport.options.read.url = "/odata/kore/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
+            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
             grid.dataSource.page(1);
 
             switchSection($("#city-grid-section"));
@@ -776,7 +776,7 @@
             grid.dataSource.transport.parameterMap = function (options) {
                 return { regionType: 'City', parentId: stateId };
             }
-            //grid.dataSource.transport.options.read.url = "/odata/kore/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
+            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
             grid.dataSource.page(1);
 
             switchSection($("#city-grid-section"));
@@ -1112,7 +1112,7 @@
             grid.dataSource.transport.parameterMap = function (options) {
                 return { regionType: 'Country', parentId: continentId };
             }
-            //grid.dataSource.transport.options.read.url = "/odata/kore/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
+            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
             grid.dataSource.page(1);
 
             switchSection($("#country-grid-section"));

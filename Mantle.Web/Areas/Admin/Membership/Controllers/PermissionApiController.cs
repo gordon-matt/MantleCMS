@@ -146,7 +146,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
 
             string roleId = data.roleId;
             var role = await Service.GetRoleById(roleId);
-            var result = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmKorePermission
+            var result = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
             {
                 Id = x.Id,
                 Name = x.Name
@@ -167,7 +167,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
         }
     }
 
-    public struct EdmKorePermission
+    public struct EdmMantlePermission
     {
         public string Id { get; set; }
 

@@ -14,7 +14,7 @@ namespace Mantle.Web.Mvc.MantleUI
             this.HtmlAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
         }
 
-        internal IKoreUIProvider Provider { get; set; }
+        internal IMantleUIProvider Provider { get; set; }
 
         protected internal abstract void StartTag(TextWriter textWriter);
 

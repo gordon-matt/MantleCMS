@@ -8,10 +8,10 @@
 
     Script.IncludeBundle("breeze");
     Script.IncludeBundle("knockout");
-    Script.IncludeBundle("kore/common");
+    Script.IncludeBundle("mantle/common");
     Script.IncludeBundle("third-party/bootpag");
-    Script.IncludeBundle("kore/section-switching");
-    Script.IncludeBundle("kore-cms/blog-content");
+    Script.IncludeBundle("mantle/section-switching");
+    Script.IncludeBundle("mantle-cms/blog-content");
 
     var settings = EngineContext.Current.Resolve<BlogSettings>();
     ViewBag.Title = settings.PageTitle;

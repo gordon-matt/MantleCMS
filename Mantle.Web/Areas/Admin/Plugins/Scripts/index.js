@@ -102,7 +102,7 @@ function ($, ko, kendo, mantle_common, notify) {
                         '<br />Author: #:Author#' +
                         '<br />SystemName: #:SystemName#' +
                         '<br />DisplayOrder: #:DisplayOrder#' +
-                        '<br />Installed: <i class="kore-icon #=Installed ? \'kore-icon-ok-circle kore-icon-2x text-success\' : \'kore-icon-no-circle kore-icon-2x text-danger\'#"></i>' +
+                        '<br />Installed: <i class="fa #=Installed ? \'fa-ok-circle fa-2x text-success\' : \'ffa-no-circle fa-2x text-danger\'#"></i>' +
                         '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-default btn-sm">' + self.translations.edit + '</a>',
                     filterable: false
                 }, {

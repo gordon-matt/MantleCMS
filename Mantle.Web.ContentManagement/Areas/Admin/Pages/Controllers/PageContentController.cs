@@ -151,20 +151,20 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
                 WorkContext.Breadcrumbs.Add(pageVersion.Title);
 
                 var pageType = await pageTypeService.FindOneAsync(pageVersion.Page.PageTypeId);
-                var korePageType = pageTypeService.GetMantlePageType(pageType.Name);
-                korePageType.InstanceName = pageVersion.Title;
-                korePageType.InstanceParentId = pageVersion.Page.ParentId;
+                var mantlePageType = pageTypeService.GetMantlePageType(pageType.Name);
+                mantlePageType.InstanceName = pageVersion.Title;
+                mantlePageType.InstanceParentId = pageVersion.Page.ParentId;
 
-                korePageType.LayoutPath = string.IsNullOrWhiteSpace(pageType.LayoutPath)
+                mantlePageType.LayoutPath = string.IsNullOrWhiteSpace(pageType.LayoutPath)
                     ? MantleWebConstants.DefaultFrontendLayoutPath
                     : pageType.LayoutPath;
 
-                korePageType.InitializeInstance(pageVersion);
+                mantlePageType.InitializeInstance(pageVersion);
 
                 var contentBlocks = contentBlockService.GetContentBlocks(pageVersion.PageId, WorkContext.CurrentCultureCode);
-                korePageType.ReplaceContentTokens(x => InsertContentBlocks(x, contentBlocks.Where(y => IsVisible(y))));
+                mantlePageType.ReplaceContentTokens(x => InsertContentBlocks(x, contentBlocks.Where(y => IsVisible(y))));
 
-                return View(korePageType.DisplayTemplatePath, korePageType);
+                return View(mantlePageType.DisplayTemplatePath, mantlePageType);
             }
 
             return NotFound();

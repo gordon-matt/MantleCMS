@@ -67,13 +67,13 @@
 //                var document = factory(pageVersion.Id.ToString());
 
 //                var pageType = pageTypeService.FindOne(pageVersion.Page.PageTypeId);
-//                var korePageType = pageTypeService.GetMantlePageType(pageType.Name);
-//                korePageType.InstanceName = pageVersion.Title;
-//                korePageType.LayoutPath = pageType.LayoutPath;
-//                korePageType.InitializeInstance(pageVersion);
+//                var mantlePageType = pageTypeService.GetMantlePageType(pageType.Name);
+//                mantlePageType.InstanceName = pageVersion.Title;
+//                mantlePageType.LayoutPath = pageType.LayoutPath;
+//                mantlePageType.InitializeInstance(pageVersion);
 
 //                string description;
-//                korePageType.PopulateDocumentIndex(document, out description);
+//                mantlePageType.PopulateDocumentIndex(document, out description);
 
 //                document.Add("url", "/" + pageVersion.Slug).Store();
 

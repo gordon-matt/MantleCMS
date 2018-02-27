@@ -82,13 +82,13 @@ namespace Mantle.Infrastructure
         #region Methods
 
         /// <summary>
-        /// Initialize components and plugins in the Kore environment.
+        /// Initialize components and plugins in the Mantle environment.
         /// </summary>
         /// <param name="config">Config</param>
         public void Initialize()
         {
             ////startup tasks
-            //if (!KoreConfigurationSection.Instance.IgnoreStartupTasks)
+            //if (!MantleConfigurationSection.Instance.IgnoreStartupTasks)
             //{
             RunStartupTasks();
             //}

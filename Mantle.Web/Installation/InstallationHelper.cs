@@ -16,7 +16,7 @@
 //        /// </summary>
 //        private static string ConnectionStringWAFormat = @"Server={0};Initial Catalog={1};Integrated Security=True;Persist Security Info=True;MultipleActiveResultSets=True";
 
-//        public static void Install<TContext>(InstallationModel model) where TContext : DbContext, IKoreDbContext, ISupportSeed, new()
+//        public static void Install<TContext>(InstallationModel model) where TContext : DbContext, IMantleDbContext, ISupportSeed, new()
 //        {
 //            var dataSettings = EngineContext.Current.Resolve<DataSettings>();
 
@@ -49,7 +49,7 @@
 //            dataSettings.ConnectionString = connectionString;
 
 //            // We need to save the Password to settings temporarily in order to setup the login details AFTER restarting the app domain
-//            //  We then delete the password from the XML file in Kore.Web.Infrastructure.StartupTask.
+//            //  We then delete the password from the XML file in Mantle.Web.Infrastructure.StartupTask.
 //            dataSettings.AdminEmail = model.AdminEmail;
 //            dataSettings.AdminPassword = model.AdminPassword;
 //            dataSettings.CreateSampleData = model.CreateSampleData;

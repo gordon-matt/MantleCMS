@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web.Mvc.MantleUI.Providers
 {
-    public interface IKoreUIProvider
+    public interface IMantleUIProvider
     {
         IHtmlContent RenderScripts();
 

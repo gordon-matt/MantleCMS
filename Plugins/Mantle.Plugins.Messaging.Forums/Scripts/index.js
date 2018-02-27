@@ -8,11 +8,11 @@
     require('kendo');
     require('notify');
 
-    require('kore-section-switching');
-    require('kore-jqueryval');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
 
-    var forumGroupApiUrl = "/odata/kore/plugins/forums/ForumGroupApi";
-    var forumApiUrl = "/odata/kore/plugins/forums/ForumApi";
+    var forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
+    var forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";
 
     var ForumModel = function (parent) {
         var self = this;

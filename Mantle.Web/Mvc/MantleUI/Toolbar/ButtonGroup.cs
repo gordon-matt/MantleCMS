@@ -7,9 +7,9 @@ namespace Mantle.Web.Mvc.MantleUI
     public class ButtonGroup : IDisposable
     {
         private readonly TextWriter textWriter;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
-        internal ButtonGroup(IKoreUIProvider provider, TextWriter writer)
+        internal ButtonGroup(IMantleUIProvider provider, TextWriter writer)
         {
             this.provider = provider;
             this.textWriter = writer;

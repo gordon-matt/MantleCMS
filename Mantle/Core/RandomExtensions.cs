@@ -19,7 +19,6 @@ namespace Mantle
             return random.Next(byte.MinValue, byte.MaxValue) > (byte.MaxValue / 2);
         }
 
-        //TODO: These can probably be moved to a Kore.Drawing namespace in future if needed
         /// <summary>
         /// Returns a random System.Drawing.Color.
         /// </summary>

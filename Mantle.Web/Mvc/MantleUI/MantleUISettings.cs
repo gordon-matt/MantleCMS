@@ -5,29 +5,29 @@ namespace Mantle.Web.Mvc.MantleUI
 {
     public static class MantleUISettings
     {
-        private static IKoreUIProvider defaultAdminProvider;
-        private static IKoreUIProvider defaultFrontendProvider;
+        private static IMantleUIProvider defaultAdminProvider;
+        private static IMantleUIProvider defaultFrontendProvider;
 
         static MantleUISettings()
         {
-            AreaUIProviders = new Dictionary<string, IKoreUIProvider>();
+            AreaUIProviders = new Dictionary<string, IMantleUIProvider>();
         }
 
-        public static Dictionary<string, IKoreUIProvider> AreaUIProviders { get; private set; }
+        public static Dictionary<string, IMantleUIProvider> AreaUIProviders { get; private set; }
 
-        public static IKoreUIProvider DefaultAdminProvider
+        public static IMantleUIProvider DefaultAdminProvider
         {
             get { return defaultAdminProvider ?? (defaultAdminProvider = new Bootstrap3UIProvider()); }
             set { defaultAdminProvider = value; }
         }
 
-        public static IKoreUIProvider DefaultFrontendProvider
+        public static IMantleUIProvider DefaultFrontendProvider
         {
             get { return defaultFrontendProvider ?? (defaultFrontendProvider = new Bootstrap3UIProvider()); }
             set { defaultFrontendProvider = value; }
         }
 
-        public static void RegisterAreaUIProvider(string area, IKoreUIProvider provider)
+        public static void RegisterAreaUIProvider(string area, IMantleUIProvider provider)
         {
             if (!AreaUIProviders.ContainsKey(area))
             {

@@ -17,7 +17,7 @@ namespace Mantle.Web.Mvc
     /// <summary>
     /// <para>Generic controller for data Select/Insert/Update/Delete... ONly to be used temporarily.</para>
     /// <para>After OData is released and stable on ASP.NET Core, then we will use that instead.</para>
-    /// <para>See GenericODataController from KoreCMS for what to change this to in future.</para>
+    /// <para>See GenericODataController from MantleCMS for what to change this to in future.</para>
     /// </summary>
     public abstract class MantleGenericDataController<TEntity, TKey> : MantleController
         where TEntity : class

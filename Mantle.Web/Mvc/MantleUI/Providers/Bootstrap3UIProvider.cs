@@ -23,7 +23,7 @@ namespace Mantle.Web.Mvc.MantleUI.Providers
         private IThumbnailProvider thumbnailProvider;
         private IToolbarProvider toolbarProvider;
 
-        #region IKoreUIProvider Members
+        #region IMantleUIProvider Members
 
         #region General
 
@@ -185,7 +185,7 @@ namespace Mantle.Web.Mvc.MantleUI.Providers
 
         #endregion Special
 
-        #endregion IKoreUIProvider Members
+        #endregion IMantleUIProvider Members
 
         protected override string GetButtonCssClass(State state)
         {

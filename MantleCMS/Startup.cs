@@ -232,7 +232,7 @@ namespace MantleCMS
             TaskManager.Instance.Start();
             //}
 
-            //KoreUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
+            //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
             // Unfortunately, at the moment, we don't have any better way than this to let libraries
             //  know where to find shared assets that they will need.

@@ -6,10 +6,10 @@ namespace Mantle.Web.Mvc.MantleUI
 {
     public class ThumbnailCaptionPanel : IDisposable
     {
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
         private readonly TextWriter textWriter;
 
-        internal ThumbnailCaptionPanel(IKoreUIProvider provider, TextWriter writer)
+        internal ThumbnailCaptionPanel(IMantleUIProvider provider, TextWriter writer)
         {
             this.provider = provider;
             this.textWriter = writer;

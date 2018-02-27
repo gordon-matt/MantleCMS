@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Mantle.Caching;
+using Mantle.Helpers;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Web.Areas.Admin;

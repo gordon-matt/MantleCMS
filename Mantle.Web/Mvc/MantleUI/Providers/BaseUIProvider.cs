@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web.Mvc.MantleUI.Providers
 {
-    public abstract class BaseUIProvider : IKoreUIProvider
+    public abstract class BaseUIProvider : IMantleUIProvider
     {
         private ICollection<string> scripts;
 
@@ -14,7 +14,7 @@ namespace Mantle.Web.Mvc.MantleUI.Providers
             set { scripts = value; }
         }
 
-        #region IKoreUIProvider Members
+        #region IMantleUIProvider Members
 
         public virtual IHtmlContent RenderScripts()
         {
@@ -55,7 +55,7 @@ namespace Mantle.Web.Mvc.MantleUI.Providers
 
         #endregion Special
 
-        #endregion IKoreUIProvider Members
+        #endregion IMantleUIProvider Members
 
         protected abstract string GetButtonCssClass(State state);
 

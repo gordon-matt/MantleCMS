@@ -1,4 +1,4 @@
-﻿//TODO: Review all of this and replace some code with membershipService, same as in Kore
+﻿//TODO: Review all of this and replace some code with membershipService, same as in Mantle
 
 using System;
 using System.Collections.Generic;

@@ -19,7 +19,7 @@
                 @if (Model.ForumFeedsEnabled)
                 {
                     <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-xs link-rss" title="@T(LocalizableStrings.ForumRSSLinkTitle)">
-                        <i class="kore-icon forum-rss"></i>
+                        <i class="fa fa-rss"></i>
                         @T(LocalizableStrings.RSS)
                     </a>
                 }
@@ -34,14 +34,14 @@
     <div class="row forum-actions">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 actions">
             <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-primary">
-                <i class="kore-icon forum-create"></i>
+                <i class="fa fa-plus"></i>
                 @T(LocalizableStrings.NewTopic)
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
                 <a class="btn btn-success" href="#" id="watch-forum">
-                    <i class="kore-icon forum-watch"></i>
+                    <i class="fa fa-binoculars"></i>
                     @Model.WatchForumText
                 </a>
 

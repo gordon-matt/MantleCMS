@@ -18,12 +18,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Services
 
     public class PageTypeService : GenericDataService<PageType>, IPageTypeService
     {
-        private static Lazy<IEnumerable<MantlePageType>> korePageTypes;
+        private static Lazy<IEnumerable<MantlePageType>> mantlePageTypes;
 
         public PageTypeService(ICacheManager cacheManager, IRepository<PageType> repository)
             : base(cacheManager, repository)
         {
-            korePageTypes = new Lazy<IEnumerable<MantlePageType>>(() =>
+            mantlePageTypes = new Lazy<IEnumerable<MantlePageType>>(() =>
             {
                 var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
 
@@ -38,12 +38,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Services
 
         public MantlePageType GetMantlePageType(string name)
         {
-            return korePageTypes.Value.FirstOrDefault(x => x.Name == name);
+            return mantlePageTypes.Value.FirstOrDefault(x => x.Name == name);
         }
 
         public IEnumerable<MantlePageType> GetMantlePageTypes()
         {
-            return korePageTypes.Value;
+            return mantlePageTypes.Value;
         }
 
         #endregion IPageTypeService Members

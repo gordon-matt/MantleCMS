@@ -14,11 +14,11 @@ namespace Mantle.Web.Mvc.MantleUI
     public class PanelSection : IDisposable
     {
         private readonly TextWriter textWriter;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
         public PanelSectionType SectionType { get; private set; }
 
-        internal PanelSection(IKoreUIProvider provider, PanelSectionType sectionType, TextWriter writer, string title = null)
+        internal PanelSection(IMantleUIProvider provider, PanelSectionType sectionType, TextWriter writer, string title = null)
         {
             this.provider = provider;
             this.SectionType = sectionType;

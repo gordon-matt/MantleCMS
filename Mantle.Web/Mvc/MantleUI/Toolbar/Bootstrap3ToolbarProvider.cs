@@ -7,9 +7,9 @@ namespace Mantle.Web.Mvc.MantleUI
 {
     public class Bootstrap3ToolbarProvider : IToolbarProvider
     {
-        private readonly IKoreUIProvider uiProvider;
+        private readonly IMantleUIProvider uiProvider;
 
-        public Bootstrap3ToolbarProvider(IKoreUIProvider uiProvider)
+        public Bootstrap3ToolbarProvider(IMantleUIProvider uiProvider)
         {
             this.uiProvider = uiProvider;
         }

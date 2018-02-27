@@ -11,9 +11,9 @@ namespace Mantle.Web.Mvc.MantleUI
         public bool IsActive { get; private set; }
 
         private readonly TextWriter textWriter;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
-        internal TabPanel(IKoreUIProvider provider, TextWriter writer, string id, bool isActive = false)
+        internal TabPanel(IMantleUIProvider provider, TextWriter writer, string id, bool isActive = false)
         {
             if (string.IsNullOrWhiteSpace(id))
             {

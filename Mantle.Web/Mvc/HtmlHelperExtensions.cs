@@ -574,7 +574,7 @@ namespace Mantle.Web.Mvc
             return new Mantle<TModel>(html);
         }
 
-        public static MantleUI<TModel> MantleUI<TModel>(this IHtmlHelper<TModel> htmlHelper, IKoreUIProvider provider = null)
+        public static MantleUI<TModel> MantleUI<TModel>(this IHtmlHelper<TModel> htmlHelper, IMantleUIProvider provider = null)
         {
             if (provider != null)
             {

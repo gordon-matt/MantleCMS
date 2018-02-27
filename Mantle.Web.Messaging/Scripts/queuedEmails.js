@@ -36,7 +36,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/QueuedEmailApi",
+                            url: "/odata/mantle/cms/QueuedEmailApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -129,7 +129,7 @@
         self.remove = function(id) {
             if (confirm(self.translations.DeleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/QueuedEmailApi(" + id + ")",
+                    url: "/odata/mantle/cms/QueuedEmailApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })

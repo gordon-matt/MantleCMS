@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace Mantle.Infrastructure
 {
     /// <summary>
-    /// A class that finds types needed by Kore by looping assemblies in the
+    /// A class that finds types needed by Mantle by looping assemblies in the
     /// currently executing AppDomain. Only assemblies whose names matches
     /// certain patterns are investigated and an optional list of assemblies
     /// referenced by <see cref="AssemblyNames"/> are always investigated.
@@ -53,7 +53,7 @@ namespace Mantle.Infrastructure
             get { return AppDomain.CurrentDomain; }
         }
 
-        /// <summary>Gets or sets wether Kore should iterate assemblies in the app domain when loading Kore types. Loading patterns are applied when loading these assemblies.</summary>
+        /// <summary>Gets or sets wether Mantle should iterate assemblies in the app domain when loading Mantle types. Loading patterns are applied when loading these assemblies.</summary>
         public bool LoadAppDomainAssemblies
         {
             get { return loadAppDomainAssemblies; }
@@ -75,7 +75,7 @@ namespace Mantle.Infrastructure
         }
 
         /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
-        /// <remarks>If you change this so that Kore assemblies aren't investigated (e.g. by not including something like "^Kore|..." you may break core functionality.</remarks>
+        /// <remarks>If you change this so that Mantle assemblies aren't investigated (e.g. by not including something like "^Mantle|..." you may break core functionality.</remarks>
         public string AssemblyRestrictToLoadingPattern
         {
             get { return assemblyRestrictToLoadingPattern; }
@@ -218,7 +218,7 @@ namespace Mantle.Infrastructure
         }
 
         /// <summary>Gets tne assemblies related to the current implementation.</summary>
-        /// <returns>A list of assemblies that should be loaded by the Kore factory.</returns>
+        /// <returns>A list of assemblies that should be loaded by the Mantle factory.</returns>
         public virtual IEnumerable<Assembly> GetAssemblies()
         {
             var addedAssemblyNames = new List<string>();
@@ -281,7 +281,7 @@ namespace Mantle.Infrastructure
         /// The name of the assembly to check.
         /// </param>
         /// <returns>
-        /// True if the assembly should be loaded into Kore.
+        /// True if the assembly should be loaded into Mantle.
         /// </returns>
         public virtual bool Matches(string assemblyFullName)
         {

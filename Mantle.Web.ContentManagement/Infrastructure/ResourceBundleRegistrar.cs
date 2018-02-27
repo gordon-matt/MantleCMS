@@ -18,45 +18,45 @@
 
 //            #endregion
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/blog")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/blog")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/blog-content")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/blog-content")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Scripts.jquery.bootpag.min.js")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Scripts.moment.js")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blogContent.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/content-blocks")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/content-blocks")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/entity-type-content-blocks")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/entity-type-content-blocks")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/languages")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/languages")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Localization.Scripts.index.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/localizable-strings")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/localizable-strings")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Localization.Scripts.localizableStrings.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/media")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/media")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/menus")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/menus")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/message-templates")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/message-templates")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Messaging.Scripts.messageTemplates.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/newsletters/subscribers")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/newsletters/subscribers")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/pages")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/pages")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/queued-emails")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/queued-emails")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Messaging.Scripts.queuedEmails.js"));
 
-//            bundles.Add(new ScriptBundle("~/bundles/js/kore-cms/xml-sitemap")
+//            bundles.Add(new ScriptBundle("~/bundles/js/mantle-cms/xml-sitemap")
 //                .Include("~/Scripts/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index.js"));
 
 //            #endregion

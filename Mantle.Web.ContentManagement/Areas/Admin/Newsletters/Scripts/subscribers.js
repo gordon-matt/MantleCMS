@@ -30,7 +30,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/SubscriberApi",
+                            url: "/odata/mantle/cms/SubscriberApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -84,18 +84,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.translations.Columns.Name,
+                    title: self.translations.columns.name,
                     filterable: true
                 }, {
                     field: "Email",
-                    title: self.translations.Columns.Email,
+                    title: self.translations.columns.email,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.Delete + '</a>' +
+                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -104,9 +104,9 @@
             });
         };
         self.remove = function (id) {
-            if (confirm(self.translations.DeleteRecordConfirm)) {
+            if (confirm(self.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/SubscriberApi(" + id + ")",
+                    url: "/odata/mantle/cms/SubscriberApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -114,10 +114,10 @@
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.DeleteRecordError, "error");
+                    $.notify(self.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }

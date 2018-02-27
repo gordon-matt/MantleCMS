@@ -6,7 +6,7 @@ using Autofac;
 namespace Mantle.Infrastructure.DependencyManagement
 {
     /// <summary>
-    /// Configures the inversion of control container with services used by Kore.
+    /// Configures the inversion of control container with services used by Mantle.
     /// </summary>
     public class ContainerConfigurer
     {

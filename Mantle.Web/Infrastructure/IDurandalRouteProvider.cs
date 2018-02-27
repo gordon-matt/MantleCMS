@@ -33,7 +33,7 @@ namespace Mantle.Web.Infrastructure
                 //{
                 //    ModuleId = "viewmodels/admin/indexing",
                 //    Route = "indexing",
-                //    JsPath = scriptRegister.GetBundleUrl("kore-web/indexing"),
+                //    JsPath = scriptRegister.GetBundleUrl("mantle-web/indexing"),
                 //    Title = T[MantleWebLocalizableStrings.Indexing.Title]
                 //});
 

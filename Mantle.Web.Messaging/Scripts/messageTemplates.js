@@ -11,10 +11,10 @@
     require('tinymce-jquery');
     require('tinymce-knockout');
 
-    require('kore-common');
-    require('kore-section-switching');
-    require('kore-jqueryval');
-    require('kore-tinymce');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
+    require('mantle-tinymce');
 
     var ViewModel = function () {
         var self = this;
@@ -65,7 +65,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/kore/cms/MessageTemplateApi",
+                            url: "/odata/mantle/cms/MessageTemplateApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -164,7 +164,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/kore/cms/MessageTemplateApi(" + id + ")",
+                url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -180,7 +180,7 @@
                 $("#tokens-list").html("");
 
                 $.ajax({
-                    url: "/odata/kore/cms/MessageTemplateApi/Default.GetTokens",
+                    url: "/odata/mantle/cms/MessageTemplateApi/Default.GetTokens",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ templateName: json.Name }),
@@ -214,7 +214,7 @@
         self.remove = function (id) {
             if (confirm(self.translations.DeleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/kore/cms/MessageTemplateApi(" + id + ")",
+                    url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -248,7 +248,7 @@
             if (self.id() == emptyGuid) {
                 // INSERT
                 $.ajax({
-                    url: "/odata/kore/cms/MessageTemplateApi",
+                    url: "/odata/mantle/cms/MessageTemplateApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -271,7 +271,7 @@
             else {
                 // UPDATE
                 $.ajax({
-                    url: "/odata/kore/cms/MessageTemplateApi(" + self.id() + ")",
+                    url: "/odata/mantle/cms/MessageTemplateApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -301,7 +301,7 @@
             };
 
             $.ajax({
-                url: "/odata/kore/cms/MessageTemplateApi(" + id + ")",
+                url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),

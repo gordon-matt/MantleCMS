@@ -5,6 +5,8 @@
 
 @model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
     //Style.IncludeBundle("bootstrap");
     //Script.IncludeBundle("bootstrap");
@@ -61,16 +63,16 @@
     <!-- Controls -->
     <a class="left carousel-control" href="#@carouselName" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">@T(KoreWebLocalizableStrings.General.Previous)</span>
+        <span class="sr-only">@T[MantleWebLocalizableStrings.General.Previous]</span>
     </a>
     <a class="right carousel-control" href="#@carouselName" role="button" data-slide="next">
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">@T(KoreWebLocalizableStrings.General.Next)</span>
+        <span class="sr-only">@T[MantleWebLocalizableStrings.General.Next]</span>
     </a>
 </div>
 
-@using (Script.AtFoot())
-{
+@*@using (Script.AtFoot())
+{*@
     <script type="text/javascript">
         var carouselName = '@carouselName';
         var interval = @Model.Interval;
@@ -100,4 +102,4 @@
             });
         });
     </script>
-}
+@*}*@

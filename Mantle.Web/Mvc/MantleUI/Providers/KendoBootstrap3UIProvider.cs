@@ -7,7 +7,7 @@
         private ITabsProvider tabsProvider;
         //private IToolbarProvider toolbarProvider;
 
-        #region IKoreUIProvider Members
+        #region IMantleUIProvider Members
 
         public override IAccordionProvider AccordionProvider
         {
@@ -29,7 +29,7 @@
         //    get { return toolbarProvider ?? (toolbarProvider = new KendoUIToolbarProvider()); }
         //}
 
-        #endregion IKoreUIProvider Members
+        #endregion IMantleUIProvider Members
 
         protected override string GetButtonCssClass(State state)
         {

@@ -15,11 +15,11 @@ namespace Mantle.Web.Mvc.MantleUI
     public class ModalSectionPanel : IDisposable
     {
         private readonly TextWriter textWriter;
-        private readonly IKoreUIProvider provider;
+        private readonly IMantleUIProvider provider;
 
         public ModalSection Section { get; private set; }
 
-        internal ModalSectionPanel(IKoreUIProvider provider, ModalSection section, TextWriter writer, string title = null)
+        internal ModalSectionPanel(IMantleUIProvider provider, ModalSection section, TextWriter writer, string title = null)
         {
             this.provider = provider;
             this.Section = section;
