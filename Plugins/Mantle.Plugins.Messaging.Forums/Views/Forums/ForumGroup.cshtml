@@ -1,4 +1,4 @@
-﻿@using Mantle.Plugins.Messaging.Forums
+﻿@using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
 @model ForumGroupModel
 
@@ -7,7 +7,7 @@
 }
 
 <div class="page forum-group-page">
-    @Html.Action("ForumBreadcrumb", new { forumGroupId = Model.Id })
+    @await Component.ForumBreadcrumbsAsync(forumGroupId: Model.Id)
     @Html.Partial("_ForumHeader")
     <hr class="clearfix" />
     @Html.Partial("_ForumGroup", Model)

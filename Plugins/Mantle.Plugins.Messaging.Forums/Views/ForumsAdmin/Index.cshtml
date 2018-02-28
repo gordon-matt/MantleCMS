@@ -1,9 +1,12 @@
-﻿@using Mantle.Plugins.Messaging.Forums
-@using Mantle.Plugins.Messaging.Forums.Extensions
+﻿@using Mantle.Web
+@using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+
 @{
-    string rtlClass = IsRightToLeft ? "k-rtl" : string.Empty;
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
@@ -12,7 +15,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: forumGroupModel.create" class="btn btn-primary">
             <i class="fa fa-plus"></i>
-            @T(MantleWebLocalizableStrings.General.Create)
+            @T[MantleWebLocalizableStrings.General.Create]
         </a>
     </div>
 
@@ -28,7 +31,7 @@
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
         {
-            using (var header = panel.BeginHeader(T(MantleWebLocalizableStrings.General.Details))) { }
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
             {
                 <form id="forum-group-form-section-form" role="form">
@@ -36,20 +39,20 @@
                         <legend id="forum-group-form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Name", T(MantleWebLocalizableStrings.General.Name), new { @class = "control-label" })
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumGroupModel.name" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("DisplayOrder", T(MantleWebLocalizableStrings.General.Order), new { @class = "control-label" })
+                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumGroupModel.displayOrder" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: forumGroupModel.cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: forumGroupModel.save"><i class="fa fa-save"></i> @T(MantleWebLocalizableStrings.General.Save)</button>
+                                <button type="button" class="btn btn-default" data-bind="click: forumGroupModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: forumGroupModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>
@@ -63,11 +66,11 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <a data-bind="click: forumModel.create" class="btn btn-primary">
             <i class="fa fa-plus"></i>
-            @T(MantleWebLocalizableStrings.General.Create)
+            @T[MantleWebLocalizableStrings.General.Create]
         </a>
         <a data-bind="click: forumModel.goBack" class="btn btn-default">
             <i class="fa fa-arrow-left"></i>
-            @T(MantleWebLocalizableStrings.General.Back)
+            @T[MantleWebLocalizableStrings.General.Back]
         </a>
     </div>
 
@@ -83,7 +86,7 @@
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
         {
-            using (var header = panel.BeginHeader(T(MantleWebLocalizableStrings.General.Details))) { }
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
             {
                 <form id="forum-form-section-form" role="form">
@@ -91,26 +94,26 @@
                         <legend id="forum-form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Name", T(MantleWebLocalizableStrings.General.Name), new { @class = "control-label" })
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumModel.name" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Description", T(MantleWebLocalizableStrings.General.Description), new { @class = "control-label" })
+                                @Html.Label("Description", T[MantleWebLocalizableStrings.General.Description], new { @class = "control-label" })
                                 @Html.TextArea("Description", null, new { @class = "form-control", data_bind = "value: forumModel.description" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("DisplayOrder", T(MantleWebLocalizableStrings.General.Order), new { @class = "control-label" })
+                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumModel.displayOrder" })
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: forumModel.cancel">@T(MantleWebLocalizableStrings.General.Cancel)</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: forumModel.save"><i class="fa fa-save"></i> @T(MantleWebLocalizableStrings.General.Save)</button>
+                                <button type="button" class="btn btn-default" data-bind="click: forumModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: forumModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </fieldset>

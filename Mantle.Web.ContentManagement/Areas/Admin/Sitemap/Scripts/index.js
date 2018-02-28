@@ -29,13 +29,13 @@
             self.gridPageSize = $("#GridPageSize").val();
 
             self.changeFrequencies = [
-                { "Id": 0, "Name": self.translations.ChangeFrequencies.Always },
-                { "Id": 1, "Name": self.translations.ChangeFrequencies.Hourly },
-                { "Id": 2, "Name": self.translations.ChangeFrequencies.Daily },
-                { "Id": 3, "Name": self.translations.ChangeFrequencies.Weekly },
-                { "Id": 4, "Name": self.translations.ChangeFrequencies.Monthly },
-                { "Id": 5, "Name": self.translations.ChangeFrequencies.Yearly },
-                { "Id": 6, "Name": self.translations.ChangeFrequencies.Never }
+                { "Id": 0, "Name": self.translations.changeFrequencies.always },
+                { "Id": 1, "Name": self.translations.changeFrequencies.hourly },
+                { "Id": 2, "Name": self.translations.changeFrequencies.daily },
+                { "Id": 3, "Name": self.translations.changeFrequencies.weekly },
+                { "Id": 4, "Name": self.translations.changeFrequencies.monthly },
+                { "Id": 5, "Name": self.translations.changeFrequencies.yearly },
+                { "Id": 6, "Name": self.translations.changeFrequencies.never }
             ];
 
             $("#Grid").kendoGrid({
@@ -141,20 +141,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Id",
-                    title: self.translations.Columns.Id,
+                    title: self.translations.columns.id,
                     filterable: false
                 }, {
                     field: "Location",
-                    title: self.translations.Columns.Location,
+                    title: self.translations.columns.location,
                     filterable: true
                 }, {
                     field: "ChangeFrequency",
-                    title: self.translations.Columns.ChangeFrequency,
+                    title: self.translations.columns.changeFrequency,
                     filterable: false,
                     editor: self.changeFrequenciesDropDownEditor
                 }, {
                     field: "Priority",
-                    title: self.translations.Columns.Priority,
+                    title: self.translations.columns.priority,
                     filterable: true
                 }, {
                     command: ["edit"],
@@ -193,7 +193,7 @@
             }, 200);
         }
         self.generateFile = function () {
-            if (confirm(self.translations.ConfirmGenerateFile)) {
+            if (confirm(self.translations.confirmGenerateFile)) {
                 $.ajax({
                     url: odataBaseUrl + "Default.Generate",
                     type: "POST",
@@ -202,10 +202,10 @@
                     async: false
                 })
                 .done(function (json) {
-                    $.notify(self.translations.GenerateFileSuccess, "success");
+                    $.notify(self.translations.generateFileSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.GenerateFileError, "error");
+                    $.notify(self.translations.generateFileError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }

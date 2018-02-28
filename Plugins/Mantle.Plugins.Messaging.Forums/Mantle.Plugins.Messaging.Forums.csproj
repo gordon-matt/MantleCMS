@@ -49,6 +49,7 @@
     <None Remove="Views\Forums\_ForumPost.cshtml" />
     <None Remove="Views\Forums\_SearchBox.cshtml" />
     <None Remove="Views\Forums\_UploadFile.cshtml" />
+    <None Remove="Views\Shared\Components\ForumBreadcrumbs\Default.cshtml" />
     <None Remove="Views\Shared\EditorTemplates\ForumSettings.cshtml" />
     <None Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
@@ -169,6 +170,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Forums\_UploadFile.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Shared\Components\ForumBreadcrumbs\Default.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\EditorTemplates\ForumSettings.cshtml">

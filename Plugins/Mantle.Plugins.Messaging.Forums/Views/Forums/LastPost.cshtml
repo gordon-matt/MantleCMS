@@ -2,6 +2,8 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model LastPostModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @if (Model.Id > 0)
 {
     <div class="date">
@@ -10,12 +12,12 @@
     if (Model.ShowTopic)
     {
         <div class="origin">
-            <label>@T(LocalizableStrings.In)</label>
+            <label>@T[LocalizableStrings.In]</label>
             @Html.ActionLink(Model.ForumTopicSubject, "Topic", new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName })
         </div>
     }
     <div class="author">
-        <label>@T(LocalizableStrings.By)</label>
+        <label>@T[LocalizableStrings.By]</label>
         @if (Model.AllowViewingProfiles)
         {
             @* TODO: Maybe we need to use a different profile page for forums only? *@
@@ -30,6 +32,6 @@
 else
 {
     <div class="no-post">
-        @T(LocalizableStrings.NoPosts)
+        @T[LocalizableStrings.NoPosts]
     </div>
 }

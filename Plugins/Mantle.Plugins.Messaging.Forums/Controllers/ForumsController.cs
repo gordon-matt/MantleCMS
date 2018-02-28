@@ -1806,42 +1806,42 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
             return PartialView(model);
         }
 
-        //[ChildActionOnly] // TODO: Convert to ViewComponent?
-        [Route("breadcrumb")]
-        public IActionResult ForumBreadcrumb(int? forumGroupId, int? forumId, int? forumTopicId)
-        {
-            var model = new ForumBreadcrumbModel();
+        ////[ChildActionOnly] // TODO: Convert to ViewComponent?
+        //[Route("breadcrumb")]
+        //public IActionResult ForumBreadcrumb(int? forumGroupId, int? forumId, int? forumTopicId)
+        //{
+        //    var model = new ForumBreadcrumbModel();
 
-            ForumTopic topic = null;
-            if (forumTopicId.HasValue)
-            {
-                topic = AsyncHelper.RunSync(() => forumService.GetTopicById(forumTopicId.Value));
-                if (topic != null)
-                {
-                    model.ForumTopicId = topic.Id;
-                    model.ForumTopicSubject = topic.Subject;
-                    model.ForumTopicSeName = topic.GetSeName();
-                }
-            }
+        //    ForumTopic topic = null;
+        //    if (forumTopicId.HasValue)
+        //    {
+        //        topic = AsyncHelper.RunSync(() => forumService.GetTopicById(forumTopicId.Value));
+        //        if (topic != null)
+        //        {
+        //            model.ForumTopicId = topic.Id;
+        //            model.ForumTopicSubject = topic.Subject;
+        //            model.ForumTopicSeName = topic.GetSeName();
+        //        }
+        //    }
 
-            Forum forum = AsyncHelper.RunSync(() => forumService.GetForumById(topic != null ? topic.ForumId : (forumId.HasValue ? forumId.Value : 0)));
-            if (forum != null)
-            {
-                model.ForumId = forum.Id;
-                model.ForumName = forum.Name;
-                model.ForumSeName = forum.GetSeName();
-            }
+        //    Forum forum = AsyncHelper.RunSync(() => forumService.GetForumById(topic != null ? topic.ForumId : (forumId.HasValue ? forumId.Value : 0)));
+        //    if (forum != null)
+        //    {
+        //        model.ForumId = forum.Id;
+        //        model.ForumName = forum.Name;
+        //        model.ForumSeName = forum.GetSeName();
+        //    }
 
-            var forumGroup = AsyncHelper.RunSync(() => forumService.GetForumGroupById(forum != null ? forum.ForumGroupId : (forumGroupId.HasValue ? forumGroupId.Value : 0)));
-            if (forumGroup != null)
-            {
-                model.ForumGroupId = forumGroup.Id;
-                model.ForumGroupName = forumGroup.Name;
-                model.ForumGroupSeName = forumGroup.GetSeName();
-            }
+        //    var forumGroup = AsyncHelper.RunSync(() => forumService.GetForumGroupById(forum != null ? forum.ForumGroupId : (forumGroupId.HasValue ? forumGroupId.Value : 0)));
+        //    if (forumGroup != null)
+        //    {
+        //        model.ForumGroupId = forumGroup.Id;
+        //        model.ForumGroupName = forumGroup.Name;
+        //        model.ForumGroupSeName = forumGroup.GetSeName();
+        //    }
 
-            return PartialView(model);
-        }
+        //    return PartialView(model);
+        //}
 
         [Route("subscribe/{page?}")]
         public async Task<IActionResult> UserForumSubscriptions(int? page)

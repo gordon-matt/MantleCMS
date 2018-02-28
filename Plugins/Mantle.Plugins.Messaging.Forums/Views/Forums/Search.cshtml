@@ -4,8 +4,10 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model SearchModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    ViewBag.Title = T(LocalizableStrings.PageTitle.Search);
+    ViewBag.Title = T[LocalizableStrings.PageTitle.Search];
 }
 
 @using (Script.AtFoot())
@@ -28,10 +30,10 @@
     </script>
 }
 
-@Html.Action("ForumBreadcrumb")
+@await Component.ForumBreadcrumbsAsync()
 <div class="page forum-search-page">
     <div class="page-title">
-        <h1>@T(LocalizableStrings.Search)</h1>
+        <h1>@T[LocalizableStrings.Search]</h1>
     </div>
     <div class="page-body">
         <div class="search-input">
@@ -41,7 +43,7 @@
                     <div class="form-horizontal form-fields">
                         <div class="basic-search">
                             <div class="form-group inputs">
-                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T(LocalizableStrings.Search_SearchKeyword)</label>
+                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchKeyword]</label>
                                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
                                     @Html.TextBox("searchterms", null, new { @class = "form-control forum-search-text" })
                                 </div>
@@ -51,7 +53,7 @@
                                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
                                     <div class="checkbox">
                                         <label>
-                                            @Html.CheckBox("adv", Model.ShowAdvancedSearch) @T(LocalizableStrings.Search_AdvancedSearch).Text
+                                            @Html.CheckBox("adv", Model.ShowAdvancedSearch) @T[LocalizableStrings.Search_AdvancedSearch]
                                         </label>
                                     </div>
                                 </div>
@@ -59,19 +61,19 @@
                         </div>
                         <div class="advanced-search" id="advanced-search" style="display: none;">
                             <div class="form-group inputs">
-                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T(LocalizableStrings.Search_SearchInForum)</label>
+                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchInForum]</label>
                                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
                                     @Html.DropDownList("forumId", new SelectList(Model.ForumList, "Value", "Text", Model.ForumIdSelected), new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group inputs">
-                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T(LocalizableStrings.Search_SearchWithin)</label>
+                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchWithin]</label>
                                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
                                     @Html.DropDownList("within", new SelectList(Model.WithinList, "Value", "Text", Model.WithinSelected), new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group inputs">
-                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T(LocalizableStrings.Search_LimitResultsToPrevious)</label>
+                                <label class="control-label col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_LimitResultsToPrevious]</label>
                                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
                                     @Html.DropDownList("limitDays", new SelectList(Model.LimitList, "Value", "Text", Model.LimitDaysSelected), new { @class = "form-control" })
                                 </div>
@@ -82,7 +84,7 @@
                 <div class="pull-right">
                     <button type="submit" class="btn btn-primary forum-search-button">
                         <i class="fa fa-search"></i>
-                        @T(LocalizableStrings.SearchButton)
+                        @T[LocalizableStrings.SearchButton]
                     </button>
                 </div>
             }
@@ -115,18 +117,18 @@
                     ShowTotalSummary = false,
                     RouteActionName = "Search",
                     RouteValues = new ForumSearchRouteValues { adv = adv, searchterms = searchterms, forumId = forumId, within = within, limitDays = limitDays },
-                });
+                }).ToString();
             }
-            @if (!MvcHtmlString.IsNullOrEmpty(pager))
+            @if (!string.IsNullOrEmpty(pager))
             {
                 <div class="pager upper">
-                    @pager
+                    @Html.Raw(pager)
                 </div>
             }
             @if (Model.NoResultsVisisble)
-            {   
+            {
                 <div class="no-result">
-                    @T(LocalizableStrings.SearchNoResultsText)
+                    @T[LocalizableStrings.SearchNoResultsText]
                 </div>
             }
             <div class="forums-table-section topic-group">
@@ -144,16 +146,16 @@
                             <thead>
                                 <tr>
                                     <th class="topic-details" colspan="2">
-                                        @T(LocalizableStrings.TopicTitle)
+                                        @T[LocalizableStrings.TopicTitle]
                                     </th>
                                     <th class="replies">
-                                        @T(LocalizableStrings.Replies)
+                                        @T[LocalizableStrings.Replies]
                                     </th>
                                     <th class="views">
-                                        @T(LocalizableStrings.Views)
+                                        @T[LocalizableStrings.Views]
                                     </th>
                                     <th class="latest-post">
-                                        @T(LocalizableStrings.LatestPost)
+                                        @T[LocalizableStrings.LatestPost]
                                     </th>
                                 </tr>
                             </thead>
@@ -169,11 +171,11 @@
                                             break;
                                         case ForumTopicType.Sticky:
                                             topicType = "sticky";
-                                            topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Sticky));
+                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
                                             break;
                                         case ForumTopicType.Announcement:
                                             topicType = "announcement";
-                                            topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Announcement));
+                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
                                             break;
                                         default:
                                             topicType = "post";
@@ -200,7 +202,7 @@
                                             <div class="topic-starter">
                                                 @if (!string.IsNullOrEmpty(topic.UserId))
                                                 {
-                                                    <label>@T(LocalizableStrings.Author)</label>
+                                                    <label>@T[LocalizableStrings.Author]</label>
                                                     if (topic.AllowViewingProfiles)
                                                     {
                                                         @* TODO: Maybe we need to use a different profile page for forums only? *@
@@ -229,10 +231,10 @@
                     </div>
                 }
             </div>
-            @if (!MvcHtmlString.IsNullOrEmpty(pager))
+            @if (!string.IsNullOrEmpty(pager))
             {
                 <div class="pager lower">
-                    @pager
+                    @Html.Raw(pager)
                 </div>
             }
         </div>

@@ -2,33 +2,36 @@
 @using Mantle.Plugins.Messaging.Forums.Data.Domain
 @using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
+@using Mantle.Web
 @model EditForumTopicModel
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @{
     Style.IncludeBundle("third-party/bootstrap-fileinput");
     Script.IncludeBundle("third-party/bootstrap-fileinput");
 }
 
-@Html.Action("ForumBreadcrumb", new { forumId = Model.ForumId, forumTopicId = Model.Id })
+@await Component.ForumBreadcrumbsAsync(forumId: Model.ForumId, forumTopicId: Model.Id)
 <div class="page forum-edit-page">
     <div class="page-title">
         @if (Model.IsEdit)
         {
-            <h1>@T(LocalizableStrings.EditTopic)</h1>
+            <h1>@T[LocalizableStrings.EditTopic]</h1>
         }
         else
         {
-            <h1>@T(LocalizableStrings.NewTopic)</h1>
+            <h1>@T[LocalizableStrings.NewTopic]</h1>
         }
     </div>
     <div class="page-body">
         @using (Html.BeginForm("TopicSave", "Forums"))
         {
             @Html.AntiForgeryToken()
-            var validationSummary = Html.ValidationSummary(true);
-            if (!MvcHtmlString.IsNullOrEmpty(validationSummary))
+            var validationSummary = Html.ValidationSummary(true).ToString();
+            if (!string.IsNullOrEmpty(validationSummary))
             {
-                <div class="message-error">@validationSummary</div> 
+                <div class="message-error">@Html.Raw(validationSummary)</div>
             }
             @Html.HiddenFor(x => x.Id)
             @Html.HiddenFor(x => x.ForumId)
@@ -36,11 +39,11 @@
             <div class="fieldset">
                 <div class="form-fields">
                     <div class="form-group inputs">
-                        <label class="label label-default">@T(LocalizableStrings.ForumName)</label>
+                        <label class="label label-default">@T[LocalizableStrings.ForumName]</label>
                         <strong>@Model.ForumName</strong>
                     </div>
                     <div class="form-group inputs">
-                        <label class="label label-default">@T(LocalizableStrings.TopicTitle)</label>
+                        <label class="label label-default">@T[LocalizableStrings.TopicTitle]</label>
                         @Html.TextBoxFor(x => x.Subject, new { @class = "form-control forum-topic-title-text" })
                         @Html.ValidationMessageFor(x => x.Subject)
                     </div>
@@ -59,7 +62,7 @@
                     @if (Model.IsUserAllowedToSetTopicPriority)
                     {
                         <div class="form-group inputs">
-                            <label>@T(LocalizableStrings.Priority)</label>
+                            <label>@T[LocalizableStrings.Priority]</label>
                             @Html.DropDownList("TopicTypeId", new SelectList(Model.TopicPriorities, "Value", "Text", Model.TopicType))
                         </div>
                     }
@@ -67,14 +70,14 @@
                     {
                         <div class="form-group inputs">
                             @Html.EditorFor(x => x.Subscribed)
-                            <label>@T(LocalizableStrings.NotifyWhenSomeonePostsInThisTopic)</label>
+                            <label>@T[LocalizableStrings.NotifyWhenSomeonePostsInThisTopic]</label>
                         </div>
                     }
                 </div>
             </div>
             <div class="buttons">
-                <input type="submit" value="@T(MantleWebLocalizableStrings.General.Submit)" class="btn btn-primary submit-topic-button" />
-                @Html.ActionLink(T(MantleWebLocalizableStrings.General.Cancel), "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-default cancel-topic-button" })
+                <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-primary submit-topic-button" />
+                @Html.ActionLink(T[MantleWebLocalizableStrings.General.Cancel], "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-default cancel-topic-button" })
             </div>
         }
     </div>

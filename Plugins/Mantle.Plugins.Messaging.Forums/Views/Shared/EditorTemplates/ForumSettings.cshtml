@@ -1,5 +1,7 @@
 ﻿@using Mantle.Plugins.Messaging.Forums
-@using Mantle.Web.Mvc
+@using Mantle.Plugins.Messaging.Forums.Data.Domain
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model ForumSettings
 
@@ -7,27 +9,27 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ForumsEnabled, new { data_bind = "checked: forumsEnabled" }) @T(LocalizableStrings.Settings.ForumsEnabled)
+                @Html.CheckBoxFor(m => m.ForumsEnabled, new { data_bind = "checked: forumsEnabled" }) @T[LocalizableStrings.Settings.ForumsEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.RelativeDateTimeFormattingEnabled, new { data_bind = "checked: relativeDateTimeFormattingEnabled" }) @T(LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled)
+                @Html.CheckBoxFor(m => m.RelativeDateTimeFormattingEnabled, new { data_bind = "checked: relativeDateTimeFormattingEnabled" }) @T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToEditPosts, new { data_bind = "checked: allowUsersToEditPosts" }) @T(LocalizableStrings.Settings.AllowUsersToEditPosts)
+                @Html.CheckBoxFor(m => m.AllowUsersToEditPosts, new { data_bind = "checked: allowUsersToEditPosts" }) @T[LocalizableStrings.Settings.AllowUsersToEditPosts]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToManageSubscriptions, new { data_bind = "checked: allowUsersToManageSubscriptions" }) @T(LocalizableStrings.Settings.AllowUsersToManageSubscriptions)
+                @Html.CheckBoxFor(m => m.AllowUsersToManageSubscriptions, new { data_bind = "checked: allowUsersToManageSubscriptions" }) @T[LocalizableStrings.Settings.AllowUsersToManageSubscriptions]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToDeletePosts, new { data_bind = "checked: allowUsersToDeletePosts" }) @T(LocalizableStrings.Settings.AllowUsersToDeletePosts)
+                @Html.CheckBoxFor(m => m.AllowUsersToDeletePosts, new { data_bind = "checked: allowUsersToDeletePosts" }) @T[LocalizableStrings.Settings.AllowUsersToDeletePosts]
             </label>
         </div>
     </div>
@@ -74,29 +76,29 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowUsersPostCount, new { data_bind = "checked: showUsersPostCount" }) @T(LocalizableStrings.Settings.ShowUsersPostCount)
+                @Html.CheckBoxFor(m => m.ShowUsersPostCount, new { data_bind = "checked: showUsersPostCount" }) @T[LocalizableStrings.Settings.ShowUsersPostCount]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumEditor, new { @class = "control-label" })
-        @Html.EnumDropDownListFor(m => m.ForumEditor, new { @class = "form-control", data_bind = "value: forumEditor" })
+        @Html.DropDownListFor(m => m.ForumEditor, Html.GetEnumSelectList<EditorType>(), new { @class = "form-control", data_bind = "value: forumEditor" })
         @Html.ValidationMessageFor(m => m.ForumEditor)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.SignaturesEnabled, new { data_bind = "checked: signaturesEnabled" }) @T(LocalizableStrings.Settings.SignaturesEnabled)
+                @Html.CheckBoxFor(m => m.SignaturesEnabled, new { data_bind = "checked: signaturesEnabled" }) @T[LocalizableStrings.Settings.SignaturesEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowPrivateMessages, new { data_bind = "checked: allowPrivateMessages" }) @T(LocalizableStrings.Settings.AllowPrivateMessages)
+                @Html.CheckBoxFor(m => m.AllowPrivateMessages, new { data_bind = "checked: allowPrivateMessages" }) @T[LocalizableStrings.Settings.AllowPrivateMessages]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowAlertForPM, new { data_bind = "checked: showAlertForPM" }) @T(LocalizableStrings.Settings.ShowAlertForPM)
+                @Html.CheckBoxFor(m => m.ShowAlertForPM, new { data_bind = "checked: showAlertForPM" }) @T[LocalizableStrings.Settings.ShowAlertForPM]
             </label>
         </div>
     </div>
@@ -113,7 +115,7 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.NotifyAboutPrivateMessages, new { data_bind = "checked: notifyAboutPrivateMessages" }) @T(LocalizableStrings.Settings.NotifyAboutPrivateMessages)
+                @Html.CheckBoxFor(m => m.NotifyAboutPrivateMessages, new { data_bind = "checked: notifyAboutPrivateMessages" }) @T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]
             </label>
         </div>
     </div>
@@ -140,12 +142,12 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ActiveDiscussionsFeedEnabled, new { data_bind = "checked: activeDiscussionsFeedEnabled" }) @T(LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled)
+                @Html.CheckBoxFor(m => m.ActiveDiscussionsFeedEnabled, new { data_bind = "checked: activeDiscussionsFeedEnabled" }) @T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ForumFeedsEnabled, new { data_bind = "checked: forumFeedsEnabled" }) @T(LocalizableStrings.Settings.ForumFeedsEnabled)
+                @Html.CheckBoxFor(m => m.ForumFeedsEnabled, new { data_bind = "checked: forumFeedsEnabled" }) @T[LocalizableStrings.Settings.ForumFeedsEnabled]
             </label>
         </div>
     </div>
@@ -167,7 +169,7 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T(LocalizableStrings.Settings.ShowOnMenus)
+                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[LocalizableStrings.Settings.ShowOnMenus]
             </label>
         </div>
     </div>

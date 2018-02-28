@@ -1,12 +1,15 @@
 ﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
 @model ActiveDiscussionsModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    ViewBag.Title = T(LocalizableStrings.PageTitle.ActiveDiscussions);
+    ViewBag.Title = T[LocalizableStrings.PageTitle.ActiveDiscussions];
 }
 <div class="page active-discussions-page">
-    @Html.Action("ForumBreadcrumb")
+    @await Component.ForumBreadcrumbsAsync()
     @Html.Partial("_ForumHeader")
     <hr class="clearfix" />
     @Html.Partial("_ActiveTopics", Model)

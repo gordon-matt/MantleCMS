@@ -2,8 +2,10 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model EditForumPostModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    ViewBag.Title = T(LocalizableStrings.PageTitle.PostNew);
+    ViewBag.Title = T[LocalizableStrings.PageTitle.PostNew];
 }
 
 @Html.Partial("_CreateUpdatePost", Model)

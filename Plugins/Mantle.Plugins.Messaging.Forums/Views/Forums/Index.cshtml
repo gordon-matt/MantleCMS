@@ -1,20 +1,22 @@
-﻿@using Mantle.Infrastructure
-@using Mantle.Plugins.Messaging.Forums
+﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
 @model IndexModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    ViewBag.Title = T(LocalizableStrings.PageTitle.Default);
+    ViewBag.Title = T[LocalizableStrings.PageTitle.Default];
 }
 
 @*<div class="page forums-main-page">*@
-    @*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
-    @Html.Partial("_ForumHeader")
-    <hr class="clearfix" />
-    @foreach (var forumGroup in Model.ForumGroups)
-    {
-        Html.RenderPartial("_ForumGroup", forumGroup);
-    }
+@*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
+@Html.Partial("_ForumHeader")
+<hr class="clearfix" />
+@foreach (var forumGroup in Model.ForumGroups)
+{
+    Html.RenderPartial("_ForumGroup", forumGroup);
+}
 
-    @Html.Action("ActiveDiscussionsSmall")
+@await Component.ActiveDiscussionsSmallAsync()
 @*</div>*@

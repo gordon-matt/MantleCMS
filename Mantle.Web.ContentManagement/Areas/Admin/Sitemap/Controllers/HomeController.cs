@@ -24,7 +24,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers
             }
 
             string fileContent = System.IO.File.ReadAllText(filePath);
-            return Content(filePath, "text/xml");
+            return Content(fileContent, "text/xml");
         }
     }
 }

@@ -3,8 +3,10 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model UserForumSubscriptionsModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
-    ViewBag.Title = T(LocalizableStrings.PageTitle.ForumSubscriptions);
+    ViewBag.Title = T[LocalizableStrings.PageTitle.ForumSubscriptions];
 }
 
 @* TODO ? *@
@@ -14,13 +16,13 @@
 
 <div class="page account-page forum-subscriptions-page">
     <div class="page-title">
-        <h1>@T(LocalizableStrings.Account.MyAccount) - @T(LocalizableStrings.Account.ForumSubscriptions)</h1>
+        <h1>@T[LocalizableStrings.Account.MyAccount] - @T[LocalizableStrings.Account.ForumSubscriptions]</h1>
     </div>
     <div class="page-body">
         @if (Model.ForumSubscriptions.Count > 0)
         {
             <div class="description">
-                @T(LocalizableStrings.Account.ForumSubscriptions_Description)
+                @T[LocalizableStrings.Account.ForumSubscriptions_Description]
             </div>
             
             using (Script.AtFoot())
@@ -56,7 +58,7 @@
                                         <input type="checkbox" id="selectall" />
                                     </th>
                                     <th class="info">
-                                        @T(LocalizableStrings.Account.ForumSubscriptions_InfoColumn)
+                                        @T[LocalizableStrings.Account.ForumSubscriptions_InfoColumn]
                                     </th>
                                 </tr>
                             </thead>
@@ -84,16 +86,16 @@
                         </table>
                     </div>
                     @{
-                        var pager = Html.Pager(Model.PagerModel);
+                        var pager = Html.Pager(Model.PagerModel).ToString();
                     }
-                    @if (!MvcHtmlString.IsNullOrEmpty(pager))
+                    @if (!string.IsNullOrEmpty(pager))
                     {
                         <div class="pager">
-                            @pager
+                            @Html.Raw(pager)
                         </div>
                     }
                     <div class="buttons">
-                        <input type="submit" value="@T(LocalizableStrings.Account.ForumSubscriptions_DeleteSelected)" class="button-1 delete-selected-fs-button" />
+                        <input type="submit" value="@T[LocalizableStrings.Account.ForumSubscriptions_DeleteSelected]" class="button-1 delete-selected-fs-button" />
                     </div>
                 </div>
             }
@@ -101,7 +103,7 @@
         else
         {
             <div class="no-data">
-                @T(LocalizableStrings.Account.ForumSubscriptions_NoSubscriptions)
+                @T[LocalizableStrings.Account.ForumSubscriptions_NoSubscriptions]
             </div>
         }
     </div>

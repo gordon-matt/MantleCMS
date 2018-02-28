@@ -4,11 +4,13 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model ForumPageModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
     ViewBag.Title = Model.Name;
 }
 <div class="page forum-page">
-    @Html.Action("ForumBreadcrumb", new { forumId = Model.Id })
+    @await Component.ForumBreadcrumbsAsync(forumId: Model.Id)
     @Html.Partial("_ForumHeader")
 
     <hr class="clearfix" />
@@ -18,9 +20,9 @@
             <div class="forum-name">
                 @if (Model.ForumFeedsEnabled)
                 {
-                    <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-xs link-rss" title="@T(LocalizableStrings.ForumRSSLinkTitle)">
+                    <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-xs link-rss" title="@T[LocalizableStrings.ForumRSSLinkTitle]">
                         <i class="fa fa-rss"></i>
-                        @T(LocalizableStrings.RSS)
+                        @T[LocalizableStrings.RSS]
                     </a>
                 }
                 <h1>@Model.Name</h1>
@@ -35,7 +37,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 actions">
             <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
-                @T(LocalizableStrings.NewTopic)
+                @T[LocalizableStrings.NewTopic]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
@@ -78,12 +80,12 @@
                 RouteActionName = "Forum",
                 //UseRouteLinks = true,
                 RouteValues = new RouteValues { id = Model.Id, slug = Model.SeName }
-            });
+            }).ToString();
         }
-        @if (!MvcHtmlString.IsNullOrEmpty(pager))
+        @if (!string.IsNullOrEmpty(pager))
         {
             <div class="pager upper">
-                @pager
+                @Html.Raw(pager)
             </div>
         }
     </div>
@@ -104,16 +106,16 @@
                         <thead>
                             <tr>
                                 <th class="topic-details" colspan="2">
-                                    @T(LocalizableStrings.TopicTitle)
+                                    @T[LocalizableStrings.TopicTitle]
                                 </th>
                                 <th class="replies">
-                                    @T(LocalizableStrings.Replies)
+                                    @T[LocalizableStrings.Replies]
                                 </th>
                                 <th class="views">
-                                    @T(LocalizableStrings.Views)
+                                    @T[LocalizableStrings.Views]
                                 </th>
                                 <th class="latest-post">
-                                    @T(LocalizableStrings.LatestPost)
+                                    @T[LocalizableStrings.LatestPost]
                                 </th>
                             </tr>
                         </thead>
@@ -129,11 +131,11 @@
                                         break;
                                     case ForumTopicType.Sticky:
                                         topicType = "sticky";
-                                        topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Sticky));
+                                        topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
                                         break;
                                     case ForumTopicType.Announcement:
                                         topicType = "announcement";
-                                        topicText = string.Format("[{0}]", T(LocalizableStrings.TopicTypes.Announcement));
+                                        topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
                                         break;
                                     default:
                                         topicType = "post";
@@ -160,7 +162,7 @@
                                         <div class="topic-starter">
                                             @if (!string.IsNullOrEmpty(topic.UserId))
                                             {
-                                                <label>@T(LocalizableStrings.Author)</label>
+                                                <label>@T[LocalizableStrings.Author]</label>
                                                 if (topic.AllowViewingProfiles)
                                                 {
                                                     @* TODO: Maybe we need to use a different profile page for forums only? *@
@@ -190,12 +192,12 @@
             }
         </div>
     </div>
-    @if (!MvcHtmlString.IsNullOrEmpty(pager))
+    @if (!string.IsNullOrEmpty(pager))
     {
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="pager lower">
-                    @pager
+                    @Html.Raw(pager)
                 </div>
             </div>
         </div>

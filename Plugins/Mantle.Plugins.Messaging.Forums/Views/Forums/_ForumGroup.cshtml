@@ -2,6 +2,8 @@
 @using Mantle.Plugins.Messaging.Forums.Models
 @model ForumGroupModel
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div class="row forums-table-section forum-group">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="panel panel-primary forum-group-panel">
@@ -22,16 +24,16 @@
                     <thead>
                         <tr>
                             <th class="forum-details" colspan="2">
-                                @T(LocalizableStrings.Forum)
+                                @T[LocalizableStrings.Forum]
                             </th>
                             <th class="topics">
-                                @T(LocalizableStrings.Topics)
+                                @T[LocalizableStrings.Topics]
                             </th>
                             <th class="posts">
-                                @T(LocalizableStrings.Posts)
+                                @T[LocalizableStrings.Posts]
                             </th>
                             <th class="latest-post">
-                                @T(LocalizableStrings.LatestPost)
+                                @T[LocalizableStrings.LatestPost]
                             </th>
                         </tr>
                     </thead>

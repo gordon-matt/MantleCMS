@@ -1,13 +1,16 @@
 ﻿@using Mantle.Plugins.Messaging.Forums
 @using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
+@using Mantle.Web
 @model ForumTopicPageModel
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @{
     ViewBag.Title = Model.Subject;
 }
 <div class="page forum-topic-page">
-    @Html.Action("ForumBreadcrumb", new { forumTopicId = Model.Id })
+    @await Component.ForumBreadcrumbsAsync(forumTopicId: Model.Id)
     @Html.Partial("_ForumHeader")
     <hr class="clearfix" />
     <div class="topic-name">
@@ -19,27 +22,27 @@
             {
                 <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-default edit-topic-button">
                     <i class="fa fa-edit"></i>
-                    @T(LocalizableStrings.EditTopic)
+                    @T[LocalizableStrings.EditTopic]
                 </a>
             }
             @if (Model.IsUserAllowedToDeleteTopic)
             {
-                <a href="@Url.Action("TopicDelete", new { id = Model.Id })" class="btn btn-danger delete-topic-button" onclick="return confirm('@T(MantleWebLocalizableStrings.General.AreYouSure)');">
+                <a href="@Url.Action("TopicDelete", new { id = Model.Id })" class="btn btn-danger delete-topic-button" onclick="return confirm('@T[MantleWebLocalizableStrings.General.AreYouSure]');">
                     <i class="fa fa-remove"></i>
-                    @T(LocalizableStrings.DeleteTopic)
+                    @T[LocalizableStrings.DeleteTopic]
                 </a>
             }
             @if (Model.IsUserAllowedToMoveTopic)
             {
                 <a href="@Url.Action("TopicMove", new { id = Model.Id })" class="btn btn-warning move-topic-button">
                     <i class="fa fa-arrow-right"></i>
-                    @T(LocalizableStrings.MoveTopic)
+                    @T[LocalizableStrings.MoveTopic]
                 </a>
             }
-            
+
             <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
                 <i class="fa fa-mail-reply"></i>
-                @T(LocalizableStrings.Reply)
+                @T[LocalizableStrings.Reply]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
@@ -83,12 +86,12 @@
                 RouteActionName = "Topic",
                 //UseRouteLinks = true,
                 RouteValues = new RouteValues { id = Model.Id, slug = Model.SeName }
-            });
+            }).ToString();
         }
-        @if (!MvcHtmlString.IsNullOrEmpty(pager))
+        @if (!string.IsNullOrEmpty(pager))
         {
             <div class="pager upper">
-                @pager
+                @Html.Raw(pager)
             </div>
         }
     </div>
@@ -103,17 +106,17 @@
     </div>
 
     @*<div class="topic-posts">
-        @foreach (var post in Model.ForumPostModels)
-        {
-            Html.RenderPartial("_ForumPost", post);
-        }
-    </div>*@
+            @foreach (var post in Model.ForumPostModels)
+            {
+                Html.RenderPartial("_ForumPost", post);
+            }
+        </div>*@
 
     <div class="topic-actions lower">
         <div class="actions">
             <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
                 <i class="fa fa-mail-reply"></i>
-                @T(LocalizableStrings.Reply)
+                @T[LocalizableStrings.Reply]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
@@ -122,7 +125,7 @@
                     <i class="fa fa-binoculars"></i>
                     @Model.WatchTopicText
                 </a>
-                
+
                 using (Script.AtFoot())
                 {
                     <script type="text/javascript">
@@ -151,10 +154,10 @@
                 }
             }
         </div>
-        @if (!MvcHtmlString.IsNullOrEmpty(pager))
+        @if (!string.IsNullOrEmpty(pager))
         {
             <div class="pager lower">
-                @pager
+                @Html.Raw(pager)
             </div>
         }
     </div>

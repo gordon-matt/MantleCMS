@@ -1,4 +1,6 @@
-﻿<div class="modal fade" id="UploadModal">
+﻿@using Mantle.Web.Mvc
+
+<div class="modal fade" id="UploadModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,8 +14,8 @@
     </div>
 </div>
 
-@using (Script.AtFoot())
-{
+@*@using (Script.AtFoot())
+{*@
     <script type="text/javascript">
         $("#Upload").fileinput({
             uploadUrl: '/forums/upload-file',
@@ -29,4 +31,4 @@
             uploadFileDone(response.Url, response.FileName);
         });
     </script>
-}
+@*}*@

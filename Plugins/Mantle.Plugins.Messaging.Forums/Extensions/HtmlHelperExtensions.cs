@@ -20,7 +20,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
         //    return HtmlString.Create(sb.ToString());
         //}
 
-        public static HtmlString Pager<TModel>(this HtmlHelper<TModel> html, PagerModel model)
+        public static IHtmlContent Pager<TModel>(this IHtmlHelper<TModel> html, PagerModel model)
         {
             if (model.TotalRecords == 0)
             {
@@ -151,7 +151,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
             return new HtmlString(result);
         }
 
-        public static HtmlString ForumTopicSmallPager<TModel>(this HtmlHelper<TModel> html, ForumTopicRowModel model)
+        public static IHtmlContent ForumTopicSmallPager<TModel>(this IHtmlHelper<TModel> html, ForumTopicRowModel model)
         {
             var localizer = EngineContext.Current.Resolve<IStringLocalizer>();
 

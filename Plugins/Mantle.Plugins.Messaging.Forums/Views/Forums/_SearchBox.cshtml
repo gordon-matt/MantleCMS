@@ -1,16 +1,18 @@
 ﻿@using Mantle.Plugins.Messaging.Forums
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
     @using (Html.BeginForm("Search", "Forums", FormMethod.Get))
     {
         <div class="input-group">
-            <input type="text" class="form-control" id="forums-small-searchterms" name="searchterms" placeholder="@T(LocalizableStrings.SearchForumsTooltip)" />
+            <input type="text" class="form-control" id="forums-small-searchterms" name="searchterms" placeholder="@T[LocalizableStrings.SearchForumsTooltip]" />
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-primary">
-                    @T(LocalizableStrings.SearchButton)
+                    @T[LocalizableStrings.SearchButton]
                 </button>
             </span>
         </div>
-        @Html.ActionLink(T(LocalizableStrings.AdvancedSearch), "Search", new { adv = true }, new { @class = "btn btn-link", style = "padding: 6px 0px", title = T(LocalizableStrings.AdvancedSearch) })
+        @Html.ActionLink(T[LocalizableStrings.AdvancedSearch], "Search", new { adv = true }, new { @class = "btn btn-link", style = "padding: 6px 0px", title = T[LocalizableStrings.AdvancedSearch] })
     }
 </div>
