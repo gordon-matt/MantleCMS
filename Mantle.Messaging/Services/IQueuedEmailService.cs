@@ -1,7 +1,7 @@
 ﻿using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Data.Services;
-using Mantle.Messaging.Domain;
+using Mantle.Messaging.Data.Domain;
 
 namespace Mantle.Messaging.Services
 {

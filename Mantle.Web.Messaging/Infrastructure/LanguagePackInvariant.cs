@@ -24,6 +24,7 @@ namespace Mantle.Web.Messaging.Infrastructure
                     { LocalizableStrings.MessageTemplate.Subject, "Subject" },
                     { LocalizableStrings.MessageTemplate.Tokens, "Tokens" },
                     { LocalizableStrings.MessageTemplates, "Message Templates" },
+                    { LocalizableStrings.Messaging, "Messaging" },
                     { LocalizableStrings.QueuedEmail.CreatedOnUtc, "Created On (UTC)" },
                     { LocalizableStrings.QueuedEmail.SentOnUtc, "Sent On (UTC)" },
                     { LocalizableStrings.QueuedEmail.SentTries, "Sent Tries" },

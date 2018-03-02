@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.Messaging.Controllers
 {
     [Authorize]
-    [Area("Admin/Messaging")]
+    [Area(MantleWebMessagingConstants.RouteArea)]
     [Route("admin/messaging/queued-email")]
     public class QueuedEmailController : MantleController
     {

@@ -6,7 +6,7 @@ using System.Text;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Data.Services;
-using Mantle.Messaging.Domain;
+using Mantle.Messaging.Data.Domain;
 
 namespace Mantle.Messaging.Services
 {
@@ -92,7 +92,7 @@ namespace Mantle.Messaging.Services
 
         private Guid SendMessage(
             int tenantId,
-            Domain.MessageTemplate messageTemplate,
+            MessageTemplate messageTemplate,
             IEnumerable<Token> tokens,
             string toEmailAddress,
             string toName)

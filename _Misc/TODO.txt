@@ -7,3 +7,4 @@
 - Installation page
 - Media manager (Can hopefully still use Responsive File Manager from KoreCMS, but need to use PeachPie, which is the PHP compilter to use for .NET Core, much like Phalanger was used in MVC5)
 - Integrate Identity Server 4?
+- Get rid of RolePermission, etc and use Identity Claims instead. Also, move UserProfile entity to somewhere in the framework.

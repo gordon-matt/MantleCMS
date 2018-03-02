@@ -1,5 +1,4 @@
-﻿using Mantle.Messaging.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
@@ -26,15 +25,11 @@ namespace Mantle.Web.ContentManagement
 
         DbSet<MenuItem> MenuItems { get; set; }
 
-        DbSet<MessageTemplate> MessageTemplates { get; set; }
-
         DbSet<Page> Pages { get; set; }
 
         DbSet<PageType> PageTypes { get; set; }
 
         DbSet<PageVersion> PageVersions { get; set; }
-
-        DbSet<QueuedEmail> QueuedEmails { get; set; }
 
         DbSet<SitemapConfig> SitemapConfig { get; set; }
 

@@ -5,7 +5,7 @@ using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Mantle.Messaging.Domain
+namespace Mantle.Messaging.Data.Domain
 {
     public class QueuedEmail : ITenantEntity, IMailMessage
     {

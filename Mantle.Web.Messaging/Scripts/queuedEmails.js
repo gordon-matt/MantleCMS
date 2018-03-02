@@ -36,7 +36,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/QueuedEmailApi",
+                            url: "/odata/mantle/web/messaging/QueuedEmailApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -94,31 +94,31 @@
                 scrollable: false,
                 columns: [{
                     field: "Subject",
-                    title: self.translations.Columns.Subject,
+                    title: self.translations.columns.subject,
                     filterable: true
                 }, {
                     field: "ToAddress",
-                    title: self.translations.Columns.ToAddress,
+                    title: self.translations.columns.toAddress,
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.translations.Columns.CreatedOnUtc,
+                    title: self.translations.columns.createdOnUtc,
                     format: "{0:G}",
                     filterable: true
                 }, {
                     field: "SentOnUtc",
-                    title: self.translations.Columns.SentOnUtc,
+                    title: self.translations.columns.sentOnUtc,
                     format: "{0:G}",
                     filterable: true
                 }, {
                     field: "SentTries",
-                    title: self.translations.Columns.SentTries,
+                    title: self.translations.columns.sentTries,
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.Delete + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -127,9 +127,9 @@
             });
         };
         self.remove = function(id) {
-            if (confirm(self.translations.DeleteRecordConfirm)) {
+            if (confirm(self.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/mantle/cms/QueuedEmailApi(" + id + ")",
+                    url: "/odata/mantle/web/messaging/QueuedEmailApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -137,10 +137,10 @@
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.DeleteRecordError, "error");
+                    $.notify(self.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }

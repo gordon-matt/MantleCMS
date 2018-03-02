@@ -9,19 +9,19 @@
 
         public static class MessageTemplate
         {
-            public const string Body = "Mantle.Web.Messaging/MessageTemplateModel.Body";
-            public const string Name = "Mantle.Web.Messaging/MessageTemplateModel.Name";
-            public const string Subject = "Mantle.Web.Messaging/MessageTemplateModel.Subject";
-            public const string Tokens = "Mantle.Web.Messaging/MessageTemplateModel.Tokens";
+            public const string Body = "Mantle.Web.Messaging/MessageTemplate.Body";
+            public const string Name = "Mantle.Web.Messaging/MessageTemplate.Name";
+            public const string Subject = "Mantle.Web.Messaging/MessageTemplate.Subject";
+            public const string Tokens = "Mantle.Web.Messaging/MessageTemplate.Tokens";
         }
 
         public static class QueuedEmail
         {
-            public const string CreatedOnUtc = "Mantle.Web.Messaging/QueuedEmailModel.CreatedOnUtc";
-            public const string SentOnUtc = "Mantle.Web.Messaging/QueuedEmailModel.SentOnUtc";
-            public const string SentTries = "Mantle.Web.Messaging/QueuedEmailModel.SentTries";
-            public const string Subject = "Mantle.Web.Messaging/QueuedEmailModel.Subject";
-            public const string ToAddress = "Mantle.Web.Messaging/QueuedEmailModel.ToAddress";
+            public const string CreatedOnUtc = "Mantle.Web.Messaging/QueuedEmail.CreatedOnUtc";
+            public const string SentOnUtc = "Mantle.Web.Messaging/QueuedEmail.SentOnUtc";
+            public const string SentTries = "Mantle.Web.Messaging/QueuedEmail.SentTries";
+            public const string Subject = "Mantle.Web.Messaging/QueuedEmail.Subject";
+            public const string ToAddress = "Mantle.Web.Messaging/QueuedEmail.ToAddress";
         }
 
         public static class Settings

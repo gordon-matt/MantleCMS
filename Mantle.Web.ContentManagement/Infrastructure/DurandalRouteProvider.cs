@@ -9,10 +9,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
     {
         #region IDurandalRouteProvider Members
 
-        public string Area
-        {
-            get { return MantleWebConstants.Areas.Admin; }
-        }
+        public string Area => MantleWebConstants.Areas.Admin;
 
         public IEnumerable<DurandalRoute> Routes
         {
@@ -59,22 +56,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
                     Route = "menus",
                     JsPath = "/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus",
                     Title = T[MantleCmsLocalizableStrings.Menus.Title].Value
-                });
-
-                routes.Add(new DurandalRoute
-                {
-                    ModuleId = "viewmodels/admin/messaging/templates",
-                    Route = "messaging/templates",
-                    JsPath = "/Mantle.Web.ContentManagement.Areas.Admin.Messaging.Scripts.messageTemplates",
-                    Title = T[MantleCmsLocalizableStrings.Messaging.MessageTemplates].Value
-                });
-
-                routes.Add(new DurandalRoute
-                {
-                    ModuleId = "viewmodels/admin/messaging/queued-email",
-                    Route = "messaging/queued-email",
-                    JsPath = "/Mantle.Web.ContentManagement.Areas.Admin.Messaging.Scripts.queuedEmails",
-                    Title = T[MantleCmsLocalizableStrings.Messaging.QueuedEmails].Value
                 });
 
                 routes.Add(new DurandalRoute

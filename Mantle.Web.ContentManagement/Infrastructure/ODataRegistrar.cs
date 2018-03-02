@@ -1,6 +1,5 @@
 ﻿using System;
 using Mantle.Localization.Domain;
-using Mantle.Messaging.Domain;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
@@ -45,10 +44,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             builder.EntitySet<Menu>("MenuApi");
             builder.EntitySet<MenuItem>("MenuItemApi");
 
-            // Messaging
-            builder.EntitySet<MessageTemplate>("MessageTemplateApi");
-            builder.EntitySet<QueuedEmail>("QueuedEmailApi");
-
             // Pages
             builder.EntitySet<Page>("PageApi");
             builder.EntitySet<PageType>("PageTypeApi");
@@ -64,7 +59,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             RegisterEntityTypeContentBlockODataActions(builder);
             RegisterLanguageODataActions(builder);
             RegisterLocalizableStringODataActions(builder);
-            RegisterMessageTemplateODataActions(builder);
             RegisterPageODataActions(builder);
             RegisterPageVersionODataActions(builder);
             RegisterXmlSitemapODataActions(builder);
@@ -124,13 +118,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             var deleteComparitiveAction = builder.EntityType<LocalizableString>().Collection.Action("DeleteComparitive");
             deleteComparitiveAction.Parameter<string>("cultureCode");
             deleteComparitiveAction.Parameter<string>("key");
-        }
-
-        private static void RegisterMessageTemplateODataActions(ODataModelBuilder builder)
-        {
-            var getTokensAction = builder.EntityType<MessageTemplate>().Collection.Action("GetTokens");
-            getTokensAction.Parameter<string>("templateName");
-            getTokensAction.ReturnsCollection<string>();
         }
 
         private static void RegisterPageODataActions(ODataModelBuilder builder)

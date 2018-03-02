@@ -13,15 +13,9 @@ namespace Mantle.Web.Messaging
     {
         #region ITask Members
 
-        public string Name
-        {
-            get { return "Process Queued Mail Task"; }
-        }
+        public string Name => "Process Queued Mail Task";
 
-        public int DefaultInterval
-        {
-            get { return 600; }
-        }
+        public int DefaultInterval => 600;
 
         public void Execute()
         {

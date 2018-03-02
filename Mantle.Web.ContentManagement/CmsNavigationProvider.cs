@@ -52,23 +52,11 @@ namespace Mantle.Web.ContentManagement
                 .Icons("fa fa-arrow-right")
                 .Permission(CmsPermissions.MenusRead));
 
-            // Messaging
-            builder.Add(T[MantleCmsLocalizableStrings.Messaging.MessageTemplates].Value, "5", item => item
-                .Url("#messaging/templates")
-                .Icons("fa fa-crop")
-                .Permission(CmsPermissions.MessageTemplatesRead));
-
             // Pages
             builder.Add(T[MantleCmsLocalizableStrings.Pages.Title].Value, "5", item => item
                 .Url("#pages")
                 .Icons("fa fa-file-o")
                 .Permission(CmsPermissions.PagesRead));
-
-            // Queued Emails
-            builder.Add(T[MantleCmsLocalizableStrings.Messaging.QueuedEmails].Value, "5", item => item
-                .Url("#messaging/queued-email")
-                .Icons("fa fa-envelope-o")
-                .Permission(CmsPermissions.QueuedEmailsRead));
 
             // Subscribers
             builder.Add(T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value, "5", item => item

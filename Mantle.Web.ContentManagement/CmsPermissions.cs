@@ -43,16 +43,7 @@ namespace Mantle.Web.ContentManagement
         public static readonly Permission MenusWrite = new Permission { Name = "Menus_Write", Category = "Content Management", Description = "Menus: Write" };
 
         #endregion Menus
-
-        #region Messaging
-
-        public static readonly Permission MessageTemplatesRead = new Permission { Name = "MessageTemplates_Read", Category = "Content Management", Description = "Message Templates: Read" };
-        public static readonly Permission MessageTemplatesWrite = new Permission { Name = "MessageTemplates_Write", Category = "Content Management", Description = "Message Templates: Write" };
-        public static readonly Permission QueuedEmailsRead = new Permission { Name = "QueuedEmailsRead_Read", Category = "Content Management", Description = "Queued Emails: Read" };
-        public static readonly Permission QueuedEmailsWrite = new Permission { Name = "QueuedEmailsRead_Write", Category = "Content Management", Description = "Queued Emails: Write" };
-
-        #endregion Messaging
-
+        
         #region Newsletter
 
         public static readonly Permission NewsletterRead = new Permission { Name = "Newsletter_Read", Category = "Content Management", Description = "Newsletter: Read" };
@@ -100,14 +91,8 @@ namespace Mantle.Web.ContentManagement
             yield return MenusRead;
             yield return MenusWrite;
 
-            yield return MessageTemplatesRead;
-            yield return MessageTemplatesWrite;
-
             yield return NewsletterRead;
             yield return NewsletterWrite;
-
-            yield return QueuedEmailsRead;
-            yield return QueuedEmailsWrite;
 
             yield return PageHistoryRead;
             yield return PageHistoryRestore;

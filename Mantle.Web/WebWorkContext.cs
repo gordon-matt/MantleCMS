@@ -44,19 +44,13 @@ namespace Mantle.Web
 
         public string CurrentTheme
         {
-            get { return GetState<string>(MantleWebConstants.StateProviders.CurrentTheme); }
-            set { SetState(MantleWebConstants.StateProviders.CurrentTheme, value); }
+            get => GetState<string>(MantleWebConstants.StateProviders.CurrentTheme);
+            set => SetState(MantleWebConstants.StateProviders.CurrentTheme, value);
         }
 
-        public string CurrentCultureCode
-        {
-            get { return GetState<string>(MantleConstants.StateProviders.CurrentCultureCode); }
-        }
+        public string CurrentCultureCode => GetState<string>(MantleConstants.StateProviders.CurrentCultureCode);
 
-        public MantleUser CurrentUser
-        {
-            get { return GetState<MantleUser>(MantleConstants.StateProviders.CurrentUser); }
-        }
+        public MantleUser CurrentUser => GetState<MantleUser>(MantleConstants.StateProviders.CurrentUser);
 
         public virtual Tenant CurrentTenant
         {

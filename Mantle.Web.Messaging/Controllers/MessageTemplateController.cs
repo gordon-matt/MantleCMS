@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.Messaging.Controllers
 {
     [Authorize]
-    [Area("Admin/Messaging")]
+    [Area(MantleWebMessagingConstants.RouteArea)]
     [Route("admin/messaging/templates")]
     public class MessageTemplateController : MantleController
     {

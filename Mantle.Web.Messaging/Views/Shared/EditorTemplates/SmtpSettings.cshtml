@@ -1,7 +1,9 @@
-﻿@using Mantle.Web
+﻿@using Mantle.Web.Messaging
 @using Mantle.Web.Messaging.Configuration
 
 @model SmtpSettings
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="settings-content">
     <div class="form-group">
@@ -21,12 +23,12 @@
     </div>
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(m => m.EnableSsl, new { data_bind = "checked: enableSsl" }) @T[MantleWebLocalizableStrings.Settings.Smtp.EnableSsl]
+            @Html.CheckBoxFor(m => m.EnableSsl, new { data_bind = "checked: enableSsl" }) @T[LocalizableStrings.Settings.Smtp.EnableSsl]
         </label>
     </div>
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(m => m.UseDefaultCredentials, new { data_bind = "checked: useDefaultCredentials" }) @T[MantleWebLocalizableStrings.Settings.Smtp.UseDefaultCredentials]
+            @Html.CheckBoxFor(m => m.UseDefaultCredentials, new { data_bind = "checked: useDefaultCredentials" }) @T[LocalizableStrings.Settings.Smtp.UseDefaultCredentials]
         </label>
     </div>
     <div class="form-group">

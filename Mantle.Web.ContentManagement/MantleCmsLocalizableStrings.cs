@@ -240,32 +240,6 @@
             public const string UpdateTranslationSuccess = "Mantle.Web.ContentManagement/Messages.UpdateTranslationSuccess";
         }
 
-        public static class Messaging
-        {
-            public const string GetTokensError = "Mantle.Web.ContentManagement/Messaging.GetTokensError";
-            public const string MessageTemplates = "Mantle.Web.ContentManagement/Messaging.MessageTemplates";
-            public const string QueuedEmails = "Mantle.Web.ContentManagement/Messaging.QueuedEmails";
-            public const string Title = "Mantle.Web.ContentManagement/Messaging.Title";
-
-            public static class MessageTemplateModel
-            {
-                public const string Body = "Mantle.Web.ContentManagement/Messaging.MessageTemplateModel.Body";
-                public const string Enabled = "Mantle.Web.ContentManagement/Messaging.MessageTemplateModel.Enabled";
-                public const string Name = "Mantle.Web.ContentManagement/Messaging.MessageTemplateModel.Name";
-                public const string Subject = "Mantle.Web.ContentManagement/Messaging.MessageTemplateModel.Subject";
-                public const string Tokens = "Mantle.Web.ContentManagement/Messaging.MessageTemplateModel.Tokens";
-            }
-
-            public static class QueuedEmailModel
-            {
-                public const string CreatedOnUtc = "Mantle.Web.ContentManagement/Messaging.QueuedEmailModel.CreatedOnUtc";
-                public const string SentOnUtc = "Mantle.Web.ContentManagement/Messaging.QueuedEmailModel.SentOnUtc";
-                public const string SentTries = "Mantle.Web.ContentManagement/Messaging.QueuedEmailModel.SentTries";
-                public const string Subject = "Mantle.Web.ContentManagement/Messaging.QueuedEmailModel.Subject";
-                public const string ToAddress = "Mantle.Web.ContentManagement/Messaging.QueuedEmailModel.ToAddress";
-            }
-        }
-
         public static class Navigation
         {
             public const string CMS = "Mantle.Web.ContentManagement/Navigation.CMS";

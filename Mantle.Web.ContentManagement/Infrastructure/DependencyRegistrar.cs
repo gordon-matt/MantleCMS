@@ -1,9 +1,6 @@
 ﻿using Autofac;
 using Mantle.Infrastructure;
 using Mantle.Localization;
-using Mantle.Messaging;
-using Mantle.Messaging.Services;
-using Mantle.Tasks;
 using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks;
@@ -20,7 +17,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Events;
 using Mantle.Web.Infrastructure;
-using Mantle.Web.Messaging;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
@@ -49,12 +45,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             // Menus
             builder.RegisterType<MenuService>().As<IMenuService>().InstancePerDependency();
             builder.RegisterType<MenuItemService>().As<IMenuItemService>().InstancePerDependency();
-
-            // Messaging
-            builder.RegisterType<MessageService>().As<IMessageService>().InstancePerDependency();
-            builder.RegisterType<MessageService>().As<IQueuedMessageProvider>().InstancePerDependency();
-            builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerDependency();
-            builder.RegisterType<QueuedEmailService>().As<IQueuedEmailService>().InstancePerDependency();
 
             // Pages
             builder.RegisterType<PageService>().As<IPageService>().InstancePerDependency();
@@ -129,19 +119,10 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
             #endregion Other: Content Blocks
 
-            #region Other: Messaging
-
-            builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerDependency();
-
-            #endregion Other: Messaging
-
             // Other
             //builder.RegisterType<ResourceBundleRegistrar>().As<IResourceBundleRegistrar>().SingleInstance(); // TODO?
             //builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
             builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
-
-            // Scheduled Tasks
-            builder.RegisterType<ProcessQueuedMailTask>().As<ITask>().SingleInstance();
 
             // Indexing
             //builder.RegisterType<PagesIndexingContentProvider>().As<IIndexingContentProvider>().InstancePerDependency(); // TODO

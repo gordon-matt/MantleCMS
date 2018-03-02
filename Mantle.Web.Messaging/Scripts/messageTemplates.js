@@ -65,7 +65,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/MessageTemplateApi",
+                            url: "/odata/mantle/web/messaging/MessageTemplateApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -121,15 +121,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.translations.Columns.Name,
+                    title: self.translations.columns.name,
                     filterable: true
                 }, {
                     field: "Subject",
-                    title: self.translations.Columns.Subject,
+                    title: self.translations.columns.subject,
                     filterable: true
                 }, {
                     field: "Enabled",
-                    title: self.translations.Columns.Enabled,
+                    title: self.translations.columns.enabled,
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -138,9 +138,9 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.Edit + '</a>' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.Delete + '</a>' +
-                        '<a data-bind="click: toggleEnabled.bind($data,\'#=Id#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.translations.Toggle + '</a>' +
+                        '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
+                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
+                        '<a data-bind="click: toggleEnabled.bind($data,\'#=Id#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.translations.toggle + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -160,11 +160,11 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.Create);
+            $("#form-section-legend").html(self.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
+                url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -180,7 +180,7 @@
                 $("#tokens-list").html("");
 
                 $.ajax({
-                    url: "/odata/mantle/cms/MessageTemplateApi/Default.GetTokens",
+                    url: "/odata/mantle/web/messaging/MessageTemplateApi/Default.GetTokens",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({ templateName: json.Name }),
@@ -197,24 +197,24 @@
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    //$.notify(self.translations.GetRecordError, "error");
-                    $.notify(self.translations.GetTokensError, "error");
+                    //$.notify(self.translations.getRecordError, "error");
+                    $.notify(self.translations.getTokensError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
 
                 self.validator.resetForm();
                 switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.Edit);
+                $("#form-section-legend").html(self.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.GetRecordError, "error");
+                $.notify(self.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
             if (confirm(self.translations.DeleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
+                    url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -222,10 +222,10 @@
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.DeleteRecordError, "error");
+                    $.notify(self.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -248,7 +248,7 @@
             if (self.id() == emptyGuid) {
                 // INSERT
                 $.ajax({
-                    url: "/odata/mantle/cms/MessageTemplateApi",
+                    url: "/odata/mantle/web/messaging/MessageTemplateApi",
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -261,17 +261,17 @@
 
                     switchSection($("#grid-section"));
 
-                    $.notify(self.translations.InsertRecordSuccess, "success");
+                    $.notify(self.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.InsertRecordError, "error");
+                    $.notify(self.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 // UPDATE
                 $.ajax({
-                    url: "/odata/mantle/cms/MessageTemplateApi(" + self.id() + ")",
+                    url: "/odata/mantle/web/messaging/MessageTemplateApi(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -284,10 +284,10 @@
 
                     switchSection($("#grid-section"));
 
-                    $.notify(self.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.UpdateRecordError, "error");
+                    $.notify(self.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -301,7 +301,7 @@
             };
 
             $.ajax({
-                url: "/odata/mantle/cms/MessageTemplateApi(" + id + ")",
+                url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -312,10 +312,10 @@
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
 
-                $.notify(self.translations.UpdateRecordSuccess, "success");
+                $.notify(self.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.UpdateRecordError, "error");
+                $.notify(self.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };

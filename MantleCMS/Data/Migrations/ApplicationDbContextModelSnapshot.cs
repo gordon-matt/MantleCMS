@@ -183,7 +183,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Log");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Domain.MessageTemplate", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Domain.MessageTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -213,7 +213,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_MessageTemplates");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Domain.QueuedEmail", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Domain.QueuedEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();

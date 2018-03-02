@@ -1,5 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Mantle.Web.Messaging</AssemblyName>
@@ -8,9 +12,16 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
     <Authors>Matt Gordon</Authors>
     <Description>This package includes admin pages for email templates, queued emails, etc.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\**\*.cshtml;Areas\Admin\**\Views\**\*.cshtml;Scripts\**\*.js;Areas\Admin\**\Scripts\**\*.js" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />

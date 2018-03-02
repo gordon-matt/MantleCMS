@@ -4,7 +4,7 @@
 //using Microsoft.EntityFrameworkCore;
 //using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-//namespace Mantle.Messaging.Domain
+//namespace Mantle.Messaging.Data.Domain
 //{
 //    public class QueuedSms : ITenantEntity
 //    {
