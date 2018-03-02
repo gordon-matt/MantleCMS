@@ -1,4 +1,5 @@
 ﻿@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Plugins.Messaging.Forums.Extensions
 @using Mantle.Plugins.Messaging.Forums.Models
 @model ForumGroupModel
 
@@ -55,7 +56,7 @@
                                 <td class="topics">@forum.NumTopics</td>
                                 <td class="posts">@forum.NumPosts</td>
                                 <td class="latest-post">
-                                    @Html.Action("LastPost", new { forumPostId = forum.LastPostId, showTopic = true })
+                                    @await Component.LastPostAsync(forum.LastPostId, true)
                                 </td>
                             </tr>
                         }

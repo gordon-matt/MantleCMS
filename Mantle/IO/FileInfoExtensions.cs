@@ -99,9 +99,9 @@ namespace Mantle.IO
         /// </summary>
         /// <param name="fileInfo">This System.IO.FileInfo instance.</param>
         /// <returns>System.Double representing the size of the file.</returns>
-        public static double GetFileSizeInKiloBytes(this FileInfo fileInfo)
+        public static long GetFileSizeInKiloBytes(this FileInfo fileInfo)
         {
-            return (double)fileInfo.Length / 1024;
+            return fileInfo.Length / 1024;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Mantle.IO
         /// </summary>
         /// <param name="fileInfo">This System.IO.FileInfo instance.</param>
         /// <returns>System.Double representing the size of the file.</returns>
-        public static double GetFileSizeInMegaBytes(this FileInfo fileInfo)
+        public static long GetFileSizeInMegaBytes(this FileInfo fileInfo)
         {
             return fileInfo.GetFileSizeInKiloBytes() / 1024;
         }
@@ -119,7 +119,7 @@ namespace Mantle.IO
         /// </summary>
         /// <param name="fileInfo">This System.IO.FileInfo instance.</param>
         /// <returns>System.Double representing the size of the file.</returns>
-        public static double GetFileSizeInGigaBytes(this FileInfo fileInfo)
+        public static long GetFileSizeInGigaBytes(this FileInfo fileInfo)
         {
             return fileInfo.GetFileSizeInMegaBytes() / 1024;
         }

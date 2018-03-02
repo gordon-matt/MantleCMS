@@ -20,5 +20,14 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
                 forumTopicId = forumTopicId
             });
         }
+
+        public static async Task<IHtmlContent> LastPostAsync(this IViewComponentHelper component, int forumPostId, bool showTopic)
+        {
+            return await component.InvokeAsync("LastPost", new
+            {
+                forumPostId = forumPostId,
+                showTopic = showTopic
+            });
+        }
     }
 }

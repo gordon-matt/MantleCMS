@@ -222,7 +222,7 @@
                                             @topic.Views
                                         </td>
                                         <td class="latest-post">
-                                            @Html.Action("LastPost", new { forumPostId = topic.LastPostId, showTopic = false })
+                                            @await Component.LastPostAsync(topic.LastPostId, false)
                                         </td>
                                     </tr>
                                 }

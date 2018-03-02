@@ -12,9 +12,9 @@
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
 
-    bool isChildAction = ViewBag.IsChildAction;
+    bool isPartialRequest = ViewBag.IsPartialRequest;
 
-    if (isChildAction)
+    if (isPartialRequest)
     {
         Layout = null;
     }

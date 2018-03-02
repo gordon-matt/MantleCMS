@@ -10,12 +10,10 @@ using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Security.Membership;
-using Mantle.Threading;
 using Mantle.Web;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;
-using Mantle.Web.Helpers;
 using Mantle.Web.Html;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -250,36 +248,36 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
             return View(model);
         }
 
-        //[ChildActionOnly] // TODO: Convert to ViewComponent?
-        [Route("active-discussions/small")]
-        public IActionResult ActiveDiscussionsSmall()
-        {
-            if (!forumSettings.ForumsEnabled)
-            {
-                return RedirectToHomePage();
-            }
+        ////[ChildActionOnly] // TODO: Convert to ViewComponent?
+        //[Route("active-discussions/small")]
+        //public IActionResult ActiveDiscussionsSmall()
+        //{
+        //    if (!forumSettings.ForumsEnabled)
+        //    {
+        //        return RedirectToHomePage();
+        //    }
 
-            var topics = AsyncHelper.RunSync(() => forumService.GetActiveTopics(0, 0, forumSettings.HomePageActiveDiscussionsTopicCount));
-            if (topics.Count == 0)
-            {
-                return Content(string.Empty);
-            }
+        //    var topics = AsyncHelper.RunSync(() => forumService.GetActiveTopics(0, 0, forumSettings.HomePageActiveDiscussionsTopicCount));
+        //    if (topics.Count == 0)
+        //    {
+        //        return Content(string.Empty);
+        //    }
 
-            var model = new ActiveDiscussionsModel
-            {
-                ViewAllLinkEnabled = true,
-                ActiveDiscussionsFeedEnabled = forumSettings.ActiveDiscussionsFeedEnabled,
-                PostsPageSize = forumSettings.PostsPageSize
-            };
+        //    var model = new ActiveDiscussionsModel
+        //    {
+        //        ViewAllLinkEnabled = true,
+        //        ActiveDiscussionsFeedEnabled = forumSettings.ActiveDiscussionsFeedEnabled,
+        //        PostsPageSize = forumSettings.PostsPageSize
+        //    };
 
-            foreach (var topic in topics)
-            {
-                var topicModel = AsyncHelper.RunSync(() => PrepareForumTopicRowModel(topic));
-                model.ForumTopics.Add(topicModel);
-            }
+        //    foreach (var topic in topics)
+        //    {
+        //        var topicModel = AsyncHelper.RunSync(() => PrepareForumTopicRowModel(topic));
+        //        model.ForumTopics.Add(topicModel);
+        //    }
 
-            return PartialView(model);
-        }
+        //    return PartialView(model);
+        //}
 
         [Route("active-discussions/rss")]
         [Route("active-discussions/rss/{forumId}")]
@@ -1772,39 +1770,39 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
             return View(model);
         }
 
-        //[ChildActionOnly] // TODO: Convert to ViewComponent?
-        [Route("last-post/{forumPostId}/{showTopic}")]
-        public IActionResult LastPost(int forumPostId, bool showTopic)
-        {
-            var post = AsyncHelper.RunSync(() => forumService.GetPostById(forumPostId));
-            var model = new LastPostModel();
+        ////[ChildActionOnly] // TODO: Convert to ViewComponent?
+        //[Route("last-post/{forumPostId}/{showTopic}")]
+        //public IActionResult LastPost(int forumPostId, bool showTopic)
+        //{
+        //    var post = AsyncHelper.RunSync(() => forumService.GetPostById(forumPostId));
+        //    var model = new LastPostModel();
 
-            if (post != null)
-            {
-                var postUser = AsyncHelper.RunSync(() => membershipService.GetUserById(post.UserId));
-                var topic = post.ForumTopic ?? AsyncHelper.RunSync(() => forumService.GetTopicById(post.TopicId));
+        //    if (post != null)
+        //    {
+        //        var postUser = AsyncHelper.RunSync(() => membershipService.GetUserById(post.UserId));
+        //        var topic = post.ForumTopic ?? AsyncHelper.RunSync(() => forumService.GetTopicById(post.TopicId));
 
-                model.Id = post.Id;
-                model.ForumTopicId = post.TopicId;
-                model.ForumTopicSeName = topic.GetSeName();
-                model.ForumTopicSubject = topic.StripTopicSubject();
-                model.UserId = post.UserId;
-                //model.AllowViewingProfiles = _customerSettings.AllowViewingProfiles; //TODO
-                model.AllowViewingProfiles = true;
-                model.UserName = AsyncHelper.RunSync(() => membershipService.GetUserDisplayName(postUser));
-                //created on string
-                if (forumSettings.RelativeDateTimeFormattingEnabled)
-                {
-                    model.PostCreatedOnStr = post.CreatedOnUtc.RelativeFormat(true, "f");
-                }
-                else
-                {
-                    model.PostCreatedOnStr = dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f");
-                }
-            }
-            model.ShowTopic = showTopic;
-            return PartialView(model);
-        }
+        //        model.Id = post.Id;
+        //        model.ForumTopicId = post.TopicId;
+        //        model.ForumTopicSeName = topic.GetSeName();
+        //        model.ForumTopicSubject = topic.StripTopicSubject();
+        //        model.UserId = post.UserId;
+        //        //model.AllowViewingProfiles = _customerSettings.AllowViewingProfiles; //TODO
+        //        model.AllowViewingProfiles = true;
+        //        model.UserName = AsyncHelper.RunSync(() => membershipService.GetUserDisplayName(postUser));
+        //        //created on string
+        //        if (forumSettings.RelativeDateTimeFormattingEnabled)
+        //        {
+        //            model.PostCreatedOnStr = post.CreatedOnUtc.RelativeFormat(true, "f");
+        //        }
+        //        else
+        //        {
+        //            model.PostCreatedOnStr = dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f");
+        //        }
+        //    }
+        //    model.ShowTopic = showTopic;
+        //    return PartialView(model);
+        //}
 
         ////[ChildActionOnly] // TODO: Convert to ViewComponent?
         //[Route("breadcrumb")]

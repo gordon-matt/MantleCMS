@@ -27,9 +27,7 @@
     <None Remove="Scripts\index.js" />
     <None Remove="Views\ForumsAdmin\Index.cshtml" />
     <None Remove="Views\Forums\ActiveDiscussions.cshtml" />
-    <None Remove="Views\Forums\ActiveDiscussionsSmall.cshtml" />
     <None Remove="Views\Forums\Forum.cshtml" />
-    <None Remove="Views\Forums\ForumBreadcrumb.cshtml" />
     <None Remove="Views\Forums\ForumGroup.cshtml" />
     <None Remove="Views\Forums\Index.cshtml" />
     <None Remove="Views\Forums\LastPost.cshtml" />
@@ -106,13 +104,7 @@
     <Content Include="Views\Forums\ActiveDiscussions.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Forums\ActiveDiscussionsSmall.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Forums\Forum.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\ForumBreadcrumb.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Forums\ForumGroup.cshtml">

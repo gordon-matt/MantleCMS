@@ -12,7 +12,7 @@
 
     // TODO
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
-    var images = mediaService.GetMediaFiles(Model.MediaFolder);
+    var images = mediaService.GetFiles(Model.MediaFolder);
 
     var html = Model.ToHtmlString();
 }

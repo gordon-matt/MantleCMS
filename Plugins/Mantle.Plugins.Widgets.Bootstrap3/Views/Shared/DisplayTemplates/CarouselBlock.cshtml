@@ -12,7 +12,7 @@
     //Script.IncludeBundle("bootstrap");
     // TODO
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
-    var images = mediaService.GetMediaFiles(Model.MediaFolder);
+    var images = mediaService.GetFiles(Model.MediaFolder);
 
     string carouselName = Model.Title.ToSlugUrl();
 }

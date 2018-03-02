@@ -1,7 +1,5 @@
-﻿@using Mantle
-@using Mantle.Infrastructure
+﻿@using Mantle.Infrastructure
 @using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
-@using Mantle.Web
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
 
 @model Bootstrap3ImageGalleryBlock
@@ -12,7 +10,7 @@
 
     // TODO
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
-    var images = mediaService.GetMediaFiles(Model.MediaFolder);
+    var images = mediaService.GetFiles(Model.MediaFolder);
 
     string thumbSizeCss = string.Concat(
         Bootstrap3ImageGalleryBlock.GetThumbSizeCss(Model.ImagesPerRowXS, "xs"), " ",
