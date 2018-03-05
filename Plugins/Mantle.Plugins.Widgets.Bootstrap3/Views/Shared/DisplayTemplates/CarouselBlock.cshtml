@@ -6,11 +6,13 @@
 @model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
 @{
-    //Style.IncludeBundle("bootstrap");
-    //Script.IncludeBundle("bootstrap");
-    // TODO
+    Style.IncludeBundle("bootstrap");
+    Script.IncludeBundle("bootstrap");
+
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);
 
@@ -47,14 +49,14 @@
             if (isFirst)
             {
                 <div class="item active">
-                    <img src="@image.MediaPath" alt="@image.Name" />
+                    <img src="@image.Path" alt="@image.Name" />
                 </div>
                 isFirst = false;
             }
             else
             {
                 <div class="item">
-                    <img src="@image.MediaPath" alt="@image.Name" />
+                    <img src="@image.Path" alt="@image.Name" />
                 </div>
             }
         }
@@ -71,8 +73,8 @@
     </a>
 </div>
 
-@*@using (Script.AtFoot())
-{*@
+@using (Script.AtFoot(Html))
+{
     <script type="text/javascript">
         var carouselName = '@carouselName';
         var interval = @Model.Interval;
@@ -102,4 +104,4 @@
             });
         });
     </script>
-@*}*@
+}

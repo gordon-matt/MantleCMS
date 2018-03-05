@@ -5,9 +5,10 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
-    //Script.IncludeExternal("//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js");
+    Script.IncludeExternal("//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js");
 
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }

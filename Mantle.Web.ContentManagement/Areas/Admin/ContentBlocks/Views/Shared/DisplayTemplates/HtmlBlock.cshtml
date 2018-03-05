@@ -1,11 +1,13 @@
 ﻿@model Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.HtmlBlock
 
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+
 @Html.Raw(Model.BodyContent)
 
 @if (!string.IsNullOrWhiteSpace(Model.Script))
 {
-    //using (Script.AtFoot())
-    //{
+    using (Script.AtFoot(Html))
+    {
         @Html.Raw(Model.Script)
-    //}
+    }
 }

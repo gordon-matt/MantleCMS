@@ -8,6 +8,7 @@
 @model IEnumerable<BlogPost>
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
@@ -111,8 +112,8 @@
     </div>
 </div>
 
-@*@using (Script.AtFoot())
-{*@
+@using (Script.AtFoot(Html))
+{
     <script type="text/javascript">
         $('#pager').bootpag({
             total: @pageCount,
@@ -124,4 +125,4 @@
             window.location.href = '@Url.Action("Index", "BlogContent", new { area = string.Empty })' + '?pageIndex=' + num;
         });
     </script>
-@*}*@
+}

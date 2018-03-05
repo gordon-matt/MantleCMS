@@ -8,6 +8,8 @@
 @model TagCloudBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
 @{
     Style.IncludeBundle("third-party/jQCloud");
@@ -55,7 +57,7 @@
     }
 }
 
-@using (Script.AtFoot())
+@using (Script.AtFoot(Html))
 {
     <script type="text/javascript">
         var words = [

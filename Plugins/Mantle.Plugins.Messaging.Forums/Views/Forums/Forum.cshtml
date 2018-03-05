@@ -5,6 +5,7 @@
 @model ForumPageModel
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     ViewBag.Title = Model.Name;
@@ -47,7 +48,7 @@
                     @Model.WatchForumText
                 </a>
 
-                using (Script.AtFoot())
+                using (Script.AtFoot(Html))
                 {
                     <script type="text/javascript">
                         $(function () {

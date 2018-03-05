@@ -4,6 +4,7 @@
 @model FormBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     //var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
@@ -30,14 +31,14 @@
     }
 
     @*@if (Model.HtmlTemplate.Contains("[Captcha]"))
-        {
-            @Html.Hidden("EnableCaptcha", true)
+    {
+        @Html.Hidden("EnableCaptcha", true)
 
-            string captcha = Html.Recaptcha(captchaSettings.PublicKey, captchaSettings.Theme).ToString();
-            htmlTemplate = htmlTemplate.Replace("[Captcha]", captcha);
-        }
-        else
-        {*@
+        string captcha = Html.Recaptcha(captchaSettings.PublicKey, captchaSettings.Theme).ToString();
+        htmlTemplate = htmlTemplate.Replace("[Captcha]", captcha);
+    }
+    else
+    {*@
     @Html.Hidden("EnableCaptcha", false)
     @*}*@
 
@@ -60,9 +61,9 @@
         </div>
     </div>
 
-    //using (Script.AtFoot())
-    //{
-    <script type="text/javascript">
+    @using (Script.AtFoot(Html))
+    {
+        <script type="text/javascript">
             $("#@formId").submit(function (e) {
                 $.ajax({
                     url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
@@ -97,6 +98,6 @@
 
                 return false;
             });
-    </script>
-    //}
+        </script>
+    }
 }

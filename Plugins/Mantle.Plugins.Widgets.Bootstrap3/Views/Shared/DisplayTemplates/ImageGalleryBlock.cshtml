@@ -4,11 +4,13 @@
 
 @model Bootstrap3ImageGalleryBlock
 
-@{
-    //Style.IncludeBundle("bootstrap");
-    //Script.IncludeBundle("bootstrap");
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
-    // TODO
+@{
+    Style.IncludeBundle("bootstrap");
+    Script.IncludeBundle("bootstrap");
+    
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);
 
@@ -32,8 +34,8 @@
     @foreach (var image in images)
     {
         <div class="@thumbSizeCss thumb">
-            <a class="thumbnail" href="@image.MediaPath" target="_blank">
-                <img class="img-responsive" src="@image.MediaPath" alt="@image.Name">
+            <a class="thumbnail" href="@image.Path" target="_blank">
+                <img class="img-responsive" src="@image.Path" alt="@image.Name">
             </a>
         </div>
     }

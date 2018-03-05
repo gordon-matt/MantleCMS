@@ -27,14 +27,14 @@ namespace Mantle.Web.Mvc.Resources
 
         protected override ResourceLocation DefaultLocation => ResourceLocation.Head;
 
-        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreExists = false)
+        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreIfExists = false)
         {
             throw new NotSupportedException();
         }
 
         protected override string BuildInlineResources(IEnumerable<string> resources)
         {
-            return string.Format("<style type=\"text/css\">{0}</style>", string.Join(System.Environment.NewLine, resources));
+            return string.Format("<style type=\"text/css\">{0}</style>", string.Join(Environment.NewLine, resources));
         }
 
         protected override string BuildResource(ResourceEntry resource)

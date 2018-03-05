@@ -5,6 +5,9 @@
 
 @model FlexSliderBlock
 
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
+
 @{
     Style.IncludePluginStyle("FlexSlider/flexslider.css", order: 99999);
     //Script.IncludeBundle("jquery");
@@ -25,16 +28,16 @@
             {
                 if (Model.ControlNav == ControlNavOption.Thumbnails)
                 {
-                    string thumbPath = slide.MediaPath.Replace("/Media/", "/Media/.tmb_Media/");//TODO: Use thumb Hash
+                    string thumbPath = slide.Path.Replace("/Media/", "/Media/.tmb_Media/");//TODO: Use thumb Hash
                     <li data-thumb="@thumbPath">
-                        @Html.Image(slide.MediaPath, slide.Name)
+                        @Html.Image(slide.Path, slide.Name)
                         @*<p class="flex-caption">@slide.Caption</p>*@
                     </li>
                 }
                 else
                 {
                     <li>
-                        @Html.Image(slide.MediaPath, slide.Name)
+                        @Html.Image(slide.Path, slide.Name)
                         @*<p class="flex-caption">@slide.Caption</p>*@
                     </li>
                 }

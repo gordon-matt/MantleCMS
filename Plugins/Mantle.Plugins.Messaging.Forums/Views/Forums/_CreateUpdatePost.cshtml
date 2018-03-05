@@ -6,6 +6,8 @@
 @model EditForumPostModel
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
 @{
     Style.IncludeBundle("third-party/bootstrap-fileinput");

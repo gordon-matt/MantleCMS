@@ -4,6 +4,7 @@
 @model UserForumSubscriptionsModel
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     ViewBag.Title = T[LocalizableStrings.PageTitle.ForumSubscriptions];
@@ -24,8 +25,8 @@
             <div class="description">
                 @T[LocalizableStrings.Account.ForumSubscriptions_Description]
             </div>
-            
-            using (Script.AtFoot())
+
+            @using (Script.AtFoot(Html))
             {
                 <script type="text/javascript">
                     $(document).ready(function () {

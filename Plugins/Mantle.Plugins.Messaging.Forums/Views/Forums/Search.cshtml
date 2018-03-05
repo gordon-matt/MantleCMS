@@ -5,22 +5,23 @@
 @model SearchModel
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     ViewBag.Title = T[LocalizableStrings.PageTitle.Search];
 }
 
-@using (Script.AtFoot())
+@using (Script.AtFoot(Html))
 {
     <script type="text/javascript">
         $(document).ready(function () {
             toggleAdvancedSearch();
             $('#adv').click(function () {
-                toggleAdvancedSearch();
+                    toggleAdvancedSearch();
+                });
             });
-        });
-        function toggleAdvancedSearch() {
-            if ($('#adv').is(':checked')) {
+            function toggleAdvancedSearch() {
+                if ($('#adv').is(':checked')) {
                 $('#advanced-search').show();
             }
             else {
@@ -96,10 +97,10 @@
         <div class="search-results">
             @{
                 var searchterms = Model.SearchTerms;
-                string adv = null;
-                string within = null;
-                string limitDays = null;
-                string forumId = null;
+string adv = null;
+string within = null;
+string limitDays = null;
+string forumId = null;
 
                 if (Model.ShowAdvancedSearch)
                 {
@@ -120,20 +121,20 @@
                 }).ToString();
             }
             @if (!string.IsNullOrEmpty(pager))
-            {
+{
                 <div class="pager upper">
                     @Html.Raw(pager)
                 </div>
             }
             @if (Model.NoResultsVisisble)
-            {
+{
                 <div class="no-result">
                     @T[LocalizableStrings.SearchNoResultsText]
                 </div>
             }
             <div class="forums-table-section topic-group">
                 @if (Model.SearchResultsVisible)
-                {
+{
                     <div class="table-wrapper">
                         <table class="table table-bordered">
                             <colgroup>
@@ -161,26 +162,26 @@
                             </thead>
                             <tbody>
                                 @foreach (var topic in Model.ForumTopics)
-                                {
-                                    var topicType = "post";
-                                    var topicText = string.Empty;
-                                    switch (topic.TopicType)
-                                    {
-                                        case ForumTopicType.Normal:
-                                            topicType = "post";
-                                            break;
-                                        case ForumTopicType.Sticky:
-                                            topicType = "sticky";
-                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
-                                            break;
-                                        case ForumTopicType.Announcement:
-                                            topicType = "announcement";
-                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
-                                            break;
-                                        default:
-                                            topicType = "post";
-                                            break;
-                                    }
+{
+    var topicType = "post";
+    var topicText = string.Empty;
+    switch (topic.TopicType)
+    {
+        case ForumTopicType.Normal:
+            topicType = "post";
+            break;
+        case ForumTopicType.Sticky:
+            topicType = "sticky";
+            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
+            break;
+        case ForumTopicType.Announcement:
+            topicType = "announcement";
+            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
+            break;
+        default:
+            topicType = "post";
+            break;
+    }
                                     <tr>
                                         <td class="image">
                                             <div class="@topicType"></div>
@@ -189,22 +190,22 @@
                                             <div class="topic-title">
                                                 @Html.ActionLink(topic.Subject, "Topic", new { id = topic.Id, slug = topic.SeName })
                                                 @if (!string.IsNullOrEmpty(topicText))
-                                                {
+{
                                                     <span class="topic-type">@topicText</span>
                                                 }
                                             </div>
                                             @if (topic.NumPosts > Model.PostsPageSize)
-                                            {
+{
                                                 <div class="topic-pager">
                                                     @Html.ForumTopicSmallPager(topic)
                                                 </div>
                                             }
                                             <div class="topic-starter">
                                                 @if (!string.IsNullOrEmpty(topic.UserId))
-                                                {
+{
                                                     <label>@T[LocalizableStrings.Author]</label>
                                                     if (topic.AllowViewingProfiles)
-                                                    {
+    {
                                                         @* TODO: Maybe we need to use a different profile page for forums only? *@
                                                         @Html.ActionLink(topic.UserName, "ViewProfile", "Account", new { area = string.Empty, userId = topic.UserId })
                                                     }
