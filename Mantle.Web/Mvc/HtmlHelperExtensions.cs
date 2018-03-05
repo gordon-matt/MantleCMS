@@ -16,6 +16,7 @@ using Mantle.Web.Mvc.Controls;
 using Mantle.Web.Mvc.MantleUI;
 using Mantle.Web.Mvc.MantleUI.Providers;
 using Mantle.Web.Mvc.Rendering;
+using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using ResourceLocation = Mantle.Web.Mvc.Resources.ResourceLocation;
 
 namespace Mantle.Web.Mvc
 {
@@ -631,6 +633,100 @@ namespace Mantle.Web.Mvc
         //{
         //    return new TreeView<T>(html, items);
         //}
+
+        #region Resources
+
+        //public static void IncludeScript(
+        //    this IHtmlHelper html,
+        //    string path,
+        //    ResourceLocation location = ResourceLocation.Foot,
+        //    bool isThemePath = false,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<ScriptRegistrar>();
+        //    registrar.Include(path, location, isThemePath, order, htmlAttributes);
+        //}
+
+        //public static void IncludeStyle(
+        //    this IHtmlHelper html,
+        //    string path,
+        //    ResourceLocation location = ResourceLocation.Head,
+        //    bool isThemePath = false,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<StyleRegistrar>();
+        //    registrar.Include(path, location, isThemePath, order, htmlAttributes);
+        //}
+
+        //public static void IncludeScriptBundle(
+        //    this IHtmlHelper html,
+        //    string bundleName,
+        //    ResourceLocation location = ResourceLocation.Foot,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<ScriptRegistrar>();
+        //    registrar.IncludeBundle(bundleName, location, order, htmlAttributes);
+        //}
+
+        //public static void IncludeStyleBundle(
+        //    this IHtmlHelper html,
+        //    string bundleName,
+        //    ResourceLocation location = ResourceLocation.Head,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<StyleRegistrar>();
+        //    registrar.IncludeBundle(bundleName, location, order, htmlAttributes);
+        //}
+
+        //public static void IncludeScriptExternal(
+        //    this IHtmlHelper html,
+        //    string path,
+        //    ResourceLocation location = ResourceLocation.Foot,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<ScriptRegistrar>();
+        //    registrar.IncludeExternal(path, location, order, htmlAttributes);
+        //}
+
+        //public static void IncludeStyleExternal(
+        //    this IHtmlHelper html,
+        //    string path,
+        //    ResourceLocation location = ResourceLocation.Head,
+        //    int? order = null,
+        //    object htmlAttributes = null)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<StyleRegistrar>();
+        //    registrar.IncludeExternal(path, location, order, htmlAttributes);
+        //}
+
+        //public static void IncludeScriptInline(
+        //    this IHtmlHelper html,
+        //    string code,
+        //    ResourceLocation location = ResourceLocation.Foot,
+        //    bool ignoreIfExists = false)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<ScriptRegistrar>();
+        //    registrar.IncludeInline(code, location, ignoreIfExists);
+        //}
+
+        //public static IHtmlContent RenderScripts(this IHtmlHelper html, ResourceLocation location)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<ScriptRegistrar>();
+        //    return registrar.Render(location);
+        //}
+
+        //public static IHtmlContent RenderStyles(this IHtmlHelper html, ResourceLocation location)
+        //{
+        //    var registrar = EngineContext.Current.Resolve<StyleRegistrar>();
+        //    return registrar.Render(location);
+        //}
+
+        #endregion Resources
     }
 
     public class Mantle<TModel>

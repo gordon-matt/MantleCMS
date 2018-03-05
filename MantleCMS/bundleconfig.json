@@ -13,6 +13,19 @@
     ]
   },
 
+  {
+    "outputFileName": "wwwroot/css/bundles/kendo-ui.css",
+    "inputFiles": [
+      "wwwroot/css/kendo/2014.1.318/kendo.common.min.css",
+      "wwwroot/css/kendo/2014.1.318/kendo.default.min.css",
+      "wwwroot/css/kendo/2014.1.318/kendo.bootstrap.min.css",
+      "wwwroot/css/kendo/2014.1.318/kendo.rtl.min.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+
   // ===============================================
   // JS
   // ===============================================

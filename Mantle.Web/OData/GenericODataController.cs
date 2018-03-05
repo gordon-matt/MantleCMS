@@ -78,6 +78,11 @@ namespace Mantle.Web.OData
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
         {
+            if (!CheckPermission(ReadPermission))
+            {
+                return Enumerable.Empty<TEntity>().AsQueryable();
+            }
+
             options.Validate(new ODataValidationSettings()
             {
                 AllowedQueryOptions = AllowedQueryOptions.All
