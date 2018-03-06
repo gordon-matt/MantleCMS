@@ -24,9 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByCategory\Default.cshtml" />
+    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByTag\Default.cshtml" />
+    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPosts\Default.cshtml" />
+    <Content Remove="Areas\Admin\Blog\Views\Shared\_Posts.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="elFinder.NetCore" Version="1.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201802261313" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201803051313" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
   </ItemGroup>
 

@@ -1,6 +1,5 @@
 ﻿@using Mantle.Collections
 @using Mantle.Infrastructure
-@using Mantle.Web
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
@@ -13,14 +12,7 @@
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
 
-    if (!string.IsNullOrEmpty(settings.LayoutPathOverride))
-    {
-        Layout = settings.LayoutPathOverride;
-    }
-    else
-    {
-        Layout = MantleWebConstants.DefaultFrontendLayoutPath;
-    }
+    Layout = null;
 
     Script.IncludeBundle("third-party/bootpag");
 
@@ -59,9 +51,9 @@
                         </h4>
                         <p>
                             @Html.Raw(string.Format(
-                                T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
-                                string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
-                                string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
+                                     T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
+                                     string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
+                                     string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
                         </p>
                         @if (!entry.Tags.IsNullOrEmpty())
                         {
@@ -70,11 +62,11 @@
                                 @foreach (var postTag in entry.Tags)
                                 {
                                     @Html.ActionLink(
-                                        tags[postTag.TagId],
-                                        "Tag",
-                                        "BlogContent",
-                                        new { tagSlug = tagUrls[postTag.TagId] },
-                                        new { @class = "badge", style = "margin-right:5px" })
+                                             tags[postTag.TagId],
+                                             "Tag",
+                                             "BlogContent",
+                                             new { tagSlug = tagUrls[postTag.TagId] },
+                                             new { @class = "badge", style = "margin-right:5px" })
                                 }
                             </p>
                         }

@@ -5,6 +5,8 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @model BlogPost
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 @{
     var settings = EngineContext.Current.Resolve<BlogSettings>();
 
@@ -19,8 +21,9 @@
 
     ViewBag.Title = Model.Headline;
 
-    SetMeta("keywords", Model.MetaKeywords);
-    SetMeta("description", Model.MetaDescription);
+    // TODO
+    //SetMeta("keywords", Model.MetaKeywords);
+    //SetMeta("description", Model.MetaDescription);
 
     string previousSlug = ViewBag.PreviousEntrySlug;
     string nextSlug = ViewBag.NextEntrySlug;

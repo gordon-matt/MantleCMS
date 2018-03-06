@@ -1,4 +1,5 @@
 ﻿@using Mantle.Infrastructure
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
 @model FilteredPostsBlock
@@ -8,8 +9,8 @@
     int id = Model.CategoryId.Value;
     var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
     var category = categoryService.FindOne(id);
-    
-    @Html.Action("Category", "BlogContent", new { area = string.Empty, categorySlug = category.UrlSlug })
+
+    @await Component.BlogPostsByCategoryAsync(category.UrlSlug)
 }
 else if (Model.FilterType == FilterType.Tag && Model.TagId.HasValue)
 {
@@ -17,9 +18,9 @@ else if (Model.FilterType == FilterType.Tag && Model.TagId.HasValue)
     var tagService = EngineContext.Current.Resolve<IBlogTagService>();
     var tag = tagService.FindOne(id);
 
-    @Html.Action("Tag", "BlogContent", new { area = string.Empty, tagSlug = tag.UrlSlug })
+    @await Component.BlogPostsByTagAsync(tag.UrlSlug)
 }
 else
 {
-    @Html.Action("Index", "BlogContent", new { area = string.Empty })
+    @await Component.BlogPostsAsync()
 }

@@ -34,9 +34,9 @@
                     </h2>
                     <p>
                         @Html.Raw(string.Format(
-                                 T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
-                                 "<span data-bind='text: userName'></span>",
-                                 "<span data-bind='text: dateCreatedUtc'></span>"))
+                            T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
+                            "<span data-bind='text: userName'></span>",
+                            "<span data-bind='text: dateCreatedUtc'></span>"))
                     </p>
                     @*<p>Posted by <span data-bind="text: userName"></span> on <span data-bind="text: dateCreatedUtc"></span></p>*@
 
@@ -66,9 +66,9 @@
             <h1 class="blog-headline" data-bind="text: selected().headline"></h1>
             <p>
                 @Html.Raw(string.Format(
-                         T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
-                         "<span data-bind='text: selected().userName'></span>",
-                         "<span data-bind='text: selected().dateCreatedUtc'></span>"))
+                    T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
+                    "<span data-bind='text: selected().userName'></span>",
+                    "<span data-bind='text: selected().dateCreatedUtc'></span>"))
             </p>
             @*<p>Posted by <span data-bind="text: selected().userName"></span> on <span data-bind="text: selected().dateCreatedUtc"></span></p>*@
             <p class="blog-full-desc" data-bind="html: selected().fullDescription"></p>

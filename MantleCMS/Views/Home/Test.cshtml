@@ -5,6 +5,13 @@
     Style.IncludeBundle("kendo-ui.css");
 }
 
+@using (Script.AtFoot(Html))
+{
+    <script type="text/javascript">
+        var test = '123';
+    </script>
+}
+
 @*@Url.Script("/js/knockout-3.4.0.js")*@
 
 TEST PAGE!
@@ -15,3 +22,4 @@ TEST PAGE!
 
 <br />
 END TEST
+
