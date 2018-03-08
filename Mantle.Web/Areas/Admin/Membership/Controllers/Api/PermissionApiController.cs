@@ -1,20 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+using Mantle.Data.Entity.EntityFramework;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Threading;
-using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 
-namespace Mantle.Web.Areas.Admin.Membership.Controllers
+namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
 {
-    [Route("api/membership/permissions")]
-    public class PermissionApiController : Controller
+    public class PermissionApiController : ODataController
     {
         private readonly ILogger logger;
         private readonly IWorkContext workContext;
@@ -31,36 +31,36 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
             this.workContext = workContext;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public virtual async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        public virtual async Task<IEnumerable<MantlePermission>> Get(ODataQueryOptions<MantlePermission> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
-                return Unauthorized();
+                return Enumerable.Empty<MantlePermission>().AsQueryable();
             }
 
-            var query = (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable();
+            var settings = new ODataValidationSettings()
+            {
+                AllowedQueryOptions = AllowedQueryOptions.All
+            };
+            options.Validate(settings);
 
-            var grid = new CustomKendoGridEx<MantlePermission>(request, query);
-            return Json(grid);
+            var results = options.ApplyTo((await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
+            return await (results as IQueryable<MantlePermission>).ToHashSetAsync();
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public virtual async Task<IActionResult> Get(string key)
+        [EnableQuery]
+        public virtual async Task<SingleResult<MantlePermission>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
-                return Unauthorized();
+                return SingleResult.Create(Enumerable.Empty<MantlePermission>().AsQueryable());
             }
             var entity = await Service.GetPermissionById(key);
-            return Json(JObject.FromObject(entity));
+            return SingleResult.Create(new[] { entity }.AsQueryable());
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public virtual async Task<IActionResult> Put(string key, [FromBody]MantlePermission entity)
+        public virtual async Task<IActionResult> Put([FromODataUri] string key, MantlePermission entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
@@ -83,7 +83,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
             }
             catch (DbUpdateConcurrencyException x)
             {
-                logger.LogError(new EventId(), x, x.Message);
+                logger.LogError(new EventId(), x.Message, x);
 
                 if (!EntityExists(key))
                 {
@@ -92,12 +92,10 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
                 else { throw; }
             }
 
-            return Ok(entity);
+            return Updated(entity);
         }
 
-        [HttpPost]
-        [Route("")]
-        public virtual async Task<IActionResult> Post([FromBody]MantlePermission entity)
+        public virtual async Task<IActionResult> Post(MantlePermission entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
@@ -112,12 +110,49 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
             entity.TenantId = workContext.CurrentTenant.Id;
             await Service.InsertPermission(entity);
 
-            return Ok(entity);
+            return Created(entity);
         }
 
-        [HttpDelete]
-        [Route("{key}")]
-        public virtual async Task<IActionResult> Delete(string key)
+        [AcceptVerbs("PATCH", "MERGE")]
+        public virtual async Task<IActionResult> Patch([FromODataUri] string key, Delta<MantlePermission> patch)
+        {
+            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
+            {
+                return Unauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            MantlePermission entity = await Service.GetPermissionById(key);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            patch.Patch(entity);
+
+            try
+            {
+                await Service.UpdatePermission(entity);
+            }
+            catch (DbUpdateConcurrencyException x)
+            {
+                logger.LogError(new EventId(), x.Message, x);
+
+                if (!EntityExists(key))
+                {
+                    return NotFound();
+                }
+                else { throw; }
+            }
+
+            return Updated(entity);
+        }
+
+        public virtual async Task<IActionResult> Delete([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
@@ -136,22 +171,19 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers
         }
 
         [HttpPost]
-        [Route("Default.GetPermissionsForRole")]
-        public virtual async Task<IActionResult> GetPermissionsForRole([FromBody]dynamic data)
+        public virtual async Task<IEnumerable<EdmMantlePermission>> GetPermissionsForRole(ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
-                return Unauthorized();
+                return Enumerable.Empty<EdmMantlePermission>().AsQueryable();
             }
-
-            string roleId = data.roleId;
+            string roleId = (string)parameters["roleId"];
             var role = await Service.GetRoleById(roleId);
-            var result = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
+            return (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
             {
                 Id = x.Id,
                 Name = x.Name
             });
-            return Json(new JArray(result.Select(x => JObject.FromObject(x))));
         }
 
         protected virtual bool EntityExists(string key)

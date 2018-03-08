@@ -13,7 +13,7 @@
     require('mantle-jqueryval');
     require('bootstrap-fileinput');
 
-    var apiUrl = "/api/localization/languages";
+    var apiUrl = "/odata/mantle/web/LanguageApi";
 
     var ViewModel = function () {
         var self = this;
@@ -76,12 +76,24 @@
             $("#Grid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
+                            url: apiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -171,7 +183,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: apiUrl + '/' + id,
+                url: apiUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -196,7 +208,7 @@
         self.remove = function (id) {
             if (confirm(self.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: apiUrl + '/' + id,
+                    url: apiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -258,7 +270,7 @@
             else {
                 // UPDATE
                 $.ajax({
-                    url: apiUrl + '/' + self.id(),
+                    url: apiUrl + "(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -282,18 +294,15 @@
         self.cancel = function () {
             switchSection($("#grid-section"));
         };
-        //self.onCultureCodeChanged = function () {
-        //    var cultureName = $('#CultureCode option:selected').text();
-        //    self.name(cultureName);
-        //};
+        self.onCultureCodeChanged = function () {
+            var cultureName = $('#CultureCode option:selected').text();
+            self.name(cultureName);
+        };
         self.clear = function () {
             if (confirm(self.translations.resetLocalizableStringsConfirm)) {
                 $.ajax({
                     url: apiUrl + "/Default.ResetLocalizableStrings",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({ dummy: true }), // Prevent 415 error
-                    dataType: "json"
+                    type: "POST"
                 })
                 .done(function (json) {
                     $.notify(self.translations.resetLocalizableStringsSuccess, "success");

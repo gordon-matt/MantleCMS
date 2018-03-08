@@ -12,9 +12,9 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var permissionsApiUrl = "/api/membership/permissions";
-    var rolesApiUrl = "/api/membership/roles";
-    var usersApiUrl = "/api/membership/users";
+    var permissionsApiUrl = "/odata/mantle/web/PermissionApi";
+    var rolesApiUrl = "/odata/mantle/web/RoleApi";
+    var usersApiUrl = "/odata/mantle/web/UserApi";
 
     var RoleModel = function (parent) {
         var self = this;
@@ -37,12 +37,24 @@
             $("#RolesGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: rolesApiUrl + "/get",
-                            type: "POST",
+                            url: "/odata/mantle/web/RoleApi",
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -110,7 +122,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: rolesApiUrl + "/" + id,
+                url: rolesApiUrl + "('" + id + "')",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -133,7 +145,7 @@
         self.remove = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: rolesApiUrl + "/" + id,
+                    url: rolesApiUrl + "('" + id + "')",
                     type: "DELETE",
                     async: false
                 })
@@ -186,7 +198,7 @@
             else {
                 // UPDATE
                 $.ajax({
-                    url: rolesApiUrl + "/" + self.id(),
+                    url: rolesApiUrl + "('" + self.id() + "')",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -223,18 +235,11 @@
                 async: false
             })
             .done(function (json) {
-                if (json && json.length > 0) {
-                    $.each(json, function () {
+                if (json.value && json.value.length > 0) {
+                    $.each(json.value, function () {
                         self.permissions.push(this.Id);
                     });
                 }
-
-                // OData Version (for later):
-                //if (json.value && json.value.length > 0) {
-                //    $.each(json.value, function () {
-                //        self.permissions.push(this.Id);
-                //    });
-                //}
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 $.notify(self.parent.translations.getRecordError, "error");
@@ -345,12 +350,24 @@
             $("#UsersGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: usersApiUrl + "/get",
-                            type: "POST",
+                            url: usersApiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -433,7 +450,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: usersApiUrl + "/" + id,
+                url: usersApiUrl + "('" + id + "')",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -458,7 +475,7 @@
         self.remove = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: usersApiUrl + "/" + id,
+                    url: usersApiUrl + "('" + id + "')",
                     type: "DELETE",
                     async: false
                 })
@@ -515,7 +532,7 @@
             else {
                 // UPDATE
                 $.ajax({
-                    url: usersApiUrl + "/" + self.id(),
+                    url: usersApiUrl + "('" + self.id() + "')",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -553,18 +570,11 @@
                 async: false
             })
             .done(function (json) {
-                if (json && json.length > 0) {
-                    $.each(json, function () {
+                if (json.value && json.value.length > 0) {
+                    $.each(json.value, function () {
                         self.roles.push(this.Id);
                     });
                 }
-
-                // OData Version (for later):
-                //if (json.value && json.value.length > 0) {
-                //    $.each(json.value, function () {
-                //        self.roles.push(this.Id);
-                //    });
-                //}
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 $.notify(self.parent.translations.getRecordError, "error");
@@ -605,9 +615,6 @@
             switchSection($("#change-password-form-section"));
         };
         self.filterRole = function () {
-            // For now, ignore...
-            return;
-
             var grid = $('#UsersGrid').data('kendoGrid');
 
             if (self.filterRoleId() == "") {
@@ -615,14 +622,24 @@
                 grid.dataSource.transport.options.read.type = "GET";
                 delete grid.dataSource.transport.options.read.contentType;
                 grid.dataSource.transport.parameterMap = function (options, operation) {
-                    return;
+                    var paramMap = kendo.data.transports.odata.parameterMap(options);
+                    if (paramMap.$inlinecount) {
+                        if (paramMap.$inlinecount == "allpages") {
+                            paramMap.$count = true;
+                        }
+                        delete paramMap.$inlinecount;
+                    }
+                    if (paramMap.$filter) {
+                        paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                    }
+                    return paramMap;
                 };
             }
             else {
+                //grid.dataSource.transport.options.read.url = usersApiUrl + "/GetUsersInRole";
+
                 // For some reason, the OData query string doesn't get populated by Kendo Grid when we're using POST,
                 // so we need to build it ourselves manually
-
-                //TODO: We're not using OData at the moment (not supported in ASP.NET Core yet), so we need to change this!
                 grid.dataSource.transport.options.read.url = function (data) {
                     var params = {
                         page: grid.dataSource.page(),

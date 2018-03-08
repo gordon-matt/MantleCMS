@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
-using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.KendoUI;
+using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
 {
-    [Area(Constants.Areas.Regions)]
-    [Route("api/regions")]
-    public class RegionApiController : MantleGenericTenantDataController<Region, int>
+    public class RegionApiController : GenericTenantODataController<Region, int>
     {
         private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;
 
@@ -25,36 +21,6 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             : base(service)
         {
             this.localizablePropertyService = localizablePropertyService;
-        }
-
-        [HttpPost]
-        [Route("filter-by-region-type")]
-        public virtual async Task<IActionResult> FilterByRegionType([FromBody]KendoGridMvcRequest request, string regionType = null, int? parentId = null)
-        {
-            if (!CheckPermission(ReadPermission))
-            {
-                return Unauthorized();
-            }
-
-            using (var connection = Service.OpenConnection())
-            {
-                var query = connection.Query();
-                query = ApplyMandatoryFilter(query);
-
-                if (!string.IsNullOrEmpty(regionType))
-                {
-                    var type = Mantle.EnumExtensions.Parse<RegionType>(regionType);
-                    query = query.Where(x => x.RegionType == type);
-                }
-
-                if (parentId.HasValue)
-                {
-                    query = query.Where(x => x.ParentId == parentId);
-                }
-
-                var grid = new CustomKendoGridEx<Region>(request, query);
-                return Json(grid);
-            }
         }
 
         protected override int GetId(Region entity)
@@ -67,16 +33,12 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpGet]
-        [Route("Default.GetLocalized")]
-        public async Task<IActionResult> GetLocalized([FromBody]dynamic data)
+        public async Task<IActionResult> GetLocalized([FromODataUri] int id, [FromODataUri] string cultureCode)
         {
             if (!CheckPermission(ReadPermission))
             {
                 return Unauthorized();
             }
-
-            int id = data.id;
-            string cultureCode = data.cultureCode;
 
             if (id == 0)
             {
@@ -103,8 +65,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpPost]
-        [Route("Default.SaveLocalized")]
-        public async Task<IActionResult> SaveLocalized([FromBody]dynamic data)
+        public async Task<IActionResult> SaveLocalized(ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
@@ -116,8 +77,8 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            string cultureCode = data.cultureCode;
-            Region entity = data.entity;
+            string cultureCode = (string)parameters["cultureCode"];
+            var entity = (Region)parameters["entity"];
 
             if (entity.Id == 0)
             {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;

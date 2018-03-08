@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Caching;
+using Mantle.Collections;
 using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
 using Mantle.Web.Security.Membership.Permissions;
@@ -51,30 +51,6 @@ namespace Mantle.Web.OData
         #region Public Methods
 
         // GET: odata/<Entity>
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
-        //public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
-        //{
-        //    if (!CheckPermission(ReadPermission))
-        //    {
-        //        return Enumerable.Empty<TEntity>().AsQueryable();
-        //    }
-
-        //    options.Validate(new ODataValidationSettings()
-        //    {
-        //        AllowedQueryOptions = AllowedQueryOptions.All
-        //    });
-
-        //    using (var connection = Service.OpenConnection())
-        //    {
-        //        var query = connection.Query();
-        //        query = ApplyMandatoryFilter(query);
-        //        var results = options.ApplyTo(query);
-        //        return await (results as IQueryable<TEntity>).ToHashSetAsync();
-        //    }
-        //}
-
-        // NOTE: Change due to: https://github.com/OData/WebApi/issues/1235
-        // GET: odata/<Entity>
         [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
         {
@@ -88,11 +64,24 @@ namespace Mantle.Web.OData
                 AllowedQueryOptions = AllowedQueryOptions.All
             });
 
+            //    using (var connection = Service.OpenConnection())
+            //    {
+            //        var query = connection.Query();
+            //        query = ApplyMandatoryFilter(query);
+            //        var results = options.ApplyTo(query);
+            //        return await (results as IQueryable<TEntity>).ToHashSetAsync();
+            //    }
+
+            // NOTE: Change due to: https://github.com/OData/WebApi/issues/1235
             var connection = GetDisposableConnection();
             var query = connection.Query();
             query = ApplyMandatoryFilter(query);
             var results = options.ApplyTo(query);
-            return await (results as IQueryable<TEntity>).ToHashSetAsync();
+
+            // Recommended not to use ToHashSetAsync(). See: https://github.com/OData/WebApi/issues/1235#issuecomment-371322404
+            //return await (results as IQueryable<TEntity>).ToHashSetAsync();
+
+            return await Task.FromResult((results as IQueryable<TEntity>).ToHashSet());
         }
 
         // GET: odata/<Entity>(5)

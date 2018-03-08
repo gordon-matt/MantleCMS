@@ -13,7 +13,7 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var apiUrl = "/api/configuration/settings";
+    var apiUrl = "/odata/mantle/web/SettingsApi";
 
     ko.mapping = koMap;
 
@@ -50,12 +50,24 @@
             $("#Grid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
+                            url: apiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -108,7 +120,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: apiUrl + "/" + id,
+                url: apiUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -195,7 +207,7 @@
             };
 
             $.ajax({
-                url: apiUrl + "/" + self.id(),
+                url: apiUrl + "(" + self.id() + ")",
                 type: "PUT",
                 crossDomain: true,
                 contentType: "application/json; charset=utf-8",

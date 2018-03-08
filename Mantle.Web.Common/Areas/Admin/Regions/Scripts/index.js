@@ -12,11 +12,12 @@
     require('mantle-common');
     require('mantle-section-switching');
     require('mantle-jqueryval');
-    
+
+    //require('jquery-maphilight');
     require('jquery-image-mapster');
 
-    var apiUrl = "/api/regions";
-    var settingsApiUrl = "/api/region-settings";
+    var apiUrl = "/odata/mantle/common/RegionApi";
+    var settingsApiUrl = "/odata/mantle/common/RegionSettingsApi";
 
     ko.mapping = koMap;
 
@@ -32,12 +33,24 @@
             $("#SettingsGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: settingsApiUrl + "/get",
-                            type: "POST",
+                            url: settingsApiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -237,15 +250,24 @@
             $("#CountryGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/filter-by-region-type",
-                            type: "POST",
+                            url: apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country'",
                             dataType: "json"
                         },
-                        parameterMap: function (options) {
-                            return { regionType: 'Country', parentId: null };
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -319,11 +341,11 @@
             $("#country-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + '/' + id;
+            var url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized/" + id + "/" + cultureCode;
+                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
             }
             else {
                 self.cultureCode(null);
@@ -360,7 +382,7 @@
         self.removeItem = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: apiUrl + '/' + id,
+                    url: apiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -448,7 +470,7 @@
                 }
                 else {
                     $.ajax({
-                        url: apiUrl + '/' + self.id(),
+                        url: apiUrl + "(" + self.id() + ")",
                         type: "PUT",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(record),
@@ -483,11 +505,10 @@
             self.parent.selectedStateId(0);
 
             var grid = $('#StateGrid').data('kendoGrid');
-            grid.dataSource.transport.parameterMap = function (options) {
-                return { regionType: 'State', parentId: countryId };
-            }
-            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
             grid.dataSource.page(1);
+            //grid.dataSource.read();
+            //grid.refresh();
 
             switchSection($("#state-grid-section"));
         };
@@ -497,11 +518,10 @@
             self.parent.selectedStateId(0);
 
             var grid = $('#CityGrid').data('kendoGrid');
-            grid.dataSource.transport.parameterMap = function (options) {
-                return { regionType: 'City', parentId: countryId };
-            }
-            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
             grid.dataSource.page(1);
+            //grid.dataSource.read();
+            //grid.refresh();
 
             switchSection($("#city-grid-section"));
         };
@@ -532,15 +552,24 @@
             $("#StateGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/filter-by-region-type",
-                            type: "POST",
+                            url: apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State'",
                             dataType: "json"
                         },
-                        parameterMap: function (options) {
-                            return { regionType: 'State', parentId: null };
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -612,11 +641,11 @@
             $("#state-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + '/' + id;
+            var url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized/" + id + "/" + cultureCode;
+                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
             }
             else {
                 self.cultureCode(null);
@@ -652,7 +681,7 @@
         self.removeItem = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: apiUrl + '/' + id,
+                    url: apiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -739,7 +768,7 @@
                 }
                 else {
                     $.ajax({
-                        url: apiUrl + '/' + self.id(),
+                        url: apiUrl + "(" + self.id() + ")",
                         type: "PUT",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(record),
@@ -773,11 +802,10 @@
             self.parent.selectedStateId(stateId);
 
             var grid = $('#CityGrid').data('kendoGrid');
-            grid.dataSource.transport.parameterMap = function (options) {
-                return { regionType: 'City', parentId: stateId };
-            }
-            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
             grid.dataSource.page(1);
+            //grid.dataSource.read();
+            //grid.refresh();
 
             switchSection($("#city-grid-section"));
         };
@@ -806,15 +834,24 @@
             $("#CityGrid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/filter-by-region-type",
-                            type: "POST",
+                            url: apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City'",
                             dataType: "json"
                         },
-                        parameterMap: function (options) {
-                            return { regionType: 'City', parentId: null };
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -890,11 +927,11 @@
             $("#city-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + '/' + id;
+            var url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized/" + id + "/" + cultureCode;
+                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
             }
             else {
                 self.cultureCode(null);
@@ -929,7 +966,7 @@
         self.removeItem = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: apiUrl + '/' + id,
+                    url: apiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -1015,7 +1052,7 @@
                 }
                 else {
                     $.ajax({
-                        url: apiUrl + '/' + self.id(),
+                        url: apiUrl + "(" + self.id() + ")",
                         type: "PUT",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify(record),
@@ -1089,7 +1126,11 @@
             });
 
             self.gridPageSize = $("#GridPageSize").val();
-            
+
+            //$('#map').maphilight({
+            //    fade: false
+            //});
+
             $('#map').mapster({
                 fillColor: 'b2b2ff',
                 fillOpacity: 0.7,
@@ -1109,11 +1150,10 @@
             self.selectedContinentId(continentId);
 
             var grid = $('#CountryGrid').data('kendoGrid');
-            grid.dataSource.transport.parameterMap = function (options) {
-                return { regionType: 'Country', parentId: continentId };
-            }
-            //grid.dataSource.transport.options.read.url = "/odata/mantle/common/RegionApi?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
             grid.dataSource.page(1);
+            //grid.dataSource.read();
+            //grid.refresh();
 
             switchSection($("#country-grid-section"));
         };

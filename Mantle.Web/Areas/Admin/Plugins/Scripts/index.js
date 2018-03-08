@@ -1,8 +1,8 @@
 ﻿define(['jquery', 'knockout', 'kendo', 'mantle-common', 'notify', 'jqueryval', 'mantle-section-switching', 'mantle-jqueryval'],
 function ($, ko, kendo, mantle_common, notify) {
     'use strict'
-
-    var apiUrl = "/api/plugins";
+    
+    var apiUrl = "/odata/mantle/web/PluginApi";
 
     var ViewModel = function () {
         var self = this;
@@ -49,9 +49,21 @@ function ($, ko, kendo, mantle_common, notify) {
                     type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
+                            url: apiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {

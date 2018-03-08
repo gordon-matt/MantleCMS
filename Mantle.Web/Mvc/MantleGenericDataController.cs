@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Data.Services;
@@ -69,7 +69,7 @@ namespace Mantle.Web.Mvc
                 var query = connection.Query();
                 query = ApplyMandatoryFilter(query);
 
-                var grid = new CustomKendoGridEx<TEntity>(request, query);
+                var grid = new CustomKendoGrid<TEntity>(request, query);
                 return Json(grid);
             }
         }

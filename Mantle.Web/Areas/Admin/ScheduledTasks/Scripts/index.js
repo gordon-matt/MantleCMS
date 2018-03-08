@@ -2,7 +2,7 @@
 function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
     'use strict'
 
-    var apiUrl = "/api/scheduled-tasks";
+    var odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
     var ViewModel = function () {
         var self = this;
@@ -45,12 +45,31 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
 
             $("#Grid").kendoGrid({
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
-                            dataType: "json"
+                            url: odataBaseUrl,
+                            type: "GET",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation === "read") {
+                                var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                                if (paramMap.$inlinecount) {
+                                    if (paramMap.$inlinecount == "allpages") {
+                                        paramMap.$count = true;
+                                    }
+                                    delete paramMap.$inlinecount;
+                                }
+                                if (paramMap.$filter) {
+                                    paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                                }
+                                return paramMap;
+                            }
+                            else {
+                                return kendo.data.transports.odata.parameterMap(options, operation);
+                            }
                         }
                     },
                     schema: {
@@ -156,7 +175,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
         };
         self.edit = function (id) {
             $.ajax({
-                url: apiUrl + "/" + id,
+                url: odataBaseUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -190,7 +209,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
             };
 
             $.ajax({
-                url: apiUrl + "/" + self.id(),
+                url: odataBaseUrl + "(" + self.id() + ")",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -215,7 +234,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
         };
         self.runNow = function (id) {
             $.ajax({
-                url: apiUrl + "/Default.RunNow",
+                url: "/odata/mantle/web/ScheduledTaskApi/Default.RunNow",
                 type: "POST",
                 data: JSON.stringify({
                     taskId: id

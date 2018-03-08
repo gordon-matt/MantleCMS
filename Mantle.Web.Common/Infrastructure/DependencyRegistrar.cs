@@ -24,6 +24,8 @@ namespace Mantle.Web.Common.Infrastructure
             builder.RegisterType<RegionService>().As<IRegionService>().InstancePerDependency();
             builder.RegisterType<RegionSettingsService>().As<IRegionSettingsService>().InstancePerDependency();
             builder.RegisterType<Permissions>().As<IPermissionProvider>().SingleInstance();
+
+            builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
         }
 
         public int Order

@@ -1,62 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Collections;
+using Mantle.Infrastructure;
 using Mantle.Web.Areas.Admin.Plugins.Models;
-using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Plugins;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 
 namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
 {
-    [Route("api/plugins")]
-    public class PluginApiController : MantleController
+    public class PluginApiController : ODataController
     {
         private readonly IPluginFinder pluginFinder;
+        private readonly ILogger logger;
 
-        public PluginApiController(IPluginFinder pluginFinder)
+        public PluginApiController(
+            IPluginFinder pluginFinder,
+            ILoggerFactory loggerFactory)
         {
             this.pluginFinder = pluginFinder;
+            this.logger = loggerFactory.CreateLogger<PluginApiController>();
         }
 
-        [HttpPost]
-        [Route("get")]
-        public virtual async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        // GET: odata/mantle/web/Plugins
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        public virtual IEnumerable<EdmPluginDescriptor> Get(ODataQueryOptions<EdmPluginDescriptor> options)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))
             {
-                return Unauthorized();
+                return Enumerable.Empty<EdmPluginDescriptor>().AsQueryable();
             }
 
+            var settings = new ODataValidationSettings()
+            {
+                AllowedQueryOptions = AllowedQueryOptions.All
+            };
+            options.Validate(settings);
+
             var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
-            var grid = new CustomKendoGridEx<EdmPluginDescriptor>(request, query);
-            return Json(grid);
+            var results = options.ApplyTo(query);
+            return (results as IQueryable<EdmPluginDescriptor>).ToHashSet();
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public virtual async Task<IActionResult> Get(string key)
+        [EnableQuery]
+        public virtual SingleResult<EdmPluginDescriptor> Get([FromODataUri] string key)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))
             {
-                return Unauthorized();
+                return SingleResult.Create(Enumerable.Empty<EdmPluginDescriptor>().AsQueryable());
             }
 
             string systemName = key.Replace('-', '.');
             var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
             EdmPluginDescriptor entity = pluginDescriptor;
-
-            return Json(JObject.FromObject(entity));
+            return SingleResult.Create(new[] { entity }.AsQueryable());
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public virtual async Task<IActionResult> Put(string key, [FromBody]EdmPluginDescriptor entity)
+        public virtual IActionResult Put([FromODataUri] string key, EdmPluginDescriptor entity)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))
             {
@@ -81,18 +85,27 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
                 pluginDescriptor.FriendlyName = entity.FriendlyName;
                 pluginDescriptor.DisplayOrder = entity.DisplayOrder;
                 pluginDescriptor.LimitedToTenants.Clear();
+
                 if (!entity.LimitedToTenants.IsNullOrEmpty())
                 {
                     pluginDescriptor.LimitedToTenants = entity.LimitedToTenants.ToList();
                 }
+
                 PluginFileParser.SavePluginDescriptionFile(pluginDescriptor);
             }
             catch (Exception x)
             {
-                Logger.LogError(new EventId(), x, x.GetBaseException().Message);
+                logger.LogError(new EventId(), x.Message, x);
             }
 
-            return Ok(entity);
+            return Updated(entity);
+        }
+
+        protected static bool CheckPermission(Permission permission)
+        {
+            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
+            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
         }
     }
 }

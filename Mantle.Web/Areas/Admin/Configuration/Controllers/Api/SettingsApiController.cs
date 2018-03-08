@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
 using Mantle.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Web.Configuration;
-using Mantle.Web.Mvc;
+using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
 {
-    [Area(MantleWebConstants.Areas.Configuration)]
-    [Route("api/configuration/settings")]
-    public class SettingsApiController : MantleGenericTenantDataController<Setting, Guid>
+    public class SettingsApiController : GenericTenantODataController<Setting, Guid>
     {
         private readonly ICacheManager cacheManager;
 
@@ -23,23 +21,17 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             this.cacheManager = cacheManager;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public override async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        protected override Guid GetId(Setting entity)
         {
-            return await base.Get(request);
+            return entity.Id;
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public override async Task<IActionResult> Get(Guid key)
+        protected override void SetNewId(Setting entity)
         {
-            return await base.Get(key);
+            entity.Id = Guid.NewGuid();
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public override async Task<IActionResult> Put(Guid key, [FromBody]Setting entity)
+        public virtual async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
         {
             var result = await base.Put(key, entity);
 
@@ -55,9 +47,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             return result;
         }
 
-        [HttpPost]
-        [Route("")]
-        public override async Task<IActionResult> Post([FromBody]Setting entity)
+        public override async Task<IActionResult> Post(Setting entity)
         {
             var result = await base.Post(entity);
 
@@ -67,9 +57,18 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             return result;
         }
 
-        [HttpDelete]
-        [Route("{key}")]
-        public override async Task<IActionResult> Delete(Guid key)
+        public override async Task<IActionResult> Patch([FromODataUri] Guid key, Delta<Setting> patch)
+        {
+            var result = await base.Patch(key, patch);
+
+            var entity = await Service.FindOneAsync(key);
+            string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
+            cacheManager.Remove(cacheKey);
+
+            return result;
+        }
+
+        public override async Task<IActionResult> Delete([FromODataUri] Guid key)
         {
             var result = base.Delete(key);
 
@@ -78,16 +77,6 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             cacheManager.Remove(cacheKey);
 
             return await result;
-        }
-
-        protected override Guid GetId(Setting entity)
-        {
-            return entity.Id;
-        }
-
-        protected override void SetNewId(Setting entity)
-        {
-            entity.Id = Guid.NewGuid();
         }
 
         protected override Permission ReadPermission

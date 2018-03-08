@@ -12,7 +12,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
 {
     [Authorize]
     [Area(MantleWebConstants.Areas.Localization)]
-    [Route("localizable-strings")]
+    [Route("admin/localization/localizable-strings")]
     public class LocalizableStringController : MantleController
     {
         private readonly Lazy<ILanguageService> languageService;

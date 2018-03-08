@@ -1,42 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Data;
 using Mantle.Tasks.Domain;
-using Mantle.Web.Mvc;
+using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MantleTask = Mantle.Tasks.Task;
 
 namespace Mantle.Web.Areas.Admin.ScheduledTasks.Controllers.Api
 {
-    [Area(MantleWebConstants.Areas.ScheduledTasks)]
-    [Route("api/scheduled-tasks")]
-    public class ScheduledTaskApiController : MantleGenericDataController<ScheduledTask, int>
+    public class ScheduledTaskApiController : GenericODataController<ScheduledTask, int>
     {
         public ScheduledTaskApiController(IRepository<ScheduledTask> repository)
             : base(repository)
         {
         }
 
-        [HttpPost]
-        [Route("get")]
-        public override async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        protected override int GetId(ScheduledTask entity)
         {
-            return await base.Get(request);
+            return entity.Id;
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public override async Task<IActionResult> Get(int key)
+        protected override void SetNewId(ScheduledTask entity)
         {
-            return await base.Get(key);
+            // Do nothing (int is auto incremented)
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public override async Task<IActionResult> Put(int key, [FromBody]ScheduledTask entity)
+        public override async Task<IActionResult> Put(int key, ScheduledTask entity)
         {
             var existingEntity = await Service.FindOneAsync(key);
             existingEntity.Seconds = entity.Seconds;
@@ -46,35 +38,18 @@ namespace Mantle.Web.Areas.Admin.ScheduledTasks.Controllers.Api
         }
 
         [HttpPost]
-        [Route("")]
-        public override async Task<IActionResult> Post([FromBody]ScheduledTask entity)
-        {
-            return await base.Post(entity);
-        }
-
-        [HttpDelete]
-        [Route("{key}")]
-        public override async Task<IActionResult> Delete(int key)
-        {
-            return await base.Delete(key);
-        }
-
-        [HttpPost]
-        [Route("Default.RunNow")]
-        public async Task<IActionResult> RunNow([FromBody]dynamic data)
+        public async Task<IActionResult> RunNow(ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
                 return Unauthorized();
             }
 
-            int taskId = data.taskId;
+            int taskId = (int)parameters["taskId"];
 
             var scheduleTask = await Service.FindOneAsync(taskId);
             if (scheduleTask == null)
-            {
                 return NotFound();
-            }
 
             var task = new MantleTask(scheduleTask);
             //ensure that the task is enabled
@@ -91,16 +66,6 @@ namespace Mantle.Web.Areas.Admin.ScheduledTasks.Controllers.Api
             }
 
             return Ok();
-        }
-
-        protected override int GetId(ScheduledTask entity)
-        {
-            return entity.Id;
-        }
-
-        protected override void SetNewId(ScheduledTask entity)
-        {
-            // Do nothing (int is auto incremented)
         }
 
         protected override Permission ReadPermission

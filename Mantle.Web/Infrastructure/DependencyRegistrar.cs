@@ -87,6 +87,8 @@ namespace Mantle.Web.Infrastructure
 
             // Rendering
             builder.RegisterType<RazorViewRenderService>().As<IRazorViewRenderService>().SingleInstance();
+
+            builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
         }
 
         public int Order

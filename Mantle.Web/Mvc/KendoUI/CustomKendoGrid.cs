@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using KendoGridBinderEx;
-using KendoGridBinderEx.AutoMapperExtensions;
-using KendoGridBinderEx.Containers;
-using KendoGridBinderEx.Containers.Json;
-using KendoGridBinderEx.Extensions;
+using KendoGridBinder;
+using KendoGridBinder.AutoMapperExtensions;
+using KendoGridBinder.Containers;
+using KendoGridBinder.Containers.Json;
+using KendoGridBinder.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Mantle.Web.Mvc.KendoUI
 {
-    public class CustomKendoGridEx<TModel> : CustomKendoGridEx<TModel, TModel>
+    public class CustomKendoGrid<TModel> : CustomKendoGrid<TModel, TModel>
     {
-        public CustomKendoGridEx(KendoGridBaseRequest request,
+        public CustomKendoGrid(KendoGridBaseRequest request,
             IEnumerable<TModel> source,
             IEnumerable<string> includes = null,
             Dictionary<string, MapExpression<TModel>> mappings = null,
@@ -23,13 +23,13 @@ namespace Mantle.Web.Mvc.KendoUI
         {
         }
 
-        public CustomKendoGridEx(IEnumerable<TModel> list, int totalCount)
+        public CustomKendoGrid(IEnumerable<TModel> list, int totalCount)
             : base(list, totalCount)
         {
         }
     }
 
-    public class CustomKendoGridEx<TEntity, TViewModel>
+    public class CustomKendoGrid<TEntity, TViewModel>
     {
         private readonly Func<IQueryable<TEntity>, IEnumerable<TViewModel>> _conversion;
         private readonly Dictionary<string, MapExpression<TEntity>> _mappings;
@@ -45,7 +45,7 @@ namespace Mantle.Web.Mvc.KendoUI
         [JsonProperty("@odata.count")]
         public int Total { get; set; }
 
-        public CustomKendoGridEx(KendoGridBaseRequest request,
+        public CustomKendoGrid(KendoGridBaseRequest request,
             IQueryable<TEntity> query,
             Dictionary<string, MapExpression<TEntity>> mappings,
             Func<IQueryable<TEntity>, IEnumerable<TViewModel>> conversion,
@@ -103,7 +103,7 @@ namespace Mantle.Web.Mvc.KendoUI
             }
         }
 
-        protected CustomKendoGridEx(IEnumerable<TViewModel> list, int totalCount)
+        protected CustomKendoGrid(IEnumerable<TViewModel> list, int totalCount)
         {
             Data = list.Select(x => JObject.FromObject(x));
             Total = totalCount;

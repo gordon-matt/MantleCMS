@@ -11,7 +11,7 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var apiUrl = "/api/tenants";
+    var odataBaseUrl = "/odata/mantle/web/TenantApi";
 
     var ViewModel = function () {
         var self = this;
@@ -54,13 +54,26 @@
             });
 
             $("#Grid").kendoGrid({
+                data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
+                            url: odataBaseUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -127,7 +140,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: apiUrl + "/" + id,
+                url: odataBaseUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -149,7 +162,7 @@
         self.remove = function (id) {
             if (confirm(self.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: apiUrl + "/" + id,
+                    url: odataBaseUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -181,7 +194,7 @@
 
             if (isNew) {
                 $.ajax({
-                    url: apiUrl,
+                    url: odataBaseUrl,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -203,7 +216,7 @@
             }
             else {
                 $.ajax({
-                    url: apiUrl + "/" + self.id(),
+                    url: odataBaseUrl + "(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),

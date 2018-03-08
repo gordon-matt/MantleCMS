@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
 using Mantle.Caching;
+using Mantle.Data.Entity.EntityFramework;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Web.Areas.Admin.Localization.Models;
-using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.KendoUI;
+using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Mantle.Web.Areas.Admin.Localization.Controllers
+namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
 {
-    [Area(MantleWebConstants.Areas.Localization)]
-    [Route("api/localization/localizable-strings")]
-    public class LocalizableStringApiController : MantleGenericTenantDataController<LocalizableString, Guid>
+    public class LocalizableStringApiController : GenericTenantODataController<LocalizableString, Guid>
     {
         private readonly ICacheManager cacheManager;
 
@@ -27,58 +27,34 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
             this.cacheManager = cacheManager;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public override async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        protected override Guid GetId(LocalizableString entity)
         {
-            return await base.Get(request);
+            return entity.Id;
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public override async Task<IActionResult> Get(Guid key)
+        protected override void SetNewId(LocalizableString entity)
         {
-            return await base.Get(key);
+            entity.Id = Guid.NewGuid();
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public override async Task<IActionResult> Put(Guid key, [FromBody]LocalizableString entity)
-        {
-            return await base.Put(key, entity);
-        }
-
-        [HttpPost]
-        [Route("")]
-        public override async Task<IActionResult> Post([FromBody]LocalizableString entity)
-        {
-            return await base.Post(entity);
-        }
-
-        [HttpDelete]
-        [Route("{key}")]
-        public override async Task<IActionResult> Delete(Guid key)
-        {
-            return await base.Delete(key);
-        }
-
-        [HttpGet]
-        [Route("Default.GetComparitiveTable/{cultureCode}")]
-        public virtual async Task<IActionResult> GetComparitiveTable(string cultureCode, [FromBody]dynamic data)
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        public virtual async Task<IEnumerable<ComparitiveLocalizableString>> GetComparitiveTable(
+            [FromODataUri] string cultureCode,
+            ODataQueryOptions<ComparitiveLocalizableString> options)
         {
             if (!CheckPermission(ReadPermission))
             {
-                return Unauthorized();
+                return Enumerable.Empty<ComparitiveLocalizableString>();
             }
             else
             {
                 int tenantId = GetTenantId();
-                using (var connection = Service.OpenConnection())
-                {
-                    // With grouping, we use .Where() and then .FirstOrDefault() instead of just the .FirstOrDefault() by itself
-                    //  for compatibility with MySQL.
-                    //  See: http://stackoverflow.com/questions/23480044/entity-framework-select-statement-with-logic
-                    var query = connection.Query(x => x.TenantId == tenantId && (x.CultureCode == null || x.CultureCode == cultureCode))
+                var connection = GetDisposableConnection();
+
+                // With grouping, we use .Where() and then .FirstOrDefault() instead of just the .FirstOrDefault() by itself
+                //  for compatibility with MySQL.
+                //  See: http://stackoverflow.com/questions/23480044/entity-framework-select-statement-with-logic
+                var query = connection.Query(x => x.TenantId == tenantId && (x.CultureCode == null || x.CultureCode == cultureCode))
                             .GroupBy(x => x.TextKey)
                             .Select(grp => new ComparitiveLocalizableString
                             {
@@ -89,26 +65,22 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
                                     : grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault().TextValue
                             });
 
-                    // TODO: Test
-                    KendoGridMvcRequest request = data;
-                    var grid = new CustomKendoGridEx<ComparitiveLocalizableString>(request, query);
-                    return Json(grid);
-                }
+                var results = options.ApplyTo(query);
+                return await (results as IQueryable<ComparitiveLocalizableString>).ToHashSetAsync();
             }
         }
 
         [HttpPost]
-        [Route("Default.PutComparitive")]
-        public virtual async Task<IActionResult> PutComparitive([FromBody]dynamic data)
+        public virtual async Task<IActionResult> PutComparitive(ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
                 return Unauthorized();
             }
 
-            string cultureCode = data.cultureCode;
-            string key = data.key;
-            ComparitiveLocalizableString entity = data.entity;
+            string cultureCode = (string)parameters["cultureCode"];
+            string key = (string)parameters["key"];
+            var entity = (ComparitiveLocalizableString)parameters["entity"];
 
             if (!ModelState.IsValid)
             {
@@ -143,20 +115,19 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
 
             cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
-            return Ok(entity);
+            return Updated(entity);
         }
 
         [HttpPost]
-        [Route("Default.DeleteComparitive")]
-        public virtual async Task<IActionResult> DeleteComparitive([FromBody]dynamic data)
+        public virtual async Task<IActionResult> DeleteComparitive(ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
                 return Unauthorized();
             }
 
-            string cultureCode = data.cultureCode;
-            string key = data.key;
+            string cultureCode = (string)parameters["cultureCode"];
+            string key = (string)parameters["key"];
 
             int tenantId = GetTenantId();
             var entity = await Service.FindOneAsync(x => x.TenantId == tenantId && x.CultureCode == cultureCode && x.TextKey == key);
@@ -172,16 +143,6 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
             cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
             return NoContent();
-        }
-
-        protected override Guid GetId(LocalizableString entity)
-        {
-            return entity.Id;
-        }
-
-        protected override void SetNewId(LocalizableString entity)
-        {
-            entity.Id = Guid.NewGuid();
         }
 
         protected override Permission ReadPermission

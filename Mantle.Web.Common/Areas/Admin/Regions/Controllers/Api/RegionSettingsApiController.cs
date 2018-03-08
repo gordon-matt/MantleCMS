@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+using Mantle.Collections;
+using Mantle.Infrastructure;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
-using Mantle.Web.Mvc;
 using Mantle.Web.Mvc.KendoUI;
+using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
 {
-    [Area(Constants.Areas.Regions)]
-    [Route("api/region-settings")]
-    public class RegionSettingsApiController : MantleController
+    public class RegionSettingsApiController : ODataController
     {
         private readonly IEnumerable<IRegionSettings> regionSettings;
         private readonly Lazy<IRegionSettingsService> regionSettingsService;
@@ -26,14 +27,19 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             this.regionSettingsService = regionSettingsService;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public virtual async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        public virtual IEnumerable<EdmRegionSettings> Get(ODataQueryOptions<EdmRegionSettings> options)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
-                return Unauthorized();
+                return Enumerable.Empty<EdmRegionSettings>().AsQueryable();
             }
+
+            var settings = new ODataValidationSettings()
+            {
+                AllowedQueryOptions = AllowedQueryOptions.All
+            };
+            options.Validate(settings);
 
             var query = regionSettings
                 .Select(x => new EdmRegionSettings
@@ -43,21 +49,20 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
                 })
                 .AsQueryable();
 
-            var grid = new CustomKendoGridEx<EdmRegionSettings>(request, query);
-            return Json(grid);
+            var results = options.ApplyTo(query);
+            return (results as IQueryable<EdmRegionSettings>).ToHashSet();
         }
 
         [HttpPost]
-        [Route("Default.GetSettings")]
-        public virtual async Task<EdmRegionSettings> GetSettings([FromBody]dynamic data)
+        public virtual async Task<EdmRegionSettings> GetSettings(ODataActionParameters parameters)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
                 return null;
             }
 
-            string settingsId = data.settingsId;
-            int regionId = data.regionId;
+            string settingsId = (string)parameters["settingsId"];
+            int regionId = (int)parameters["regionId"];
 
             var dictionary = regionSettings.ToDictionary(k => k.Name.ToSlugUrl(), v => v);
 
@@ -91,17 +96,16 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpPost]
-        [Route("Default.SaveSettings")]
-        public virtual async Task<IActionResult> SaveSettings([FromBody]dynamic data)
+        public virtual async Task<IActionResult> SaveSettings(ODataActionParameters parameters)
         {
             if (!CheckPermission(Permissions.RegionsWrite))
             {
                 return Unauthorized();
             }
 
-            string settingsId = data.settingsId;
-            int regionId = data.regionId;
-            string fields = data.fields;
+            string settingsId = (string)parameters["settingsId"];
+            int regionId = (int)parameters["regionId"];
+            string fields = (string)parameters["fields"];
 
             if (string.IsNullOrEmpty(settingsId))
             {
@@ -148,6 +152,13 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
                 //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
                 //return Updated(dataEntity);
             }
+        }
+
+        protected static bool CheckPermission(Permission permission)
+        {
+            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
+            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
         }
     }
 

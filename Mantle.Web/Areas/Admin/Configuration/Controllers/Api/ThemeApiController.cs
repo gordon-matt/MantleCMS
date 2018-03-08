@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+using Mantle.Collections;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
-using Mantle.Web.Mvc.KendoUI;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
 {
-    [Area(MantleWebConstants.Areas.Configuration)]
-    [Route("api/configuration/themes")]
-    public class ThemeApiController : Controller
+    public class ThemeApiController : ODataController
     {
         private readonly IAuthorizationService authorizationService;
         private readonly IThemeProvider themeProvider;
@@ -36,13 +35,13 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             this.workContext = workContext;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public virtual async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        // GET: odata/kore/cms/Plugins
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        public virtual IEnumerable<EdmThemeConfiguration> Get(ODataQueryOptions<EdmThemeConfiguration> options)
         {
             if (!CheckPermission(MantleWebPermissions.ThemesRead))
             {
-                return Unauthorized();
+                return Enumerable.Empty<EdmThemeConfiguration>().AsQueryable();
             }
 
             var themes = themeProvider.GetThemeConfigurations()
@@ -57,14 +56,18 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
                 }
             }
 
-            var query = themes.AsQueryable();
-            var grid = new CustomKendoGridEx<EdmThemeConfiguration>(request, query);
-            return Json(grid);
+            var settings = new ODataValidationSettings()
+            {
+                AllowedQueryOptions = AllowedQueryOptions.All
+            };
+            options.Validate(settings);
+
+            var results = options.ApplyTo(themes.AsQueryable());
+            return (results as IQueryable<EdmThemeConfiguration>).ToHashSet();
         }
 
         [HttpPost]
-        [Route("Default.SetTheme")]
-        public virtual void SetTheme([FromBody]dynamic data)
+        public virtual void SetTheme(ODataActionParameters parameters)
         {
             // TODO: Change return type to IHttpResult and return UnauthorizedResult
             if (!CheckPermission(MantleWebPermissions.ThemesWrite))
@@ -72,7 +75,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
                 return;
             }
 
-            string themeName = data.themeName;
+            string themeName = (string)parameters["themeName"];
             var themeConfig = themeProvider.GetThemeConfiguration(themeName);
 
             siteSettings.DefaultTheme = themeName;

@@ -8,7 +8,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
     //require('kendo');
     //require('notify');
 
-    var apiUrl = "/api/configuration/themes";
+    var apiUrl = "/odata/mantle/web/ThemeApi";
 
     var ViewModel = function () {
         var self = this;
@@ -36,12 +36,24 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
             $("#Grid").kendoGrid({
                 data: null,
                 dataSource: {
-                    type: "json",
+                    type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl + "/get",
-                            type: "POST",
+                            url: apiUrl,
                             dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
                         }
                     },
                     schema: {
@@ -57,6 +69,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                                 Title: { type: "string" },
                                 PreviewText: { type: "string" },
                                 SupportRtl: { type: "boolean" },
+                                MobileTheme: { type: "boolean" },
                                 IsDefaultTheme: { type: "boolean" }
                             }
                         }
@@ -126,7 +139,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                 $.notify(self.translations.setThemeSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.setThemeError + ": " + jqXHR.responseText || textStatus, "error");
+                $.notify(self.translations.SetThemeError + ": " + jqXHR.responseText || textStatus, "error");
             });
         };
     };

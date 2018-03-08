@@ -1,17 +1,15 @@
-﻿using System.Threading.Tasks;
-using KendoGridBinderEx.ModelBinder.AspNetCore;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Mantle.Security.Membership;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
-using Mantle.Web.Mvc;
+using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Mantle.Web.Areas.Admin.Tenants.Controllers
+namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
 {
-    [Area(MantleWebConstants.Areas.Tenants)]
-    [Route("api/tenants")]
-    public class TenantApiController : MantleGenericDataController<Tenant, int>
+    public class TenantApiController : GenericODataController<Tenant, int>
     {
         private readonly IMembershipService membershipService;
         private readonly IWebHelper webHelper;
@@ -26,46 +24,22 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers
             this.webHelper = webHelper;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public override async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
-        {
-            return await base.Get(request);
-        }
-
-        [HttpGet]
-        [Route("{key}")]
-        public override async Task<IActionResult> Get(int key)
-        {
-            return await base.Get(key);
-        }
-
-        [HttpPut]
-        [Route("{key}")]
-        public override async Task<IActionResult> Put(int key, [FromBody]Tenant entity)
-        {
-            return await base.Put(key, entity);
-        }
-
-        [HttpPost]
-        [Route("")]
-        public override async Task<IActionResult> Post([FromBody]Tenant entity)
+        public override async Task<IActionResult> Post(Tenant entity)
         {
             var result = await base.Post(entity);
             int tenantId = entity.Id; // EF should have populated the ID in base.Post()
             await membershipService.EnsureAdminRoleForTenant(tenantId);
 
-            //var mediaFolder = new DirectoryInfo(webHelper.MapPath("~/Media/Uploads/Tenant_" + tenantId));
-            //if (!mediaFolder.Exists)
-            //{
-            //    mediaFolder.Create();
-            //}
+            //TOOD: Create tenant media folder:
+            var mediaFolder = new DirectoryInfo(webHelper.MapPath("~/Media/Uploads/Tenant_" + tenantId));
+            if (!mediaFolder.Exists)
+            {
+                mediaFolder.Create();
+            }
 
             return result;
         }
 
-        [HttpDelete]
-        [Route("{key}")]
         public override async Task<IActionResult> Delete(int key)
         {
             var result = await base.Delete(key);

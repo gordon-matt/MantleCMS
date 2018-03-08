@@ -1,7 +1,7 @@
 ﻿define(['jquery', 'jqueryval', 'kendo'], function ($, jqueryval, kendo) {
     'use strict'
 
-    var odataBaseUrl = "/odata/mantle/cms/LocalizableStringApi/";
+    var odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
 
     var ViewModel = function () {
         var self = this;
