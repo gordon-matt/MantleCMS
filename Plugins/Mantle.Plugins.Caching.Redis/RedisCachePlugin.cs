@@ -1,4 +1,4 @@
-﻿using Mantle.Web.Plugins;
+﻿using Mantle.Plugins;
 
 namespace Mantle.Plugins.Caching.Redis
 {

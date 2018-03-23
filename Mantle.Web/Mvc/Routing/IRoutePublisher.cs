@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mantle.Infrastructure;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Microsoft.AspNetCore.Routing;
 
 namespace Mantle.Web.Mvc.Routing

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Mantle.Helpers;
 using Mantle.Security.Membership;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
@@ -31,7 +32,7 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
             await membershipService.EnsureAdminRoleForTenant(tenantId);
 
             //TOOD: Create tenant media folder:
-            var mediaFolder = new DirectoryInfo(webHelper.MapPath("~/Media/Uploads/Tenant_" + tenantId));
+            var mediaFolder = new DirectoryInfo(CommonHelper.MapPath("~/Media/Uploads/Tenant_" + tenantId));
             if (!mediaFolder.Exists)
             {
                 mediaFolder.Create();

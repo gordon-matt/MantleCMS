@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mantle.Helpers;
 
 namespace Mantle.Web.Mvc.Themes
 {
@@ -16,9 +17,9 @@ namespace Mantle.Web.Mvc.Themes
 
         #region Constructors
 
-        public ThemeProvider(IWebHelper webHelper)
+        public ThemeProvider()
         {
-            basePath = webHelper.MapPath("~/Themes", webHelper.ContentRootPath);
+            basePath = CommonHelper.MapPath("~/Themes");
             LoadConfigurations();
         }
 

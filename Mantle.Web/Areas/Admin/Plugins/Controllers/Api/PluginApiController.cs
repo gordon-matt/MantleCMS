@@ -4,7 +4,7 @@ using System.Linq;
 using Mantle.Collections;
 using Mantle.Infrastructure;
 using Mantle.Web.Areas.Admin.Plugins.Models;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;

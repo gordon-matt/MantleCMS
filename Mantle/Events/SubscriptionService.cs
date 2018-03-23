@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Mantle.Infrastructure;
 
-namespace Mantle.Web.Events
+namespace Mantle.Events
 {
     /// <summary>
     /// Event subscription service
     /// </summary>
-    public interface ISubscriptionService
+    public class SubscriptionService : ISubscriptionService
     {
         /// <summary>
         /// Get subscriptions
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <returns>Event consumers</returns>
-        IList<IConsumer<T>> GetSubscriptions<T>();
+        public IList<IConsumer<T>> GetSubscriptions<T>()
+        {
+            return EngineContext.Current.ResolveAll<IConsumer<T>>().ToList();
+        }
     }
 }

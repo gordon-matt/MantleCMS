@@ -1,4 +1,4 @@
-﻿namespace Mantle.Web.Plugins.Events
+﻿namespace Mantle.Plugins.Events
 {
     /// <summary>
     /// Represents the plugin updated event

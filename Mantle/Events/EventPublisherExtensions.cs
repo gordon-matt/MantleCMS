@@ -1,6 +1,6 @@
 ﻿using Mantle.Data;
 
-namespace Mantle.Web.Events
+namespace Mantle.Events
 {
     /// <summary>
     /// Event publisher extensions

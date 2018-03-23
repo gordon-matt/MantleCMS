@@ -1,18 +1,18 @@
 ﻿using Mantle.Data;
 
-namespace Mantle.Web.Events
+namespace Mantle.Events
 {
     /// <summary>
-    /// A container for entities that have been inserted.
+    /// A container for entities that are updated.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class EntityInsertedEvent<T> where T : IEntity
+    public class EntityUpdatedEvent<T> where T : IEntity
     {
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="entity">Entity</param>
-        public EntityInsertedEvent(T entity)
+        public EntityUpdatedEvent(T entity)
         {
             Entity = entity;
         }

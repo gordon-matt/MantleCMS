@@ -6,8 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Mantle.ComponentModel;
-using Mantle.Infrastructure;
-using Mantle.Web.Configuration;
+using Mantle.Configuration;
+using Mantle.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 //Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Sets the application up for the plugin referencing
@@ -33,12 +33,11 @@ namespace Mantle.Web.Plugins
         #region Fields
 
         private static readonly ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
-        private static DirectoryInfo _shadowCopyFolder;
+        private static DirectoryInfo shadowCopyFolder;
         private static readonly List<string> BaseAppLibraries;
-        private static DirectoryInfo _reserveShadowCopyFolder;
+        private static DirectoryInfo reserveShadowCopyFolder;
 
         private static Dictionary<string, bool> installedPlugins = null;
-        private static IWebHelper webHelper;
 
         #endregion Fields
 
@@ -75,7 +74,7 @@ namespace Mantle.Web.Plugins
         /// </summary>
         /// <param name="applicationPartManager">Application part manager</param>
         /// <param name="config">Config</param>
-        public static void Initialize(ApplicationPartManager applicationPartManager, IHostingEnvironment hostingEnvironment, MantleWebOptions options)
+        public static void Initialize(ApplicationPartManager applicationPartManager, IHostingEnvironment hostingEnvironment, MantleOptions options)
         {
             if (applicationPartManager == null)
             {
@@ -89,28 +88,26 @@ namespace Mantle.Web.Plugins
 
             using (new WriteLockDisposable(Locker))
             {
-                webHelper = EngineContext.Current.Resolve<IWebHelper>();
-
                 // TODO: Add verbose exception handling / raising here since this is happening on app startup and could
                 // prevent app from starting altogether
-                var pluginFolder = new DirectoryInfo(webHelper.MapPath(PluginsPath, webHelper.ContentRootPath));
-                _shadowCopyFolder = new DirectoryInfo(webHelper.MapPath(ShadowCopyPath, webHelper.ContentRootPath));
-                _reserveShadowCopyFolder = new DirectoryInfo(Path.Combine(webHelper.MapPath(ShadowCopyPath, webHelper.ContentRootPath), $"{RESERVE_SHADOW_COPY_FOLDER_NAME}{DateTime.Now.ToFileTimeUtc()}"));
-                
+                var pluginFolder = new DirectoryInfo(CommonHelper.MapPath(PluginsPath));
+                shadowCopyFolder = new DirectoryInfo(CommonHelper.MapPath(ShadowCopyPath));
+                reserveShadowCopyFolder = new DirectoryInfo(Path.Combine(CommonHelper.MapPath(ShadowCopyPath), $"{RESERVE_SHADOW_COPY_FOLDER_NAME}{DateTime.Now.ToFileTimeUtc()}"));
+
                 var referencedPlugins = new List<PluginDescriptor>();
                 var incompatiblePlugins = new List<string>();
 
                 try
                 {
-                    var installedPluginSystemNames = GetInstalledPluginNames(webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath));
+                    var installedPluginSystemNames = GetInstalledPluginNames(CommonHelper.MapPath(InstalledPluginsFilePath));
 
                     Debug.WriteLine("Creating shadow copy folder and querying for DLLs");
                     //ensure folders are created
                     Directory.CreateDirectory(pluginFolder.FullName);
-                    Directory.CreateDirectory(_shadowCopyFolder.FullName);
+                    Directory.CreateDirectory(shadowCopyFolder.FullName);
 
                     //get list of all files in bin
-                    var binFiles = _shadowCopyFolder.GetFiles("*", SearchOption.AllDirectories);
+                    var binFiles = shadowCopyFolder.GetFiles("*", SearchOption.AllDirectories);
                     if (options.ClearPluginShadowDirectoryOnStartup)
                     {
                         //clear out shadow copied plugins
@@ -140,11 +137,11 @@ namespace Mantle.Web.Plugins
                         }
 
                         //delete all reserve folders
-                        foreach (var directory in _shadowCopyFolder.GetDirectories(RESERVE_SHADOW_COPY_FOLDER_NAME_PATTERN, SearchOption.TopDirectoryOnly))
+                        foreach (var directory in shadowCopyFolder.GetDirectories(RESERVE_SHADOW_COPY_FOLDER_NAME_PATTERN, SearchOption.TopDirectoryOnly))
                         {
                             try
                             {
-                                webHelper.DeleteDirectory(directory.FullName);
+                                CommonHelper.DeleteDirectory(directory.FullName);
                             }
                             catch
                             {
@@ -184,7 +181,9 @@ namespace Mantle.Web.Plugins
                         try
                         {
                             if (descriptionFile.Directory == null)
+                            {
                                 throw new Exception($"Directory cannot be resolved for '{descriptionFile.Name}' description file");
+                            }
 
                             //get list of all DLLs in plugins (not in bin!)
                             var pluginFiles = descriptionFile.Directory.GetFiles("*.dll", SearchOption.AllDirectories)
@@ -283,7 +282,7 @@ namespace Mantle.Web.Plugins
                 throw new ArgumentNullException(nameof(systemName));
             }
 
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
+            var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
 
             //create file if not exists
             if (!File.Exists(filePath))
@@ -318,7 +317,7 @@ namespace Mantle.Web.Plugins
                 throw new ArgumentNullException(nameof(systemName));
             }
 
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
+            var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
 
             //create file if not exists
             if (!File.Exists(filePath))
@@ -346,7 +345,7 @@ namespace Mantle.Web.Plugins
         /// </summary>
         public static void MarkAllPluginsAsUninstalled()
         {
-            var filePath = webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath);
+            var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
@@ -458,7 +457,7 @@ namespace Mantle.Web.Plugins
 
             if (pluginDescriptor.OriginalAssemblyFile.Directory.Exists)
             {
-                webHelper.DeleteDirectory(pluginDescriptor.OriginalAssemblyFile.DirectoryName);
+                CommonHelper.DeleteDirectory(pluginDescriptor.OriginalAssemblyFile.DirectoryName);
             }
 
             return true;
@@ -531,7 +530,7 @@ namespace Mantle.Web.Plugins
             if (!File.Exists(filePath))
             {
                 //if not, try to parse the file that was used in previous nopCommerce versions
-                filePath = webHelper.MapPath(ObsoleteInstalledPluginsFilePath, webHelper.ContentRootPath);
+                filePath = CommonHelper.MapPath(ObsoleteInstalledPluginsFilePath);
                 if (!File.Exists(filePath))
                 {
                     return new List<string>();
@@ -552,7 +551,7 @@ namespace Mantle.Web.Plugins
                 }
 
                 //save system names of installed plugins to the new file
-                SaveInstalledPluginNames(pluginSystemNames, webHelper.MapPath(InstalledPluginsFilePath, webHelper.ContentRootPath));
+                SaveInstalledPluginNames(pluginSystemNames, CommonHelper.MapPath(InstalledPluginsFilePath));
 
                 //and delete the old one
                 File.Delete(filePath);
@@ -638,7 +637,7 @@ namespace Mantle.Web.Plugins
         /// <param name="options">Config</param>
         /// <param name="shadowCopyPath">Shadow copy path</param>
         /// <returns>Assembly</returns>
-        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager, MantleWebOptions options, string shadowCopyPath = "")
+        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager, MantleOptions options, string shadowCopyPath = "")
         {
             if (plug.Directory?.Parent == null)
             {
@@ -653,7 +652,7 @@ namespace Mantle.Web.Plugins
             //in order to avoid possible issues we still copy libraries into ~/Plugins/bin/ directory
             if (string.IsNullOrEmpty(shadowCopyPath))
             {
-                shadowCopyPath = _shadowCopyFolder.FullName;
+                shadowCopyPath = shadowCopyFolder.FullName;
             }
 
             var shadowCopyPlugFolder = Directory.CreateDirectory(shadowCopyPath);
@@ -667,13 +666,13 @@ namespace Mantle.Web.Plugins
             }
             catch (FileLoadException)
             {
-                if (!options.CopyLockedPluginAssembilesToSubdirectoriesOnStartup || !shadowCopyPath.Equals(_shadowCopyFolder.FullName))
+                if (!options.CopyLockedPluginAssembilesToSubdirectoriesOnStartup || !shadowCopyPath.Equals(shadowCopyFolder.FullName))
                 {
                     throw;
                 }
             }
 
-            return shadowCopiedAssembly ?? PerformFileDeploy(plug, applicationPartManager, options, _reserveShadowCopyFolder.FullName);
+            return shadowCopiedAssembly ?? PerformFileDeploy(plug, applicationPartManager, options, reserveShadowCopyFolder.FullName);
         }
 
         /// <summary>
@@ -683,7 +682,7 @@ namespace Mantle.Web.Plugins
         /// <param name="applicationPartManager">Application part manager</param>
         /// <param name="plug">Plugin file info</param>
         /// <returns></returns>
-        private static Assembly RegisterPluginDefinition(MantleWebOptions options, ApplicationPartManager applicationPartManager, FileInfo plug)
+        private static Assembly RegisterPluginDefinition(MantleOptions options, ApplicationPartManager applicationPartManager, FileInfo plug)
         {
             //we can now register the plugin definition
             var assemblyName = AssemblyName.GetAssemblyName(plug.FullName);
@@ -691,7 +690,8 @@ namespace Mantle.Web.Plugins
 
             try
             {
-                pluginAssembly = Assembly.Load(assemblyName);
+                //pluginAssembly = Assembly.Load(assemblyName);
+                pluginAssembly = Assembly.LoadFile(plug.FullName);
             }
             catch (FileLoadException)
             {

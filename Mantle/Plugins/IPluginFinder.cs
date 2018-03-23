@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mantle.Security.Membership;
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Plugin finder

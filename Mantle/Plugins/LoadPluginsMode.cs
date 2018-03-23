@@ -1,4 +1,4 @@
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Represents a mode to load plugins

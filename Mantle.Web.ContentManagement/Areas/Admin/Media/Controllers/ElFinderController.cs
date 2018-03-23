@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using elFinder.NetCore;
+using Mantle.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Controllers
             var uri = new Uri(absoluteUrl);
 
             var root = new Root(
-                new DirectoryInfo(webHelper.MapPath("~/Media/Uploads")),
+                new DirectoryInfo(CommonHelper.MapPath("~/Media/Uploads")),
                 string.Format("http://{0}/Media/Uploads/", uri.Authority),
                 string.Format("http://{0}/admin/media/elfinder/thumb/", uri.Authority))
             {

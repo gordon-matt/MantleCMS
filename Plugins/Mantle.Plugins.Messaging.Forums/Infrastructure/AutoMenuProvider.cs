@@ -6,7 +6,7 @@
 //using Mantle.Data;
 //using Mantle.Plugins.Messaging.Forums.Data.Domain;
 //using Mantle.Plugins.Messaging.Forums.Extensions;
-//using Mantle.Web.Plugins;
+//using Mantle.Plugins;
 
 //namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 //{

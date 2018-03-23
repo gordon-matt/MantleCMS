@@ -20,7 +20,7 @@ using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
 using Mantle.Web.Mvc.Routing;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Mantle.Web.Tenants;
 using MantleCMS.Data;
 using MantleCMS.Data.Domain;
@@ -201,39 +201,8 @@ namespace MantleCMS
             //===================================================================
             // FRAMEWORK CONFIG
             //===================================================================
-
-            var mantleOptions = new MantleOptions();
-            Configuration.Bind(mantleOptions);
-            services.AddSingleton(mantleOptions);
-
-            var webOptions = new MantleWebOptions();
-            Configuration.Bind(webOptions);
-            services.AddSingleton(webOptions);
-
-            // Tell Mantle it is a website (not something like unit test or whatever)
-            Mantle.Hosting.HostingEnvironment.IsHosted = true;
-
-            EngineContext.Default = new AutofacEngine(services);
-            EngineContext.Initialize(false);
-
-            // Create the IServiceProvider based on the container.
-            var provider = EngineContext.Current.ServiceProvider;
-            if (provider != null)
-            {
-                ServiceProvider = provider;
-            }
-
-            ServiceProvider = provider;
-
-            var mantleWebOptions = provider.GetRequiredService<MantleWebOptions>();
-            PluginManager.Initialize(mvcBuilder.PartManager, HostingEnvironment, mantleWebOptions);
-
-            //if (DataSettingsHelper.IsDatabaseInstalled && MantleConfigurationSection.Instance.ScheduledTasks.Enabled)
-            //{
-            TaskManager.Instance.Initialize();
-            TaskManager.Instance.Start();
-            //}
-
+            
+            ServiceProvider = services.ConfigureMantleServices(Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
             // Unfortunately, at the moment, we don't have any better way than this to let libraries
@@ -260,6 +229,10 @@ namespace MantleCMS
                     }
                 }
             });
+
+            //===================================================================
+            // END: FRAMEWORK CONFIG
+            //===================================================================
 
             return ServiceProvider;
         }
@@ -368,7 +341,7 @@ namespace MantleCMS
 
             // If you want to dispose of resources that have been resolved in the
             // application container, register for the "ApplicationStopped" event.
-            appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
+            //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
             TryUpdateNLogConnectionString();
 

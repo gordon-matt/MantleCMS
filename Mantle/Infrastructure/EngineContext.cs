@@ -1,66 +1,57 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Runtime.CompilerServices;
 
 namespace Mantle.Infrastructure
 {
-    public static class EngineContext
+    /// <summary>
+    /// Provides access to the singleton instance of the Nop engine.
+    /// </summary>
+    public class EngineContext
     {
-        #region Initialization Methods
+        #region Methods
 
-        public static IEngine Initialize(bool forceRecreate)
+        /// <summary>
+        /// Create a static instance of the Nop engine.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static IEngine Create()
         {
-            var locker = new object();
-            lock (locker)
-            {
-                if (Singleton<IEngine>.Instance == null || forceRecreate)
-                {
-                    Debug.WriteLine("Constructing engine " + DateTime.Now);
-                    Singleton<IEngine>.Instance = CreateEngineInstance();
-                    Debug.WriteLine("Initializing engine " + DateTime.Now);
-                    Singleton<IEngine>.Instance.Initialize();
-                }
-                return Singleton<IEngine>.Instance;
-            }
+            //create NopEngine as engine
+            if (Singleton<IEngine>.Instance == null)
+                Singleton<IEngine>.Instance = new AutofacEngine();
+
+            return Singleton<IEngine>.Instance;
         }
 
+        /// <summary>
+        /// Sets the static engine instance to the supplied engine. Use this method to supply your own engine implementation.
+        /// </summary>
+        /// <param name="engine">The engine to use.</param>
+        /// <remarks>Only use this method if you know what you're doing.</remarks>
         public static void Replace(IEngine engine)
         {
             Singleton<IEngine>.Instance = engine;
         }
 
-        public static IEngine CreateEngineInstance()
-        {
-            //if (MantleConfiguration.Instance != null && !string.IsNullOrEmpty(MantleConfiguration.Instance.Engine.Type))
-            //{
-            //    var engineType = Type.GetType(MantleConfiguration.Instance.Engine.Type);
-            //    if (engineType == null)
-            //    {
-            //        throw new MantleException("The type '" + engineType + "' could not be found. Please check the configuration or check for missing assemblies.");
-            //    }
-            //    if (!typeof(IEngine).GetTypeInfo().IsAssignableFrom(engineType))
-            //    {
-            //        throw new MantleException("The type '" + engineType + "' doesn't implement 'Mantle.Infrastructure.IEngine' and cannot be configured for that purpose.");
-            //    }
-            //    return Activator.CreateInstance(engineType) as IEngine;
-            //}
+        #endregion Methods
 
-            return Default;
-        }
+        #region Properties
 
-        #endregion Initialization Methods
-
+        /// <summary>
+        /// Gets the singleton Nop engine used to access Nop services.
+        /// </summary>
         public static IEngine Current
         {
             get
             {
                 if (Singleton<IEngine>.Instance == null)
                 {
-                    Initialize(false);
+                    Create();
                 }
+
                 return Singleton<IEngine>.Instance;
             }
         }
 
-        public static IEngine Default { get; set; }
+        #endregion Properties
     }
 }

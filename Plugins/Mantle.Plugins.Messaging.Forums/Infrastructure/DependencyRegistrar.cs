@@ -6,7 +6,7 @@ using Mantle.Web.Configuration;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure

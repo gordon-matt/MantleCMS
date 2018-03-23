@@ -40,14 +40,21 @@ namespace Mantle.Tasks
                 var type2 = System.Type.GetType(this.Type);
                 if (type2 != null)
                 {
-                    object instance;
-                    //if (!EngineContext.Current.ContainerManager.TryResolve(type2, scope, out instance))
-                    if (!EngineContext.Current.ContainerManager.TryResolve(type2, out instance))
+                    object instance = null;
+                    try
+                    {
+                        instance = EngineContext.Current.Resolve(type2);
+                    }
+                    catch
+                    {
+                        //try resolve
+                    }
+                    if (instance == null)
                     {
                         //not resolved
-                        //instance = EngineContext.Current.ContainerManager.ResolveUnregistered(type2, scope);
-                        instance = EngineContext.Current.ContainerManager.ResolveUnregistered(type2);
+                        instance = EngineContext.Current.ResolveUnregistered(type2);
                     }
+
                     task = instance as ITask;
                 }
             }

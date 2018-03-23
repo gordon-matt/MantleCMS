@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mantle.Helpers;
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Plugin extensions
@@ -23,16 +24,11 @@ namespace Mantle.Web.Plugins
         /// <param name="pluginDescriptor">Plugin descriptor</param>
         /// <param name="webHelper">Web helper</param>
         /// <returns>Logo URL</returns>
-        public static string GetLogoUrl(this PluginDescriptor pluginDescriptor, IWebHelper webHelper)
+        public static string GetLogoUrl(this PluginDescriptor pluginDescriptor)
         {
             if (pluginDescriptor == null)
             {
                 throw new ArgumentNullException(nameof(pluginDescriptor));
-            }
-
-            if (webHelper == null)
-            {
-                throw new ArgumentNullException(nameof(webHelper));
             }
 
             if (pluginDescriptor.OriginalAssemblyFile == null || pluginDescriptor.OriginalAssemblyFile.Directory == null)
@@ -49,7 +45,7 @@ namespace Mantle.Web.Plugins
                 return null; //No logo file was found with any of the supported extensions.
             }
 
-            var logoUrl = $"{webHelper.ContentRootPath}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
+            var logoUrl = $"{CommonHelper.BaseDirectory}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
             return logoUrl;
         }
     }

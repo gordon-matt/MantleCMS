@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Mantle.Collections;
 using Mantle.Data;
+using Mantle.Helpers;
 using Mantle.Localization.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
@@ -27,20 +28,17 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
         private readonly IPageService pageService;
         private readonly IPageVersionService pageVersionService;
         private readonly Lazy<ILanguageService> languageService;
-        private readonly IWebHelper webHelper;
 
         public XmlSitemapApiController(
             IRepository<SitemapConfig> repository,
             IPageService pageService,
             IPageVersionService pageVersionService,
-            Lazy<ILanguageService> languageService,
-            IWebHelper webHelper)
+            Lazy<ILanguageService> languageService)
             : base(repository)
         {
             this.pageService = pageService;
             this.pageVersionService = pageVersionService;
             this.languageService = languageService;
-            this.webHelper = webHelper;
         }
 
         #region GenericODataController<GoogleSitemapPageConfig, int> Members
@@ -297,7 +295,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
                 xmlns.Add("xhtml", "http://www.w3.org/1999/xhtml");
 
                 file.XmlSerialize(
-                    webHelper.MapPath(string.Format("~/sitemap-{0}.xml", tenantId)),
+                    CommonHelper.MapPath(string.Format("~/sitemap-{0}.xml", tenantId)),
                     omitXmlDeclaration: false,
                     xmlns: xmlns,
                     encoding: Encoding.UTF8);

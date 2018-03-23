@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Mantle.Events;
 using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Events;
-using Mantle.Web.Events;
 using Mantle.Web.Security.Membership;
 using Microsoft.Extensions.Localization;
 

@@ -1,4 +1,4 @@
-﻿namespace Mantle.Web.Events
+﻿namespace Mantle.Events
 {
     /// <summary>
     /// Evnt publisher

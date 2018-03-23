@@ -5,7 +5,7 @@ using System.Reflection;
 using Mantle.Infrastructure;
 using Newtonsoft.Json;
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Represents a plugin descriptor

@@ -1,80 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Mantle.Collections;
+using Mantle.Configuration;
 using Mantle.Exceptions;
-using Mantle.Infrastructure.DependencyManagement;
+using Mantle.Helpers;
+using Mantle.Plugins;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Infrastructure
 {
     public class AutofacEngine : IEngine
     {
-        #region Fields
-
-        private AutofacContainerManager containerManager;
-        private bool disposed = false;
-
-        #endregion Fields
-
-        #region Ctor
+        #region Properties
 
         /// <summary>
-        /// Creates an instance of the content engine using default settings and configuration.
+        /// Gets or sets service provider
         /// </summary>
-        public AutofacEngine(IServiceCollection services)
-            : this(services, new ContainerConfigurer())
-        {
-        }
+        public virtual IServiceProvider ServiceProvider { get; private set; }
 
-        public AutofacEngine(IServiceCollection services, ContainerConfigurer configurer)
-        {
-            InitializeContainer(services, configurer);
-        }
-
-        #endregion Ctor
+        #endregion Properties
 
         #region Utilities
 
-        private void RunStartupTasks()
+        /// <summary>
+        /// Get IServiceProvider
+        /// </summary>
+        /// <returns>IServiceProvider</returns>
+        protected virtual IServiceProvider GetServiceProvider()
         {
-            //if (!DataSettingsHelper.IsDatabaseInstalled)
-            //{
-            //    return;
-            //}
-
-            var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
-            var startUpTaskTypes = typeFinder.FindClassesOfType<IStartupTask>();
-            var startUpTasks = new List<IStartupTask>();
-            foreach (var startUpTaskType in startUpTaskTypes)
-            {
-                startUpTasks.Add((IStartupTask)Activator.CreateInstance(startUpTaskType));
-            }
-            //sort
-            startUpTasks = startUpTasks.AsQueryable().OrderBy(st => st.Order).ToList();
-            foreach (var startUpTask in startUpTasks)
-            {
-                startUpTask.Execute();
-            }
+            var accessor = ServiceProvider.GetService<IHttpContextAccessor>();
+            var context = accessor.HttpContext;
+            return context != null ? context.RequestServices : ServiceProvider;
         }
 
-        private void InitializeContainer(IServiceCollection services, ContainerConfigurer configurer)
+        /// <summary>
+        /// Run startup tasks
+        /// </summary>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
         {
-            var builder = new ContainerBuilder();
+            //find startup tasks provided by other assemblies
+            var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
 
-            if (!services.IsNullOrEmpty())
-            {
-                builder.Populate(services);
-            }
+            //create and sort instances of startup tasks
+            //we startup this interface even for not installed plugins.
+            //otherwise, DbContext initializers won't run and a plugin installation won't work
+            var instances = startupTasks
+                .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
+                .OrderBy(startupTask => startupTask.Order);
 
-            var container = builder.Build();
+            //execute tasks
+            foreach (var task in instances)
+                task.Execute();
+        }
 
-            containerManager = new AutofacContainerManager(container);
-            configurer.Configure(this, containerManager);
+        /// <summary>
+        /// Register dependencies using Autofac
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual IServiceProvider RegisterDependencies(IServiceCollection services, ITypeFinder typeFinder)
+        {
+            var containerBuilder = new ContainerBuilder();
 
-            //_containerManager.NotifyCompleted(container);
+            //register engine
+            containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
+
+            //register type finder
+            containerBuilder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
+
+            //find dependency registrars provided by other assemblies
+            var dependencyRegistrars = typeFinder.FindClassesOfType<IDependencyRegistrar<ContainerBuilder>>();
+
+            //create and sort instances of dependency registrars
+            var instances = dependencyRegistrars
+                //.Where(dependencyRegistrar => PluginManager.FindPlugin(dependencyRegistrar).Return(plugin => plugin.Installed, true)) //ignore not installed plugins
+                .Select(dependencyRegistrar => (IDependencyRegistrar<ContainerBuilder>)Activator.CreateInstance(dependencyRegistrar))
+                .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
+
+            //register all provided dependencies
+            foreach (var dependencyRegistrar in instances)
+                dependencyRegistrar.Register(containerBuilder, typeFinder);
+
+            //populate Autofac container builder with the set of registered service descriptors
+            containerBuilder.Populate(services);
+
+            //create service provider
+            ServiceProvider = new AutofacServiceProvider(containerBuilder.Build());
+            return ServiceProvider;
         }
 
         #endregion Utilities
@@ -82,50 +103,122 @@ namespace Mantle.Infrastructure
         #region Methods
 
         /// <summary>
-        /// Initialize components and plugins in the Mantle environment.
+        /// Initialize engine
         /// </summary>
-        /// <param name="config">Config</param>
-        public void Initialize()
+        /// <param name="services">Collection of service descriptors</param>
+        public virtual void Initialize(IServiceCollection services)
         {
-            ////startup tasks
-            //if (!MantleConfigurationSection.Instance.IgnoreStartupTasks)
-            //{
-            RunStartupTasks();
-            //}
+            //most of API providers require TLS 1.2 nowadays
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            //set base application path
+            var provider = services.BuildServiceProvider();
+            var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
+            var options = provider.GetRequiredService<MantleOptions>();
+            CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
+
+            //initialize plugins
+            var mvcCoreBuilder = services.AddMvcCore();
+            PluginManager.Initialize(mvcCoreBuilder.PartManager, hostingEnvironment, options);
         }
 
-        public T Resolve<T>() where T : class
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            return ContainerManager.Resolve<T>();
+            //check for assembly already loaded
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly != null)
+                return assembly;
+
+            //get assembly from TypeFinder
+            var tf = Resolve<ITypeFinder>();
+            assembly = tf.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            return assembly;
         }
 
-        public T Resolve<T>(IDictionary<string, object> ctorArgs) where T : class
+        /// <summary>
+        /// Add and configure services
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="configuration">Configuration root of the application</param>
+        /// <returns>Service provider</returns>
+        public virtual IServiceProvider ConfigureServices(IServiceCollection services, IConfigurationRoot configuration)
         {
-            return ContainerManager.Resolve<T>(ctorArgs);
+            //find startup configurations provided by other assemblies
+            var typeFinder = new WebAppTypeFinder();
+            var startupConfigurations = typeFinder.FindClassesOfType<IMantleStartup>();
+
+            //create and sort instances of startup configurations
+            var instances = startupConfigurations
+                .Where(startup => PluginManager.FindPlugin(startup)?.Installed ?? true) //ignore not installed plugins
+                .Select(startup => (IMantleStartup)Activator.CreateInstance(startup))
+                .OrderBy(startup => startup.Order);
+
+            //configure services
+            foreach (var instance in instances)
+            {
+                instance.ConfigureServices(services, configuration);
+            }
+
+            //register dependencies
+            var options = services.BuildServiceProvider().GetService<MantleOptions>();
+            RegisterDependencies(services, typeFinder);
+
+            //run startup tasks
+            if (!options.IgnoreStartupTasks)
+            {
+                RunStartupTasks(typeFinder);
+            }
+
+            //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+            //set App_Data path as base data directory (required to create and save SQL Server Compact database file in App_Data folder)
+            AppDomain.CurrentDomain.SetData("DataDirectory", CommonHelper.MapPath("~/App_Data/"));
+
+            return ServiceProvider;
         }
 
-        public T ResolveNamed<T>(string name) where T : class
+        /// <summary>
+        /// Configure HTTP request pipeline
+        /// </summary>
+        /// <param name="application">Builder for configuring an application's request pipeline</param>
+        public virtual void ConfigureRequestPipeline(IApplicationBuilder application)
         {
-            return ContainerManager.ResolveNamed<T>(name);
+            //find startup configurations provided by other assemblies
+            var typeFinder = Resolve<ITypeFinder>();
+            var startupConfigurations = typeFinder.FindClassesOfType<IMantleStartup>();
+
+            //create and sort instances of startup configurations
+            var instances = startupConfigurations
+                .Where(startup => PluginManager.FindPlugin(startup)?.Installed ?? true) //ignore not installed plugins
+                .Select(startup => (IMantleStartup)Activator.CreateInstance(startup))
+                .OrderBy(startup => startup.Order);
+
+            //configure request pipeline
+            foreach (var instance in instances)
+            {
+                instance.Configure(application);
+            }
         }
 
-        public object Resolve(Type type)
+        public virtual T Resolve<T>() where T : class
         {
-            return ContainerManager.Resolve(type);
+            return (T)GetServiceProvider().GetRequiredService(typeof(T));
         }
 
-        public IEnumerable<T> ResolveAll<T>()
+        public virtual object Resolve(Type type)
         {
-            return ContainerManager.ResolveAll<T>();
+            return GetServiceProvider().GetRequiredService(type);
         }
 
-        public IEnumerable<T> ResolveAllNamed<T>(string name)
+        public virtual IEnumerable<T> ResolveAll<T>()
         {
-            return ContainerManager.ResolveAllNamed<T>(name);
+            return (IEnumerable<T>)GetServiceProvider().GetServices(typeof(T));
         }
 
         public virtual object ResolveUnregistered(Type type)
         {
+            Exception innerException = null;
             foreach (var constructor in type.GetConstructors())
             {
                 try
@@ -144,58 +237,14 @@ namespace Mantle.Infrastructure
                     //all is ok, so create instance
                     return Activator.CreateInstance(type, parameters.ToArray());
                 }
-                catch (MantleException) { }
+                catch (Exception ex)
+                {
+                    innerException = ex;
+                }
             }
-            throw new MantleException("No constructor was found that had all the dependencies satisfied.");
-        }
-
-        public bool TryResolve<T>(out T instance)
-        {
-            return ContainerManager.TryResolve<T>(out instance);
-        }
-
-        public bool TryResolve(Type serviceType, out object instance)
-        {
-            return ContainerManager.TryResolve(serviceType, out instance);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                containerManager.Container.Dispose();
-                // Free any other managed objects here.
-            }
-
-            // Free any unmanaged objects here.
-            disposed = true;
+            throw new MantleException("No constructor was found that had all the dependencies satisfied.", innerException);
         }
 
         #endregion Methods
-
-        #region Properties
-
-        public IContainerManager ContainerManager
-        {
-            get { return containerManager; }
-        }
-
-        public IServiceProvider ServiceProvider
-        {
-            get { return new AutofacServiceProvider(containerManager.Container); }
-        }
-
-        #endregion Properties
     }
 }

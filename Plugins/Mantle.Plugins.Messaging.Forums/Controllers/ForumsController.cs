@@ -1955,7 +1955,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
                 var file = Request.Form.Files["Upload"];
 
                 string uploadFileName = Path.Combine(
-                    webHelper.MapPath("~/Media/Uploads/_Users/" + WorkContext.CurrentUser.Id + "/"),
+                    CommonHelper.MapPath("~/Media/Uploads/_Users/" + WorkContext.CurrentUser.Id + "/"),
                     file.FileName);
 
                 string directory = Path.GetDirectoryName(uploadFileName);

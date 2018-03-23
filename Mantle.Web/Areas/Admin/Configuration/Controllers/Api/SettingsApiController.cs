@@ -31,7 +31,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             entity.Id = Guid.NewGuid();
         }
 
-        public virtual async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
+        public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
         {
             var result = await base.Put(key, entity);
 

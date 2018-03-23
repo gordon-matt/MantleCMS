@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Mantle.Infrastructure;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Microsoft.Extensions.Logging;
 
-namespace Mantle.Web.Events
+namespace Mantle.Events
 {
     /// <summary>
     /// Evnt publisher

@@ -15,7 +15,7 @@ using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Plugins;
+using Mantle.Plugins;
 using Mantle.Web.Security.Membership;
 using Mantle.Web.Security.Membership.Permissions;
 

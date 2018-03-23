@@ -7,7 +7,7 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Localization.Domain;
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Base plugin

@@ -4,10 +4,10 @@ using System.Linq;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Threading;
-using Mantle.Web.Events;
-using Mantle.Web.Plugins.Events;
+using Mantle.Events;
+using Mantle.Plugins.Events;
 
-namespace Mantle.Web.Plugins
+namespace Mantle.Plugins
 {
     /// <summary>
     /// Plugin finder

@@ -1,4 +1,4 @@
-﻿namespace Mantle.Web.Plugins
+﻿namespace Mantle.Plugins
 {
     /// <summary>
     /// Interface denoting plug-in attributes that are displayed throughout

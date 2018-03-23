@@ -1,4 +1,4 @@
-﻿namespace Mantle.Web.Plugins
+﻿namespace Mantle.Plugins
 {
     /// <summary>
     /// Represents descriptor of the application extension (plugin or theme)

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Mantle.Events;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Web.Configuration;
@@ -15,7 +16,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Mantle.Web.Events;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;

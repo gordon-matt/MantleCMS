@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Mantle.Helpers;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Web.Areas.Admin.Localization.Models;
@@ -90,7 +91,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
                 var file = Request.Form.Files["Upload"];
 
                 string uploadFileName = Path.Combine(
-                    webHelper.Value.MapPath("~/App_Data/CMS/Localization/Languages/Uploads"),
+                    CommonHelper.MapPath("~/App_Data/CMS/Localization/Languages/Uploads"),
                     string.Format("LanguagePack_{0:yyyy-MM-dd_HHmmss}.json", DateTime.Now));
 
                 string directory = Path.GetDirectoryName(uploadFileName);

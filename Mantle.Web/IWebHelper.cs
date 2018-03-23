@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Mantle.Exceptions;
+using Mantle.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -20,9 +21,9 @@ namespace Mantle.Web
 
         string GetUrlReferrer();
 
-        string MapPath(string path, string basePath = null);
+        //string MapPath(string path, string basePath = null);
 
-        void DeleteDirectory(string path);
+        //void DeleteDirectory(string path);
 
         void RestartAppDomain();
     }
@@ -79,47 +80,47 @@ namespace Mantle.Web
             return httpContextAccessor.HttpContext.Request.Headers["Referer"];
         }
 
-        public virtual string MapPath(string path, string basePath = null)
-        {
-            if (string.IsNullOrEmpty(basePath))
-            {
-                basePath = WebRootPath;
-            }
+        //public virtual string MapPath(string path, string basePath = null)
+        //{
+        //    if (string.IsNullOrEmpty(basePath))
+        //    {
+        //        basePath = WebRootPath;
+        //    }
 
-            path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
-            return Path.Combine(basePath, path);
-        }
+        //    path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
+        //    return Path.Combine(basePath, path);
+        //}
 
-        /// <summary>
-        ///  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
-        /// </summary>
-        /// <param name="path">Directory path</param>
-        public void DeleteDirectory(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-                throw new ArgumentNullException(path);
+        ///// <summary>
+        /////  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
+        ///// </summary>
+        ///// <param name="path">Directory path</param>
+        //public void DeleteDirectory(string path)
+        //{
+        //    if (string.IsNullOrEmpty(path))
+        //        throw new ArgumentNullException(path);
 
-            //find more info about directory deletion
-            //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
+        //    //find more info about directory deletion
+        //    //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
 
-            foreach (var directory in Directory.GetDirectories(path))
-            {
-                DeleteDirectory(directory);
-            }
+        //    foreach (var directory in Directory.GetDirectories(path))
+        //    {
+        //        DeleteDirectory(directory);
+        //    }
 
-            try
-            {
-                Directory.Delete(path, true);
-            }
-            catch (IOException)
-            {
-                Directory.Delete(path, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Directory.Delete(path, true);
-            }
-        }
+        //    try
+        //    {
+        //        Directory.Delete(path, true);
+        //    }
+        //    catch (IOException)
+        //    {
+        //        Directory.Delete(path, true);
+        //    }
+        //    catch (UnauthorizedAccessException)
+        //    {
+        //        Directory.Delete(path, true);
+        //    }
+        //}
 
         public virtual void RestartAppDomain()
         {
@@ -139,7 +140,7 @@ namespace Mantle.Web
             {
                 // In medium trust, "UnloadAppDomain" is not supported. Touch web.config
                 // to force an AppDomain restart.
-                File.SetLastWriteTimeUtc(MapPath("~/web.config", ContentRootPath), DateTime.UtcNow);
+                File.SetLastWriteTimeUtc(CommonHelper.MapPath("~/web.config", ContentRootPath), DateTime.UtcNow);
                 return true;
             }
             catch
