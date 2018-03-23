@@ -16,7 +16,7 @@
     <None Remove="Content\FlexSlider\fonts\flexslider-icon.ttf" />
     <None Remove="Content\FlexSlider\fonts\flexslider-icon.woff" />
     <None Remove="Content\FlexSlider\images\bg_play_pause.png" />
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
     <None Remove="Scripts\jquery.flexslider-min.js" />
     <None Remove="Views\Shared\DisplayTemplates\FlexSliderBlock.cshtml" />
     <None Remove="Views\Shared\EditorTemplates\FlexSliderBlock.cshtml" />
@@ -42,7 +42,7 @@
     <Content Include="Content\FlexSlider\images\bg_play_pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\jquery.flexslider-min.js">

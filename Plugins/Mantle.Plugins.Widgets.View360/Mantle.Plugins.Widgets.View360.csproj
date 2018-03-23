@@ -21,7 +21,7 @@
     <None Remove="Content\images\zoom-in.png" />
     <None Remove="Content\images\zoom-out.png" />
     <None Remove="Content\View360.css" />
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
     <None Remove="Scripts\View360.js" />
     <None Remove="Views\Shared\DisplayTemplates\View360Block.cshtml" />
     <None Remove="Views\Shared\EditorTemplates\View360Block.cshtml" />
@@ -62,7 +62,7 @@
     <Content Include="Content\View360.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\View360.js">

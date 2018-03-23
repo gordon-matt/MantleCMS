@@ -4,6 +4,8 @@ using System.Linq;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Threading;
+using Mantle.Web.Events;
+using Mantle.Web.Plugins.Events;
 
 namespace Mantle.Web.Plugins
 {
@@ -14,10 +16,21 @@ namespace Mantle.Web.Plugins
     {
         #region Fields
 
-        private IList<PluginDescriptor> _plugins;
-        private bool _arePluginsLoaded;
+        private readonly IEventPublisher eventPublisher;
+
+        private IList<PluginDescriptor> plugins;
+        private bool arePluginsLoaded;
 
         #endregion Fields
+
+        #region Ctor
+
+        public PluginFinder(IEventPublisher eventPublisher)
+        {
+            this.eventPublisher = eventPublisher;
+        }
+
+        #endregion Ctor
 
         #region Utilities
 
@@ -26,18 +39,18 @@ namespace Mantle.Web.Plugins
         /// </summary>
         protected virtual void EnsurePluginsAreLoaded()
         {
-            if (!_arePluginsLoaded)
+            if (!arePluginsLoaded)
             {
                 var foundPlugins = PluginManager.ReferencedPlugins.ToList();
                 foundPlugins.Sort();
-                _plugins = foundPlugins.ToList();
+                plugins = foundPlugins.ToList();
 
-                _arePluginsLoaded = true;
+                arePluginsLoaded = true;
             }
         }
 
         /// <summary>
-        /// Check whether the plugin is available in a certain store
+        /// Check whether the plugin is available in a certain tenant
         /// </summary>
         /// <param name="pluginDescriptor">Plugin descriptor to check</param>
         /// <param name="loadMode">Load plugins mode</param>
@@ -45,22 +58,16 @@ namespace Mantle.Web.Plugins
         protected virtual bool CheckLoadMode(PluginDescriptor pluginDescriptor, LoadPluginsMode loadMode)
         {
             if (pluginDescriptor == null)
+            {
                 throw new ArgumentNullException(nameof(pluginDescriptor));
+            }
 
             switch (loadMode)
             {
-                case LoadPluginsMode.All:
-                    //no filering
-                    return true;
-
-                case LoadPluginsMode.InstalledOnly:
-                    return pluginDescriptor.Installed;
-
-                case LoadPluginsMode.NotInstalledOnly:
-                    return !pluginDescriptor.Installed;
-
-                default:
-                    throw new Exception("Not supported LoadPluginsMode");
+                case LoadPluginsMode.All: return true;//no filering
+                case LoadPluginsMode.InstalledOnly: return pluginDescriptor.Installed;
+                case LoadPluginsMode.NotInstalledOnly: return !pluginDescriptor.Installed;
+                default: throw new Exception("Not supported LoadPluginsMode");
             }
         }
 
@@ -73,10 +80,14 @@ namespace Mantle.Web.Plugins
         protected virtual bool CheckGroup(PluginDescriptor pluginDescriptor, string group)
         {
             if (pluginDescriptor == null)
+            {
                 throw new ArgumentNullException(nameof(pluginDescriptor));
+            }
 
-            if (String.IsNullOrEmpty(group))
+            if (string.IsNullOrEmpty(group))
+            {
                 return true;
+            }
 
             return group.Equals(pluginDescriptor.Group, StringComparison.InvariantCultureIgnoreCase);
         }
@@ -86,7 +97,7 @@ namespace Mantle.Web.Plugins
         #region Methods
 
         /// <summary>
-        /// Check whether the plugin is available in a certain store
+        /// Check whether the plugin is available in a certain tenant
         /// </summary>
         /// <param name="pluginDescriptor">Plugin descriptor to check</param>
         /// <param name="tenantId">Tenant identifier to check</param>
@@ -94,10 +105,12 @@ namespace Mantle.Web.Plugins
         public virtual bool AuthenticateTenant(PluginDescriptor pluginDescriptor, int? tenantId)
         {
             if (pluginDescriptor == null)
+            {
                 throw new ArgumentNullException(nameof(pluginDescriptor));
+            }
 
             //no validation required
-            if (!tenantId.HasValue)
+            if (!tenantId.HasValue || tenantId == 0)
             {
                 return true;
             }
@@ -152,7 +165,7 @@ namespace Mantle.Web.Plugins
         /// <typeparam name="T">The type of plugins to get.</typeparam>
         /// <param name="loadMode">Load plugins mode</param>
         /// <param name="user">Load records allowed only to a specified user; pass null to ignore ACL permissions</param>
-        /// <param name="tenantId">Load records allowed only in a specified store; pass 0 to load all records</param>
+        /// <param name="tenantId">Load records allowed only in a specified tenant; pass 0 to load all records</param>
         /// <param name="group">Filter by plugin group; pass null to load all records</param>
         /// <returns>Plugins</returns>
         public virtual IEnumerable<T> GetPlugins<T>(
@@ -169,7 +182,7 @@ namespace Mantle.Web.Plugins
         /// </summary>
         /// <param name="loadMode">Load plugins mode</param>
         /// <param name="user">Load records allowed only to a specified user; pass null to ignore ACL permissions</param>
-        /// <param name="tenantId">Load records allowed only in a specified store; pass 0 to load all records</param>
+        /// <param name="tenantId">Load records allowed only in a specified tenant; pass 0 to load all records</param>
         /// <param name="group">Filter by plugin group; pass null to load all records</param>
         /// <returns>Plugin descriptors</returns>
         public virtual IEnumerable<PluginDescriptor> GetPluginDescriptors(
@@ -181,7 +194,7 @@ namespace Mantle.Web.Plugins
             //ensure plugins are loaded
             EnsurePluginsAreLoaded();
 
-            return _plugins.Where(p => CheckLoadMode(p, loadMode) && AuthorizedForUser(p, user) && AuthenticateTenant(p, tenantId) && CheckGroup(p, group));
+            return plugins.Where(p => CheckLoadMode(p, loadMode) && AuthorizedForUser(p, user) && AuthenticateTenant(p, tenantId) && CheckGroup(p, group));
         }
 
         /// <summary>
@@ -190,7 +203,7 @@ namespace Mantle.Web.Plugins
         /// <typeparam name="T">The type of plugin to get.</typeparam>
         /// <param name="loadMode">Load plugins mode</param>
         /// <param name="user">Load records allowed only to a specified user; pass null to ignore ACL permissions</param>
-        /// <param name="tenantId">Load records allowed only in a specified store; pass 0 to load all records</param>
+        /// <param name="tenantId">Load records allowed only in a specified tenant; pass 0 to load all records</param>
         /// <param name="group">Filter by plugin group; pass null to load all records</param>
         /// <returns>Plugin descriptors</returns>
         public virtual IEnumerable<PluginDescriptor> GetPluginDescriptors<T>(
@@ -231,12 +244,16 @@ namespace Mantle.Web.Plugins
         }
 
         /// <summary>
-        /// Reload plugins
+        /// Reload plugins after updating
         /// </summary>
-        public virtual void ReloadPlugins()
+        /// <param name="pluginDescriptor">Updated plugin descriptor</param>
+        public virtual void ReloadPlugins(PluginDescriptor pluginDescriptor)
         {
-            _arePluginsLoaded = false;
+            arePluginsLoaded = false;
             EnsurePluginsAreLoaded();
+
+            //raise event
+            eventPublisher.Publish(new PluginUpdatedEvent(pluginDescriptor));
         }
 
         #endregion Methods

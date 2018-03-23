@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "FlexSlider",
+  "SystemName": "Mantle.Plugins.Widgets.FlexSlider",
+  "Version": "1.00",
+  "SupportedVersions": [ "1.00" ],
+  "Author": "Matt Gordon",
+  "DisplayOrder": 1,
+  "FileName": "Mantle.Plugins.Widgets.FlexSlider.dll",
+  "Description": "FlexSlider"
+}

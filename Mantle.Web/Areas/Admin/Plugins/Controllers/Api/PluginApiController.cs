@@ -91,7 +91,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
                     pluginDescriptor.LimitedToTenants = entity.LimitedToTenants.ToList();
                 }
 
-                PluginFileParser.SavePluginDescriptionFile(pluginDescriptor);
+                PluginManager.SavePluginDescriptor(pluginDescriptor);
             }
             catch (Exception x)
             {

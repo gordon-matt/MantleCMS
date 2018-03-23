@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
     <None Remove="Scripts\form-builder.min.js" />
     <None Remove="Scripts\form-render.min.js" />
     <None Remove="Views\Shared\DisplayTemplates\JQueryFormBuilderBlock.cshtml" />
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\form-builder.min.js">

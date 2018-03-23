@@ -98,7 +98,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
                 pluginDescriptor.Instance().Install();
 
                 //restart application
-                webHelper.Value.RestartSite();
+                webHelper.Value.RestartAppDomain();
             }
             catch (Exception x)
             {
@@ -145,7 +145,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
                 pluginDescriptor.Instance().Uninstall();
 
                 //restart application
-                webHelper.Value.RestartSite();
+                webHelper.Value.RestartAppDomain();
             }
             catch (Exception x)
             {

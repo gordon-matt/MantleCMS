@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

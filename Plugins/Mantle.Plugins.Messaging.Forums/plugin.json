@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Messaging",
+  "FriendlyName": "Forums",
+  "SystemName": "Mantle.Plugins.Messaging.Forums",
+  "Version": "1.00",
+  "SupportedVersions": [ "1.00" ],
+  "Author": "Matt Gordon",
+  "DisplayOrder": 1,
+  "FileName": "Mantle.Plugins.Messaging.Forums.dll",
+  "Description": "Forums"
+}

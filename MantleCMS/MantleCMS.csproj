@@ -16,14 +16,12 @@
     <Content Include="App_Data\InstalledPlugins.txt" />
     <Content Include="Plugins\bin\Mantle.Plugins.Caching.Redis.dll" />
     <Content Include="Plugins\bin\Mantle.Plugins.Messaging.Forums.dll" />
-    <Content Include="Plugins\Caching.Redis\Description.txt" />
     <Content Include="Plugins\Caching.Redis\Mantle.dll" />
     <Content Include="Plugins\Caching.Redis\Mantle.pdb" />
     <Content Include="Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.dll" />
     <Content Include="Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.pdb" />
     <Content Include="Plugins\Caching.Redis\Mantle.Web.dll" />
     <Content Include="Plugins\Caching.Redis\Mantle.Web.pdb" />
-    <Content Include="Plugins\Messaging.Forums\Description.txt" />
     <Content Include="Plugins\Messaging.Forums\Mantle.dll" />
     <Content Include="Plugins\Messaging.Forums\Mantle.pdb" />
     <Content Include="Plugins\Messaging.Forums\Mantle.Plugins.Messaging.Forums.dll" />
@@ -75,7 +73,6 @@
   <ItemGroup>
     <Folder Include="Options\" />
     <Folder Include="Services\" />
-    <Folder Include="App_Data\" />
   </ItemGroup>
 
 </Project>

@@ -12,17 +12,19 @@ namespace Mantle.Web
 
         string WebRootPath { get; }
 
-        string GetUrlReferrer();
+        bool IsCurrentConnectionSecured();
 
         string GetRemoteIpAddress();
 
-        bool IsCurrentConnectionSecured();
-
         string GetUrlHost();
+
+        string GetUrlReferrer();
 
         string MapPath(string path, string basePath = null);
 
-        void RestartSite();
+        void DeleteDirectory(string path);
+
+        void RestartAppDomain();
     }
 
     public partial class WebHelper : IWebHelper
@@ -48,16 +50,6 @@ namespace Mantle.Web
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public virtual string GetUrlReferrer()
-        {
-            return httpContextAccessor.HttpContext.Request.Headers["Referer"];
-        }
-
-        public virtual string GetRemoteIpAddress()
-        {
-            return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-        }
-
         public virtual bool IsCurrentConnectionSecured()
         {
             bool useSsl = false;
@@ -72,9 +64,19 @@ namespace Mantle.Web
             return useSsl;
         }
 
+        public virtual string GetRemoteIpAddress()
+        {
+            return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+        }
+
         public virtual string GetUrlHost()
         {
             return httpContextAccessor.HttpContext.Request.Host.Host;
+        }
+
+        public virtual string GetUrlReferrer()
+        {
+            return httpContextAccessor.HttpContext.Request.Headers["Referer"];
         }
 
         public virtual string MapPath(string path, string basePath = null)
@@ -88,7 +90,38 @@ namespace Mantle.Web
             return Path.Combine(basePath, path);
         }
 
-        public virtual void RestartSite()
+        /// <summary>
+        ///  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
+        /// </summary>
+        /// <param name="path">Directory path</param>
+        public void DeleteDirectory(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentNullException(path);
+
+            //find more info about directory deletion
+            //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
+
+            foreach (var directory in Directory.GetDirectories(path))
+            {
+                DeleteDirectory(directory);
+            }
+
+            try
+            {
+                Directory.Delete(path, true);
+            }
+            catch (IOException)
+            {
+                Directory.Delete(path, true);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
+        public virtual void RestartAppDomain()
         {
             bool success = TryWriteWebConfig();
             if (!success)
@@ -98,45 +131,6 @@ namespace Mantle.Web
                     "- run the application in a full trust environment, or" + Environment.NewLine +
                     "- give the application write access to the 'web.config' file.");
             }
-
-            //if (GetTrustLevel() > AspNetHostingPermissionLevel.Medium)
-            //{
-            //    //full trust
-            //    HttpRuntime.UnloadAppDomain();
-
-            //    TryWriteGlobalAsax();
-            //}
-            //else
-            //{
-            //    //medium trust
-            //    bool success = TryWriteWebConfig();
-            //    if (!success)
-            //    {
-            //        throw new MantleException("Mantle needs to be restarted due to a configuration change, but was unable to do so." + Environment.NewLine +
-            //            "To prevent this issue in the future, a change to the web server configuration is required:" + Environment.NewLine +
-            //            "- run the application in a full trust environment, or" + Environment.NewLine +
-            //            "- give the application write access to the 'web.config' file.");
-            //    }
-
-            //    success = TryWriteGlobalAsax();
-            //    if (!success)
-            //    {
-            //        throw new MantleException("Mantle needs to be restarted due to a configuration change, but was unable to do so." + Environment.NewLine +
-            //            "To prevent this issue in the future, a change to the web server configuration is required:" + Environment.NewLine +
-            //            "- run the application in a full trust environment, or" + Environment.NewLine +
-            //            "- give the application write access to the 'Global.asax' file.");
-            //    }
-            //}
-
-            //// If setting up extensions/modules requires an AppDomain restart, it's very unlikely the
-            //// current request can be processed correctly.  So, we redirect to the same URL, so that the
-            //// new request will come to the newly started AppDomain.
-            //if (httpContext != null && makeRedirect)
-            //{
-            //    if (string.IsNullOrEmpty(redirectUrl))
-            //        redirectUrl = GetThisPageUrl(true);
-            //    httpContext.Response.Redirect(redirectUrl, true /*endResponse*/);
-            //}
         }
 
         private bool TryWriteWebConfig()

@@ -13,7 +13,7 @@
     <None Remove="Content\fullcalendar.css" />
     <None Remove="Content\fullcalendar.min.css" />
     <None Remove="Content\fullcalendar.print.css" />
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
     <None Remove="Scripts\fullcalendar-2.3.1\changelog.txt" />
     <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.js" />
     <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.min.js" />
@@ -85,7 +85,7 @@
     <Content Include="Content\fullcalendar.print.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\fullcalendar-2.3.1\changelog.txt">

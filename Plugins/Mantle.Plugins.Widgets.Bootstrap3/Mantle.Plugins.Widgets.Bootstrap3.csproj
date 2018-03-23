@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Description.txt" />
+    <None Remove="plugin.json" />
     <None Remove="Views\Shared\DisplayTemplates\CarouselBlock.cshtml" />
     <None Remove="Views\Shared\DisplayTemplates\ImageGalleryBlock.cshtml" />
     <None Remove="Views\Shared\EditorTemplates\CarouselBlock.cshtml" />
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Description.txt">
+    <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\DisplayTemplates\CarouselBlock.cshtml">
