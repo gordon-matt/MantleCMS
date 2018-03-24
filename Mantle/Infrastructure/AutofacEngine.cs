@@ -6,7 +6,6 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Configuration;
-using Mantle.Exceptions;
 using Mantle.Helpers;
 using Mantle.Plugins;
 using Microsoft.AspNetCore.Builder;
@@ -17,8 +16,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Infrastructure
 {
-    public class AutofacEngine : IEngine
+    public class AutofacEngine : IEngine, IDisposable
     {
+        #region Private Members
+
+        private AutofacContainerManager containerManager;
+        private bool disposed = false;
+
+        #endregion Private Members
+
         #region Properties
 
         /// <summary>
@@ -28,79 +34,7 @@ namespace Mantle.Infrastructure
 
         #endregion Properties
 
-        #region Utilities
-
-        /// <summary>
-        /// Get IServiceProvider
-        /// </summary>
-        /// <returns>IServiceProvider</returns>
-        protected virtual IServiceProvider GetServiceProvider()
-        {
-            var accessor = ServiceProvider.GetService<IHttpContextAccessor>();
-            var context = accessor.HttpContext;
-            return context != null ? context.RequestServices : ServiceProvider;
-        }
-
-        /// <summary>
-        /// Run startup tasks
-        /// </summary>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
-        {
-            //find startup tasks provided by other assemblies
-            var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
-
-            //create and sort instances of startup tasks
-            //we startup this interface even for not installed plugins.
-            //otherwise, DbContext initializers won't run and a plugin installation won't work
-            var instances = startupTasks
-                .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
-                .OrderBy(startupTask => startupTask.Order);
-
-            //execute tasks
-            foreach (var task in instances)
-                task.Execute();
-        }
-
-        /// <summary>
-        /// Register dependencies using Autofac
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        /// <param name="typeFinder">Type finder</param>
-        protected virtual IServiceProvider RegisterDependencies(IServiceCollection services, ITypeFinder typeFinder)
-        {
-            var containerBuilder = new ContainerBuilder();
-
-            //register engine
-            containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
-
-            //register type finder
-            containerBuilder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
-
-            //find dependency registrars provided by other assemblies
-            var dependencyRegistrars = typeFinder.FindClassesOfType<IDependencyRegistrar<ContainerBuilder>>();
-
-            //create and sort instances of dependency registrars
-            var instances = dependencyRegistrars
-                //.Where(dependencyRegistrar => PluginManager.FindPlugin(dependencyRegistrar).Return(plugin => plugin.Installed, true)) //ignore not installed plugins
-                .Select(dependencyRegistrar => (IDependencyRegistrar<ContainerBuilder>)Activator.CreateInstance(dependencyRegistrar))
-                .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
-
-            //register all provided dependencies
-            foreach (var dependencyRegistrar in instances)
-                dependencyRegistrar.Register(containerBuilder, typeFinder);
-
-            //populate Autofac container builder with the set of registered service descriptors
-            containerBuilder.Populate(services);
-
-            //create service provider
-            ServiceProvider = new AutofacServiceProvider(containerBuilder.Build());
-            return ServiceProvider;
-        }
-
-        #endregion Utilities
-
-        #region Methods
+        #region IEngine Members
 
         /// <summary>
         /// Initialize engine
@@ -120,19 +54,6 @@ namespace Mantle.Infrastructure
             //initialize plugins
             var mvcCoreBuilder = services.AddMvcCore();
             PluginManager.Initialize(mvcCoreBuilder.PartManager, hostingEnvironment, options);
-        }
-
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            //check for assembly already loaded
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
-            if (assembly != null)
-                return assembly;
-
-            //get assembly from TypeFinder
-            var tf = Resolve<ITypeFinder>();
-            assembly = tf.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
-            return assembly;
         }
 
         /// <summary>
@@ -203,48 +124,166 @@ namespace Mantle.Infrastructure
 
         public virtual T Resolve<T>() where T : class
         {
-            return (T)GetServiceProvider().GetRequiredService(typeof(T));
+            return containerManager.Resolve<T>();
+            //return (T)GetServiceProvider().GetRequiredService(typeof(T));
+        }
+
+        public T Resolve<T>(IDictionary<string, object> ctorArgs) where T : class
+        {
+            return containerManager.Resolve<T>(ctorArgs);
         }
 
         public virtual object Resolve(Type type)
         {
-            return GetServiceProvider().GetRequiredService(type);
+            return containerManager.Resolve(type);
+            //return GetServiceProvider().GetRequiredService(type);
+        }
+
+        public T ResolveNamed<T>(string name) where T : class
+        {
+            return containerManager.ResolveNamed<T>(name);
         }
 
         public virtual IEnumerable<T> ResolveAll<T>()
         {
-            return (IEnumerable<T>)GetServiceProvider().GetServices(typeof(T));
+            return containerManager.ResolveAll<T>();
+            //return (IEnumerable<T>)GetServiceProvider().GetServices(typeof(T));
+        }
+
+        public IEnumerable<T> ResolveAllNamed<T>(string name)
+        {
+            return containerManager.ResolveAllNamed<T>(name);
         }
 
         public virtual object ResolveUnregistered(Type type)
         {
-            Exception innerException = null;
-            foreach (var constructor in type.GetConstructors())
-            {
-                try
-                {
-                    //try to resolve constructor parameters
-                    var parameters = constructor.GetParameters().Select(parameter =>
-                    {
-                        var service = Resolve(parameter.ParameterType);
-                        if (service == null)
-                        {
-                            throw new MantleException("Unknown dependency");
-                        }
-                        return service;
-                    });
-
-                    //all is ok, so create instance
-                    return Activator.CreateInstance(type, parameters.ToArray());
-                }
-                catch (Exception ex)
-                {
-                    innerException = ex;
-                }
-            }
-            throw new MantleException("No constructor was found that had all the dependencies satisfied.", innerException);
+            return containerManager.ResolveUnregistered(type);
         }
 
-        #endregion Methods
+        public bool TryResolve<T>(out T instance)
+        {
+            return containerManager.TryResolve<T>(out instance);
+        }
+
+        public bool TryResolve(Type serviceType, out object instance)
+        {
+            return containerManager.TryResolve(serviceType, out instance);
+        }
+
+        #endregion IEngine Members
+
+        #region Non-Public Methods
+
+        /// <summary>
+        /// Get IServiceProvider
+        /// </summary>
+        /// <returns>IServiceProvider</returns>
+        protected virtual IServiceProvider GetServiceProvider()
+        {
+            var accessor = ServiceProvider.GetService<IHttpContextAccessor>();
+            var context = accessor.HttpContext;
+            return context != null ? context.RequestServices : ServiceProvider;
+        }
+
+        /// <summary>
+        /// Register dependencies using Autofac
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual IServiceProvider RegisterDependencies(IServiceCollection services, ITypeFinder typeFinder)
+        {
+            var containerBuilder = new ContainerBuilder();
+
+            //register engine
+            containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
+
+            //register type finder
+            containerBuilder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
+
+            //find dependency registrars provided by other assemblies
+            var dependencyRegistrars = typeFinder.FindClassesOfType<IDependencyRegistrar<ContainerBuilder>>();
+
+            //create and sort instances of dependency registrars
+            var instances = dependencyRegistrars
+                //.Where(dependencyRegistrar => PluginManager.FindPlugin(dependencyRegistrar).Return(plugin => plugin.Installed, true)) //ignore not installed plugins
+                .Select(dependencyRegistrar => (IDependencyRegistrar<ContainerBuilder>)Activator.CreateInstance(dependencyRegistrar))
+                .OrderBy(dependencyRegistrar => dependencyRegistrar.Order);
+
+            //register all provided dependencies
+            foreach (var dependencyRegistrar in instances)
+                dependencyRegistrar.Register(containerBuilder, typeFinder);
+
+            //populate Autofac container builder with the set of registered service descriptors
+            containerBuilder.Populate(services);
+
+            //create service provider
+            var container = containerBuilder.Build();
+            ServiceProvider = new AutofacServiceProvider(container);
+            containerManager = new AutofacContainerManager(container);
+            return ServiceProvider;
+        }
+
+        /// <summary>
+        /// Run startup tasks
+        /// </summary>
+        /// <param name="typeFinder">Type finder</param>
+        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
+        {
+            //find startup tasks provided by other assemblies
+            var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
+
+            //create and sort instances of startup tasks
+            //we startup this interface even for not installed plugins.
+            //otherwise, DbContext initializers won't run and a plugin installation won't work
+            var instances = startupTasks
+                .Select(startupTask => (IStartupTask)Activator.CreateInstance(startupTask))
+                .OrderBy(startupTask => startupTask.Order);
+
+            //execute tasks
+            foreach (var task in instances)
+                task.Execute();
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            //check for assembly already loaded
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly != null)
+                return assembly;
+
+            //get assembly from TypeFinder
+            var tf = Resolve<ITypeFinder>();
+            assembly = tf.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            return assembly;
+        }
+
+        #endregion Non-Public Methods
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                containerManager.Dispose();
+                // Free any other managed objects here.
+            }
+
+            // Free any unmanaged objects here.
+            disposed = true;
+        }
+
+        #endregion IDisposable Members
     }
 }

@@ -25,11 +25,5 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Controllers
 
             return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Media.Index");
         }
-
-        [Route("browse")]
-        public virtual IActionResult Browse()
-        {
-            return View("Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Media.Browse");
-        }
     }
 }

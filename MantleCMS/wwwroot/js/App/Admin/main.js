@@ -6,7 +6,6 @@
 
     'bootstrap': '../../bootstrap/bootstrap.min',
     'chosen': '../../chosen.jquery',
-    'elfinder': '../../elfinder/elfinder.min',
     'jquery-ui': '../../../lib/jquery-ui/jquery-ui.min',
     'jqueryval': '../../jquery.validate',
     'jqueryval-unobtrusive': '../../jquery.validate.unobtrusive',

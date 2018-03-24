@@ -50,6 +50,9 @@ using NLog.Extensions.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
+using Peachpie.Web;
+using Pchp.Core;
+using MantleCMS.Options;
 
 namespace MantleCMS
 {
@@ -128,6 +131,13 @@ namespace MantleCMS
             services
                 .AddMemoryCache()
                 .AddDistributedMemoryCache();
+
+            // Peachpie needs this
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+            });
 
             services.AddCors(options => options.AddPolicy("AllowAll", p => p
                 .AllowAnyOrigin()
@@ -251,9 +261,7 @@ namespace MantleCMS
             app.AddNLogWeb();
 
             env.ConfigureNLog("NLog.config");
-
-            app.UseApplicationInsightsRequestTelemetry();
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -264,13 +272,38 @@ namespace MantleCMS
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseApplicationInsightsExceptionTelemetry();
-
+            
             app.UseCors("AllowAll");
 
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
+            
+            // ================================================================================
+            // Peachpie
+            app.UseSession();
+
+            var rfmOptions = new ResponsiveFileManagerOptions();
+            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
+
+            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
+            {
+                //RootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory()) + "\\Website",
+                BeforeRequest = (Context ctx) =>
+                {
+                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
+                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
+
+                    ctx.Globals["appsettings"] = (PhpValue)new PhpArray()
+                    {
+                        { "upload_dir", rfmOptions.UploadDirectory },
+                        { "current_path", rfmOptions.CurrentPath },
+                        { "thumbs_base_path", rfmOptions.ThumbsBasePath }
+                    };
+                }
+            });
+
+            app.UseDefaultFiles();
+            // ================================================================================
 
             // embedded files
             app.UseStaticFiles(new StaticFileOptions

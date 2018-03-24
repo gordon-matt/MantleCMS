@@ -51,7 +51,7 @@ namespace Mantle.Web.OData
         #region Public Methods
 
         // GET: odata/<Entity>
-        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
         {
             if (!CheckPermission(ReadPermission))
