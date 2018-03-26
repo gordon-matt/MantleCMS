@@ -1,0 +1,187 @@
+﻿@* TODO: Use MJML as optional, allow regular HTML as well *@
+
+@using System.Text
+@using Mantle
+@using Mantle.Messaging.Data.Domain
+@using Mantle.Web.Messaging
+
+@model MessageTemplateVersion
+@inject IWorkContext workContext
+
+@{
+    Layout = null;
+    var fieldTokens = (IDictionary<string, string>)ViewBag.FieldTokens;
+    var sbTokenOptions = new StringBuilder();
+
+    foreach (var keyValue in fieldTokens)
+    {
+        sbTokenOptions.AppendFormat(@"<option value=""[[{0}]]"">{1}</option>", keyValue.Key, keyValue.Value);
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=1024, initial-scale=1">
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJs.Styles.OrderBy(x => x.Order))
+    {
+        <link type="text/css" rel="stylesheet" href="@asset.Path" />
+    }
+</head>
+<body>
+    <div id="gjs">
+        <mjml>
+            <mj-body>
+                <mj-container>
+                    <mj-section>
+                        <mj-column>
+                            <mj-text>Example Text</mj-text>
+                        </mj-column>
+                    </mj-section>
+                </mj-container>
+            </mj-body>
+        </mjml>
+    </div>
+
+    @*@using (var modal = Html.MantleUI().Begin(new Modal("tokens-modal")))
+    {
+        using (var header = modal.BeginHeader("Field Tokens")) { }
+        using (var body = modal.BeginBody())
+        {
+            <ul class="list-group">
+                @foreach (var keyValue in fieldTokens)
+                {
+                    <li class="list-group-item">
+                        <a href="javascript:void(0);" onclick="insertToken('@keyValue.Key');">@keyValue.Value</a>
+                    </li>
+                }
+            </ul>
+        }
+    }*@
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJs.Scripts.OrderBy(x => x.Order))
+    {
+        <script type="text/javascript" src="@asset.Path"></script>
+    }
+    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJsMjml.Scripts.OrderBy(x => x.Order))
+    {
+        <script type="text/javascript" src="@asset.Path"></script>
+    }
+    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJsAviary.Scripts.OrderBy(x => x.Order))
+    {
+        <script type="text/javascript" src="@asset.Path"></script>
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var editor = grapesjs.init({
+                fromElement: 1,
+                container: '#gjs',
+                plugins: ['gjs-mjml'/*, 'gjs-aviary'*/],
+                pluginsOpts: {
+                    'gjs-mjml': {/* ...options */ },
+                    //'gjs-aviary': {
+                    //    key: 1 // TODO
+                    //}
+                },
+                storageManager: {
+                    type: 'remote',
+                    autoload: true,
+                    autosave: true,
+                    stepsBeforeSave: 5, // For autosave
+                    urlStore: '/admin/messaging/grapes-js-templates/save/@Model.MessageTemplateId/@workContext.CurrentCultureCode',
+                    urlLoad: '/admin/messaging/grapes-js-templates/load/@Model.MessageTemplateId/@workContext.CurrentCultureCode',
+                    contentTypeJson: true,
+                    //params: {},   // For custom values on requests
+                },
+                assetManager: {
+                    // Upload endpoint, set `false` to disable upload, default `false`
+                    upload: '/admin/messaging/grapes-js-templates/assets/upload',
+
+                    // The name used in POST to pass uploaded files, default: `'files'`
+                    uploadName: 'files',
+                    params: {
+                        emailTemplateId: '@Model.MessageTemplateId',
+                        cultureCode: '@workContext.CurrentCultureCode'
+                    }
+                }
+            });
+
+            // Add custom buttons
+            editor.Panels.addButton('options', [{
+                id: 'save-db',
+                className: 'fa fa-save',
+                command: 'save-db',
+                attributes: { title: 'Save' }
+            }]);
+
+            // Add the commands for the custom buttons
+            editor.Commands.add('save-db', {
+                run: function (editor, sender) {
+                    sender && sender.set('active', 0); // turn off the button
+                    editor.store();
+                }
+            });
+
+            //// The upload is started
+            //editor.on('asset:upload:start', () => {
+            //    //startAnimation();
+            //});
+
+            //// The upload is ended (completed or not)
+            //editor.on('asset:upload:end', () => {
+            //    //endAnimation();
+            //});
+
+            //// Error handling
+            //editor.on('asset:upload:error', (err) => {
+            //    //notifyError(err);
+            //});
+
+            //// Do something on response
+            //editor.on('asset:upload:response', (response) => {
+            //    //
+            //});
+
+            editor.on('asset:remove', asset => {
+                var src = JSON.parse(JSON.stringify(asset)).src;
+                console.log('src: ' + src);
+
+                $.ajax({
+                    url: "/admin/messaging/grapes-js-templates/assets/delete",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        src: src
+                    }),
+                    dataType: "json",
+                    async: false
+                })
+                .done(function (json) {
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus + ': ' + errorThrown);
+                });
+            });
+
+            // NOTE: Better solution currently being developed: https://github.com/artf/grapesjs/issues/481
+            editor.RichTextEditor.add('custom-vars', {
+                icon: '<select class="gjs-field">@Html.Raw(sbTokenOptions.ToString())</select>',
+                // Bind the 'result' on 'change' listener
+                event: 'change',
+                result: (rte, action) => rte.insertHTML(action.btn.firstChild.value),
+                // Reset the select on change
+                update: (rte, action) => { action.btn.firstChild.value = ""; }
+            });
+        })
+    </script>
+</body>
+</html>

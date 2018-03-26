@@ -139,6 +139,7 @@
                     title: " ",
                     template:
                         '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
+                        // TODO: Add "Edit with GrapesJS" button
                         '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
                         '<a data-bind="click: toggleEnabled.bind($data,\'#=Id#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.translations.toggle + '</a>' +
                         '</div>',

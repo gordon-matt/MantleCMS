@@ -226,17 +226,37 @@ namespace MantleCMS
                     Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
                 }
             });
-            MantleCmsAssets.Init(new MantleCmsAssets
+            //MantleCmsAssets.Init(new MantleCmsAssets
+            //{
+            //    ElFinder = new AssetCollection
+            //    {
+            //        Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min.js" } },
+            //        Styles = new List<Asset>
+            //        {
+            //            new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
+            //            new Asset { Path = "/css/elfinder/css/theme.css" }, // <-- NOTE: This file may make some of the themes look not quite right. Comment this line if changing the theme below.
+            //            new Asset { Path = "/css/elfinder/themes/material/css/theme-gray.min.css" }
+            //        }
+            //    }
+            //});
+            MantleMessagingAssets.Init(new MantleMessagingAssets
             {
-                ElFinder = new AssetCollection
+                GrapesJs = new AssetCollection
                 {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min.js" } },
-                    Styles = new List<Asset>
+                    Scripts = new List<Asset> { new Asset { Path = "/js/grapes.min.js" } },
+                    Styles = new List<Asset> { new Asset { Path = "/css/grapes.min.css" } }
+                },
+                GrapesJsAviary = new AssetCollection
+                {
+                    Scripts = new List<Asset>
                     {
-                        new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
-                        new Asset { Path = "/css/elfinder/css/theme.css" }, // <-- NOTE: This file may make some of the themes look not quite right. Comment this line if changing the theme below.
-                        new Asset { Path = "/css/elfinder/themes/material/css/theme-gray.min.css" }
-                    }
+                        new Asset { Path = "http://feather.aviary.com/imaging/v3/editor.js" },
+                        new Asset { Path = "/js/grapesjs-aviary.min.js" }
+                    },
+                },
+                GrapesJsMjml = new AssetCollection
+                {
+                    Scripts = new List<Asset> { new Asset { Path = "/js/grapesjs-mjml.min.js" } },
                 }
             });
 

@@ -12,49 +12,78 @@ namespace Mantle.Messaging.Services
 {
     public interface IMessageService : IGenericDataService<QueuedEmail>
     {
-        Guid SendEmailMessage(int tenantId, string messageTemplate, IEnumerable<Token> tokens, string toEmailAddress, string toName = null);
+        //Guid SendEmailMessage(
+        //    int tenantId,
+        //    string cultureCode,
+        //    string messageTemplate,
+        //    IEnumerable<Token> tokens,
+        //    string toEmailAddress,
+        //    string toName = null);
 
-        Guid SendEmailMessage(int tenantId, string subject, string body, string toEmailAddress, string toName = null);
+        Guid SendEmailMessage(
+            int tenantId,
+            string subject,
+            string body,
+            string toEmailAddress,
+            string toName = null);
 
         Guid SendEmailMessage(int tenantId, MailMessage mailMessage);
     }
 
     public class MessageService : GenericDataService<QueuedEmail>, IMessageService, IQueuedMessageProvider
     {
-        private readonly IMessageTemplateService messageTemplateService;
-        private readonly ITokenizer tokenizer;
         private readonly IEnumerable<IMessageTokensProvider> tokenProviders;
+        private readonly IMessageTemplateService messageTemplateService;
+        private readonly IMessageTemplateVersionService messageTemplateVersionService;
+        private readonly ITokenizer tokenizer;
 
         public MessageService(
             ICacheManager cacheManager,
+            IEnumerable<IMessageTokensProvider> tokenProviders,
             IMessageTemplateService messageTemplateService,
+            IMessageTemplateVersionService messageTemplateVersionService,
             IRepository<QueuedEmail> queuedEmailRepository,
-            ITokenizer tokenizer,
-            IEnumerable<IMessageTokensProvider> tokenProviders)
+            ITokenizer tokenizer)
             : base(cacheManager, queuedEmailRepository)
         {
+            this.messageTemplateService = messageTemplateService;
+            this.messageTemplateVersionService = messageTemplateVersionService;
             this.tokenizer = tokenizer;
             this.tokenProviders = tokenProviders;
-            this.messageTemplateService = messageTemplateService;
         }
 
-        public Guid SendEmailMessage(int tenantId, string messageTemplate, IEnumerable<Token> tokens, string toEmailAddress, string toName = null)
-        {
-            var template = messageTemplateService.Find(tenantId, messageTemplate);
-            if (template == null || !template.Enabled)
-            {
-                return Guid.Empty;
-            }
+        #region IMessageService Members
 
-            foreach (var tokenProvider in tokenProviders)
-            {
-                tokenProvider.GetTokens(messageTemplate, tokens);
-            }
+        //public Guid SendEmailMessage(
+        //    int tenantId,
+        //    string cultureCode,
+        //    string messageTemplate,
+        //    IEnumerable<Token> tokens,
+        //    string toEmailAddress,
+        //    string toName = null)
+        //{
+        //    var template = messageTemplateService.Find(tenantId, messageTemplate);
+        //    var version = messageTemplateVersionService.FindOne(template.Id, cultureCode);
 
-            return SendMessage(tenantId, template, tokens, toEmailAddress, toName);
-        }
+        //    if (version == null || !version.Enabled)
+        //    {
+        //        return Guid.Empty;
+        //    }
 
-        public Guid SendEmailMessage(int tenantId, string subject, string body, string toEmailAddress, string toName = null)
+        //    foreach (var tokenProvider in tokenProviders)
+        //    {
+        //        tokenProvider.GetTokens(messageTemplate, tokens);
+        //    }
+
+        //    return SendMessage(tenantId, version, tokens, toEmailAddress, toName);
+        //}
+
+        public Guid SendEmailMessage(
+            int tenantId,
+            string subject,
+            string body,
+            string toEmailAddress,
+            string toName = null)
         {
             var mailMessage = new MailMessage
             {
@@ -90,22 +119,9 @@ namespace Mantle.Messaging.Services
             return queuedEmail.Id;
         }
 
-        private Guid SendMessage(
-            int tenantId,
-            MessageTemplate messageTemplate,
-            IEnumerable<Token> tokens,
-            string toEmailAddress,
-            string toName)
-        {
-            var subject = messageTemplate.Subject ?? string.Empty;
-            var body = messageTemplate.Body ?? string.Empty;
+        #endregion IMessageService Members
 
-            //Replace subject and body tokens
-            var subjectReplaced = tokenizer.Replace(subject, tokens, false);
-            var bodyReplaced = tokenizer.Replace(body, tokens, true);
-
-            return SendEmailMessage(tenantId, subjectReplaced, bodyReplaced, toEmailAddress, toName);
-        }
+        #region IQueuedMessageProvider Members
 
         public IEnumerable<IMailMessage> GetQueuedEmails(int tenantId, int maxSendTries, int maxMessageItems)
         {
@@ -136,5 +152,27 @@ namespace Mantle.Messaging.Services
             entity.SentTries++;
             Update(entity);
         }
+
+        #endregion IQueuedMessageProvider Members
+
+        //private Guid SendMessage(
+        //    int tenantId,
+        //    MessageTemplateVersion messageTemplateVersion,
+        //    IEnumerable<Token> tokens,
+        //    string toEmailAddress,
+        //    string toName)
+        //{
+        //    var subject = messageTemplateVersion.Subject ?? string.Empty;
+
+        //    var data = messageTemplateVersion.Data.JsonDeserialize<GrapesJsStorageData>();
+
+        //    var body = messageTemplateVersion.Body ?? string.Empty;
+
+        //    //Replace subject and body tokens
+        //    var subjectReplaced = tokenizer.Replace(subject, tokens, false);
+        //    var bodyReplaced = tokenizer.Replace(body, tokens, true);
+
+        //    return SendEmailMessage(tenantId, subjectReplaced, bodyReplaced, toEmailAddress, toName);
+        //}
     }
 }

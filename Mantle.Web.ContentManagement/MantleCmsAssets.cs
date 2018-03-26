@@ -27,6 +27,6 @@ namespace Mantle.Web.ContentManagement
             isInitialized = true;
         }
 
-        public AssetCollection ElFinder { get; set; }
+        //public AssetCollection ElFinder { get; set; }
     }
 }

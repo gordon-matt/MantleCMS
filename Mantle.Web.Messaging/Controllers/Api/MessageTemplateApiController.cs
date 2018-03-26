@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Messaging.Controllers.Api
 {
-    public class MessageTemplateApiController : GenericTenantODataController<MessageTemplate, Guid>
+    public class MessageTemplateApiController : GenericTenantODataController<MessageTemplate, int>
     {
         private readonly Lazy<IEnumerable<IMessageTemplateTokensProvider>> tokensProviders;
 
@@ -22,14 +22,13 @@ namespace Mantle.Web.Messaging.Controllers.Api
             this.tokensProviders = tokensProviders;
         }
 
-        protected override Guid GetId(MessageTemplate entity)
+        protected override int GetId(MessageTemplate entity)
         {
             return entity.Id;
         }
 
         protected override void SetNewId(MessageTemplate entity)
         {
-            entity.Id = Guid.NewGuid();
         }
 
         [HttpPost]

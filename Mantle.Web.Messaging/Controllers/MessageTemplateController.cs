@@ -9,7 +9,6 @@ namespace Mantle.Web.Messaging.Controllers
     [Route("admin/messaging/templates")]
     public class MessageTemplateController : MantleController
     {
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
         [Route("")]
         public ActionResult Index()
         {
@@ -27,7 +26,6 @@ namespace Mantle.Web.Messaging.Controllers
             return PartialView("Mantle.Web.Messaging.Views.MessageTemplate.Index");
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
         [Route("get-translations")]
         public JsonResult GetTranslations()
         {
