@@ -18,8 +18,6 @@ namespace Mantle.Messaging.Data.Domain
 
         public string Data { get; set; }
 
-        public bool Enabled { get; set; }
-
         public DateTime DateCreatedUtc { get; set; }
 
         public DateTime DateModifiedUtc { get; set; }
@@ -46,7 +44,6 @@ namespace Mantle.Messaging.Data.Domain
             builder.Property(x => x.CultureCode).HasMaxLength(10).IsUnicode(false);
             builder.Property(x => x.Subject).IsRequired().HasMaxLength(255).IsUnicode(true);
             builder.Property(x => x.Data).IsUnicode(true);
-            builder.Property(x => x.Enabled).IsRequired();
             builder.Property(x => x.DateCreatedUtc).IsRequired();
             builder.Property(x => x.DateModifiedUtc).IsRequired();
 

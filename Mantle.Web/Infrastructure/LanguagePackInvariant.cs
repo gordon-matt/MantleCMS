@@ -48,6 +48,7 @@ namespace Mantle.Web.Infrastructure
                     { MantleWebLocalizableStrings.General.Download, "Download" },
                     { MantleWebLocalizableStrings.General.Edit, "Edit" },
                     { MantleWebLocalizableStrings.General.EditFormat, "Edit {0}" },
+                    { MantleWebLocalizableStrings.General.EditWithFormat, "Edit with {0}" },
                     { MantleWebLocalizableStrings.General.Enabled, "Enabled" },
                     { MantleWebLocalizableStrings.General.Error, "Error" },
                     { MantleWebLocalizableStrings.General.Export, "Export" },

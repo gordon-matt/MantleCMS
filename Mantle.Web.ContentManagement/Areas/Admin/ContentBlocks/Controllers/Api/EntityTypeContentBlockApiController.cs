@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {
-    [Route("api/blocks/entity-type-content-blocks")]
     public class EntityTypeContentBlockApiController : GenericODataController<EntityTypeContentBlock, Guid>
     {
         private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;
@@ -76,7 +75,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveLocalized(ODataActionParameters parameters)
+        public async Task<IActionResult> SaveLocalized([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

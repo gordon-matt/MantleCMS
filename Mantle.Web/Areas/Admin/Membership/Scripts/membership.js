@@ -636,8 +636,6 @@
                 };
             }
             else {
-                //grid.dataSource.transport.options.read.url = usersApiUrl + "/GetUsersInRole";
-
                 // For some reason, the OData query string doesn't get populated by Kendo Grid when we're using POST,
                 // so we need to build it ourselves manually
                 grid.dataSource.transport.options.read.url = function (data) {
@@ -676,17 +674,7 @@
                             queryString += this.field + " " + this.operator + " '" + this.value + "'";
                         });
                     }
-
-                    return usersApiUrl + "/Default.GetUsersInRole?" + queryString;
-                };
-                grid.dataSource.transport.options.read.type = "POST";
-                grid.dataSource.transport.options.read.contentType = "application/json";
-                grid.dataSource.transport.parameterMap = function (options, operation) {
-                    if (operation === "read") {
-                        return kendo.stringify({
-                            roleId: self.filterRoleId()
-                        });
-                    }
+                    return usersApiUrl + "/Default.GetUsersInRole(roleId=" + self.filterRoleId() + ")?" + queryString;
                 };
             }
             grid.dataSource.read();

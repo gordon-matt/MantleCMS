@@ -40,7 +40,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> ResetLocalizableStrings(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> ResetLocalizableStrings([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

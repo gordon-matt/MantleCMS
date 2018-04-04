@@ -38,7 +38,7 @@ namespace Mantle.Web.Areas.Admin.ScheduledTasks.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> RunNow(ODataActionParameters parameters)
+        public async Task<IActionResult> RunNow([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

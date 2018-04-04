@@ -1,16 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Messaging.Forums\*.*"</PostBuildEvent>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Mantle.Plugins.Messaging.Forums</AssemblyName>
+    <PackageId>Mantle.Plugins.Messaging.Forums</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Company />
-    <Description />
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
     <Authors>Matt Gordon</Authors>
+    <Description />
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Messaging.Forums\*.*"</PostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="plugin.json" />
+    <None Remove="Content\images\topic-type1.png" />
+    <None Remove="Content\images\topic-type2.png" />
+    <None Remove="Content\images\topic-type3.png" />
     <None Remove="Scripts\BBEditor\ed.js" />
     <None Remove="Scripts\BBEditor\images\bold.gif" />
     <None Remove="Scripts\BBEditor\images\code.gif" />
@@ -25,35 +34,16 @@
     <None Remove="Scripts\BBEditor\images\upload-file.gif" />
     <None Remove="Scripts\BBEditor\images\upload-img.gif" />
     <None Remove="Scripts\index.js" />
-    <None Remove="Views\ForumsAdmin\Index.cshtml" />
-    <None Remove="Views\Forums\ActiveDiscussions.cshtml" />
-    <None Remove="Views\Forums\Forum.cshtml" />
-    <None Remove="Views\Forums\ForumGroup.cshtml" />
-    <None Remove="Views\Forums\Index.cshtml" />
-    <None Remove="Views\Forums\LastPost.cshtml" />
-    <None Remove="Views\Forums\PostCreate.cshtml" />
-    <None Remove="Views\Forums\PostEdit.cshtml" />
-    <None Remove="Views\Forums\Search.cshtml" />
-    <None Remove="Views\Forums\Topic.cshtml" />
-    <None Remove="Views\Forums\TopicCreate.cshtml" />
-    <None Remove="Views\Forums\TopicEdit.cshtml" />
-    <None Remove="Views\Forums\TopicMove.cshtml" />
-    <None Remove="Views\Forums\UserForumSubscriptions.cshtml" />
-    <None Remove="Views\Forums\_ActiveTopics.cshtml" />
-    <None Remove="Views\Forums\_CreateUpdatePost.cshtml" />
-    <None Remove="Views\Forums\_CreateUpdateTopic.cshtml" />
-    <None Remove="Views\Forums\_ForumGroup.cshtml" />
-    <None Remove="Views\Forums\_ForumHeader.cshtml" />
-    <None Remove="Views\Forums\_ForumPost.cshtml" />
-    <None Remove="Views\Forums\_SearchBox.cshtml" />
-    <None Remove="Views\Forums\_UploadFile.cshtml" />
-    <None Remove="Views\Shared\Components\ForumBreadcrumbs\Default.cshtml" />
-    <None Remove="Views\Shared\EditorTemplates\ForumSettings.cshtml" />
-    <None Remove="Views\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="plugin.json">
+    <Content Include="Content\images\topic-type1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\topic-type2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\topic-type3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\BBEditor\ed.js">
@@ -98,81 +88,6 @@
     <Content Include="Scripts\index.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\ForumsAdmin\Index.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\ActiveDiscussions.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\Forum.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\ForumGroup.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\Index.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\LastPost.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\PostCreate.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\PostEdit.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\Search.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\Topic.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\TopicCreate.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\TopicEdit.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\TopicMove.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\UserForumSubscriptions.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_ActiveTopics.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_CreateUpdatePost.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_CreateUpdateTopic.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_ForumGroup.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_ForumHeader.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_ForumPost.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_SearchBox.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Forums\_UploadFile.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\Components\ForumBreadcrumbs\Default.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\EditorTemplates\ForumSettings.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewStart.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -188,91 +103,93 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\DisplayTemplates\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Description.txt">
+    <Content Update="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\ForumsAdmin\Index.cshtml">
+    </Content>
+    <Content Update="Views\ForumsAdmin\Index.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\ActiveDiscussions.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\ActiveDiscussionsSmall.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\Forum.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\ForumBreadcrumb.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\ForumGroup.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\Index.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\LastPost.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\PostCreate.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\PostEdit.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\Search.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\Topic.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\TopicCreate.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\TopicEdit.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\TopicMove.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\UserForumSubscriptions.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_ActiveTopics.cshtml">
+    </Content>
+    <Content Update="Views\Forums\ActiveDiscussions.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_CreateUpdatePost.cshtml">
+    </Content>
+    <Content Update="Views\Forums\Forum.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_CreateUpdateTopic.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_ForumGroup.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_ForumHeader.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_ForumPost.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_SearchBox.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Forums\_UploadFile.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Shared\EditorTemplates\ForumSettings.cshtml">
+    </Content>
+    <Content Update="Views\Forums\ForumGroup.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\_ViewStart.cshtml">
+    </Content>
+    <Content Update="Views\Forums\Index.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Update="Views\Forums\LastPost.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\PostCreate.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\PostEdit.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\Search.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\Topic.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\TopicCreate.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\TopicEdit.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\TopicMove.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\UserForumSubscriptions.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_ActiveTopics.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_CreateUpdatePost.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_CreateUpdateTopic.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_ForumGroup.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_ForumHeader.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_ForumPost.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_SearchBox.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Forums\_UploadFile.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\Components\ActiveDiscussionsSmall\Default.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\Components\ForumBreadcrumbs\Default.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\Components\LastPost\Default.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\EditorTemplates\ForumSettings.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

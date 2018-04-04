@@ -32,7 +32,7 @@ namespace Mantle.Web.Messaging.Controllers.Api
         }
 
         [HttpPost]
-        public virtual IEnumerable<string> GetTokens(ODataActionParameters parameters)
+        public virtual IEnumerable<string> GetTokens([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(ReadPermission))
             {

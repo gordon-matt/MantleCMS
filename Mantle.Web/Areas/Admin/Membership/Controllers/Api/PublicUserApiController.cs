@@ -19,16 +19,9 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.Service = service;
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual async Task<IEnumerable<PublicUserInfo>> Get(ODataQueryOptions<PublicUserInfo> options)
         {
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
             var query = (await Service.GetAllUsers(workContext.CurrentTenant.Id))
                 .Select(x => new PublicUserInfo
                 {

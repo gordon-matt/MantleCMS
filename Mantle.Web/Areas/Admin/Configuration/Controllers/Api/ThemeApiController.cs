@@ -36,7 +36,6 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
         }
 
         // GET: odata/kore/cms/Plugins
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual IEnumerable<EdmThemeConfiguration> Get(ODataQueryOptions<EdmThemeConfiguration> options)
         {
             if (!CheckPermission(MantleWebPermissions.ThemesRead))
@@ -55,19 +54,13 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
                     theme.IsDefaultTheme = true;
                 }
             }
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
+            
             var results = options.ApplyTo(themes.AsQueryable());
             return (results as IQueryable<EdmThemeConfiguration>).ToHashSet();
         }
 
         [HttpPost]
-        public virtual void SetTheme(ODataActionParameters parameters)
+        public virtual void SetTheme([FromBody] ODataActionParameters parameters)
         {
             // TODO: Change return type to IHttpResult and return UnauthorizedResult
             if (!CheckPermission(MantleWebPermissions.ThemesWrite))

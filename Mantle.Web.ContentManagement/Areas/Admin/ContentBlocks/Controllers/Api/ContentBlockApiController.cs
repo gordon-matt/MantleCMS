@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
-    [Route("api/blocks/content-blocks")]
     public class ContentBlockApiController : GenericODataController<ContentBlock, Guid>
     {
         private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;
@@ -40,19 +39,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             entity.Id = Guid.NewGuid();
         }
 
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public override async Task<IEnumerable<ContentBlock>> Get(ODataQueryOptions<ContentBlock> options)
         {
             if (!CheckPermission(ReadPermission))
             {
                 return Enumerable.Empty<ContentBlock>().AsQueryable();
             }
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
 
             //using (var connection = Service.OpenConnection())
             //{
@@ -64,39 +56,30 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             var connection = GetDisposableConnection();
             var query = connection.Query(x => x.PageId == null);
             query = ApplyMandatoryFilter(query);
-            var results = options.ApplyTo(query);
+            var results = options.ApplyTo(query, IgnoreQueryOptions);
             return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
         }
 
-        //[EnableQuery]
-        [HttpPost]
-        public virtual async Task<IEnumerable<ContentBlock>> GetByPageId(ODataQueryOptions<ContentBlock> options, ODataActionParameters parameters)
+        public virtual async Task<IEnumerable<ContentBlock>> GetByPageId(
+            [FromODataUri] Guid pageId,
+            ODataQueryOptions<ContentBlock> options)
         {
             if (!CheckPermission(ReadPermission))
             {
                 return Enumerable.Empty<ContentBlock>().AsQueryable();
             }
 
-            var pageId = (Guid)parameters["pageId"];
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
-            using (var connection = Service.OpenConnection())
-            {
-                var query = connection
+            var connection = GetDisposableConnection();
+            var query = connection
                     .Query(x => x.PageId == pageId)
                     .OrderBy(x => x.ZoneId)
                     .ThenBy(x => x.Order);
 
-                var results = options.ApplyTo(query);
-                return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
-            }
+            //var results = options.ApplyTo(query, AllowedQueryOptions);
+            var results = options.ApplyTo(query);
+            return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
         }
-
+        
         public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] ContentBlock entity)
         {
             var blockType = Type.GetType(entity.BlockType);
@@ -153,7 +136,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveLocalized(ODataActionParameters parameters)
+        public async Task<IActionResult> SaveLocalized([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

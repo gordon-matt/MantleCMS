@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
-    [Route("api/blog/posts")]
     public class BlogPostApiController : GenericTenantODataController<BlogPost, Guid>
     {
         private readonly Lazy<IMembershipService> membershipService;
@@ -35,21 +34,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
             this.postTagService = postTagService;
             this.workContext = workContext;
         }
-
-        [AllowAnonymous]
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
-        public override async Task<IEnumerable<BlogPost>> Get(ODataQueryOptions<BlogPost> options)
-        {
-            return await base.Get(options);
-        }
-
-        [AllowAnonymous]
-        [EnableQuery]
-        public override async Task<SingleResult<BlogPost>> Get([FromODataUri] Guid key)
-        {
-            return await base.Get(key);
-        }
-
+        
         public override async Task<IActionResult> Post([FromBody] BlogPost entity)
         {
             int tenantId = GetTenantId();

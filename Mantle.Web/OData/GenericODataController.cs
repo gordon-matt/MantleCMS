@@ -27,6 +27,8 @@ namespace Mantle.Web.OData
 
         protected ILogger Logger { get; private set; }
 
+        protected virtual AllowedQueryOptions IgnoreQueryOptions => AllowedQueryOptions.None;
+
         #endregion Non-Public Properties
 
         #region Constructors
@@ -51,19 +53,13 @@ namespace Mantle.Web.OData
         #region Public Methods
 
         // GET: odata/<Entity>
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
         {
             if (!CheckPermission(ReadPermission))
             {
                 return Enumerable.Empty<TEntity>().AsQueryable();
             }
-
-            options.Validate(new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            });
-
+            
             //    using (var connection = Service.OpenConnection())
             //    {
             //        var query = connection.Query();
@@ -76,7 +72,7 @@ namespace Mantle.Web.OData
             var connection = GetDisposableConnection();
             var query = connection.Query();
             query = ApplyMandatoryFilter(query);
-            var results = options.ApplyTo(query);
+            var results = options.ApplyTo(query, IgnoreQueryOptions);
 
             // Recommended not to use ToHashSetAsync(). See: https://github.com/OData/WebApi/issues/1235#issuecomment-371322404
             //return await (results as IQueryable<TEntity>).ToHashSetAsync();
@@ -85,7 +81,6 @@ namespace Mantle.Web.OData
         }
 
         // GET: odata/<Entity>(5)
-        [EnableQuery]
         public virtual async Task<SingleResult<TEntity>> Get([FromODataUri] TKey key)
         {
             if (!CheckPermission(ReadPermission))

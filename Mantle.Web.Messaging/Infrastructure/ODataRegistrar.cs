@@ -12,12 +12,13 @@ namespace Mantle.Web.Messaging.Infrastructure
         public void Register(IRouteBuilder routes, IServiceProvider services)
         {
             ODataModelBuilder builder = new ODataConventionModelBuilder(services);
-
-            // Messaging
+            
             builder.EntitySet<MessageTemplate>("MessageTemplateApi");
+            builder.EntitySet<MessageTemplateVersion>("MessageTemplateVersionApi");
             builder.EntitySet<QueuedEmail>("QueuedEmailApi");
 
             RegisterMessageTemplateODataActions(builder);
+            RegisterMessageTemplateVersionODataActions(builder);
 
             routes.MapODataServiceRoute("OData_Mantle_Web_Messaging", "odata/mantle/web/messaging", builder.GetEdmModel());
         }
@@ -27,6 +28,14 @@ namespace Mantle.Web.Messaging.Infrastructure
             var getTokensAction = builder.EntityType<MessageTemplate>().Collection.Action("GetTokens");
             getTokensAction.Parameter<string>("templateName");
             getTokensAction.ReturnsCollection<string>();
+        }
+
+        private static void RegisterMessageTemplateVersionODataActions(ODataModelBuilder builder)
+        {
+            var getCurrentVersionFunction = builder.EntityType<MessageTemplateVersion>().Collection.Function("GetCurrentVersion");
+            getCurrentVersionFunction.Parameter<int>("templateId");
+            getCurrentVersionFunction.Parameter<string>("cultureCode");
+            getCurrentVersionFunction.Returns<MessageTemplateVersion>();
         }
     }
 }

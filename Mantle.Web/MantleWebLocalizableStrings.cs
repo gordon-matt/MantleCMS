@@ -32,6 +32,7 @@
             public const string Download = "Mantle.Web/General.Download";
             public const string Edit = "Mantle.Web/General.Edit";
             public const string EditFormat = "Mantle.Web/General.EditFormat";
+            public const string EditWithFormat = "Mantle.Web/General.EditWithFormat";
             public const string Enabled = "Mantle.Web/General.Enabled";
             public const string Error = "Mantle.Web/General.Error";
             public const string Export = "Mantle.Web/General.Export";

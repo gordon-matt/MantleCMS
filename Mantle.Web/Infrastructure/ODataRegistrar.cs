@@ -71,9 +71,9 @@ namespace Mantle.Web.Infrastructure
 
         private static void RegisterMembershipODataActions(ODataModelBuilder builder)
         {
-            var getUsersInRoleAction = builder.EntityType<MantleUser>().Collection.Action("GetUsersInRole");
-            getUsersInRoleAction.Parameter<string>("roleId");
-            getUsersInRoleAction.ReturnsCollectionFromEntitySet<MantleUser>("Users");
+            var getUsersInRoleFunction = builder.EntityType<MantleUser>().Collection.Function("GetUsersInRole");
+            getUsersInRoleFunction.Parameter<string>("roleId");
+            getUsersInRoleFunction.ReturnsCollectionFromEntitySet<MantleUser>("Users");
 
             var assignUserToRolesAction = builder.EntityType<MantleUser>().Collection.Action("AssignUserToRoles");
             assignUserToRolesAction.Parameter<string>("userId");

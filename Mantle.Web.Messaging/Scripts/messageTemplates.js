@@ -16,46 +16,51 @@
     require('mantle-jqueryval');
     require('mantle-tinymce');
 
-    var ViewModel = function () {
+    var templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
+    var templateVersionApiUrl = "/odata/mantle/web/messaging/MessageTemplateVersionApi";
+
+    var TemplateVersionModel = function (parent) {
         var self = this;
 
-        self.gridPageSize = 10;
-        self.translations = false;
-
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
-        self.ownerId = ko.observable(null);
+        self.parent = parent;
+        self.id = ko.observable(0);
+        self.messageTemplateId = ko.observable(0);
+        self.cultureCode = ko.observable(null);
         self.subject = ko.observable(null);
-        self.body = ko.observable(null);
-        self.enabled = ko.observable(false);
+        self.data = ko.observable(null);
 
-        self.validator = false;
         self.tinyMCEConfig = mantleDefaultTinyMCEConfig;
 
-        self.attached = function () {
-            currentSection = $("#grid-section");
+        self.init = function () {
 
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/messaging/templates/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        };
+    };
 
-            self.gridPageSize = $("#GridPageSize").val();
+    var TemplateModel = function (parent) {
+        var self = this;
 
+        self.parent = parent;
+        self.id = ko.observable(0);
+        self.name = ko.observable(null);
+        self.ownerId = ko.observable(null);
+        self.enabled = ko.observable(false);
+
+        self.inEditMode = ko.observable(false);
+
+        self.validator = false;
+        self.versionValidator = false;
+
+        self.init = function () {
             self.validator = $("#form-section-form").validate({
                 rules: {
-                    Name: { required: true, maxlength: 255 },
+                    Name: { required: true, maxlength: 255 }
+                }
+            });
+
+            self.versionValidator = $("#form-section-form").validate({
+                rules: {
                     Subject: { required: true, maxlength: 255 },
-                    Body: { required: true }
+                    Data: { required: true }
                 }
             });
 
@@ -65,7 +70,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/web/messaging/MessageTemplateApi",
+                            url: templateApiUrl,
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -93,7 +98,6 @@
                             id: "Id",
                             fields: {
                                 Name: { type: "string" },
-                                Subject: { type: "string" },
                                 Enabled: { type: "boolean" }
                             }
                         }
@@ -121,15 +125,11 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.translations.columns.name,
-                    filterable: true
-                }, {
-                    field: "Subject",
-                    title: self.translations.columns.subject,
+                    title: self.parent.translations.columns.name,
                     filterable: true
                 }, {
                     field: "Enabled",
-                    title: self.translations.columns.enabled,
+                    title: self.parent.translations.columns.enabled,
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -138,34 +138,68 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
-                        // TODO: Add "Edit with GrapesJS" button
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '<a data-bind="click: toggleEnabled.bind($data,\'#=Id#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.translations.toggle + '</a>' +
+                        '<div class="btn-group">' +
+                            '<a data-bind="click: templateModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
+                            '<i class="fa fa-edit"></i></a>' +
+
+                            // "Edit with GrapesJS" button
+                            '<a href="/admin/messaging/grapes-js-templates/edit/#=Id#/" target="_blank" class="btn btn-default btn-sm btn-grapes-js" title="' + self.parent.translations.editWithGrapesJS + '">' +
+                            '<i class="fa fa-edit"></i></a>' +
+
+                            '<a data-bind="click: templateModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
+                            '<i class="fa fa-trash"></i></a>' +
+                    
+                            '<a data-bind="click: templateModel.toggleEnabled.bind($data,\'#=Id#\',#=Enabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
+                            '<i class="fa fa-toggle-on"></i></a>' +
+
+                            '<a data-bind="click: templateModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
+                            '<i class="fa fa-globe"></i></a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
-                    width: 170
+                    width: 200
                 }]
             });
         };
         self.create = function () {
-            self.id(emptyGuid);
+            self.parent.currentCulture = null;
+
+            self.id(0);
             self.name(null);
             self.ownerId(null);
-            self.subject(null);
-            self.body('');
             self.enabled(false);
 
             $("#tokens-list").html("");
 
+            self.inEditMode(false);
+
+            self.setupVersionCreateSection();
+
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.create);
+            $("#form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
+        self.setupVersionCreateSection = function () {
+            self.parent.templateVersionModel.id(0);
+            self.parent.templateVersionModel.messageTemplateId(0);
+            self.parent.templateVersionModel.cultureCode(self.parent.currentCulture);
+            self.parent.templateVersionModel.subject(null);
+            self.parent.templateVersionModel.data('');
+            self.versionValidator.resetForm();
+        };
+        self.edit = function (id, cultureCode) {
+            if (cultureCode && cultureCode != 'null') {
+                self.parent.currentCulture = cultureCode;
+            }
+            else {
+                self.parent.currentCulture = null;
+            }
+
+            //---------------------------------------------------------------------------------------
+            // Get Template
+            //---------------------------------------------------------------------------------------
             $.ajax({
-                url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
+                url: templateApiUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -174,48 +208,104 @@
                 self.id(json.Id);
                 self.name(json.Name);
                 self.ownerId(json.OwnerId);
-                self.subject(json.Subject);
-                self.body(json.Body);
                 self.enabled(json.Enabled);
 
-                $("#tokens-list").html("");
-
+                //---------------------------------------------------------------------------------------
+                // Get Template Version
+                //---------------------------------------------------------------------------------------
                 $.ajax({
-                    url: "/odata/mantle/web/messaging/MessageTemplateApi/Default.GetTokens",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({ templateName: json.Name }),
+                    url: templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')",
+                    type: "GET",
                     dataType: "json",
                     async: false
                 })
                 .done(function (json) {
-                    if (json.value && json.value.length > 0) {
-                        var s = '';
-                        $.each(json.value, function () {
-                            s += '<li>' + this + '</li>';
-                        });
-                        $("#tokens-list").html(s);
-                    }
+                    self.setupVersionEditSection(json);
+                    
+                    $("#tokens-list").html("");
+
+                    //---------------------------------------------------------------------------------------
+                    // Get Tokens
+                    //---------------------------------------------------------------------------------------
+                    $.ajax({
+                        url: templateApiUrl + "/Default.GetTokens",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({ templateName: json.Name }),
+                        dataType: "json",
+                        async: false
+                    })
+                    .done(function (json) {
+                        if (json.value && json.value.length > 0) {
+                            var s = '';
+                            $.each(json.value, function () {
+                                s += '<li>' + this + '</li>';
+                            });
+                            $("#tokens-list").html(s);
+                        }
+
+                        self.inEditMode(true);
+                        
+                        //---------------------------------------------------------------------------------------
+                        // Reset
+                        //---------------------------------------------------------------------------------------
+                        self.validator.resetForm();
+                        switchSection($("#form-section"));
+                        $("#form-section-legend").html(self.parent.translations.edit);
+                        //---------------------------------------------------------------------------------------
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        //$.notify(self.parent.translations.getRecordError, "error");
+                        $.notify(self.parent.translations.getTokensError, "error");
+                        console.log(textStatus + ': ' + errorThrown);
+                    });
+                    //---------------------------------------------------------------------------------------
+                    // END: Get Tokens
+                    //---------------------------------------------------------------------------------------
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    //$.notify(self.translations.getRecordError, "error");
-                    $.notify(self.translations.getTokensError, "error");
+                    $.notify(self.parent.translations.getRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
-
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
+                //---------------------------------------------------------------------------------------
+                // END: Get Template Version
+                //---------------------------------------------------------------------------------------
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
+            //---------------------------------------------------------------------------------------
+            // END: Get Template
+            //---------------------------------------------------------------------------------------
+        };
+        self.editWithGrapesJs = function (id, cultureCode) {
+            if (cultureCode) {
+                self.parent.currentCulture = cultureCode;
+            }
+            else {
+                self.parent.currentCulture = null;
+            }
+        };
+        self.setupVersionEditSection = function (json) {
+            self.parent.templateVersionModel.id(json.Id);
+            self.parent.templateVersionModel.messageTemplateId(json.MessageTemplateId);
+
+            // Don't do this, since API may return invariant version if localized does not exist yet...
+            //self.parent.templateVersionModel.cultureCode(json.CultureCode);
+
+            // So do this instead...
+            self.parent.templateVersionModel.cultureCode(self.parent.currentCulture);
+
+            self.parent.templateVersionModel.subject(json.Subject);
+            self.parent.templateVersionModel.data(json.Data);
+
+            self.versionValidator.resetForm();
         };
         self.remove = function (id) {
-            if (confirm(self.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
+                    url: templateApiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -223,33 +313,38 @@
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.translations.deleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
         self.save = function () {
+            var isNew = (self.id() == 0);
 
             if (!$("#form-section-form").valid()) {
                 return false;
+            }
+
+            if (!isNew) {
+                if (!$("#form-section-version-form").valid()) {
+                    return false;
+                }
             }
 
             var record = {
                 Id: self.id(),
                 Name: self.name(),
                 OwnerId: self.ownerId(),
-                Subject: self.subject(),
-                Body: self.body(),
                 Enabled: self.enabled()
             };
 
-            if (self.id() == emptyGuid) {
+            if (isNew) {
                 // INSERT
                 $.ajax({
-                    url: "/odata/mantle/web/messaging/MessageTemplateApi",
+                    url: templateApiUrl,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -259,20 +354,18 @@
                 .done(function (json) {
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.insertRecordSuccess, "success");
+                    
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.insertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 // UPDATE
                 $.ajax({
-                    url: "/odata/mantle/web/messaging/MessageTemplateApi(" + self.id() + ")",
+                    url: templateApiUrl + "(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -282,16 +375,49 @@
                 .done(function (json) {
                     $('#Grid').data('kendoGrid').dataSource.read();
                     $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.updateRecordSuccess, "success");
+                    
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.updateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
+
+                self.saveVersion();
             }
+
+            switchSection($("#grid-section"));
+        };
+        self.saveVersion = function () {
+            var cultureCode = self.parent.templateVersionModel.cultureCode();
+            if (cultureCode == '') {
+                cultureCode = null;
+            }
+
+            var record = {
+                Id: self.parent.templateVersionModel.id(), // Should always create a new one, so don't send Id!
+                MessageTemplateId: self.parent.templateVersionModel.messageTemplateId(),
+                CultureCode: cultureCode,
+                Subject: self.parent.templateVersionModel.subject(),
+                Data: self.parent.templateVersionModel.data()
+            };
+
+            // UPDATE only (no option for insert here)
+            $.ajax({
+                url: templateVersionApiUrl + "(" + self.parent.templateVersionModel.id() + ")",
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(record),
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.updateRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
         self.cancel = function () {
             switchSection($("#grid-section"));
@@ -302,7 +428,7 @@
             };
 
             $.ajax({
-                url: "/odata/mantle/web/messaging/MessageTemplateApi(" + id + ")",
+                url: templateApiUrl + "(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -313,12 +439,61 @@
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
 
-                $.notify(self.translations.updateRecordSuccess, "success");
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.updateRecordError, "error");
+                $.notify(self.parent.translations.updateRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
+        };
+
+        self.localize = function (id) {
+            $("#TemplateIdToLocalize").val(id);
+            $("#cultureModal").modal("show");
+        };
+        self.onCultureSelected = function () {
+            var id = $("#TemplateIdToLocalize").val();
+            var cultureCode = $("#CultureCode").val();
+            self.edit(id, cultureCode);
+            $("#cultureModal").modal("hide");
+        };
+    };
+
+    var ViewModel = function () {
+        var self = this;
+
+        self.gridPageSize = 10;
+        self.translations = false;
+        self.currentCulture = null;
+
+        self.templateModel = false;
+        self.templateVersionModel = false;
+
+        self.activate = function () {
+            self.templateModel = new TemplateModel(self);
+            self.templateVersionModel = new TemplateVersionModel(self);
+        };
+        self.attached = function () {
+            currentSection = $("#grid-section");
+
+            // Load translations first, else will have errors
+            $.ajax({
+                url: "/admin/messaging/templates/get-translations",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+
+            self.gridPageSize = $("#GridPageSize").val();
+
+            self.templateVersionModel.init();
+            self.templateModel.init();
         };
     };
 

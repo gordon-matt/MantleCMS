@@ -32,7 +32,7 @@ namespace MantleCMS.Data.Domain
             builder.ToTable(Constants.Tables.RolePermissions);
             builder.HasKey(x => new { x.PermissionId, x.RoleId });
             builder.Property(x => x.PermissionId).IsRequired();
-            builder.Property(x => x.RoleId).IsRequired().HasMaxLength(128).IsUnicode(false);
+            builder.Property(x => x.RoleId).IsRequired().HasMaxLength(450).IsUnicode(true);
             builder.HasOne(c => c.Permission).WithMany(x => x.RolesPermissions).HasForeignKey(x => x.PermissionId);
             builder.HasOne(c => c.Role).WithMany(x => x.RolesPermissions).HasForeignKey(x => x.RoleId);
         }

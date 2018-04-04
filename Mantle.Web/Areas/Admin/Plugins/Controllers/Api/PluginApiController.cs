@@ -25,28 +25,19 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
             this.pluginFinder = pluginFinder;
             this.logger = loggerFactory.CreateLogger<PluginApiController>();
         }
-
-        // GET: odata/mantle/web/Plugins
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual IEnumerable<EdmPluginDescriptor> Get(ODataQueryOptions<EdmPluginDescriptor> options)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))
             {
                 return Enumerable.Empty<EdmPluginDescriptor>().AsQueryable();
             }
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
+            
             var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
             var results = options.ApplyTo(query);
             return (results as IQueryable<EdmPluginDescriptor>).ToHashSet();
         }
-
-        [EnableQuery]
+        
         public virtual SingleResult<EdmPluginDescriptor> Get([FromODataUri] string key)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))

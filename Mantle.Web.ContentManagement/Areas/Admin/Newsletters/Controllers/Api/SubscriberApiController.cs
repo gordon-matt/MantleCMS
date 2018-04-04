@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
 {
-    [Route("api/newsletters/subscribers")]
     public class SubscriberApiController : ODataController
     {
         private readonly IMembershipService membershipService;
@@ -29,8 +28,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
             this.membershipSettings = membershipSettings;
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public async Task<IEnumerable<Subscriber>> Get(ODataQueryOptions<Subscriber> options)
         {
             if (!CheckPermission(CmsPermissions.NewsletterRead))
@@ -41,13 +39,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
             var userIds = (await membershipService
                 .GetProfileEntriesByKeyAndValue(workContext.CurrentTenant.Id, NewsletterUserProfileProvider.Fields.SubscribeToNewsletters, "true"))
                 .Select(x => x.UserId);
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
+            
             var users = await membershipService.GetUsers(workContext.CurrentTenant.Id, x => userIds.Contains(x.Id));
 
             var tasks = users
@@ -67,8 +59,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
             var results = options.ApplyTo(query);
             return (results as IQueryable<Subscriber>).ToHashSet();
         }
-
-        [EnableQuery]
+        
         public async Task<SingleResult<Subscriber>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(CmsPermissions.NewsletterRead))

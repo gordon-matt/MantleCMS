@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
-    [Route("api/page-tree")]
     public class PageTreeApiController : ODataController
     {
         private readonly IPageService service;
@@ -24,8 +23,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             this.service = service;
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All, MaxExpansionDepth = 10)]
+        
         public async Task<IEnumerable<PageTreeItem>> Get(ODataQueryOptions<PageTreeItem> options)
         {
             if (!CheckPermission(CmsPermissions.PagesRead))
@@ -48,7 +46,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
                     SubPages = GetSubPages(pages, x.Id).ToList()
                 });
 
-            var settings = new ODataValidationSettings()
+            var settings = new ODataValidationSettings
             {
                 AllowedQueryOptions = AllowedQueryOptions.All,
                 MaxExpansionDepth = 10
@@ -58,8 +56,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             var results = options.ApplyTo(hierarchy.AsQueryable());
             return (results as IQueryable<PageTreeItem>).ToHashSet();
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All, MaxExpansionDepth = 10)]
+        
         public virtual async Task<SingleResult<PageTreeItem>> Get([FromODataUri] Guid key)
         {
             if (!CheckPermission(CmsPermissions.PagesRead))

@@ -30,26 +30,20 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<PermissionApiController>();
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual async Task<IEnumerable<MantlePermission>> Get(ODataQueryOptions<MantlePermission> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
                 return Enumerable.Empty<MantlePermission>().AsQueryable();
             }
+            
+            var results = options.ApplyTo(
+                (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
 
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
-            var results = options.ApplyTo((await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
             return await (results as IQueryable<MantlePermission>).ToHashSetAsync();
         }
-
-        [EnableQuery]
+        
         public virtual async Task<SingleResult<MantlePermission>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
@@ -171,7 +165,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IEnumerable<EdmMantlePermission>> GetPermissionsForRole(ODataActionParameters parameters)
+        public virtual async Task<IEnumerable<EdmMantlePermission>> GetPermissionsForRole([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {

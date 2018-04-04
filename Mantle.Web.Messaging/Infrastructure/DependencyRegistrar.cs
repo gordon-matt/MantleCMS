@@ -32,6 +32,7 @@ namespace Mantle.Web.Messaging.Infrastructure
             builder.RegisterType<MessageService>().As<IMessageService>().InstancePerDependency();
             builder.RegisterType<MessageService>().As<IQueuedMessageProvider>().InstancePerDependency();
             builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerDependency();
+            builder.RegisterType<MessageTemplateVersionService>().As<IMessageTemplateVersionService>().InstancePerDependency();
             builder.RegisterType<QueuedEmailService>().As<IQueuedEmailService>().InstancePerDependency();
 
             // Tasks

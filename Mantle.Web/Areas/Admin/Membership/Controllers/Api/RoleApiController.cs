@@ -30,8 +30,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<RoleApiController>();
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual async Task<IEnumerable<MantleRole>> Get(ODataQueryOptions<MantleRole> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))
@@ -39,17 +38,16 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
                 return Enumerable.Empty<MantleRole>().AsQueryable();
             }
 
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
+            //var settings = new ODataValidationSettings()
+            //{
+            //    AllowedQueryOptions = AllowedQueryOptions.All
+            //};
+            //options.Validate(settings);
 
             var results = options.ApplyTo((await Service.GetAllRoles(workContext.CurrentTenant.Id)).AsQueryable());
             return (results as IQueryable<MantleRole>).ToHashSet();
         }
-
-        [EnableQuery]
+        
         public virtual async Task<SingleResult<MantleRole>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))
@@ -171,7 +169,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IEnumerable<EdmRole>> GetRolesForUser(ODataActionParameters parameters)
+        public virtual async Task<IEnumerable<EdmRole>> GetRolesForUser([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))
             {
@@ -186,7 +184,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> AssignPermissionsToRole(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> AssignPermissionsToRole([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesWrite))
             {

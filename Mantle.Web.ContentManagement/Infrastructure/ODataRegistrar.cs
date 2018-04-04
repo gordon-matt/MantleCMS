@@ -1,6 +1,4 @@
 ﻿using System;
-using Mantle.Localization.Domain;
-using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
@@ -36,10 +34,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             builder.EntitySet<EntityTypeContentBlock>("EntityTypeContentBlockApi");
             builder.EntitySet<Zone>("ZoneApi");
 
-            // Localization
-            builder.EntitySet<Language>("LanguageApi");
-            builder.EntitySet<LocalizableString>("LocalizableStringApi");
-
             // Menus
             builder.EntitySet<Menu>("MenuApi");
             builder.EntitySet<MenuItem>("MenuItemApi");
@@ -57,8 +51,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             // Action Configurations
             RegisterContentBlockODataActions(builder);
             RegisterEntityTypeContentBlockODataActions(builder);
-            RegisterLanguageODataActions(builder);
-            RegisterLocalizableStringODataActions(builder);
             RegisterPageODataActions(builder);
             RegisterPageVersionODataActions(builder);
             RegisterXmlSitemapODataActions(builder);
@@ -70,10 +62,10 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
         private static void RegisterContentBlockODataActions(ODataModelBuilder builder)
         {
-            var getByPageIdAction = builder.EntityType<ContentBlock>().Collection.Action("GetByPageId");
-            getByPageIdAction.Parameter<Guid>("pageId");
-            getByPageIdAction.ReturnsCollectionFromEntitySet<ContentBlock>("ContentBlockApi");
-
+            var getByPageIdFunction = builder.EntityType<ContentBlock>().Collection.Function("GetByPageId");
+            getByPageIdFunction.Parameter<Guid>("pageId");
+            getByPageIdFunction.ReturnsCollectionFromEntitySet<ContentBlock>("ContentBlockApi");
+            
             var getLocalizedActionFunction = builder.EntityType<ContentBlock>().Collection.Function("GetLocalized");
             getLocalizedActionFunction.Parameter<Guid>("id");
             getLocalizedActionFunction.Parameter<string>("cultureCode");
@@ -96,28 +88,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             saveLocalizedAction.Parameter<string>("cultureCode");
             saveLocalizedAction.Parameter<EntityTypeContentBlock>("entity");
             saveLocalizedAction.Returns<IActionResult>();
-        }
-
-        private static void RegisterLanguageODataActions(ODataModelBuilder builder)
-        {
-            var resetLocalizableStringsAction = builder.EntityType<Language>().Collection.Action("ResetLocalizableStrings");
-            resetLocalizableStringsAction.Returns<IActionResult>();
-        }
-
-        private static void RegisterLocalizableStringODataActions(ODataModelBuilder builder)
-        {
-            var getComparitiveTableFunction = builder.EntityType<LocalizableString>().Collection.Function("GetComparitiveTable");
-            getComparitiveTableFunction.Parameter<string>("cultureCode");
-            getComparitiveTableFunction.ReturnsCollection<ComparitiveLocalizableString>();
-
-            var putComparitiveAction = builder.EntityType<LocalizableString>().Collection.Action("PutComparitive");
-            putComparitiveAction.Parameter<string>("cultureCode");
-            putComparitiveAction.Parameter<string>("key");
-            putComparitiveAction.Parameter<ComparitiveLocalizableString>("entity");
-
-            var deleteComparitiveAction = builder.EntityType<LocalizableString>().Collection.Action("DeleteComparitive");
-            deleteComparitiveAction.Parameter<string>("cultureCode");
-            deleteComparitiveAction.Parameter<string>("key");
         }
 
         private static void RegisterPageODataActions(ODataModelBuilder builder)

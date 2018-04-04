@@ -26,21 +26,14 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             this.regionSettings = regionSettings;
             this.regionSettingsService = regionSettingsService;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual IEnumerable<EdmRegionSettings> Get(ODataQueryOptions<EdmRegionSettings> options)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
                 return Enumerable.Empty<EdmRegionSettings>().AsQueryable();
             }
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
+            
             var query = regionSettings
                 .Select(x => new EdmRegionSettings
                 {
@@ -54,7 +47,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<EdmRegionSettings> GetSettings(ODataActionParameters parameters)
+        public virtual async Task<EdmRegionSettings> GetSettings([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
@@ -96,7 +89,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> SaveSettings(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> SaveSettings([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(Permissions.RegionsWrite))
             {

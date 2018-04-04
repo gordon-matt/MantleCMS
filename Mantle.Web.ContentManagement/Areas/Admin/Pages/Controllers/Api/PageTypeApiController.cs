@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
-    [Route("api/page-types")]
     public class PageTypeApiController : GenericODataController<PageType, Guid>
     {
         public PageTypeApiController(IPageTypeService service)

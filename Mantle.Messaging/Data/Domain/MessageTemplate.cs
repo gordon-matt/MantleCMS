@@ -16,6 +16,8 @@ namespace Mantle.Messaging.Data.Domain
 
         public Guid? OwnerId { get; set; }
 
+        public bool Enabled { get; set; }
+
         #region IEntity Members
 
         public object[] KeyValues
@@ -33,6 +35,7 @@ namespace Mantle.Messaging.Data.Domain
             builder.ToTable("Mantle_MessageTemplates");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
+            builder.Property(x => x.Enabled).IsRequired();
         }
 
         public bool IsEnabled => true;

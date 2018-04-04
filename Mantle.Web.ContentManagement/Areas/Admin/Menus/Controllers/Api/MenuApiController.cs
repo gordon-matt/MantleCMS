@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
-    [Route("api/menus")]
     public class MenuApiController : GenericTenantODataController<Menu, Guid>
     {
         public MenuApiController(IMenuService service)

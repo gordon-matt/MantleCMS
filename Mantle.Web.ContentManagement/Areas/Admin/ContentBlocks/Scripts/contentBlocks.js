@@ -104,16 +104,7 @@
 
             // Override grid data source if necessary (to filter by Page ID)
             if (self.parent.pageId && self.parent.pageId != '') {
-                ds.transport.read.url = "/odata/mantle/cms/ContentBlockApi/Default.GetByPageId";
-                ds.transport.read.type = "POST";
-                ds.transport.read.contentType = "application/json";
-                ds.transport.parameterMap = function (options, operation) {
-                    if (operation === "read") {
-                        return kendo.stringify({
-                            pageId: self.parent.pageId
-                        });
-                    }
-                };
+                ds.transport.read.url = "/odata/mantle/cms/ContentBlockApi/Default.GetByPageId(pageId=" + self.parent.pageId + ")";
             }
 
             $("#Grid").kendoGrid({

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {
     //[Authorize(Roles = MantleConstants.Roles.Administrators)]
-    [Route("api/blocks/zones")]
     public class ZoneApiController : GenericTenantODataController<Zone, Guid>
     {
         public ZoneApiController(IZoneService service)

@@ -95,15 +95,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Name,
+                    title: self.parent.translations.columns.name,
                     filterable: true
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.Columns.DisplayOrder,
+                    title: self.parent.translations.columns.displayOrder,
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.parent.translations.Columns.CreatedOnUtc,
+                    title: self.parent.translations.columns.createdOnUtc,
                     format: "{0:G}",
                     filterable: true
                 }, {
@@ -111,8 +111,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: forumModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: forumModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<a data-bind="click: forumModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: forumModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -129,7 +129,7 @@
 
             self.validator.resetForm();
             switchSection($("#forum-form-section"));
-            $("#forum-form-section-legend").html(self.parent.translations.Create);
+            $("#forum-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
@@ -147,15 +147,15 @@
 
                 self.validator.resetForm();
                 switchSection($("#forum-form-section"));
-                $("#forum-form-section-legend").html(self.parent.translations.Edit);
+                $("#forum-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: forumApiUrl + "(" + id + ")",
                     type: "DELETE",
@@ -165,10 +165,10 @@
                 .done(function (json) {
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -203,10 +203,10 @@
 
                     switchSection($("#forum-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -225,10 +225,10 @@
 
                     switchSection($("#forum-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -319,15 +319,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.Columns.Name,
+                    title: self.parent.translations.columns.name,
                     filterable: true
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.Columns.DisplayOrder,
+                    title: self.parent.translations.columns.displayOrder,
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.parent.translations.Columns.CreatedOnUtc,
+                    title: self.parent.translations.columns.createdOnUtc,
                     format: "{0:G}",
                     filterable: true
                 }, {
@@ -335,9 +335,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: showForums.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Forums + '</a>' +
-                        '<a data-bind="click: forumGroupModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.Edit + '</a>' +
-                        '<a data-bind="click: forumGroupModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.Delete + '</a>' +
+                        '<a data-bind="click: showForums.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.forums + '</a>' +
+                        '<a data-bind="click: forumGroupModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
+                        '<a data-bind="click: forumGroupModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -352,7 +352,7 @@
 
             self.validator.resetForm();
             switchSection($("#forum-group-form-section"));
-            $("#forum-group-form-section-legend").html(self.parent.translations.Create);
+            $("#forum-group-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id) {
             $.ajax({
@@ -368,15 +368,15 @@
 
                 self.validator.resetForm();
                 switchSection($("#forum-group-form-section"));
-                $("#forum-group-form-section-legend").html(self.parent.translations.Edit);
+                $("#forum-group-form-section-legend").html(self.parent.translations.edit);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.GetRecordError, "error");
+                $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: forumGroupApiUrl + "(" + id + ")",
                     type: "DELETE",
@@ -386,10 +386,10 @@
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.DeleteRecordSuccess, "success");
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.DeleteRecordError, "error");
+                    $.notify(self.parent.translations.deleteRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -422,10 +422,10 @@
 
                     switchSection($("#forum-group-grid-section"));
 
-                    $.notify(self.parent.translations.InsertRecordSuccess, "success");
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.InsertRecordError, "error");
+                    $.notify(self.parent.translations.insertRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }
@@ -445,10 +445,10 @@
 
                     switchSection($("#forum-group-grid-section"));
 
-                    $.notify(self.parent.translations.UpdateRecordSuccess, "success");
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.UpdateRecordError, "error");
+                    $.notify(self.parent.translations.updateRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
             }

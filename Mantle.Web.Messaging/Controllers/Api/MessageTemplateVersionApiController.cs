@@ -1,15 +1,18 @@
-﻿using Mantle.Data;
-using Mantle.Messaging.Data.Domain;
+﻿using Mantle.Messaging.Data.Domain;
+using Mantle.Messaging.Services;
+using Mantle.Web.Messaging.Models;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Messaging.Controllers.Api
 {
-    public class MessageTemplateVersionVersionApiController : GenericODataController<MessageTemplateVersion, int>
+    public class MessageTemplateVersionApiController : GenericODataController<MessageTemplateVersion, int>
     {
-        public MessageTemplateVersionVersionApiController(
-            IRepository<MessageTemplateVersion> repository)
-            : base(repository)
+        public MessageTemplateVersionApiController(
+            IMessageTemplateVersionService service)
+            : base(service)
         {
         }
 
@@ -20,6 +23,34 @@ namespace Mantle.Web.Messaging.Controllers.Api
 
         protected override void SetNewId(MessageTemplateVersion entity)
         {
+        }
+
+        [HttpGet]
+        //[ODataRoute("MessageTemplateVersionApi/Default.GetCurrentVersion(templateId={templateId},cultureCode={cultureCode})")]
+        public IActionResult GetCurrentVersion([FromODataUri] int templateId, [FromODataUri] string cultureCode)
+        {
+            if (!CheckPermission(WritePermission))
+            {
+                return Unauthorized();
+            }
+
+            var currentVersion = ((IMessageTemplateVersionService)Service).FindOne(
+                templateId,
+                cultureCode);
+
+            if (currentVersion == null)
+            {
+                return NotFound();
+            }
+
+            if (currentVersion.Data.Contains("gjs-assets"))
+            {
+                // Since we wish to edit in normal HTML editor this time (was GrapesJS before), then we need to extract just the HTML
+                var data = currentVersion.Data.JsonDeserialize<GrapesJsStorageData>();
+                currentVersion.Data = data.Html;
+            }
+
+            return Ok(currentVersion);
         }
 
         protected override Permission ReadPermission

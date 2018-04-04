@@ -65,7 +65,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveLocalized(ODataActionParameters parameters)
+        public async Task<IActionResult> SaveLocalized([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

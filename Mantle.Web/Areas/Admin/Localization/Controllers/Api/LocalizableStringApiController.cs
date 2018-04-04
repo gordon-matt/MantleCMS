@@ -37,7 +37,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
             entity.Id = Guid.NewGuid();
         }
 
-        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
         public virtual async Task<IEnumerable<ComparitiveLocalizableString>> GetComparitiveTable(
             [FromODataUri] string cultureCode,
             ODataQueryOptions<ComparitiveLocalizableString> options)
@@ -65,13 +65,13 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
                                     : grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault().TextValue
                             });
 
-                var results = options.ApplyTo(query);
+                var results = options.ApplyTo(query, IgnoreQueryOptions);
                 return await (results as IQueryable<ComparitiveLocalizableString>).ToHashSetAsync();
             }
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> PutComparitive(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> PutComparitive([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
@@ -119,7 +119,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> DeleteComparitive(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> DeleteComparitive([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

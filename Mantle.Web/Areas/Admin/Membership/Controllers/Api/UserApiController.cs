@@ -38,27 +38,20 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<UserApiController>();
             this.workContext = workContext;
         }
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         public virtual async Task<IEnumerable<MantleUser>> Get(ODataQueryOptions<MantleUser> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersRead))
             {
-                return Enumerable.Empty<MantleUser>().AsQueryable();
+                return Enumerable.Empty<MantleUser>();
             }
 
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
-            //var results = options.ApplyTo(Service.GetAllUsersAsQueryable(workContext.CurrentTenant.Id));
-            var results = (await Service.GetAllUsers(workContext.CurrentTenant.Id)).AsQueryable();
-            return await (results as IQueryable<MantleUser>).ToHashSetAsync();
+            //var results = options.ApplyTo(Service.GetAllUsersAsQueryable(workContext.CurrentTenant.Id), AllowedQueryOptions.All);
+            var query = (await Service.GetAllUsers(workContext.CurrentTenant.Id)).AsQueryable();
+            var results = options.ApplyTo(query);
+            return (results as IQueryable<MantleUser>).ToHashSet();
         }
-
-        [EnableQuery]
+        
         public virtual async Task<SingleResult<MantleUser>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersRead))
@@ -94,7 +87,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             {
                 logger.LogError(new EventId(), x, x.Message);
 
-                if (!EntityExists(key))
+                if (!await CheckEntityExistsAsync(key))
                 {
                     return NotFound();
                 }
@@ -155,7 +148,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             {
                 logger.LogError(new EventId(), x, x.Message);
 
-                if (!EntityExists(key))
+                if (!await CheckEntityExistsAsync(key))
                 {
                     return NotFound();
                 }
@@ -183,33 +176,28 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return NoContent();
         }
 
-        protected virtual bool EntityExists(string key)
+        protected virtual async Task<bool> CheckEntityExistsAsync(string key)
         {
-            return AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
+            var user = await Service.GetUserById(key);
+            return user != null;
         }
-
-        //[EnableQuery]
-        [HttpPost]
-        public virtual async Task<IEnumerable<MantleUser>> GetUsersInRole(ODataQueryOptions<MantleUser> options, ODataActionParameters parameters)
+        
+        public virtual async Task<IEnumerable<MantleUser>> GetUsersInRole(
+            [FromODataUri] string roleId,
+            ODataQueryOptions<MantleUser> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersRead))
             {
-                return Enumerable.Empty<MantleUser>().AsQueryable();
+                return Enumerable.Empty<MantleUser>();
             }
-            string roleId = (string)parameters["roleId"];
-
-            var settings = new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            };
-            options.Validate(settings);
-
-            var results = options.ApplyTo((await Service.GetUsersByRoleId(roleId)).AsQueryable());
+            
+            var query = (await Service.GetUsersByRoleId(roleId)).AsQueryable();
+            var results = options.ApplyTo(query);
             return (results as IQueryable<MantleUser>).ToHashSet();
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> AssignUserToRoles(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> AssignUserToRoles([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersWrite))
             {
@@ -225,7 +213,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> ChangePassword(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> ChangePassword([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersWrite))
             {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Mantle.Web.Messaging.Controllers.Api
+namespace Mantle.Web.Messaging.Controllers
 {
     [Authorize]
     [Area(MantleWebMessagingConstants.RouteArea)]
@@ -43,12 +43,15 @@ namespace Mantle.Web.Messaging.Controllers.Api
 
             if (model == null)
             {
+                var template = await messageTemplateService.Value.FindOneAsync(id);
+
                 var utcNow = DateTime.UtcNow;
 
                 model = new MessageTemplateVersion
                 {
                     MessageTemplateId = id,
                     CultureCode = cultureCode,
+                    Subject = template.Name,
                     DateCreatedUtc = utcNow,
                     DateModifiedUtc = utcNow
                 };
@@ -65,7 +68,7 @@ namespace Mantle.Web.Messaging.Controllers.Api
                 { "LastName", "Last Name" },
             };
 
-            return View(model);
+            return View("Mantle.Web.Messaging.Views.GrapesJsMessageTemplate.Edit", model);
         }
 
         [HttpDelete]

@@ -37,6 +37,7 @@ namespace Mantle.Web.Messaging.Controllers
                 DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
                 DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
                 Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                EditWithGrapesJS = string.Format(T[MantleWebLocalizableStrings.General.EditWithFormat].Value, "GrapesJS"),
                 GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
                 GetTokensError = T[LocalizableStrings.GetTokensError].Value,
                 InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,

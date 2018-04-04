@@ -9,6 +9,7 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -16,7 +17,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
-    [Route("api/page-versions")]
     public class PageVersionApiController : GenericTenantODataController<PageVersion, Guid>
     {
         private readonly Lazy<IPageService> pageService;
@@ -243,7 +243,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> RestoreVersion([FromODataUri] Guid key, ODataActionParameters parameters)
+        public async Task<IActionResult> RestoreVersion([FromODataUri] Guid key, [FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(CmsPermissions.PageHistoryRestore))
             {
@@ -308,6 +308,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
         }
 
         [HttpGet]
+        //[ODataRoute("PageVersionApi/Default.GetCurrentVersion(pageId={pageId},cultureCode={cultureCode})")]
         public IActionResult GetCurrentVersion([FromODataUri] Guid pageId, [FromODataUri] string cultureCode)
         {
             if (!CheckPermission(CmsPermissions.PagesWrite))

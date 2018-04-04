@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {
-    [Route("api/blog/categories")]
     public class BlogCategoryApiController : GenericTenantODataController<BlogCategory, int>
     {
         public BlogCategoryApiController(IBlogCategoryService service)

@@ -22,7 +22,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
 {
-    [Route("api/sitemap/xml-sitemap")]
     public class XmlSitemapApiController : GenericTenantODataController<SitemapConfig, int>
     {
         private readonly IPageService pageService;
@@ -64,8 +63,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
         }
 
         #endregion GenericODataController<GoogleSitemapPageConfig, int> Members
-
-        //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+        
         [HttpGet]
         public virtual async Task<IEnumerable<SitemapConfigModel>> GetConfig(ODataQueryOptions<SitemapConfigModel> options)
         {
@@ -73,12 +71,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
             {
                 return Enumerable.Empty<SitemapConfigModel>();
             }
-
-            options.Validate(new ODataValidationSettings()
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All
-            });
-
+            
             int tenantId = GetTenantId();
 
             // First ensure that current pages are in the config
@@ -124,12 +117,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
                 });
             }
             var query = collection.OrderBy(x => x.Location).AsQueryable();
-            var results = options.ApplyTo(query);
+            var results = options.ApplyTo(query, IgnoreQueryOptions);
             return (results as IQueryable<SitemapConfigModel>).ToHashSet();
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> SetConfig(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> SetConfig([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {
@@ -169,7 +162,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
         }
 
         [HttpPost]
-        public virtual async Task<IActionResult> Generate(ODataActionParameters parameters)
+        public virtual async Task<IActionResult> Generate([FromBody] ODataActionParameters parameters)
         {
             if (!CheckPermission(WritePermission))
             {

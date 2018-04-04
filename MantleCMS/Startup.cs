@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Mantle.Collections;
-using Mantle.Configuration;
 using Mantle.Data.Entity.EntityFramework;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
-using Mantle.Tasks;
 using Mantle.Tenants.Domain;
 using Mantle.Web;
 using Mantle.Web.Common.Areas.Admin.Regions;
-using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging;
@@ -20,11 +18,11 @@ using Mantle.Web.Mvc.Assets;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
 using Mantle.Web.Mvc.Routing;
-using Mantle.Plugins;
 using Mantle.Web.Tenants;
 using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
+using MantleCMS.Options;
 using MantleCMS.Services;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +34,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,9 +47,8 @@ using NLog.Extensions.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
-using Peachpie.Web;
 using Pchp.Core;
-using MantleCMS.Options;
+using Peachpie.Web;
 
 namespace MantleCMS
 {
@@ -157,6 +153,13 @@ namespace MantleCMS
             services.AddOData();
 
             var mvcBuilder = services.AddMvc(ConfigureMvc)
+                //.ConfigureApplicationPartManager(manager =>
+                //{
+                //    // Temporary workaround for .NET Core bug. See: https://github.com/dotnet/core-setup/issues/2981#issuecomment-322572374
+                //    var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
+                //    manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
+                //    manager.FeatureProviders.Add(new ReferencesMetadataReferenceFeatureProvider());
+                //})
                 .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
 
             //TODO: Make some interface and resolve all of them here to register
@@ -211,7 +214,7 @@ namespace MantleCMS
             //===================================================================
             // FRAMEWORK CONFIG
             //===================================================================
-            
+
             ServiceProvider = services.ConfigureMantleServices(Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
@@ -281,7 +284,7 @@ namespace MantleCMS
             app.AddNLogWeb();
 
             env.ConfigureNLog("NLog.config");
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -292,12 +295,12 @@ namespace MantleCMS
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             app.UseCors("AllowAll");
 
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
-            
+
             // ================================================================================
             // Peachpie
             app.UseSession();
