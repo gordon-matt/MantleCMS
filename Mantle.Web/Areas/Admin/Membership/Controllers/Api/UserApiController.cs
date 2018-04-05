@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Collections;
-using Mantle.Data.Entity.EntityFramework;
 using Mantle.Infrastructure;
 using Mantle.Security;
 using Mantle.Security.Membership;
-using Mantle.Threading;
 using Mantle.Web.Security.Membership;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
@@ -38,7 +36,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<UserApiController>();
             this.workContext = workContext;
         }
-        
+
         public virtual async Task<IEnumerable<MantleUser>> Get(ODataQueryOptions<MantleUser> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersRead))
@@ -51,7 +49,8 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             var results = options.ApplyTo(query);
             return (results as IQueryable<MantleUser>).ToHashSet();
         }
-        
+
+        [EnableQuery]
         public virtual async Task<SingleResult<MantleUser>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipUsersRead))
@@ -181,7 +180,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             var user = await Service.GetUserById(key);
             return user != null;
         }
-        
+
         public virtual async Task<IEnumerable<MantleUser>> GetUsersInRole(
             [FromODataUri] string roleId,
             ODataQueryOptions<MantleUser> options)
@@ -190,7 +189,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             {
                 return Enumerable.Empty<MantleUser>();
             }
-            
+
             var query = (await Service.GetUsersByRoleId(roleId)).AsQueryable();
             var results = options.ApplyTo(query);
             return (results as IQueryable<MantleUser>).ToHashSet();

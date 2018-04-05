@@ -30,20 +30,21 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<PermissionApiController>();
             this.workContext = workContext;
         }
-        
+
         public virtual async Task<IEnumerable<MantlePermission>> Get(ODataQueryOptions<MantlePermission> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
                 return Enumerable.Empty<MantlePermission>().AsQueryable();
             }
-            
+
             var results = options.ApplyTo(
                 (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
 
             return await (results as IQueryable<MantlePermission>).ToHashSetAsync();
         }
-        
+
+        [EnableQuery]
         public virtual async Task<SingleResult<MantlePermission>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))

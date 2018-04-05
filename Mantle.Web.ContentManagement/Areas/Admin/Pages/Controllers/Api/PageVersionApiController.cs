@@ -9,7 +9,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -308,7 +307,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
         }
 
         [HttpGet]
-        //[ODataRoute("PageVersionApi/Default.GetCurrentVersion(pageId={pageId},cultureCode={cultureCode})")]
         public IActionResult GetCurrentVersion([FromODataUri] Guid pageId, [FromODataUri] string cultureCode)
         {
             if (!CheckPermission(CmsPermissions.PagesWrite))

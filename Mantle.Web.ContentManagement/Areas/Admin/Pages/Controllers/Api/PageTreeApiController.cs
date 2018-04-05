@@ -9,7 +9,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
 {
@@ -23,7 +22,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             this.service = service;
             this.workContext = workContext;
         }
-        
+
         public async Task<IEnumerable<PageTreeItem>> Get(ODataQueryOptions<PageTreeItem> options)
         {
             if (!CheckPermission(CmsPermissions.PagesRead))
@@ -56,7 +55,8 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
             var results = options.ApplyTo(hierarchy.AsQueryable());
             return (results as IQueryable<PageTreeItem>).ToHashSet();
         }
-        
+
+        [EnableQuery]
         public virtual async Task<SingleResult<PageTreeItem>> Get([FromODataUri] Guid key)
         {
             if (!CheckPermission(CmsPermissions.PagesRead))

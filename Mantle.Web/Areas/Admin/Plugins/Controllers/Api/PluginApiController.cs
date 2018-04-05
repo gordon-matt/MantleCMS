@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Mantle.Collections;
 using Mantle.Infrastructure;
-using Mantle.Web.Areas.Admin.Plugins.Models;
 using Mantle.Plugins;
+using Mantle.Web.Areas.Admin.Plugins.Models;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
@@ -25,19 +25,20 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
             this.pluginFinder = pluginFinder;
             this.logger = loggerFactory.CreateLogger<PluginApiController>();
         }
-        
+
         public virtual IEnumerable<EdmPluginDescriptor> Get(ODataQueryOptions<EdmPluginDescriptor> options)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))
             {
                 return Enumerable.Empty<EdmPluginDescriptor>().AsQueryable();
             }
-            
+
             var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
             var results = options.ApplyTo(query);
             return (results as IQueryable<EdmPluginDescriptor>).ToHashSet();
         }
-        
+
+        [EnableQuery]
         public virtual SingleResult<EdmPluginDescriptor> Get([FromODataUri] string key)
         {
             if (!CheckPermission(StandardPermissions.FullAccess))

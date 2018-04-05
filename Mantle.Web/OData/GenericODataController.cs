@@ -59,7 +59,7 @@ namespace Mantle.Web.OData
             {
                 return Enumerable.Empty<TEntity>().AsQueryable();
             }
-            
+
             //    using (var connection = Service.OpenConnection())
             //    {
             //        var query = connection.Query();
@@ -81,6 +81,7 @@ namespace Mantle.Web.OData
         }
 
         // GET: odata/<Entity>(5)
+        [EnableQuery]
         public virtual async Task<SingleResult<TEntity>> Get([FromODataUri] TKey key)
         {
             if (!CheckPermission(ReadPermission))

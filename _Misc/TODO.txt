@@ -13,3 +13,5 @@
 NOTE: Plugins and Events had to be moved to Mantle.dll (from Mantle.Web.dll). Try to change this when have time (AutofacEngine should not rely on calling PluginManager, etc)
 
 - Make use of ILocationFormatProvider
+
+- Create some interface for plugging in custom web builders (to use GrapesJS or other builders for email templates and pages)

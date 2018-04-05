@@ -30,7 +30,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.logger = loggerFactory.CreateLogger<RoleApiController>();
             this.workContext = workContext;
         }
-        
+
         public virtual async Task<IEnumerable<MantleRole>> Get(ODataQueryOptions<MantleRole> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))
@@ -47,7 +47,8 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             var results = options.ApplyTo((await Service.GetAllRoles(workContext.CurrentTenant.Id)).AsQueryable());
             return (results as IQueryable<MantleRole>).ToHashSet();
         }
-        
+
+        [EnableQuery]
         public virtual async Task<SingleResult<MantleRole>> Get([FromODataUri] string key)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))

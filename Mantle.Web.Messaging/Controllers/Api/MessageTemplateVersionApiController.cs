@@ -26,7 +26,6 @@ namespace Mantle.Web.Messaging.Controllers.Api
         }
 
         [HttpGet]
-        //[ODataRoute("MessageTemplateVersionApi/Default.GetCurrentVersion(templateId={templateId},cultureCode={cultureCode})")]
         public IActionResult GetCurrentVersion([FromODataUri] int templateId, [FromODataUri] string cultureCode)
         {
             if (!CheckPermission(WritePermission))
@@ -45,6 +44,11 @@ namespace Mantle.Web.Messaging.Controllers.Api
 
             if (currentVersion.Data.Contains("gjs-assets"))
             {
+                if (currentVersion.Data.Contains("mjml"))
+                {
+                    return BadRequest("Please open this template in GrapesJS.");
+                }
+
                 // Since we wish to edit in normal HTML editor this time (was GrapesJS before), then we need to extract just the HTML
                 var data = currentVersion.Data.JsonDeserialize<GrapesJsStorageData>();
                 currentVersion.Data = data.Html;

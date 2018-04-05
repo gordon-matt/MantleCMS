@@ -17,6 +17,10 @@
     require('mantle-jqueryval');
     require('mantle-tinymce');
 
+    var pageApiUrl = "/odata/mantle/cms/PageApi";
+    var pageTypeApiUrl = "/odata/mantle/cms/PageTypeApi";
+    var pageVersionApiUrl = "/odata/mantle/cms/PageVersionApi";
+
     ko.mapping = koMap;
 
     var PageTypeModel = function (parent) {
@@ -43,7 +47,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/PageTypeApi",
+                            url: pageTypeApiUrl,
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -111,7 +115,7 @@
         };
         self.edit = function (id) {
             $.ajax({
-                url: "/odata/mantle/cms/PageTypeApi(" + id + ")",
+                url: pageTypeApiUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -151,7 +155,7 @@
 
             if (isNew) {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageTypeApi",
+                    url: pageTypeApiUrl,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -173,7 +177,7 @@
             }
             else {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageTypeApi(" + self.id() + ")",
+                    url: pageTypeApiUrl + "(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -225,7 +229,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq null",
+                            url: pageVersionApiUrl + "?$filter=CultureCode eq null",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -310,7 +314,7 @@
         self.restore = function (id) {
             if (confirm(self.parent.translations.pageHistoryRestoreConfirm)) {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageVersionApi(" + id + ")/Default.RestoreVersion",
+                    url: pageVersionApiUrl + "(" + id + ")/Default.RestoreVersion",
                     type: "POST"
                 })
                 .done(function (json) {
@@ -384,7 +388,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/PageApi",
+                            url: pageApiUrl,
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -572,7 +576,7 @@
             }
 
             $.ajax({
-                url: "/odata/mantle/cms/PageApi(" + id + ")",
+                url: pageApiUrl + "(" + id + ")",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -595,8 +599,16 @@
                     self.roles([]);
                 }
 
+                var getCurrentVersionUrl = "";
+                if (self.parent.currentCulture) {
+                    getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
+                }
+                else {
+                    getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode=null)";
+                }
+
                 $.ajax({
-                    url: "/odata/mantle/cms/PageVersionApi/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')",
+                    url: getCurrentVersionUrl,
                     type: "GET",
                     dataType: "json",
                     async: false
@@ -703,7 +715,7 @@
         self.remove = function (id, parentId) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageApi(" + id + ")",
+                    url: pageApiUrl + "(" + id + ")",
                     type: "DELETE",
                     async: false
                 })
@@ -747,7 +759,7 @@
 
             if (isNew) {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageApi",
+                    url: pageApiUrl,
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -764,7 +776,7 @@
             }
             else {
                 $.ajax({
-                    url: "/odata/mantle/cms/PageApi(" + self.id() + ")",
+                    url: pageApiUrl + "(" + self.id() + ")",
                     type: "PUT",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(record),
@@ -824,7 +836,7 @@
 
             // UPDATE only (no option for insert here)
             $.ajax({
-                url: "/odata/mantle/cms/PageVersionApi(" + self.parent.pageVersionModel.id() + ")",
+                url: pageVersionApiUrl + "(" + self.parent.pageVersionModel.id() + ")",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(record),
@@ -867,7 +879,7 @@
             };
 
             $.ajax({
-                url: "/odata/mantle/cms/PageApi(" + id + ")",
+                url: pageApiUrl + "(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),
@@ -885,10 +897,10 @@
         };
         self.showPageHistory = function (id) {
             if (self.parent.currentCulture == null || self.parent.currentCulture == "") {
-                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq null and PageId eq " + id;
+                self.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq null and PageId eq " + id;
             }
             else {
-                self.pageVersionGrid.dataSource.transport.options.read.url = "/odata/mantle/cms/PageVersionApi?$filter=CultureCode eq '" + self.parent.currentCulture + "' and PageId eq " + id;
+                self.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq '" + self.parent.currentCulture + "' and PageId eq " + id;
             }
             self.pageVersionGrid.dataSource.page(1);
 
@@ -924,7 +936,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: "/odata/mantle/cms/PageApi",
+                            url: pageApiUrl,
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -1065,7 +1077,7 @@
         };
         self.reloadTopLevelPages = function () {
             $.ajax({
-                url: "/odata/mantle/cms/PageApi/Default.GetTopLevelPages()",
+                url: pageApiUrl + "/Default.GetTopLevelPages()",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -1110,7 +1122,7 @@
             };
 
             $.ajax({
-                url: "/odata/mantle/cms/PageApi(" + id + ")",
+                url: pageApiUrl + "(" + id + ")",
                 type: "PATCH",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(patch),

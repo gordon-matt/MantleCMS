@@ -213,8 +213,16 @@
                 //---------------------------------------------------------------------------------------
                 // Get Template Version
                 //---------------------------------------------------------------------------------------
+                var getCurrentVersionUrl = "";
+                if (self.parent.currentCulture) {
+                    getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
+                }
+                else {
+                    getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode=null)";
+                }
+
                 $.ajax({
-                    url: templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')",
+                    url: getCurrentVersionUrl,
                     type: "GET",
                     dataType: "json",
                     async: false
