@@ -9,10 +9,15 @@
 
         public static class MessageTemplate
         {
-            public const string Body = "Mantle.Web.Messaging/MessageTemplate.Body";
+            public const string Editor = "Mantle.Web.Messaging/MessageTemplate.Editor";
             public const string Name = "Mantle.Web.Messaging/MessageTemplate.Name";
-            public const string Subject = "Mantle.Web.Messaging/MessageTemplate.Subject";
             public const string Tokens = "Mantle.Web.Messaging/MessageTemplate.Tokens";
+        }
+
+        public static class MessageTemplateVersion
+        {
+            public const string Data = "Mantle.Web.Messaging/MessageTemplateVersion.Data";
+            public const string Subject = "Mantle.Web.Messaging/MessageTemplateVersion.Subject";
         }
 
         public static class QueuedEmail

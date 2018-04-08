@@ -69,7 +69,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
                     { MantleCmsLocalizableStrings.ContentBlocks.ManageZones, "Manage Zones" },
                     { MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType, "Block Type" },
                     { MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath, "Custom Template Path" },
-                    { MantleCmsLocalizableStrings.ContentBlocks.Model.DisplayCondition, "Display Condition" },
                     { MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled, "Is Enabled" },
                     { MantleCmsLocalizableStrings.ContentBlocks.Model.Order, "Order" },
                     { MantleCmsLocalizableStrings.ContentBlocks.Model.Title, "Title" },

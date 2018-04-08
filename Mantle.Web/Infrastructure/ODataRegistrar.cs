@@ -85,18 +85,18 @@ namespace Mantle.Web.Infrastructure
             changePasswordAction.Parameter<string>("password");
             changePasswordAction.Returns<IActionResult>();
 
-            var getRolesForUserAction = builder.EntityType<MantleRole>().Collection.Action("GetRolesForUser");
-            getRolesForUserAction.Parameter<string>("userId");
-            getRolesForUserAction.ReturnsCollection<EdmRole>();
+            var getRolesForUserFunction = builder.EntityType<MantleRole>().Collection.Function("GetRolesForUser");
+            getRolesForUserFunction.Parameter<string>("userId");
+            getRolesForUserFunction.ReturnsCollection<EdmRole>();
 
             var assignPermissionsToRoleAction = builder.EntityType<MantleRole>().Collection.Action("AssignPermissionsToRole");
             assignPermissionsToRoleAction.Parameter<string>("roleId");
             assignPermissionsToRoleAction.CollectionParameter<string>("permissions");
             assignPermissionsToRoleAction.Returns<IActionResult>();
 
-            var getPermissionsForRoleAction = builder.EntityType<MantlePermission>().Collection.Action("GetPermissionsForRole");
-            getPermissionsForRoleAction.Parameter<string>("roleId");
-            getPermissionsForRoleAction.ReturnsCollection<EdmMantlePermission>();
+            var getPermissionsForRoleFunction = builder.EntityType<MantlePermission>().Collection.Function("GetPermissionsForRole");
+            getPermissionsForRoleFunction.Parameter<string>("roleId");
+            getPermissionsForRoleFunction.ReturnsCollection<EdmMantlePermission>();
         }
 
         //private static void RegisterPluginODataActions(ODataModelBuilder builder)

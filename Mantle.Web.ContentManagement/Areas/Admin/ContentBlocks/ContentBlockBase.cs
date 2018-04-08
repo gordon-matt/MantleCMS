@@ -20,10 +20,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 
         [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId)]
         public Guid ZoneId { get; set; }
-
-        [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.Model.DisplayCondition)]
-        public string DisplayCondition { get; set; }
-
+        
         [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath)]
         public string CustomTemplatePath { get; set; }
 

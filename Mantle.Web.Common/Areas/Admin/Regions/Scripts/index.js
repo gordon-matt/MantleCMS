@@ -105,13 +105,8 @@
             self.settingsId(id);
 
             $.ajax({
-                url: settingsApiUrl + "/Default.GetSettings",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    settingsId: id,
-                    regionId: self.regionId()
-                }),
+                url: settingsApiUrl + "/Default.GetSettings(settingsId='" + id + "',regionId=" + seld.regionId() + ")",
+                type: "GET",
                 dataType: "json",
                 async: false
             })

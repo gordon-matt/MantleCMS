@@ -169,14 +169,14 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return NoContent();
         }
 
-        [HttpPost]
-        public virtual async Task<IEnumerable<EdmRole>> GetRolesForUser([FromBody] ODataActionParameters parameters)
+        [HttpGet]
+        public virtual async Task<IEnumerable<EdmRole>> GetRolesForUser([FromODataUri] string userId)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesRead))
             {
                 return Enumerable.Empty<EdmRole>().AsQueryable();
             }
-            string userId = (string)parameters["userId"];
+
             return (await Service.GetRolesForUser(userId)).Select(x => new EdmRole
             {
                 Id = x.Id,

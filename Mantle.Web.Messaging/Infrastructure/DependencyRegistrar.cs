@@ -46,6 +46,9 @@ namespace Mantle.Web.Messaging.Infrastructure
 
             // Other
             builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerDependency();
+
+            builder.RegisterType<DefaultMessageTemplateEditor>().As<IMessageTemplateEditor>().SingleInstance();
+            builder.RegisterType<GrapesJsMessageTemplateEditor>().As<IMessageTemplateEditor>().SingleInstance();
         }
 
         public int Order

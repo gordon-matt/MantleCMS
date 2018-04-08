@@ -23,10 +23,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
         public bool IsEnabled { get; set; }
 
         public string BlockValues { get; set; }
-
-        //TODO: Get rid of this...?
-        public string DisplayCondition { get; set; }
-
+        
         public string CustomTemplatePath { get; set; }
 
         public Guid? PageId { get; set; }
@@ -54,7 +51,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
             builder.Property(x => x.Order).IsRequired();
             builder.Property(x => x.IsEnabled).IsRequired();
             builder.Property(x => x.BlockValues).IsUnicode(true);
-            builder.Property(x => x.DisplayCondition).HasMaxLength(255).IsUnicode(true);
             builder.Property(x => x.CustomTemplatePath).HasMaxLength(255).IsUnicode(true);
             //builder.Property(x => x.CultureCode).HasMaxLength(10).HasColumnType("varchar");
         }

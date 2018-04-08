@@ -40,10 +40,10 @@ namespace Mantle.Web.Common.Infrastructure
 
         private static void RegisterRegionSettingsODataActions(ODataModelBuilder builder)
         {
-            var getSettingsAction = builder.EntityType<RegionSettings>().Collection.Action("GetSettings");
-            getSettingsAction.Parameter<string>("settingsId");
-            getSettingsAction.Parameter<int>("regionId");
-            getSettingsAction.Returns<EdmRegionSettings>();
+            var getSettingsFunction = builder.EntityType<RegionSettings>().Collection.Function("GetSettings");
+            getSettingsFunction.Parameter<string>("settingsId");
+            getSettingsFunction.Parameter<int>("regionId");
+            getSettingsFunction.Returns<EdmRegionSettings>();
 
             var saveSettingsAction = builder.EntityType<RegionSettings>().Collection.Action("SaveSettings");
             saveSettingsAction.Parameter<string>("settingsId");

@@ -1,4 +1,5 @@
-﻿using Mantle.Web.Mvc;
+﻿using System.Collections.Generic;
+using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,13 @@ namespace Mantle.Web.Messaging.Controllers
     [Route("admin/messaging/templates")]
     public class MessageTemplateController : MantleController
     {
+        private readonly IEnumerable<IMessageTemplateEditor> messageTemplateEditors;
+
+        public MessageTemplateController(IEnumerable<IMessageTemplateEditor> messageTemplateEditors)
+        {
+            this.messageTemplateEditors = messageTemplateEditors;
+        }
+
         [Route("")]
         public ActionResult Index()
         {
@@ -48,10 +56,16 @@ namespace Mantle.Web.Messaging.Controllers
                 Columns = new
                 {
                     Name = T[LocalizableStrings.MessageTemplate.Name].Value,
-                    Subject = T[LocalizableStrings.MessageTemplate.Subject].Value,
+                    Editor = T[LocalizableStrings.MessageTemplate.Editor].Value,
                     Enabled = T[MantleWebLocalizableStrings.General.Enabled].Value
                 }
             });
+        }
+
+        [Route("get-available-editors")]
+        public JsonResult GetAvailableEditors()
+        {
+            return Json(messageTemplateEditors);
         }
     }
 }

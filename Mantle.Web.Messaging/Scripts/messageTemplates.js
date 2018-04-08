@@ -27,7 +27,7 @@
         self.messageTemplateId = ko.observable(0);
         self.cultureCode = ko.observable(null);
         self.subject = ko.observable(null);
-        self.data = ko.observable(null);
+        self.data = ko.observable('');
 
         self.tinyMCEConfig = mantleDefaultTinyMCEConfig;
 
@@ -42,6 +42,7 @@
         self.parent = parent;
         self.id = ko.observable(0);
         self.name = ko.observable(null);
+        self.editor = ko.observable(null);
         self.ownerId = ko.observable(null);
         self.enabled = ko.observable(false);
 
@@ -98,6 +99,7 @@
                             id: "Id",
                             fields: {
                                 Name: { type: "string" },
+                                Editor: { type: "string" },
                                 Enabled: { type: "boolean" }
                             }
                         }
@@ -128,6 +130,10 @@
                     title: self.parent.translations.columns.name,
                     filterable: true
                 }, {
+                    field: "Editor",
+                    title: self.parent.translations.columns.editor,
+                    filterable: true
+                }, {
                     field: "Enabled",
                     title: self.parent.translations.columns.enabled,
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
@@ -140,10 +146,6 @@
                     template:
                         '<div class="btn-group">' +
                             '<a data-bind="click: templateModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
-                            '<i class="fa fa-edit"></i></a>' +
-
-                            // "Edit with GrapesJS" button
-                            '<a href="/admin/messaging/grapes-js-templates/edit/#=Id#/" target="_blank" class="btn btn-default btn-sm btn-grapes-js" title="' + self.parent.translations.editWithGrapesJS + '">' +
                             '<i class="fa fa-edit"></i></a>' +
 
                             '<a data-bind="click: templateModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
@@ -205,8 +207,22 @@
                 async: false
             })
             .done(function (json) {
+                if (json.Editor != "Default") {
+                    var editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == json.Editor; })[0];
+                    var url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
+
+                    if (editor.openInNewWindow) {
+                        window.open(url);
+                    }
+                    else {
+                        window.location.replace(url);
+                    }
+                    return;
+                }
+
                 self.id(json.Id);
                 self.name(json.Name);
+                self.editor(json.Editor);
                 self.ownerId(json.OwnerId);
                 self.enabled(json.Enabled);
 
@@ -236,10 +252,8 @@
                     // Get Tokens
                     //---------------------------------------------------------------------------------------
                     $.ajax({
-                        url: templateApiUrl + "/Default.GetTokens",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({ templateName: json.Name }),
+                        url: templateApiUrl + "/Default.GetTokens(templateName='" + self.name() + "')",
+                        type: "GET",
                         dataType: "json",
                         async: false
                     })
@@ -287,14 +301,6 @@
             // END: Get Template
             //---------------------------------------------------------------------------------------
         };
-        self.editWithGrapesJs = function (id, cultureCode) {
-            if (cultureCode) {
-                self.parent.currentCulture = cultureCode;
-            }
-            else {
-                self.parent.currentCulture = null;
-            }
-        };
         self.setupVersionEditSection = function (json) {
             self.parent.templateVersionModel.id(json.Id);
             self.parent.templateVersionModel.messageTemplateId(json.MessageTemplateId);
@@ -306,7 +312,13 @@
             self.parent.templateVersionModel.cultureCode(self.parent.currentCulture);
 
             self.parent.templateVersionModel.subject(json.Subject);
-            self.parent.templateVersionModel.data(json.Data);
+
+            if (json.Data == null) {
+                self.parent.templateVersionModel.data(''); // Bug fix for TinyMCE (it doesn't like NULLS and throws an error).
+            }
+            else {
+                self.parent.templateVersionModel.data(json.Data);
+            }
 
             self.versionValidator.resetForm();
         };
@@ -345,6 +357,7 @@
             var record = {
                 Id: self.id(),
                 Name: self.name(),
+                Editor: self.editor(),
                 OwnerId: self.ownerId(),
                 Enabled: self.enabled()
             };
@@ -472,6 +485,7 @@
 
         self.gridPageSize = 10;
         self.translations = false;
+        self.messageTemplateEditors = [];
         self.currentCulture = null;
 
         self.templateModel = false;
@@ -493,6 +507,20 @@
             })
             .done(function (json) {
                 self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
+
+            // Load editors
+            $.ajax({
+                url: "/admin/messaging/templates/get-available-editors",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.messageTemplateEditors = json;
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(textStatus + ': ' + errorThrown);

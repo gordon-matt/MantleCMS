@@ -31,7 +31,6 @@
         self.blockName = ko.observable(null);
         self.blockType = ko.observable(null);
         self.zoneId = ko.observable(emptyGuid);
-        self.displayCondition = ko.observable(null);
         self.customTemplatePath = ko.observable(null);
         self.blockValues = ko.observable(null);
         self.pageId = ko.observable(null);
@@ -168,7 +167,6 @@
             self.blockName(null);
             self.blockType(null);
             self.zoneId(emptyGuid);
-            self.displayCondition(null);
             self.customTemplatePath(null);
             self.blockValues(null);
             self.pageId(self.parent.pageId);
@@ -223,7 +221,6 @@
                 self.blockName(json.BlockName);
                 self.blockType(json.BlockType);
                 self.zoneId(json.ZoneId);
-                self.displayCondition(json.DisplayCondition);
                 self.customTemplatePath(json.CustomTemplatePath);
                 self.blockValues(json.BlockValues);
                 self.pageId(json.PageId);
@@ -350,7 +347,6 @@
                 BlockName: self.blockName(),
                 BlockType: self.blockType(),
                 ZoneId: self.zoneId(),
-                DisplayCondition: self.displayCondition(),
                 CustomTemplatePath: self.customTemplatePath(),
                 BlockValues: self.blockValues(),
                 PageId: self.pageId()

@@ -26,14 +26,14 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             this.regionSettings = regionSettings;
             this.regionSettingsService = regionSettingsService;
         }
-        
+
         public virtual IEnumerable<EdmRegionSettings> Get(ODataQueryOptions<EdmRegionSettings> options)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
                 return Enumerable.Empty<EdmRegionSettings>().AsQueryable();
             }
-            
+
             var query = regionSettings
                 .Select(x => new EdmRegionSettings
                 {
@@ -46,16 +46,13 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             return (results as IQueryable<EdmRegionSettings>).ToHashSet();
         }
 
-        [HttpPost]
-        public virtual async Task<EdmRegionSettings> GetSettings([FromBody] ODataActionParameters parameters)
+        [HttpGet]
+        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri]string settingsId, [FromODataUri] int regionId)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {
                 return null;
             }
-
-            string settingsId = (string)parameters["settingsId"];
-            int regionId = (int)parameters["regionId"];
 
             var dictionary = regionSettings.ToDictionary(k => k.Name.ToSlugUrl(), v => v);
 

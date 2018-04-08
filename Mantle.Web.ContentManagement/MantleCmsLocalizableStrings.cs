@@ -134,7 +134,6 @@
             {
                 public const string BlockType = "Mantle.Web.ContentManagement/ContentBlocks.Model.BlockType";
                 public const string CustomTemplatePath = "Mantle.Web.ContentManagement/ContentBlocks.Model.CustomTemplatePath";
-                public const string DisplayCondition = "Mantle.Web.ContentManagement/ContentBlocks.Model.DisplayCondition";
                 public const string IsEnabled = "Mantle.Web.ContentManagement/ContentBlocks.Model.IsEnabled";
                 public const string Order = "Mantle.Web.ContentManagement/ContentBlocks.Model.Order";
                 public const string Title = "Mantle.Web.ContentManagement/ContentBlocks.Model.Title";

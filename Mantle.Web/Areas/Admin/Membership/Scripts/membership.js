@@ -227,10 +227,8 @@
             self.permissions([]);
 
             $.ajax({
-                url: permissionsApiUrl + "/Default.GetPermissionsForRole",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ roleId: id }),
+                url: permissionsApiUrl + "/Default.GetPermissionsForRole(roleId='" + id + "')",
+                type: "GET",
                 dataType: "json",
                 async: false
             })
@@ -562,10 +560,8 @@
             self.filterRoleId(emptyGuid);
 
             $.ajax({
-                url: rolesApiUrl + "/Default.GetRolesForUser",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ userId: id }),
+                url: rolesApiUrl + "/Default.GetRolesForUser(userId='" + id + "')",
+                type: "GET",
                 dataType: "json",
                 async: false
             })

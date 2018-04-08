@@ -25,9 +25,9 @@ namespace Mantle.Web.Messaging.Infrastructure
 
         private static void RegisterMessageTemplateODataActions(ODataModelBuilder builder)
         {
-            var getTokensAction = builder.EntityType<MessageTemplate>().Collection.Action("GetTokens");
-            getTokensAction.Parameter<string>("templateName");
-            getTokensAction.ReturnsCollection<string>();
+            var getTokensFunction = builder.EntityType<MessageTemplate>().Collection.Function("GetTokens");
+            getTokensFunction.Parameter<string>("templateName");
+            getTokensFunction.ReturnsCollection<string>();
         }
 
         private static void RegisterMessageTemplateVersionODataActions(ODataModelBuilder builder)

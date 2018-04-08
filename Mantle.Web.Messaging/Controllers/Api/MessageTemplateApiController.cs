@@ -30,16 +30,14 @@ namespace Mantle.Web.Messaging.Controllers.Api
         protected override void SetNewId(MessageTemplate entity)
         {
         }
-
-        [HttpPost]
-        public virtual IEnumerable<string> GetTokens([FromBody] ODataActionParameters parameters)
+        
+        [HttpGet]
+        public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
         {
             if (!CheckPermission(ReadPermission))
             {
                 return Enumerable.Empty<string>();
             }
-
-            string templateName = (string)parameters["templateName"];
 
             return tokensProviders.Value
                 .SelectMany(x => x.GetTokens(templateName))

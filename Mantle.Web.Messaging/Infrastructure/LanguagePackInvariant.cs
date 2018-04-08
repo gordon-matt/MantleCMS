@@ -19,11 +19,12 @@ namespace Mantle.Web.Messaging.Infrastructure
                 return new Dictionary<string, string>
                 {
                     { LocalizableStrings.GetTokensError, "Could not get tokens." },
-                    { LocalizableStrings.MessageTemplate.Body, "Body" },
+                    { LocalizableStrings.MessageTemplate.Editor, "Editor" },
                     { LocalizableStrings.MessageTemplate.Name, "Name" },
-                    { LocalizableStrings.MessageTemplate.Subject, "Subject" },
                     { LocalizableStrings.MessageTemplate.Tokens, "Tokens" },
                     { LocalizableStrings.MessageTemplates, "Message Templates" },
+                    { LocalizableStrings.MessageTemplateVersion.Data, "Body" },
+                    { LocalizableStrings.MessageTemplateVersion.Subject, "Subject" },
                     { LocalizableStrings.Messaging, "Messaging" },
                     { LocalizableStrings.QueuedEmail.CreatedOnUtc, "Created On (UTC)" },
                     { LocalizableStrings.QueuedEmail.SentOnUtc, "Sent On (UTC)" },
