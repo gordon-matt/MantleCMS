@@ -42,7 +42,7 @@
         self.parent = parent;
         self.id = ko.observable(0);
         self.name = ko.observable(null);
-        self.editor = ko.observable(null);
+        self.editor = ko.observable("[Default]");
         self.ownerId = ko.observable(null);
         self.enabled = ko.observable(false);
 
@@ -131,7 +131,7 @@
                     filterable: true
                 }, {
                     field: "Editor",
-                    title: self.parent.translations.columns.editor,
+                    title: self.parent.translations.columns.editor, //TODO: Render as logo?
                     filterable: true
                 }, {
                     field: "Enabled",
@@ -168,6 +168,7 @@
 
             self.id(0);
             self.name(null);
+            self.editor("[Default]");
             self.ownerId(null);
             self.enabled(false);
 
@@ -207,7 +208,7 @@
                 async: false
             })
             .done(function (json) {
-                if (json.Editor != "Default") {
+                if (json.Editor != "[Default]") {
                     var editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == json.Editor; })[0];
                     var url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
 
@@ -323,7 +324,7 @@
             self.versionValidator.resetForm();
         };
         self.remove = function (id) {
-            if (confirm(self.parent.translations.DeleteRecordConfirm)) {
+            if (confirm(self.parent.translations.deleteRecordConfirm)) {
                 $.ajax({
                     url: templateApiUrl + "(" + id + ")",
                     type: "DELETE",

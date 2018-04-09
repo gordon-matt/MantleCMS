@@ -4,7 +4,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
     {
         EmbeddedResourceTable Scripts { get; }
 
-        EmbeddedResourceTable Styles { get; }
+        EmbeddedResourceTable Content { get; }
 
         EmbeddedResourceTable Views { get; }
     }

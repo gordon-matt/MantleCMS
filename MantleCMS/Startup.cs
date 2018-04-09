@@ -334,6 +334,7 @@ namespace MantleCMS
                 // Override file provider to allow embedded resources
                 FileProvider = new CompositeFileProvider(
                     new EmbeddedScriptFileProvider(),
+                    new EmbeddedContentFileProvider(),
                     HostingEnvironment.WebRootFileProvider),
 
                 OnPrepareResponse = (context) =>

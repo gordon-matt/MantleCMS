@@ -13,32 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20180327120201_MessageTemplateChanges.cs" />
-    <Compile Remove="Data\Migrations\20180327120201_MessageTemplateChanges.Designer.cs" />
-    <Compile Remove="Data\Migrations\20180331091631_Changes.cs" />
-    <Compile Remove="Data\Migrations\20180331091631_Changes.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="App_Data\InstalledPlugins.txt" />
-    <Content Include="Plugins\bin\Mantle.Plugins.Caching.Redis.dll" />
-    <Content Include="Plugins\bin\Mantle.Plugins.Messaging.Forums.dll" />
-    <Content Include="Plugins\Caching.Redis\Mantle.dll" />
-    <Content Include="Plugins\Caching.Redis\Mantle.pdb" />
-    <Content Include="Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.dll" />
-    <Content Include="Plugins\Caching.Redis\Mantle.Plugins.Caching.Redis.pdb" />
-    <Content Include="Plugins\Caching.Redis\Mantle.Web.dll" />
-    <Content Include="Plugins\Caching.Redis\Mantle.Web.pdb" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.dll" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.pdb" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Plugins.Messaging.Forums.dll" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Plugins.Messaging.Forums.pdb" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Web.Common.dll" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Web.Common.pdb" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Web.dll" />
-    <Content Include="Plugins\Messaging.Forums\Mantle.Web.pdb" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using Mantle.Messaging.Data.Domain;
 using Mantle.Messaging.Services;
-using Mantle.Web.Messaging.Models;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;

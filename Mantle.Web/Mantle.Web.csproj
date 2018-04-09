@@ -31,6 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Content\GrapesJS.png" />
+    <None Remove="Content\TinyMCE.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
+    <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="KendoGridBinder" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201804041242" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />

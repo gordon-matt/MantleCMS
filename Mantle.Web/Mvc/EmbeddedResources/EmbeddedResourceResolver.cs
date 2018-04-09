@@ -9,7 +9,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
         private ITypeFinder typeFinder;
 
         private static EmbeddedResourceTable scripts;
-        private static EmbeddedResourceTable styles;
+        private static EmbeddedResourceTable content;
         private static EmbeddedResourceTable views;
 
         public EmbeddedResourceResolver(ITypeFinder typeFinder)
@@ -31,15 +31,15 @@ namespace Mantle.Web.Mvc.EmbeddedResources
             }
         }
 
-        public EmbeddedResourceTable Styles
+        public EmbeddedResourceTable Content
         {
             get
             {
-                if (styles == null)
+                if (content == null)
                 {
                     GetEmbeddedResources();
                 }
-                return styles;
+                return content;
             }
         }
 
@@ -60,7 +60,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
         private void GetEmbeddedResources()
         {
             scripts = new EmbeddedResourceTable();
-            styles = new EmbeddedResourceTable();
+            content = new EmbeddedResourceTable();
             views = new EmbeddedResourceTable();
 
             var assemblies = typeFinder.GetAssemblies();
@@ -89,7 +89,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources
                     }
                     else if (key.Contains(".content."))
                     {
-                        styles.AddResource(name, assembly.FullName);
+                        content.AddResource(name, assembly.FullName);
                     }
                     else if (key.Contains(".views."))
                     {

@@ -1,10 +1,12 @@
-﻿@using Mantle.Web
+﻿@using Mantle.Infrastructure
+@using Mantle.Web
 @using Mantle.Web.Messaging
 @using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 
 @{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
+    var messageTemplateEditors = EngineContext.Current.ResolveAll<IMessageTemplateEditor>();
 }
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
@@ -15,10 +17,25 @@
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
 <style type="text/css">
-    .btn-grapes-js {
-        background-color: #CE709C;
-        border-color: #AB5588
+    /*label.radio-img > input {
+        visibility: hidden;
+        position: absolute;
+    }*/
+
+    label.radio-img > img {
+        height: 64px;
+        max-height: 64px;
     }
+
+    label.radio-img > input + img {
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    label.radio-img > input:checked + img {
+        border: 2px solid #f00;
+    }
+
 </style>
 
 <div id="grid-section" class="row">
@@ -60,17 +77,28 @@
                         </div>
 
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "control-label" })
-                                @Html.MantleMessaging().EditorDropDownList("Editor", htmlAttributes: new { @class = "form-control", data_bind = "value: templateModel.editor" })
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <label class="control-label">&nbsp;</label>
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("Enabled", new { data_bind = "checked: templateModel.enabled" }) @T[MantleWebLocalizableStrings.General.Enabled]
                                 </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "control-label" })
+                                <ul class="list-unstyled">
+                                    @foreach (var editor in messageTemplateEditors)
+                                    {
+                                        <li>
+                                            <label class="radio-img">
+                                                @Html.RadioButton("Editor", editor.Name, htmlAttributes: new { data_bind = "checked: templateModel.editor" })
+                                                <img src="@editor.LogoUrl" alt="@editor.Name" class="img-thumbnail" />
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
                         </div>
                     </fieldset>
