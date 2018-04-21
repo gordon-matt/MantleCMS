@@ -1,17 +1,16 @@
-- Copy all code from old KoreCMS projects (or as much as is possible)
 - Plugins
-- CMS Features
-- Integrate GrapesJS for Email Templates
+	- Make use of ILocationFormatProvider
 - Integrate GrapesJS for HTML Builder (wait for version with Bootstrap Blocks. See roadmap: https://github.com/artf/grapesjs/issues/74)
 - Change Admin UI to some open source Bootstrap theme? Also, use Bootstrap 4
 - Installation page
-- Media manager (Can hopefully still use Responsive File Manager from KoreCMS, but need to use PeachPie, which is the PHP compilter to use for .NET Core, much like Phalanger was used in MVC5)
 - Integrate Identity Server 4?
 - Get rid of RolePermission, etc and use Identity Claims instead. Also, move UserProfile entity to somewhere in the framework.
 
-
 NOTE: Plugins and Events had to be moved to Mantle.dll (from Mantle.Web.dll). Try to change this when have time (AutofacEngine should not rely on calling PluginManager, etc)
 
-- Make use of ILocationFormatProvider
 
-- Create some interface for plugging in custom web builders (to use GrapesJS or other builders for email templates and pages)
+- Create a "GrapesJsPage" page type. There will likely need to be a button in place of the TinyMCE editor. The button will open a new tab to edit the HTML in Grapes JS
+	- Once this is done and once plugins are working, then move the new page type and also the GrapesJsMessageTemplateEditor from "Mantle.Web.Messaging" into
+		a new plugin.. something like: Mantle.Plugins.Editors.GrapesJs
+
+- Move from Durandal to Aurelia for the backend. Example project has already been started here: https://github.com/gordon-matt/aurelia-razor-netcore2-skeleton

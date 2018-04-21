@@ -16,7 +16,7 @@ namespace MantleCMS.Areas.Admin
         {
             get
             {
-                var T = EngineContext.Current.Resolve<IStringLocalizer>();
+                //var T = EngineContext.Current.Resolve<IStringLocalizer>();
                 var routes = new List<DurandalRoute>();
 
                 routes.Add(new DurandalRoute

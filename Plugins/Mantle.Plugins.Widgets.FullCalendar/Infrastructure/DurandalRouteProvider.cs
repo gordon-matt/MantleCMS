@@ -10,10 +10,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
     {
         #region IDurandalRouteProvider Members
 
-        public string Area
-        {
-            get { return MantleWebConstants.Areas.Admin; }
-        }
+        public string Area => MantleWebConstants.Areas.Admin;
 
         public IEnumerable<DurandalRoute> Routes
         {
