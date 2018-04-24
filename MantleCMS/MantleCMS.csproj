@@ -32,7 +32,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.2" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.2" />
     <PackageReference Include="Peachpie.Library" Version="0.9.0-CI00872" />
     <PackageReference Include="Peachpie.Library.Graphics" Version="0.9.0-CI00872" />
     <PackageReference Include="Peachpie.Library.MsSql" Version="0.9.0-CI00872" />
@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

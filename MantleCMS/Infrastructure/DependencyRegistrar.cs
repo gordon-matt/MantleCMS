@@ -31,7 +31,7 @@ namespace MantleCMS.Infrastructure
                 .InstancePerLifetimeScope();
 
             // SPA Routes
-            builder.RegisterType<AdminDurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AdminAureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             // Services
             builder.RegisterType<MembershipService>().As<IMembershipService>().InstancePerDependency();

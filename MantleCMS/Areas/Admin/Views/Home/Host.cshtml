@@ -1,16 +1,19 @@
-﻿<div id="applicationHost">
-    @Html.Partial("_splash")
-</div>
+﻿<div aurelia-app="main">
+    <div class="splash">
+        <div class="message">Loading...</div>
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
 
-@section scripts {
-    <script src="~/js/knockout-3.4.0.js"></script>
-    <script type="text/javascript">
-        if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-            var msViewportStyle = document.createElement("style");
-            var mq = "@@-ms-viewport{width:auto!important}";
-            msViewportStyle.appendChild(document.createTextNode(mq));
-            document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-        }
+    <script src="/jspm_packages/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="/jspm_packages/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js"></script>
+    <script src="/jspm_packages/github/twbs/bootstrap@3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
+    
+    <script src="/jspm_packages/system.js"></script>
+    <script src="/config.js"></script>
+    <script>
+        SystemJS.import('aurelia-bootstrapper');
     </script>
-    <script type="text/javascript" src="~/js/require.js" data-main="/js/App/Admin/main"></script>
-}
+</div>

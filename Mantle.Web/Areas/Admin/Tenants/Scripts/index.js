@@ -1,247 +1,118 @@
-﻿define(function (require) {
-    'use strict'
+﻿import $ from 'jquery';
+import { validation } from 'jquery-validation';
+import { HttpClient } from 'aurelia-http-client';
+import { SectionSwitcher } from '/aurelia-app/shared/section-switching';
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+export class ViewModel {
+    apiUrl = "/odata/mantle/web/TenantApi";
 
-    require('jqueryval');
-    require('kendo');
-    require('notify');
-
-    require('mantle-section-switching');
-    require('mantle-jqueryval');
-
-    var odataBaseUrl = "/odata/mantle/web/TenantApi";
-
-    var ViewModel = function () {
-        var self = this;
-
-        self.gridPageSize = 10;
-        self.translations = false;
-
-        self.validator = false;
-
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.url = ko.observable(null);
-        self.hosts = ko.observable(null);
-
-        self.attached = function () {
-            currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/tenants/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
-
-            self.gridPageSize = $("#GridPageSize").val();
-
-            self.validator = $("#form-section-form").validate({
-                rules: {
-                    Name: { required: true, maxlength: 255 },
-                    Url: { required: true, maxlength: 255 },
-                    Hosts: { required: true }
-                }
-            });
-
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: odataBaseUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+    constructor() {
+        this.datasource = {
+            type: 'odata-v4',
+            transport: {
+                read: this.apiUrl
+            },
+            schema: {
+                model: {
+                    fields: {
+                        Name: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
-                    field: "Name",
-                    title: self.translations.columns.name,
-                    filterable: true
-                }, {
-                    field: "Id",
-                    title: " ",
-                    template:
-                        '<div class="btn-group">' +
-                        '<a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '</div>',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 120
-                }]
-            });
+                }
+            },
+            pageSize: 10,
+            serverPaging: true,
+            serverFiltering: true,
+            serverSorting: true,
+            sort: { field: "Name", dir: "asc" }
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.url(null);
-            self.hosts(null);
 
-            self.validator.resetForm();
-            switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.create);
-        };
-        self.edit = function (id) {
-            $.ajax({
-                url: odataBaseUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.url(json.Url);
-                self.hosts(json.Hosts);
+        this.http = new HttpClient();
+    }
 
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
-        };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: odataBaseUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+    // Aurelia Component Lifecycle Methods
 
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+    async attached() {
+        // Load translations first, else will have errors
+        let response = await this.http.get("/admin/tenants/get-translations");
+        this.translations = response.content;
+
+        //this.gridPageSize = $("#GridPageSize").val();
+
+        this.sectionSwitcher = new SectionSwitcher('grid-section');
+
+        this.validator = $("#form-section-form").validate({
+            rules: {
+                Name: { required: true, maxlength: 255 },
+                Url: { required: true, maxlength: 255 },
+                Hosts: { required: true }
             }
+        });
+    }
+
+    // END: Aurelia Component Lifecycle Methods
+
+    create() {
+        this.id = 0;
+        this.name = null;
+        this.url = null;
+        this.hosts = null;
+
+        this.validator.resetForm();
+        $("#form-section-legend").html(this.translations.create);
+        this.sectionSwitcher.swap('form-section');
+    }
+
+    async edit(id) {
+        let response = await this.http.get(this.apiUrl + "(" + id + ")");
+        let entity = response.content;
+
+        this.id = entity.Id;
+        this.name = entity.Name;
+        this.url = entity.Url;
+        this.hosts = entity.Hosts;
+
+        this.validator.resetForm();
+        $("#form-section-legend").html(this.translations.edit);
+        this.sectionSwitcher.swap('form-section');
+    }
+
+    async remove(id) {
+        if (confirm(this.translations.deleteRecordConfirm)) {
+            let response = await this.http.delete(this.apiUrl + "(" + id + ")");
+
+            this.grid.dataSource.read();
+            this.grid.refresh();
+        }
+    }
+
+    async save() {
+        if (!$("#form-section-form").valid()) {
+            return false;
+        }
+
+        let isNew = (this.id == 0);
+
+        let record = {
+            Id: this.id,
+            Name: this.name,
+            Url: this.url,
+            Hosts: this.hosts
         };
-        self.save = function () {
-            var isNew = (self.id() == 0);
 
-            if (!$("#form-section-form").valid()) {
-                return false;
-            }
+        if (isNew) {
+            let response = await this.http.post(this.apiUrl, record);
+        }
+        else {
+            let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
+        }
 
-            var record = {
-                Id: self.id(),
-                Name: self.name(),
-                Url: self.url(),
-                Hosts: self.hosts()
-            };
+        this.grid.dataSource.read();
+        this.grid.refresh();
 
-            if (isNew) {
-                $.ajax({
-                    url: odataBaseUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+        this.sectionSwitcher.swap('grid-section');
+    }
 
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-            else {
-                $.ajax({
-                    url: odataBaseUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.cancel = function () {
-            switchSection($("#grid-section"));
-        };
-    };
-
-    var viewModel = new ViewModel();
-    return viewModel;
-});
+    cancel() {
+        this.sectionSwitcher.swap('grid-section');
+    }
+}

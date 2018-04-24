@@ -32,7 +32,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
         {
             //builder.RegisterType<DbSeeder>().As<IDbSeeder>().InstancePerDependency(); // TODO?
 
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            //builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             #region Services
 
