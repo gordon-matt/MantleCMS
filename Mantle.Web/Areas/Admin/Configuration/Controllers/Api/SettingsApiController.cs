@@ -47,7 +47,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             return result;
         }
 
-        public override async Task<IActionResult> Post(Setting entity)
+        public override async Task<IActionResult> Post([FromBody] Setting entity)
         {
             var result = await base.Post(entity);
 

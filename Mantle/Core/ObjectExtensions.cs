@@ -55,9 +55,9 @@ namespace Mantle
         /// <param name="fileName">The name of the file to save the serialized data to.</param>
         public static void BinarySerialize<T>(this T item, string fileName)
         {
-            using (Stream stream = File.Open(fileName, FileMode.Create))
+            using (var stream = File.Open(fileName, FileMode.Create))
             {
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                var binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(stream, item);
                 stream.Close();
             }

@@ -571,6 +571,9 @@ namespace MantleCMS.Services
         public async Task<IEnumerable<MantleUser>> GetUsersByRoleId(object roleId)
         {
             string rId = roleId.ToString();
+
+            // TODO: Include(x => x.Users) won't work. It should map to a junction table first (AspNetUserRoles) and then get the Users from that.
+            //      userManager.GetUsersInRoleAsync(role.Name) // <-- probably need a custom UserManager (to take TenantId into account) and use this to get the users
             var role = await roleManager.Roles.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == rId);
 
             var userIds = role.Users.Select(x => x.Id).ToList();

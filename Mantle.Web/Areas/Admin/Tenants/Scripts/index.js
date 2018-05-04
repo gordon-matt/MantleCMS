@@ -1,31 +1,18 @@
 ﻿import $ from 'jquery';
 import { validation } from 'jquery-validation';
+import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
+import { TemplatingEngine } from 'aurelia-templating';
 import { SectionSwitcher } from '/aurelia-app/shared/section-switching';
+import * as kendo from '/js/kendo/2014.1.318/kendo.web.min.js';
+import { kendoGrid } from '/js/kendo/2014.1.318/kendo.web.min.js';
 
+@inject(TemplatingEngine)
 export class ViewModel {
     apiUrl = "/odata/mantle/web/TenantApi";
 
-    constructor() {
-        this.datasource = {
-            type: 'odata-v4',
-            transport: {
-                read: this.apiUrl
-            },
-            schema: {
-                model: {
-                    fields: {
-                        Name: { type: "string" }
-                    }
-                }
-            },
-            pageSize: 10,
-            serverPaging: true,
-            serverFiltering: true,
-            serverSorting: true,
-            sort: { field: "Name", dir: "asc" }
-        };
-
+    constructor(templatingEngine) {
+        this.templatingEngine = templatingEngine;
         this.http = new HttpClient();
     }
 
@@ -36,7 +23,7 @@ export class ViewModel {
         let response = await this.http.get("/admin/tenants/get-translations");
         this.translations = response.content;
 
-        //this.gridPageSize = $("#GridPageSize").val();
+        this.gridPageSize = $("#GridPageSize").val();
 
         this.sectionSwitcher = new SectionSwitcher('grid-section');
 
@@ -47,7 +34,105 @@ export class ViewModel {
                 Hosts: { required: true }
             }
         });
+
+        let self = this;
+
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.apiUrl,
+                        dataType: "json"
+                    },
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
+                            }
+                            delete paramMap.$inlinecount;
+                        }
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
+                    }
+                },
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        fields: {
+                            Name: { type: "string" }
+                        }
+                    }
+                },
+                pageSize: this.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Name", dir: "asc" }
+            },
+            dataBound: function (e) {
+                var body = $('#grid').find('tbody')[0];
+                if (body) {
+                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "Name",
+                title: this.translations.columns.name,
+                filterable: true
+            }, {
+                field: "Id",
+                title: " ",
+                template:
+                    '<div class="btn-group">' +
+                    '<button type="button" click.delegate="edit(#=Id#)" class="btn btn-default btn-xs">' + this.translations.edit + '</button>' +
+                    '<button type="button" click.delegate="remove(#=Id#)" class="btn btn-danger btn-xs">' + this.translations.delete + '</button>' +
+                    '</div>',
+                //template:
+                //    '<div class="btn-group">' +
+                //    '<button type="button" data-id="#=Id#" class="btn-edit btn btn-default btn-xs">' + this.translations.edit + '</button>' +
+                //    '<button type="button" data-id="#=Id#" class="btn-delete btn btn-danger btn-xs">' + this.translations.delete + '</button>' +
+                //    '</div>',
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 120
+            }]
+        });
+
+        // This way does not work!
+        //$(".btn-edit").bind("click", function (event) {
+        //    let id = event.target.getAttribute('data-id');
+        //    console.log("Edit: " + id);
+        //    this.edit(id);
+        //});
+        //$(".btn-delete").bind("click", function (event) {
+        //    let id = event.target.getAttribute('data-id');
+        //    console.log("Delete: " + id);
+        //    this.delete(id);
+        //});
     }
+
+    //detached() {
+    //    $(".btn-edit").unbind("click");
+    //    $(".btn-delete").unbind("click");
+    //}
 
     // END: Aurelia Component Lifecycle Methods
 
@@ -79,9 +164,7 @@ export class ViewModel {
     async remove(id) {
         if (confirm(this.translations.deleteRecordConfirm)) {
             let response = await this.http.delete(this.apiUrl + "(" + id + ")");
-
-            this.grid.dataSource.read();
-            this.grid.refresh();
+            this.refreshGrid();
         }
     }
 
@@ -106,13 +189,16 @@ export class ViewModel {
             let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
         }
 
-        this.grid.dataSource.read();
-        this.grid.refresh();
-
+        this.refreshGrid();
         this.sectionSwitcher.swap('grid-section');
     }
 
     cancel() {
         this.sectionSwitcher.swap('grid-section');
+    }
+
+    refreshGrid() {
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
     }
 }

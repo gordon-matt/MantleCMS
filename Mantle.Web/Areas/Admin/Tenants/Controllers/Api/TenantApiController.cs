@@ -25,7 +25,7 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
             this.webHelper = webHelper;
         }
 
-        public override async Task<IActionResult> Post(Tenant entity)
+        public override async Task<IActionResult> Post([FromBody] Tenant entity)
         {
             var result = await base.Post(entity);
             int tenantId = entity.Id; // EF should have populated the ID in base.Post()

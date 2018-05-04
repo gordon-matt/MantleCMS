@@ -7,24 +7,15 @@ namespace MantleCMS.Infrastructure
     {
         #region ILanguagePack Members
 
-        public string CultureCode
-        {
-            get { return null; }
-        }
+        public string CultureCode => null;
 
-        public IDictionary<string, string> LocalizedStrings
+        public IDictionary<string, string> LocalizedStrings => new Dictionary<string, string>
         {
-            get
-            {
-                return new Dictionary<string, string>
-                {
-                    { LocalizableStrings.Dashboard.Administration, "Administration" },
-                    { LocalizableStrings.Dashboard.Frontend, "Frontend" },
-                    { LocalizableStrings.Dashboard.Title, "Dashboard" },
-                    { LocalizableStrings.Dashboard.ToggleNavigation, "Toggle Navigation" },
-                };
-            }
-        }
+            { LocalizableStrings.Dashboard.Administration, "Administration" },
+            { LocalizableStrings.Dashboard.Frontend, "Frontend" },
+            { LocalizableStrings.Dashboard.Title, "Dashboard" },
+            { LocalizableStrings.Dashboard.ToggleNavigation, "Toggle Navigation" },
+        };
 
         #endregion ILanguagePack Members
     }

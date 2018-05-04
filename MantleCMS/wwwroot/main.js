@@ -9,7 +9,7 @@ export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
-        .plugin('aurelia-kendoui-bridge', (kendo) => kendo.detect().notifyBindingBehavior())
+        //.plugin('aurelia-kendoui-bridge', (kendo) => kendo.detect().notifyBindingBehavior())
         //.plugin('aurelia-animator-css')
         .globalResources([
             PLATFORM.moduleName('/aurelia-app/shared/loading-indicator')
