@@ -21,6 +21,7 @@ namespace MantleCMS.Areas.Admin
                 {
                     ModuleId = "/aurelia-app/admin/dashboard",
                     Route = "",
+                    Name = "home",
                     Title = "Dashboard"
                 });
 

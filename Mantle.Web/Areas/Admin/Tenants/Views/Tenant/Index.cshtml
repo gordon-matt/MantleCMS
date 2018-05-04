@@ -3,11 +3,6 @@
 }
 
 <template>
-    @*<require from="/jspm_packages/npm/aurelia-kendoui-bridge@1.7.0/grid/grid"></require>
-    <require from="/jspm_packages/npm/aurelia-kendoui-bridge@1.7.0/grid/col"></require>
-    <require from="/jspm_packages/npm/aurelia-kendoui-bridge@1.7.0/common/template"></require>
-    <require from="/jspm_packages/npm/aurelia-kendoui-bridge@1.7.0/datepicker/datepicker"></require>*@
-
     @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
     <div id="grid-section" class="row">
@@ -22,27 +17,6 @@
         <br />
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
             <div id="grid"></div>
-            @*<ak-grid id="grid"
-                     k-data-source.bind="datasource"
-                     k-widget.bind="grid"
-                     k-filterable.bind="true"
-                     k-sortable.bind="{ allowUnsort: false }"
-                     k-pageable.bind="{ refresh: true, pageSizes: true }"
-                     k-scrollable.bind="false">
-                <ak-col k-field="Name" k-title="Name"></ak-col>
-                <ak-col k-field="Id" k-title=" " k-filterable.bind="false" k-width.bind="150" k-attributes.bind="{ class: 'text-center' }">
-                    <ak-template>
-                        <div class="btn-group">
-                            <a click.delegate="edit($this.Id)" class="btn btn-default btn-xs">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                            <a click.delegate="remove($this.Id)" class="btn btn-danger btn-xs">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
-                        </div>
-                    </ak-template>
-                </ak-col>
-            </ak-grid>*@
         </div>
     </div>
 

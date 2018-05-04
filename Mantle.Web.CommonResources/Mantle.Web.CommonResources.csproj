@@ -13,7 +13,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\**\*.js;Content\**\*.*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="Scripts\generic-http-interceptor.js" />
+    <EmbeddedResource Include="Scripts\mantle-utils.js" />
+    <EmbeddedResource Include="Scripts\mantle-jqval.js" />
+    <EmbeddedResource Include="Scripts\mantle-tinymce.js" />
+    <EmbeddedResource Include="Scripts\section-switching.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\generic-http-interceptor.js" />
+    <None Remove="Scripts\section-switching.js" />
   </ItemGroup>
 
   <ItemGroup>

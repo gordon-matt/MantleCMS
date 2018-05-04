@@ -20,8 +20,9 @@ namespace Mantle.Web.Common.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index",
                     Route = "regions",
+                    Name = "mantle-web-common/regions",
                     Title = localizer[LocalizableStrings.Regions.Title]
                 });
 
@@ -31,7 +32,7 @@ namespace Mantle.Web.Common.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index", "admin/regions" },
+            { "aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index", "admin/regions" },
         };
 
         #endregion IAureliaRouteProvider Members

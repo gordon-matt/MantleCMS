@@ -19,13 +19,7 @@
         /// The id (usually a relative path) of the module that exports the component that should be rendered when the route is matched.
         /// </summary>
         public string ModuleId { get; set; }
-
-        /// <summary>
-        /// <para>A boolean or number property. When set to true the route will be included in the router's navigation model.</para>
-        /// <para>When specified as number, the value will be used in sorting the routes. This makes it easier to create a dynamic menu or similar elements.</para>
-        /// </summary>
-        public object Nav { get; set; }
-
+        
         /// <summary>
         /// The text to be displayed as the document's title (appears in your browser's title bar or tab). It is combined with the router.title and the title from any child routes.
         /// </summary>

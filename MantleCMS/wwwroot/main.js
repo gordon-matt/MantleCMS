@@ -9,7 +9,18 @@ export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
         .developmentLogging()
-        //.plugin('aurelia-kendoui-bridge', (kendo) => kendo.detect().notifyBindingBehavior())
+        //.plugin(PLATFORM.moduleName('aurelia-kendoui-bridge'))
+        .plugin(PLATFORM.moduleName('aurelia-notification'), config => {
+            config.configure({
+                translate: false,  // 'true' needs aurelia-i18n to be configured
+                notifications: {
+                    'success': 'humane-libnotify-success',
+                    'error': 'humane-libnotify-error',
+                    'info': 'humane-libnotify-info'
+                }
+            });
+        })
+        .plugin(PLATFORM.moduleName('aurelia-tinymce-wrapper'))
         //.plugin('aurelia-animator-css')
         .globalResources([
             PLATFORM.moduleName('/aurelia-app/shared/loading-indicator')

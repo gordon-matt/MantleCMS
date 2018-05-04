@@ -20,15 +20,17 @@ namespace Mantle.Web.Messaging.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.Messaging.Scripts.messageTemplates",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.index",
                     Route = "messaging/templates",
+                    Name = "mantle-web/messaging/templates",
                     Title = T[LocalizableStrings.MessageTemplates].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.Messaging.Scripts.queuedEmails",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.Messaging.Scripts.QueuedEmails.index",
                     Route = "messaging/queued-email",
+                    Name = "mantle-web/messaging/queued-email",
                     Title = T[LocalizableStrings.QueuedEmails].Value
                 });
 
@@ -38,8 +40,8 @@ namespace Mantle.Web.Messaging.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "/Mantle.Web.Messaging.Scripts.messageTemplates", "admin/messaging/templates" },
-            { "/Mantle.Web.Messaging.Scripts.queuedEmails", "admin/messaging/queued-email" },
+            { "aurelia-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.index", "admin/messaging/templates" },
+            { "aurelia-app/embedded/Mantle.Web.Messaging.Scripts.QueuedEmails.index", "admin/messaging/queued-email" },
         };
 
         #endregion IAureliaRouteProvider Members

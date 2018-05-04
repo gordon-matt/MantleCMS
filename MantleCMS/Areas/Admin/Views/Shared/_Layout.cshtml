@@ -1,5 +1,6 @@
-﻿@{ 
-    string dir = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : string.Empty;
+﻿@{
+    bool isRTL = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft;
+    string dir = isRTL ? "rtl" : string.Empty;
     string lang = WorkContext.CurrentCultureCode.LeftOf('-');
 }
 
@@ -7,8 +8,25 @@
 <html lang="@lang">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - @SiteSettings.SiteName</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @RenderSection("meta", required: false)
+
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="/jspm_packages/github/twbs/bootstrap@3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/jspm_packages/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
+
+    @if (isRTL)
+    {
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" />
+    }
+
+    <link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
+
+    <!-- Kendo -->
+    <link rel="stylesheet" type="text/css" href="/css/kendo/2014.1.318/kendo.common.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/kendo/2014.1.318/kendo.default.min.css" />
+
     @RenderSection("styles", required: false)
     @RenderSection("scripts", required: false)
 </head>

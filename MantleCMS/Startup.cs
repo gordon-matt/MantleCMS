@@ -167,6 +167,7 @@ namespace MantleCMS
             {
                 new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
                 new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
+                new EmbeddedFileProvider(typeof(Mantle.Web.CommonResources.Dummy).GetTypeInfo().Assembly, "Mantle.Web.CommonResources"),
                 new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
                 new EmbeddedFileProvider(typeof(MantleWebMessagingConstants).GetTypeInfo().Assembly, "Mantle.Web.Messaging"),
                 //TODO: Add more - and better to detect them automatically somehow

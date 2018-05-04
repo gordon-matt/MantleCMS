@@ -1,19 +1,28 @@
-﻿import $ from 'jquery';
-import { validation } from 'jquery-validation';
+﻿import 'jquery';
+import 'jquery-validation';
 import { inject } from 'aurelia-framework';
+import { Notification } from 'aurelia-notification';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
-import { SectionSwitcher } from '/aurelia-app/shared/section-switching';
+
+import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+
 import * as kendo from '/js/kendo/2014.1.318/kendo.web.min.js';
 import { kendoGrid } from '/js/kendo/2014.1.318/kendo.web.min.js';
 
-@inject(TemplatingEngine)
+@inject(Notification, TemplatingEngine)
 export class ViewModel {
     apiUrl = "/odata/mantle/web/TenantApi";
 
-    constructor(templatingEngine) {
+    constructor(notification, templatingEngine) {
+        this.notification = notification;
         this.templatingEngine = templatingEngine;
+
         this.http = new HttpClient();
+        this.http.configure(config => {
+            config.withInterceptor(new GenericHttpInterceptor());
+        });
     }
 
     // Aurelia Component Lifecycle Methods
@@ -164,6 +173,14 @@ export class ViewModel {
     async remove(id) {
         if (confirm(this.translations.deleteRecordConfirm)) {
             let response = await this.http.delete(this.apiUrl + "(" + id + ")");
+
+            if (response.isSuccess) {
+                this.notification.success(this.translations.deleteRecordSuccess);
+            }
+            else {
+                this.notification.error(this.translations.deleteRecordError);
+            }
+
             this.refreshGrid();
         }
     }
@@ -184,9 +201,23 @@ export class ViewModel {
 
         if (isNew) {
             let response = await this.http.post(this.apiUrl, record);
+
+            if (response.isSuccess) {
+                this.notification.success(this.translations.insertRecordSuccess);
+            }
+            else {
+                this.notification.error(this.translations.insertRecordError);
+            }
         }
         else {
             let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
+
+            if (response.isSuccess) {
+                this.notification.success(this.translations.updateRecordSuccess);
+            }
+            else {
+                this.notification.error(this.translations.updateRecordError);
+            }
         }
 
         this.refreshGrid();

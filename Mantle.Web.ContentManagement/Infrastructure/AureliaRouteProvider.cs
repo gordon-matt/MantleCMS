@@ -20,57 +20,65 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog",
                     Route = "blog",
+                    Name = "mantle-cms/blog",
                     Title = T[MantleCmsLocalizableStrings.Blog.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks",
                     Route = "blocks/content-blocks(/:pageId)",
+                    Name = "mantle-cms/blocks/content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks",
                     Route = "blocks/entity-type-content-blocks/:entityType/:entityId",
+                    Name = "mantle-cms/blocks/entity-type-content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media",
                     Route = "media",
+                    Name = "mantle-cms/media",
                     Title = T[MantleCmsLocalizableStrings.Media.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus",
                     Route = "menus",
+                    Name = "mantle-cms/menus",
                     Title = T[MantleCmsLocalizableStrings.Menus.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers",
                     Route = "newsletters/subscribers",
+                    Name = "mantle-cms/newsletters/subscribers",
                     Title = T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index",
                     Route = "pages",
+                    Name = "mantle-cms/pages",
                     Title = T[MantleCmsLocalizableStrings.Pages.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index",
                     Route = "sitemap/xml-sitemap",
+                    Name = "mantle-cms/sitemap/xml-sitemap",
                     Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value
                 });
 
@@ -80,14 +88,14 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog", "admin/blog" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks", "admin/blocks/content-blocks" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks", "admin/blocks/entity-type-content-blocks" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media", "admin/media" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus", "admin/menus" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index", "admin/pages" },
-            { "/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index", "admin/xml-sitemap" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog", "admin/blog" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks", "admin/blocks/content-blocks" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks", "admin/blocks/entity-type-content-blocks" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media", "admin/media" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus", "admin/menus" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index", "admin/pages" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index", "admin/xml-sitemap" },
         };
 
         #endregion IAureliaRouteProvider Members

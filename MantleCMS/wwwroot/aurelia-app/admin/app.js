@@ -17,8 +17,7 @@ export class App {
                 route: item.route,
                 name: item.name,
                 moduleId: PLATFORM.moduleName(item.moduleId),
-                title: item.title,
-                nav: item.nav
+                title: item.title
             });
         });
 
