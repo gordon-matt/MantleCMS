@@ -1,149 +1,145 @@
-﻿//define(function (require) {
-define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
-    'use strict'
+﻿import 'jquery';
+import '/js/kendo/2014.1.318/kendo.web.min.js';
+import { inject } from 'aurelia-framework';
+import { Notification } from 'aurelia-notification';
+import { HttpClient } from 'aurelia-http-client';
+import { TemplatingEngine } from 'aurelia-templating';
 
-    //var $ = require('jquery');
-    //var ko = require('knockout');
+import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
 
-    //require('kendo');
-    //require('notify');
+@inject(Notification, TemplatingEngine)
+export class ViewModel {
+    apiUrl = "/odata/mantle/web/ThemeApi";
 
-    var apiUrl = "/odata/mantle/web/ThemeApi";
+    constructor(notification, templatingEngine) {
+        this.notification = notification;
+        this.templatingEngine = templatingEngine;
+        
+        this.http = new HttpClient();
+        this.http.configure(config => {
+            config.withInterceptor(new GenericHttpInterceptor(this.notification));
+        });
+    }
 
-    var ViewModel = function () {
-        var self = this;
+    // Aurelia Component Lifecycle Methods
 
-        self.gridPageSize = 10;
-        self.translations = false;
+    async attached() {
+        // Load translations first, else will have errors
+        let response = await this.http.get("/admin/configuration/themes/get-translations");
+        this.translations = response.content;
 
-        self.attached = function () {
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/configuration/themes/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        this.gridPageSize = $("#GridPageSize").val();
 
-            self.gridPageSize = $("#GridPageSize").val();
+        let self = this;
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: apiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.apiUrl,
+                        dataType: "json"
                     },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                PreviewImageUrl: { type: "string" },
-                                Title: { type: "string" },
-                                PreviewText: { type: "string" },
-                                SupportRtl: { type: "boolean" },
-                                MobileTheme: { type: "boolean" },
-                                IsDefaultTheme: { type: "boolean" }
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
                             }
+                            delete paramMap.$inlinecount;
                         }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Title", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
                     }
                 },
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        fields: {
+                            PreviewImageUrl: { type: "string" },
+                            Title: { type: "string" },
+                            PreviewText: { type: "string" },
+                            SupportRtl: { type: "boolean" },
+                            MobileTheme: { type: "boolean" },
+                            IsDefaultTheme: { type: "boolean" }
+                        }
+                    }
+                },
+                pageSize: this.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Title", dir: "asc" }
+            },
+            dataBound: function (e) {
+                let body = $('#grid').find('tbody')[0];
+                if (body) {
+                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "PreviewImageUrl",
+                title: this.translations.columns.previewImageUrl,
+                template: '<img src="#=PreviewImageUrl#" alt="#=Title#" class="thumbnail" style="max-width:200px;" />',
+                filterable: false,
+                width: 200
+            }, {
+                field: "Title",
+                title: this.translations.columns.title,
+                filterable: true
+            }, {
+                field: "SupportRtl",
+                title: this.translations.columns.supportRtl,
+                template: '<i class="fa #=SupportRtl ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
+                attributes: { "class": "text-center" },
                 filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
-                    field: "PreviewImageUrl",
-                    title: self.translations.columns.previewImageUrl,
-                    template: '<img src="#=PreviewImageUrl#" alt="#=Title#" class="thumbnail" style="max-width:200px;" />',
-                    filterable: false,
-                    width: 200
-                }, {
-                    field: "Title",
-                    title: self.translations.columns.title,
-                    filterable: true
-                }, {
-                    field: "SupportRtl",
-                    title: self.translations.columns.supportRtl,
-                    template: '<i class="fa #=SupportRtl ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
-                    attributes: { "class": "text-center" },
-                    filterable: true,
-                    width: 70
-                }, {
-                    field: "IsDefaultTheme",
-                    title: self.translations.columns.isDefaultTheme,
-                    template:
-                        '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
-                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-default btn-sm">' + self.translations.set + '</a> #} #',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 130
-                }]
-            });
-        };
-        self.setTheme = function (name) {
-            $.ajax({
-                url: apiUrl + "/Default.SetTheme",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ themeName: name }),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-                $.notify(self.translations.setThemeSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.SetThemeError + ": " + jqXHR.responseText || textStatus, "error");
-            });
-        };
-    };
+                width: 70
+            }, {
+                field: "IsDefaultTheme",
+                title: this.translations.columns.isDefaultTheme,
+                template:
+                    '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
+                    'else {# <button type="button" click.delegate="setTheme(\'#=Title#\')" class="btn btn-default btn-sm">' + this.translations.set + '</button> #} #',
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 130
+            }]
+        });
+    }
 
-    var viewModel = new ViewModel();
-    return viewModel;
-});
+    // END: Aurelia Component Lifecycle Methods
+
+    async setTheme(name) {
+        let response = await this.http.post(this.apiUrl + "/Default.SetTheme", { themeName: name });
+
+        if (response.isSuccess) {
+            this.notification.success(this.translations.setThemeSuccess);
+        }
+        else {
+            this.notification.error(this.translations.setThemeError);
+        }
+
+        this.refreshGrid();
+    }
+
+    refreshGrid() {
+        this.grid.dataSource.read();
+        this.grid.refresh();
+    }
+}

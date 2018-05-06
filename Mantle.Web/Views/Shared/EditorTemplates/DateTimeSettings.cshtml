@@ -7,27 +7,27 @@
 <div id="settings-content">
     <div class="form-group">
         @Html.LabelFor(m => m.DefaultTimeZoneId)
-        @Html.TextBoxFor(m => m.DefaultTimeZoneId, new { @class = "form-control", data_bind = "value: defaultTimeZoneId" })
+        <input type="number" id="DefaultTimeZoneId" name="DefaultTimeZoneId" class="form-control" value.bind="defaultTimeZoneId" />
         @Html.ValidationMessageFor(m => m.DefaultTimeZoneId)
     </div>
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(m => m.AllowUsersToSetTimeZone, new { data_bind = "checked: allowUsersToSetTimeZone" }) @T[MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone]
+            <input type="checkbox" id="AllowUsersToSetTimeZone" name="AllowUsersToSetTimeZone" checked.bind="allowUsersToSetTimeZone" /> @T[MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone]
         </label>
     </div>
 </div>
 
 <script type="text/javascript">
     function updateModel(viewModel, data) {
-        viewModel.defaultTimeZoneId = ko.observable("");
-        viewModel.allowUsersToSetTimeZone = ko.observable(false);
+        viewModel.defaultTimeZoneId = '';
+        viewModel.allowUsersToSetTimeZone = false;
 
         if (data) {
             if (data.DefaultTimeZoneId) {
-                viewModel.defaultTimeZoneId(data.DefaultTimeZoneId);
+                viewModel.defaultTimeZoneId = data.DefaultTimeZoneId;
             }
             if (data.AllowUsersToSetTimeZone) {
-                viewModel.allowUsersToSetTimeZone(data.AllowUsersToSetTimeZone);
+                viewModel.allowUsersToSetTimeZone = data.AllowUsersToSetTimeZone;
             }
         }
     };
@@ -39,10 +39,10 @@
 
     function onBeforeSave(viewModel) {
         var data = {
-            DefaultTimeZoneId: viewModel.defaultTimeZoneId(),
-            AllowUsersToSetTimeZone: viewModel.allowUsersToSetTimeZone()
+            DefaultTimeZoneId: viewModel.defaultTimeZoneId,
+            AllowUsersToSetTimeZone: viewModel.allowUsersToSetTimeZone
         };
 
-        viewModel.value(ko.mapping.toJSON(data));
+        viewModel.value = JSON.stringify(data);
     };
 </script>

@@ -5,17 +5,17 @@
 <div id="settings-content">
     <div class="form-group">
         @Html.LabelFor(m => m.NumberOfPageVersionsToKeep)
-        @Html.TextBox("NumberOfPageVersionsToKeep", null, new { @class = "form-control", data_bind = "value: numberOfPageVersionsToKeep" })
+        <input type="text" id="NumberOfPageVersionsToKeep" name="NumberOfPageVersionsToKeep" class="form-control" value.bind="numberOfPageVersionsToKeep" />
         @Html.ValidationMessageFor(m => m.NumberOfPageVersionsToKeep)
     </div>
 </div>
 
 <script type="text/javascript">
     function updateModel(viewModel, data) {
-        viewModel.numberOfPageVersionsToKeep = ko.observable("");
+        viewModel.numberOfPageVersionsToKeep = '';
 
         if (data && data.NumberOfPageVersionsToKeep) {
-            viewModel.numberOfPageVersionsToKeep(data.NumberOfPageVersionsToKeep);
+            viewModel.numberOfPageVersionsToKeep = data.NumberOfPageVersionsToKeep;
         }
     };
 
@@ -25,9 +25,9 @@
 
     function onBeforeSave(viewModel) {
         var data = {
-            NumberOfPageVersionsToKeep: viewModel.numberOfPageVersionsToKeep()
+            NumberOfPageVersionsToKeep: viewModel.numberOfPageVersionsToKeep
         };
-
-        viewModel.value(ko.mapping.toJSON(data));
+    
+        viewModel.value = JSON.stringify(data);
     };
 </script>

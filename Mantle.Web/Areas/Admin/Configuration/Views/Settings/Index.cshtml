@@ -2,30 +2,32 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+<template>
+    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-<div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
+    <div id="grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="grid"></div>
+        </div>
     </div>
-</div>
 
-<div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
+    <div id="form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
             {
-                @*HTML injected here*@
-                <div id="settings-details"></div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group pull-right">
-                        <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                        <button type="button" class="btn btn-primary" data-bind="click: save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    @*HTML injected here*@
+                    <div id="settings-details"></div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group pull-right">
+                            <button type="button" class="btn btn-default" click.delegate="cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                            <button type="button" class="btn btn-primary" click.delegate="save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                        </div>
                     </div>
-                </div>
+                }
             }
-        }
-    </article>
-</div>
+        </article>
+    </div>
+</template>

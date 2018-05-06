@@ -1,5 +1,6 @@
 ﻿import 'jquery';
 import 'jquery-validation';
+import '/js/kendo/2014.1.318/kendo.web.min.js';
 import { inject } from 'aurelia-framework';
 import { Notification } from 'aurelia-notification';
 import { HttpClient } from 'aurelia-http-client';
@@ -7,9 +8,6 @@ import { TemplatingEngine } from 'aurelia-templating';
 
 import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
 import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
-
-import * as kendo from '/js/kendo/2014.1.318/kendo.web.min.js';
-import { kendoGrid } from '/js/kendo/2014.1.318/kendo.web.min.js';
 
 @inject(Notification, TemplatingEngine)
 export class ViewModel {
@@ -21,7 +19,7 @@ export class ViewModel {
 
         this.http = new HttpClient();
         this.http.configure(config => {
-            config.withInterceptor(new GenericHttpInterceptor());
+            config.withInterceptor(new GenericHttpInterceptor(this.notification));
         });
     }
 
@@ -89,7 +87,7 @@ export class ViewModel {
                 sort: { field: "Name", dir: "asc" }
             },
             dataBound: function (e) {
-                var body = $('#grid').find('tbody')[0];
+                let body = $('#grid').find('tbody')[0];
                 if (body) {
                     self.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
