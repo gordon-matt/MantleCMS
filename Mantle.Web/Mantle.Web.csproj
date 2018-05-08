@@ -42,9 +42,11 @@
 
   <ItemGroup>
     <PackageReference Include="KendoGridBinder" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201804271241" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
@@ -56,6 +58,7 @@
     <ProjectReference Include="..\Mantle.Infrastructure\Mantle.Infrastructure.csproj" />
     <ProjectReference Include="..\Mantle.Localization\Mantle.Localization.csproj" />
     <ProjectReference Include="..\Mantle.Logging\Mantle.Logging.csproj" />
+    <ProjectReference Include="..\Mantle.Security\Mantle.Security.csproj" />
     <ProjectReference Include="..\Mantle.Tasks\Mantle.Tasks.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>

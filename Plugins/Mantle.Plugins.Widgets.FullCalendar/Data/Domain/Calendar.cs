@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mantle.Data.Entity;
 using Mantle.Tenants.Domain;
-using Mantle.Plugins;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

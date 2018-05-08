@@ -101,7 +101,7 @@ namespace Mantle.Web.Mvc.Razor
             };
 
             return new DefaultControllerFactory(
-                new DefaultControllerActivator(new TypeActivatorCache()), 
+                new DefaultControllerActivator(new TypeActivatorCache()),
                 propertyActivators);
         }
     }

@@ -4,7 +4,6 @@ using Mantle.Localization;
 using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Mvc.Themes;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
 {

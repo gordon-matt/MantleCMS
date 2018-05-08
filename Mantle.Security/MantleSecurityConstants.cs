@@ -1,6 +1,6 @@
-﻿namespace Mantle
+﻿namespace Mantle.Security
 {
-    public static class MantleConstants
+    public static class MantleSecurityConstants
     {
         public static class Roles
         {

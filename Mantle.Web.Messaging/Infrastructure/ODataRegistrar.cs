@@ -12,7 +12,7 @@ namespace Mantle.Web.Messaging.Infrastructure
         public void Register(IRouteBuilder routes, IServiceProvider services)
         {
             ODataModelBuilder builder = new ODataConventionModelBuilder(services);
-            
+
             builder.EntitySet<MessageTemplate>("MessageTemplateApi");
             builder.EntitySet<MessageTemplateVersion>("MessageTemplateVersionApi");
             builder.EntitySet<QueuedEmail>("QueuedEmailApi");

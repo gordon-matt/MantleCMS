@@ -43,7 +43,7 @@ namespace Mantle.Web.ContentManagement
         public static readonly Permission MenusWrite = new Permission { Name = "Menus_Write", Category = "Content Management", Description = "Menus: Write" };
 
         #endregion Menus
-        
+
         #region Newsletter
 
         public static readonly Permission NewsletterRead = new Permission { Name = "Newsletter_Read", Category = "Content Management", Description = "Newsletter: Read" };

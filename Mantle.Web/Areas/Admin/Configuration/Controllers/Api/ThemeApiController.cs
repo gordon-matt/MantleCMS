@@ -54,7 +54,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
                     theme.IsDefaultTheme = true;
                 }
             }
-            
+
             var results = options.ApplyTo(themes.AsQueryable());
             return (results as IQueryable<EdmThemeConfiguration>).ToHashSet();
         }

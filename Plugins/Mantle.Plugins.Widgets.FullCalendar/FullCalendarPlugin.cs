@@ -1,7 +1,6 @@
 ﻿using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.FullCalendar
 {

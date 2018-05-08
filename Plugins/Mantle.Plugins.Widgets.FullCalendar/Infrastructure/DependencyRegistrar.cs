@@ -7,7 +7,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Plugins;
 using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure

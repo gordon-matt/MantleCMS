@@ -1,13 +1,7 @@
-﻿namespace Mantle.Configuration
+﻿namespace Mantle.Plugins.Configuration
 {
-    public class MantleOptions
+    public class MantlePluginOptions
     {
-        public bool IgnoreStartupTasks { get; set; }
-
-        public bool ScheduledTasksEnabled { get; set; }
-
-        #region Plugins
-
         /// <summary>
         /// Gets or sets a value indicating whether to clear /Plugins/bin directory on application startup
         /// </summary>
@@ -27,7 +21,5 @@
         /// Gets or sets a value indicating whether to copy plugins library to the /Plugins/bin directory on application startup
         /// </summary>
         public bool UsePluginsShadowCopy { get; set; }
-
-        #endregion Plugins
     }
 }

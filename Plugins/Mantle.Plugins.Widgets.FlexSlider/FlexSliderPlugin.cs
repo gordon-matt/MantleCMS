@@ -1,5 +1,4 @@
 ﻿using Mantle.Plugins.Widgets.FlexSlider.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.FlexSlider
 {

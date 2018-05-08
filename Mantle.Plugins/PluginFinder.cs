@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mantle.Events;
 using Mantle.Infrastructure;
+using Mantle.Plugins.Events;
 using Mantle.Security.Membership;
 using Mantle.Threading;
-using Mantle.Events;
-using Mantle.Plugins.Events;
 
 namespace Mantle.Plugins
 {

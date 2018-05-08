@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Mantle.Web.Mvc;
 using Mantle.Plugins;
+using Mantle.Web.Mvc;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,7 +69,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
         {
             systemName = systemName.Replace('-', '.');
 
-            if (!CheckPermission(PluginsPermissions.ManagePlugins))
+            if (!CheckPermission(MantleWebPermissions.PluginsManage))
             {
                 return Json(new { Success = false, Message = "Unauthorized" });
                 //return new HttpUnauthorizedResult();
@@ -116,7 +116,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
         {
             systemName = systemName.Replace('-', '.');
 
-            if (!CheckPermission(PluginsPermissions.ManagePlugins))
+            if (!CheckPermission(MantleWebPermissions.PluginsManage))
             {
                 return Json(new { Success = false, Message = "Unauthorized" });
                 //return new HttpUnauthorizedResult();

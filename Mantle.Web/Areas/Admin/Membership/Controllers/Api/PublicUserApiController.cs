@@ -19,7 +19,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.Service = service;
             this.workContext = workContext;
         }
-        
+
         public virtual async Task<IEnumerable<PublicUserInfo>> Get(ODataQueryOptions<PublicUserInfo> options)
         {
             var query = (await Service.GetAllUsers(workContext.CurrentTenant.Id))

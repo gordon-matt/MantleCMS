@@ -1,5 +1,4 @@
 ﻿using Mantle.Plugins.Widgets.Bootstrap3.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.Bootstrap3
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {

@@ -1,7 +1,6 @@
 ﻿using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Messaging.Forums
 {

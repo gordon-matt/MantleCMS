@@ -5,9 +5,10 @@ using System.Net;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Mantle.Configuration;
 using Mantle.Helpers;
+using Mantle.Infrastructure.Configuration;
 using Mantle.Plugins;
+using Mantle.Plugins.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace Mantle.Infrastructure
             //set base application path
             var provider = services.BuildServiceProvider();
             var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
-            var options = provider.GetRequiredService<MantleOptions>();
+            var options = provider.GetRequiredService<MantlePluginOptions>();
             CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
 
             //initialize plugins
@@ -81,7 +82,7 @@ namespace Mantle.Infrastructure
             }
 
             //register dependencies
-            var options = services.BuildServiceProvider().GetService<MantleOptions>();
+            var options = services.BuildServiceProvider().GetService<MantleInfrastructureOptions>();
             RegisterDependencies(services, typeFinder);
 
             //run startup tasks

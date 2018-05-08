@@ -1,8 +1,7 @@
 ﻿using Autofac;
-using Mantle.Caching;
-using Mantle.Helpers;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Plugins;
 using Mantle.Web.Areas.Admin;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
@@ -15,7 +14,6 @@ using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Plugins;
 using Mantle.Web.Security.Membership;
 using Mantle.Web.Security.Membership.Permissions;
 
@@ -33,7 +31,7 @@ namespace Mantle.Web.Infrastructure
 
             // Plugins
             builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
-            
+
             // Work Context, Themes, Routing, etc
             builder.RegisterType<WorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();

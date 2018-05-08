@@ -83,7 +83,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Infrastructure", "Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Infrastructure.Abstractions", "Mantle.Infrastructure.Abstractions\Mantle.Infrastructure.Abstractions.csproj", "{DE0A9C2E-C22B-4BD0-B980-B4C479A460F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Plugins", "Mantle.Plugins\Mantle.Plugins.csproj", "{2616430E-623F-4177-B57B-5697904C817F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins", "Mantle.Plugins\Mantle.Plugins.csproj", "{2616430E-623F-4177-B57B-5697904C817F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Security", "Mantle.Security\Mantle.Security.csproj", "{F9943595-9DFD-4776-B34E-A3A941C1E294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -239,6 +241,10 @@ Global
 		{2616430E-623F-4177-B57B-5697904C817F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2616430E-623F-4177-B57B-5697904C817F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2616430E-623F-4177-B57B-5697904C817F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9943595-9DFD-4776-B34E-A3A941C1E294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9943595-9DFD-4776-B34E-A3A941C1E294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9943595-9DFD-4776-B34E-A3A941C1E294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9943595-9DFD-4776-B34E-A3A941C1E294}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

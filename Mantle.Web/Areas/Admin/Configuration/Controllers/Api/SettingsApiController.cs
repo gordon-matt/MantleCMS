@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Mantle.Caching;
-using Mantle.Web.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Web.Configuration;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Web.OData;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;

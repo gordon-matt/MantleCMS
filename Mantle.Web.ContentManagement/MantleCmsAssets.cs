@@ -1,5 +1,4 @@
 ﻿using Mantle.Exceptions;
-using Mantle.Web.Mvc.Assets;
 
 namespace Mantle.Web.ContentManagement
 {

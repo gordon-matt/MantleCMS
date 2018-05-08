@@ -6,8 +6,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Mantle.Collections;
-using Mantle.Localization.ComponentModel;
 using Mantle.Infrastructure;
+using Mantle.Localization.ComponentModel;
 using Mantle.Security.Membership;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
@@ -16,7 +16,6 @@ using Mantle.Web.Mvc.Controls;
 using Mantle.Web.Mvc.MantleUI;
 using Mantle.Web.Mvc.MantleUI.Providers;
 using Mantle.Web.Mvc.Rendering;
-using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +28,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using ResourceLocation = Mantle.Web.Mvc.Resources.ResourceLocation;
 
 namespace Mantle.Web.Mvc
 {

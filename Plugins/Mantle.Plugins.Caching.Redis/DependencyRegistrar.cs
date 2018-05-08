@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Mantle.Caching;
 using Mantle.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Caching.Redis
 {

@@ -2,47 +2,16 @@
 using Mantle.Infrastructure;
 using Mantle.Web.Helpers;
 
-namespace Mantle.Plugins.Messaging.Forums.Extensions
+namespace Mantle.Web.Core
 {
-    /// <summary>
-    /// Thanks to nopCommerce
-    /// </summary>
     public static class DateTimeExtensions
     {
-        /// <summary>
-        /// Relative formatting of DateTime (e.g. 2 hours ago, a month ago)
-        /// </summary>
-        /// <param name="source">Source (UTC format)</param>
-        /// <returns>Formatted date and time string</returns>
-        public static string RelativeFormat(this DateTime source)
+        public static string ToRelative(this DateTime dateTime, bool convertToUserTime = false, string defaultFormat = null)
         {
-            return RelativeFormat(source, string.Empty);
-        }
+            string result;
 
-        /// <summary>
-        /// Relative formatting of DateTime (e.g. 2 hours ago, a month ago)
-        /// </summary>
-        /// <param name="source">Source (UTC format)</param>
-        /// <param name="defaultFormat">Default format string (in case relative formatting is not applied)</param>
-        /// <returns>Formatted date and time string</returns>
-        public static string RelativeFormat(this DateTime source, string defaultFormat)
-        {
-            return RelativeFormat(source, false, defaultFormat);
-        }
-
-        /// <summary>
-        /// Relative formatting of DateTime (e.g. 2 hours ago, a month ago)
-        /// </summary>
-        /// <param name="source">Source (UTC format)</param>
-        /// <param name="convertToUserTime">A value indicating whether we should convet DateTime instance to user local time (in case relative formatting is not applied)</param>
-        /// <param name="defaultFormat">Default format string (in case relative formatting is not applied)</param>
-        /// <returns>Formatted date and time string</returns>
-        public static string RelativeFormat(this DateTime source, bool convertToUserTime, string defaultFormat)
-        {
-            string result = string.Empty;
-
-            var ts = new TimeSpan(DateTime.UtcNow.Ticks - source.Ticks);
-            double delta = ts.TotalSeconds;
+            var ts = new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
+            var delta = ts.TotalSeconds;
 
             if (delta > 0)
             {
@@ -90,13 +59,14 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
             }
             else
             {
-                DateTime tmp1 = source;
+                DateTime tmp1 = dateTime;
                 if (convertToUserTime)
                 {
                     tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
                 }
+
                 //default formatting
-                if (!string.IsNullOrEmpty(defaultFormat))
+                if (!String.IsNullOrEmpty(defaultFormat))
                 {
                     result = tmp1.ToString(defaultFormat);
                 }

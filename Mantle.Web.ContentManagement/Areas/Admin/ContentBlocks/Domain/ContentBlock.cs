@@ -23,7 +23,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
         public bool IsEnabled { get; set; }
 
         public string BlockValues { get; set; }
-        
+
         public string CustomTemplatePath { get; set; }
 
         public Guid? PageId { get; set; }

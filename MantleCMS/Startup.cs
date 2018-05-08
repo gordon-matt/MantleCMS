@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Mantle.Collections;
-using Mantle.Data.Entity;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;

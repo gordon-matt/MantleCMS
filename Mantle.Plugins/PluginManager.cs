@@ -5,13 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using Mantle.Localization.ComponentModel;
-using Mantle.Configuration;
 using Mantle.Helpers;
+using Mantle.Plugins.Configuration;
+using Mantle.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
-using Mantle.Threading;
 
 //Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
@@ -75,7 +74,7 @@ namespace Mantle.Plugins
         /// </summary>
         /// <param name="applicationPartManager">Application part manager</param>
         /// <param name="config">Config</param>
-        public static void Initialize(ApplicationPartManager applicationPartManager, IHostingEnvironment hostingEnvironment, MantleOptions options)
+        public static void Initialize(ApplicationPartManager applicationPartManager, IHostingEnvironment hostingEnvironment, MantlePluginOptions options)
         {
             if (applicationPartManager == null)
             {
@@ -638,7 +637,7 @@ namespace Mantle.Plugins
         /// <param name="options">Config</param>
         /// <param name="shadowCopyPath">Shadow copy path</param>
         /// <returns>Assembly</returns>
-        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager, MantleOptions options, string shadowCopyPath = "")
+        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager, MantlePluginOptions options, string shadowCopyPath = "")
         {
             if (plug.Directory?.Parent == null)
             {
@@ -683,7 +682,7 @@ namespace Mantle.Plugins
         /// <param name="applicationPartManager">Application part manager</param>
         /// <param name="plug">Plugin file info</param>
         /// <returns></returns>
-        private static Assembly RegisterPluginDefinition(MantleOptions options, ApplicationPartManager applicationPartManager, FileInfo plug)
+        private static Assembly RegisterPluginDefinition(MantlePluginOptions options, ApplicationPartManager applicationPartManager, FileInfo plug)
         {
             //we can now register the plugin definition
             var assemblyName = AssemblyName.GetAssemblyName(plug.FullName);

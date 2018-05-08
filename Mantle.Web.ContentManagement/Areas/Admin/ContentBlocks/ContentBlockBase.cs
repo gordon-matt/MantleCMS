@@ -1,6 +1,6 @@
 ﻿using System;
-using Mantle.Localization.ComponentModel;
 using Mantle.Data;
+using Mantle.Localization.ComponentModel;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 {
@@ -20,7 +20,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 
         [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId)]
         public Guid ZoneId { get; set; }
-        
+
         [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath)]
         public string CustomTemplatePath { get; set; }
 

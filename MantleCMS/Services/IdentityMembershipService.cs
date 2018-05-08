@@ -8,6 +8,7 @@ using Mantle.Collections;
 using Mantle.Data;
 using Mantle.Data.Entity;
 using Mantle.Exceptions;
+using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Web;
 using Mantle.Web.Security.Membership;
@@ -1070,11 +1071,11 @@ namespace MantleCMS.Services
         {
             if (SupportsRolePermissions)
             {
-                var administratorsRole = await GetRoleByName(tenantId, MantleConstants.Roles.Administrators);
+                var administratorsRole = await GetRoleByName(tenantId, MantleSecurityConstants.Roles.Administrators);
                 if (administratorsRole == null)
                 {
-                    await InsertRole(new MantleRole { TenantId = tenantId, Name = MantleConstants.Roles.Administrators });
-                    administratorsRole = await GetRoleByName(tenantId, MantleConstants.Roles.Administrators);
+                    await InsertRole(new MantleRole { TenantId = tenantId, Name = MantleSecurityConstants.Roles.Administrators });
+                    administratorsRole = await GetRoleByName(tenantId, MantleSecurityConstants.Roles.Administrators);
 
                     if (administratorsRole != null)
                     {
@@ -1083,7 +1084,7 @@ namespace MantleCMS.Services
                         await AssignPermissionsToRole(administratorsRole.Id, permissionIds);
 
                         // Assign all super admin users (NULL TenantId) to this new admin role
-                        var superAdminUsers = await GetUsersByRoleName(null, MantleConstants.Roles.Administrators);
+                        var superAdminUsers = await GetUsersByRoleName(null, MantleSecurityConstants.Roles.Administrators);
                         foreach (var user in superAdminUsers)
                         {
                             await AssignUserToRoles(tenantId, user.Id, new[] { administratorsRole.Id });

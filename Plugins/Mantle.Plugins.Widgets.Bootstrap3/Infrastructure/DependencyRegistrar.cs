@@ -3,7 +3,6 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.Bootstrap3.Infrastructure
 {

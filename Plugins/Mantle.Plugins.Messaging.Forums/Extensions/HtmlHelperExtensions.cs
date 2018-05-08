@@ -3,7 +3,6 @@ using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Localization;
 
 namespace Mantle.Plugins.Messaging.Forums.Extensions

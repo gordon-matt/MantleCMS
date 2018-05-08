@@ -53,12 +53,12 @@ namespace Mantle.Web.Mvc.Resources
 
             return builder.ToString();
         }
-        
+
         public IDisposable AtFoot(IHtmlHelper html)
         {
             return new ScriptBlock(html.ViewContext, s => base.IncludeInline(s.GetString(), ResourceLocation.Foot));
         }
-        
+
         private class ScriptBlock : IDisposable
         {
             private readonly Action<IHtmlContent> callback;

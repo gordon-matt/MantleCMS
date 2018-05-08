@@ -19,7 +19,7 @@
         /// The id (usually a relative path) of the module that exports the component that should be rendered when the route is matched.
         /// </summary>
         public string ModuleId { get; set; }
-        
+
         /// <summary>
         /// The text to be displayed as the document's title (appears in your browser's title bar or tab). It is combined with the router.title and the title from any child routes.
         /// </summary>

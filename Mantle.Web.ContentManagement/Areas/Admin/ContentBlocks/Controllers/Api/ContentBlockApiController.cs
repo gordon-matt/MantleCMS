@@ -79,7 +79,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             var results = options.ApplyTo(query);
             return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
         }
-        
+
         public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] ContentBlock entity)
         {
             var blockType = Type.GetType(entity.BlockType);

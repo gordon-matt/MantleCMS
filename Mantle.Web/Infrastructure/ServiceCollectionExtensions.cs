@@ -1,7 +1,9 @@
 ﻿using System;
-using Mantle.Configuration;
 using Mantle.Infrastructure;
+using Mantle.Infrastructure.Configuration;
+using Mantle.Plugins.Configuration;
 using Mantle.Tasks;
+using Mantle.Tasks.Configuration;
 using Mantle.Web.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +14,17 @@ namespace Mantle.Web.Infrastructure
     {
         public static IServiceProvider ConfigureMantleServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            var mantleOptions = new MantleOptions();
-            configuration.Bind(mantleOptions);
-            services.AddSingleton(mantleOptions);
+            var infrastructureOptions = new MantleInfrastructureOptions();
+            configuration.Bind(infrastructureOptions);
+            services.AddSingleton(infrastructureOptions);
+
+            var pluginOptions = new MantlePluginOptions();
+            configuration.Bind(pluginOptions);
+            services.AddSingleton(pluginOptions);
+
+            var tasksOptions = new MantleTasksOptions();
+            configuration.Bind(tasksOptions);
+            services.AddSingleton(tasksOptions);
 
             var webOptions = new MantleWebOptions();
             configuration.Bind(webOptions);

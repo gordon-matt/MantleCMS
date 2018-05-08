@@ -63,7 +63,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
         }
 
         #endregion GenericODataController<GoogleSitemapPageConfig, int> Members
-        
+
         [HttpGet]
         public virtual async Task<IEnumerable<SitemapConfigModel>> GetConfig(ODataQueryOptions<SitemapConfigModel> options)
         {
@@ -71,7 +71,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
             {
                 return Enumerable.Empty<SitemapConfigModel>();
             }
-            
+
             int tenantId = GetTenantId();
 
             // First ensure that current pages are in the config

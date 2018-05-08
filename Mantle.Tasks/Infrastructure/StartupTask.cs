@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Mantle.Collections;
-using Mantle.Configuration;
 using Mantle.Data;
 using Mantle.Infrastructure;
+using Mantle.Tasks.Configuration;
 using Mantle.Tasks.Domain;
 
 namespace Mantle.Tasks.Infrastructure
@@ -18,7 +18,7 @@ namespace Mantle.Tasks.Infrastructure
 
         private static void EnsureScheduledTasks()
         {
-            var options = EngineContext.Current.Resolve<MantleOptions>();
+            var options = EngineContext.Current.Resolve<MantleTasksOptions>();
             if (options.ScheduledTasksEnabled)
             {
                 var taskRepository = EngineContext.Current.Resolve<IRepository<ScheduledTask>>();

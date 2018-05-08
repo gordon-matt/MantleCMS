@@ -30,7 +30,7 @@ namespace Mantle.Web.Messaging.Controllers.Api
         protected override void SetNewId(MessageTemplate entity)
         {
         }
-        
+
         [HttpGet]
         public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
         {
