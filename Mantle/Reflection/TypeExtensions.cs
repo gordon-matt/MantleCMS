@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
-using Mantle.Data;
 
 namespace Mantle.Reflection
 {
@@ -197,16 +195,6 @@ namespace Mantle.Reflection
 
             var nut = Nullable.GetUnderlyingType(type);
             return nut != null && nut.GetTypeInfo().IsEnum;
-        }
-
-        public static DbType ToDbType(this Type type)
-        {
-            return DataTypeConvertor.GetDbType(type);
-        }
-
-        public static SqlDbType ToSqlDbType(this Type type)
-        {
-            return DataTypeConvertor.GetSqlDbType(type);
         }
 
         public static Type ToNullable(this Type type)

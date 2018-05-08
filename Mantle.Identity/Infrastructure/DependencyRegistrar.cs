@@ -4,7 +4,7 @@ using Mantle.Localization;
 
 namespace Mantle.Identity.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 

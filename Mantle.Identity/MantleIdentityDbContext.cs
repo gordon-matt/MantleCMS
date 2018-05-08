@@ -1,5 +1,5 @@
 ﻿using Mantle.Configuration.Domain;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Identity.Domain;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;

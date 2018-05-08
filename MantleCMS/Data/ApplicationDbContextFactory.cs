@@ -1,4 +1,4 @@
-﻿using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

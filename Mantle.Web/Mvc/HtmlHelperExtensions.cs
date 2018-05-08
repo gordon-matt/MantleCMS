@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Mantle.Collections;
-using Mantle.ComponentModel;
+using Mantle.Localization.ComponentModel;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Tenants.Services;
@@ -217,6 +217,7 @@ namespace Mantle.Web.Mvc
             var builder = new TagBuilder("input");
             builder.TagRenderMode = TagRenderMode.SelfClosing;
             builder.MergeAttribute("type", "file");
+            builder.GenerateId(name, "_");
 
             if (!string.IsNullOrEmpty(name))
             {

@@ -1,4 +1,4 @@
-﻿using Mantle.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Web.Configuration;
 

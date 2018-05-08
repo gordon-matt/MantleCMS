@@ -96,11 +96,12 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201804271241" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Web.CommonResources\Mantle.Web.CommonResources.csproj" />
     <ProjectReference Include="..\Mantle.Web.Messaging\Mantle.Web.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />

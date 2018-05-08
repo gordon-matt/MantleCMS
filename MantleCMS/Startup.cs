@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Mantle.Collections;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;
@@ -402,13 +402,6 @@ namespace MantleCMS
             //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
             TryUpdateNLogConnectionString();
-
-            var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-            using (var context = contextFactory.GetContext())
-            {
-                var efHelper = EngineContext.Current.Resolve<IEntityFrameworkHelper>();
-                efHelper.EnsureTables(context);
-            }
         }
 
         /// <summary>

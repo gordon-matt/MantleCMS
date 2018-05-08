@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Security.Membership;
@@ -12,7 +12,7 @@ using MantleCMS.Services;
 
 namespace MantleCMS.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         public int Order
         {
@@ -22,7 +22,6 @@ namespace MantleCMS.Infrastructure
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
-            builder.RegisterType<SqlEntityFrameworkHelper>().As<IEntityFrameworkHelper>().InstancePerDependency();
 
             builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();
 

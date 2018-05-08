@@ -7,9 +7,9 @@ using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.Bootstrap3.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -28,6 +28,6 @@ namespace Mantle.Plugins.Widgets.Bootstrap3.Infrastructure
             get { return 9999; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

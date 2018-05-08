@@ -53,12 +53,12 @@ namespace Mantle.Web.Mvc.Rendering
             return this;
         }
 
-        public static string CreateSanitizedId(string originalId, string invalidCharReplacement = "-")
+        public static string CreateSanitizedId(string originalId, string invalidCharReplacement = "_")
         {
             return TagBuilder.CreateSanitizedId(originalId, invalidCharReplacement);
         }
 
-        public FluentTagBuilder GenerateId(string name, string invalidCharReplacement = "-")
+        public FluentTagBuilder GenerateId(string name, string invalidCharReplacement = "_")
         {
             tagBuilder.GenerateId(name, invalidCharReplacement);
             return this;

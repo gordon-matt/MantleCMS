@@ -9,7 +9,7 @@ using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Common.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 

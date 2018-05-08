@@ -5,7 +5,7 @@ namespace Mantle.Helpers
 {
     public static class CommonHelper
     {
-        internal static string BaseDirectory { get; set; }
+        public static string BaseDirectory { get; set; }
 
         public static string MapPath(string path, string basePath = null)
         {

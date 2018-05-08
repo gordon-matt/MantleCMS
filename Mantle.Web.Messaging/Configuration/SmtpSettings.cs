@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Mantle.ComponentModel;
+using Mantle.Localization.ComponentModel;
 using Mantle.Web.Configuration;
 
 namespace Mantle.Web.Messaging.Configuration

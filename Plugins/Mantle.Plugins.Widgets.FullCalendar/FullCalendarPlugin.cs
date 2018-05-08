@@ -1,4 +1,4 @@
-﻿using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
 using Mantle.Plugins;

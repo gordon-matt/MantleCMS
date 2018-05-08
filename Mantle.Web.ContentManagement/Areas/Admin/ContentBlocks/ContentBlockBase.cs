@@ -1,5 +1,5 @@
 ﻿using System;
-using Mantle.ComponentModel;
+using Mantle.Localization.ComponentModel;
 using Mantle.Data;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks

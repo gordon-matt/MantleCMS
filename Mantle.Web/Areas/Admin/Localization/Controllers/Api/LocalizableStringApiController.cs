@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Caching;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Web.Areas.Admin.Localization.Models;

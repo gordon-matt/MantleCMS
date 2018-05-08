@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data.Dapper\Mantle.Data.Dapper.csproj" />
     <ProjectReference Include="..\Mantle.Data.PostgreSql\Mantle.Data.PostgreSql.csproj" />
+    <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
 

@@ -21,9 +21,9 @@ using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -33,10 +33,7 @@ namespace Mantle.Web.Infrastructure
 
             // Plugins
             builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
-
-            // Caching
-            builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
-
+            
             // Work Context, Themes, Routing, etc
             builder.RegisterType<WebWorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();
@@ -96,6 +93,6 @@ namespace Mantle.Web.Infrastructure
             get { return 0; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

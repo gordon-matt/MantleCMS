@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mantle.ComponentModel;
+using Mantle.Localization.ComponentModel;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Threading;

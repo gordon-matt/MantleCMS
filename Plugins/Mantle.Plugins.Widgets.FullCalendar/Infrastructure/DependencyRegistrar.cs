@@ -12,9 +12,9 @@ using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -43,6 +43,6 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
             get { return 9999; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

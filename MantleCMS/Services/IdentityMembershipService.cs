@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Mantle;
 using Mantle.Collections;
 using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Exceptions;
 using Mantle.Security.Membership;
 using Mantle.Web;

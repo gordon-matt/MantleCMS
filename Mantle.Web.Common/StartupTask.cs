@@ -1,4 +1,4 @@
-﻿using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;

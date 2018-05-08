@@ -23,7 +23,7 @@ namespace Mantle.Web.Infrastructure
             //// Tell Mantle it is a website (not something like unit test or whatever)
             //Mantle.Hosting.HostingEnvironment.IsHosted = true;
 
-            var engine = EngineContext.Create();
+            var engine = EngineContext.Create(new AutofacEngine());
             engine.Initialize(services);
             var serviceProvider = engine.ConfigureServices(services, configuration);
 

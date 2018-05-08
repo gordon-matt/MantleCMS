@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using Mantle.Collections;
-using Mantle.ComponentModel;
+using Mantle.Localization.ComponentModel;
 
 namespace Mantle
 {

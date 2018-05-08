@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Mantle.Events;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Web.Configuration;
@@ -24,7 +23,7 @@ using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 
@@ -129,9 +128,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             //builder.RegisterType<BlogIndexingContentProvider>().As<IIndexingContentProvider>().InstancePerDependency(); // TODO
 
             //builder.RegisterType<NewsletterMessageTemplates>().As<IMessageTemplatesProvider>().InstancePerDependency();
-
-            builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
-            builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
         }
 
         public int Order
