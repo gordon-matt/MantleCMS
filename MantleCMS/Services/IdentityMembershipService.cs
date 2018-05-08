@@ -254,7 +254,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
         }
@@ -273,7 +273,7 @@ namespace MantleCMS.Services
 
                 if (!result.Succeeded)
                 {
-                    string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                    string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                     throw new MantleException(errorMessage);
                 }
             }
@@ -299,7 +299,7 @@ namespace MantleCMS.Services
 
         //            if (!result.Succeeded)
         //            {
-        //                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+        //                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
         //                throw new MantleException(errorMessage);
         //            }
         //        }
@@ -314,7 +314,7 @@ namespace MantleCMS.Services
 
         //            if (!result.Succeeded)
         //            {
-        //                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+        //                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
         //                throw new MantleException(errorMessage);
         //            }
         //        }
@@ -385,7 +385,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
 
@@ -393,7 +393,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
             //var user = userManager.FindById(id);
@@ -545,7 +545,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
         }
@@ -562,7 +562,7 @@ namespace MantleCMS.Services
 
                 if (!result.Succeeded)
                 {
-                    string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                    string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                     throw new MantleException(errorMessage);
                 }
             }

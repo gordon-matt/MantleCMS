@@ -121,7 +121,7 @@ export class ViewModel {
             this.type = entity.Type;
             this.value = entity.Value;
 
-            this.getEditorUI();
+            await this.getEditorUI();
         }
     }
 
@@ -170,7 +170,7 @@ export class ViewModel {
         return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
     }
 
-    getEditorUI() {
+    async getEditorUI() {
         let response = await this.http.get("/admin/configuration/settings/get-editor-ui/" + this.replaceAll(this.type, ".", "-"));
         if (response.isSuccess) {
             let json = response.content;

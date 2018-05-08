@@ -222,9 +222,15 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             string userId = (string)parameters["userId"];
             string password = (string)parameters["password"];
 
-            await Service.ChangePassword(userId, password);
-
-            return Ok();
+            try
+            {
+                await Service.ChangePassword(userId, password);
+                return Ok();
+            }
+            catch (Exception x)
+            {
+                return StatusCode(500, x.Message);
+            }
         }
 
         protected static bool CheckPermission(Permission permission)
