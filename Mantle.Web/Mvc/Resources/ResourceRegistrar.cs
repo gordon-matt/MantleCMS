@@ -8,14 +8,14 @@ namespace Mantle.Web.Mvc.Resources
 {
     public abstract class ResourceRegistrar
     {
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
         protected readonly Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>> resources =
             new Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>>();
 
         protected readonly Dictionary<ResourceLocation, List<string>> inlineResources = new Dictionary<ResourceLocation, List<string>>();
 
-        protected ResourceRegistrar(IWebWorkContext workContext)
+        protected ResourceRegistrar(IWorkContext workContext)
         {
             this.workContext = workContext;
         }

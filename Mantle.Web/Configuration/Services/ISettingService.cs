@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mantle.Caching;
-using Mantle.Configuration.Domain;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Infrastructure;
 

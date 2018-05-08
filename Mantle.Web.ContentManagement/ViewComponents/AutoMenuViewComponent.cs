@@ -21,7 +21,7 @@ namespace Mantle.Web.ContentManagement.ViewComponents
         private readonly IEnumerable<IAutoMenuProvider> menuProviders;
         private readonly BlogSettings blogSettings;
         private readonly IStringLocalizer T;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
         public AutoMenuViewComponent(
             IPageService pageService,
@@ -29,7 +29,7 @@ namespace Mantle.Web.ContentManagement.ViewComponents
             IEnumerable<IAutoMenuProvider> menuProviders,
             BlogSettings blogSettings,
             IStringLocalizer stringLocalizer,
-            IWebWorkContext workContext)
+            IWorkContext workContext)
         {
             this.pageService = pageService;
             this.pageVersionService = pageVersionService;

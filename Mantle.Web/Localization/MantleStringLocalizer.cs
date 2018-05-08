@@ -5,11 +5,12 @@ using System.Linq;
 using Mantle.Caching;
 using Mantle.Collections;
 using Mantle.Infrastructure;
+using Mantle.Localization;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Microsoft.Extensions.Localization;
 
-namespace Mantle.Localization
+namespace Mantle.Web.Localization
 {
     public class MantleStringLocalizer : IStringLocalizer
     {
@@ -95,7 +96,7 @@ namespace Mantle.Localization
 
         protected virtual IDictionary<string, string> LoadCulture(int tenantId, string cultureCode)
         {
-            string cacheKey = string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode);
+            string cacheKey = string.Concat(CacheKeys.LocalizableStringsFormat, tenantId, cultureCode);
             return cacheManager.Get(cacheKey, () =>
             {
                 return LoadTranslationsForCulture(tenantId, cultureCode);

@@ -64,6 +64,9 @@ namespace Mantle.Web
             /// </summary>
             public const string SettingsKeyFormat = "Mantle.Web.CacheKeys.Settings.Tenant_{0}_{1}";
 
+            /// <summary>
+            /// {0}: Tenant ID
+            /// </summary>
             public const string SettingsKeysPatternFormat = "Mantle.Web.CacheKeys.Settings.Tenant_{0}_.*";
         }
 

@@ -13,7 +13,7 @@ namespace Mantle.Web.Mvc.Resources
     {
         private readonly IUrlHelper urlHelper;
 
-        public StyleRegistrar(IWebWorkContext workContext)
+        public StyleRegistrar(IWorkContext workContext)
             : base(workContext)
         {
             var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();

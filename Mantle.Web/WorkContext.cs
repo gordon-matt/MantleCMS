@@ -12,7 +12,7 @@ using Mantle.Web.Navigation;
 
 namespace Mantle.Web
 {
-    public partial class WebWorkContext : IWebWorkContext
+    public partial class WorkContext : IWorkContext
     {
         private Tenant cachedTenant;
 
@@ -20,7 +20,7 @@ namespace Mantle.Web
         private readonly ConcurrentDictionary<string, Func<object>> stateResolvers = new ConcurrentDictionary<string, Func<object>>();
         private readonly IEnumerable<IWorkContextStateProvider> workContextStateProviders;
 
-        public WebWorkContext()
+        public WorkContext()
         {
             webHelper = EngineContext.Current.Resolve<IWebHelper>();
             workContextStateProviders = EngineContext.Current.ResolveAll<IWorkContextStateProvider>();
@@ -48,9 +48,9 @@ namespace Mantle.Web
             set => SetState(MantleWebConstants.StateProviders.CurrentTheme, value);
         }
 
-        public string CurrentCultureCode => GetState<string>(MantleConstants.StateProviders.CurrentCultureCode);
+        public string CurrentCultureCode => GetState<string>(MantleWebConstants.StateProviders.CurrentCultureCode);
 
-        public MantleUser CurrentUser => GetState<MantleUser>(MantleConstants.StateProviders.CurrentUser);
+        public MantleUser CurrentUser => GetState<MantleUser>(MantleWebConstants.StateProviders.CurrentUser);
 
         public virtual Tenant CurrentTenant
         {

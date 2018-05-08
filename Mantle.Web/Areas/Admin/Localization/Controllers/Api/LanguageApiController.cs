@@ -69,7 +69,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
             }
             await localizableStringService.Value.InsertAsync(toInsert);
 
-            cacheManager.Value.RemoveByPattern(MantleConstants.CacheKeys.LocalizableStringsPatternFormat);
+            cacheManager.Value.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
 
             return Ok();
         }

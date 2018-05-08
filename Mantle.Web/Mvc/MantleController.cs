@@ -12,11 +12,11 @@ namespace Mantle.Web.Mvc
 
         public IStringLocalizer T { get; private set; }
 
-        public IWebWorkContext WorkContext { get; private set; }
+        public IWorkContext WorkContext { get; private set; }
 
         protected MantleController()
         {
-            WorkContext = EngineContext.Current.Resolve<IWebWorkContext>();
+            WorkContext = EngineContext.Current.Resolve<IWorkContext>();
             T = EngineContext.Current.Resolve<IStringLocalizer>();
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
             Logger = loggerFactory.CreateLogger(GetType());

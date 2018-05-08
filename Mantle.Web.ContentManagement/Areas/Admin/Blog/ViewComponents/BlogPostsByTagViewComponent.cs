@@ -23,7 +23,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ViewComponents
             Lazy<IBlogTagService> tagService,
             Lazy<IMembershipService> membershipService,
             BlogSettings blogSettings,
-            IWebWorkContext workContext,
+            IWorkContext workContext,
             IStringLocalizer localizer)
             : base(postService, tagService, membershipService, blogSettings, workContext)
         {

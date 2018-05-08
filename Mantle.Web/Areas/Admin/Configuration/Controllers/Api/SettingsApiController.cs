@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Mantle.Caching;
-using Mantle.Configuration.Domain;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Web.Configuration;
 using Mantle.Web.OData;

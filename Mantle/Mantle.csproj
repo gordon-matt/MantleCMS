@@ -30,11 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data.Abstractions\Mantle.Data.Abstractions.csproj" />
-    <ProjectReference Include="..\Mantle.Events.Abstractions\Mantle.Events.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Localization.Abstractions\Mantle.Localization.Abstractions.csproj" />
-    <ProjectReference Include="..\Mantle.Tenants.Abstractions\Mantle.Tenants.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

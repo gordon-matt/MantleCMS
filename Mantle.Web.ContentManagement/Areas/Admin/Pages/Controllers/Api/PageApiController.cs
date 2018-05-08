@@ -10,12 +10,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
     public class PageApiController : GenericTenantODataController<Page, Guid>
     {
         private readonly IPageVersionService pageVersionService;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
         public PageApiController(
             IPageService service,
             IPageVersionService pageVersionService,
-            IWebWorkContext workContext)
+            IWorkContext workContext)
             : base(service)
         {
             this.pageVersionService = pageVersionService;

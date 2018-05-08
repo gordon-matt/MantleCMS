@@ -15,14 +15,14 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ViewComponents
         protected readonly Lazy<IBlogTagService> TagService;
         protected readonly Lazy<IMembershipService> MembershipService;
         protected readonly BlogSettings BlogSettings;
-        protected readonly IWebWorkContext WorkContext;
+        protected readonly IWorkContext WorkContext;
 
         public BaseBlogPostsViewComponent(
             Lazy<IBlogPostService> postService,
             Lazy<IBlogTagService> tagService,
             Lazy<IMembershipService> membershipService,
             BlogSettings blogSettings,
-            IWebWorkContext workContext)
+            IWorkContext workContext)
         {
             PostService = postService;
             TagService = tagService;

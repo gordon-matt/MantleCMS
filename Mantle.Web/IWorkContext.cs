@@ -1,7 +1,8 @@
 ﻿using Mantle.Security.Membership;
 using Mantle.Tenants.Domain;
+using Mantle.Web.Navigation;
 
-namespace Mantle
+namespace Mantle.Web
 {
     public interface IWorkContext
     {
@@ -14,5 +15,9 @@ namespace Mantle
         Tenant CurrentTenant { get; }
 
         MantleUser CurrentUser { get; }
+
+        BreadcrumbCollection Breadcrumbs { get; set; }
+
+        string CurrentTheme { get; }
     }
 }

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>

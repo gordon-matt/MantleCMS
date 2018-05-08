@@ -8,6 +8,7 @@ using Mantle.Data;
 using Mantle.Exceptions;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership;
+using Mantle.Web;
 using Mantle.Web.Configuration.Services;
 using Microsoft.EntityFrameworkCore;
 

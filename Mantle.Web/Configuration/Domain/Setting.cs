@@ -4,7 +4,7 @@ using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Mantle.Configuration.Domain
+namespace Mantle.Web.Configuration.Domain
 {
     public class Setting : ITenantEntity
     {

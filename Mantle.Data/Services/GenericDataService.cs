@@ -15,7 +15,6 @@ namespace Mantle.Data.Services
 
         private static string cacheKey;
         private static string cacheKeyFiltered;
-        private readonly ICacheManager cacheManager;
         private readonly IRepository<TEntity> repository;
 
         #endregion Private Members
@@ -46,10 +45,7 @@ namespace Mantle.Data.Services
             }
         }
 
-        public ICacheManager CacheManager
-        {
-            get { return cacheManager; }
-        }
+        public ICacheManager CacheManager { get; private set; }
 
         public ILogger Logger { get; private set; }
 
@@ -61,7 +57,7 @@ namespace Mantle.Data.Services
             ICacheManager cacheManager,
             IRepository<TEntity> repository)
         {
-            this.cacheManager = cacheManager;
+            CacheManager = cacheManager;
             this.repository = repository;
 
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();

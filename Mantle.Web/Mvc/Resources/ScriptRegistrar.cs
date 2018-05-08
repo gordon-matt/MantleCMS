@@ -17,7 +17,7 @@ namespace Mantle.Web.Mvc.Resources
     {
         private readonly IUrlHelper urlHelper;
 
-        public ScriptRegistrar(IWebWorkContext workContext)
+        public ScriptRegistrar(IWorkContext workContext)
             : base(workContext)
         {
             var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();

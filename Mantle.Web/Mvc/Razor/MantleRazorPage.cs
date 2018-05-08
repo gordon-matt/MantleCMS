@@ -24,7 +24,7 @@ namespace Mantle.Web.Mvc.Razor
         public IStringLocalizer T { get; set; }
 
         [RazorInject]
-        public IWebWorkContext WorkContext { get; set; }
+        public IWorkContext WorkContext { get; set; }
 
         public bool IsRightToLeft
         {

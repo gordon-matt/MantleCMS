@@ -113,7 +113,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
                 await Service.UpdateAsync(localizedString);
             }
 
-            cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
+            cacheManager.Remove(string.Concat(Mantle.Localization.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
             return Updated(entity);
         }
@@ -140,7 +140,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
             await Service.UpdateAsync(entity);
             //Repository.Delete(entity);
 
-            cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
+            cacheManager.Remove(string.Concat(Mantle.Localization.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
             return NoContent();
         }

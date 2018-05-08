@@ -1,4 +1,4 @@
-﻿using Mantle.Configuration.Domain;
+﻿using Mantle.Web.Configuration.Domain;
 using Mantle.Data.Entity;
 using Mantle.Identity.Domain;
 using Mantle.Infrastructure;

@@ -63,7 +63,7 @@ namespace Mantle.Plugins
             localizableStringRepository.Insert(toInsert);
 
             var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-            cacheManager.RemoveByPattern(MantleConstants.CacheKeys.LocalizableStringsPatternFormat);
+            cacheManager.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
         }
 
         protected virtual void UninstallLanguagePack<TLanguagePack>() where TLanguagePack : ILanguagePack, new()
@@ -81,7 +81,7 @@ namespace Mantle.Plugins
             localizableStringRepository.Delete(toDelete);
 
             var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-            cacheManager.RemoveByPattern(MantleConstants.CacheKeys.LocalizableStringsPatternFormat);
+            cacheManager.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
         }
     }
 }

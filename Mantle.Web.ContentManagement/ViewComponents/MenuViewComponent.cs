@@ -11,9 +11,9 @@ namespace Mantle.Web.ContentManagement.ViewComponents
         private readonly IMenuService service;
         private readonly IMenuItemService menuItemService;
         private readonly IPageVersionService pageVersionService;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
-        public MenuViewComponent(IMenuService service, IMenuItemService menuItemService, IPageVersionService pageVersionService, IWebWorkContext workContext)
+        public MenuViewComponent(IMenuService service, IMenuItemService menuItemService, IPageVersionService pageVersionService, IWorkContext workContext)
         {
             this.service = service;
             this.menuItemService = menuItemService;

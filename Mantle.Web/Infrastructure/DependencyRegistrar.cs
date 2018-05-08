@@ -35,7 +35,7 @@ namespace Mantle.Web.Infrastructure
             builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
             
             // Work Context, Themes, Routing, etc
-            builder.RegisterType<WebWorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<WorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ThemeContext>().As<IThemeContext>().InstancePerLifetimeScope();
             builder.RegisterType<EmbeddedResourceResolver>().As<IEmbeddedResourceResolver>().SingleInstance();

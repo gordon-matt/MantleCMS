@@ -4,7 +4,7 @@ using Mantle.Infrastructure;
 using Mantle.Localization.Services;
 using Microsoft.Extensions.Localization;
 
-namespace Mantle.Localization
+namespace Mantle.Web.Localization
 {
     public class MantleStringLocalizerFactory : IStringLocalizerFactory
     {

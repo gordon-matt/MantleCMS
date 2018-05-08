@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mantle.Identity.Domain;
 using Mantle.Infrastructure;
+using Mantle.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

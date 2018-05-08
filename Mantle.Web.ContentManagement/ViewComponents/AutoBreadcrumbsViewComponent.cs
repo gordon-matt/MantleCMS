@@ -17,9 +17,9 @@ namespace Mantle.Web.ContentManagement.ViewComponents
     public class AutoBreadcrumbsViewComponent : ViewComponent
     {
         private readonly BlogSettings blogSettings;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
-        public AutoBreadcrumbsViewComponent(BlogSettings blogSettings, IWebWorkContext workContext)
+        public AutoBreadcrumbsViewComponent(BlogSettings blogSettings, IWorkContext workContext)
         {
             this.blogSettings = blogSettings;
             this.workContext = workContext;

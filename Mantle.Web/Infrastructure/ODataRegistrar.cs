@@ -1,5 +1,5 @@
 ﻿using System;
-using Mantle.Configuration.Domain;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Localization.Domain;
 using Mantle.Logging.Domain;
 using Mantle.Security.Membership;

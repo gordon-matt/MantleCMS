@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mantle.Collections;
-using Mantle.Configuration.Domain;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Data;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
