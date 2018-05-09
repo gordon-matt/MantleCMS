@@ -65,7 +65,6 @@
 
   <ItemGroup>
     <Folder Include="Mvc\Recaptcha\" />
-    <Folder Include="OData\" />
   </ItemGroup>
 
 </Project>

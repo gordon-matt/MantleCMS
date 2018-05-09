@@ -1,23 +1,22 @@
 ﻿import 'jquery';
+import 'bootstrap-notify';
 import '/js/kendo/2014.1.318/kendo.web.min.js';
 import { inject } from 'aurelia-framework';
-import { Notification } from 'aurelia-notification';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
 import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
 
-@inject(Notification, TemplatingEngine)
+@inject(TemplatingEngine)
 export class ViewModel {
     apiUrl = "/odata/mantle/web/ThemeApi";
 
-    constructor(notification, templatingEngine) {
-        this.notification = notification;
+    constructor(templatingEngine) {
         this.templatingEngine = templatingEngine;
         
         this.http = new HttpClient();
         this.http.configure(config => {
-            config.withInterceptor(new GenericHttpInterceptor(this.notification));
+            config.withInterceptor(new GenericHttpInterceptor());
         });
     }
 
@@ -129,10 +128,10 @@ export class ViewModel {
         let response = await this.http.post(this.apiUrl + "/Default.SetTheme", { themeName: name });
 
         if (response.isSuccess) {
-            this.notification.success(this.translations.setThemeSuccess);
+            $.notify({ message: this.translations.setThemeSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }
         else {
-            this.notification.error(this.translations.setThemeError);
+            $.notify({ message: this.translations.setThemeError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
         }
 
         this.refreshGrid();

@@ -28,7 +28,6 @@ System.config({
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.4",
     "aurelia-logging": "npm:aurelia-logging@1.4.0",
     "aurelia-metadata": "npm:aurelia-metadata@1.0.3",
-    "aurelia-notification": "npm:aurelia-notification@1.0.0",
     "aurelia-pal": "npm:aurelia-pal@1.8.0",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.8.0",
     "aurelia-path": "npm:aurelia-path@1.1.1",
@@ -43,9 +42,9 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bootstrap": "github:twbs/bootstrap@3.3.7",
     "bootstrap-fileinput": "github:kartik-v/bootstrap-fileinput@4.4.8",
+    "bootstrap-notify": "npm:bootstrap-notify@3.1.3",
     "core-js": "npm:core-js@1.2.7",
     "font-awesome": "npm:font-awesome@4.7.0",
-    "humane-js": "github:wavded/humane-js@3.2.2",
     "jquery": "npm:jquery@3.3.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "jquery-ui-dist": "npm:jquery-ui-dist@1.12.1",
@@ -163,19 +162,6 @@ System.config({
       "aurelia-pal": "npm:aurelia-pal@1.8.0",
       "aurelia-path": "npm:aurelia-path@1.1.1"
     },
-    "npm:aurelia-i18n@1.6.2": {
-      "aurelia-binding": "npm:aurelia-binding@1.7.1",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.3.2",
-      "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.1",
-      "aurelia-loader": "npm:aurelia-loader@1.0.0",
-      "aurelia-logging": "npm:aurelia-logging@1.4.0",
-      "aurelia-metadata": "npm:aurelia-metadata@1.0.3",
-      "aurelia-pal": "npm:aurelia-pal@1.8.0",
-      "aurelia-templating": "npm:aurelia-templating@1.7.0",
-      "aurelia-templating-resources": "npm:aurelia-templating-resources@1.6.0",
-      "i18next": "npm:i18next@3.5.2",
-      "intl": "npm:intl@1.2.5"
-    },
     "npm:aurelia-kendoui-bridge@1.7.0": {
       "aurelia-binding": "npm:aurelia-binding@1.7.1",
       "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.3.2",
@@ -201,13 +187,6 @@ System.config({
     },
     "npm:aurelia-metadata@1.0.3": {
       "aurelia-pal": "npm:aurelia-pal@1.8.0"
-    },
-    "npm:aurelia-notification@1.0.0": {
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.3.2",
-      "aurelia-i18n": "npm:aurelia-i18n@1.6.2",
-      "aurelia-pal": "npm:aurelia-pal@1.8.0",
-      "extend": "npm:extend@3.0.1",
-      "humane-js": "npm:humane-js@3.2.2"
     },
     "npm:aurelia-pal-browser@1.8.0": {
       "aurelia-pal": "npm:aurelia-pal@1.8.0"
@@ -441,17 +420,11 @@ System.config({
       "minimalistic-crypto-utils": "npm:minimalistic-crypto-utils@1.0.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:i18next@3.5.2": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:inherits@2.0.3": {
       "util": "github:jspm/nodelibs-util@0.1.0"
-    },
-    "npm:intl@1.2.5": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:jquery-ui-dist@1.12.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
