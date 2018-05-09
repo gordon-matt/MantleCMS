@@ -5,9 +5,9 @@ using Mantle;
 using Mantle.Infrastructure;
 using Mantle.Security;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace MantleCMS.Infrastructure
 {

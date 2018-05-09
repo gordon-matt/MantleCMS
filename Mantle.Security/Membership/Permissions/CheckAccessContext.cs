@@ -1,6 +1,4 @@
-﻿using Mantle.Security.Membership;
-
-namespace Mantle.Web.Security.Membership.Permissions
+﻿namespace Mantle.Security.Membership.Permissions
 {
     public class CheckAccessContext
     {

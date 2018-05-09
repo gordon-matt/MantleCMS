@@ -2,8 +2,8 @@
 using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.OData
 {

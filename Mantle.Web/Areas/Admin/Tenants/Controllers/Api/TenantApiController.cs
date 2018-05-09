@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Mantle.Helpers;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api

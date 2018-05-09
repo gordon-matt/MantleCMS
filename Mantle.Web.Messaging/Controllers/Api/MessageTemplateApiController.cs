@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Mantle.Data;
 using Mantle.Messaging.Data.Domain;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 

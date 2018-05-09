@@ -3,11 +3,11 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 {

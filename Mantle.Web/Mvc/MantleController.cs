@@ -1,5 +1,5 @@
 ﻿using Mantle.Infrastructure;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;

@@ -1,7 +1,6 @@
 ﻿//using Mantle.DI;
-using Mantle.Security.Membership;
 
-namespace Mantle.Web.Security.Membership.Permissions
+namespace Mantle.Security.Membership.Permissions
 {
     /// <summary>
     /// Entry-point for configured authorization scheme. Role-based system provided by default.

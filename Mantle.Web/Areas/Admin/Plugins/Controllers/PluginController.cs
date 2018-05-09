@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Mantle.Plugins;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Mvc;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

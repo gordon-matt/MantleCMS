@@ -2,6 +2,7 @@
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
@@ -15,7 +16,6 @@ using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Infrastructure
 {

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using Mantle.Collections;
-using Mantle.Security.Membership;
 using Mantle.Threading;
 
-namespace Mantle.Web.Security.Membership.Permissions
+namespace Mantle.Security.Membership.Permissions
 {
     public class RolesBasedAuthorizationService : IAuthorizationService
     {

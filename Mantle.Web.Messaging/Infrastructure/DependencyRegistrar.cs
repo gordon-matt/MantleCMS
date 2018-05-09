@@ -3,12 +3,12 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Messaging;
 using Mantle.Messaging.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tasks;
 using Mantle.Web.Configuration;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging.Configuration;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Messaging.Infrastructure
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Routing;
 
 namespace Mantle.Web.Navigation

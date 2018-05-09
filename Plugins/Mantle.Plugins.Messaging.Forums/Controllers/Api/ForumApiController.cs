@@ -4,8 +4,8 @@ using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
 using Mantle.Data;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Mvc;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Plugins.Messaging.Forums.Controllers.Api

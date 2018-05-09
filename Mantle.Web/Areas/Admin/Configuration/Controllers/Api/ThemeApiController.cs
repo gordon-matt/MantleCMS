@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mantle.Collections;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
 using Mantle.Web.Mvc.Themes;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;

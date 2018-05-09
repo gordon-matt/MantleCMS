@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 

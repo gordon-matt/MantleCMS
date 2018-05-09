@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Mantle.Caching;
 using Mantle.Data;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 

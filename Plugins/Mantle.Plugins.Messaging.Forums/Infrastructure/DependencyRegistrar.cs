@@ -2,10 +2,10 @@
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 {

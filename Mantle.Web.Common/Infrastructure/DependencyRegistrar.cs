@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Common.Infrastructure
 {

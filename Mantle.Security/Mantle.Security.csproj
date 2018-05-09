@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data.Abstractions\Mantle.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,12 +6,12 @@ using Mantle.Collections;
 using Mantle.Data;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Infrastructure
 {
