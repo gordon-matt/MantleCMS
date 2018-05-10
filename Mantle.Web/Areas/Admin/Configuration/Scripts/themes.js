@@ -100,21 +100,19 @@ export class ViewModel {
                 width: 200
             }, {
                 field: "Title",
-                title: this.translations.columns.title,
-                filterable: true
+                title: this.translations.columns.title
             }, {
                 field: "SupportRtl",
                 title: this.translations.columns.supportRtl,
                 template: '<i class="fa #=SupportRtl ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                 attributes: { "class": "text-center" },
-                filterable: true,
                 width: 70
             }, {
                 field: "IsDefaultTheme",
                 title: this.translations.columns.isDefaultTheme,
                 template:
                     '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
-                    'else {# <button type="button" click.delegate="setTheme(\'#=Title#\')" class="btn btn-default btn-sm">' + this.translations.set + '</button> #} #',
+                    `else {# <button type="button" click.delegate="setTheme(\'#=Title#\')" class="btn btn-default btn-sm">${this.translations.set}</button> #} #`,
                 attributes: { "class": "text-center" },
                 filterable: false,
                 width: 130

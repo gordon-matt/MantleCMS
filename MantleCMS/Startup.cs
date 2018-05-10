@@ -218,30 +218,8 @@ namespace MantleCMS
             ServiceProvider = services.ConfigureMantleServices(Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
-            // Unfortunately, at the moment, we don't have any better way than this to let libraries
-            //  know where to find shared assets that they will need.
-            // TODO: Find some way for partial views to tell layout what scripts and styles to render (sections dont work for partial views)
-            MantleWebAssets.Init(new MantleWebAssets
-            {
-                BootstrapFileInput = new AssetCollection
-                {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/bootstrapFileInput/fileinput.js" } },
-                    Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
-                }
-            });
-            //MantleCmsAssets.Init(new MantleCmsAssets
-            //{
-            //    ElFinder = new AssetCollection
-            //    {
-            //        Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min.js" } },
-            //        Styles = new List<Asset>
-            //        {
-            //            new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
-            //            new Asset { Path = "/css/elfinder/css/theme.css" }, // <-- NOTE: This file may make some of the themes look not quite right. Comment this line if changing the theme below.
-            //            new Asset { Path = "/css/elfinder/themes/material/css/theme-gray.min.css" }
-            //        }
-            //    }
-            //});
+            // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
+            //  NPM PACKAGES: grapesjs, grapesjs-aviary and grapesjs-mjml
             MantleMessagingAssets.Init(new MantleMessagingAssets
             {
                 GrapesJs = new AssetCollection
@@ -281,7 +259,7 @@ namespace MantleCMS
             loggerFactory.AddDebug();
             loggerFactory.AddNLog();
 
-            app.AddNLogWeb();
+            //app.AddNLogWeb();
 
             env.ConfigureNLog("NLog.config");
 

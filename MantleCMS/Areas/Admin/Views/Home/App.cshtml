@@ -1,8 +1,6 @@
 ﻿@using MantleIdentityLocalizableStrings = Mantle.Identity.LocalizableStrings
 
 <template>
-    <require from="humane-js/themes/libnotify.css"></require>
-
     <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
         @Html.AntiForgeryToken()
     </form>

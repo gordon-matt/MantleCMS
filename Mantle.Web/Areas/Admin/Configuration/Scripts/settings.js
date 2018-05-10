@@ -92,18 +92,17 @@ export class ViewModel {
             scrollable: false,
             columns: [{
                 field: "Name",
-                title: this.translations.columns.name,
-                filterable: true
+                title: this.translations.columns.name
             }, {
                 field: "Id",
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                    '<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-xs">' + this.translations.edit + '</button>' +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.translations.edit}"><i class="fa fa-edit"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
-                width: 120
+                width: 50
             }]
         });
     }

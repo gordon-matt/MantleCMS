@@ -20,7 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\**\*.cshtml;Areas\Admin\**\Views\**\*.cshtml;Scripts\**\*.js;Areas\Admin\**\Scripts\**\*.js" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="Views\GrapesJsMessageTemplate\Edit.cshtml" />
+    <EmbeddedResource Include="Views\MessageTemplate\Index.cshtml" />
+    <EmbeddedResource Include="Views\QueuedEmail\Index.cshtml" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\SmtpSettings.cshtml" />
+    <EmbeddedResource Include="Scripts\MessageTemplates\index.js" />
+    <EmbeddedResource Include="Scripts\MessageTemplates\message-template-version.js" />
+    <EmbeddedResource Include="Scripts\MessageTemplates\message-template.js" />
+    <EmbeddedResource Include="Scripts\QueuedEmails\index.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -133,7 +133,7 @@ namespace Mantle.Web.Mvc
 
         [HttpPost]
         [Route("")]
-        public virtual async Task<IActionResult> Post([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> Post([FromBody] TEntity entity)
         {
             if (!CanModifyEntity(entity))
             {

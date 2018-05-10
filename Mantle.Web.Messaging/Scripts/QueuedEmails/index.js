@@ -1,5 +1,4 @@
 ﻿import 'jquery';
-import 'jquery-validation';
 import 'bootstrap-notify';
 import '/js/kendo/2014.1.318/kendo.web.min.js';
 
@@ -8,11 +7,10 @@ import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
 import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
 @inject(TemplatingEngine)
 export class ViewModel {
-    apiUrl = "/odata/mantle/web/TenantApi";
+    apiUrl = "/odata/mantle/web/messaging/QueuedEmailApi";
 
     constructor(templatingEngine) {
         this.templatingEngine = templatingEngine;
@@ -27,22 +25,10 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/tenants/get-translations");
+        let response = await this.http.get("/admin/messaging/queued-email/get-translations");
         this.translations = response.content;
 
         this.gridPageSize = $("#GridPageSize").val();
-
-        this.sectionSwitcher = new SectionSwitcher('grid-section');
-
-        this.validator = $("#form-section-form").validate({
-            rules: {
-                Name: { required: true, maxlength: 255 },
-                Url: { required: true, maxlength: 255 },
-                Hosts: { required: true }
-            }
-        });
-
-        let self = this;
 
         $("#grid").kendoGrid({
             data: null,
@@ -50,7 +36,7 @@ export class ViewModel {
                 type: "odata",
                 transport: {
                     read: {
-                        url: this.apiUrl,
+                        url: "/odata/mantle/web/messaging/QueuedEmailApi",
                         dataType: "json"
                     },
                     parameterMap: function (options, operation) {
@@ -75,8 +61,13 @@ export class ViewModel {
                         return data["@odata.count"];
                     },
                     model: {
+                        id: "Id",
                         fields: {
-                            Name: { type: "string" }
+                            Subject: { type: "string" },
+                            ToAddress: { type: "string" },
+                            CreatedOnUtc: { type: "date" },
+                            SentOnUtc: { type: "date" },
+                            SentTries: { type: "number" }
                         }
                     }
                 },
@@ -84,7 +75,7 @@ export class ViewModel {
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
-                sort: { field: "Name", dir: "asc" }
+                sort: { field: "CreatedOnUtc", dir: "desc" }
             },
             dataBound: function (e) {
                 let body = $('#grid').find('tbody')[0];
@@ -101,54 +92,41 @@ export class ViewModel {
             },
             scrollable: false,
             columns: [{
-                field: "Name",
-                title: this.translations.columns.name
+                field: "Subject",
+                title: this.translations.columns.subject
+            }, {
+                field: "ToAddress",
+                title: this.translations.columns.toAddress
+            }, {
+                field: "CreatedOnUtc",
+                title: this.translations.columns.createdOnUtc,
+                format: "{0:G}"
+            }, {
+                field: "SentOnUtc",
+                title: this.translations.columns.sentOnUtc,
+                format: "{0:G}"
+            }, {
+                field: "SentTries",
+                title: this.translations.columns.sentTries
             }, {
                 field: "Id",
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="edit(#=Id#)" class="btn btn-default btn-sm" title="${this.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="remove(#=Id#)" class="btn btn-danger btn-sm" title="${this.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.translations.delete}"><i class="fa fa-remove"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
-                width: 100
+                width: 50
             }]
         });
     }
-    
+
     // END: Aurelia Component Lifecycle Methods
-
-    create() {
-        this.id = 0;
-        this.name = null;
-        this.url = null;
-        this.hosts = null;
-
-        this.validator.resetForm();
-        $("#form-section-legend").html(this.translations.create);
-        this.sectionSwitcher.swap('form-section');
-    }
-
-    async edit(id) {
-        let response = await this.http.get(this.apiUrl + "(" + id + ")");
-        let entity = response.content;
-
-        this.id = entity.Id;
-        this.name = entity.Name;
-        this.url = entity.Url;
-        this.hosts = entity.Hosts;
-
-        this.validator.resetForm();
-        $("#form-section-legend").html(this.translations.edit);
-        this.sectionSwitcher.swap('form-section');
-    }
-
+    
     async remove(id) {
         if (confirm(this.translations.deleteRecordConfirm)) {
             let response = await this.http.delete(this.apiUrl + "(" + id + ")");
-
             if (response.isSuccess) {
                 $.notify({ message: this.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
             }
@@ -159,52 +137,9 @@ export class ViewModel {
             this.refreshGrid();
         }
     }
-
-    async save() {
-        if (!$("#form-section-form").valid()) {
-            return false;
-        }
-
-        let isNew = (this.id == 0);
-
-        let record = {
-            Id: this.id,
-            Name: this.name,
-            Url: this.url,
-            Hosts: this.hosts
-        };
-
-        if (isNew) {
-            let response = await this.http.post(this.apiUrl, record);
-
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.insertRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-            }
-            else {
-                $.notify({ message: this.translations.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            }
-        }
-        else {
-            let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
-
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-            }
-            else {
-                $.notify({ message: this.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            }
-        }
-
-        this.refreshGrid();
-        this.sectionSwitcher.swap('grid-section');
-    }
-
-    cancel() {
-        this.sectionSwitcher.swap('grid-section');
-    }
-
+    
     refreshGrid() {
-        $('#grid').data('kendoGrid').dataSource.read();
-        $('#grid').data('kendoGrid').refresh();
+        this.grid.dataSource.read();
+        this.grid.refresh();
     }
 }

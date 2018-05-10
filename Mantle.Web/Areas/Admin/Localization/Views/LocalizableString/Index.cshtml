@@ -3,21 +3,23 @@
     string cultureCode = ViewBag.CultureCode;
 }
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
-@Html.Hidden("CultureCode", cultureCode)
+<template>
+    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+    @Html.Hidden("CultureCode", cultureCode)
 
-<div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: exportFile" class="btn btn-success">
-            <i class="fa fa-download"></i>
-            @T[MantleWebLocalizableStrings.General.Export]
-        </a>
+    <div id="grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button type="button" click.delegate="exportFile()" class="btn btn-success">
+                <i class="fa fa-download"></i>
+                @T[MantleWebLocalizableStrings.General.Export]
+            </button>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="grid"></div>
+        </div>
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
-</div>
+</template>

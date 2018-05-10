@@ -4,7 +4,7 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
-@inject Mantle.Web.IWebWorkContext WorkContext
+@inject Mantle.Web.IWorkContext WorkContext
 
 @{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;

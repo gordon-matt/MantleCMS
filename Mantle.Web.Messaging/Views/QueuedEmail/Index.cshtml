@@ -4,10 +4,12 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+<template>
+    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-<div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
+    <div id="grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="grid"></div>
+        </div>
     </div>
-</div>
+</template>

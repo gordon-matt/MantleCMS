@@ -55,7 +55,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return SingleResult.Create(new[] { entity }.AsQueryable());
         }
 
-        public virtual async Task<IActionResult> Put([FromODataUri] string key, MantlePermission entity)
+        public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantlePermission entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
@@ -90,7 +90,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return Updated(entity);
         }
 
-        public virtual async Task<IActionResult> Post(MantlePermission entity)
+        public virtual async Task<IActionResult> Post([FromBody] MantlePermission entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {

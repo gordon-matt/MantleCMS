@@ -46,7 +46,7 @@ namespace Mantle.Web.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.localizableStrings",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.localizable-strings",
                     Route = "localization/localizable-strings/:cultureCode",
                     Name = "mantle-web/localization/localizable-strings",
                     Title = T[MantleWebLocalizableStrings.Localization.LocalizableStrings]
@@ -108,7 +108,7 @@ namespace Mantle.Web.Infrastructure
         {
             { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.index", "admin/membership" },
             { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.index", "admin/localization/languages" },
-            { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.localizableStrings", "admin/localization/localizable-strings" },
+            { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.localizable-strings", "admin/localization/localizable-strings" },
             { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Log.Scripts.index", "admin/log" },
             { "aurelia-app/embedded/Mantle.Web.Areas.Admin.Plugins.Scripts.index", "admin/plugins" },
             { "aurelia-app/embedded/Mantle.Web.Areas.Admin.ScheduledTasks.Scripts.index", "admin/scheduled-tasks" },

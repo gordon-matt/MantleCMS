@@ -2,124 +2,122 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-@foreach (var asset in MantleWebAssets.Instance.BootstrapFileInput.Styles.OrderBy(x => x.Order))
-{
-    <link type="text/css" rel="stylesheet" href="@asset.Path" />
-}
+<template>
+    <require from="bootstrap-fileinput/css/fileinput.min.css"></require>
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-<div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: clear" class="btn btn-warning">
-            <i class="fa fa-warning"></i>
-            @T[MantleWebLocalizableStrings.General.Clear]
-        </a>
-        <a data-bind="click: importLanguagePack" class="btn btn-success">
-            <i class="fa fa-upload"></i>
-            @T[MantleWebLocalizableStrings.General.Import]
-        </a>
+    <div id="grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button type="button" click.delegate="create()" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                @T[MantleWebLocalizableStrings.General.Create]
+            </button>
+            <button type="button" click.delegate="clear()" class="btn btn-warning">
+                <i class="fa fa-warning"></i>
+                @T[MantleWebLocalizableStrings.General.Clear]
+            </button>
+            <button type="button" click.delegate="importLanguagePack()" class="btn btn-success">
+                <i class="fa fa-upload"></i>
+                @T[MantleWebLocalizableStrings.General.Import]
+            </button>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="grid"></div>
+        </div>
     </div>
 
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
-</div>
-
-<div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
+    <div id="form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
             {
-                <form id="form-section-form" role="form">
-                    <fieldset>
-                        <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("CultureCode", T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-globe"></i>
-                                    </span>
-                                    @*@Html.CulturesDropDownList("CultureCode", null, new { @class = "form-control", data_bind = "value: cultureCode, event: { change: onCultureCodeChanged }" }, string.Empty)*@
-                                    @Html.TextBox("CultureCode", null, new { @class = "form-control", data_bind = "value: cultureCode" })
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="form-section-form" role="form">
+                        <fieldset>
+                            <legend id="form-section-legend"></legend>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("CultureCode", T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-globe"></i>
+                                        </span>
+                                        <input type="text" id="CultureCode" name="CultureCode" class="form-control" value.bind="cultureCode" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.Localization.LanguageModel.Name], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: name" })
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Name", T[MantleWebLocalizableStrings.Localization.LanguageModel.Name], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        <input type="text" id="Name" name="Name" class="form-control" value.bind="name" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("SortOrder", T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder], new { @class = "control-label" })
-                                @Html.TextBox("SortOrder", null, new { @class = "form-control", data_bind = "value: sortOrder" })
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("SortOrder", T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder], new { @class = "control-label" })
+                                    <input type="text" id="SortOrder" name="SortOrder" class="form-control" value.bind="sortOrder" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("IsRTL", new { data_bind = "checked: isRTL" }) @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]
-                                </label>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="IsRTL" name="IsRTL" checked.bind="isRTL" /> @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="IsEnabled" name="IsEnabled" checked.bind="isEnabled" /> @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]
+                                    </label>
+                                </div>
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("IsEnabled", new { data_bind = "checked: isEnabled" }) @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
-
-<div id="upload-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Import])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="upload-section-form" role="form" class="form-horizontal">
-                    <fieldset>
-                        <div class="form-group">
-                            @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                @Html.FileUpload("Upload")
-                            </div>
-                        </div>
-                        <div class="form-group pull-right">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                }
             }
-        }
-    </article>
-</div>
+        </article>
+    </div>
+
+    <div id="upload-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Import])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="upload-section-form" role="form" class="form-horizontal">
+                        <fieldset>
+                            <div class="form-group">
+                                @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                    @Html.FileUpload("Upload")
+                                </div>
+                            </div>
+                            <div class="form-group pull-right">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <button type="button" class="btn btn-default" click.delegate="cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+</template>
