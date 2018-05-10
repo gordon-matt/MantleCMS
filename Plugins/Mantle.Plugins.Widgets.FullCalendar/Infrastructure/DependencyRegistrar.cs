@@ -22,7 +22,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
                 return;
             }
 
-            //builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
 

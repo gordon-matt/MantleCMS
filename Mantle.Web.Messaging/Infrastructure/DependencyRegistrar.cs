@@ -19,7 +19,7 @@ namespace Mantle.Web.Messaging.Infrastructure
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             // Navigation
-            //builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 
             // Configuration

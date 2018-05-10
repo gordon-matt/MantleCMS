@@ -30,13 +30,15 @@ export class ViewModel {
 
         this.gridPageSize = $("#GridPageSize").val();
 
+        let self = this;
+
         $("#grid").kendoGrid({
             data: null,
             dataSource: {
                 type: "odata",
                 transport: {
                     read: {
-                        url: "/odata/mantle/web/messaging/QueuedEmailApi",
+                        url: this.apiUrl,
                         dataType: "json"
                     },
                     parameterMap: function (options, operation) {
@@ -139,7 +141,7 @@ export class ViewModel {
     }
     
     refreshGrid() {
-        this.grid.dataSource.read();
-        this.grid.refresh();
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
     }
 }

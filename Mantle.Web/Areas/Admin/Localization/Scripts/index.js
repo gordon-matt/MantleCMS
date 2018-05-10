@@ -247,8 +247,8 @@ export class ViewModel {
     }
 
     refreshGrid() {
-        this.grid.dataSource.read();
-        this.grid.refresh();
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
     }
 
     async clear() {

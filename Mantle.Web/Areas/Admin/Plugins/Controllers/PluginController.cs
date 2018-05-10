@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 namespace Mantle.Web.Areas.Admin.Plugins.Controllers
 {
     [Authorize]
-    [Route(MantleWebConstants.Areas.Plugins)]
+    [Area(MantleWebConstants.Areas.Plugins)]
+    [Route("admin/plugins")]
     public class PluginController : MantleController
     {
         private readonly Lazy<IPluginFinder> pluginFinder;

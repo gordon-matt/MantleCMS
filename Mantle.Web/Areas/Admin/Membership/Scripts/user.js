@@ -242,12 +242,14 @@ export class UserViewModel {
     }
 
     filterRole() {
+        let grid = $('#users-grid').data('kendoGrid');
+
         if (this.filterRoleId == "") {
-            this.grid.dataSource.transport.options.read.url = this.parent.userApiUrl;
+            grid.dataSource.transport.options.read.url = this.parent.userApiUrl;
         }
         else {
-            this.grid.dataSource.transport.options.read.url = this.parent.userApiUrl + "/Default.GetUsersInRole(roleId='" + this.filterRoleId + "')";
+            grid.dataSource.transport.options.read.url = this.parent.userApiUrl + "/Default.GetUsersInRole(roleId='" + this.filterRoleId + "')";
         }
-        this.grid.dataSource.page(1);
+        grid.dataSource.page(1);
     }
 }

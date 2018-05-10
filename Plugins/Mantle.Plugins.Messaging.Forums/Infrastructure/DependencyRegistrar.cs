@@ -4,6 +4,7 @@ using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
+using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 
@@ -20,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
                 return;
             }
 
-            //builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             builder.RegisterType<ForumSettings>().As<ISettings>().InstancePerLifetimeScope();
             builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();

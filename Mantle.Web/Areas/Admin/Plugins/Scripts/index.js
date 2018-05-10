@@ -27,7 +27,7 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/tenants/get-translations");
+        let response = await this.http.get("/admin/plugins/get-translations");
         this.translations = response.content;
 
         this.gridPageSize = $("#GridPageSize").val();
@@ -130,9 +130,9 @@ export class ViewModel {
 
     // END: Aurelia Component Lifecycle Methods
     
-    async edit(id) {
-        let systemName = this.replaceAll(systemName, ".", "-");
-        this.limitedToTenants([]);
+    async edit(systemName) {
+        systemName = this.replaceAll(systemName, ".", "-");
+        this.limitedToTenants = [];
         
         let response = await this.http.get(this.apiUrl + "('" + systemName + "')");
         let entity = response.content;

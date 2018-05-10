@@ -16,6 +16,95 @@ export class TemplateModel {
                 Name: { required: true, maxlength: 255 }
             }
         });
+
+        let self = this;
+
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.parent.templateApiUrl,
+                        dataType: "json"
+                    },
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
+                            }
+                            delete paramMap.$inlinecount;
+                        }
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
+                    }
+                },
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Name: { type: "string" },
+                            Editor: { type: "string" },
+                            Enabled: { type: "boolean" }
+                        }
+                    }
+                },
+                pageSize: this.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Name", dir: "asc" }
+            },
+            dataBound: function (e) {
+                let body = $('#grid').find('tbody')[0];
+                if (body) {
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "Name",
+                title: this.parent.translations.columns.name
+            }, {
+                field: "Editor",
+                title: this.parent.translations.columns.editor //TODO: Render as logo?
+            }, {
+                field: "Enabled",
+                title: this.parent.translations.columns.enabled,
+                template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
+                attributes: { "class": "text-center" },
+                width: 70
+            }, {
+                field: "Id",
+                title: " ",
+                template:
+                    '<div class="btn-group">' +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',#=Enabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=Enabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
+                    '</div>',
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 200
+            }]
+        });
     }
 
     create() {
@@ -175,8 +264,8 @@ export class TemplateModel {
     }
 
     refreshGrid() {
-        this.grid.dataSource.read();
-        this.grid.refresh();
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
     }
 
     async toggleEnabled(id, isEnabled) {
