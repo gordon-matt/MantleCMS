@@ -52,7 +52,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.index",
                     Route = "menus",
                     Name = "mantle-cms/menus",
                     Title = T[MantleCmsLocalizableStrings.Menus.Title].Value
@@ -92,7 +92,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.content-blocks-index", "admin/blocks/content-blocks" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-blocks-index", "admin/blocks/entity-type-content-blocks" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media", "admin/media" },
-            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus", "admin/menus" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.index", "admin/menus" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index", "admin/pages" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index", "admin/xml-sitemap" },

@@ -1,4 +1,4 @@
-﻿import $ from 'jquery';
+﻿import 'jquery';
 import '/js/kendo/2014.1.318/kendo.web.min.js';
 
 import { inject } from 'aurelia-framework';

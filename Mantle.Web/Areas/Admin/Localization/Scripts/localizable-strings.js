@@ -1,4 +1,4 @@
-﻿import $ from 'jquery';
+﻿import 'jquery';
 
 import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';

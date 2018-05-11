@@ -78,7 +78,7 @@
                 //let body = this.element.find("tbody")[0];
                 let body = $('#post-grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
                 }
             },
             filterable: true,

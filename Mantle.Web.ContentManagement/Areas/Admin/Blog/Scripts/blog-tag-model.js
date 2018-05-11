@@ -58,7 +58,7 @@
             dataBound: function (e) {
                 let body = $('#tag-grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
                 }
             },
             filterable: true,

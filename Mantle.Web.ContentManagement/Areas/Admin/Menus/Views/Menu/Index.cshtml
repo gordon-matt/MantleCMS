@@ -15,17 +15,17 @@
 
     <div id="grid-section" class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: menuModel.create" class="btn btn-primary">
+            <button type="button" click.delegate="menuModel.create()" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 @T[MantleWebLocalizableStrings.General.Create]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="Grid"></div>
+            <div id="grid"></div>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-file"></i>
                                         </span>
-                                        @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: menuModel.name" })
+                                        <input type="text" id="Name" name="Name" class="form-control" value.bind="menuModel.name" />
                                     </div>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-filter"></i>
                                         </span>
-                                        @Html.TextBox("UrlFilter", null, new { @class = "form-control", data_bind = "value: menuModel.urlFilter" })
+                                        <input type="text" id="UrlFilter" name="UrlFilter" class="form-control" value.bind="menuModel.urlFilter" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                    <button type="button" class="btn btn-default" click.delegate="menuModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="menuModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -76,21 +76,21 @@
 
     <div id="items-grid-section" class="row" style="display:none">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: menuItemModel.create.bind($data,menuModel.id(), null)" class="btn btn-primary">
+            <button type="button" click.delegate="menuItemModel.create(menuModel.id, null)" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 @T[MantleWebLocalizableStrings.General.Create]
-            </a>
-            <a data-bind="click: menuItemModel.goBack" class="btn btn-default">
+            </button>
+            <button type="button" click.delegate="menuItemModel.goBack()" class="btn btn-default">
                 <i class="fa fa-arrow-left"></i>
                 @T[MantleWebLocalizableStrings.General.Back]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="ItemsGrid"></div>
+            <div id="items-grid"></div>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-file"></i>
                                         </span>
-                                        @Html.TextBox("Item_Text", null, new { @class = "form-control", data_bind = "value: menuItemModel.text" })
+                                        <input type="text" id="Item_Text" name="Item_Text" class="form-control" value.bind="menuItemModel.text" />
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-globe"></i>
                                         </span>
-                                        @Html.TextBox("Item_Url", null, new { @class = "form-control", data_bind = "value: menuItemModel.url" })
+                                        <input type="text" id="Item_Url" name="Item_Url" class="form-control" value.bind="menuItemModel.url" />
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-file"></i>
                                         </span>
-                                        @Html.TextBox("Item_Description", null, new { @class = "form-control", data_bind = "value: menuItemModel.description" })
+                                        <input type="text" id="Item_Description" name="Item_Description" class="form-control" value.bind="menuItemModel.description" />
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-font"></i>
                                         </span>
-                                        @Html.TextBox("Item_CssClass", null, new { @class = "form-control", data_bind = "value: menuItemModel.cssClass" })
+                                        <input type="text" id="Item_CssClass" name="Item_CssClass" class="form-control" value.bind="menuItemModel.cssClass" />
                                     </div>
                                 </div>
                             </div>
@@ -155,21 +155,21 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-sort-numeric-asc"></i>
                                         </span>
-                                        @Html.TextBox("Item_Position", null, new { @class = "form-control", data_bind = "value: menuItemModel.position" })
+                                        <input type="text" id="Item_Position" name="Item_Position" class="form-control" value.bind="menuItemModel.position" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <div class="checkbox">
                                     <label>
-                                        @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
+                                        <input type="checkbox" id="Item_Enabled" name="Item_Enabled" checked.bind="menuItemModel.enabled" /> @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
                                     </label>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                    <button type="button" class="btn btn-default" click.delegate="menuItemModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="menuItemModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                                 </div>
                             </div>
                         </fieldset>

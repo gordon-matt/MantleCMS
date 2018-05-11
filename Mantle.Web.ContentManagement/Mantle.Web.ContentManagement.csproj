@@ -29,6 +29,9 @@
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-item-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-model.js" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />
@@ -82,7 +85,6 @@
     <EmbeddedResource Include="Scripts\kore-cms-localization.js" />
     <EmbeddedResource Include="Scripts\moment.js" />
     <EmbeddedResource Include="Areas\Admin\Media\Scripts\media.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
     <EmbeddedResource Include="Areas\Admin\Newsletters\Scripts\subscribers.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index_Old.js" />
@@ -106,6 +108,9 @@
     <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
     <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
     <None Remove="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\index.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menu-item-model.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menu-model.js" />
   </ItemGroup>
 
   <ItemGroup>
