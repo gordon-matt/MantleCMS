@@ -187,7 +187,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             { MantleCmsLocalizableStrings.Settings.Blog.MenuPosition, "Menu Position" },
             { MantleCmsLocalizableStrings.Settings.Blog.PageTitle, "Page Title" },
             { MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus, "Show on Menus" },
-            { MantleCmsLocalizableStrings.Settings.Blog.UseAjax, "Use Ajax" },
             { MantleCmsLocalizableStrings.Settings.Blog.LayoutPathOverride, "Layout Path (Override)" },
             { MantleCmsLocalizableStrings.Settings.Pages.NumberOfPageVersionsToKeep, "# Page Versions to Keep" },
             { MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequency, "Change Frequency" },

@@ -152,6 +152,7 @@ export class ViewModel {
     }
 
     cancel() {
+        this.cleanUpPreviousSettings();
         this.sectionSwitcher.swap('grid-section');
     }
 

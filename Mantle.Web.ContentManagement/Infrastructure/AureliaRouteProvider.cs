@@ -20,7 +20,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.index",
                     Route = "blog",
                     Name = "mantle-cms/blog",
                     Title = T[MantleCmsLocalizableStrings.Blog.Title].Value
@@ -28,15 +28,15 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks",
-                    Route = "blocks/content-blocks(/:pageId)",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.content-blocks-index",
+                    Route = "blocks/content-blocks/:pageId?",
                     Name = "mantle-cms/blocks/content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 });
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-blocks-index",
                     Route = "blocks/entity-type-content-blocks/:entityType/:entityId",
                     Name = "mantle-cms/blocks/entity-type-content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
@@ -88,9 +88,9 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog", "admin/blog" },
-            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.contentBlocks", "admin/blocks/content-blocks" },
-            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entityTypeContentBlocks", "admin/blocks/entity-type-content-blocks" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.index", "admin/blog" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.content-blocks-index", "admin/blocks/content-blocks" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-blocks-index", "admin/blocks/entity-type-content-blocks" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media", "admin/media" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.menus", "admin/menus" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },

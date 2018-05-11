@@ -154,6 +154,28 @@ namespace Mantle.Collections
             return first.Union(second);
         }
 
+        public static IEnumerable<IEnumerable<T>> ToChunks<T>(this IEnumerable<T> collection, int size)
+        {
+            var chunks = new HashSet<HashSet<T>>();
+            var chunk = new HashSet<T>();
+
+            int count = 0;
+            foreach (var element in collection)
+            {
+                if (count++ == size)
+                {
+                    chunks.Add(chunk);
+                    chunk = new HashSet<T>();
+                    count = 1;
+                }
+                chunk.Add(element);
+            }
+
+            chunks.Add(chunk);
+
+            return chunks;
+        }
+
         public static DataTable ToDataTable<T>(this IEnumerable<T> enumerable)
         {
             return enumerable.ToDataTable(string.Concat(typeof(T).Name, "_Table"));

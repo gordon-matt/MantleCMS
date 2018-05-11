@@ -325,7 +325,6 @@
                 public const string MenuPosition = "Mantle.Web.ContentManagement/Settings.Blog.MenuPosition";
                 public const string PageTitle = "Mantle.Web.ContentManagement/Settings.Blog.PageTitle";
                 public const string ShowOnMenus = "Mantle.Web.ContentManagement/Settings.Blog.ShowOnMenus";
-                public const string UseAjax = "Mantle.Web.ContentManagement/Settings.Blog.UseAjax";
                 public const string LayoutPathOverride = "Mantle.Web.ContentManagement/Settings.Blog.LayoutPathOverride";
             }
 

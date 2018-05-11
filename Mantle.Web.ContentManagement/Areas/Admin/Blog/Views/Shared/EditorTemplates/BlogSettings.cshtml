@@ -35,13 +35,6 @@
         @Html.ValidationMessageFor(m => m.MenuPosition)
     </div>
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="UseAjax" name="UseAjax" checked.bind="useAjax" /> @T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
         @Html.Label("Roles", "Roles", new { @class = "control-label" })
         @Html.Mantle().RolesCheckBoxList(
             "Roles",
@@ -66,7 +59,6 @@
         viewModel.itemsPerPage = 5;
         viewModel.showOnMenus = true;
         viewModel.menuPosition = 0;
-        viewModel.useAjax = false;
         viewModel.layoutPathOverride = null;
 
         viewModel.accessRestrictions = null;
@@ -88,9 +80,6 @@
             if (data.MenuPosition) {
                 viewModel.menuPosition = data.MenuPosition;
             }
-            if (data.UseAjax && typeof data.UseAjax === 'boolean') {
-                viewModel.useAjax = data.UseAjax;
-            }
             if (data.AccessRestrictions) {
                 viewModel.accessRestrictions = JSON.parse(data.AccessRestrictions);
 
@@ -111,7 +100,6 @@
         delete viewModel.itemsPerPage;
         delete viewModel.showOnMenus;
         delete viewModel.menuPosition;
-        delete viewModel.useAjax;
         delete viewModel.accessRestrictions;
         delete viewModel.roles;
         delete viewModel.layoutPathOverride;
@@ -124,7 +112,6 @@
             ItemsPerPage: viewModel.itemsPerPage,
             ShowOnMenus: viewModel.showOnMenus,
             MenuPosition: viewModel.menuPosition,
-            UseAjax: viewModel.useAjax,
             AccessRestrictions: JSON.stringify({
                 Roles: viewModel.roles.join()
             }),

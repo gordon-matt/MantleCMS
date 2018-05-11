@@ -10,183 +10,185 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+<template>
+    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-<div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: menuModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-    </div>
+    <div id="grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a data-bind="click: menuModel.create" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                @T[MantleWebLocalizableStrings.General.Create]
+            </a>
+        </div>
 
-    <div class="clearfix"></div>
-    <br />
+        <div class="clearfix"></div>
+        <br />
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
-</div>
-
-<div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="form-section-form" role="form">
-                    <fieldset>
-                        <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleCmsLocalizableStrings.Menus.MenuModel.Name], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: menuModel.name" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("UrlFilter", T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-filter"></i>
-                                    </span>
-                                    @Html.TextBox("UrlFilter", null, new { @class = "form-control", data_bind = "value: menuModel.urlFilter" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
-
-<div id="items-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: menuItemModel.create.bind($data,menuModel.id(), null)" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: menuItemModel.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
-    </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="ItemsGrid"></div>
-    </div>
-</div>
-
-<div id="items-edit-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="item-edit-section-form" role="form">
-                    <fieldset>
-                        <legend id="item-edit-section-legend"></legend>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Text", null, new { @class = "form-control", data_bind = "value: menuItemModel.text" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-globe"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Url", null, new { @class = "form-control", data_bind = "value: menuItemModel.url" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Description", null, new { @class = "form-control", data_bind = "value: menuItemModel.description" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-font"></i>
-                                    </span>
-                                    @Html.TextBox("Item_CssClass", null, new { @class = "form-control", data_bind = "value: menuItemModel.cssClass" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-sort-numeric-asc"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Position", null, new { @class = "form-control", data_bind = "value: menuItemModel.position" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
-
-<script type="text/x-kendo-template" id="items-template">
-    <div class="tabstrip">
-        <ul>
-            <li class="k-state-active">
-                @T[MantleCmsLocalizableStrings.Menus.MenuItems]
-            </li>
-        </ul>
-        <div>
-            <div class="detail-grid" id="items-grid-#=Id#"></div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="Grid"></div>
         </div>
     </div>
-</script>
+
+    <div id="form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="form-section-form" role="form">
+                        <fieldset>
+                            <legend id="form-section-legend"></legend>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("Name", T[MantleCmsLocalizableStrings.Menus.MenuModel.Name], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: menuModel.name" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("UrlFilter", T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-filter"></i>
+                                        </span>
+                                        @Html.TextBox("UrlFilter", null, new { @class = "form-control", data_bind = "value: menuModel.urlFilter" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+
+    <div id="items-grid-section" class="row" style="display:none">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a data-bind="click: menuItemModel.create.bind($data,menuModel.id(), null)" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                @T[MantleWebLocalizableStrings.General.Create]
+            </a>
+            <a data-bind="click: menuItemModel.goBack" class="btn btn-default">
+                <i class="fa fa-arrow-left"></i>
+                @T[MantleWebLocalizableStrings.General.Back]
+            </a>
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="ItemsGrid"></div>
+        </div>
+    </div>
+
+    <div id="items-edit-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="item-edit-section-form" role="form">
+                        <fieldset>
+                            <legend id="item-edit-section-legend"></legend>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Text", null, new { @class = "form-control", data_bind = "value: menuItemModel.text" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-globe"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Url", null, new { @class = "form-control", data_bind = "value: menuItemModel.url" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Description", null, new { @class = "form-control", data_bind = "value: menuItemModel.description" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-font"></i>
+                                        </span>
+                                        @Html.TextBox("Item_CssClass", null, new { @class = "form-control", data_bind = "value: menuItemModel.cssClass" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-sort-numeric-asc"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Position", null, new { @class = "form-control", data_bind = "value: menuItemModel.position" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+
+    <script type="text/x-kendo-template" id="items-template">
+        <div class="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    @T[MantleCmsLocalizableStrings.Menus.MenuItems]
+                </li>
+            </ul>
+            <div>
+                <div class="detail-grid" id="items-grid-#=Id#"></div>
+            </div>
+        </div>
+    </script>
+</template>
