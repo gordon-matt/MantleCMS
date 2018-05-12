@@ -115,7 +115,7 @@
                         `<button type="button" click.delegate="pageModel.edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         `<button type="button" click.delegate="pageModel.remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                         `<button type="button" click.delegate="pageModel.create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
+                        `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
                         `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
                         `<button type="button" click.delegate="pageModel.toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                         `<button type="button" click.delegate="pageModel.localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
@@ -129,8 +129,6 @@
             detailTemplate: kendo.template($("#pages-template").html()),
             detailInit: this.detailInit
         });
-
-        this.pageVersionGrid = $('#page-version-grid').data('kendoGrid');
     }
 
     create(parentId) {
@@ -138,7 +136,7 @@
 
         this.id = this.parent.emptyGuid;
         this.parentId = parentId;
-        this.pageTypeId = emptyGuid;
+        this.pageTypeId = this.parent.emptyGuid;
         this.name = null;
         this.isEnabled = false;
         this.order = 0;
@@ -146,7 +144,7 @@
         this.accessRestrictions = null;
 
         this.roles = [];
-        this.parent.templateVersionModel.create();
+        this.parent.pageVersionModel.create();
 
         this.inEditMode = false;
         
@@ -399,15 +397,15 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                    `<button type="button" click.delegate="pageModel.edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
-                    `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
-                    `<button type="button" click.delegate="pageModel.toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
-                    `<button type="button" click.delegate="pageModel.move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
+                        `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
+                        `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
+                        `<button type="button" click.delegate="pageModel.toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
+                        `<button type="button" click.delegate="pageModel.move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -416,18 +414,6 @@
             detailTemplate: kendo.template($("#pages-template").html()),
             detailInit: this.detailInit
         });
-    }
-    
-    showPageHistory(id) {
-        if (!this.parent.currentCulture) {
-            this.pageVersionGrid.dataSource.transport.options.read.url = `${this.apiUrl}?$filter=CultureCode eq null and PageId eq ${id}`;
-        }
-        else {
-            this.pageVersionGrid.dataSource.transport.options.read.url = `${this.apiUrl}?$filter=CultureCode eq '${this.parent.currentCulture}' and PageId eq ${id}`;
-        }
-        this.pageVersionGrid.dataSource.page(1);
-
-        this.parent.sectionSwitcher.swap('version-grid-section');
     }
 
     showPageTypes() {

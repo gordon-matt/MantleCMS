@@ -216,7 +216,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
                 var contentBlocksByZone = contentBlocks.Where(x => x.ZoneId == zone.Id);
 
                 string html = AsyncHelper.RunSync(() => razorViewRenderService.Value.RenderToStringAsync(
-                    "Mantle.Web.ContentManagement.Views.Frontend.ContentBlocksByZone",
+                    "Mantle.Web.ContentManagement.Views.Shared.Components.ContentBlocksByZone.Default.cshtml",
                     contentBlocksByZone));
 
                 content = content.Replace(match.Value, html);

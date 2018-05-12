@@ -1,5 +1,6 @@
 ﻿import 'jquery';
 import 'jquery-validation';
+import 'bootstrap';
 import 'bootstrap-notify';
 import 'tinymce/themes/modern/theme';
 import '/js/kendo/2014.1.318/kendo.web.min.js';
@@ -8,6 +9,7 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
+import { MantleTinyMCEOptions } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
 import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
 import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
@@ -30,6 +32,9 @@ export class ViewModel {
         this.http.configure(config => {
             config.withInterceptor(new GenericHttpInterceptor());
         });
+
+        let options = new MantleTinyMCEOptions();
+        this.mantleAdvancedTinyMCEConfig = options.advancedConfig;
     }
 
     // Aurelia Component Lifecycle Methods

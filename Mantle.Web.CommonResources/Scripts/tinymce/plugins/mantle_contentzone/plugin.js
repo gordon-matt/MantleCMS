@@ -2,7 +2,7 @@
     // Add a button that opens a window
     editor.addButton('contentzone', {
         title: 'Content Zone',
-        image: url + '/img/mantle_contentzone.png',
+        image: '/Mantle.Web.CommonResources.Scripts.tinymce.plugins.mantle_contentzone.img.mantle_contentzone.png',
         onclick: function () {
             // Open window
             editor.windowManager.open({

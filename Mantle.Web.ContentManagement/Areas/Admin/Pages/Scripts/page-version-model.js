@@ -90,8 +90,8 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                    `<button type="button" click.delegate="pageVersionModel.restore(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.restore}"><i class="fa fa-undo"></i></button>` +
-                    `<button type="button" click.delegate="pageVersionModel.preview(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
+                        `<button type="button" click.delegate="pageVersionModel.restore(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.restore}"><i class="fa fa-undo"></i></button>` +
+                        `<button type="button" click.delegate="pageVersionModel.preview(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -217,7 +217,8 @@
                 if (typeof this.pageModelStub.updateModel === 'function') {
                     this.pageModelStub.updateModel(this);
                 }
-                this.templatingEngine.enhance({ element: elementToBind, bindingContext: this.parent });
+                let elementToBind = $("#fields-definition")[0];
+                this.parent.templatingEngine.enhance({ element: elementToBind, bindingContext: this.parent });
             }
 
             this.validator.resetForm();
@@ -279,7 +280,7 @@
         this.pageModelStub = null;
 
         // Remove Old Scripts
-        var oldScripts = $('script[data-fields-script="true"]');
+        let oldScripts = $('script[data-fields-script="true"]');
 
         if (oldScripts.length > 0) {
             $.each(oldScripts, function () {
@@ -287,8 +288,23 @@
             });
         }
 
-        var elementToBind = $("#fields-definition")[0];
+        let elementToBind = $("#fields-definition")[0];
         this.parent.templatingEngine.enhance({ element: elementToBind, bindingContext: this }); // Clean
         $("#fields-definition").html("");
+    }
+
+    showPageHistory(pageId) {
+        let grid = $('#page-version-grid').data('kendoGrid');
+
+        if (!this.parent.currentCulture) {
+            grid.dataSource.transport.options.read.url = `${this.apiUrl}?$filter=CultureCode eq null and PageId eq ${pageId}`;
+        }
+        else {
+            grid.dataSource.transport.options.read.url = `${this.apiUrl}?$filter=CultureCode eq '${this.parent.currentCulture}' and PageId eq ${pageId}`;
+        }
+
+        grid.dataSource.page(1);
+
+        this.parent.sectionSwitcher.swap('version-grid-section');
     }
 }

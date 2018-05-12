@@ -108,7 +108,7 @@
     }
     
     async save() {
-        if (!$("#category-form-section-form").valid()) {
+        if (!$("#page-type-form-section-form").valid()) {
             return false;
         }
 
@@ -128,11 +128,11 @@
         }
 
         this.refreshGrid();
-        this.parent.sectionSwitcher.swap('page-types-grid-section');
+        this.parent.sectionSwitcher.swap('page-type-grid-section');
     }
 
     cancel() {
-        this.parent.sectionSwitcher.swap('page-types-grid-section');
+        this.parent.sectionSwitcher.swap('page-type-grid-section');
     }
 
     goBack() {
