@@ -87,8 +87,7 @@
     <EmbeddedResource Include="Areas\Admin\Media\Scripts\media.js" />
     <EmbeddedResource Include="Areas\Admin\Newsletters\Scripts\subscribers.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index_Old.js" />
-    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\xml-sitemap-index.js" />
   </ItemGroup>
 
   <ItemGroup>

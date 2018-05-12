@@ -47,6 +47,7 @@ System.config({
     "core-js": "npm:core-js@1.2.7",
     "font-awesome": "npm:font-awesome@4.7.0",
     "jquery": "npm:jquery@3.3.1",
+    "jquery-migrate": "npm:jquery-migrate@3.0.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "jquery-ui-dist": "npm:jquery-ui-dist@1.12.1",
     "jquery-validation": "github:jquery-validation/jquery-validation@1.17.0",
@@ -426,6 +427,13 @@ System.config({
     },
     "npm:inherits@2.0.3": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:jquery-migrate@3.0.1": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "jquery": "npm:jquery@3.3.1",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:jquery-ui-dist@1.12.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"

@@ -10,17 +10,17 @@
 <template>
     <div id="grid-section" class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: downloadCsv" class="btn btn-primary">
-                <i class="fa fa-save"></i>
+            <button type="button" click.delegate="downloadCsv()" class="btn btn-primary">
+                <i class="fa fa-download"></i>
                 @T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="Grid"></div>
+            <div id="grid"></div>
         </div>
     </div>
 

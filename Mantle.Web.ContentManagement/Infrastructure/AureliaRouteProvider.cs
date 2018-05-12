@@ -76,7 +76,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.xml-sitemap-index",
                     Route = "sitemap/xml-sitemap",
                     Name = "mantle-cms/sitemap/xml-sitemap",
                     Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value
@@ -95,7 +95,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.index", "admin/menus" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index", "admin/pages" },
-            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.index", "admin/xml-sitemap" },
+            { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.xml-sitemap-index", "admin/sitemap/xml-sitemap" },
         };
 
         #endregion IAureliaRouteProvider Members
