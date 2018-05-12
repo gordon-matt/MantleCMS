@@ -252,7 +252,7 @@ export class TemplateModel {
                 $.notify({ message: this.parent.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
             }
 
-            this.parent.templateVersionModel.save();
+            await this.parent.templateVersionModel.save();
         }
 
         this.refreshGrid();

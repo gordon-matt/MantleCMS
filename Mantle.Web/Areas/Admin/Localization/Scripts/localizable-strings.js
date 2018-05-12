@@ -127,16 +127,13 @@ export class ViewModel {
             scrollable: false,
             columns: [{
                 field: "Key",
-                title: this.translations.columns.key,
-                filterable: true
+                title: this.translations.columns.key
             }, {
                 field: "InvariantValue",
-                    title: this.translations.columns.invariantValue,
-                filterable: true
+                title: this.translations.columns.invariantValue
             }, {
                 field: "LocalizedValue",
-                    title: this.translations.columns.localizedValue,
-                filterable: true
+                title: this.translations.columns.localizedValue
             }, {
                 command: ["edit", "destroy"],
                 title: "&nbsp;",

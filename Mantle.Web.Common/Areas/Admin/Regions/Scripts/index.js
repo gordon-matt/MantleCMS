@@ -89,8 +89,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "Id",
                     title: " ",
@@ -301,8 +300,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "Id",
                     title: " ",
@@ -603,8 +601,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "Id",
                     title: " ",
@@ -885,8 +882,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "Id",
                     title: " ",

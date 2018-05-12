@@ -18,21 +18,21 @@
 
     <div id="page-grid-section" class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: pageModel.create.bind($data,null)" class="btn btn-primary">
+            <button type="button" click.delegate="pageModel.create(null)" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 @T[MantleWebLocalizableStrings.General.Create]
-            </a>
-            <a data-bind="click: pageModel.showPageTypes" class="btn btn-info">
+            </button>
+            <button type="button" click.delegate="pageModel.showPageTypes()" class="btn btn-info">
                 <i class="fa fa-crop"></i>
                 @T[MantleCmsLocalizableStrings.Pages.PageTypes.Title]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="PageGrid"></div>
+            <div id="page-grid"></div>
         </div>
     </div>
 
@@ -46,18 +46,6 @@
                     <form id="form-section-form" role="form">
                         <fieldset>
                             <legend id="form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @*<div id="drilldown-wrapper">
-                                        <a id="drilldown" tabindex="0" href="#drilldown-items" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all">
-                                            <span class="ui-icon ui-icon-triangle-1-s"></span>Parent Page
-                                        </a>
-                                        <div id="drilldown-items" class="hidden">
-                                            <ul data-bind="template: { name: 'drilldown-template', foreach: pageModel.allPages }"></ul>
-                                        </div>
-                                    </div>*@
-                                </div>
-                            </div>
                             <div id="form-section-pageTypeId" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     @Html.Label("PageTypeId", T[MantleCmsLocalizableStrings.Pages.PageModel.PageTypeId], new { @class = "control-label" })
@@ -65,7 +53,12 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-crop"></i>
                                         </span>
-                                        @Html.MantleCMS().PageTypesDropDownList("PageTypeId", null, null, new { @class = "form-control", data_bind = "value: pageModel.pageTypeId" })
+                                        @Html.MantleCMS().PageTypesDropDownList(
+                                            "PageTypeId",
+                                            htmlAttributes: new Dictionary<string, object>
+                                            {
+                                                { "value.bind", "pageModel.pageTypeId" }
+                                            })
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +69,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-file"></i>
                                         </span>
-                                        @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: pageModel.name" })
+                                        <input type="text" id="Name" name="Name" class="form-control" value.bind="pageModel.name" />
                                     </div>
                                 </div>
                             </div>
@@ -87,27 +80,34 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-sort-numeric-asc"></i>
                                         </span>
-                                        @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: pageModel.order" })
+                                        <input type="text" id="Order" name="Order" class="form-control" value.bind="pageModel.order" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     @Html.Label("Roles", T[MantleCmsLocalizableStrings.Pages.PageModel.Roles], new { @class = "control-label" })
-                                    @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: pageModel.roles" })
+                                    @Html.Mantle().RolesCheckBoxList(
+                                        "Roles",
+                                        null,
+                                        new { @class = "checkbox" },
+                                        new Dictionary<string, object>
+                                        {
+                                            { "checked.bind", "pageModel.roles" }
+                                        })
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                 <div class="checkbox">
                                     <label>
-                                        @Html.CheckBox("IsEnabled", new { data_bind = "checked: pageModel.isEnabled" }) @T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled]
+                                        <input type="checkbox" id="IsEnabled" name="IsEnabled" checked.bind="pageModel.isEnabled" /> @T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled]
                                     </label>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                 <div class="checkbox">
                                     <label>
-                                        @Html.CheckBox("ShowOnMenus", new { data_bind = "checked: pageModel.showOnMenus" }) @T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus]
+                                        <input type="checkbox" id="ShowOnMenus" name="ShowOnMenus" checked.bind="pageModel.showOnMenus" /> @T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus]
                                     </label>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                     </form>
                 }
             }
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary, htmlAttributes: new { data_bind = "visible: pageModel.inEditMode()" })))
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary, htmlAttributes: new Dictionary<string, object> { { "show.bind", "pageModel.inEditMode" } })))
             {
                 using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
                 using (var body = panel.BeginBody())
@@ -129,14 +129,14 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-file"></i>
                                         </span>
-                                        @Html.TextBox("Version_Title", null, new { @class = "form-control", data_bind = "value: pageVersionModel.title" })
+                                        <input type="text" id="Version_Title" name="Version_Title" class="form-control" value.bind="pageVersionModel.title" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     @Html.Label("Version_Slug", T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug], new { @class = "control-label" })
-                                    @Html.TextBox("Version_Slug", null, new { @class = "form-control", data_bind = "value: pageVersionModel.slug" })
+                                    <input type="text" id="Version_Slug" name="Version_Slug" class="form-control" value.bind="pageVersionModel.slug" />
                                 </div>
                             </div>
 
@@ -144,7 +144,7 @@
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label>
-                                            @Html.CheckBox("Version_IsDraft", new { data_bind = "checked: pageVersionModel.isDraft" }) @T[MantleCmsLocalizableStrings.Pages.PageVersionModel.IsDraft]
+                                            <input type="checkbox" id="Version_IsDraft" name="Version_IsDraft" checked.bind="pageVersionModel.isDraft" /> @T[MantleCmsLocalizableStrings.Pages.PageVersionModel.IsDraft]
                                         </label>
                                     </div>
                                 </div>
@@ -157,8 +157,8 @@
             }
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group pull-right">
-                    <button type="button" class="btn btn-default" data-bind="click: pageModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: pageModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                    <button type="button" class="btn btn-default" click.delegate="pageModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                    <button type="button" class="btn btn-primary" click.delegate="pageModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                 </div>
             </div>
         </article>
@@ -166,17 +166,17 @@
 
     <div id="version-grid-section" class="row" style="display:none">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: pageVersionModel.goBack" class="btn btn-default">
+            <button type="button" click.delegate="pageVersionModel.goBack()" class="btn btn-default">
                 <i class="fa fa-arrow-left"></i>
                 @T[MantleWebLocalizableStrings.General.Back]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="PageVersionGrid"></div>
+            <div id="page-version-grid"></div>
         </div>
     </div>
 
@@ -191,15 +191,15 @@
                         <tbody>
                             <tr>
                                 <th>@T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Title]</th>
-                                <td><span data-bind="html: pageVersionModel.title"></span></td>
+                                <td>${pageVersionModel.title}</td>
                             </tr>
                             <tr>
                                 <th>@T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug]</th>
-                                <td><span data-bind="html: pageVersionModel.slug"></span></td>
+                                <td>${pageVersionModel.slug}</td>
                             </tr>
                             <tr>
                                 <th>@T[MantleCmsLocalizableStrings.Pages.PageVersionModel.CultureCode]</th>
-                                <td><span data-bind="html: pageVersionModel.cultureCode"></span></td>
+                                <td>${pageVersionModel.cultureCode}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -210,17 +210,17 @@
 
     <div id="page-type-grid-section" class="row" style="display:none">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a data-bind="click: pageTypeModel.goBack" class="btn btn-default">
+            <button type="button" click.delegate="pageTypeModel.goBack()" class="btn btn-default">
                 <i class="fa fa-arrow-left"></i>
                 @T[MantleWebLocalizableStrings.General.Back]
-            </a>
+            </button>
         </div>
 
         <div class="clearfix"></div>
         <br />
 
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="PageTypesGrid"></div>
+            <div id="page-types-grid"></div>
         </div>
     </div>
 
@@ -237,20 +237,20 @@
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group">
                                     @Html.Label("PageType_Name", T[MantleCmsLocalizableStrings.Pages.PageTypeModel.Name], new { @class = "control-label" })
-                                    <p class="form-control-static" data-bind="text: pageTypeModel.name"></p>
+                                    <p class="form-control-static">${pageTypeModel.name}</p>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
                                     @Html.Label("PageType_LayoutPath", T[MantleCmsLocalizableStrings.Pages.PageTypeModel.LayoutPath], new { @class = "control-label" })
-                                    @Html.TextBox("PageType_LayoutPath", null, new { @class = "form-control", data_bind = "value: pageTypeModel.layoutPath" })
+                                    <input type="text" id="PageType_LayoutPath" name="PageType_LayoutPath" class="form-control" value.bind="pageTypeModel.layoutPath" />
                                 </div>
                             </div>
                         </fieldset>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: pageTypeModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: pageTypeModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <button type="button" class="btn btn-default" click.delegate="pageTypeModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" click.delegate="pageTypeModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
                         </div>
                     </form>
@@ -279,7 +279,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: pageModel.onParentSelected">@T[MantleWebLocalizableStrings.General.OK]</button>
+                    <button type="button" class="btn btn-primary" click.delegate="pageModel.onParentSelected()">@T[MantleWebLocalizableStrings.General.OK]</button>
                 </div>
             </div>
         </div>
@@ -302,7 +302,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: pageModel.onCultureSelected">@T[MantleWebLocalizableStrings.General.OK]</button>
+                    <button type="button" class="btn btn-primary" click.delegate="pageModel.onCultureSelected()">@T[MantleWebLocalizableStrings.General.OK]</button>
                 </div>
             </div>
         </div>

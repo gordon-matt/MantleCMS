@@ -269,8 +269,6 @@
     detailInit = (e) => {
         let self = this;
 
-        console.log("this.apiUrl: " + this.apiUrl);
-
         var detailRow = e.detailRow;
 
         detailRow.find(".tabstrip").kendoTabStrip({
@@ -342,23 +340,19 @@
             scrollable: false,
             columns: [{
                 field: "Text",
-                title: this.parent.translations.columns.menuItem.text,
-                filterable: true
+                title: this.parent.translations.columns.menuItem.text
             }, {
                 field: "Url",
-                title: this.parent.translations.columns.menuItem.url,
-                filterable: true
+                title: this.parent.translations.columns.menuItem.url
             }, {
                 field: "Position",
                 title: this.parent.translations.columns.menuItem.position,
-                filterable: true,
                 width: 70
             }, {
                 field: "Enabled",
                 title: this.parent.translations.columns.menuItem.enabled,
                 template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                 attributes: { "class": "text-center" },
-                filterable: true,
                 width: 70
             }, {
                 field: "Id",

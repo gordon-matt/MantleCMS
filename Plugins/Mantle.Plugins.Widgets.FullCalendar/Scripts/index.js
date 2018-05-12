@@ -100,18 +100,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.event.Name,
-                    filterable: true
+                    title: self.parent.translations.columns.event.Name
                 }, {
                     field: "StartDateTime",
                     title: self.parent.translations.columns.event.StartDateTime,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "EndDateTime",
                     title: self.parent.translations.columns.event.EndDateTime,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "Id",
                     title: " ",
@@ -324,8 +321,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.calendar.name,
-                    filterable: true
+                    title: self.parent.translations.columns.calendar.name
                 }, {
                     field: "Id",
                     title: " ",

@@ -32,6 +32,9 @@
     <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-item-model.js" />
     <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-type-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-version-model.js" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />
@@ -110,6 +113,9 @@
     <None Remove="Areas\Admin\Menus\Scripts\index.js" />
     <None Remove="Areas\Admin\Menus\Scripts\menu-item-model.js" />
     <None Remove="Areas\Admin\Menus\Scripts\menu-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-type-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-version-model.js" />
   </ItemGroup>
 
   <ItemGroup>

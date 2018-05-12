@@ -17,7 +17,7 @@ import { MenuItemViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManag
 export class ViewModel {
     emptyGuid = '00000000-0000-0000-0000-000000000000';
 
-    constructor(templatingEngine, router) {
+    constructor(templatingEngine) {
         this.templatingEngine = templatingEngine;
 
         this.menuModel = new MenuViewModel(this);
