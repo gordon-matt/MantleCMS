@@ -78,7 +78,7 @@
             dataBound: function (e) {
                 var body = this.element.find("tbody")[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -112,15 +112,15 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="pageModel.edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
                         `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
                         `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
-                        `<button type="button" click.delegate="pageModel.toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
+                        `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
+                        `<button type="button" click.delegate="preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
+                        `<button type="button" click.delegate="move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -190,9 +190,9 @@
         $("#form-section-legend").html(this.parent.translations.edit);
     }
 
-    async remove(id) {
+    async remove(id, parentId) {
         if (confirm(this.parent.translations.deleteRecordConfirm)) {
-            let response = await this.parent.http.delete(this.apiUrl + "(" + id + ")");
+            let response = await this.parent.http.delete(`${this.apiUrl}(${id})`);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -201,7 +201,7 @@
                 $.notify({ message: this.parent.translations.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
             }
 
-            this.refreshGrid();
+            this.refreshGrid(parentId);
         }
     }
 
@@ -242,7 +242,7 @@
             }
         }
         else {
-            let response = await this.parent.http.put(this.apiUrl + "(" + this.id + ")", record);
+            let response = await this.parent.http.put(`${this.apiUrl}(${this.id})`, record);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -254,7 +254,7 @@
             await this.parent.pageVersionModel.save();
         }
 
-        this.refreshGrid(parentId);
+        this.refreshGrid(this.parentId);
         this.parent.sectionSwitcher.swap('page-grid-section');
     }
 
@@ -286,7 +286,7 @@
             IsEnabled: !isEnabled
         };
 
-        let response = await this.parent.http.patch(this.apiUrl + "(" + id + ")", patch);
+        let response = await this.parent.http.patch(`${this.apiUrl}(${id})`, patch);
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }
@@ -363,7 +363,7 @@
             dataBound: function (e) {
                 var body = this.element.find("tbody")[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -397,15 +397,15 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="pageModel.edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
                         `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
                         `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
-                        `<button type="button" click.delegate="pageModel.toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
-                        `<button type="button" click.delegate="pageModel.move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
+                        `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
+                        `<button type="button" click.delegate="preview(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
+                        `<button type="button" click.delegate="move(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.move}"><i class="fa fa-caret-square-o-right"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -467,7 +467,7 @@
             ParentId: parentId
         };
 
-        let response = await this.parent.http.patch(this.apiUrl + "(" + id + ")", patch);
+        let response = await this.parent.http.patch(`${this.apiUrl}(${id})`, patch);
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }

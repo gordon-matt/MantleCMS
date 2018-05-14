@@ -12,6 +12,10 @@
 }
 
 <template>
+    @* TODO: This should not be here, but only loaded for each page type that needs it.. *@
+    <require from="tinymce/skins/lightgray/skin.min.css"></require>
+    <require from="tinymce/skins/lightgray/content.min.css"></require>
+
     @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
     @Html.Hidden("DefaultFrontendLayoutPath", MantleWebConstants.DefaultFrontendLayoutPath)
     @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
@@ -55,6 +59,7 @@
                                         </span>
                                         @Html.MantleCMS().PageTypesDropDownList(
                                             "PageTypeId",
+                                            emptyText: "Select",
                                             htmlAttributes: new Dictionary<string, object>
                                             {
                                                 { "class", "form-control" },

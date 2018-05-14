@@ -171,7 +171,7 @@ export class ViewModel {
     }
 
     async edit(id) {
-        let response = await this.http.get(this.apiUrl + "(" + id + ")");
+        let response = await this.http.get(`${this.apiUrl}(${id})`);
         let entity = response.content;
 
         this.id = entity.Id;
@@ -188,7 +188,7 @@ export class ViewModel {
 
     async remove(id) {
         if (confirm(this.translations.deleteRecordConfirm)) {
-            let response = await this.http.delete(this.apiUrl + "(" + id + ")");
+            let response = await this.http.delete(`${this.apiUrl}(${id})`);
             if (response.isSuccess) {
                 $.notify({ message: this.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
             }
@@ -228,7 +228,7 @@ export class ViewModel {
             }
         }
         else {
-            let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
+            let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
             //console.log('response: ' + JSON.stringify(response));
             if (response.isSuccess) {
                 $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -255,7 +255,7 @@ export class ViewModel {
         $.notify({ message: "This will delete all localized strings for all languages.", icon: 'fa fa-warning' }, { type: 'warning' });
 
         if (confirm(this.translations.resetLocalizableStringsConfirm)) {
-            let response = await this.http.post(this.apiUrl + "/Default.ResetLocalizableStrings");
+            let response = await this.http.post(`${this.apiUrl}/Default.ResetLocalizableStrings`);
 
             if (response.isSuccess) {
                 $.notify({ message: this.translations.resetLocalizableStringsSuccess, icon: 'fa fa-check' }, { type: 'success' });

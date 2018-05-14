@@ -6,14 +6,14 @@
     }
 
     init() {
-        let self = this;
-
         this.validator = $("#form-section-version-form").validate({
             rules: {
                 Version_Title: { required: true, maxlength: 255 },
                 Version_Slug: { required: true, maxlength: 255 }
             }
         });
+
+        let self = this;
 
         $("#page-version-grid").kendoGrid({
             data: null,
@@ -62,7 +62,7 @@
             dataBound: function (e) {
                 var body = this.element.find("tbody")[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -90,8 +90,8 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="pageVersionModel.restore(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.restore}"><i class="fa fa-undo"></i></button>` +
-                        `<button type="button" click.delegate="pageVersionModel.preview(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
+                        `<button type="button" click.delegate="restore(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.restore}"><i class="fa fa-undo"></i></button>` +
+                        `<button type="button" click.delegate="preview(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.preview}"><i class="fa fa-search"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -225,7 +225,7 @@
         }
     }
 
-    async saveVersion() {
+    async save() {
         // ensure the function exists before calling it...
         if (this.pageModelStub != null && typeof this.pageModelStub.onBeforeSave === 'function') {
             this.pageModelStub.onBeforeSave(this);
@@ -262,7 +262,7 @@
         };
 
         // UPDATE only (no option for insert here)
-        let response = await this.parent.http.put(this.apiUrl + "(" + this.id + ")", record);
+        let response = await this.parent.http.put(`${this.apiUrl}(${this.id})`, record);
 
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });

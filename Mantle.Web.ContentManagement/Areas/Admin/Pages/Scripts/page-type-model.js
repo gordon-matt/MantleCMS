@@ -60,7 +60,7 @@
             dataBound: function (e) {
                 var body = this.element.find("tbody")[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -79,7 +79,7 @@
                 title: " ",
                     template:
                         '<div class="btn-group">' +
-                            `<button type="button" click.delegate="pageTypeModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                            `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,

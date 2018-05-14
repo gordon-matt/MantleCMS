@@ -78,7 +78,7 @@
                 //let body = this.element.find("tbody")[0];
                 let body = $('#post-grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -102,8 +102,8 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="postModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="postModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -133,7 +133,7 @@
     }
 
     async edit(id) {
-        let response = await this.parent.http.get(this.parent.postApiUrl + "(" + id + ")?$expand=Tags");
+        let response = await this.parent.http.get(`${this.parent.postApiUrl}(${id})?$expand=Tags`);
         let entity = response.content;
         
         this.id = entity.Id;
@@ -162,7 +162,7 @@
 
     async remove(id) {
         if (confirm(this.parent.translations.deleteRecordConfirm)) {
-            let response = await this.parent.http.delete(this.parent.postApiUrl + "(" + id + ")");
+            let response = await this.parent.http.delete(`${this.parent.postApiUrl}(${id})`);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -214,7 +214,7 @@
             }
         }
         else {
-            let response = await this.parent.http.put(this.parent.postApiUrl + "(" + this.id + ")", record);
+            let response = await this.parent.http.put(`${this.parent.postApiUrl}(${this.id})`, record);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });

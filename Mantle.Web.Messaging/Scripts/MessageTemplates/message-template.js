@@ -67,7 +67,7 @@ export class TemplateModel {
             dataBound: function (e) {
                 let body = $('#grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -150,7 +150,7 @@ export class TemplateModel {
     }
 
     async getTemplate(id, cultureCode) {
-        let response = await this.parent.http.get(this.parent.templateApiUrl + "(" + id + ")");
+        let response = await this.parent.http.get(`${this.parent.templateApiUrl}(${id})`);
         let json = response.content;
 
         if (json.Editor != "[Default]") {
@@ -185,7 +185,7 @@ export class TemplateModel {
     async getTokens(templateName) {
         $("#tokens-list").html("");
 
-        let response = await this.parent.http.get(this.parent.templateApiUrl + "/Default.GetTokens(templateName='" + templateName + "')");
+        let response = await this.parent.http.get(`${this.parent.templateApiUrl}/Default.GetTokens(templateName='${templateName}')`);
         let json = response.content;
 
         if (json.value && json.value.length > 0) {
@@ -199,7 +199,7 @@ export class TemplateModel {
 
     async remove(id) {
         if (confirm(this.parent.translations.deleteRecordConfirm)) {
-            let response = await this.parent.http.delete(this.parent.templateApiUrl + "(" + id + ")");
+            let response = await this.parent.http.delete(`${this.parent.templateApiUrl}(${id})`);
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
             }
@@ -243,7 +243,7 @@ export class TemplateModel {
             }
         }
         else {
-            let response = await this.parent.http.put(this.parent.templateApiUrl + "(" + this.id + ")", record);
+            let response = await this.parent.http.put(`${this.parent.templateApiUrl}(${this.id})`, record);
             //console.log('response: ' + JSON.stringify(response));
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -273,7 +273,7 @@ export class TemplateModel {
             Enabled: !isEnabled
         };
 
-        let response = await this.parent.http.patch(this.parent.templateApiUrl + "(" + id + ")", patch);
+        let response = await this.parent.http.patch(`${this.parent.templateApiUrl}(${id})`, patch);
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }

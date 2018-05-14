@@ -77,7 +77,7 @@
                 //let body = this.element.find("tbody")[0];
                 let body = $('#block-grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -109,10 +109,10 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="blockModel.edit(\'#=Id#\', null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="blockModel.localize(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="blockModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<button type="button" click.delegate="blockModel.toggleEnabled(\'#=Id#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\', null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-success btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -233,7 +233,7 @@
             let response = null;
 
             if (this.cultureCode != null) {
-                response = await this.parent.http.put(this.apiUrl + "/Default.SaveLocalized", { cultureCode: this.cultureCode, entity: record });
+                response = await this.parent.http.post(`${this.apiUrl}/Default.SaveLocalized`, { cultureCode: this.cultureCode, entity: record });
             }
             else {
                 response = await this.parent.http.put(`${this.apiUrl}(${this.id})`, record);

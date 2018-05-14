@@ -37,10 +37,10 @@ export class TemplateVersionModel {
     async edit(id, cultureCode) {
         var getCurrentVersionUrl = "";
         if (cultureCode) {
-            getCurrentVersionUrl = this.parent.templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + id + ",cultureCode='" + cultureCode + "')";
+            getCurrentVersionUrl = `${this.parent.templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${id},cultureCode='${cultureCode}')`;
         }
         else {
-            getCurrentVersionUrl = this.parent.templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + id + ",cultureCode=null)";
+            getCurrentVersionUrl = `${this.parent.templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${id},cultureCode=null)`;
         }
 
         let response = await this.parent.http.get(getCurrentVersionUrl);
@@ -81,7 +81,7 @@ export class TemplateVersionModel {
             Data: this.data
         };
 
-        let response = await this.parent.http.put(this.parent.templateVersionApiUrl + "(" + this.id + ")", record);
+        let response = await this.parent.http.put(`${this.parent.templateVersionApiUrl}(${this.id})`, record);
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }

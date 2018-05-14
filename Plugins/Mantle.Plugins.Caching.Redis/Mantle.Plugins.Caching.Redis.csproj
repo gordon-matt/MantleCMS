@@ -7,7 +7,6 @@
     <Company />
     <Description />
     <Authors>Matt Gordon</Authors>
-    <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
   </PropertyGroup>
 
   <ItemGroup>

@@ -78,7 +78,7 @@
             dataBound: function (e) {
                 let body = $('#items-grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             filterable: true,
@@ -110,10 +110,10 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                    `<button type="button" click.delegate="menuItemModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                    `<button type="button" click.delegate="menuItemModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                    `<button type="button" click.delegate="menuItemModel.create(\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.newItem}"><i class="fa fa-plus"></i></button>` +
-                    `<button type="button" click.delegate="menuItemModel.toggleEnabled(\'#=Id#\', \'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=Enabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                    `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                    `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                    `<button type="button" click.delegate="create(\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.newItem}"><i class="fa fa-plus"></i></button>` +
+                    `<button type="button" click.delegate="toggleEnabled(\'#=Id#\', \'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=Enabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,
@@ -143,7 +143,7 @@
     }
 
     async edit(id) {
-        let response = await this.parent.http.get(this.apiUrl + "(" + id + ")");
+        let response = await this.parent.http.get(`${this.apiUrl}(${id})`);
         let entity = response.content;
 
         this.id = entity.Id;
@@ -166,7 +166,7 @@
 
     async remove(id) {
         if (confirm(this.parent.translations.deleteRecordConfirm)) {
-            let response = await this.parent.http.delete(this.apiUrl + "(" + id + ")");
+            let response = await this.parent.http.delete(`${this.apiUrl}(${id})`);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -211,7 +211,7 @@
             }
         }
         else {
-            let response = await this.parent.http.put(this.apiUrl + "(" + this.id + ")", record);
+            let response = await this.parent.http.put(`${this.apiUrl}(${this.id})`, record);
 
             if (response.isSuccess) {
                 $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -230,7 +230,7 @@
             Enabled: !isEnabled
         };
 
-        let response = await this.parent.http.patch(this.apiUrl + "(" + id + ")", patch);
+        let response = await this.parent.http.patch(`${this.apiUrl}(${id})`, patch);
         if (response.isSuccess) {
             $.notify({ message: this.parent.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
         }
@@ -333,7 +333,7 @@
                 let body = this.element.find("tbody")[0];
                 //let body = $('#grid').find('tbody')[0];
                 if (body) {
-                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self.parent });
+                    self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
             },
             pageable: false,
@@ -359,10 +359,10 @@
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="menuItemModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="menuItemModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<button type="button" click.delegate="menuItemModel.create(\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.newItem}"><i class="fa fa-plus"></i></button>` +
-                        `<button type="button" click.delegate="menuItemModel.toggleEnabled(\'#=Id#\', \'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=Enabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="create(\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.newItem}"><i class="fa fa-plus"></i></button>` +
+                        `<button type="button" click.delegate="toggleEnabled(\'#=Id#\', \'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=Enabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,

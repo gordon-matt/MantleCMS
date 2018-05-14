@@ -172,7 +172,7 @@ export class ViewModel {
     // END: Aurelia Component Lifecycle Methods
 
     async edit(id) {
-        let response = await this.http.get(this.apiUrl + "(" + id + ")");
+        let response = await this.http.get(`${this.apiUrl}(${id})`);
         let entity = response.content;
 
         this.id = entity.Id;
@@ -187,7 +187,7 @@ export class ViewModel {
     }
 
     async runNow(id) {
-        let response = await this.http.post(this.apiUrl + "/Default.RunNow", { taskId: id });
+        let response = await this.http.post(`${this.apiUrl}/Default.RunNow`, { taskId: id });
 
         if (response.isSuccess) {
             $.notify({ message: this.translations.executedTaskSuccess, icon: 'fa fa-check' }, { type: 'success' });
@@ -211,7 +211,7 @@ export class ViewModel {
             StopOnError: this.stopOnError
         };
 
-        let response = await this.http.put(this.apiUrl + "(" + this.id + ")", record);
+        let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
 
         if (response.isSuccess) {
             $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
