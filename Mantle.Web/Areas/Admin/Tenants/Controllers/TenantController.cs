@@ -1,4 +1,5 @@
 ﻿using Mantle.Security.Membership.Permissions;
+using Mantle.Web.Configuration;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers
     [Route("admin/tenants")]
     public class TenantController : MantleController
     {
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
         [Route("")]
         public IActionResult Index()
         {
@@ -27,26 +27,29 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers
             return PartialView();
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Create = T[MantleWebLocalizableStrings.General.Create].Value,
-                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-                InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Name = T[MantleWebLocalizableStrings.General.Name].Value
+                    create = T[MantleWebLocalizableStrings.General.Create].Value,
+                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    insertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
+                    insertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    columns = new
+                    {
+                        name = T[MantleWebLocalizableStrings.General.Name].Value
+                    }
                 }
             });
         }

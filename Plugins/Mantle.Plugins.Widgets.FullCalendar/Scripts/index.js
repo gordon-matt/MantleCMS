@@ -84,7 +84,7 @@
                     ]
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -305,7 +305,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -467,19 +467,18 @@
 
             // Load translations first, else will have errors
             $.ajax({
-                url: "/plugins/widgets/fullcalendar/get-translations",
+                url: "/plugins/widgets/fullcalendar/get-view-data",
                 type: "GET",
                 dataType: "json",
                 async: false
             })
-            .done(function (json) {
-                self.translations = json;
+            .done(function (viewData) {
+                self.translations = viewData.translations;
+                self.gridPageSize = viewData.gridPageSize;
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(textStatus + ': ' + errorThrown);
             });
-
-            self.gridPageSize = $("#GridPageSize").val();
 
             self.calendarModel.init();
             self.eventModel.init();

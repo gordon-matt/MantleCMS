@@ -27,11 +27,10 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/tenants/get-translations");
-        this.translations = response.content;
-
-        this.gridPageSize = $("#GridPageSize").val();
-
+        let response = await this.http.get("/admin/tenants/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        
         this.sectionSwitcher = new SectionSwitcher('grid-section');
 
         this.validator = $("#form-section-form").validate({
@@ -80,14 +79,14 @@ export class ViewModel {
                         }
                     }
                 },
-                pageSize: this.gridPageSize,
+                pageSize: viewData.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
                 sort: { field: "Name", dir: "asc" }
             },
             dataBound: function (e) {
-                let body = $('#grid').find('tbody')[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.templatingEngine.enhance({ element: body, bindingContext: self });
                 }

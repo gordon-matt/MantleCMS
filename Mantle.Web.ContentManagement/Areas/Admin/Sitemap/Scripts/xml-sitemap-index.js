@@ -27,10 +27,9 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/sitemap/xml-sitemap/get-translations");
-        this.translations = response.content;
-
-        this.gridPageSize = $("#GridPageSize").val();
+        let response = await this.http.get("/admin/sitemap/xml-sitemap/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
 
         this.changeFrequencies = [
             { "Id": 0, "Name": this.translations.changeFrequencies.always },
@@ -109,7 +108,7 @@ export class ViewModel {
                     self.refreshGrid();
                 },
                 batch: false,
-                pageSize: this.gridPageSize,
+                pageSize: viewData.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,

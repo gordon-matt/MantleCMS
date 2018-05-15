@@ -60,7 +60,7 @@
                 sort: { field: "DateModifiedUtc", dir: "desc" }
             },
             dataBound: function (e) {
-                var body = this.element.find("tbody")[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }

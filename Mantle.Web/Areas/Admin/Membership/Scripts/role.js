@@ -53,7 +53,7 @@ export class RoleViewModel {
                         }
                     }
                 },
-                pageSize: this.gridPageSize,
+                pageSize: this.parent.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
@@ -81,9 +81,9 @@ export class RoleViewModel {
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="roleModel.editPermissions(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.permissions}"><i class="fa fa-check-square-o"></i></button>` +
-                        `<button type="button" click.delegate="roleModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="roleModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="editPermissions(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.permissions}"><i class="fa fa-check-square-o"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,

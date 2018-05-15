@@ -1,6 +1,6 @@
 ﻿<div aurelia-app="main">
     <div class="splash">
-        <div class="message">Loading...</div>
+        <div class="message">@T[MantleWebLocalizableStrings.General.Loading]</div>
         <i class="fa fa-spinner fa-spin"></i>
     </div>
 
@@ -8,9 +8,12 @@
     <script src="/jspm_packages/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js"></script>
     <script src="/jspm_packages/github/twbs/bootstrap@3.3.7/js/bootstrap.min.js"></script>
 
-    @*<script src="/js/kendo/2014.1.318/kendo.web.min.js"></script>*@
-    @*<script src="https://kendo.cdn.telerik.com/2017.2.621/js/jszip.min.js"></script>*@
-    @*<script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>*@
+    @* Sometimes the dropdowns stop working. This was an attempt to fix it. *@
+    @* <script>
+        $(document).ready(function () {
+            $('a[data-toggle=dropdown').dropdown();
+    });
+    </script> *@
 
     <script src="/jspm_packages/system.js"></script>
     <script src="/config.js"></script>

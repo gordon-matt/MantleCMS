@@ -17,7 +17,7 @@
                 @Html.ImageLink(
                     "/img/logo.png",
                     SiteSettings.SiteName,
-                    Url.Action("Index", "Dashboard", new { area = MantleWebConstants.Areas.Admin }),
+                    "#",
                     imgHtmlAttributes: new { style = "max-width:200px;margin-top:18px" })
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
@@ -51,6 +51,12 @@
             </div>
         }
 
+        <div if.bind="router.isNavigating">
+            <div class="splash">
+                <div class="message">@T[MantleWebLocalizableStrings.General.Loading]</div>
+                <i class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
         <div class="page-host">
             <router-view></router-view>
         </div>

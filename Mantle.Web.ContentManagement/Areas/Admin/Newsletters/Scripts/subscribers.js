@@ -26,10 +26,9 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/newsletters/subscribers/get-translations");
-        this.translations = response.content;
-
-        this.gridPageSize = $("#GridPageSize").val();
+        let response = await this.http.get("/admin/newsletters/subscribers/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
         
         let self = this;
 
@@ -70,7 +69,7 @@ export class ViewModel {
                         }
                     }
                 },
-                pageSize: this.gridPageSize,
+                pageSize: viewData.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,

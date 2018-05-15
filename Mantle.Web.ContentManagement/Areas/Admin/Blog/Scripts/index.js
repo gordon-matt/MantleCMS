@@ -45,10 +45,10 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/blog/get-translations");
-        this.translations = response.content;
-
-        this.gridPageSize = $("#GridPageSize").val();
+        let response = await this.http.get("/admin/blog/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        this.gridPageSize = viewData.gridPageSize;
 
         this.sectionSwitcher = new SectionSwitcher('post-grid-section');
 

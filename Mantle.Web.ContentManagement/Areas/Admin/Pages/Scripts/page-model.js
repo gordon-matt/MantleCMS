@@ -76,7 +76,7 @@
                 }
             },
             dataBound: function (e) {
-                var body = this.element.find("tbody")[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
@@ -115,7 +115,7 @@
                         `<button type="button" click.delegate="edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         `<button type="button" click.delegate="remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                         `<button type="button" click.delegate="create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
-                        `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
+                        `<button type="button" click.delegate="parent.pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
                         `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
                         `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                         `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
@@ -361,7 +361,7 @@
                 }
             },
             dataBound: function (e) {
-                var body = this.element.find("tbody")[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
@@ -400,7 +400,7 @@
                         `<button type="button" click.delegate="edit(\'#=Id#\',null)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         `<button type="button" click.delegate="remove(\'#=Id#\',null)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                         `<button type="button" click.delegate="create(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.create}"><i class="fa fa-plus"></i></button>` +
-                        `<button type="button" click.delegate="pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
+                        `<button type="button" click.delegate="parent.pageVersionModel.showPageHistory(\'#=Id#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.pageHistory}"><i class="fa fa-clock-o"></i></button>` +
                         `<a route-href="route: mantle-cms/blocks/content-blocks; params.bind: { pageId: \'#=Id#\' }" class="btn btn-primary btn-sm" title="${this.parent.translations.contentBlocks}"><i class="fa fa-cubes"></i></a>` +
                         `<button type="button" click.delegate="toggleEnabled(\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="${this.parent.translations.toggle}"><i class="fa #=IsEnabled ? \'fa-toggle-on text-success\' : \'fa-toggle-off text-danger\'#"></i></button>` +
                         `<button type="button" click.delegate="localize(\'#=Id#\')" class="btn btn-primary btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +

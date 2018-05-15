@@ -1,8 +1,16 @@
-﻿import { HttpClient } from 'aurelia-http-client';
+﻿import 'jquery';
+//import 'bootstrap';
+//import { EventAggregator } from 'aurelia-event-aggregator';
+//import { inject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
 import { PLATFORM } from 'aurelia-pal';
-import $ from 'jquery';
 
+//@inject(EventAggregator)
 export class App {
+    //constructor(eventAggregator) {
+        //eventAggregator.subscribe('router:navigation:complete', this.routeNavigationCompleted);
+    //}
+
     async configureRouter(config, router) {
         config.title = 'Mantle CMS';
 
@@ -23,4 +31,14 @@ export class App {
 
         self.router.refreshNavigation();
     }
+    
+    //routeNavigationCompleted = (eventArgs, eventName) => {
+        //console.log('routeNavigationCompleted');
+        
+        //var dropdowns = $('a[data-toggle=dropdown');
+        //if (dropdowns) {
+            //$('a[data-toggle=dropdown').dropdown('destroy');
+            //$('a[data-toggle=dropdown').dropdown();
+        //}
+    //}
 }

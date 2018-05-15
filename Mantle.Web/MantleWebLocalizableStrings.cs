@@ -58,6 +58,7 @@
             public const string Save = "Mantle.Web/General.Save";
             public const string SaveAndContinue = "Mantle.Web/General.SaveAndContinue";
             public const string Search = "Mantle.Web/General.Search";
+            public const string SelectOption = "Mantle.Web/General.SelectOption";
             public const string Set = "Mantle.Web/General.Set";
             public const string SetDefault = "Mantle.Web/General.SetDefault";
             public const string Settings = "Mantle.Web/General.Settings";

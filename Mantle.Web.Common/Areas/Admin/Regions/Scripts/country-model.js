@@ -82,7 +82,7 @@
                         `<button type="button" click.delegate="edit(#=Id#)" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         `<button type="button" click.delegate="localize(#=Id#)" class="btn btn-success btn-sm" title="${this.parent.translations.localize}"><i class="fa fa-globe"></i></button>` +
                         `<button type="button" click.delegate="remove(#=Id#)" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<button type="button" click.delegate="showSettings(#=Id#)" class="btn btn-info btn-sm" title="${this.parent.translations.settings}"><i class="fa fa-cogs"></i></button>` +
+                        `<button type="button" click.delegate="parent.showSettings(#=Id#)" class="btn btn-info btn-sm" title="${this.parent.translations.settings}"><i class="fa fa-cogs"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,

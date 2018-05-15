@@ -68,8 +68,7 @@
                 sort: { field: "Title", dir: "asc" }
             },
             dataBound: function (e) {
-                //let body = this.element.find("tbody")[0];
-                let body = $('#block-grid').find('tbody')[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }

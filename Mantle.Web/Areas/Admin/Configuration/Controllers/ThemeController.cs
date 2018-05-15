@@ -27,22 +27,25 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers
             return PartialView();
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Set = T[MantleWebLocalizableStrings.General.Set].Value,
-                SetDesktopThemeError = T[MantleWebLocalizableStrings.Themes.SetDesktopThemeError].Value,
-                SetDesktopThemeSuccess = T[MantleWebLocalizableStrings.Themes.SetDesktopThemeSuccess].Value,
-                SetMobileThemeError = T[MantleWebLocalizableStrings.Themes.SetMobileThemeError].Value,
-                SetMobileThemeSuccess = T[MantleWebLocalizableStrings.Themes.SetMobileThemeSuccess].Value,
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    IsDefaultTheme = T[MantleWebLocalizableStrings.Themes.Model.IsDefaultTheme].Value,
-                    PreviewImageUrl = T[MantleWebLocalizableStrings.Themes.Model.PreviewImageUrl].Value,
-                    SupportRtl = T[MantleWebLocalizableStrings.Themes.Model.SupportRtl].Value
+                    set = T[MantleWebLocalizableStrings.General.Set].Value,
+                    setDesktopThemeError = T[MantleWebLocalizableStrings.Themes.SetDesktopThemeError].Value,
+                    setDesktopThemeSuccess = T[MantleWebLocalizableStrings.Themes.SetDesktopThemeSuccess].Value,
+                    setMobileThemeError = T[MantleWebLocalizableStrings.Themes.SetMobileThemeError].Value,
+                    setMobileThemeSuccess = T[MantleWebLocalizableStrings.Themes.SetMobileThemeSuccess].Value,
+                    columns = new
+                    {
+                        isDefaultTheme = T[MantleWebLocalizableStrings.Themes.Model.IsDefaultTheme].Value,
+                        previewImageUrl = T[MantleWebLocalizableStrings.Themes.Model.PreviewImageUrl].Value,
+                        supportRtl = T[MantleWebLocalizableStrings.Themes.Model.SupportRtl].Value
+                    }
                 }
             });
         }

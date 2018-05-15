@@ -56,7 +56,7 @@ export class UserViewModel {
                         }
                     }
                 },
-                pageSize: this.gridPageSize,
+                pageSize: this.parent.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
@@ -93,10 +93,10 @@ export class UserViewModel {
                 title: " ",
                 template:
                     '<div class="btn-group">' +
-                        `<button type="button" click.delegate="userModel.editRoles(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.roles}"><i class="fa fa-users"></i></button>` +
-                        `<button type="button" click.delegate="userModel.changePassword(\'#=Id#\', \'#=UserName#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.password}"><i class="fa fa-lock"></i></button>` +
-                        `<button type="button" click.delegate="userModel.edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="userModel.remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                        `<button type="button" click.delegate="editRoles(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.roles}"><i class="fa fa-users"></i></button>` +
+                        `<button type="button" click.delegate="changePassword(\'#=Id#\', \'#=UserName#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.password}"><i class="fa fa-lock"></i></button>` +
+                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                     '</div>',
                 attributes: { "class": "text-center" },
                 filterable: false,

@@ -24,11 +24,10 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/configuration/themes/get-translations");
-        this.translations = response.content;
-
-        this.gridPageSize = $("#GridPageSize").val();
-
+        let response = await this.http.get("/admin/configuration/themes/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        
         let self = this;
 
         $("#grid").kendoGrid({
@@ -72,7 +71,7 @@ export class ViewModel {
                         }
                     }
                 },
-                pageSize: this.gridPageSize,
+                pageSize: viewData.gridPageSize,
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,

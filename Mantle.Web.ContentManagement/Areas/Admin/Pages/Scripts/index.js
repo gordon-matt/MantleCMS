@@ -41,11 +41,13 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/pages/get-translations");
-        this.translations = response.content;
+        let response = await this.http.get("/admin/pages/get-view-data");
+        let viewData = response.content;
 
-        this.gridPageSize = $("#GridPageSize").val();
-        this.defaultFrontendLayoutPath = $("#DefaultFrontendLayoutPath").val();
+        this.defaultFrontendLayoutPath = viewData.defaultFrontendLayoutPath;
+        this.gridPageSize = viewData.gridPageSize;
+        this.translations = viewData.translations;
+        this.pageTypes = viewData.pageTypes;
 
         if (!this.defaultFrontendLayoutPath) {
             this.defaultFrontendLayoutPath = null;

@@ -23,8 +23,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers
         {
             this.settings = settings;
         }
-
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
+        
         [Route("")]
         public IActionResult Index()
         {
@@ -42,19 +41,22 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers
             return PartialView();
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Name = T[MantleWebLocalizableStrings.Settings.Model.Name].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    columns = new
+                    {
+                        name = T[MantleWebLocalizableStrings.Settings.Model.Name].Value,
+                    }
                 }
             });
         }

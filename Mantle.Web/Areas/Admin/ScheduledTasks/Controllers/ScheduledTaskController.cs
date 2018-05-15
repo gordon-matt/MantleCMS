@@ -26,28 +26,31 @@ namespace Mantle.Web.Areas.Admin.ScheduledTasks.Controllers
             return PartialView();
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                ExecutedTaskSuccess = T[MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskSuccess].Value,
-                ExecutedTaskError = T[MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskError].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                RunNow = T[MantleWebLocalizableStrings.ScheduledTasks.RunNow].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Enabled = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled].Value,
-                    LastEndUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastEndUtc].Value,
-                    LastStartUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastStartUtc].Value,
-                    LastSuccessUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastSuccessUtc].Value,
-                    Name = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name].Value,
-                    Seconds = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds].Value,
-                    StopOnError = T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    executedTaskSuccess = T[MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskSuccess].Value,
+                    executedTaskError = T[MantleWebLocalizableStrings.ScheduledTasks.ExecutedTaskError].Value,
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    runNow = T[MantleWebLocalizableStrings.ScheduledTasks.RunNow].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    columns = new
+                    {
+                        enabled = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled].Value,
+                        lastEndUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastEndUtc].Value,
+                        lastStartUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastStartUtc].Value,
+                        lastSuccessUtc = T[MantleWebLocalizableStrings.ScheduledTasks.Model.LastSuccessUtc].Value,
+                        name = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name].Value,
+                        seconds = T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds].Value,
+                        stopOnError = T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError].Value,
+                    }
                 }
             });
         }

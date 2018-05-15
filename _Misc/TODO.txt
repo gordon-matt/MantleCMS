@@ -18,3 +18,12 @@
 	Asked question here: https://stackoverflow.com/questions/50276292/how-do-i-copy-only-specific-packages-to-the-output-directory-in-net-core-2-0
 
 Why does URL have a 0 when editing localizable strings? refresh breaks it as well.
+
+Implement page for log..
+
+Small bug in Regions when on cities page and click "Back" button - it shows blank instead of grid..
+
+
+BUG: Pages with aurelia-tinymce-wrapper will, for some unknown reason, break the nav menu.. perhaps just use tinymce without the aurelia wrapper?
+
+Add a loading screen (use router.isNavigating to check)

@@ -14,10 +14,6 @@
 @inject Mantle.Web.IWorkContext WorkContext
 
 <template>
-    <require from="tinymce/skins/lightgray/skin.min.css"></require>
-    <require from="tinymce/skins/lightgray/content.min.css"></require>
-
-    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
     @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
     <style type="text/css">

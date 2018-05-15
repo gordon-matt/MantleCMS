@@ -39,12 +39,11 @@ export class ViewModel {
 
     async attached() {
         // Load translations first, else will have errors
-        let response = await this.http.get("/admin/messaging/templates/get-translations");
-        this.translations = response.content;
-
-        // Load editors
-        let response2 = await this.http.get("/admin/messaging/templates/get-available-editors");
-        this.messageTemplateEditors = response2.content;
+        let response = await this.http.get("/admin/messaging/templates/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        this.gridPageSize = viewData.gridPageSize;
+        this.messageTemplateEditors = viewData.availableEditors;
         
         this.sectionSwitcher = new SectionSwitcher('grid-section');
 

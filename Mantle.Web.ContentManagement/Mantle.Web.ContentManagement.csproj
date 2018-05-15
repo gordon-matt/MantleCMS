@@ -120,7 +120,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805101240" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805111241" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
   </ItemGroup>

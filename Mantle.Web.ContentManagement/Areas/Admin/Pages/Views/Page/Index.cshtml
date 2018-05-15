@@ -12,12 +12,6 @@
 }
 
 <template>
-    @* TODO: This should not be here, but only loaded for each page type that needs it.. *@
-    <require from="tinymce/skins/lightgray/skin.min.css"></require>
-    <require from="tinymce/skins/lightgray/content.min.css"></require>
-
-    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
-    @Html.Hidden("DefaultFrontendLayoutPath", MantleWebConstants.DefaultFrontendLayoutPath)
     @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
     <div id="page-grid-section" class="row">
@@ -57,14 +51,19 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-crop"></i>
                                         </span>
-                                        @Html.MantleCMS().PageTypesDropDownList(
+                                        @*@Html.MantleCMS().PageTypesDropDownList(
                                             "PageTypeId",
                                             emptyText: "Select",
                                             htmlAttributes: new Dictionary<string, object>
                                             {
                                                 { "class", "form-control" },
                                                 { "value.bind", "pageModel.pageTypeId" }
-                                            })
+                                            })*@
+
+                                        <select class="form-control" id="PageTypeId" name="PageTypeId" value.bind="pageModel.pageTypeId">
+                                            <option value="">@T[MantleWebLocalizableStrings.General.SelectOption]</option>
+                                            <option repeat.for="option of pageTypes" value.bind="option.value">${option.label}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

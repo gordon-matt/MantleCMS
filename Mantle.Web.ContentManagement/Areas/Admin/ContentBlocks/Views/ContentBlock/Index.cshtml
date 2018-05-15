@@ -12,7 +12,6 @@
 }
 
 <template>
-    @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
     @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
     <div id="grid-section" class="row">

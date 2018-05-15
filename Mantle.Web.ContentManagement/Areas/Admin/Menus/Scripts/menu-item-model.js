@@ -76,7 +76,7 @@
                 }
             },
             dataBound: function (e) {
-                let body = $('#items-grid').find('tbody')[0];
+                let body = this.element.find("tbody")[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
@@ -331,7 +331,6 @@
             },
             dataBound: function (e) {
                 let body = this.element.find("tbody")[0];
-                //let body = $('#grid').find('tbody')[0];
                 if (body) {
                     self.parent.templatingEngine.enhance({ element: body, bindingContext: self });
                 }
