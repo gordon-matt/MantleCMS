@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Security.Membership;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;

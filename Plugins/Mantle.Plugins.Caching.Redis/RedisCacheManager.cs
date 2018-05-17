@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Extenso;
+using Extenso.Reflection;
 using Mantle.Caching;
-using Mantle.Reflection;
 using StackExchange.Redis;
 
 namespace Mantle.Plugins.Caching.Redis

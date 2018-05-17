@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;

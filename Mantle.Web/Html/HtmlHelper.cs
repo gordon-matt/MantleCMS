@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using Extenso;
 
 namespace Mantle.Web.Html
 {

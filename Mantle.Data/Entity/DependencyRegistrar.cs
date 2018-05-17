@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Autofac;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Infrastructure;
 
 namespace Mantle.Data.Entity

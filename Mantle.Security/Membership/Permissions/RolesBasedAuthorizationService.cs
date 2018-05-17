@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Threading;
 
 namespace Mantle.Security.Membership.Permissions

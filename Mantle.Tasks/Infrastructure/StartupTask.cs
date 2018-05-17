@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Data;
 using Mantle.Infrastructure;
 using Mantle.Tasks.Configuration;

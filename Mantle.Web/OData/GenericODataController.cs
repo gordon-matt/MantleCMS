@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Collections;
 using Mantle.Caching;
-using Mantle.Collections;
 using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;

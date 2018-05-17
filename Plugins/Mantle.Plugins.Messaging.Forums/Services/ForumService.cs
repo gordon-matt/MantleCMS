@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Collections.Generic;
 using Mantle.Caching;
-using Mantle.Collections.Generic;
 using Mantle.Data;
 using Mantle.Exceptions;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;

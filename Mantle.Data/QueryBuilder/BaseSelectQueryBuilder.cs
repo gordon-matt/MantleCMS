@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Mantle.Collections;
-using Mantle.Reflection;
+using Extenso;
+using Extenso.Collections;
+using Extenso.Reflection;
 
 namespace Mantle.Data.QueryBuilder
 {

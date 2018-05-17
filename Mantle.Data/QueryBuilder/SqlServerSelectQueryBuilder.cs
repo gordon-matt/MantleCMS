@@ -8,7 +8,7 @@ namespace Mantle.Data.QueryBuilder
     using System;
     using System.Linq;
     using System.Text;
-    using Mantle.Collections;
+    using Extenso.Collections;
 
     public class SqlServerSelectQueryBuilder : BaseSelectQueryBuilder
     {

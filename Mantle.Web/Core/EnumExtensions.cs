@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using Extenso;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web
@@ -22,7 +23,7 @@ namespace Mantle.Web
                           select new
                           {
                               Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                              Name = Mantle.EnumExtensions.GetDisplayName(e, out order),
+                              Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
                               Order = order
                           }).ToList();
 
@@ -53,11 +54,11 @@ namespace Mantle.Web
 
             int order;
 
-            var values = (from T e in Mantle.EnumExtensions.GetValues<T>()
+            var values = (from T e in Extenso.EnumExtensions.GetValues<T>()
                           select new
                           {
                               Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                              Name = Mantle.EnumExtensions.GetDisplayName(e, out order),
+                              Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
                               Order = order
                           }).ToList();
 
@@ -93,7 +94,7 @@ namespace Mantle.Web
                           select new
                           {
                               Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                              Name = Mantle.EnumExtensions.GetDisplayName(e, out order),
+                              Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
                               Order = order
                           }).ToList();
 
@@ -124,11 +125,11 @@ namespace Mantle.Web
 
             int order;
 
-            var values = (from T e in Mantle.EnumExtensions.GetValues<T>()
+            var values = (from T e in Extenso.EnumExtensions.GetValues<T>()
                           select new
                           {
                               Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                              Name = Mantle.EnumExtensions.GetDisplayName(e, out order),
+                              Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
                               Order = order
                           }).ToList();
 

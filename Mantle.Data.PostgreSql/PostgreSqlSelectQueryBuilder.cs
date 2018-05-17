@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Text;
-    using Collections;
+    using Extenso.Collections;
     using QueryBuilder;
 
     public class PostgreSqlSelectQueryBuilder : BaseSelectQueryBuilder

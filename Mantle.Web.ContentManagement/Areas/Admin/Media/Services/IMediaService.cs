@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Mantle.IO;
+using Extenso.IO;
 using Mantle.Web.ContentManagement.Areas.Admin.Media.Models;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Services

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Extenso;
 using Mantle.Localization.ComponentModel;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 

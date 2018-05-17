@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Security.Membership;
 using Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Services;
 using Mantle.Web.Mvc;

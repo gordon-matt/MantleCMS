@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Extenso.Collections;
 using Mantle.Caching;
-using Mantle.Collections;
 using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;

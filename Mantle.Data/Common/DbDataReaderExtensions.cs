@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using Extenso;
 
 namespace Mantle.Data.Common
 {

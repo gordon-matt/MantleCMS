@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso;
+using Extenso.Collections;
+using Extenso.Reflection;
 using Mantle.Data.Entity;
 using Mantle.Exceptions;
 using Mantle.Infrastructure;
-using Mantle.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

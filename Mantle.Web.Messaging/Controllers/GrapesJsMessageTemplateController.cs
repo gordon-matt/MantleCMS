@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso;
+using Extenso.Collections;
 using Mantle.Messaging.Data.Domain;
 using Mantle.Messaging.Services;
 using Mantle.Web.Messaging.Models;

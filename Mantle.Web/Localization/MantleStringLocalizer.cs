@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Extenso.Collections;
 using Mantle.Caching;
-using Mantle.Collections;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Localization.Domain;

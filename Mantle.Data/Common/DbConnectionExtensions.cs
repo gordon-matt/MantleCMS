@@ -6,8 +6,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using Mantle.Collections;
-using Mantle.Reflection;
+using Extenso;
+using Extenso.Collections;
+using Extenso.Reflection;
 
 namespace Mantle.Data.Common
 {

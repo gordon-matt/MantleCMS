@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using Mantle.Collections.Generic;
+using Extenso.Collections.Generic;
 
 namespace Mantle.Data.Common
 {

@@ -1,5 +1,5 @@
 using System.Reflection;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Infrastructure;
 
 namespace Mantle.Web.Mvc.EmbeddedResources
