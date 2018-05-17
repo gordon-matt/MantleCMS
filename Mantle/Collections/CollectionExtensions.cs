@@ -20,5 +20,16 @@ namespace Mantle.Collections
                 collection.Add(item);
             }
         }
+
+        public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> items)
+        {
+            foreach (T item in items)
+            {
+                if (collection.Contains(item))
+                {
+                    collection.Remove(item);
+                }
+            }
+        }
     }
 }

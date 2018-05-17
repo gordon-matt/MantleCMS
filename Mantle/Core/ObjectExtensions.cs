@@ -80,6 +80,23 @@ namespace Mantle
         }
 
         /// <summary>
+        /// Creates a deep clone of the current System.Object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item">The original object.</param>
+        /// <returns>A clone of the original object</returns>
+        public static T DeepClone<T>(this T item) where T : ISerializable
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(memoryStream, item);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return (T)binaryFormatter.Deserialize(memoryStream);
+            }
+        }
+
+        /// <summary>
         /// Determines whether this T is contained in the specified 'IEnumerable of T'
         /// </summary>
         /// <typeparam name="T">This System.Object's type</typeparam>
@@ -199,27 +216,25 @@ namespace Mantle
             {
                 var stringBuilder = new StringBuilder();
                 using (var stringWriter = new CustomEncodingStringWriter(encoding, stringBuilder))
+                using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
                 {
-                    using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
+                    if (xmlns != null)
                     {
-                        if (xmlns != null)
+                        xmlSerializer.Serialize(xmlWriter, item, xmlns);
+                    }
+                    else
+                    {
+                        if (removeNamespaces)
                         {
+                            xmlns = new XmlSerializerNamespaces();
+                            xmlns.Add(string.Empty, string.Empty);
+
                             xmlSerializer.Serialize(xmlWriter, item, xmlns);
                         }
-                        else
-                        {
-                            if (removeNamespaces)
-                            {
-                                xmlns = new XmlSerializerNamespaces();
-                                xmlns.Add(string.Empty, string.Empty);
-
-                                xmlSerializer.Serialize(xmlWriter, item, xmlns);
-                            }
-                            else { xmlSerializer.Serialize(xmlWriter, item); }
-                        }
-
-                        return stringBuilder.ToString();
+                        else { xmlSerializer.Serialize(xmlWriter, item); }
                     }
+
+                    return stringBuilder.ToString();
                 }
             }
         }

@@ -7,9 +7,11 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 using Mantle.Collections;
@@ -394,7 +396,7 @@ namespace Mantle
         /// <returns>A decoded string</returns>
         public static string HtmlDecode(this string s)
         {
-            return WebUtility.HtmlDecode(s);
+            return HttpUtility.HtmlDecode(s);
         }
 
         /// <summary>
@@ -404,7 +406,7 @@ namespace Mantle
         /// <returns>An encoded string.</returns>
         public static string HtmlEncode(this string s)
         {
-            return WebUtility.HtmlEncode(s);
+            return HttpUtility.HtmlEncode(s);
         }
 
         /// <summary>
@@ -1051,13 +1053,38 @@ namespace Mantle
         }
 
         /// <summary>
+        /// Encrypts the specified System.String using the TripleDES symmetric algorithm and returns the data as a System.Byte[].
+        /// </summary>
+        /// <param name="s">The System.String to encrypt.</param>
+        /// <param name="encoding">The System.Text.Encoding to use.</param>
+        /// <param name="key">The secret key to use for the symmetric algorithm.</param>
+        /// <param name="initializationVector">The initialization vector to use for the symmetric algorithm.</param>
+        /// <returns>Encryped System.String as a System.Byte[].</returns>
+        public static byte[] TripleDESEncrypt(this string s, Encoding encoding, byte[] key, byte[] initializationVector)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var cryptoStream = new CryptoStream(
+                 memoryStream,
+                 new TripleDESCryptoServiceProvider().CreateEncryptor(key, initializationVector),
+                 CryptoStreamMode.Write))
+            {
+                byte[] bytes = encoding.GetBytes(s);
+
+                cryptoStream.Write(bytes, 0, bytes.Length);
+                cryptoStream.FlushFinalBlock();
+
+                return memoryStream.ToArray();
+            }
+        }
+
+        /// <summary>
         /// Converts a string that has been encoded for transmission in a URL into a decoded string.
         /// </summary>
         /// <param name="s">The string to decode.</param>
         /// <returns>A decoded string.</returns>
         public static string UrlDecode(this string s)
         {
-            return WebUtility.UrlDecode(s);
+            return HttpUtility.UrlDecode(s);
         }
 
         /// <summary>
@@ -1067,7 +1094,7 @@ namespace Mantle
         /// <returns>An encoded string.</returns>
         public static string UrlEncode(this string s)
         {
-            return WebUtility.UrlEncode(s);
+            return HttpUtility.UrlEncode(s);
         }
 
         /// <summary>
@@ -1254,47 +1281,10 @@ namespace Mantle
         /// Encodes a string for JavaScript.
         /// </summary>
         /// <param name="value">A string to encode.</param>
-        /// <param name="addDoubleQuotes">A value that indicates whether double quotation marks will be included around the encoded string.</param>
         /// <returns></returns>
-        public static string JsEncode(this string value, bool addDoubleQuotes = true)
+        public static string JavaScriptStringEncode(this string value)
         {
-            // TODO: Test
-            return JavaScriptEncoder.Create(new TextEncoderSettings()).Encode(value);
-
-            // TODO: Test
-            //return HttpUtility.JavaScriptStringEncode(value, addDoubleQuotes);
-
-            //if (value == null)
-            //{
-            //    return string.Empty;
-            //}
-
-            //var sb = new StringBuilder();
-            //sb.Append("\"");
-            //foreach (char c in value)
-            //{
-            //    switch (c)
-            //    {
-            //        case '\"': sb.Append("\\\""); break;
-            //        case '\\': sb.Append("\\\\"); break;
-            //        case '\b': sb.Append("\\b"); break;
-            //        case '\f': sb.Append("\\f"); break;
-            //        case '\n': sb.Append("\\n"); break;
-            //        case '\r': sb.Append("\\r"); break;
-            //        case '\t': sb.Append("\\t"); break;
-            //        default:
-            //            var i = (int)c;
-            //            if (i < 32 || i > 127)
-            //            {
-            //                sb.AppendFormat("\\u{0:X04}", i);
-            //            }
-            //            else { sb.Append(c); }
-            //            break;
-            //    }
-            //}
-            //sb.Append("\"");
-
-            //return sb.ToString();
+            return HttpUtility.JavaScriptStringEncode(value);
         }
 
         #endregion Web Based
