@@ -24,7 +24,7 @@
         </div>*@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
             <div id="regions-world-map">
-                @Html.EmbeddedImage(assembly, "Mantle.Web.Common.Areas.Admin.Regions.Content.Images.WorldMap.jpg", "World Map", new { id = "map", usemap = "#WorldMap" })
+                @Html.EmbeddedImage(assembly, "Mantle.Web.Common.Areas.Admin.Regions.Content.Images.WorldMap.jpg", "World Map", new { id = "map", usemap = "#WorldMap", @class = "center-block" })
 
                 <map id="WorldMap" name="WorldMap">
                     <area shape="poly" coords="130,176,124,177,111,165,100,158,92,157,79,149,73,141,63,129,62,115,57,102,66,84,66,76,63,72,66,66,66,60,58,57,49,59,42,64,37,65,13,69,27,61,21,56,32,48,38,43,46,41,46,36,72,31,94,35,113,32,127,24,143,22,157,18,172,18,185,13,223,12,219,16,189,27,199,35,202,42,196,47,191,52,192,63,197,68,196,75,198,86,188,85,173,93,165,95,160,100,151,106,148,112,134,121,135,132,135,136,143,142,152,145,160,150,131,152,129,145,122,141,126,133,125,127,107,127,101,142,118,138,119,146,116,152,125,155" click.delegate="showCountries(1)" alt="North America" href="javascript:void(0);" />

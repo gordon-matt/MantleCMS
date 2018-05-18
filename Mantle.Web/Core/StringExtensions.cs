@@ -14,7 +14,7 @@ namespace Mantle.Web
 
             foreach (char character in stringFormKd)
             {
-                UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
                 if (unicodeCategory != UnicodeCategory.NonSpacingMark)
                 {
                     stringBuilder.Append(character);

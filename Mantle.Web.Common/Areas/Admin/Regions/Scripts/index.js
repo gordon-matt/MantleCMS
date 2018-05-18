@@ -58,8 +58,6 @@ export class ViewModel {
             singleSelect: true
         });
 
-        $("#regions-world-map div:first-child").addClass('center-block');
-
         this.country.init();
         this.state.init();
         this.city.init();

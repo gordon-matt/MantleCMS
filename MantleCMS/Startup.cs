@@ -286,9 +286,10 @@ namespace MantleCMS
             var rfmOptions = new ResponsiveFileManagerOptions();
             Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
 
+            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
+
             app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
             {
-                //RootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory()) + "\\Website",
                 BeforeRequest = (Context ctx) =>
                 {
                     // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
@@ -336,6 +337,12 @@ namespace MantleCMS
                     //if (!string.IsNullOrEmpty(nopConfig.StaticFilesCacheControl))
                     //    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, mantleConfig.StaticFilesCacheControl);
                 }
+            });
+
+            // Responsive File Manager
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(root)
             });
 
             app.UseForwardedHeaders(
