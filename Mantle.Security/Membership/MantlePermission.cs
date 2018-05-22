@@ -1,4 +1,4 @@
-﻿using Mantle.Data;
+﻿using Extenso.Data.Entity;
 using Newtonsoft.Json;
 
 namespace Mantle.Security.Membership

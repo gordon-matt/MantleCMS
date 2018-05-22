@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Extenso.Collections;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;

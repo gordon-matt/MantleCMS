@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Tasks.Domain;
 using Mantle.Web.OData;

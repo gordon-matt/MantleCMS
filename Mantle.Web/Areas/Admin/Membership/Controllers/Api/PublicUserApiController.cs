@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;

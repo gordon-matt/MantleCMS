@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Extenso;
 using Extenso.Collections;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Helpers;
 using Mantle.Localization.Services;
 using Mantle.Security.Membership.Permissions;

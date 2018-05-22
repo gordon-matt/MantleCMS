@@ -1,4 +1,4 @@
-﻿using Mantle.Data.Entity;
+﻿using Extenso.Data.Entity;
 
 namespace Mantle.Tenants.Domain
 {

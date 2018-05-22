@@ -5,7 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using Mantle.Data.Common;
+using Extenso.Data;
+using Extenso.Data.Common;
 using Npgsql;
 using NpgsqlTypes;
 

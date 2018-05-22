@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;

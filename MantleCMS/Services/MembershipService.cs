@@ -1,5 +1,4 @@
-﻿using Mantle.Data;
-using Mantle.Data.Entity;
+﻿using Extenso.Data.Entity;
 using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Identity;
 

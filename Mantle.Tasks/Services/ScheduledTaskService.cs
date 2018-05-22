@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Tasks.Domain;
 
 namespace Mantle.Tasks.Services

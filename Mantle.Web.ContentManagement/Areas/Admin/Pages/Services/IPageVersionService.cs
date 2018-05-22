@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Extenso.Collections;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Microsoft.EntityFrameworkCore;

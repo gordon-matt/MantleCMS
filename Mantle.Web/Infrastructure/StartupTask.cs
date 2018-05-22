@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Extenso;
 using Extenso.Collections;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Security.Membership.Permissions;

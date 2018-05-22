@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data.Entity;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Security.Membership.Permissions;

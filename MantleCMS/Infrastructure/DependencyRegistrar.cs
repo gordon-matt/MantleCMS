@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Localization;
@@ -25,7 +25,7 @@ namespace MantleCMS.Infrastructure
 
             builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();
 
-            builder.RegisterGeneric(typeof(EntityFrameworkRepository<>))
+            builder.RegisterGeneric(typeof(MantleEntityFrameworkRepository<>))
                 .As(typeof(IRepository<>))
                 .InstancePerLifetimeScope();
 

@@ -1,4 +1,4 @@
-﻿using Mantle.Data;
+﻿using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

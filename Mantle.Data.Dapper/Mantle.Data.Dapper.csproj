@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.4" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Extenso.Data.QueryBuilder" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

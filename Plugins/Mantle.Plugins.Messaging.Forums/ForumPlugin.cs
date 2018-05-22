@@ -1,4 +1,5 @@
-﻿using Mantle.Data.Entity;
+﻿using Extenso.Data.Entity;
+using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Infrastructure;
 

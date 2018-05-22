@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Mantle.Data.Entity;
+using Extenso.Data.Entity;
+using Extenso.Data.QueryBuilder;
 using Mantle.Data.PostgreSql;
-using Mantle.Data.QueryBuilder;
 using Npgsql;
 
 namespace Mantle.Data.Dapper.PostgreSql

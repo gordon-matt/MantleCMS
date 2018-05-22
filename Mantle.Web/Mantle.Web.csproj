@@ -94,8 +94,4 @@
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mvc\Recaptcha\" />
-  </ItemGroup>
-
 </Project>

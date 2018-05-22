@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership.Permissions;

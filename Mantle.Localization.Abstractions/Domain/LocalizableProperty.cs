@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Mantle.Data;
+using Extenso.Data.Entity;
 
 namespace Mantle.Localization.Domain
 {

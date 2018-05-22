@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
 using Mantle.Data;

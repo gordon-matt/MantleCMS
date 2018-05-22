@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Extenso.Collections;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Tasks.Configuration;
 using Mantle.Tasks.Domain;

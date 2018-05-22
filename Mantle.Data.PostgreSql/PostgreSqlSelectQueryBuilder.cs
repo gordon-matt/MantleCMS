@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Text;
     using Extenso.Collections;
-    using QueryBuilder;
+    using Extenso.Data.QueryBuilder;
 
     public class PostgreSqlSelectQueryBuilder : BaseSelectQueryBuilder
     {
