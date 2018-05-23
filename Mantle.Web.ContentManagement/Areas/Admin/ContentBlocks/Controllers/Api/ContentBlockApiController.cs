@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -79,7 +79,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             var results = options.ApplyTo(query);
             return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
         }
-        
+
         public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] ContentBlock entity)
         {
             var blockType = Type.GetType(entity.BlockType);

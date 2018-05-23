@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Mantle.Helpers;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
@@ -25,7 +25,7 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
             this.webHelper = webHelper;
         }
 
-        public override async Task<IActionResult> Post(Tenant entity)
+        public override async Task<IActionResult> Post([FromBody] Tenant entity)
         {
             var result = await base.Post(entity);
             int tenantId = entity.Id; // EF should have populated the ID in base.Post()

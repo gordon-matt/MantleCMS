@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Extenso.Data.Entity;
 using Mantle.Data;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;

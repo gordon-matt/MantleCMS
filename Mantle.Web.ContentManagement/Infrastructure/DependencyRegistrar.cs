@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Mantle.Events;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks;
@@ -20,11 +20,10 @@ using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 
@@ -32,7 +31,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
         {
             //builder.RegisterType<DbSeeder>().As<IDbSeeder>().InstancePerDependency(); // TODO?
 
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             #region Services
 
@@ -129,9 +128,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             //builder.RegisterType<BlogIndexingContentProvider>().As<IIndexingContentProvider>().InstancePerDependency(); // TODO
 
             //builder.RegisterType<NewsletterMessageTemplates>().As<IMessageTemplatesProvider>().InstancePerDependency();
-
-            builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
-            builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
         }
 
         public int Order

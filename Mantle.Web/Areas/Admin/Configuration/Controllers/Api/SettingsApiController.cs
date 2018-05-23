@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Configuration.Domain;
-using Mantle.Data;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
+using Mantle.Web.Configuration.Domain;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +47,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
             return result;
         }
 
-        public override async Task<IActionResult> Post(Setting entity)
+        public override async Task<IActionResult> Post([FromBody] Setting entity)
         {
             var result = await base.Post(entity);
 

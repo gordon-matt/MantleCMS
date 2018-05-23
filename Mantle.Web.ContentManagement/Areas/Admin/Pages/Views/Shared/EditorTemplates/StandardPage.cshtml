@@ -7,25 +7,25 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             @Html.Label("MetaTitle", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaTitle], new { @class = "control-label" })
-            @Html.TextBox("MetaTitle", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaTitle" })
+            <input type="text" id="MetaTitle" name="MetaTitle" class="form-control" value.bind="pageVersionModel.metaTitle" />
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             @Html.Label("MetaKeywords", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaKeywords], new { @class = "control-label" })
-            @Html.TextBox("MetaKeywords", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaKeywords" })
+            <input type="text" id="MetaKeywords" name="MetaKeywords" class="form-control" value.bind="pageVersionModel.metaKeywords" />
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             @Html.Label("MetaDescription", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription], new { @class = "control-label" })
-            @Html.TextBox("MetaDescription", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaDescription" })
+            <input type="text" id="MetaDescription" name="MetaDescription" class="form-control" value.bind="pageVersionModel.metaDescription" />
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             @Html.Label("BodyContent", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent], new { @class = "control-label" })
-            @Html.TextArea("BodyContent", null, new { @class = "form-control", data_bind = "wysiwyg: pageVersionModel.bodyContent, wysiwygConfig: pageVersionModel.tinyMCE_bodyContent" })
+            <tiny-mce theme="modern" content.bind="pageVersionModel.bodyContent" options.bind="pageVersionModel.tinyMCE_bodyContent"></tiny-mce>
         </div>
     </div>
 </div>
@@ -34,29 +34,30 @@
     var pageModel = (function () {
         var f = {};
         f.updateModel = function (pageVersionModel) {
-            pageVersionModel.metaTitle = ko.observable("");
-            pageVersionModel.metaKeywords = ko.observable("");
-            pageVersionModel.metaDescription = ko.observable("");
-            pageVersionModel.bodyContent = ko.observable("");
+            pageVersionModel.metaTitle = '';
+            pageVersionModel.metaKeywords = '';
+            pageVersionModel.metaDescription = '';
+            pageVersionModel.bodyContent = '';
 
-            var data = ko.mapping.fromJSON(pageVersionModel.fields());
+            var data = JSON.parse(pageVersionModel.fields);
 
             if (data) {
                 if (data.MetaTitle) {
-                    pageVersionModel.metaTitle(data.MetaTitle());
+                    pageVersionModel.metaTitle = data.MetaTitle;
                 }
                 if (data.MetaKeywords) {
-                    pageVersionModel.metaKeywords(data.MetaKeywords());
+                    pageVersionModel.metaKeywords = data.MetaKeywords;
                 }
                 if (data.MetaDescription) {
-                    pageVersionModel.metaDescription(data.MetaDescription());
+                    pageVersionModel.metaDescription = data.MetaDescription;
                 }
                 if (data.BodyContent) {
-                    pageVersionModel.bodyContent(data.BodyContent());
+                    pageVersionModel.bodyContent = data.BodyContent;
                 }
             }
 
-            pageVersionModel.tinyMCE_bodyContent = mantleAdvancedTinyMCEConfig;
+            // TODO: Find a better solution
+            pageVersionModel.tinyMCE_bodyContent = pageVersionModel.parent.mantleAdvancedTinyMCEConfig;
         };
         f.cleanUp = function (pageVersionModel) {
             delete pageVersionModel.metaTitle;
@@ -67,12 +68,12 @@
         };
         f.onBeforeSave = function (pageVersionModel) {
             var data = {
-                MetaTitle: pageVersionModel.metaTitle(),
-                MetaKeywords: pageVersionModel.metaKeywords(),
-                MetaDescription: pageVersionModel.metaDescription(),
-                BodyContent: pageVersionModel.bodyContent()
+                MetaTitle: pageVersionModel.metaTitle,
+                MetaKeywords: pageVersionModel.metaKeywords,
+                MetaDescription: pageVersionModel.metaDescription,
+                BodyContent: pageVersionModel.bodyContent
             };
-            pageVersionModel.fields(ko.mapping.toJSON(data));
+            pageVersionModel.fields = JSON.stringify(data);
         };
         return f;
     })();

@@ -1,249 +1,228 @@
-﻿define(['jquery', 'knockout', 'kendo', 'mantle-common', 'notify', 'jqueryval', 'mantle-section-switching', 'mantle-jqueryval'],
-function ($, ko, kendo, mantle_common, notify) {
-    'use strict'
-    
-    var apiUrl = "/odata/mantle/web/PluginApi";
+﻿import 'jquery';
+import 'jquery-validation';
+import 'bootstrap-notify';
+import '/js/kendo/2014.1.318/kendo.web.min.js';
 
-    var ViewModel = function () {
-        var self = this;
+import { inject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
+import { TemplatingEngine } from 'aurelia-templating';
 
-        self.gridPageSize = 10;
-        self.translations = false;
+import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-        self.systemName = ko.observable(null);
-        self.friendlyName = ko.observable(null);
-        self.displayOrder = ko.observable(0);
-        self.limitedToTenants = ko.observableArray([]);
+@inject(TemplatingEngine)
+export class ViewModel {
+    apiUrl = "/odata/mantle/web/PluginApi";
 
-        self.validator = false;
+    constructor(templatingEngine) {
+        this.templatingEngine = templatingEngine;
 
-        self.attached = function () {
-            currentSection = $("#grid-section");
+        this.http = new HttpClient();
+        this.http.configure(config => {
+            config.withInterceptor(new GenericHttpInterceptor());
+        });
+    }
 
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/plugins/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+    // Aurelia Component Lifecycle Methods
 
-            self.gridPageSize = $("#GridPageSize").val();
+    async attached() {
+        // Load translations first, else will have errors
+        let response = await this.http.get("/admin/plugins/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        
+        this.sectionSwitcher = new SectionSwitcher('grid-section');
 
-            self.validator = $("#form-section-form").validate({
-                rules: {
-                    FriendlyName: { required: true, maxlength: 255 },
-                    DisplayOrder: { required: true, digits: true }
-                }
-            });
+        this.validator = $("#form-section-form").validate({
+            rules: {
+                FriendlyName: { required: true, maxlength: 255 },
+                DisplayOrder: { required: true, digits: true }
+            }
+        });
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: apiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
+        let self = this;
+
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.apiUrl,
+                        dataType: "json"
                     },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Group: { type: "string" },
-                                FriendlyName: { type: "string" },
-                                Installed: { type: "boolean" }
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
                             }
+                            delete paramMap.$inlinecount;
                         }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Group", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
                     }
                 },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        fields: {
+                            Group: { type: "string" },
+                            FriendlyName: { type: "string" },
+                            Installed: { type: "boolean" }
+                        }
+                    }
                 },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
-                    field: "Group",
-                    title: self.translations.columns.group,
-                    filterable: true
-                }, {
-                    field: "FriendlyName",
-                    title: self.translations.columns.pluginInfo,
-                    template: '<b>#:FriendlyName#</b>' +
-                        '<br />Version: #:Version#' +
-                        '<br />Author: #:Author#' +
-                        '<br />SystemName: #:SystemName#' +
-                        '<br />DisplayOrder: #:DisplayOrder#' +
-                        '<br />Installed: <i class="fa #=Installed ? \'fa-ok-circle fa-2x text-success\' : \'ffa-no-circle fa-2x text-danger\'#"></i>' +
-                        '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-default btn-sm">' + self.translations.edit + '</a>',
-                    filterable: false
-                }, {
-                    field: "Installed",
-                    title: " ",
-                    template:
-                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-default btn-sm">' + self.translations.uninstall + '</a> #} ' +
-                        'else {# <a data-bind="click: install.bind($data,\'#=SystemName#\')" class="btn btn-success btn-sm">' + self.translations.install + '</a> #} #',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 130
-                }]
-            });
+                pageSize: viewData.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Group", dir: "asc" }
+            },
+            dataBound: function (e) {
+                let body = $('#grid').find('tbody')[0];
+                if (body) {
+                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "Group",
+                title: this.translations.columns.group
+            }, {
+                field: "FriendlyName",
+                title: this.translations.columns.pluginInfo,
+                template: '<b>#:FriendlyName#</b>' +
+                    '<br />Version: #:Version#' +
+                    '<br />Author: #:Author#' +
+                    '<br />SystemName: #:SystemName#' +
+                    '<br />DisplayOrder: #:DisplayOrder#' +
+                    '<br />Installed: <i class="fa #=Installed ? \'fa-ok-circle fa-2x text-success\' : \'ffa-no-circle fa-2x text-danger\'#"></i>' +
+                    `<br /><button type="button" click.delegate="edit(\'#=SystemName#\')" class="btn btn-default btn-sm">${this.translations.edit}</button>`,
+                filterable: false
+            }, {
+                field: "Installed",
+                title: " ",
+                template:
+                    `# if(Installed) {# <button type="button" click.delegate="uninstall(\'#=SystemName#\')" class="btn btn-default btn-sm">${this.translations.uninstall}</button> #} ` +
+                    `else {# <button type="button" click.delegate="install(\'#=SystemName#\')" class="btn btn-success btn-sm">${this.translations.install}</button> #} #`,
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 100
+            }]
+        });
+    }
+
+    // END: Aurelia Component Lifecycle Methods
+    
+    async edit(systemName) {
+        systemName = this.replaceAll(systemName, ".", "-");
+        this.limitedToTenants = [];
+        
+        let response = await this.http.get(this.apiUrl + "('" + systemName + "')");
+        let entity = response.content;
+
+        this.systemName = systemName;
+        this.friendlyName = entity.FriendlyName;
+        this.displayOrder = entity.DisplayOrder;
+
+        let self = this;
+
+        $(entity.LimitedToTenants).each(function () {
+            self.limitedToTenants.push(this);
+        });
+
+        this.validator.resetForm();
+        $("#form-section-legend").html(this.translations.edit);
+        this.sectionSwitcher.swap('form-section');
+    }
+
+    async save() {
+        if (!$("#form-section-form").valid()) {
+            return false;
+        }
+
+        let record = {
+            FriendlyName: self.friendlyName(),
+            DisplayOrder: self.displayOrder(),
+            LimitedToTenants: self.limitedToTenants()
         };
 
-        self.edit = function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
+        let response = await this.http.put(this.apiUrl + "('" + this.systemName + "')", record);
 
-            self.limitedToTenants([]);
+        if (response.isSuccess) {
+            $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
+        }
+        else {
+            $.notify({ message: this.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+        }
 
-            $.ajax({
-                url: apiUrl + "('" + systemName + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.systemName(systemName);
-                self.friendlyName(json.FriendlyName);
-                self.displayOrder(json.DisplayOrder);
-                $(json.LimitedToTenants).each(function () {
-                    self.limitedToTenants.push(this);
-                });
+        this.refreshGrid();
+        this.sectionSwitcher.swap('grid-section');
+    }
 
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
-        };
-        self.save = function () {
-            if (!$("#form-section-form").valid()) {
-                return false;
+    cancel() {
+        this.sectionSwitcher.swap('grid-section');
+    }
+
+    refreshGrid() {
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
+    }
+
+    replaceAll(string, find, replace) {
+        return string.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+    }
+
+    escapeRegExp(string) {
+        return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    }
+
+    async install(systemName) {
+        let response = await this.http.post("/admin/plugins/install/" + this.replaceAll(systemName, ".", "-"));
+        if (response.isSuccess) {
+            if (response.content.success) {
+                $.notify({ message: response.content.message, icon: 'fa fa-check' }, { type: 'success' });
+            }
+            else {
+                $.notify({ message: response.content.message, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
             }
 
-            var record = {
-                FriendlyName: self.friendlyName(),
-                DisplayOrder: self.displayOrder(),
-                LimitedToTenants: self.limitedToTenants()
-            };
-
-            $.ajax({
-                url: apiUrl + "('" + self.systemName() + "')",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-
-                switchSection($("#grid-section"));
-
-                $.notify(self.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
-        };
-        self.cancel = function () {
-            switchSection($("#grid-section"));
-        };
-
-        self.install = function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
-
-            $.ajax({
-                url: "/admin/plugins/install/" + systemName,
-                type: "POST"
-            })
-            .done(function (json) {
-                if (json.Success) {
-                    $.notify(json.Message, "success");
-                }
-                else {
-                    $.notify(json.Message, "error");
-                }
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 1000);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.installPluginError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            window.setTimeout(() => window.location.reload(), 1000);
         }
-        self.uninstall = function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
-
-            $.ajax({
-                url: "/admin/plugins/uninstall/" + systemName,
-                type: "POST"
-            })
-            .done(function (json) {
-                if (json.Success) {
-                    $.notify(json.Message, "success");
-                }
-                else {
-                    $.notify(json.Message, "error");
-                }
-
-                setTimeout(function () {
-                    window.location.reload();
-                }, 1000);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.uninstallPluginError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        else {
+            $.notify({ message: this.translations.installPluginError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
         }
     }
 
-    var viewModel = new ViewModel();
-    return viewModel;
-});
+    async uninstall(systemName) {
+        let response = await this.http.post("/admin/plugins/uninstall/" + this.replaceAll(systemName, ".", "-"));
+        if (response.isSuccess) {
+            if (response.content.success) {
+                $.notify({ message: response.content.message, icon: 'fa fa-check' }, { type: 'success' });
+            }
+            else {
+                $.notify({ message: response.content.message, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+            }
+
+            window.setTimeout(() => window.location.reload(), 1000);
+        }
+        else {
+            $.notify({ message: this.translations.uninstallPluginError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+        }
+    }
+}

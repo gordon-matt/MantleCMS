@@ -1,6 +1,6 @@
 ﻿using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.Extensions.Localization;
 
 namespace Mantle.Web.Areas.Admin

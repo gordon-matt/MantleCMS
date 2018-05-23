@@ -1,5 +1,7 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.Security.Membership.Permissions;
+﻿using System;
+using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
+using Mantle.Web.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -12,14 +14,17 @@ namespace Mantle.Web.Mvc
 
         public IStringLocalizer T { get; private set; }
 
-        public IWebWorkContext WorkContext { get; private set; }
+        public IWorkContext WorkContext { get; private set; }
+
+        public Lazy<SiteSettings> SiteSettings { get; private set; }
 
         protected MantleController()
         {
-            WorkContext = EngineContext.Current.Resolve<IWebWorkContext>();
+            WorkContext = EngineContext.Current.Resolve<IWorkContext>();
             T = EngineContext.Current.Resolve<IStringLocalizer>();
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
             Logger = loggerFactory.CreateLogger(GetType());
+            SiteSettings = new Lazy<SiteSettings>(() => EngineContext.Current.Resolve<SiteSettings>());
         }
 
         protected virtual bool CheckPermission(Permission permission)

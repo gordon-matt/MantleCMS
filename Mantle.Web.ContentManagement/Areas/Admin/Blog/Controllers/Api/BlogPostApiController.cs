@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Media;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
@@ -34,7 +31,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
             this.postTagService = postTagService;
             this.workContext = workContext;
         }
-        
+
         public override async Task<IActionResult> Post([FromBody] BlogPost entity)
         {
             int tenantId = GetTenantId();

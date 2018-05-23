@@ -1,247 +1,209 @@
-﻿define(function (require) {
-    'use strict'
+﻿import 'jquery';
+import 'jquery-validation';
+import 'bootstrap-notify';
+import '/js/kendo/2014.1.318/kendo.web.min.js';
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+import { inject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
+import { TemplatingEngine } from 'aurelia-templating';
 
-    require('jqueryval');
-    require('kendo');
-    require('notify');
+import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-    require('mantle-section-switching');
-    require('mantle-jqueryval');
+@inject(TemplatingEngine)
+export class ViewModel {
+    apiUrl = "/odata/mantle/web/TenantApi";
 
-    var odataBaseUrl = "/odata/mantle/web/TenantApi";
+    constructor(templatingEngine) {
+        this.templatingEngine = templatingEngine;
 
-    var ViewModel = function () {
-        var self = this;
+        this.http = new HttpClient();
+        this.http.configure(config => {
+            config.withInterceptor(new GenericHttpInterceptor());
+        });
+    }
 
-        self.gridPageSize = 10;
-        self.translations = false;
+    // Aurelia Component Lifecycle Methods
 
-        self.validator = false;
+    async attached() {
+        // Load translations first, else will have errors
+        let response = await this.http.get("/admin/tenants/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        
+        this.sectionSwitcher = new SectionSwitcher('grid-section');
 
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.url = ko.observable(null);
-        self.hosts = ko.observable(null);
+        this.validator = $("#form-section-form").validate({
+            rules: {
+                Name: { required: true, maxlength: 255 },
+                Url: { required: true, maxlength: 255 },
+                Hosts: { required: true }
+            }
+        });
 
-        self.attached = function () {
-            currentSection = $("#grid-section");
+        let self = this;
 
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/tenants/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
-
-            self.gridPageSize = $("#GridPageSize").val();
-
-            self.validator = $("#form-section-form").validate({
-                rules: {
-                    Name: { required: true, maxlength: 255 },
-                    Url: { required: true, maxlength: 255 },
-                    Hosts: { required: true }
-                }
-            });
-
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: odataBaseUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.apiUrl,
+                        dataType: "json"
                     },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
                             }
+                            delete paramMap.$inlinecount;
                         }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
                     }
                 },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        fields: {
+                            Name: { type: "string" }
+                        }
+                    }
                 },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
-                    field: "Name",
-                    title: self.translations.columns.name,
-                    filterable: true
-                }, {
-                    field: "Id",
-                    title: " ",
-                    template:
-                        '<div class="btn-group">' +
-                        '<a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '</div>',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 120
-                }]
-            });
-        };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.url(null);
-            self.hosts(null);
+                pageSize: viewData.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Name", dir: "asc" }
+            },
+            dataBound: function (e) {
+                let body = this.element.find("tbody")[0];
+                if (body) {
+                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "Name",
+                title: this.translations.columns.name
+            }, {
+                field: "Id",
+                title: " ",
+                template:
+                    '<div class="btn-group">' +
+                        `<button type="button" click.delegate="edit(#=Id#)" class="btn btn-default btn-sm" title="${this.translations.edit}"><i class="fa fa-edit"></i></button>` +
+                        `<button type="button" click.delegate="remove(#=Id#)" class="btn btn-danger btn-sm" title="${this.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                    '</div>',
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 100
+            }]
+        });
+    }
+    
+    // END: Aurelia Component Lifecycle Methods
 
-            self.validator.resetForm();
-            switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.create);
-        };
-        self.edit = function (id) {
-            $.ajax({
-                url: odataBaseUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.url(json.Url);
-                self.hosts(json.Hosts);
+    create() {
+        this.id = 0;
+        this.name = null;
+        this.url = null;
+        this.hosts = null;
 
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
-        };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: odataBaseUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+        this.validator.resetForm();
+        $("#form-section-legend").html(this.translations.create);
+        this.sectionSwitcher.swap('form-section');
+    }
 
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
-            var isNew = (self.id() == 0);
+    async edit(id) {
+        let response = await this.http.get(`${this.apiUrl}(${id})`);
+        let entity = response.content;
 
-            if (!$("#form-section-form").valid()) {
-                return false;
-            }
+        this.id = entity.Id;
+        this.name = entity.Name;
+        this.url = entity.Url;
+        this.hosts = entity.Hosts;
 
-            var record = {
-                Id: self.id(),
-                Name: self.name(),
-                Url: self.url(),
-                Hosts: self.hosts()
-            };
+        this.validator.resetForm();
+        $("#form-section-legend").html(this.translations.edit);
+        this.sectionSwitcher.swap('form-section');
+    }
 
-            if (isNew) {
-                $.ajax({
-                    url: odataBaseUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+    async remove(id) {
+        if (confirm(this.translations.deleteRecordConfirm)) {
+            let response = await this.http.delete(`${this.apiUrl}(${id})`);
 
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+            if (response.isSuccess) {
+                $.notify({ message: this.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
             }
             else {
-                $.ajax({
-                    url: odataBaseUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                $.notify({ message: this.translations.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
             }
-        };
-        self.cancel = function () {
-            switchSection($("#grid-section"));
-        };
-    };
 
-    var viewModel = new ViewModel();
-    return viewModel;
-});
+            this.refreshGrid();
+        }
+    }
+
+    async save() {
+        if (!$("#form-section-form").valid()) {
+            return false;
+        }
+
+        let isNew = (this.id == 0);
+
+        let record = {
+            Id: this.id,
+            Name: this.name,
+            Url: this.url,
+            Hosts: this.hosts
+        };
+
+        if (isNew) {
+            let response = await this.http.post(this.apiUrl, record);
+
+            if (response.isSuccess) {
+                $.notify({ message: this.translations.insertRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
+            }
+            else {
+                $.notify({ message: this.translations.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+            }
+        }
+        else {
+            let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
+
+            if (response.isSuccess) {
+                $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
+            }
+            else {
+                $.notify({ message: this.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+            }
+        }
+
+        this.refreshGrid();
+        this.sectionSwitcher.swap('grid-section');
+    }
+
+    cancel() {
+        this.sectionSwitcher.swap('grid-section');
+    }
+
+    refreshGrid() {
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
+    }
+}

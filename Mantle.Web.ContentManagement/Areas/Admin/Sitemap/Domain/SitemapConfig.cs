@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

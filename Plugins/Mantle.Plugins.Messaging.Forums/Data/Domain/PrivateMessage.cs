@@ -1,7 +1,7 @@
 ﻿using System;
+using Extenso.Data.Entity;
 using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
-using Mantle.Plugins;
+using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

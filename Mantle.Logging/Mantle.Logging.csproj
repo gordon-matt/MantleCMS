@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
+    <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+</Project>

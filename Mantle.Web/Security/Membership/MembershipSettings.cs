@@ -1,4 +1,4 @@
-﻿using Mantle.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
 using Mantle.Web.Configuration;
 
 namespace Mantle.Web.Security.Membership

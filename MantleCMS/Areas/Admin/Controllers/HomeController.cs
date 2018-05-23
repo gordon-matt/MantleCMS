@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc;
-using MantleCMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,15 +12,12 @@ namespace MantleCMS.Areas.Admin.Controllers
     [Route("admin")]
     public class HomeController : MantleController
     {
-        private readonly Lazy<IEnumerable<IDurandalRouteProvider>> durandalRouteProviders;
-        private readonly Lazy<IEnumerable<IRequireJSConfigProvider>> requireJSConfigProviders;
+        private readonly IEnumerable<IAureliaRouteProvider> routeProviders;
 
         public HomeController(
-            Lazy<IEnumerable<IDurandalRouteProvider>> durandalRouteProviders,
-            Lazy<IEnumerable<IRequireJSConfigProvider>> requireJSConfigProviders)
+            IEnumerable<IAureliaRouteProvider> routeProviders)
         {
-            this.durandalRouteProviders = durandalRouteProviders;
-            this.requireJSConfigProviders = requireJSConfigProviders;
+            this.routeProviders = routeProviders;
         }
 
         [Route("")]
@@ -34,65 +29,38 @@ namespace MantleCMS.Areas.Admin.Controllers
         [Route("dashboard")]
         public IActionResult Dashboard()
         {
-            ViewBag.Title = "Dashboard";
-
-            return View();
+            return PartialView();
         }
 
-        [Route("shell")]
-        public IActionResult Shell()
+        [Route("app")]
+        public IActionResult App()
         {
-            return View();
+            return PartialView();
         }
+
+        //[Route("nav-bar")]
+        //public IActionResult NavBar()
+        //{
+        //    return PartialView();
+        //}
 
         [Route("get-spa-routes")]
         public JsonResult GetSpaRoutes()
         {
-            var routes = durandalRouteProviders.Value
+            var routes = routeProviders
                 .Where(x => x.Area == "Admin")
                 .SelectMany(x => x.Routes);
             return Json(routes);
         }
 
-        [Route("get-requirejs-config")]
-        public JsonResult GetRequireJsConfig()
+        [Route("get-moduleId-to-viewUrl-mappings")]
+        public JsonResult GetModuleIdToViewUrlMappings()
         {
-            var config = new RequireJsConfig
-            {
-                Paths = new Dictionary<string, string>(),
-                Shim = new Dictionary<string, string[]>()
-            };
-
-            // Routes First
-            var routes = durandalRouteProviders.Value
+            var mappings = routeProviders
                 .Where(x => x.Area == "Admin")
-                .SelectMany(x => x.Routes);
+                .SelectMany(x => x.ModuleIdToViewUrlMappings);
 
-            foreach (var route in routes)
-            {
-                config.Paths.Add(route.ModuleId, route.JsPath);
-            }
-
-            // Then Others
-            foreach (var provider in requireJSConfigProviders.Value)
-            {
-                foreach (var pair in provider.Paths)
-                {
-                    if (!config.Paths.ContainsKey(pair.Key))
-                    {
-                        config.Paths.Add(pair.Key, pair.Value);
-                    }
-                }
-                foreach (var pair in provider.Shim)
-                {
-                    if (!config.Shim.ContainsKey(pair.Key))
-                    {
-                        config.Shim.Add(pair.Key, pair.Value);
-                    }
-                }
-            }
-
-            return Json(config);
+            return Json(mappings);
         }
     }
 }

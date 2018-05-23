@@ -95,17 +95,14 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.columns.displayOrder,
-                    filterable: true
+                    title: self.parent.translations.columns.displayOrder
                 }, {
                     field: "CreatedOnUtc",
                     title: self.parent.translations.columns.createdOnUtc,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "Id",
                     title: " ",
@@ -319,17 +316,14 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
-                    filterable: true
+                    title: self.parent.translations.columns.name
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.columns.displayOrder,
-                    filterable: true
+                    title: self.parent.translations.columns.displayOrder
                 }, {
                     field: "CreatedOnUtc",
                     title: self.parent.translations.columns.createdOnUtc,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "Id",
                     title: " ",
@@ -478,20 +472,19 @@
 
             // Load translations first, else will have errors
             $.ajax({
-                url: "/plugins/messaging/forums/get-translations",
+                url: "/plugins/messaging/forums/get-view-data",
                 type: "GET",
                 dataType: "json",
                 async: false
             })
-            .done(function (json) {
-                self.translations = json;
+            .done(function (viewData) {
+                self.translations = viewData.translations;
+                self.gridPageSize = viewData.gridPageSize;
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(textStatus + ': ' + errorThrown);
             });
-
-            self.gridPageSize = $("#GridPageSize").val();
-
+            
             self.forumGroupModel.init();
             self.forumModel.init();
         };

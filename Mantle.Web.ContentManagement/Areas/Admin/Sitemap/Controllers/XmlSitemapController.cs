@@ -26,31 +26,34 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers
             return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Views.XmlSitemap.Index");
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                ConfirmGenerateFile = T[MantleCmsLocalizableStrings.Sitemap.ConfirmGenerateFile].Value,
-                GenerateFileSuccess = T[MantleCmsLocalizableStrings.Sitemap.GenerateFileSuccess].Value,
-                GenerateFileError = T[MantleCmsLocalizableStrings.Sitemap.GenerateFileError].Value,
-                ChangeFrequencies = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Always = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Always].Value,
-                    Hourly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Hourly].Value,
-                    Daily = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Daily].Value,
-                    Weekly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Weekly].Value,
-                    Monthly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Monthly].Value,
-                    Yearly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Yearly].Value,
-                    Never = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Never].Value,
-                },
-                Columns = new
-                {
-                    ChangeFrequency = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequency].Value,
-                    Id = T[MantleCmsLocalizableStrings.Sitemap.Model.Id].Value,
-                    Location = T[MantleCmsLocalizableStrings.Sitemap.Model.Location].Value,
-                    Priority = T[MantleCmsLocalizableStrings.Sitemap.Model.Priority].Value,
+                    confirmGenerateFile = T[MantleCmsLocalizableStrings.Sitemap.ConfirmGenerateFile].Value,
+                    generateFileSuccess = T[MantleCmsLocalizableStrings.Sitemap.GenerateFileSuccess].Value,
+                    generateFileError = T[MantleCmsLocalizableStrings.Sitemap.GenerateFileError].Value,
+                    changeFrequencies = new
+                    {
+                        always = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Always].Value,
+                        hourly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Hourly].Value,
+                        daily = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Daily].Value,
+                        weekly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Weekly].Value,
+                        monthly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Monthly].Value,
+                        yearly = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Yearly].Value,
+                        never = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequencies.Never].Value,
+                    },
+                    columns = new
+                    {
+                        changeFrequency = T[MantleCmsLocalizableStrings.Sitemap.Model.ChangeFrequency].Value,
+                        id = T[MantleCmsLocalizableStrings.Sitemap.Model.Id].Value,
+                        location = T[MantleCmsLocalizableStrings.Sitemap.Model.Location].Value,
+                        priority = T[MantleCmsLocalizableStrings.Sitemap.Model.Priority].Value,
+                    }
                 }
             });
         }

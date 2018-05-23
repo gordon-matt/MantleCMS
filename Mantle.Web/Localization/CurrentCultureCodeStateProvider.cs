@@ -24,7 +24,7 @@ namespace Mantle.Web.Localization
 
         public Func<IWorkContext, T> Get<T>(string name)
         {
-            if (name == MantleConstants.StateProviders.CurrentCultureCode)
+            if (name == MantleWebConstants.StateProviders.CurrentCultureCode)
             {
                 return ctx => cacheManager.Get(MantleWebConstants.CacheKeys.CurrentCulture, () =>
                 {

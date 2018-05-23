@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Mantle;
-using Mantle.Collections;
-using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Collections;
+using Extenso.Data.Entity;
 using Mantle.Exceptions;
+using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Web;
 using Mantle.Web.Security.Membership;
@@ -254,7 +253,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
         }
@@ -273,7 +272,7 @@ namespace MantleCMS.Services
 
                 if (!result.Succeeded)
                 {
-                    string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                    string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                     throw new MantleException(errorMessage);
                 }
             }
@@ -299,7 +298,7 @@ namespace MantleCMS.Services
 
         //            if (!result.Succeeded)
         //            {
-        //                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+        //                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
         //                throw new MantleException(errorMessage);
         //            }
         //        }
@@ -314,7 +313,7 @@ namespace MantleCMS.Services
 
         //            if (!result.Succeeded)
         //            {
-        //                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+        //                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
         //                throw new MantleException(errorMessage);
         //            }
         //        }
@@ -385,7 +384,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
 
@@ -393,7 +392,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
             //var user = userManager.FindById(id);
@@ -545,7 +544,7 @@ namespace MantleCMS.Services
 
             if (!result.Succeeded)
             {
-                string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                 throw new MantleException(errorMessage);
             }
         }
@@ -562,7 +561,7 @@ namespace MantleCMS.Services
 
                 if (!result.Succeeded)
                 {
-                    string errorMessage = string.Join(Environment.NewLine, result.Errors);
+                    string errorMessage = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description));
                     throw new MantleException(errorMessage);
                 }
             }
@@ -571,6 +570,9 @@ namespace MantleCMS.Services
         public async Task<IEnumerable<MantleUser>> GetUsersByRoleId(object roleId)
         {
             string rId = roleId.ToString();
+
+            // TODO: Include(x => x.Users) won't work. It should map to a junction table first (AspNetUserRoles) and then get the Users from that.
+            //      userManager.GetUsersInRoleAsync(role.Name) // <-- probably need a custom UserManager (to take TenantId into account) and use this to get the users
             var role = await roleManager.Roles.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == rId);
 
             var userIds = role.Users.Select(x => x.Id).ToList();
@@ -1067,11 +1069,11 @@ namespace MantleCMS.Services
         {
             if (SupportsRolePermissions)
             {
-                var administratorsRole = await GetRoleByName(tenantId, MantleConstants.Roles.Administrators);
+                var administratorsRole = await GetRoleByName(tenantId, MantleSecurityConstants.Roles.Administrators);
                 if (administratorsRole == null)
                 {
-                    await InsertRole(new MantleRole { TenantId = tenantId, Name = MantleConstants.Roles.Administrators });
-                    administratorsRole = await GetRoleByName(tenantId, MantleConstants.Roles.Administrators);
+                    await InsertRole(new MantleRole { TenantId = tenantId, Name = MantleSecurityConstants.Roles.Administrators });
+                    administratorsRole = await GetRoleByName(tenantId, MantleSecurityConstants.Roles.Administrators);
 
                     if (administratorsRole != null)
                     {
@@ -1080,7 +1082,7 @@ namespace MantleCMS.Services
                         await AssignPermissionsToRole(administratorsRole.Id, permissionIds);
 
                         // Assign all super admin users (NULL TenantId) to this new admin role
-                        var superAdminUsers = await GetUsersByRoleName(null, MantleConstants.Roles.Administrators);
+                        var superAdminUsers = await GetUsersByRoleName(null, MantleSecurityConstants.Roles.Administrators);
                         foreach (var user in superAdminUsers)
                         {
                             await AssignUserToRoles(tenantId, user.Id, new[] { administratorsRole.Id });

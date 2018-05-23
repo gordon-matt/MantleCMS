@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity;
+using Extenso.Data.Entity;
 using Mantle.Exceptions;
 using Mantle.Security.Membership;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
@@ -52,33 +52,26 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers
 
             WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value);
 
-            if (blogSettings.UseAjax)
+            int tenantId = WorkContext.CurrentTenant.Id;
+
+            string pageIndexParam = Request.Query["pageIndex"];
+            int pageIndex = string.IsNullOrEmpty(pageIndexParam)
+                ? 1
+                : Convert.ToInt32(pageIndexParam);
+
+            List<BlogPost> model = null;
+            using (var connection = postService.Value.OpenConnection())
             {
-                return PostsAjax();
+                model = await connection.Query(x => x.TenantId == tenantId)
+                    .Include(x => x.Category)
+                    .Include(x => x.Tags)
+                    .OrderByDescending(x => x.DateCreatedUtc)
+                    .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
+                    .Take(blogSettings.ItemsPerPage)
+                    .ToListAsync();
             }
-            else
-            {
-                int tenantId = WorkContext.CurrentTenant.Id;
 
-                string pageIndexParam = Request.Query["pageIndex"];
-                int pageIndex = string.IsNullOrEmpty(pageIndexParam)
-                    ? 1
-                    : Convert.ToInt32(pageIndexParam);
-
-                List<BlogPost> model = null;
-                using (var connection = postService.Value.OpenConnection())
-                {
-                    model = await connection.Query(x => x.TenantId == tenantId)
-                        .Include(x => x.Category)
-                        .Include(x => x.Tags)
-                        .OrderByDescending(x => x.DateCreatedUtc)
-                        .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
-                        .Take(blogSettings.ItemsPerPage)
-                        .ToListAsync();
-                }
-
-                return await Posts(pageIndex, model);
-            }
+            return await Posts(pageIndex, model);
         }
 
         [Route("category/{categorySlug}")]
@@ -102,33 +95,25 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers
             WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value, Url.Action("Index"));
             WorkContext.Breadcrumbs.Add(category.Name);
 
-            if (blogSettings.UseAjax)
-            {
-                ViewBag.CategoryId = category.Id;
-                return PostsAjax();
-            }
-            else
-            {
-                string pageIndexParam = Request.Query["pageIndex"];
-                int pageIndex = string.IsNullOrEmpty(pageIndexParam)
-                    ? 1
-                    : Convert.ToInt32(pageIndexParam);
+            string pageIndexParam = Request.Query["pageIndex"];
+            int pageIndex = string.IsNullOrEmpty(pageIndexParam)
+                ? 1
+                : Convert.ToInt32(pageIndexParam);
 
-                List<BlogPost> model = null;
-                using (var connection = postService.Value.OpenConnection())
-                {
-                    model = await connection.Query()
-                        .Include(x => x.Category)
-                        .Include(x => x.Tags)
-                        .Where(x => x.CategoryId == category.Id)
-                        .OrderByDescending(x => x.DateCreatedUtc)
-                        .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
-                        .Take(blogSettings.ItemsPerPage)
-                        .ToListAsync();
-                }
-
-                return await Posts(pageIndex, model);
+            List<BlogPost> model = null;
+            using (var connection = postService.Value.OpenConnection())
+            {
+                model = await connection.Query()
+                    .Include(x => x.Category)
+                    .Include(x => x.Tags)
+                    .Where(x => x.CategoryId == category.Id)
+                    .OrderByDescending(x => x.DateCreatedUtc)
+                    .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
+                    .Take(blogSettings.ItemsPerPage)
+                    .ToListAsync();
             }
+
+            return await Posts(pageIndex, model);
         }
 
         [Route("tag/{tagSlug}")]
@@ -149,33 +134,25 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers
             WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value, Url.Action("Index"));
             WorkContext.Breadcrumbs.Add(tag.Name);
 
-            if (blogSettings.UseAjax)
-            {
-                ViewBag.TagId = tag.Id;
-                return PostsAjax();
-            }
-            else
-            {
-                string pageIndexParam = Request.Query["pageIndex"];
-                int pageIndex = string.IsNullOrEmpty(pageIndexParam)
-                    ? 1
-                    : Convert.ToInt32(pageIndexParam);
+            string pageIndexParam = Request.Query["pageIndex"];
+            int pageIndex = string.IsNullOrEmpty(pageIndexParam)
+                ? 1
+                : Convert.ToInt32(pageIndexParam);
 
-                List<BlogPost> model = null;
-                using (var connection = postService.Value.OpenConnection())
-                {
-                    model = await connection.Query()
-                        .Include(x => x.Category)
-                        .Include(x => x.Tags)
-                        .Where(x => x.Tags.Any(y => y.TagId == tag.Id))
-                        .OrderByDescending(x => x.DateCreatedUtc)
-                        .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
-                        .Take(blogSettings.ItemsPerPage)
-                        .ToListAsync();
-                }
-
-                return await Posts(pageIndex, model);
+            List<BlogPost> model = null;
+            using (var connection = postService.Value.OpenConnection())
+            {
+                model = await connection.Query()
+                    .Include(x => x.Category)
+                    .Include(x => x.Tags)
+                    .Where(x => x.Tags.Any(y => y.TagId == tag.Id))
+                    .OrderByDescending(x => x.DateCreatedUtc)
+                    .Skip((pageIndex - 1) * blogSettings.ItemsPerPage)
+                    .Take(blogSettings.ItemsPerPage)
+                    .ToListAsync();
             }
+
+            return await Posts(pageIndex, model);
         }
 
         private async Task<ActionResult> Posts(int pageIndex, IEnumerable<BlogPost> model)
@@ -203,20 +180,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers
 
             // Else use default template
             return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.Index", model);
-        }
-
-        private ActionResult PostsAjax()
-        {
-            var viewEngineResult = razorViewEngine.FindView(ControllerContext, "IndexAjax", false);
-
-            // If someone has provided a custom template (see LocationFormatProvider)
-            if (viewEngineResult.View != null)
-            {
-                return View("IndexAjax");
-            }
-
-            // Else use default template
-            return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.IndexAjax");
         }
 
         [Route("{slug}")]

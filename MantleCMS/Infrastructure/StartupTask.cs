@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mantle;
 using Mantle.Infrastructure;
+using Mantle.Security;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace MantleCMS.Infrastructure
 {
@@ -62,15 +63,15 @@ namespace MantleCMS.Infrastructure
                 MantleRole administratorsRole = null;
                 if (adminUser != null)
                 {
-                    administratorsRole = await membershipService.GetRoleByName(null, MantleConstants.Roles.Administrators);
+                    administratorsRole = await membershipService.GetRoleByName(null, MantleSecurityConstants.Roles.Administrators);
                     if (administratorsRole == null)
                     {
                         await membershipService.InsertRole(new MantleRole
                         {
                             TenantId = null,
-                            Name = MantleConstants.Roles.Administrators
+                            Name = MantleSecurityConstants.Roles.Administrators
                         });
-                        administratorsRole = await membershipService.GetRoleByName(null, MantleConstants.Roles.Administrators);
+                        administratorsRole = await membershipService.GetRoleByName(null, MantleSecurityConstants.Roles.Administrators);
                         await membershipService.AssignUserToRoles(null, adminUser.Id, new[] { administratorsRole.Id });
                     }
                 }

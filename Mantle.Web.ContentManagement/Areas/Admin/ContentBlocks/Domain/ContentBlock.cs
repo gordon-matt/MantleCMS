@@ -1,6 +1,6 @@
 ﻿using System;
-using Mantle.Data;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Data.Entity;
+using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,7 +23,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
         public bool IsEnabled { get; set; }
 
         public string BlockValues { get; set; }
-        
+
         public string CustomTemplatePath { get; set; }
 
         public Guid? PageId { get; set; }

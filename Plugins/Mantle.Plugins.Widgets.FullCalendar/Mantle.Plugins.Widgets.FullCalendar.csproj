@@ -268,11 +268,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.0" />
-    <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />

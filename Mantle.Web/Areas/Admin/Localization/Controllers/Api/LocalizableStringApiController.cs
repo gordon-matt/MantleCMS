@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data.Entity.EntityFramework;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -113,7 +113,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
                 await Service.UpdateAsync(localizedString);
             }
 
-            cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
+            cacheManager.Remove(string.Concat(Mantle.Localization.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
             return Updated(entity);
         }
@@ -140,7 +140,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
             await Service.UpdateAsync(entity);
             //Repository.Delete(entity);
 
-            cacheManager.Remove(string.Concat(MantleConstants.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
+            cacheManager.Remove(string.Concat(Mantle.Localization.CacheKeys.LocalizableStringsFormat, tenantId, cultureCode));
 
             return NoContent();
         }

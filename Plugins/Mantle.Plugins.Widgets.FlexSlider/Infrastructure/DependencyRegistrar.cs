@@ -4,13 +4,12 @@ using Mantle.Localization;
 using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Mvc.Themes;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -30,6 +29,6 @@ namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
             get { return 9999; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

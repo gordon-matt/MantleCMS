@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Messaging.Forums
 {

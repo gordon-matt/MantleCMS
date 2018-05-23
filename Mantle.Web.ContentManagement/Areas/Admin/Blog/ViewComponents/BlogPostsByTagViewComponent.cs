@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
@@ -23,7 +22,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ViewComponents
             Lazy<IBlogTagService> tagService,
             Lazy<IMembershipService> membershipService,
             BlogSettings blogSettings,
-            IWebWorkContext workContext,
+            IWorkContext workContext,
             IStringLocalizer localizer)
             : base(postService, tagService, membershipService, blogSettings, workContext)
         {

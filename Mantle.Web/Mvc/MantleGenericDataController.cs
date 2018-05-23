@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Data.Entity;
 using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Mvc.KendoUI;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -133,7 +133,7 @@ namespace Mantle.Web.Mvc
 
         [HttpPost]
         [Route("")]
-        public virtual async Task<IActionResult> Post([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> Post([FromBody] TEntity entity)
         {
             if (!CanModifyEntity(entity))
             {

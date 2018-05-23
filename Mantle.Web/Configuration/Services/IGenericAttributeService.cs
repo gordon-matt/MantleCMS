@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Extenso;
+using Extenso.Data.Entity;
+using Extenso.Reflection;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Data.Services;
-using Mantle.Reflection;
 using Mantle.Web.Configuration.Domain;
 
 namespace Mantle.Web.Configuration.Services

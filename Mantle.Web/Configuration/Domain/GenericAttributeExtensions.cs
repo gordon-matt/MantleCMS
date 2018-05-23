@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Mantle.Data;
+using Extenso;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.Configuration.Services;
 

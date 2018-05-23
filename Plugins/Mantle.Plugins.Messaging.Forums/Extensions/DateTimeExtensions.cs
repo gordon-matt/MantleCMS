@@ -1,5 +1,4 @@
 ﻿using System;
-using Mantle.Helpers;
 using Mantle.Infrastructure;
 using Mantle.Web.Helpers;
 

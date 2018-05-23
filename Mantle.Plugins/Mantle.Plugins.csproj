@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle.Events.Abstractions\Mantle.Events.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle.Infrastructure.Abstractions\Mantle.Infrastructure.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle.Security\Mantle.Security.csproj" />
+    <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+</Project>

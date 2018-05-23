@@ -1,5 +1,4 @@
 ﻿using Mantle.Plugins.Widgets.JQueryFormBuilder.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.JQueryFormBuilder
 {

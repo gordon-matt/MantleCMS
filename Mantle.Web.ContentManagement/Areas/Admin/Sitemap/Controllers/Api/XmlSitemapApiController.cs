@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Mantle.Collections;
-using Mantle.Data;
+using Extenso;
+using Extenso.Collections;
+using Extenso.Data.Entity;
 using Mantle.Helpers;
 using Mantle.Localization.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -63,7 +64,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
         }
 
         #endregion GenericODataController<GoogleSitemapPageConfig, int> Members
-        
+
         [HttpGet]
         public virtual async Task<IEnumerable<SitemapConfigModel>> GetConfig(ODataQueryOptions<SitemapConfigModel> options)
         {
@@ -71,7 +72,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
             {
                 return Enumerable.Empty<SitemapConfigModel>();
             }
-            
+
             int tenantId = GetTenantId();
 
             // First ensure that current pages are in the config

@@ -6,11 +6,27 @@
 - Integrate Identity Server 4?
 - Get rid of RolePermission, etc and use Identity Claims instead. Also, move UserProfile entity to somewhere in the framework.
 
-NOTE: Plugins and Events had to be moved to Mantle.dll (from Mantle.Web.dll). Try to change this when have time (AutofacEngine should not rely on calling PluginManager, etc)
-
-
 - Create a "GrapesJsPage" page type. There will likely need to be a button in place of the TinyMCE editor. The button will open a new tab to edit the HTML in Grapes JS
 	- Once this is done and once plugins are working, then move the new page type and also the GrapesJsMessageTemplateEditor from "Mantle.Web.Messaging" into
 		a new plugin.. something like: Mantle.Plugins.Editors.GrapesJs
 
 - Move from Durandal to Aurelia for the backend. Example project has already been started here: https://github.com/gordon-matt/aurelia-razor-netcore2-skeleton
+	UPDATE: IN PROOGRESS
+
+- BIG PROBLEM: Can't seem to be able to set "Copy to Output" for referenced libs like in older .NET Framework. So this causes bugs when trying to load plugins with dependencies that
+	are not referenced by the main app. Example: "Mantle.Plugins.Caching.Redis" references a NuGet package called "StackExchange.Redis" and this is nto copied to the output directory.
+	Asked question here: https://stackoverflow.com/questions/50276292/how-do-i-copy-only-specific-packages-to-the-output-directory-in-net-core-2-0
+
+Why does URL have a 0 when editing localizable strings? refresh breaks it as well.
+
+Implement page for log..
+
+Small bug in Regions when on cities page and click "Back" button - it shows blank instead of grid..
+
+
+BUG: Pages with aurelia-tinymce-wrapper will, for some unknown reason, break the nav menu.. perhaps just use tinymce without the aurelia wrapper?
+	UPDATE: it was just a coincidence those pages had the tinymce wrapper.. the real cause of the navs breaking seems to be importing of bootstrap OR libs that depend on bootstrap,
+		such as bootstrap-fileinput. Since bootstrap is already in the markup from layout, then importing it seems to negate the javascript plugins like dropdown(), etc.
+		MORE INFO: https://discourse.aurelia.io/t/bootstrap-import-bootstrap-breaks-dropdown-menu-in-navbar/641
+
+Add a loading screen (use router.isNavigating to check)

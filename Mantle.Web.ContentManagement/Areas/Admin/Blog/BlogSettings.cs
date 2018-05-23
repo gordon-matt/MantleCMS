@@ -1,4 +1,4 @@
-﻿using Mantle.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
 using Mantle.Web.Configuration;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog
@@ -28,10 +28,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog
 
         [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.MenuPosition)]
         public byte MenuPosition { get; set; }
-
-        [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.UseAjax)]
-        public bool UseAjax { get; set; }
-
+        
         [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.AccessRestrictions)]
         public string AccessRestrictions { get; set; }
 

@@ -2,234 +2,257 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+<template>
+    <div id="users-grid-section" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pull-left">
+                <button type="button" click.delegate="userModel.create()" class="btn btn-primary">
+                    <i class="fa fa-plus"></i>
+                    @T[MantleWebLocalizableStrings.General.Create]
+                </button>
+                <button type="button" click.delegate="viewRoles()" class="btn btn-default">
+                    <i class="fa fa-users"></i>
+                    @T[MantleWebLocalizableStrings.Membership.Roles]
+                </button>
+            </div>
+            <div class="pull-right">
+                @Html.Mantle().RolesDropDownList(
+                    "RoleFilter",
+                    null,
+                    new Dictionary<string, object>
+                    {
+                        { "class", "form-control" },
+                        { "value.bind", "userModel.filterRoleId" },
+                        { "change.delegate", "userModel.filterRole()" }
+                    },
+                    string.Empty)
+            </div>
+        </div>
 
-<div id="users-grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="pull-left">
-            <a data-bind="click: userModel.create" class="btn btn-primary">
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-md-12 @rtlClass">
+            <div id="users-grid"></div>
+        </div>
+    </div>
+
+    <div id="users-edit-form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="users-edit-form-section-form" role="form">
+                        <fieldset>
+                            <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        <input type="text" id="UserName" name="UserName" class="form-control" value.bind="userModel.userName" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-envelope-o"></i>
+                                        </span>
+                                        <input type="text" id="Email" name="Email" class="form-control" value.bind="userModel.email" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="IsLockedOut" name="IsLockedOut" value.bind="userModel.isLockedOut" /> @T[MantleWebLocalizableStrings.Membership.UserModel.IsLockedOut]
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="userModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="userModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+
+    <div id="user-roles-form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.UpdateUserRoles])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="user-roles-form-section-form" role="form">
+                        <fieldset>
+                            <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
+                                    @Html.Mantle().RolesCheckBoxList(
+                                        "UserRoles",
+                                        null,
+                                        new { @class = "checkbox" },
+                                        new Dictionary<string, object>
+                                        {
+                                            { "checked.bind", "userModel.roles" }
+                                        })
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="userModel.editRoles_cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="userModel.editRoles_save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+
+    <div id="change-password-form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+            {
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.ChangePassword])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="change-password-form-section-form" role="form">
+                        <fieldset>
+                            <legend>@T[MantleWebLocalizableStrings.Membership.ChangePassword]</legend>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">@T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.UserName]</label>
+                                    <input type="text" class="form-control" readonly="readonly" value.bind="changePasswordModel.userName" />
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Change_Password", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.Password], new { @class = "control-label" })
+                                    <input type="password" id="Change_Password" name="Change_Password" class="form-control" value.bind="changePasswordModel.password" />
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.Label("Change_ConfirmPassword", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.ConfirmPassword], new { @class = "control-label" })
+                                    <input type="password" id="Change_ConfirmPassword" name="Change_ConfirmPassword" class="form-control" value.bind="changePasswordModel.confirmPassword" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="changePasswordModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="changePasswordModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                }
+            }
+        </article>
+    </div>
+
+    <div id="roles-grid-section" class="row" style="display:none">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button type="button" click.delegate="roleModel.create()" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 @T[MantleWebLocalizableStrings.General.Create]
-            </a>
-            <a data-bind="click: viewRoles" class="btn btn-default">
-                <i class="fa fa-users"></i>
-                @T[MantleWebLocalizableStrings.Membership.Roles]
-            </a>
+            </button>
+            <button type="button" click.delegate="viewUsers()" class="btn btn-default">
+                <i class="fa fa-user"></i>
+                @T[MantleWebLocalizableStrings.Membership.Users]
+            </button>
         </div>
-        <div class="pull-right">
-            @Html.Mantle().RolesDropDownList("RoleFilter", null, new { @class = "form-control", data_bind = "value: userModel.filterRoleId, event: { change: userModel.filterRole }" }, string.Empty)
+
+        <div class="clearfix"></div>
+        <br />
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+            <div id="roles-grid"></div>
         </div>
     </div>
 
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-md-12 @rtlClass">
-        <div id="UsersGrid"></div>
-    </div>
-</div>
-
-<div id="users-edit-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
+    <div id="roles-form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
             {
-                <form id="users-edit-form-section-form" role="form">
-                    <fieldset>
-                        <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-user"></i>
-                                    </span>
-                                    @Html.TextBox("UserName", null, new { @class = "form-control", data_bind = "value: userModel.userName" })
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="roles-form-section-form" role="form">
+                        <fieldset>
+                            <legend id="roles-form-section-legend"></legend>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-users"></i>
+                                        </span>
+                                        <input type="text" id="Name" name="Name" class="form-control" value.bind="roleModel.name" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-envelope-o"></i>
-                                    </span>
-                                    @Html.TextBox("Email", null, new { @class = "form-control", data_bind = "value: userModel.email" })
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="roleModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="roleModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("IsLockedOut", new { data_bind = "checked: userModel.isLockedOut" }) @T[MantleWebLocalizableStrings.Membership.UserModel.IsLockedOut]
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: userModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: userModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                }
             }
-        }
-    </article>
-</div>
-
-<div id="user-roles-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.UpdateUserRoles])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="user-roles-form-section-form" role="form">
-                    <fieldset>
-                        <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
-                                @Html.Mantle().RolesCheckBoxList("UserRoles", null, new { @class = "checkbox" }, new { data_bind = "checked: userModel.roles" })
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: userModel.editRoles_cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: userModel.editRoles_save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
-
-<div id="change-password-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.ChangePassword])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="change-password-form-section-form" role="form">
-                    <fieldset>
-                        <legend>@T[MantleWebLocalizableStrings.Membership.ChangePassword]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                <label class="control-label">@T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.UserName]</label>
-                                <input type="text" class="form-control" readonly="readonly" data-bind="value: changePasswordModel.userName" />
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Change_Password", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.Password], new { @class = "control-label" })
-                                @Html.Password("Change_Password", null, new { @class = "form-control", data_bind = "value: changePasswordModel.password" })
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Change_ConfirmPassword", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.ConfirmPassword], new { @class = "control-label" })
-                                @Html.Password("Change_ConfirmPassword", null, new { @class = "form-control", data_bind = "value: changePasswordModel.confirmPassword" })
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: changePasswordModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: changePasswordModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
-
-<div id="roles-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: roleModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: viewUsers" class="btn btn-default">
-            <i class="fa fa-user"></i>
-            @T[MantleWebLocalizableStrings.Membership.Users]
-        </a>
+        </article>
     </div>
 
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="RolesGrid"></div>
-    </div>
-</div>
-
-<div id="roles-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-            using (var body = panel.BeginBody())
+    <div id="role-permissions-form-section" class="row" style="display:none">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
             {
-                <form id="roles-form-section-form" role="form">
-                    <fieldset>
-                        <legend id="roles-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-users"></i>
-                                    </span>
-                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: roleModel.name" })
+                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.EditRolePermissions])) { }
+                using (var body = panel.BeginBody())
+                {
+                    <form id="role-permissions-form-section-form" role="form">
+                        <fieldset>
+                            <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
+                                    @Html.Mantle().PermissionsCheckBoxList(
+                                        "RolePermissions",
+                                        null,
+                                        new { @class = "checkbox" },
+                                        new Dictionary<string, object>
+                                        {
+                                            { "checked.bind", "roleModel.permissions" }
+                                        })
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: roleModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: roleModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn btn-default" click.delegate="roleModel.editPermissions_cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                    <button type="button" class="btn btn-primary" click.delegate="roleModel.editPermissions_save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                }
             }
-        }
-    </article>
-</div>
-
-<div id="role-permissions-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-        {
-            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.EditRolePermissions])) { }
-            using (var body = panel.BeginBody())
-            {
-                <form id="role-permissions-form-section-form" role="form">
-                    <fieldset>
-                        <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
-                                @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: roleModel.editPermissions_cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: roleModel.editPermissions_save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            }
-        }
-    </article>
-</div>
+        </article>
+    </div>
+</template>

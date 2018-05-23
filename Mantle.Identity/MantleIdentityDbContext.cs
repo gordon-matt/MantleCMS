@@ -1,11 +1,11 @@
-﻿using Mantle.Configuration.Domain;
-using Mantle.Data.Entity.EntityFramework;
+﻿using Mantle.Data.Entity;
 using Mantle.Identity.Domain;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;
 using Mantle.Logging.Domain;
 using Mantle.Tasks.Domain;
 using Mantle.Tenants.Domain;
+using Mantle.Web.Configuration.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

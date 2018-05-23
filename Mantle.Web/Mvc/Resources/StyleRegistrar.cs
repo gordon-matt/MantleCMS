@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +13,7 @@ namespace Mantle.Web.Mvc.Resources
     {
         private readonly IUrlHelper urlHelper;
 
-        public StyleRegistrar(IWebWorkContext workContext)
+        public StyleRegistrar(IWorkContext workContext)
             : base(workContext)
         {
             var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();

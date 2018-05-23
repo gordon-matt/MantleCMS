@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using Mantle.ComponentModel;
+using Extenso;
+using Mantle.Localization.ComponentModel;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
+using Extenso.Collections;
 using KendoGridBinder.Containers;
 using KendoGridBinder.ModelBinder.Mvc;
-using Mantle.Collections;
 using Mantle.Data.Services;
 
 namespace Mantle.Web.Mvc.KendoUI

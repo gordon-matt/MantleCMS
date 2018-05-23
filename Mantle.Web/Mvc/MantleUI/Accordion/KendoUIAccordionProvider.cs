@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Mantle.Web.Mvc.MantleUI.Providers;
-using Mantle.Web.Mvc.Rendering;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web.Mvc.MantleUI

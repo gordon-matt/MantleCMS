@@ -34,38 +34,37 @@ namespace Mantle.Web.Messaging.Controllers
             return PartialView("Mantle.Web.Messaging.Views.MessageTemplate.Index");
         }
 
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Create = T[MantleWebLocalizableStrings.General.Create].Value,
-                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                EditWithGrapesJS = string.Format(T[MantleWebLocalizableStrings.General.EditWithFormat].Value, "GrapesJS"),
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                GetTokensError = T[LocalizableStrings.GetTokensError].Value,
-                InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-                InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-                Toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
+                availableEditors = messageTemplateEditors,
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Name = T[LocalizableStrings.MessageTemplate.Name].Value,
-                    Editor = T[LocalizableStrings.MessageTemplate.Editor].Value,
-                    Enabled = T[MantleWebLocalizableStrings.General.Enabled].Value
+                    create = T[MantleWebLocalizableStrings.General.Create].Value,
+                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    editWithGrapesJS = string.Format(T[MantleWebLocalizableStrings.General.EditWithFormat].Value, "GrapesJS"),
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    getTokensError = T[LocalizableStrings.GetTokensError].Value,
+                    insertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
+                    insertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
+                    toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    columns = new
+                    {
+                        name = T[LocalizableStrings.MessageTemplate.Name].Value,
+                        editor = T[LocalizableStrings.MessageTemplate.Editor].Value,
+                        enabled = T[MantleWebLocalizableStrings.General.Enabled].Value
+                    }
                 }
             });
-        }
-
-        [Route("get-available-editors")]
-        public JsonResult GetAvailableEditors()
-        {
-            return Json(messageTemplateEditors);
         }
     }
 }

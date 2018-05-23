@@ -1,7 +1,9 @@
-﻿@using MantleCMS
+﻿@using Extenso
+@using Extenso.AspNetCore.Mvc.Rendering
+@using Extenso.Collections
+@using MantleCMS
 @using MantleCMS.Data.Domain
 @using Mantle
-@using Mantle.Collections
 @using Mantle.Identity.Models.AccountViewModels
 @using Mantle.Identity.Models.ManageViewModels
 @using Mantle.Web
@@ -14,3 +16,4 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
+@inject Mantle.Web.IWorkContext WorkContext

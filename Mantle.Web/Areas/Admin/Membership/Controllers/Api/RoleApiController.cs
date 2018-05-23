@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Threading;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +59,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return SingleResult.Create(new[] { entity }.AsQueryable());
         }
 
-        public virtual async Task<IActionResult> Put([FromODataUri] string key, MantleRole entity)
+        public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantleRole entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesWrite))
             {
@@ -94,7 +94,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             return Updated(entity);
         }
 
-        public virtual async Task<IActionResult> Post(MantleRole entity)
+        public virtual async Task<IActionResult> Post([FromBody] MantleRole entity)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipRolesWrite))
             {

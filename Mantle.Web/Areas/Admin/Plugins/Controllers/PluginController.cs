@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Mantle.Web.Mvc;
 using Mantle.Plugins;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
+using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 namespace Mantle.Web.Areas.Admin.Plugins.Controllers
 {
     [Authorize]
-    [Route(MantleWebConstants.Areas.Plugins)]
+    [Area(MantleWebConstants.Areas.Plugins)]
+    [Route("admin/plugins")]
     public class PluginController : MantleController
     {
         private readonly Lazy<IPluginFinder> pluginFinder;
@@ -39,26 +40,29 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
             return PartialView("Mantle.Web.Areas.Admin.Plugins.Views.Plugin.Index");
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                Install = T[MantleWebLocalizableStrings.General.Install].Value,
-                InstallPluginSuccess = T[MantleWebLocalizableStrings.Plugins.InstallPluginSuccess].Value,
-                InstallPluginError = T[MantleWebLocalizableStrings.Plugins.InstallPluginError].Value,
-                Uninstall = T[MantleWebLocalizableStrings.General.Uninstall].Value,
-                UninstallPluginSuccess = T[MantleWebLocalizableStrings.Plugins.UninstallPluginSuccess].Value,
-                UninstallPluginError = T[MantleWebLocalizableStrings.Plugins.UninstallPluginError].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    Group = T[MantleWebLocalizableStrings.Plugins.Model.Group].Value,
-                    PluginInfo = T[MantleWebLocalizableStrings.Plugins.Model.PluginInfo].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    install = T[MantleWebLocalizableStrings.General.Install].Value,
+                    installPluginSuccess = T[MantleWebLocalizableStrings.Plugins.InstallPluginSuccess].Value,
+                    installPluginError = T[MantleWebLocalizableStrings.Plugins.InstallPluginError].Value,
+                    uninstall = T[MantleWebLocalizableStrings.General.Uninstall].Value,
+                    uninstallPluginSuccess = T[MantleWebLocalizableStrings.Plugins.UninstallPluginSuccess].Value,
+                    uninstallPluginError = T[MantleWebLocalizableStrings.Plugins.UninstallPluginError].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    columns = new
+                    {
+                        group = T[MantleWebLocalizableStrings.Plugins.Model.Group].Value,
+                        pluginInfo = T[MantleWebLocalizableStrings.Plugins.Model.PluginInfo].Value,
+                    }
                 }
             });
         }
@@ -69,7 +73,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
         {
             systemName = systemName.Replace('-', '.');
 
-            if (!CheckPermission(PluginsPermissions.ManagePlugins))
+            if (!CheckPermission(MantleWebPermissions.PluginsManage))
             {
                 return Json(new { Success = false, Message = "Unauthorized" });
                 //return new HttpUnauthorizedResult();
@@ -116,7 +120,7 @@ namespace Mantle.Web.Areas.Admin.Plugins.Controllers
         {
             systemName = systemName.Replace('-', '.');
 
-            if (!CheckPermission(PluginsPermissions.ManagePlugins))
+            if (!CheckPermission(MantleWebPermissions.PluginsManage))
             {
                 return Json(new { Success = false, Message = "Unauthorized" });
                 //return new HttpUnauthorizedResult();

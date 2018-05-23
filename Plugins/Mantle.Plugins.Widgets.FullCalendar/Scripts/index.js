@@ -84,7 +84,7 @@
                     ]
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -100,18 +100,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.event.Name,
-                    filterable: true
+                    title: self.parent.translations.columns.event.Name
                 }, {
                     field: "StartDateTime",
                     title: self.parent.translations.columns.event.StartDateTime,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "EndDateTime",
                     title: self.parent.translations.columns.event.EndDateTime,
-                    format: "{0:G}",
-                    filterable: true
+                    format: "{0:G}"
                 }, {
                     field: "Id",
                     title: " ",
@@ -308,7 +305,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -324,8 +321,7 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.calendar.name,
-                    filterable: true
+                    title: self.parent.translations.columns.calendar.name
                 }, {
                     field: "Id",
                     title: " ",
@@ -471,19 +467,18 @@
 
             // Load translations first, else will have errors
             $.ajax({
-                url: "/plugins/widgets/fullcalendar/get-translations",
+                url: "/plugins/widgets/fullcalendar/get-view-data",
                 type: "GET",
                 dataType: "json",
                 async: false
             })
-            .done(function (json) {
-                self.translations = json;
+            .done(function (viewData) {
+                self.translations = viewData.translations;
+                self.gridPageSize = viewData.gridPageSize;
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(textStatus + ': ' + errorThrown);
             });
-
-            self.gridPageSize = $("#GridPageSize").val();
 
             self.calendarModel.init();
             self.eventModel.init();

@@ -20,6 +20,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-category-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-post-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-tag-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\content-block-model.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\content-blocks-index.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-item-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-type-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-version-model.js" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />
@@ -30,7 +45,6 @@
     <EmbeddedResource Include="Views\_ViewStart.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Details.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\IndexAjax.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Blog\Views\Blog\Index.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByCategory\Default.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByTag\Default.cshtml" />
@@ -64,7 +78,6 @@
     <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\EditorTemplates\NewsletterUserProfileProvider.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Subscriber\Index.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Pages\Views\Page\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Page\Index_Old.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\DisplayTemplates\StandardPage.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\PageSettings.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\StandardPage.cshtml" />
@@ -74,16 +87,10 @@
     <EmbeddedResource Include="Scripts\jquery.form-extension.js" />
     <EmbeddedResource Include="Scripts\kore-cms-localization.js" />
     <EmbeddedResource Include="Scripts\moment.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blogContent.js" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\contentBlocks.js" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entityTypeContentBlocks.js" />
     <EmbeddedResource Include="Areas\Admin\Media\Scripts\media.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
     <EmbeddedResource Include="Areas\Admin\Newsletters\Scripts\subscribers.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index_Old.js" />
-    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\xml-sitemap-index.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -94,13 +101,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201804200000" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <None Remove="Areas\Admin\Blog\Scripts\blog-category-model.js" />
+    <None Remove="Areas\Admin\Blog\Scripts\blog-post-model.js" />
+    <None Remove="Areas\Admin\Blog\Scripts\blog-tag-model.js" />
+    <None Remove="Areas\Admin\Blog\Scripts\index.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\content-block-model.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\content-blocks-index.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
+    <None Remove="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\index.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menu-item-model.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menu-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-type-model.js" />
+    <None Remove="Areas\Admin\Pages\Scripts\page-version-model.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805111241" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
+    <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
+    <ProjectReference Include="..\Mantle.Events.Abstractions\Mantle.Events.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Web.CommonResources\Mantle.Web.CommonResources.csproj" />
     <ProjectReference Include="..\Mantle.Web.Messaging\Mantle.Web.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />

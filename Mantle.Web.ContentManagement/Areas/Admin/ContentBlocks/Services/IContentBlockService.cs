@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Extenso;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Localization.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;

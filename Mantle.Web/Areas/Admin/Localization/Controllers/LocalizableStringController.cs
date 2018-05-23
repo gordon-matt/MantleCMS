@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Extenso;
 using Mantle.Localization.Services;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.Configuration;
@@ -46,23 +47,24 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
 
             ViewBag.Title = T[MantleWebLocalizableStrings.Localization.Title].Value;
             ViewBag.SubTitle = T[MantleWebLocalizableStrings.Localization.LocalizableStrings].Value;
-
-            //ViewBag.CultureCode = language.CultureCode;
-
+            
             return PartialView();
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                Columns = new
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                translations = new
                 {
-                    InvariantValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.InvariantValue].Value,
-                    Key = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.Key].Value,
-                    LocalizedValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.LocalizedValue].Value,
+                    columns = new
+                    {
+                        invariantValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.InvariantValue].Value,
+                        key = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.Key].Value,
+                        localizedValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.LocalizedValue].Value,
+                    }
                 }
             });
         }

@@ -1,5 +1,4 @@
 ﻿using Mantle.Web.Mvc.Routing;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 namespace Mantle.Web.ContentManagement

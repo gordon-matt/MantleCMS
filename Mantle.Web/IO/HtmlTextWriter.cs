@@ -19,7 +19,7 @@ namespace Mantle.Web.IO
         {
             get { return stringWriter.Encoding; }
         }
-        
+
         public override string ToString()
         {
             return stringWriter.ToString();

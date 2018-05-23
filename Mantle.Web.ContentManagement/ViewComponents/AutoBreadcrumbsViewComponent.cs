@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity.EntityFramework;
+using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
@@ -17,9 +17,9 @@ namespace Mantle.Web.ContentManagement.ViewComponents
     public class AutoBreadcrumbsViewComponent : ViewComponent
     {
         private readonly BlogSettings blogSettings;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
-        public AutoBreadcrumbsViewComponent(BlogSettings blogSettings, IWebWorkContext workContext)
+        public AutoBreadcrumbsViewComponent(BlogSettings blogSettings, IWorkContext workContext)
         {
             this.blogSettings = blogSettings;
             this.workContext = workContext;

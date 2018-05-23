@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.OData
 {
-    //TODO: Test this
     public abstract class GenericTenantODataController<TEntity, TKey> : GenericODataController<TEntity, TKey>
         where TEntity : class, ITenantEntity
     {

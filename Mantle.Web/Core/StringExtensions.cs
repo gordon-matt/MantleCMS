@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Extenso;
 
 namespace Mantle.Web
 {
@@ -13,7 +14,7 @@ namespace Mantle.Web
 
             foreach (char character in stringFormKd)
             {
-                UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(character);
                 if (unicodeCategory != UnicodeCategory.NonSpacingMark)
                 {
                     stringBuilder.Append(character);

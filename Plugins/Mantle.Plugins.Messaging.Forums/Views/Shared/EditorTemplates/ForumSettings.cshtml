@@ -7,252 +7,259 @@
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ForumsEnabled, new { data_bind = "checked: forumsEnabled" }) @T[LocalizableStrings.Settings.ForumsEnabled]
+                <input type="checkbox" id="ForumsEnabled" name="ForumsEnabled" checked.bind="forumsEnabled" /> @T[LocalizableStrings.Settings.ForumsEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.RelativeDateTimeFormattingEnabled, new { data_bind = "checked: relativeDateTimeFormattingEnabled" }) @T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]
+                <input type="checkbox" id="RelativeDateTimeFormattingEnabled" name="RelativeDateTimeFormattingEnabled" checked.bind="relativeDateTimeFormattingEnabled" /> @T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToEditPosts, new { data_bind = "checked: allowUsersToEditPosts" }) @T[LocalizableStrings.Settings.AllowUsersToEditPosts]
+                <input type="checkbox" id="AllowUsersToEditPosts" name="AllowUsersToEditPosts" checked.bind="allowUsersToEditPosts" /> @T[LocalizableStrings.Settings.AllowUsersToEditPosts]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToManageSubscriptions, new { data_bind = "checked: allowUsersToManageSubscriptions" }) @T[LocalizableStrings.Settings.AllowUsersToManageSubscriptions]
+                <input type="checkbox" id="AllowUsersToManageSubscriptions" name="AllowUsersToManageSubscriptions" checked.bind="allowUsersToManageSubscriptions" /> @T[LocalizableStrings.Settings.AllowUsersToManageSubscriptions]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToDeletePosts, new { data_bind = "checked: allowUsersToDeletePosts" }) @T[LocalizableStrings.Settings.AllowUsersToDeletePosts]
+                <input type="checkbox" id="AllowUsersToDeletePosts" name="AllowUsersToDeletePosts" checked.bind="allowUsersToDeletePosts" /> @T[LocalizableStrings.Settings.AllowUsersToDeletePosts]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.TopicSubjectMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TopicSubjectMaxLength, new { type = "number", @class = "form-control", data_bind = "value: topicSubjectMaxLength" })
+        <input type="number" id="TopicSubjectMaxLength" name="TopicSubjectMaxLength" class="form-control" value.bind="topicSubjectMaxLength" />
         @Html.ValidationMessageFor(m => m.TopicSubjectMaxLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.StrippedTopicMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.StrippedTopicMaxLength, new { type = "number", @class = "form-control", data_bind = "value: strippedTopicMaxLength" })
+        <input type="number" id="StrippedTopicMaxLength" name="StrippedTopicMaxLength" class="form-control" value.bind="strippedTopicMaxLength" />
         @Html.ValidationMessageFor(m => m.StrippedTopicMaxLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PostMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PostMaxLength, new { type = "number", @class = "form-control", data_bind = "value: postMaxLength" })
+        <input type="number" id="PostMaxLength" name="PostMaxLength" class="form-control" value.bind="postMaxLength" />
         @Html.ValidationMessageFor(m => m.PostMaxLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.TopicsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TopicsPageSize, new { type = "number", @class = "form-control", data_bind = "value: topicsPageSize" })
+        <input type="number" id="TopicsPageSize" name="TopicsPageSize" class="form-control" value.bind="topicsPageSize" />
         @Html.ValidationMessageFor(m => m.TopicsPageSize)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PostsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PostsPageSize, new { type = "number", @class = "form-control", data_bind = "value: postsPageSize" })
+        <input type="number" id="PostsPageSize" name="PostsPageSize" class="form-control" value.bind="postsPageSize" />
         @Html.ValidationMessageFor(m => m.PostsPageSize)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.SearchResultsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.SearchResultsPageSize, new { type = "number", @class = "form-control", data_bind = "value: searchResultsPageSize" })
+        <input type="number" id="SearchResultsPageSize" name="SearchResultsPageSize" class="form-control" value.bind="searchResultsPageSize" />
         @Html.ValidationMessageFor(m => m.SearchResultsPageSize)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ActiveDiscussionsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ActiveDiscussionsPageSize, new { type = "number", @class = "form-control", data_bind = "value: activeDiscussionsPageSize" })
+        <input type="number" id="ActiveDiscussionsPageSize" name="ActiveDiscussionsPageSize" class="form-control" value.bind="activeDiscussionsPageSize" />
         @Html.ValidationMessageFor(m => m.ActiveDiscussionsPageSize)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.LatestUserPostsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LatestUserPostsPageSize, new { type = "number", @class = "form-control", data_bind = "value: latestUserPostsPageSize" })
+        <input type="number" id="LatestUserPostsPageSize" name="LatestUserPostsPageSize" class="form-control" value.bind="latestUserPostsPageSize" />
         @Html.ValidationMessageFor(m => m.LatestUserPostsPageSize)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowUsersPostCount, new { data_bind = "checked: showUsersPostCount" }) @T[LocalizableStrings.Settings.ShowUsersPostCount]
+                <input type="checkbox" id="ShowUsersPostCount" name="ShowUsersPostCount" checked.bind="showUsersPostCount" /> @T[LocalizableStrings.Settings.ShowUsersPostCount]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumEditor, new { @class = "control-label" })
-        @Html.DropDownListFor(m => m.ForumEditor, Html.GetEnumSelectList<EditorType>(), new { @class = "form-control", data_bind = "value: forumEditor" })
+        @Html.DropDownListFor(
+            m => m.ForumEditor,
+            Html.GetEnumSelectList<EditorType>(),
+            new Dictionary<string, object>
+            {
+                { "class", "form-control" },
+                { "value.bind", "forumEditor" }
+            })
         @Html.ValidationMessageFor(m => m.ForumEditor)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.SignaturesEnabled, new { data_bind = "checked: signaturesEnabled" }) @T[LocalizableStrings.Settings.SignaturesEnabled]
+                <input type="checkbox" id="SignaturesEnabled" name="SignaturesEnabled" checked.bind="signaturesEnabled" />  @T[LocalizableStrings.Settings.SignaturesEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.AllowPrivateMessages, new { data_bind = "checked: allowPrivateMessages" }) @T[LocalizableStrings.Settings.AllowPrivateMessages]
+                <input type="checkbox" id="AllowPrivateMessages" name="AllowPrivateMessages" checked.bind="allowPrivateMessages" />  @T[LocalizableStrings.Settings.AllowPrivateMessages]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowAlertForPM, new { data_bind = "checked: showAlertForPM" }) @T[LocalizableStrings.Settings.ShowAlertForPM]
+                <input type="checkbox" id="ShowAlertForPM" name="ShowAlertForPM" checked.bind="showAlertForPM" />  @T[LocalizableStrings.Settings.ShowAlertForPM]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PrivateMessagesPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PrivateMessagesPageSize, new { type = "number", @class = "form-control", data_bind = "value: privateMessagesPageSize" })
+        <input type="number" id="PrivateMessagesPageSize" name="PrivateMessagesPageSize" class="form-control" value.bind="privateMessagesPageSize" />
         @Html.ValidationMessageFor(m => m.PrivateMessagesPageSize)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumSubscriptionsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumSubscriptionsPageSize, new { type = "number", @class = "form-control", data_bind = "value: forumSubscriptionsPageSize" })
+        <input type="number" id="ForumSubscriptionsPageSize" name="ForumSubscriptionsPageSize" class="form-control" value.bind="forumSubscriptionsPageSize" />
         @Html.ValidationMessageFor(m => m.ForumSubscriptionsPageSize)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.NotifyAboutPrivateMessages, new { data_bind = "checked: notifyAboutPrivateMessages" }) @T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]
+                <input type="checkbox" id="NotifyAboutPrivateMessages" name="NotifyAboutPrivateMessages" checked.bind="notifyAboutPrivateMessages" />  @T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PMSubjectMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PMSubjectMaxLength, new { type = "number", @class = "form-control", data_bind = "value: pmSubjectMaxLength" })
+        <input type="number" id="PMSubjectMaxLength" name="PMSubjectMaxLength" class="form-control" value.bind="pmSubjectMaxLength" />
         @Html.ValidationMessageFor(m => m.PMSubjectMaxLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PMTextMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PMTextMaxLength, new { type = "number", @class = "form-control", data_bind = "value: pmTextMaxLength" })
+        <input type="number" id="PMTextMaxLength" name="PMTextMaxLength" class="form-control" value.bind="pmTextMaxLength" />
         @Html.ValidationMessageFor(m => m.PMTextMaxLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.HomePageActiveDiscussionsTopicCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.HomePageActiveDiscussionsTopicCount, new { type = "number", @class = "form-control", data_bind = "value: homePageActiveDiscussionsTopicCount" })
+        <input type="number" id="HomePageActiveDiscussionsTopicCount" name="HomePageActiveDiscussionsTopicCount" class="form-control" value.bind="homePageActiveDiscussionsTopicCount" />
         @Html.ValidationMessageFor(m => m.HomePageActiveDiscussionsTopicCount)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ActiveDiscussionsFeedCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ActiveDiscussionsFeedCount, new { type = "number", @class = "form-control", data_bind = "value: activeDiscussionsFeedCount" })
+        <input type="number" id="ActiveDiscussionsFeedCount" name="ActiveDiscussionsFeedCount" class="form-control" value.bind="activeDiscussionsFeedCount" />
         @Html.ValidationMessageFor(m => m.ActiveDiscussionsFeedCount)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ActiveDiscussionsFeedEnabled, new { data_bind = "checked: activeDiscussionsFeedEnabled" }) @T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]
+                <input type="checkbox" id="ActiveDiscussionsFeedEnabled" name="ActiveDiscussionsFeedEnabled" checked.bind="activeDiscussionsFeedEnabled" />  @T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]
             </label>
         </div>
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ForumFeedsEnabled, new { data_bind = "checked: forumFeedsEnabled" }) @T[LocalizableStrings.Settings.ForumFeedsEnabled]
+                <input type="checkbox" id="ForumFeedsEnabled" name="ForumFeedsEnabled" checked.bind="forumFeedsEnabled" /> @T[LocalizableStrings.Settings.ForumFeedsEnabled]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumFeedCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumFeedCount, new { type = "number", @class = "form-control", data_bind = "value: forumFeedCount" })
+        <input type="number" id="ForumFeedCount" name="ForumFeedCount" class="form-control" value.bind="forumFeedCount" />
         @Html.ValidationMessageFor(m => m.ForumFeedCount)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumSearchTermMinimumLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumSearchTermMinimumLength, new { type = "number", @class = "form-control", data_bind = "value: forumSearchTermMinimumLength" })
+        <input type="number" id="ForumSearchTermMinimumLength" name="ForumSearchTermMinimumLength" class="form-control" value.bind="forumSearchTermMinimumLength" />
         @Html.ValidationMessageFor(m => m.ForumSearchTermMinimumLength)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.PageTitle, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PageTitle, new { @class = "form-control", data_bind = "value: pageTitle" })
+        <input type="text" id="PageTitle" name="PageTitle" class="form-control" value.bind="pageTitle" />
         @Html.ValidationMessageFor(m => m.PageTitle)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[LocalizableStrings.Settings.ShowOnMenus]
+                <input type="checkbox" id="ShowOnMenus" name="ShowOnMenus" checked.bind="showOnMenus" /> @T[LocalizableStrings.Settings.ShowOnMenus]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.MenuPosition, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.MenuPosition, new { type = "number", @class = "form-control", data_bind = "value: menuPosition" })
+        <input type="number" id="MenuPosition" name="MenuPosition" class="form-control" value.bind="menuPosition" />
         @Html.ValidationMessageFor(m => m.MenuPosition)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.LayoutPathOverride, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LayoutPathOverride, new { @class = "form-control", data_bind = "value: layoutPathOverride" })
+        <input type="text" id="LayoutPathOverride" name="LayoutPathOverride" class="form-control" value.bind="layoutPathOverride" />
         @Html.ValidationMessageFor(m => m.LayoutPathOverride)
     </div>
 </div>
 
 <script type="text/javascript">
     function updateModel(viewModel, data) {
-        viewModel.forumsEnabled = ko.observable(true);
-        viewModel.relativeDateTimeFormattingEnabled = ko.observable(true);
-        viewModel.allowUsersToEditPosts = ko.observable(true);
-        viewModel.allowUsersToManageSubscriptions = ko.observable(true);
-        viewModel.allowUsersToDeletePosts = ko.observable(true);
-        viewModel.topicSubjectMaxLength = ko.observable(255);
-        viewModel.strippedTopicMaxLength = ko.observable(255);
-        viewModel.postMaxLength = ko.observable(2048);
-        viewModel.topicsPageSize = ko.observable(10);
-        viewModel.postsPageSize = ko.observable(10);
-        viewModel.searchResultsPageSize = ko.observable(10);
-        viewModel.activeDiscussionsPageSize = ko.observable(10);
-        viewModel.latestUserPostsPageSize = ko.observable(10);
-        viewModel.showUsersPostCount = ko.observable(true);
-        viewModel.forumEditor = ko.observable(20);
-        viewModel.signaturesEnabled = ko.observable(true);
-        viewModel.allowPrivateMessages = ko.observable(false);
-        viewModel.showAlertForPM = ko.observable(true);
-        viewModel.privateMessagesPageSize = ko.observable(10);
-        viewModel.forumSubscriptionsPageSize = ko.observable(10);
-        viewModel.notifyAboutPrivateMessages = ko.observable(true);
-        viewModel.pmSubjectMaxLength = ko.observable(128);
-        viewModel.pmTextMaxLength = ko.observable(1024);
-        viewModel.homePageActiveDiscussionsTopicCount = ko.observable(10);
-        viewModel.forumFeedsEnabled = ko.observable(true);
-        viewModel.forumFeedCount = ko.observable(10);
-        viewModel.activeDiscussionsFeedEnabled = ko.observable(true);
-        viewModel.activeDiscussionsFeedCount = ko.observable(10);
-        viewModel.forumSearchTermMinimumLength = ko.observable(2);
-        viewModel.pageTitle = ko.observable(null);
-        viewModel.showOnMenus = ko.observable(true);
-        viewModel.menuPosition = ko.observable(0);
-        viewModel.layoutPathOverride = ko.observable('');
+        viewModel.forumsEnabled = true;
+        viewModel.relativeDateTimeFormattingEnabled = true;
+        viewModel.allowUsersToEditPosts = true;
+        viewModel.allowUsersToManageSubscriptions = true;
+        viewModel.allowUsersToDeletePosts = true;
+        viewModel.topicSubjectMaxLength = 255;
+        viewModel.strippedTopicMaxLength = 255;
+        viewModel.postMaxLength = 2048;
+        viewModel.topicsPageSize = 10;
+        viewModel.postsPageSize = 10;
+        viewModel.searchResultsPageSize = 10;
+        viewModel.activeDiscussionsPageSize = 10;
+        viewModel.latestUserPostsPageSize = 10;
+        viewModel.showUsersPostCount = true;
+        viewModel.forumEditor = 20;
+        viewModel.signaturesEnabled = true;
+        viewModel.allowPrivateMessages = false;
+        viewModel.showAlertForPM = true;
+        viewModel.privateMessagesPageSize = 10;
+        viewModel.forumSubscriptionsPageSize = 10;
+        viewModel.notifyAboutPrivateMessages = true;
+        viewModel.pmSubjectMaxLength = 128;
+        viewModel.pmTextMaxLength = 1024;
+        viewModel.homePageActiveDiscussionsTopicCount = 10;
+        viewModel.forumFeedsEnabled = true;
+        viewModel.forumFeedCount = 10;
+        viewModel.activeDiscussionsFeedEnabled = true;
+        viewModel.activeDiscussionsFeedCount = 10;
+        viewModel.forumSearchTermMinimumLength = 2;
+        viewModel.pageTitle = null;
+        viewModel.showOnMenus = true;
+        viewModel.menuPosition = 0;
+        viewModel.layoutPathOverride = '';
 
         if (data) {
-            if (data.ForumsEnabled && typeof data.ForumsEnabled === 'boolean') { viewModel.forumsEnabled(data.ForumsEnabled); }
-            if (data.RelativeDateTimeFormattingEnabled && typeof data.RelativeDateTimeFormattingEnabled === 'boolean') { viewModel.relativeDateTimeFormattingEnabled(data.RelativeDateTimeFormattingEnabled); }
-            if (data.AllowUsersToEditPosts && typeof data.AllowUsersToEditPosts === 'boolean') { viewModel.allowUsersToEditPosts(data.AllowUsersToEditPosts); }
-            if (data.AllowUsersToManageSubscriptions && typeof data.AllowUsersToManageSubscriptions === 'boolean') { viewModel.allowUsersToManageSubscriptions(data.AllowUsersToManageSubscriptions); }
-            if (data.AllowUsersToDeletePosts && typeof data.AllowUsersToDeletePosts === 'boolean') { viewModel.allowUsersToDeletePosts(data.AllowUsersToDeletePosts); }
-            if (data.TopicSubjectMaxLength) { viewModel.topicSubjectMaxLength(data.TopicSubjectMaxLength); }
-            if (data.StrippedTopicMaxLength) { viewModel.strippedTopicMaxLength(data.StrippedTopicMaxLength); }
-            if (data.PostMaxLength) { viewModel.postMaxLength(data.PostMaxLength); }
-            if (data.TopicsPageSize) { viewModel.topicsPageSize(data.TopicsPageSize); }
-            if (data.PostsPageSize) { viewModel.postsPageSize(data.PostsPageSize); }
-            if (data.SearchResultsPageSize) { viewModel.searchResultsPageSize(data.SearchResultsPageSize); }
-            if (data.ActiveDiscussionsPageSize) { viewModel.activeDiscussionsPageSize(data.ActiveDiscussionsPageSize); }
-            if (data.LatestUserPostsPageSize) { viewModel.latestUserPostsPageSize(data.LatestUserPostsPageSize); }
-            if (data.ShowUsersPostCount && typeof data.ShowUsersPostCount === 'boolean') { viewModel.showUsersPostCount(data.ShowUsersPostCount); }
-            if (data.ForumEditor) { viewModel.forumEditor(data.ForumEditor); }
-            if (data.SignaturesEnabled && typeof data.SignaturesEnabled === 'boolean') { viewModel.signaturesEnabled(data.SignaturesEnabled); }
-            if (data.AllowPrivateMessages && typeof data.AllowPrivateMessages === 'boolean') { viewModel.allowPrivateMessages(data.AllowPrivateMessages); }
-            if (data.ShowAlertForPM && typeof data.ShowAlertForPM === 'boolean') { viewModel.showAlertForPM(data.ShowAlertForPM); }
-            if (data.PrivateMessagesPageSize) { viewModel.privateMessagesPageSize(data.PrivateMessagesPageSize); }
-            if (data.ForumSubscriptionsPageSize) { viewModel.forumSubscriptionsPageSize(data.ForumSubscriptionsPageSize); }
-            if (data.NotifyAboutPrivateMessages && typeof data.NotifyAboutPrivateMessages === 'boolean') { viewModel.notifyAboutPrivateMessages(data.NotifyAboutPrivateMessages); }
-            if (data.PMSubjectMaxLength) { viewModel.pmSubjectMaxLength(data.PMSubjectMaxLength); }
-            if (data.PMTextMaxLength) { viewModel.pmTextMaxLength(data.PMTextMaxLength); }
-            if (data.HomePageActiveDiscussionsTopicCount) { viewModel.homePageActiveDiscussionsTopicCount(data.HomePageActiveDiscussionsTopicCount); }
-            if (data.ActiveDiscussionsFeedCount) { viewModel.activeDiscussionsFeedCount(data.ActiveDiscussionsFeedCount); }
-            if (data.ActiveDiscussionsFeedEnabled && typeof data.ActiveDiscussionsFeedEnabled === 'boolean') { viewModel.activeDiscussionsFeedEnabled(data.ActiveDiscussionsFeedEnabled); }
-            if (data.ForumFeedsEnabled && typeof data.ForumFeedsEnabled === 'boolean') { viewModel.forumFeedsEnabled(data.ForumFeedsEnabled); }
-            if (data.ForumFeedCount) { viewModel.forumFeedCount(data.ForumFeedCount); }
-            if (data.ForumSearchTermMinimumLength) { viewModel.forumSearchTermMinimumLength(data.ForumSearchTermMinimumLength); }
-            if (data.PageTitle) { viewModel.pageTitle(data.PageTitle); }
-            if (data.ShowOnMenus && typeof data.ShowOnMenus === 'boolean') { viewModel.showOnMenus(data.ShowOnMenus); }
-            if (data.MenuPosition) { viewModel.menuPosition(data.MenuPosition); }
-            if (data.LayoutPathOverride) { viewModel.layoutPathOverride(data.LayoutPathOverride); }
+            if (data.ForumsEnabled && typeof data.ForumsEnabled === 'boolean') { viewModel.forumsEnabled = data.ForumsEnabled; }
+            if (data.RelativeDateTimeFormattingEnabled && typeof data.RelativeDateTimeFormattingEnabled === 'boolean') { viewModel.relativeDateTimeFormattingEnabled = data.RelativeDateTimeFormattingEnabled; }
+            if (data.AllowUsersToEditPosts && typeof data.AllowUsersToEditPosts === 'boolean') { viewModel.allowUsersToEditPosts = data.AllowUsersToEditPosts; }
+            if (data.AllowUsersToManageSubscriptions && typeof data.AllowUsersToManageSubscriptions === 'boolean') { viewModel.allowUsersToManageSubscriptions = data.AllowUsersToManageSubscriptions; }
+            if (data.AllowUsersToDeletePosts && typeof data.AllowUsersToDeletePosts === 'boolean') { viewModel.allowUsersToDeletePosts = data.AllowUsersToDeletePosts; }
+            if (data.TopicSubjectMaxLength) { viewModel.topicSubjectMaxLength = data.TopicSubjectMaxLength; }
+            if (data.StrippedTopicMaxLength) { viewModel.strippedTopicMaxLength = data.StrippedTopicMaxLength; }
+            if (data.PostMaxLength) { viewModel.postMaxLength = data.PostMaxLength; }
+            if (data.TopicsPageSize) { viewModel.topicsPageSize = data.TopicsPageSize; }
+            if (data.PostsPageSize) { viewModel.postsPageSize = data.PostsPageSize; }
+            if (data.SearchResultsPageSize) { viewModel.searchResultsPageSize = data.SearchResultsPageSize; }
+            if (data.ActiveDiscussionsPageSize) { viewModel.activeDiscussionsPageSize = data.ActiveDiscussionsPageSize; }
+            if (data.LatestUserPostsPageSize) { viewModel.latestUserPostsPageSize = data.LatestUserPostsPageSize; }
+            if (data.ShowUsersPostCount && typeof data.ShowUsersPostCount === 'boolean') { viewModel.showUsersPostCount = data.ShowUsersPostCount; }
+            if (data.ForumEditor) { viewModel.forumEditor = data.ForumEditor; }
+            if (data.SignaturesEnabled && typeof data.SignaturesEnabled === 'boolean') { viewModel.signaturesEnabled = data.SignaturesEnabled; }
+            if (data.AllowPrivateMessages && typeof data.AllowPrivateMessages === 'boolean') { viewModel.allowPrivateMessages = data.AllowPrivateMessages; }
+            if (data.ShowAlertForPM && typeof data.ShowAlertForPM === 'boolean') { viewModel.showAlertForPM = data.ShowAlertForPM; }
+            if (data.PrivateMessagesPageSize) { viewModel.privateMessagesPageSize = data.PrivateMessagesPageSize; }
+            if (data.ForumSubscriptionsPageSize) { viewModel.forumSubscriptionsPageSize = data.ForumSubscriptionsPageSize; }
+            if (data.NotifyAboutPrivateMessages && typeof data.NotifyAboutPrivateMessages === 'boolean') { viewModel.notifyAboutPrivateMessages = data.NotifyAboutPrivateMessages; }
+            if (data.PMSubjectMaxLength) { viewModel.pmSubjectMaxLength = data.PMSubjectMaxLength; }
+            if (data.PMTextMaxLength) { viewModel.pmTextMaxLength = data.PMTextMaxLength; }
+            if (data.HomePageActiveDiscussionsTopicCount) { viewModel.homePageActiveDiscussionsTopicCount = data.HomePageActiveDiscussionsTopicCount; }
+            if (data.ActiveDiscussionsFeedCount) { viewModel.activeDiscussionsFeedCount = data.ActiveDiscussionsFeedCount; }
+            if (data.ActiveDiscussionsFeedEnabled && typeof data.ActiveDiscussionsFeedEnabled === 'boolean') { viewModel.activeDiscussionsFeedEnabled = data.ActiveDiscussionsFeedEnabled; }
+            if (data.ForumFeedsEnabled && typeof data.ForumFeedsEnabled === 'boolean') { viewModel.forumFeedsEnabled = data.ForumFeedsEnabled; }
+            if (data.ForumFeedCount) { viewModel.forumFeedCount = data.ForumFeedCount; }
+            if (data.ForumSearchTermMinimumLength) { viewModel.forumSearchTermMinimumLength = data.ForumSearchTermMinimumLength; }
+            if (data.PageTitle) { viewModel.pageTitle = data.PageTitle; }
+            if (data.ShowOnMenus && typeof data.ShowOnMenus === 'boolean') { viewModel.showOnMenus = data.ShowOnMenus; }
+            if (data.MenuPosition) { viewModel.menuPosition = data.MenuPosition; }
+            if (data.LayoutPathOverride) { viewModel.layoutPathOverride = data.LayoutPathOverride; }
         }
     };
 
@@ -294,41 +301,41 @@
 
     function onBeforeSave(viewModel) {
         var data = {
-            ForumsEnabled: viewModel.forumsEnabled(),
-            RelativeDateTimeFormattingEnabled: viewModel.relativeDateTimeFormattingEnabled(),
-            AllowUsersToEditPosts: viewModel.allowUsersToEditPosts(),
-            AllowUsersToManageSubscriptions: viewModel.allowUsersToManageSubscriptions(),
-            AllowUsersToDeletePosts: viewModel.allowUsersToDeletePosts(),
-            TopicSubjectMaxLength: viewModel.topicSubjectMaxLength(),
-            StrippedTopicMaxLength: viewModel.strippedTopicMaxLength(),
-            PostMaxLength: viewModel.postMaxLength(),
-            TopicsPageSize: viewModel.topicsPageSize(),
-            PostsPageSize: viewModel.postsPageSize(),
-            SearchResultsPageSize: viewModel.searchResultsPageSize(),
-            ActiveDiscussionsPageSize: viewModel.activeDiscussionsPageSize(),
-            LatestUserPostsPageSize: viewModel.latestUserPostsPageSize(),
-            ShowUsersPostCount: viewModel.showUsersPostCount(),
-            ForumEditor: viewModel.forumEditor(),
-            SignaturesEnabled: viewModel.signaturesEnabled(),
-            AllowPrivateMessages: viewModel.allowPrivateMessages(),
-            ShowAlertForPM: viewModel.showAlertForPM(),
-            PrivateMessagesPageSize: viewModel.privateMessagesPageSize(),
-            ForumSubscriptionsPageSize: viewModel.forumSubscriptionsPageSize(),
-            NotifyAboutPrivateMessages: viewModel.notifyAboutPrivateMessages(),
-            PMSubjectMaxLength: viewModel.pmSubjectMaxLength(),
-            PMTextMaxLength: viewModel.pmTextMaxLength(),
-            HomePageActiveDiscussionsTopicCount: viewModel.homePageActiveDiscussionsTopicCount(),
-            ActiveDiscussionsFeedCount: viewModel.activeDiscussionsFeedCount(),
-            ActiveDiscussionsFeedEnabled: viewModel.activeDiscussionsFeedEnabled(),
-            ForumFeedsEnabled: viewModel.forumFeedsEnabled(),
-            ForumFeedCount: viewModel.forumFeedCount(),
-            ForumSearchTermMinimumLength: viewModel.forumSearchTermMinimumLength(),
-            PageTitle: viewModel.pageTitle(),
-            ShowOnMenus: viewModel.showOnMenus(),
-            MenuPosition: viewModel.menuPosition(),
-            LayoutPathOverride: viewModel.layoutPathOverride(),
+            ForumsEnabled: viewModel.forumsEnabled,
+            RelativeDateTimeFormattingEnabled: viewModel.relativeDateTimeFormattingEnabled,
+            AllowUsersToEditPosts: viewModel.allowUsersToEditPosts,
+            AllowUsersToManageSubscriptions: viewModel.allowUsersToManageSubscriptions,
+            AllowUsersToDeletePosts: viewModel.allowUsersToDeletePosts,
+            TopicSubjectMaxLength: viewModel.topicSubjectMaxLength,
+            StrippedTopicMaxLength: viewModel.strippedTopicMaxLength,
+            PostMaxLength: viewModel.postMaxLength,
+            TopicsPageSize: viewModel.topicsPageSize,
+            PostsPageSize: viewModel.postsPageSize,
+            SearchResultsPageSize: viewModel.searchResultsPageSize,
+            ActiveDiscussionsPageSize: viewModel.activeDiscussionsPageSize,
+            LatestUserPostsPageSize: viewModel.latestUserPostsPageSize,
+            ShowUsersPostCount: viewModel.showUsersPostCount,
+            ForumEditor: viewModel.forumEditor,
+            SignaturesEnabled: viewModel.signaturesEnabled,
+            AllowPrivateMessages: viewModel.allowPrivateMessages,
+            ShowAlertForPM: viewModel.showAlertForPM,
+            PrivateMessagesPageSize: viewModel.privateMessagesPageSize,
+            ForumSubscriptionsPageSize: viewModel.forumSubscriptionsPageSize,
+            NotifyAboutPrivateMessages: viewModel.notifyAboutPrivateMessages,
+            PMSubjectMaxLength: viewModel.pmSubjectMaxLength,
+            PMTextMaxLength: viewModel.pmTextMaxLength,
+            HomePageActiveDiscussionsTopicCount: viewModel.homePageActiveDiscussionsTopicCount,
+            ActiveDiscussionsFeedCount: viewModel.activeDiscussionsFeedCount,
+            ActiveDiscussionsFeedEnabled: viewModel.activeDiscussionsFeedEnabled,
+            ForumFeedsEnabled: viewModel.forumFeedsEnabled,
+            ForumFeedCount: viewModel.forumFeedCount,
+            ForumSearchTermMinimumLength: viewModel.forumSearchTermMinimumLength,
+            PageTitle: viewModel.pageTitle,
+            ShowOnMenus: viewModel.showOnMenus,
+            MenuPosition: viewModel.menuPosition,
+            LayoutPathOverride: viewModel.layoutPathOverride
         };
-
-        viewModel.value(ko.mapping.toJSON(data));
+    
+        viewModel.value = JSON.stringify(data);
     };
 </script>

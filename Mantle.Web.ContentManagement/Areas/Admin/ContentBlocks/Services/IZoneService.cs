@@ -1,5 +1,5 @@
-﻿using Mantle.Caching;
-using Mantle.Data;
+﻿using Extenso.Data.Entity;
+using Mantle.Caching;
 using Mantle.Data.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 

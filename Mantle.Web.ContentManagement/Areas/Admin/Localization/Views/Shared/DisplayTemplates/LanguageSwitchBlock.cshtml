@@ -4,7 +4,7 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Localization
 @model LanguageSwitchBlock
 
-@inject Mantle.Web.IWebWorkContext WorkContext
+@inject Mantle.Web.IWorkContext WorkContext
 
 @{
     var languages = EngineContext.Current.Resolve<ILanguageService>().GetActiveLanguages(WorkContext.CurrentTenant.Id).ToList();

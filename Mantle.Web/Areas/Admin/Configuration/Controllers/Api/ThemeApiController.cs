@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mantle.Collections;
+using Extenso.Collections;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
 using Mantle.Web.Mvc.Themes;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +54,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
                     theme.IsDefaultTheme = true;
                 }
             }
-            
+
             var results = options.ApplyTo(themes.AsQueryable());
             return (results as IQueryable<EdmThemeConfiguration>).ToHashSet();
         }

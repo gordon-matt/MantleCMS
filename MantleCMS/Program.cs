@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using NLog.Web;
 
 namespace MantleCMS
 {
@@ -37,6 +38,7 @@ namespace MantleCMS
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .CaptureStartupErrors(true)
+                .UseNLog()
                 .Build();
         }
     }

@@ -5,7 +5,7 @@
 @model View360Block
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.IWebWorkContext WorkContext
+@inject Mantle.Web.IWorkContext WorkContext
 
 <div id="block-content">
     @using (var tabs = Html.MantleUI().Begin(new Tabs()))

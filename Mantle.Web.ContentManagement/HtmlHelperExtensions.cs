@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.Collections;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;

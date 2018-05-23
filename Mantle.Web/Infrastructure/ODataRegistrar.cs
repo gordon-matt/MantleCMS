@@ -1,5 +1,4 @@
 ﻿using System;
-using Mantle.Configuration.Domain;
 using Mantle.Localization.Domain;
 using Mantle.Logging.Domain;
 using Mantle.Security.Membership;
@@ -9,6 +8,7 @@ using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.Areas.Admin.Membership.Controllers.Api;
 using Mantle.Web.Areas.Admin.Plugins.Models;
+using Mantle.Web.Configuration.Domain;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Mvc;

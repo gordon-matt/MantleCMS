@@ -1,22 +1,21 @@
 ﻿using Autofac;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Common.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
-            builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();

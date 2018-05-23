@@ -1,137 +1,142 @@
-﻿define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko) {
-    'use strict'
+﻿import 'jquery';
+import 'jquery-validation';
+import 'bootstrap-notify';
+import '/js/kendo/2014.1.318/kendo.web.min.js';
 
-    var ViewModel = function () {
-        var self = this;
+import { inject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
+import { TemplatingEngine } from 'aurelia-templating';
 
-        self.gridPageSize = 10;
-        self.translations = false;
+import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
 
-        self.attached = function () {
-            // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/newsletters/subscribers/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+@inject(TemplatingEngine)
+export class ViewModel {
+    apiUrl = "/odata/mantle/cms/SubscriberApi";
 
-            self.gridPageSize = $("#GridPageSize").val();
+    constructor(templatingEngine) {
+        this.templatingEngine = templatingEngine;
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/cms/SubscriberApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
+        this.http = new HttpClient();
+        this.http.configure(config => {
+            config.withInterceptor(new GenericHttpInterceptor());
+        });
+    }
+
+    // Aurelia Component Lifecycle Methods
+
+    async attached() {
+        // Load translations first, else will have errors
+        let response = await this.http.get("/admin/newsletters/subscribers/get-view-data");
+        let viewData = response.content;
+        this.translations = viewData.translations;
+        
+        let self = this;
+
+        $("#grid").kendoGrid({
+            data: null,
+            dataSource: {
+                type: "odata",
+                transport: {
+                    read: {
+                        url: this.apiUrl,
+                        dataType: "json"
                     },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" },
-                                Email: { type: "string" }
+                    parameterMap: function (options, operation) {
+                        var paramMap = kendo.data.transports.odata.parameterMap(options);
+                        if (paramMap.$inlinecount) {
+                            if (paramMap.$inlinecount == "allpages") {
+                                paramMap.$count = true;
                             }
+                            delete paramMap.$inlinecount;
                         }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+                        if (paramMap.$filter) {
+                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                        }
+                        return paramMap;
                     }
                 },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
+                schema: {
+                    data: function (data) {
+                        return data.value;
+                    },
+                    total: function (data) {
+                        return data["@odata.count"];
+                    },
+                    model: {
+                        fields: {
+                            Name: { type: "string" },
+                            Email: { type: "string" }
+                        }
+                    }
                 },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
-                    field: "Name",
-                    title: self.translations.columns.name,
-                    filterable: true
-                }, {
-                    field: "Email",
-                    title: self.translations.columns.email,
-                    filterable: true
-                }, {
-                    field: "Id",
-                    title: " ",
-                    template:
-                        '<div class="btn-group">' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '</div>',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 120
-                }]
-            });
-        };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/SubscriberApi(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+                pageSize: viewData.gridPageSize,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                sort: { field: "Name", dir: "asc" }
+            },
+            dataBound: function (e) {
+                let body = this.element.find("tbody")[0];
+                if (body) {
+                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+                }
+            },
+            filterable: true,
+            sortable: {
+                allowUnsort: false
+            },
+            pageable: {
+                refresh: true
+            },
+            scrollable: false,
+            columns: [{
+                field: "Name",
+                title: this.translations.columns.name
+            }, {
+                field: "Email",
+                title: this.translations.columns.email
+            }, {
+                field: "Id",
+                title: " ",
+                template:
+                    '<div class="btn-group">' +
+                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.translations.delete}"><i class="fa fa-remove"></i></button>` +
+                    '</div>',
+                attributes: { "class": "text-center" },
+                filterable: false,
+                width: 50
+            }]
+        });
+    }
 
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+    // END: Aurelia Component Lifecycle Methods
+    
+    async remove(id) {
+        if (confirm(this.translations.deleteRecordConfirm)) {
+            let response = await this.http.delete(`${this.apiUrl}(${id})`);
+
+            if (response.isSuccess) {
+                $.notify({ message: this.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
             }
-        };
-        self.downloadCsv = function () {
-            var downloadForm = $("<form>")
-                .attr("method", "POST")
-                .attr("action", "/admin/newsletters/subscribers/download-csv");
-            $("body").append(downloadForm);
-            downloadForm.submit();
-            downloadForm.remove();
-        };
-    };
+            else {
+                $.notify({ message: this.translations.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+            }
 
-    var viewModel = new ViewModel();
-    return viewModel;
-});
+            this.refreshGrid();
+        }
+    }
+    
+    downloadCsv() {
+        var downloadForm = $("<form>")
+            .attr("method", "POST")
+            .attr("action", "/admin/newsletters/subscribers/download-csv");
+        $("body").append(downloadForm);
+        downloadForm.submit();
+        downloadForm.remove();
+    }
+
+    refreshGrid() {
+        $('#grid').data('kendoGrid').dataSource.read();
+        $('#grid').data('kendoGrid').refresh();
+    }
+}

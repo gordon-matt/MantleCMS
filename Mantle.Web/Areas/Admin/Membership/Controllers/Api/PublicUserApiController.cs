@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
@@ -19,7 +19,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.Service = service;
             this.workContext = workContext;
         }
-        
+
         public virtual async Task<IEnumerable<PublicUserInfo>> Get(ODataQueryOptions<PublicUserInfo> options)
         {
             var query = (await Service.GetAllUsers(workContext.CurrentTenant.Id))

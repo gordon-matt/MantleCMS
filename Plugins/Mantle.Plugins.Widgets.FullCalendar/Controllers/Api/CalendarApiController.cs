@@ -1,7 +1,7 @@
 ﻿using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Controllers.Api
 {

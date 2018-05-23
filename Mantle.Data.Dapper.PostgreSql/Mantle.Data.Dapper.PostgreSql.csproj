@@ -9,13 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.4" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="1.0.0" />
     <PackageReference Include="Npgsql" Version="3.2.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data.Dapper\Mantle.Data.Dapper.csproj" />
-    <ProjectReference Include="..\Mantle.Data.PostgreSql\Mantle.Data.PostgreSql.csproj" />
+    <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
 

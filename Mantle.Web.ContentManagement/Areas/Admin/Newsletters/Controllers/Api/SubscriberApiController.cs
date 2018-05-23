@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Collections;
+using Extenso.Collections;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Security.Membership;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;

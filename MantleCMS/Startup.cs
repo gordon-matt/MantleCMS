@@ -4,8 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Mantle.Collections;
-using Mantle.Data.Entity.EntityFramework;
+using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;
@@ -167,6 +166,7 @@ namespace MantleCMS
             {
                 new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
                 new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
+                new EmbeddedFileProvider(typeof(Mantle.Web.CommonResources.Dummy).GetTypeInfo().Assembly, "Mantle.Web.CommonResources"),
                 new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
                 new EmbeddedFileProvider(typeof(MantleWebMessagingConstants).GetTypeInfo().Assembly, "Mantle.Web.Messaging"),
                 //TODO: Add more - and better to detect them automatically somehow
@@ -218,30 +218,8 @@ namespace MantleCMS
             ServiceProvider = services.ConfigureMantleServices(Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
-            // Unfortunately, at the moment, we don't have any better way than this to let libraries
-            //  know where to find shared assets that they will need.
-            // TODO: Find some way for partial views to tell layout what scripts and styles to render (sections dont work for partial views)
-            MantleWebAssets.Init(new MantleWebAssets
-            {
-                BootstrapFileInput = new AssetCollection
-                {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/bootstrapFileInput/fileinput.js" } },
-                    Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
-                }
-            });
-            //MantleCmsAssets.Init(new MantleCmsAssets
-            //{
-            //    ElFinder = new AssetCollection
-            //    {
-            //        Scripts = new List<Asset> { new Asset { Path = "/js/elfinder/elfinder.min.js" } },
-            //        Styles = new List<Asset>
-            //        {
-            //            new Asset { Path = "/css/elfinder/css/elfinder.full.css" },
-            //            new Asset { Path = "/css/elfinder/css/theme.css" }, // <-- NOTE: This file may make some of the themes look not quite right. Comment this line if changing the theme below.
-            //            new Asset { Path = "/css/elfinder/themes/material/css/theme-gray.min.css" }
-            //        }
-            //    }
-            //});
+            // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
+            //  NPM PACKAGES: grapesjs, grapesjs-aviary and grapesjs-mjml
             MantleMessagingAssets.Init(new MantleMessagingAssets
             {
                 GrapesJs = new AssetCollection
@@ -281,7 +259,7 @@ namespace MantleCMS
             loggerFactory.AddDebug();
             loggerFactory.AddNLog();
 
-            app.AddNLogWeb();
+            //app.AddNLogWeb();
 
             env.ConfigureNLog("NLog.config");
 
@@ -308,9 +286,10 @@ namespace MantleCMS
             var rfmOptions = new ResponsiveFileManagerOptions();
             Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
 
+            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
+
             app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
             {
-                //RootPath = Path.GetDirectoryName(Directory.GetCurrentDirectory()) + "\\Website",
                 BeforeRequest = (Context ctx) =>
                 {
                     // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
@@ -360,6 +339,12 @@ namespace MantleCMS
                 }
             });
 
+            // Responsive File Manager
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(root)
+            });
+
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()
                 {
@@ -401,13 +386,6 @@ namespace MantleCMS
             //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
             TryUpdateNLogConnectionString();
-
-            var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-            using (var context = contextFactory.GetContext())
-            {
-                var efHelper = EngineContext.Current.Resolve<IEntityFrameworkHelper>();
-                efHelper.EnsureTables(context);
-            }
         }
 
         /// <summary>

@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Dapper;
+using Extenso.Data.Entity;
+using Extenso.Data.QueryBuilder;
 using Mantle.Data.Dapper.Attributes;
-using Mantle.Data.Entity;
-using Mantle.Data.QueryBuilder;
 
 namespace Mantle.Data.Dapper
 {

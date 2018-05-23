@@ -1,5 +1,4 @@
 ﻿using Mantle.Plugins.Widgets.View360.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Widgets.View360
 {

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Mail;
 using System.Text;
+using Extenso;
 
 namespace Mantle.Messaging
 {

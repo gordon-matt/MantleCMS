@@ -3,18 +3,17 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Plugins;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -23,7 +22,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
                 return;
             }
 
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
 
@@ -43,6 +42,6 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
             get { return 9999; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

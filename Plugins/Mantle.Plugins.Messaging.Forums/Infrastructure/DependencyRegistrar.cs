@@ -2,18 +2,17 @@
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Plugins;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -22,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
                 return;
             }
 
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
             builder.RegisterType<ForumSettings>().As<ISettings>().InstancePerLifetimeScope();
             builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
@@ -40,6 +39,6 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             get { return 9999; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

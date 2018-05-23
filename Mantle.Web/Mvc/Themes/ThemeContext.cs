@@ -19,7 +19,7 @@ namespace Mantle.Web.Mvc.Themes
         private bool isDesktopThemeCached;
         private string cachedDesktopThemeName;
 
-        private bool isMobileThemeCached;
+        //private bool isMobileThemeCached;
         //private string cachedMobileThemeName;
 
         public ThemeContext(

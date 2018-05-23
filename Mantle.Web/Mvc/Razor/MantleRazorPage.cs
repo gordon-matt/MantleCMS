@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using Mantle.Infrastructure;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.Internal;
 using Microsoft.Extensions.Localization;
@@ -24,7 +24,7 @@ namespace Mantle.Web.Mvc.Razor
         public IStringLocalizer T { get; set; }
 
         [RazorInject]
-        public IWebWorkContext WorkContext { get; set; }
+        public IWorkContext WorkContext { get; set; }
 
         public bool IsRightToLeft
         {

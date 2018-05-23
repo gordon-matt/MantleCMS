@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Extenso.AspNetCore.Mvc.Html;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
-using Mantle.Web.Html;
 using Mantle.Web.IO;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -17,7 +17,7 @@ namespace Mantle.Web.Mvc.Resources
     {
         private readonly IUrlHelper urlHelper;
 
-        public ScriptRegistrar(IWebWorkContext workContext)
+        public ScriptRegistrar(IWorkContext workContext)
             : base(workContext)
         {
             var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
@@ -53,12 +53,12 @@ namespace Mantle.Web.Mvc.Resources
 
             return builder.ToString();
         }
-        
+
         public IDisposable AtFoot(IHtmlHelper html)
         {
             return new ScriptBlock(html.ViewContext, s => base.IncludeInline(s.GetString(), ResourceLocation.Foot));
         }
-        
+
         private class ScriptBlock : IDisposable
         {
             private readonly Action<IHtmlContent> callback;

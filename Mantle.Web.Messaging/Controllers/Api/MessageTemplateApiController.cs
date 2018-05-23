@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mantle.Data;
+using Extenso.Data.Entity;
 using Mantle.Messaging.Data.Domain;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +30,7 @@ namespace Mantle.Web.Messaging.Controllers.Api
         protected override void SetNewId(MessageTemplate entity)
         {
         }
-        
+
         [HttpGet]
         public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
         {

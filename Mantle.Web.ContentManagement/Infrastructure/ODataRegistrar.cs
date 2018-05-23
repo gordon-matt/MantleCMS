@@ -65,7 +65,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             var getByPageIdFunction = builder.EntityType<ContentBlock>().Collection.Function("GetByPageId");
             getByPageIdFunction.Parameter<Guid>("pageId");
             getByPageIdFunction.ReturnsCollectionFromEntitySet<ContentBlock>("ContentBlockApi");
-            
+
             var getLocalizedActionFunction = builder.EntityType<ContentBlock>().Collection.Function("GetLocalized");
             getLocalizedActionFunction.Parameter<Guid>("id");
             getLocalizedActionFunction.Parameter<string>("cultureCode");

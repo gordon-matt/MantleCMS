@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using Mantle.Caching;
 using Mantle.Infrastructure;
-using Mantle.Plugins;
 
 namespace Mantle.Plugins.Caching.Redis
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {

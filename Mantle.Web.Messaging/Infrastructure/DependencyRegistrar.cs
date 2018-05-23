@@ -3,23 +3,23 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Messaging;
 using Mantle.Messaging.Services;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tasks;
 using Mantle.Web.Configuration;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging.Configuration;
 using Mantle.Web.Navigation;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Messaging.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
         #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             // Navigation
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 
             // Configuration

@@ -7,24 +7,15 @@ namespace Mantle.Plugins.Widgets.JQueryFormBuilder.Infrastructure
     {
         #region ILanguagePack Members
 
-        public string CultureCode
-        {
-            get { return null; }
-        }
+        public string CultureCode => null;
 
-        public IDictionary<string, string> LocalizedStrings
+        public IDictionary<string, string> LocalizedStrings => new Dictionary<string, string>
         {
-            get
-            {
-                return new Dictionary<string, string>
-                {
-                    { LocalizableStrings.ContentBlocks.FormBuilderBlock.EmailAddress, "Email Address" },
-                    { LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl, "Redirect URL (After Submit)" },
-                    { LocalizableStrings.ContentBlocks.FormBuilderBlock.ThankYouMessage, "'Thank You' Message" },
-                    { LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax, "Use Ajax" },
-                };
-            }
-        }
+            { LocalizableStrings.ContentBlocks.FormBuilderBlock.EmailAddress, "Email Address" },
+            { LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl, "Redirect URL (After Submit)" },
+            { LocalizableStrings.ContentBlocks.FormBuilderBlock.ThankYouMessage, "'Thank You' Message" },
+            { LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax, "Use Ajax" },
+        };
 
         #endregion ILanguagePack Members
     }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +47,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
             this.razorViewRenderService = razorViewRenderService;
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
         [Route("")]
         public IActionResult Index()
         {
@@ -64,57 +63,62 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
             return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Page.Index");
         }
 
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        [Route("get-view-data")]
+        public JsonResult GetViewData()
         {
             return Json(new
             {
-                CircularRelationshipError = T[MantleCmsLocalizableStrings.Messages.CircularRelationshipError].Value,
-                Create = T[MantleWebLocalizableStrings.General.Create].Value,
-                ContentBlocks = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value,
-                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                Details = T[MantleWebLocalizableStrings.General.Details].Value,
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                GetTranslationError = T[MantleCmsLocalizableStrings.Messages.GetTranslationError].Value,
-                PageHistory = T[MantleCmsLocalizableStrings.Pages.PageHistory].Value,
-                InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-                InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-                Localize = T[MantleWebLocalizableStrings.General.Localize].Value,
-                Move = T[MantleWebLocalizableStrings.General.Move].Value,
-                Preview = T[MantleWebLocalizableStrings.General.Preview].Value,
-                Restore = T[MantleCmsLocalizableStrings.Pages.Restore].Value,
-                Toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
-                Translations = T[MantleCmsLocalizableStrings.Pages.Translations].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                UpdateTranslationError = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationError].Value,
-                UpdateTranslationSuccess = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationSuccess].Value,
-                View = T[MantleWebLocalizableStrings.General.View].Value,
-                PageHistoryRestoreConfirm = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreConfirm].Value,
-                PageHistoryRestoreError = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreError].Value,
-                PageHistoryRestoreSuccess = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreSuccess].Value,
-                Columns = new
+                defaultFrontendLayoutPath = MantleWebConstants.DefaultFrontendLayoutPath,
+                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
+                pageTypes = pageTypeService.Value.Find().OrderBy(x => x.Name).Select(x => new { label = x.Name, value = x.Id }),
+                translations = new
                 {
-                    Page = new
+                    circularRelationshipError = T[MantleCmsLocalizableStrings.Messages.CircularRelationshipError].Value,
+                    create = T[MantleWebLocalizableStrings.General.Create].Value,
+                    contentBlocks = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value,
+                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                    details = T[MantleWebLocalizableStrings.General.Details].Value,
+                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                    getTranslationError = T[MantleCmsLocalizableStrings.Messages.GetTranslationError].Value,
+                    pageHistory = T[MantleCmsLocalizableStrings.Pages.PageHistory].Value,
+                    insertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
+                    insertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
+                    localize = T[MantleWebLocalizableStrings.General.Localize].Value,
+                    move = T[MantleWebLocalizableStrings.General.Move].Value,
+                    preview = T[MantleWebLocalizableStrings.General.Preview].Value,
+                    restore = T[MantleCmsLocalizableStrings.Pages.Restore].Value,
+                    toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
+                    translations = T[MantleCmsLocalizableStrings.Pages.Translations].Value,
+                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                    updateTranslationError = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationError].Value,
+                    updateTranslationSuccess = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationSuccess].Value,
+                    view = T[MantleWebLocalizableStrings.General.View].Value,
+                    pageHistoryRestoreConfirm = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreConfirm].Value,
+                    pageHistoryRestoreError = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreError].Value,
+                    pageHistoryRestoreSuccess = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreSuccess].Value,
+                    columns = new
                     {
-                        Name = T[MantleCmsLocalizableStrings.Pages.PageModel.Name].Value,
-                        IsEnabled = T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled].Value,
-                        ShowOnMenus = T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus].Value,
-                    },
-                    PageType = new
-                    {
-                        Name = T[MantleCmsLocalizableStrings.Pages.PageTypeModel.Name].Value,
-                    },
-                    PageVersion = new
-                    {
-                        Title = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Title].Value,
-                        Slug = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug].Value,
-                        DateModifiedUtc = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.DateModified].Value,
+                        page = new
+                        {
+                            name = T[MantleCmsLocalizableStrings.Pages.PageModel.Name].Value,
+                            isEnabled = T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled].Value,
+                            showOnMenus = T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus].Value,
+                        },
+                        pageType = new
+                        {
+                            name = T[MantleCmsLocalizableStrings.Pages.PageTypeModel.Name].Value,
+                        },
+                        pageVersion = new
+                        {
+                            title = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Title].Value,
+                            slug = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug].Value,
+                            dateModifiedUtc = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.DateModified].Value,
+                        }
                     }
                 }
             });
@@ -216,7 +220,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
                 var contentBlocksByZone = contentBlocks.Where(x => x.ZoneId == zone.Id);
 
                 string html = AsyncHelper.RunSync(() => razorViewRenderService.Value.RenderToStringAsync(
-                    "Mantle.Web.ContentManagement.Views.Frontend.ContentBlocksByZone",
+                    "Mantle.Web.ContentManagement.Views.Shared.Components.ContentBlocksByZone.Default.cshtml",
                     contentBlocksByZone));
 
                 content = content.Replace(match.Value, html);

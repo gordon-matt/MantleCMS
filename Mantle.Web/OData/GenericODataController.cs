@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Collections;
+using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Collections;
-using Mantle.Data;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Mantle.Helpers;
 using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Security.Membership;
+using Mantle.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Plugins.Messaging.Forums.ViewComponents

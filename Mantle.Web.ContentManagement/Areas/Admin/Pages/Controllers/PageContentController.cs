@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mantle.Data;
+using Extenso.AspNetCore.Mvc.Rendering;
+using Extenso.Data.Entity;
 using Mantle.Security.Membership;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
@@ -12,7 +13,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -210,7 +210,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
                 contentBlocksByZone.AddRange(contentBlocksByZoneForAllPages);
 
                 string html = AsyncHelper.RunSync(() => razorViewRenderService.RenderToStringAsync(
-                    "Mantle.Web.ContentManagement.Views.Frontend.ContentBlocksByZone",
+                    "Mantle.Web.ContentManagement.Views.Shared.Components.ContentBlocksByZone.Default.cshtml",
                     contentBlocksByZone));
 
                 content = content.Replace(match.Value, html);

@@ -1,8 +1,9 @@
 ﻿using Autofac;
-using Mantle.Caching;
-using Mantle.Helpers;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
 using Mantle.Localization;
+using Mantle.Plugins;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
@@ -10,20 +11,17 @@ using Mantle.Web.Helpers;
 using Mantle.Web.Localization;
 using Mantle.Web.Localization.Services;
 using Mantle.Web.Mvc.EmbeddedResources;
-using Mantle.Web.Mvc.Rendering;
 using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
-using Mantle.Plugins;
 using Mantle.Web.Security.Membership;
-using Mantle.Web.Security.Membership.Permissions;
 
 namespace Mantle.Web.Infrastructure
 {
-    public class DependencyRegistrar : IDependencyRegistrar<ContainerBuilder>
+    public class DependencyRegistrar : IDependencyRegistrar
     {
-        #region IDependencyRegistrar<ContainerBuilder> Members
+        #region IDependencyRegistrar Members
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
@@ -34,11 +32,8 @@ namespace Mantle.Web.Infrastructure
             // Plugins
             builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
 
-            // Caching
-            builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
-
             // Work Context, Themes, Routing, etc
-            builder.RegisterType<WebWorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<WorkContext>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<ThemeProvider>().As<IThemeProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ThemeContext>().As<IThemeContext>().InstancePerLifetimeScope();
             builder.RegisterType<EmbeddedResourceResolver>().As<IEmbeddedResourceResolver>().SingleInstance();
@@ -59,7 +54,7 @@ namespace Mantle.Web.Infrastructure
             builder.RegisterType<MembershipSettings>().As<ISettings>().InstancePerLifetimeScope();
 
             // Navigation
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationManager>().As<INavigationManager>().InstancePerDependency();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 
@@ -96,6 +91,6 @@ namespace Mantle.Web.Infrastructure
             get { return 0; }
         }
 
-        #endregion IDependencyRegistrar<ContainerBuilder> Members
+        #endregion IDependencyRegistrar Members
     }
 }

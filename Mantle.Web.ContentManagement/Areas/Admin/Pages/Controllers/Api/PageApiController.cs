@@ -1,8 +1,8 @@
 ﻿using System;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.OData;
-using Mantle.Web.Security.Membership.Permissions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
@@ -10,12 +10,12 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
     public class PageApiController : GenericTenantODataController<Page, Guid>
     {
         private readonly IPageVersionService pageVersionService;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
         public PageApiController(
             IPageService service,
             IPageVersionService pageVersionService,
-            IWebWorkContext workContext)
+            IWorkContext workContext)
             : base(service)
         {
             this.pageVersionService = pageVersionService;

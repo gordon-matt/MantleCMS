@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mantle.Collections;
-using Mantle.Configuration.Domain;
-using Mantle.Data;
+using Extenso;
+using Extenso.Collections;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Tenants.Domain;
 using Mantle.Tenants.Services;
 using Mantle.Threading;
 using Mantle.Web.Configuration;
-using Mantle.Web.Security.Membership.Permissions;
+using Mantle.Web.Configuration.Domain;
 
 namespace Mantle.Web.Infrastructure
 {

@@ -20,7 +20,7 @@ namespace Mantle.Web.Security.Membership
 
         public Func<IWorkContext, T> Get<T>(string name)
         {
-            if (name == MantleConstants.StateProviders.CurrentUser)
+            if (name == MantleWebConstants.StateProviders.CurrentUser)
             {
                 var httpContext = httpContextAccessor.HttpContext;
 

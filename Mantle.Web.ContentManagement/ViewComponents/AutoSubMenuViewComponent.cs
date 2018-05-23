@@ -20,13 +20,13 @@ namespace Mantle.Web.ContentManagement.ViewComponents
         private readonly IPageVersionService pageVersionService;
         private readonly IEnumerable<IAutoMenuProvider> menuProviders;
         private readonly BlogSettings blogSettings;
-        private readonly IWebWorkContext workContext;
+        private readonly IWorkContext workContext;
 
         public AutoSubMenuViewComponent(
             IPageVersionService pageVersionService,
             IEnumerable<IAutoMenuProvider> menuProviders,
             BlogSettings blogSettings,
-            IWebWorkContext workContext)
+            IWorkContext workContext)
         {
             this.pageVersionService = pageVersionService;
             this.menuProviders = menuProviders;
