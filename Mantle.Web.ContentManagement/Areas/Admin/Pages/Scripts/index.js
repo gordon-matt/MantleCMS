@@ -1,6 +1,6 @@
 ﻿import 'jquery';
 import 'jquery-validation';
-import 'bootstrap';
+//import 'bootstrap';
 import 'bootstrap-notify';
 import 'tinymce/themes/modern/theme';
 import '/js/kendo/2014.1.318/kendo.web.min.js';

@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching\Mantle.Caching.csproj" />
-    <ProjectReference Include="..\Mantle.Data.PostgreSql\Mantle.Data.PostgreSql.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Events\Mantle.Events.csproj" />
     <ProjectReference Include="..\Mantle.Identity\Mantle.Identity.csproj" />

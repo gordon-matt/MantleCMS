@@ -72,6 +72,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="1.0.0" />
     <PackageReference Include="KendoGridBinder" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805111241" />

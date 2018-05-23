@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Threading;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +46,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers
             this.zoneService = zoneService;
             this.razorViewRenderService = razorViewRenderService;
         }
-        
+
         [Route("")]
         public IActionResult Index()
         {

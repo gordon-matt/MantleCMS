@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;

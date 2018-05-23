@@ -1,6 +1,6 @@
 ﻿import 'jquery';
 import 'jquery-validation';
-import 'bootstrap';
+//import 'bootstrap';
 import 'bootstrap-notify';
 
 export class TemplateModel {

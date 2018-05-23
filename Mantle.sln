@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle", "Mantle\Mantle.csproj", "{B36FCCF0-715C-4930-B6C4-3A4D3390111D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.PostgreSql", "Mantle.Data.PostgreSql\Mantle.Data.PostgreSql.csproj", "{B154C919-51B3-4582-8420-A74D91290C6A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Identity", "Mantle.Identity\Mantle.Identity.csproj", "{75E6EB7A-E512-42AE-94BA-D8DF5E90F4B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Messaging", "Mantle.Messaging\Mantle.Messaging.csproj", "{DA43C987-EC33-4152-AC20-D79E10F0B0BE}"
@@ -97,10 +95,6 @@ Global
 		{B36FCCF0-715C-4930-B6C4-3A4D3390111D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B36FCCF0-715C-4930-B6C4-3A4D3390111D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B36FCCF0-715C-4930-B6C4-3A4D3390111D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B154C919-51B3-4582-8420-A74D91290C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B154C919-51B3-4582-8420-A74D91290C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B154C919-51B3-4582-8420-A74D91290C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B154C919-51B3-4582-8420-A74D91290C6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75E6EB7A-E512-42AE-94BA-D8DF5E90F4B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75E6EB7A-E512-42AE-94BA-D8DF5E90F4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75E6EB7A-E512-42AE-94BA-D8DF5E90F4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU

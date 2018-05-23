@@ -1,5 +1,5 @@
 ﻿using System;
-using Mantle.Web.Mvc.Rendering;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

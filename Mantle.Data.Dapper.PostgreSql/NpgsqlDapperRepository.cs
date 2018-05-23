@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Extenso.Data.Entity;
 using Extenso.Data.QueryBuilder;
-using Mantle.Data.PostgreSql;
+using Extenso.Data.QueryBuilder.Npgsql;
 using Npgsql;
 
 namespace Mantle.Data.Dapper.PostgreSql
@@ -30,25 +30,25 @@ namespace Mantle.Data.Dapper.PostgreSql
 
         public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
         {
-            if (!(queryBuilder is PostgreSqlSelectQueryBuilder))
+            if (!(queryBuilder is NpgsqlSelectQueryBuilder))
             {
-                throw new ArgumentException("queryBuilder must be of type, 'PostgreSqlSelectQueryBuilder'", "queryBuilder");
+                throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", "queryBuilder");
             }
             return base.Find(queryBuilder);
         }
 
         public override int Count(ISelectQueryBuilder queryBuilder)
         {
-            if (!(queryBuilder is PostgreSqlSelectQueryBuilder))
+            if (!(queryBuilder is NpgsqlSelectQueryBuilder))
             {
-                throw new ArgumentException("queryBuilder must be of type, 'PostgreSqlSelectQueryBuilder'", "queryBuilder");
+                throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", "queryBuilder");
             }
             return base.Count(queryBuilder);
         }
 
         public override ISelectQueryBuilder CreateQuery()
         {
-            return new PostgreSqlSelectQueryBuilder(schema);
+            return new NpgsqlSelectQueryBuilder(schema);
         }
 
         protected override string EncloseIdentifier(string identifier)

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
 using Mantle.Web.Configuration;
 using Mantle.Web.Mvc;
-using Mantle.Web.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +23,7 @@ namespace Mantle.Web.Areas.Admin.Configuration.Controllers
         {
             this.settings = settings;
         }
-        
+
         [Route("")]
         public IActionResult Index()
         {

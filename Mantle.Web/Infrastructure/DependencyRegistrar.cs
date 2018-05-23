@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins;
@@ -10,7 +11,6 @@ using Mantle.Web.Helpers;
 using Mantle.Web.Localization;
 using Mantle.Web.Localization.Services;
 using Mantle.Web.Mvc.EmbeddedResources;
-using Mantle.Web.Mvc.Rendering;
 using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Mvc.Themes;

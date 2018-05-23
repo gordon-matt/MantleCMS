@@ -25,5 +25,8 @@ Small bug in Regions when on cities page and click "Back" button - it shows blan
 
 
 BUG: Pages with aurelia-tinymce-wrapper will, for some unknown reason, break the nav menu.. perhaps just use tinymce without the aurelia wrapper?
+	UPDATE: it was just a coincidence those pages had the tinymce wrapper.. the real cause of the navs breaking seems to be importing of bootstrap OR libs that depend on bootstrap,
+		such as bootstrap-fileinput. Since bootstrap is already in the markup from layout, then importing it seems to negate the javascript plugins like dropdown(), etc.
+		MORE INFO: https://discourse.aurelia.io/t/bootstrap-import-bootstrap-breaks-dropdown-menu-in-navbar/641
 
 Add a loading screen (use router.isNavigating to check)
