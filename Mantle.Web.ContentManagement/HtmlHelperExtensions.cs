@@ -210,7 +210,7 @@ namespace Mantle.Web.ContentManagement
 
         private static string GetTypeFullName(Type type)
         {
-            return string.Concat(type.FullName, ", ", type.Assembly.GetName().Name);
+            return string.Concat(type.FullName, ", ", type.Assembly.FullName);
         }
 
         private static IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)

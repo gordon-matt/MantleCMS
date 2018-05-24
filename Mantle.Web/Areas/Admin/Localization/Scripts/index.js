@@ -29,6 +29,8 @@ export class ViewModel {
     // Aurelia Component Lifecycle Methods
 
     async attached() {
+        $('a[data-toggle=dropdown').dropdown(); // Fix: https://discourse.aurelia.io/t/bootstrap-import-bootstrap-breaks-dropdown-menu-in-navbar/641/7
+
         // Load translations first, else will have errors
         let response = await this.http.get("/admin/localization/languages/get-view-data");
         let viewData = response.content;

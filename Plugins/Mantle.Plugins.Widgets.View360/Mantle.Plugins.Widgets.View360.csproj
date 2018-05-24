@@ -1,32 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.View360\*.*"</PostBuildEvent>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <Company />
-    <Description />
-    <Authors>Matt Gordon</Authors>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Content\images\fullscreen-enter.png" />
-    <None Remove="Content\images\fullscreen-exit.png" />
-    <None Remove="Content\images\hand.png" />
-    <None Remove="Content\images\pause.png" />
-    <None Remove="Content\images\play.png" />
-    <None Remove="Content\images\rotate.png" />
-    <None Remove="Content\images\turn-left.png" />
-    <None Remove="Content\images\turn-right.png" />
-    <None Remove="Content\images\zoom-in.png" />
-    <None Remove="Content\images\zoom-out.png" />
-    <None Remove="Content\View360.css" />
-    <None Remove="plugin.json" />
-    <None Remove="Scripts\View360.js" />
-    <None Remove="Views\Shared\DisplayTemplates\View360Block.cshtml" />
-    <None Remove="Views\Shared\EditorTemplates\View360Block.cshtml" />
-    <None Remove="Views\_ViewStart.cshtml" />
-  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Mantle.Plugins.Widgets.View360</AssemblyName>
+    <PackageId>Mantle.Plugins.Widgets.View360</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <OutputTypeEx>library</OutputTypeEx>
+    <Authors>Matt Gordon</Authors>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.View360\*.*"</PostBuildEvent>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Content\images\fullscreen-enter.png">
@@ -87,12 +78,6 @@
     <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Description.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -2,16 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Caching.Redis\*.*"</PostBuildEvent>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Company />
     <Description />
     <Authors>Matt Gordon</Authors>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Caching.Redis\*.*"</PostBuildEvent>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="plugin.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="plugin.json">

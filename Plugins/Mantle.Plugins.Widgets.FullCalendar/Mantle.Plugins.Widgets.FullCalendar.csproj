@@ -1,88 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.FullCalendar\*.*"</PostBuildEvent>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Mantle.Plugins.Widgets.FullCalendar</AssemblyName>
+    <PackageId>Mantle.Plugins.Widgets.FullCalendar</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Company />
-    <Description />
+    <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
+    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.FullCalendar\*.*"</PostBuildEvent>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Content\fullcalendar.css" />
-    <None Remove="Content\fullcalendar.min.css" />
-    <None Remove="Content\fullcalendar.print.css" />
-    <None Remove="plugin.json" />
-    <None Remove="Scripts\fullcalendar-2.3.1\changelog.txt" />
-    <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\fullcalendar.min.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\gcal.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang-all.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-ma.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-sa.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar-tn.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ar.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\bg.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ca.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\cs.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\da.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\de-at.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\de.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\el.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-au.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-ca.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\en-gb.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\es.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\fa.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\fi.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\fr-ca.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\fr.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\he.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\hi.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\hr.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\hu.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\id.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\is.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\it.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ja.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ko.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\lt.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\lv.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\nb.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\nl.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\pl.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\pt-br.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\pt.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ro.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\ru.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\sk.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\sl.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\sr-cyrl.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\sr.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\sv.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\th.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\tr.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\uk.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\vi.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\zh-cn.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\lang\zh-tw.js" />
-    <None Remove="Scripts\fullcalendar-2.3.1\license.txt" />
-    <None Remove="Scripts\index.js" />
-    <None Remove="Views\Calendar\Index.cshtml" />
-    <None Remove="Views\Shared\DisplayTemplates\FullCalendarBlock.cshtml" />
-    <None Remove="Views\Shared\EditorTemplates\FullCalendarBlock.cshtml" />
-    <None Remove="Views\_ViewStart.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Content\fullcalendar.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\fullcalendar.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\fullcalendar.print.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="plugin.json">
@@ -92,9 +30,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\fullcalendar-2.3.1\fullcalendar.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\fullcalendar-2.3.1\fullcalendar.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\fullcalendar-2.3.1\gcal.js">
@@ -277,12 +212,6 @@
     <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Description.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

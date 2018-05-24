@@ -256,12 +256,12 @@
     }
 
     refreshGrid() {
-        $('#block-grid').data('kendoGrid').dataSource.read();
-        $('#block-grid').data('kendoGrid').refresh();
+        $('#blocks-grid').data('kendoGrid').dataSource.read();
+        $('#blocks-grid').data('kendoGrid').refresh();
     }
 
     async getEditorUI() {
-        let response = await this.http.get("/admin/blocks/content-blocks/get-editor-ui/" + this.id);
+        let response = await this.parent.http.get("/admin/blocks/content-blocks/get-editor-ui/" + this.id);
         if (response.isSuccess) {
             let json = response.content;
             
