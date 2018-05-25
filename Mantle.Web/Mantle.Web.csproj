@@ -75,7 +75,7 @@
     <PackageReference Include="Extenso.AspNetCore.Mvc" Version="1.0.0" />
     <PackageReference Include="KendoGridBinder" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805111241" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805251243" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0-rc1-final" />
