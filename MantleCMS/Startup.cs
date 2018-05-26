@@ -97,7 +97,7 @@ namespace MantleCMS
 
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseInMemoryDatabase("Scratch"));
 
             // This must be added BEFORE we call AddIdentity().
             // For further info, see: https://github.com/aspnet/Identity/issues/1112
@@ -199,10 +199,10 @@ namespace MantleCMS
                 //Add the file provider to the Razor view engine
 
                 options.FileProviders.Add(new EmbeddedViewFileProvider()); // allow embedded views for special cases like dynamic settings in framework
-                foreach (var embeddedFileProvider in EmbeddedFileProviders)
-                {
-                    options.FileProviders.Add(embeddedFileProvider);
-                }
+                // foreach (var embeddedFileProvider in EmbeddedFileProviders)
+                // {
+                //     options.FileProviders.Add(embeddedFileProvider);
+                // }
 
                 //options.FileProviders.Add(embeddedFileProvider);
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());

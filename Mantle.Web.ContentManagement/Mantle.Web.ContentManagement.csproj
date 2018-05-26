@@ -35,52 +35,7 @@
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-model.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-type-model.js" />
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-version-model.js" />
-    <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\Components\ContentBlocksByZone\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\Components\EntityTypeContentBlocksByZone\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\Components\Menu\Default.cshtml" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\RichTextFull.cshtml" />
-    <EmbeddedResource Include="Views\_ViewStart.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Details.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\BlogContent\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Blog\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByCategory\Default.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByTag\Default.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\Components\BlogPosts\Default.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\CategoriesBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\FilteredPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\LastNPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\DisplayTemplates\TagCloudBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\BlogSettings.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\CategoriesBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\FilteredPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\LastNPostsBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\EditorTemplates\TagCloudBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Views\Shared\_Posts.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\ContentBlock\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\EntityTypeContentBlock\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\FormBlock\MessageTemplate.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\FormBlock\SaveResult.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\FormBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\DisplayTemplates\HtmlBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\FormBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\Shared\EditorTemplates\HtmlBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\Shared\DisplayTemplates\LanguageSwitchBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\Shared\EditorTemplates\LanguageSwitchBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Media\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Shared\DisplayTemplates\VideoBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Media\Views\Shared\EditorTemplates\VideoBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Views\Menu\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterSubscriptionBlock.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\DisplayTemplates\NewsletterUserProfileProvider.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Shared\EditorTemplates\NewsletterUserProfileProvider.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\Subscriber\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Page\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\DisplayTemplates\StandardPage.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\PageSettings.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Views\Shared\EditorTemplates\StandardPage.cshtml" />
+    
     <EmbeddedResource Include="Areas\Admin\Sitemap\Views\XmlSitemap\Index.cshtml" />
     <EmbeddedResource Include="Scripts\jqcloud.min.js" />
     <EmbeddedResource Include="Scripts\jquery.dom.form_params.min.js" />
@@ -121,6 +76,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805251243" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0-rc1-final" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
   </ItemGroup>

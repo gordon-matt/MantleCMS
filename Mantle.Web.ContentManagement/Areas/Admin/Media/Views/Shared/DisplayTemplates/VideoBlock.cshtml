@@ -1,34 +1,7 @@
 ﻿@using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.Html
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.ContentBlocks
 
 @model VideoBlock
 
-@switch (Model.Type)
-{
-    case VideoBlock.VideoType.Flash:
-        {
-            var item = new SourceListItem
-            {
-                Source = Model.Source
-            };
-            var sourceList = new SourceList(new[] { item });
-            @Html.Html5().Media.Video(Model.ControlId, sourceList, ObjectType.Flash, null)
-        }
-        break;
-    case VideoBlock.VideoType.Silverlight:
-        {
-            var item = new SourceListItem
-            {
-                Source = Model.Source
-            };
-            var sourceList = new SourceList(new[] { item });
-            @Html.Html5().Media.Video(Model.ControlId, sourceList, ObjectType.Silverlight, null)
-        }
-        break;
-    case VideoBlock.VideoType.Normal:
-    default:
-        @Html.Html5().Media.Video(Model.ControlId, Model.Source, T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.VideoTagNotSupported], Model.ShowControls, Model.AutoPlay, Model.Loop)
-        break;
-}
+

@@ -22,7 +22,7 @@ namespace MantleCMS.Data
                 if (options == null)
                 {
                     var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                    optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                    optionsBuilder.UseInMemoryDatabase("scratch"); //.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                     options = optionsBuilder.Options;
                 }
                 return options;
