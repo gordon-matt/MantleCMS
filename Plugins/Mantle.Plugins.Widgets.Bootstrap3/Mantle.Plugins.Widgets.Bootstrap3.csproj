@@ -16,26 +16,14 @@
     <Authors>Matt Gordon</Authors>
     <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.Bootstrap3\*.*"</PostBuildEvent>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="plugin.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="plugin.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\DisplayTemplates\CarouselBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\DisplayTemplates\ImageGalleryBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\EditorTemplates\CarouselBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\EditorTemplates\ImageGalleryBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewStart.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
