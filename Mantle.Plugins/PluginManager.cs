@@ -206,16 +206,38 @@ namespace Mantle.Plugins
                             pluginDescriptor.OriginalAssemblyFile = mainPluginFile;
 
                             //shadow copy main plugin file
-                            pluginDescriptor.ReferencedAssembly = PerformFileDeploy(mainPluginFile, applicationPartManager, options);
+                            var pluginAssembly = PerformFileDeploy(mainPluginFile, options);
+                            pluginDescriptor.ReferencedAssembly = pluginAssembly;
+
+                            var partFactory = ApplicationPartFactory.GetApplicationPartFactory(pluginAssembly);
+
+                            foreach (var part in partFactory.GetApplicationParts(pluginAssembly))
+                            {
+                                applicationPartManager.ApplicationParts.Add(part);
+                            }
+
+                            var relatedAssemblies = RelatedAssemblyAttribute.GetRelatedAssemblies(pluginAssembly, throwOnError: true);
+                            foreach (var assembly in relatedAssemblies)
+                            {
+                                partFactory = ApplicationPartFactory.GetApplicationPartFactory(assembly);
+                                foreach (var part in partFactory.GetApplicationParts(assembly))
+                                {
+                                    applicationPartManager.ApplicationParts.Add(part);
+                                }
+                            }
+
+
+
+
 
                             //load all other referenced assemblies now
                             foreach (var plugin in pluginFiles
                                 .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.InvariantCultureIgnoreCase))
                                 .Where(x => !IsAlreadyLoaded(x)))
-                                PerformFileDeploy(plugin, applicationPartManager, options);
+                                PerformFileDeploy(plugin, options);
 
                             //init plugin type (only one plugin per assembly is allowed)
-                            foreach (var t in pluginDescriptor.ReferencedAssembly.GetTypes())
+                            foreach (var t in pluginAssembly.GetTypes())
                             {
                                 if (typeof(IPlugin).IsAssignableFrom(t))
                                 {
@@ -637,7 +659,7 @@ namespace Mantle.Plugins
         /// <param name="options">Config</param>
         /// <param name="shadowCopyPath">Shadow copy path</param>
         /// <returns>Assembly</returns>
-        private static Assembly PerformFileDeploy(FileInfo plug, ApplicationPartManager applicationPartManager, MantlePluginOptions options, string shadowCopyPath = "")
+        private static Assembly PerformFileDeploy(FileInfo plug, MantlePluginOptions options, string shadowCopyPath = "")
         {
             if (plug.Directory?.Parent == null)
             {
@@ -646,7 +668,7 @@ namespace Mantle.Plugins
 
             if (!options.UsePluginsShadowCopy)
             {
-                return RegisterPluginDefinition(options, applicationPartManager, plug);
+                return RegisterPluginDefinition(options, plug);
             }
 
             //in order to avoid possible issues we still copy libraries into ~/Plugins/bin/ directory
@@ -662,7 +684,7 @@ namespace Mantle.Plugins
 
             try
             {
-                shadowCopiedAssembly = RegisterPluginDefinition(options, applicationPartManager, shadowCopiedPlug);
+                shadowCopiedAssembly = RegisterPluginDefinition(options, shadowCopiedPlug);
             }
             catch (FileLoadException)
             {
@@ -672,7 +694,7 @@ namespace Mantle.Plugins
                 }
             }
 
-            return shadowCopiedAssembly ?? PerformFileDeploy(plug, applicationPartManager, options, reserveShadowCopyFolder.FullName);
+            return shadowCopiedAssembly ?? PerformFileDeploy(plug, options, reserveShadowCopyFolder.FullName);
         }
 
         /// <summary>
@@ -682,7 +704,7 @@ namespace Mantle.Plugins
         /// <param name="applicationPartManager">Application part manager</param>
         /// <param name="plug">Plugin file info</param>
         /// <returns></returns>
-        private static Assembly RegisterPluginDefinition(MantlePluginOptions options, ApplicationPartManager applicationPartManager, FileInfo plug)
+        private static Assembly RegisterPluginDefinition(MantlePluginOptions options, FileInfo plug)
         {
             //we can now register the plugin definition
             var assemblyName = AssemblyName.GetAssemblyName(plug.FullName);
@@ -710,9 +732,6 @@ namespace Mantle.Plugins
                     throw;
                 }
             }
-
-            Debug.WriteLine("Adding to ApplicationParts: '{0}'", pluginAssembly.FullName);
-            applicationPartManager.ApplicationParts.Add(new AssemblyPart(pluginAssembly));
 
             return pluginAssembly;
         }

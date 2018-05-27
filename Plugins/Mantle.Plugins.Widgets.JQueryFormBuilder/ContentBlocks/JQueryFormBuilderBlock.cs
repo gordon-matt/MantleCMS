@@ -5,10 +5,8 @@ namespace Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks
 {
     public class JQueryFormBuilderBlock : ContentBlockBase
     {
-        //[AllowHtml]
         public string Metadata { get; set; }
 
-        //[AllowHtml]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.FormBuilderBlock.ThankYouMessage)]
         public string ThankYouMessage { get; set; }
 
@@ -67,20 +65,11 @@ namespace Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks
 
         #region ContentBlockBase Overrides
 
-        public override string Name
-        {
-            get { return "jQuery Form Builder"; }
-        }
+        public override string Name => "jQuery Form Builder";
 
-        public override string DisplayTemplatePath
-        {
-            get { return "/Plugins/Widgets.JQueryFormBuilder/Views/Shared/DisplayTemplates/JQueryFormBuilderBlock.cshtml"; }
-        }
+        public override string DisplayTemplatePath => "/Plugins/Widgets.JQueryFormBuilder/Views/Shared/DisplayTemplates/JQueryFormBuilderBlock.cshtml";
 
-        public override string EditorTemplatePath
-        {
-            get { return "/Plugins/Widgets.JQueryFormBuilder/Views/Shared/EditorTemplates/JQueryFormBuilderBlock.cshtml"; }
-        }
+        public override string EditorTemplatePath => "/Plugins/Widgets.JQueryFormBuilder/Views/Shared/EditorTemplates/JQueryFormBuilderBlock.cshtml";
 
         #endregion ContentBlockBase Overrides
     }
