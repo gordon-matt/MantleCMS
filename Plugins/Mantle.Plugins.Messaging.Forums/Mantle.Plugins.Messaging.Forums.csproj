@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Library</OutputType>
     <AssemblyName>Mantle.Plugins.Messaging.Forums</AssemblyName>
     <PackageId>Mantle.Plugins.Messaging.Forums</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -14,7 +11,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Messaging.Forums\*.*"</PostBuildEvent>
+    <!--<PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Messaging.Forums\*.*"</PostBuildEvent>-->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
@@ -41,5 +38,18 @@
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
+  <Target Name="CopyArtifacts" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginCopyDir>..\..\MantleCMS\Plugins\Messaging.Forums\</PluginCopyDir>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)\**\*" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
+  </Target>
 
 </Project>
