@@ -6,8 +6,17 @@
     <Company />
     <Description />
     <Authors>Matt Gordon</Authors>
-    <!--<PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Caching.Redis\*.*"</PostBuildEvent>-->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\MantleCMS\Plugins\Caching.Redis</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\MantleCMS\Plugins\Caching.Redis</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,18 +41,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="CopyArtifacts" AfterTargets="Build">
-    <PropertyGroup>
-      <PluginCopyDir>..\..\MantleCMS\Plugins\Caching.Redis\</PluginCopyDir>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <FilesToCopy Include="$(OutputPath)\**\*" />
-    </ItemGroup>
-
-    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
-  </Target>
 
 </Project>

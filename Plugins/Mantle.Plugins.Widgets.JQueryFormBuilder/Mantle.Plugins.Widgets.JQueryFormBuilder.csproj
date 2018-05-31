@@ -5,15 +5,21 @@
     <OutputType>Library</OutputType>
     <AssemblyName>Mantle.Plugins.Widgets.JQueryFormBuilder</AssemblyName>
     <PackageId>Mantle.Plugins.Widgets.JQueryFormBuilder</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
     <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
-    <!--<PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.JQueryFormBuilder\*.*"</PostBuildEvent>-->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,7 +54,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,18 +62,5 @@
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
-  <Target Name="CopyArtifacts" AfterTargets="Build">
-    <PropertyGroup>
-      <PluginCopyDir>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder\</PluginCopyDir>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <FilesToCopy Include="$(OutputPath)\**\*" />
-    </ItemGroup>
-
-    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
-  </Target>
 
 </Project>
