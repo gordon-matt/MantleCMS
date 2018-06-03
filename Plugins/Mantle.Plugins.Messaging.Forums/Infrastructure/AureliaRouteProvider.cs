@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/Plugins/Messaging.Forums/Scripts/index",
+                    ModuleId = "/aurelia-app/Plugins/Messaging.Forums/wwwroot/js/index",
                     Route = "plugins/messaging/forums",
                     Name = "plugins/messaging/forums",
                     Title = localizer[LocalizableStrings.Forums]
