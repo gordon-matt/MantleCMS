@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -6,54 +6,18 @@
     <AssemblyName>Mantle.Plugins.Widgets.JQueryFormBuilder</AssemblyName>
     <PackageId>Mantle.Plugins.Widgets.JQueryFormBuilder</PackageId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="plugin.json" />
-    <None Remove="Scripts\form-builder.min.js" />
-    <None Remove="Scripts\form-render.min.js" />
-    <None Remove="Views\Shared\DisplayTemplates\JQueryFormBuilderBlock.cshtml" />
-    <None Remove="Views\Shared\EditorTemplates\JQueryFormBuilderBlock.cshtml" />
-    <None Remove="Views\_ViewStart.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="plugin.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\form-builder.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\form-render.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\DisplayTemplates\JQueryFormBuilderBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\EditorTemplates\JQueryFormBuilderBlock.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewStart.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="wwwroot\js\form-builder.min.js" />
+    <None Include="wwwroot\js\form-render.min.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
   </ItemGroup>
 
@@ -62,5 +26,29 @@
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Content\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\js\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Views\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CopyArtifacts" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginCopyDir>..\..\MantleCMS\Plugins\Widgets.JQueryFormBuilder\</PluginCopyDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)\**\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
+  </Target>
 
 </Project>

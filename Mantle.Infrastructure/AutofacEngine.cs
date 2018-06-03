@@ -12,6 +12,7 @@ using Mantle.Plugins.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -53,8 +54,9 @@ namespace Mantle.Infrastructure
             CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
 
             //initialize plugins
-            var mvcCoreBuilder = services.AddMvcCore();
-            PluginManager.Initialize(mvcCoreBuilder.PartManager, hostingEnvironment, options);
+            //var mvcCoreBuilder = services.AddMvcCore();
+            var mvcBuilder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            PluginManager.Initialize(mvcBuilder.PartManager, hostingEnvironment, options);
         }
 
         /// <summary>

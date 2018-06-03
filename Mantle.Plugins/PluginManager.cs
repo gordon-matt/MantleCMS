@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading;
 using Mantle.Helpers;
 using Mantle.Plugins.Configuration;
@@ -225,16 +226,12 @@ namespace Mantle.Plugins
                                     applicationPartManager.ApplicationParts.Add(part);
                                 }
                             }
-
-
-
-
-
-                            //load all other referenced assemblies now
-                            foreach (var plugin in pluginFiles
-                                .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.InvariantCultureIgnoreCase))
-                                .Where(x => !IsAlreadyLoaded(x)))
-                                PerformFileDeploy(plugin, options);
+                            
+                            ////load all other referenced assemblies now
+                            //foreach (var plugin in pluginFiles
+                            //    .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.InvariantCultureIgnoreCase))
+                            //    .Where(x => !IsAlreadyLoaded(x)))
+                            //    PerformFileDeploy(plugin, options);
 
                             //init plugin type (only one plugin per assembly is allowed)
                             foreach (var t in pluginAssembly.GetTypes())
@@ -713,7 +710,8 @@ namespace Mantle.Plugins
             try
             {
                 //pluginAssembly = Assembly.Load(assemblyName);
-                pluginAssembly = Assembly.LoadFile(plug.FullName);
+                //pluginAssembly = Assembly.LoadFile(plug.FullName);
+                pluginAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(plug.FullName);
             }
             catch (FileLoadException)
             {

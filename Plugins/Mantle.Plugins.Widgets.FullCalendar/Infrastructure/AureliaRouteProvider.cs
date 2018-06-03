@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/Plugins/Widgets.FullCalendar/Scripts/index",
+                    ModuleId = "/aurelia-app/Plugins/Widgets.FullCalendar/wwwroot/js/index",
                     Route = "plugins/widgets/fullcalendar",
                     Name = "plugins/widgets/fullcalendar",
                     Title = T[LocalizableStrings.FullCalendar]
