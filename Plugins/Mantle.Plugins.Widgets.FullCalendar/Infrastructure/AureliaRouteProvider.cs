@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/Plugins/Widgets.FullCalendar/wwwroot/js/index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Plugins.Widgets.FullCalendar.wwwroot.js.index",
                     Route = "plugins/widgets/fullcalendar",
                     Name = "plugins/widgets/fullcalendar",
                     Title = T[LocalizableStrings.FullCalendar]
@@ -33,7 +33,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "aurelia-app/Plugins/Widgets.FullCalendar/Scripts/index", "admin/plugins/widgets/fullcalendar" },
+            { "/Plugins/Widgets.FullCalendar/Scripts/index", "admin/plugins/widgets/fullcalendar" },
         };
 
         #endregion IAureliaRouteProvider Members
