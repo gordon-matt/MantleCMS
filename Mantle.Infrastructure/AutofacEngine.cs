@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -42,7 +43,7 @@ namespace Mantle.Infrastructure
         /// Initialize engine
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        public virtual void Initialize(IServiceCollection services)
+        public virtual void Initialize(IServiceCollection services, ApplicationPartManager partManager)
         {
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -55,8 +56,8 @@ namespace Mantle.Infrastructure
 
             //initialize plugins
             //var mvcCoreBuilder = services.AddMvcCore();
-            var mvcBuilder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            PluginManager.Initialize(mvcBuilder.PartManager, hostingEnvironment, options);
+            //var mvcBuilder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            PluginManager.Initialize(partManager, hostingEnvironment, options);
         }
 
         /// <summary>

@@ -14,9 +14,13 @@
 
   <ItemGroup>
     <Compile Remove="Plugins\**" />
+    <Compile Remove="wwwroot\lib\**" />
     <Content Remove="Plugins\**" />
+    <Content Remove="wwwroot\lib\**" />
     <EmbeddedResource Remove="Plugins\**" />
+    <EmbeddedResource Remove="wwwroot\lib\**" />
     <None Remove="Plugins\**" />
+    <None Remove="wwwroot\lib\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

@@ -94,34 +94,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByCategory\Default.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPostsByTag\Default.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\Components\BlogPosts\Default.cshtml" />
-    <Content Remove="Areas\Admin\Blog\Views\Shared\_Posts.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Areas\Admin\Blog\Scripts\blog-category-model.js" />
-    <None Remove="Areas\Admin\Blog\Scripts\blog-post-model.js" />
-    <None Remove="Areas\Admin\Blog\Scripts\blog-tag-model.js" />
-    <None Remove="Areas\Admin\Blog\Scripts\index.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\content-block-model.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\content-blocks-index.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
-    <None Remove="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
-    <None Remove="Areas\Admin\Menus\Scripts\index.js" />
-    <None Remove="Areas\Admin\Menus\Scripts\menu-item-model.js" />
-    <None Remove="Areas\Admin\Menus\Scripts\menu-model.js" />
-    <None Remove="Areas\Admin\Pages\Scripts\page-model.js" />
-    <None Remove="Areas\Admin\Pages\Scripts\page-type-model.js" />
-    <None Remove="Areas\Admin\Pages\Scripts\page-version-model.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805310007" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201806051242" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
   </ItemGroup>

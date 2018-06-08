@@ -8,7 +8,18 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\js\index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\js\index.js">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />

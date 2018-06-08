@@ -8,6 +8,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
   </PropertyGroup>
 
   <ItemGroup>

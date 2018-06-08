@@ -12,9 +12,8 @@ namespace Mantle.Tasks
     /// </summary>
     public partial class TaskManager
     {
-        private static readonly TaskManager _taskManager = new TaskManager();
-        private readonly List<TaskThread> _taskThreads = new List<TaskThread>();
-        private int _notRunTasksInterval = 60 * 30; //30 minutes
+        private readonly List<TaskThread> taskThreads = new List<TaskThread>();
+        private int notRunTasksInterval = 60 * 30; //30 minutes
 
         public TaskManager()
         {
@@ -27,7 +26,7 @@ namespace Mantle.Tasks
         {
             var taskService = EngineContext.Current.Resolve<IScheduledTaskService>();
 
-            this._taskThreads.Clear();
+            taskThreads.Clear();
 
             var scheduledTasks = taskService
                 .GetAllTasks()
@@ -47,15 +46,15 @@ namespace Mantle.Tasks
                     var task = new Task(scheduledTask);
                     taskThread.AddTask(task);
                 }
-                this._taskThreads.Add(taskThread);
+                taskThreads.Add(taskThread);
             }
 
             //sometimes a task period could be set to several hours (or even days).
             //in this case a probability that it'll be run is quite small (an application could be restarted)
             //we should manually run the tasks which weren't run for a long time
             var notRunTasks = scheduledTasks
-                .Where(x => x.Seconds >= _notRunTasksInterval)
-                .Where(x => !x.LastStartUtc.HasValue || x.LastStartUtc.Value.AddSeconds(_notRunTasksInterval) < DateTime.UtcNow)
+                .Where(x => x.Seconds >= notRunTasksInterval)
+                .Where(x => !x.LastStartUtc.HasValue || x.LastStartUtc.Value.AddSeconds(notRunTasksInterval) < DateTime.UtcNow)
                 .ToList();
             //create a thread for the tasks which weren't run for a long time
             if (notRunTasks.Count > 0)
@@ -70,7 +69,7 @@ namespace Mantle.Tasks
                     var task = new Task(scheduledTask);
                     taskThread.AddTask(task);
                 }
-                this._taskThreads.Add(taskThread);
+                taskThreads.Add(taskThread);
             }
         }
 
@@ -79,7 +78,7 @@ namespace Mantle.Tasks
         /// </summary>
         public void Start()
         {
-            foreach (var taskThread in this._taskThreads)
+            foreach (var taskThread in taskThreads)
             {
                 taskThread.InitTimer();
             }
@@ -90,7 +89,7 @@ namespace Mantle.Tasks
         /// </summary>
         public void Stop()
         {
-            foreach (var taskThread in this._taskThreads)
+            foreach (var taskThread in taskThreads)
             {
                 taskThread.Dispose();
             }
@@ -99,17 +98,11 @@ namespace Mantle.Tasks
         /// <summary>
         /// Gets the task mamanger instance
         /// </summary>
-        public static TaskManager Instance
-        {
-            get { return _taskManager; }
-        }
+        public static TaskManager Instance { get; } = new TaskManager();
 
         /// <summary>
         /// Gets a list of task threads of this task manager
         /// </summary>
-        public IList<TaskThread> TaskThreads
-        {
-            get { return new ReadOnlyCollection<TaskThread>(this._taskThreads); }
-        }
+        public IList<TaskThread> TaskThreads => new ReadOnlyCollection<TaskThread>(taskThreads);
     }
 }
