@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Extenso.Collections;
@@ -53,11 +52,11 @@ namespace Mantle.Web.OData
         #region Public Methods
 
         // GET: odata/<Entity>
-        public virtual async Task<IEnumerable<TEntity>> Get(ODataQueryOptions<TEntity> options)
+        public virtual async Task<IActionResult> Get(ODataQueryOptions<TEntity> options)
         {
             if (!CheckPermission(ReadPermission))
             {
-                return Enumerable.Empty<TEntity>().AsQueryable();
+                return Unauthorized();
             }
 
             //    using (var connection = Service.OpenConnection())
@@ -77,31 +76,38 @@ namespace Mantle.Web.OData
             // Recommended not to use ToHashSetAsync(). See: https://github.com/OData/WebApi/issues/1235#issuecomment-371322404
             //return await (results as IQueryable<TEntity>).ToHashSetAsync();
 
-            return await Task.FromResult((results as IQueryable<TEntity>).ToHashSet());
+            var response = await Task.FromResult((results as IQueryable<TEntity>).ToHashSet());
+            return Ok(response);
         }
 
         // GET: odata/<Entity>(5)
-        [EnableQuery]
-        public virtual async Task<SingleResult<TEntity>> Get([FromODataUri] TKey key)
+        //[EnableQuery]
+        public virtual async Task<IActionResult> Get([FromODataUri] TKey key)
         {
-            if (!CheckPermission(ReadPermission))
-            {
-                return SingleResult.Create(Enumerable.Empty<TEntity>().AsQueryable());
-            }
             var entity = await Service.FindOneAsync(key);
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
 
             // TODO: CheckPermission(ReadPermission) is getting done twice.. once above, and once in CanViewEntity(). Unnecessary... see if this can be modified
             if (!CanViewEntity(entity))
             {
-                return SingleResult.Create(Enumerable.Empty<TEntity>().AsQueryable());
+                return Unauthorized();
             }
 
-            return SingleResult.Create(new[] { entity }.AsQueryable());
+            return Ok(entity);
         }
 
         // PUT: odata/<Entity>(5)
         public virtual async Task<IActionResult> Put([FromODataUri] TKey key, [FromBody] TEntity entity)
         {
+            if (entity == null)
+            {
+                return BadRequest();
+            }
+
             if (!CanModifyEntity(entity))
             {
                 return Unauthorized();
@@ -140,6 +146,11 @@ namespace Mantle.Web.OData
         // POST: odata/<Entity>
         public virtual async Task<IActionResult> Post([FromBody] TEntity entity)
         {
+            if (entity == null)
+            {
+                return BadRequest();
+            }
+
             if (!CanModifyEntity(entity))
             {
                 return Unauthorized();
@@ -251,21 +262,11 @@ namespace Mantle.Web.OData
 
         protected virtual bool CanViewEntity(TEntity entity)
         {
-            if (entity == null)
-            {
-                return false;
-            }
-
             return CheckPermission(ReadPermission);
         }
 
         protected virtual bool CanModifyEntity(TEntity entity)
         {
-            if (entity == null)
-            {
-                return false;
-            }
-
             return CheckPermission(WritePermission);
         }
 
