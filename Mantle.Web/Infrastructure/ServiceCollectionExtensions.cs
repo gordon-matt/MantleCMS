@@ -5,6 +5,7 @@ using Mantle.Plugins.Configuration;
 using Mantle.Tasks;
 using Mantle.Tasks.Configuration;
 using Mantle.Web.Configuration;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,10 @@ namespace Mantle.Web.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceProvider ConfigureMantleServices(this IServiceCollection services, IConfigurationRoot configuration)
+        public static IServiceProvider ConfigureMantleServices(
+            this IServiceCollection services,
+            ApplicationPartManager partManager,
+            IConfigurationRoot configuration)
         {
             var infrastructureOptions = new MantleInfrastructureOptions();
             configuration.Bind(infrastructureOptions);
@@ -34,7 +38,7 @@ namespace Mantle.Web.Infrastructure
             //Mantle.Hosting.HostingEnvironment.IsHosted = true;
 
             var engine = EngineContext.Create(new AutofacEngine());
-            engine.Initialize(services);
+            engine.Initialize(services, partManager);
             var serviceProvider = engine.ConfigureServices(services, configuration);
 
             //if (DataSettingsHelper.DatabaseIsInstalled)

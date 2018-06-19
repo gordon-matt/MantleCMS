@@ -58,15 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Areas\Admin\Membership\Scripts\change-password.js" />
-    <None Remove="Areas\Admin\Membership\Scripts\index.js" />
-    <None Remove="Areas\Admin\Membership\Scripts\role.js" />
-    <None Remove="Areas\Admin\Membership\Scripts\user.js" />
-    <None Remove="Content\GrapesJS.png" />
-    <None Remove="Content\TinyMCE.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
     <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
   </ItemGroup>
@@ -74,11 +65,11 @@
   <ItemGroup>
     <PackageReference Include="Extenso.AspNetCore.Mvc" Version="1.0.0" />
     <PackageReference Include="KendoGridBinder" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201805111241" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-Nightly201806181242" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.4.4" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />

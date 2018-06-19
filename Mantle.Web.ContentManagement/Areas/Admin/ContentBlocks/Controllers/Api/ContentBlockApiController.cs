@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Extenso.Collections;
 using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;
@@ -39,11 +40,11 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             entity.Id = Guid.NewGuid();
         }
 
-        public override async Task<IEnumerable<ContentBlock>> Get(ODataQueryOptions<ContentBlock> options)
+        public override async Task<IActionResult> Get(ODataQueryOptions<ContentBlock> options)
         {
             if (!CheckPermission(ReadPermission))
             {
-                return Enumerable.Empty<ContentBlock>().AsQueryable();
+                return Unauthorized();
             }
 
             //using (var connection = Service.OpenConnection())
@@ -57,7 +58,9 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
             var query = connection.Query(x => x.PageId == null);
             query = ApplyMandatoryFilter(query);
             var results = options.ApplyTo(query, IgnoreQueryOptions);
-            return await (results as IQueryable<ContentBlock>).ToHashSetAsync();
+
+            var response = await Task.FromResult((results as IQueryable<ContentBlock>).ToHashSet());
+            return Ok(response);
         }
 
         public virtual async Task<IEnumerable<ContentBlock>> GetByPageId(
