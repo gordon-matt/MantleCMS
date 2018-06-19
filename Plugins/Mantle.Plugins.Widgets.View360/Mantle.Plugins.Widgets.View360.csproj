@@ -1,77 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputType>Library</OutputType>
-  </PropertyGroup>
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Library</OutputType>
     <AssemblyName>Mantle.Plugins.Widgets.View360</AssemblyName>
     <PackageId>Mantle.Plugins.Widgets.View360</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
-    <PostBuildEvent>XCOPY /Y /S "*.*" "D:\Source\GitHub\MantleCMS\MantleCMS\Plugins\Widgets.View360\*.*"</PostBuildEvent>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Content\images\fullscreen-enter.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\fullscreen-exit.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\hand.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\pause.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\play.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\rotate.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\turn-left.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\turn-right.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\zoom-in.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\images\zoom-out.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\View360.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="plugin.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scripts\View360.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\DisplayTemplates\View360Block.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Shared\EditorTemplates\View360Block.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewStart.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="wwwroot\css\images\fullscreen-enter.png" />
+    <None Include="wwwroot\css\images\fullscreen-exit.png" />
+    <None Include="wwwroot\css\images\hand.png" />
+    <None Include="wwwroot\css\images\pause.png" />
+    <None Include="wwwroot\css\images\play.png" />
+    <None Include="wwwroot\css\images\rotate.png" />
+    <None Include="wwwroot\css\images\turn-left.png" />
+    <None Include="wwwroot\css\images\turn-right.png" />
+    <None Include="wwwroot\css\images\zoom-in.png" />
+    <None Include="wwwroot\css\images\zoom-out.png" />
+    <None Include="wwwroot\css\View360.css" />
+    <None Include="wwwroot\js\View360.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,4 +38,28 @@
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\css\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\js\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Views\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CopyArtifacts" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginCopyDir>..\..\MantleCMS\Plugins\Widgets.View360\</PluginCopyDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)\**\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
+  </Target>
+  
 </Project>

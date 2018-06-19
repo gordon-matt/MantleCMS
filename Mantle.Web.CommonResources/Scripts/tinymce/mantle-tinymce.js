@@ -57,7 +57,7 @@ export class MantleTinyMCEOptions {
             allow_script_urls: true,
             allow_events: true,
             external_filemanager_path: "/filemanager/",
-            external_plugins: { "filemanager": "/filemanager/plugin.js" },
+            external_plugins: { "filemanager": "/filemanager/plugin.min.js" },
             valid_elements: '+*[*]',
             extended_valid_elements: '+*[*]',
             valid_children: "+body[style]"
@@ -88,7 +88,7 @@ export class MantleTinyMCEOptions {
             allow_script_urls: true,
             allow_events: true,
             external_filemanager_path: "/filemanager/",
-            external_plugins: { "filemanager": "/filemanager/plugin.js" },
+            external_plugins: { "filemanager": "/filemanager/plugin.min.js" },
             valid_elements: '+*[*]',
             extended_valid_elements: '+*[*]',
             valid_children: "+body[style]"

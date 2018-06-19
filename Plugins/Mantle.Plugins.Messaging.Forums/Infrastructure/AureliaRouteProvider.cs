@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 
                 routes.Add(new AureliaRoute
                 {
-                    ModuleId = "/aurelia-app/Plugins/Messaging.Forums/Scripts/index",
+                    ModuleId = "/aurelia-app/embedded/Mantle.Plugins.Messaging.Forums.wwwroot.js.index",
                     Route = "plugins/messaging/forums",
                     Name = "plugins/messaging/forums",
                     Title = localizer[LocalizableStrings.Forums]
@@ -33,7 +33,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 
         public IDictionary<string, string> ModuleIdToViewUrlMappings => new Dictionary<string, string>
         {
-            { "aurelia-app/Plugins/Messaging.Forums/Scripts/index", "admin/plugins/messaging/forums" },
+            { "/aurelia-app/embedded/Mantle.Plugins.Messaging.Forums.wwwroot.js.index", "admin/plugins/messaging/forums" },
         };
 
         #endregion IAureliaRouteProvider Members

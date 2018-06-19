@@ -53,10 +53,7 @@ namespace MantleCMS
 {
     public class Startup
     {
-        ///// <summary>
-        ///// The name of the default CORS policy.
-        ///// </summary>
-        //internal const string DefaultCorsPolicyName = "DefaultCorsPolicy";
+        #region Constructor
 
         public Startup(IHostingEnvironment env)
         {
@@ -80,13 +77,28 @@ namespace MantleCMS
             Configuration = builder.Build();
         }
 
+        #endregion Constructor
+
+        #region Properties
+
         public IConfigurationRoot Configuration { get; }
+
+        // TODO: Make some interface and resolve all of them instead
+        public ICollection<EmbeddedFileProvider> EmbeddedFileProviders => new List<EmbeddedFileProvider>
+        {
+            new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
+            new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
+            new EmbeddedFileProvider(typeof(Mantle.Web.CommonResources.Dummy).GetTypeInfo().Assembly, "Mantle.Web.CommonResources"),
+            new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
+            new EmbeddedFileProvider(typeof(MantleWebMessagingConstants).GetTypeInfo().Assembly, "Mantle.Web.Messaging"),
+            //TODO: Add more - and better to detect them automatically somehow
+        };
 
         public IHostingEnvironment HostingEnvironment { get; private set; }
 
         public IServiceProvider ServiceProvider { get; private set; }
 
-        public ICollection<EmbeddedFileProvider> EmbeddedFileProviders { get; private set; }
+        #endregion Properties
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -103,6 +115,8 @@ namespace MantleCMS
             // For further info, see: https://github.com/aspnet/Identity/issues/1112
             services.AddScoped(typeof(IRoleValidator<ApplicationRole>), typeof(ApplicationRoleValidator));
 
+            #region Account / Identity
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/account/login";
@@ -116,6 +130,8 @@ namespace MantleCMS
                 .AddRoleStore<ApplicationRoleStore>()
                 //.AddRoleValidator<ApplicationRoleValidator>()
                 .AddDefaultTokenProviders();
+
+            #endregion Account / Identity
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -139,10 +155,10 @@ namespace MantleCMS
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
 
-            services.AddRouting((p) =>
+            services.AddRouting((routeOptions) =>
             {
-                p.AppendTrailingSlash = true;
-                p.LowercaseUrls = true;
+                routeOptions.AppendTrailingSlash = true;
+                routeOptions.LowercaseUrls = true;
             });
 
             services.AddMultitenancy<Tenant, MantleTenantResolver>();
@@ -151,26 +167,11 @@ namespace MantleCMS
 
             services.AddOData();
 
-            var mvcBuilder = services.AddMvc(ConfigureMvc)
-                //.ConfigureApplicationPartManager(manager =>
-                //{
-                //    // Temporary workaround for .NET Core bug. See: https://github.com/dotnet/core-setup/issues/2981#issuecomment-322572374
-                //    var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
-                //    manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
-                //    manager.FeatureProviders.Add(new ReferencesMetadataReferenceFeatureProvider());
-                //})
-                .AddJsonOptions((p) => services.AddSingleton(ConfigureJsonFormatter(p)));
+            var mvcBuilder = services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions((mvcJsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(mvcJsonOptions)));
 
-            //TODO: Make some interface and resolve all of them here to register
-            EmbeddedFileProviders = new List<EmbeddedFileProvider>
-            {
-                new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
-                new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
-                new EmbeddedFileProvider(typeof(Mantle.Web.CommonResources.Dummy).GetTypeInfo().Assembly, "Mantle.Web.CommonResources"),
-                new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
-                new EmbeddedFileProvider(typeof(MantleWebMessagingConstants).GetTypeInfo().Assembly, "Mantle.Web.Messaging"),
-                //TODO: Add more - and better to detect them automatically somehow
-            };
+            #region RequestLocalizationOptions
 
             services.Configure<RequestLocalizationOptions>(
                 options =>
@@ -194,6 +195,10 @@ namespace MantleCMS
                     options.SupportedUICultures = supportedCultures;
                 });
 
+            #endregion RequestLocalizationOptions
+
+            #region RazorViewEngineOptions
+
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 //Add the file provider to the Razor view engine
@@ -208,14 +213,14 @@ namespace MantleCMS
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
             });
 
+            #endregion RazorViewEngineOptions
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-            //===================================================================
-            // FRAMEWORK CONFIG
-            //===================================================================
+            #region Mantle Framework Config
 
-            ServiceProvider = services.ConfigureMantleServices(Configuration);
+            ServiceProvider = services.ConfigureMantleServices(mvcBuilder.PartManager, Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
             // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
@@ -241,9 +246,7 @@ namespace MantleCMS
                 }
             });
 
-            //===================================================================
-            // END: FRAMEWORK CONFIG
-            //===================================================================
+            #endregion Mantle Framework Config
 
             return ServiceProvider;
         }
@@ -279,6 +282,8 @@ namespace MantleCMS
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
 
+            #region PeachPie / Responsive File Manager
+
             // ================================================================================
             // Peachpie
             app.UseSession();
@@ -305,7 +310,10 @@ namespace MantleCMS
             });
 
             app.UseDefaultFiles();
-            // ================================================================================
+
+            #endregion PeachPie / Responsive File Manager
+
+            #region Static Files
 
             // embedded files
             app.UseStaticFiles(new StaticFileOptions
@@ -344,6 +352,8 @@ namespace MantleCMS
             {
                 FileProvider = new PhysicalFileProvider(root)
             });
+
+            #endregion Static Files
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions()
@@ -385,20 +395,16 @@ namespace MantleCMS
             // application container, register for the "ApplicationStopped" event.
             //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
-            TryUpdateNLogConnectionString();
+            ConfigureNLog();
         }
 
-        /// <summary>
-        /// Configures the JSON serializer for MVC.
-        /// </summary>
-        /// <param name="options">The <see cref="MvcJsonOptions"/> to configure.</param>
-        /// <returns>
-        /// The <see cref="JsonSerializerSettings"/> to use.
-        /// </returns>
-        private static JsonSerializerSettings ConfigureJsonFormatter(MvcJsonOptions options)
+        private JsonSerializerSettings ConfigureJsonSerializerSettings(MvcJsonOptions options)
         {
-            // Make JSON easier to read for debugging at the expense of larger payloads
-            options.SerializerSettings.Formatting = Formatting.Indented;
+            if (HostingEnvironment.IsDevelopment())
+            {
+                // Make JSON easier to read for debugging at the expense of larger payloads
+                options.SerializerSettings.Formatting = Formatting.Indented;
+            }
 
             // Omit nulls to reduce payload size
             options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -411,19 +417,7 @@ namespace MantleCMS
             return options.SerializerSettings;
         }
 
-        /// <summary>
-        /// Configures MVC.
-        /// </summary>
-        /// <param name="options">The <see cref="MvcOptions"/> to configure.</param>
-        private void ConfigureMvc(MvcOptions options)
-        {
-            if (!HostingEnvironment.IsDevelopment())
-            {
-                //options.Filters.Add(new RequireHttpsAttribute());
-            }
-        }
-
-        private void TryUpdateNLogConnectionString()
+        private void ConfigureNLog()
         {
             try
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +17,7 @@ namespace Mantle.Infrastructure
         /// Initialize engine
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        void Initialize(IServiceCollection services);
+        void Initialize(IServiceCollection services, ApplicationPartManager partManager);
 
         /// <summary>
         /// Add and configure services

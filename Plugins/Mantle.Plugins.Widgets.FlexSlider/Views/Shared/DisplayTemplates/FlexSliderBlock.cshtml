@@ -1,7 +1,7 @@
-﻿@using Mantle.Infrastructure
+﻿@using Extenso.AspNetCore.Mvc.Rendering
+@using Mantle.Infrastructure
 @using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
-@using Mantle.Web.Mvc
 
 @model FlexSliderBlock
 
@@ -9,9 +9,9 @@
 @inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
 @{
-    Style.IncludePluginStyle("FlexSlider/flexslider.css", order: 99999);
+    //Style.IncludePluginStyle("FlexSlider/flexslider.css", order: 99999); //TODO
     //Script.IncludeBundle("jquery");
-    Script.IncludePluginScript("jquery.flexslider-min.js", order: 99999);
+    //Script.IncludePluginScript("jquery.flexslider-min.js", order: 99999); //TODO
 
     // TODO
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
@@ -30,14 +30,14 @@
                 {
                     string thumbPath = slide.Path.Replace("/Media/", "/Media/.tmb_Media/");//TODO: Use thumb Hash
                     <li data-thumb="@thumbPath">
-                        @Html.Image(slide.Path, slide.Name)
+                        @Html.Image(Url, slide.Path, slide.Name)
                         @*<p class="flex-caption">@slide.Caption</p>*@
                     </li>
                 }
                 else
                 {
                     <li>
-                        @Html.Image(slide.Path, slide.Name)
+                        @Html.Image(Url, slide.Path, slide.Name)
                         @*<p class="flex-caption">@slide.Caption</p>*@
                     </li>
                 }
