@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Extenso.Data.Entity;
+using Extenso.Collections;
 using Mantle.Caching;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
@@ -38,13 +37,13 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
         }
 
         //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
-        public virtual async Task<IEnumerable<ComparitiveLocalizableString>> GetComparitiveTable(
+        public virtual async Task<IActionResult> GetComparitiveTable(
             [FromODataUri] string cultureCode,
             ODataQueryOptions<ComparitiveLocalizableString> options)
         {
             if (!CheckPermission(ReadPermission))
             {
-                return Enumerable.Empty<ComparitiveLocalizableString>();
+                return Unauthorized();
             }
             else
             {
@@ -66,7 +65,8 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api
                             });
 
                 var results = options.ApplyTo(query, IgnoreQueryOptions);
-                return await (results as IQueryable<ComparitiveLocalizableString>).ToHashSetAsync();
+                var response = await Task.FromResult((results as IQueryable<ComparitiveLocalizableString>).ToHashSet());
+                return Ok(response);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership;
@@ -130,7 +131,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             var forumPosts = AsyncHelper.RunSync(() => forumService.GetAllPosts(forumTopic.Id, null, string.Empty, 0, 1));
             if (forumPosts.Count > 0)
             {
-                return forumPosts[0];
+                return forumPosts.First();
             }
 
             return null;

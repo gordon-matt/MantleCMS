@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Extenso.Data.Entity;
+using Extenso.Collections;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Security.Membership.Permissions;
@@ -31,17 +30,18 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.workContext = workContext;
         }
 
-        public virtual async Task<IEnumerable<MantlePermission>> Get(ODataQueryOptions<MantlePermission> options)
+        public virtual async Task<IActionResult> Get(ODataQueryOptions<MantlePermission> options)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
-                return Enumerable.Empty<MantlePermission>().AsQueryable();
+                return Unauthorized();
             }
 
             var results = options.ApplyTo(
                 (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
 
-            return await (results as IQueryable<MantlePermission>).ToHashSetAsync();
+            var response = await Task.FromResult((results as IQueryable<MantlePermission>).ToHashSet());
+            return Ok(response);
         }
 
         [EnableQuery]
@@ -57,6 +57,11 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
 
         public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantlePermission entity)
         {
+            if (entity == null)
+            {
+                return BadRequest();
+            }
+
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
                 return Unauthorized();
@@ -92,6 +97,11 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
 
         public virtual async Task<IActionResult> Post([FromBody] MantlePermission entity)
         {
+            if (entity == null)
+            {
+                return BadRequest();
+            }
+
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
             {
                 return Unauthorized();
@@ -166,19 +176,22 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
         }
 
         [HttpGet]
-        public virtual async Task<IEnumerable<EdmMantlePermission>> GetPermissionsForRole([FromODataUri] string roleId)
+        public virtual async Task<IActionResult> GetPermissionsForRole([FromODataUri] string roleId)
         {
             if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
             {
-                return Enumerable.Empty<EdmMantlePermission>().AsQueryable();
+                return Unauthorized();
             }
 
             var role = await Service.GetRoleById(roleId);
-            return (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
+            var results = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
             {
                 Id = x.Id,
                 Name = x.Name
             });
+
+            var response = await Task.FromResult(results);
+            return Ok(response);
         }
 
         protected virtual bool EntityExists(string key)

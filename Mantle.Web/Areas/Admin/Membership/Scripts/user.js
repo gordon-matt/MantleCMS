@@ -203,9 +203,9 @@ export class UserViewModel {
         let json = response.content;
 
         let self = this;
-        if (json.value && json.value.length > 0) {
-            $.each(json.value, function () {
-                self.roles.push(this.Id);
+        if (json && json.length > 0) {
+            $.each(json, function () {
+                self.roles.push(this.id);
             });
         }
 

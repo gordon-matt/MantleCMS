@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Extenso.Collections.Generic;
 using Extenso.Data.Entity;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Exceptions;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership;
@@ -321,7 +320,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             return forumTopic;
         }
 
-        public virtual async Task<IPagedList<ForumTopic>> GetAllTopics(
+        public virtual async Task<IPagedCollection<ForumTopic>> GetAllTopics(
             int forumId = 0,
             string userId = null,
             string keywords = null,
@@ -365,7 +364,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             }
         }
 
-        public virtual async Task<IPagedList<ForumTopic>> GetActiveTopics(
+        public virtual async Task<IPagedCollection<ForumTopic>> GetActiveTopics(
             int forumId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue)
@@ -536,7 +535,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             return await forumPostRepository.FindOneAsync(forumPostId);
         }
 
-        public virtual async Task<IPagedList<ForumPost>> GetAllPosts(
+        public virtual async Task<IPagedCollection<ForumPost>> GetAllPosts(
             int forumTopicId = 0,
             string userId = null,
             string keywords = null,
@@ -546,7 +545,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             return await GetAllPosts(forumTopicId, userId, keywords, true, pageIndex, pageSize);
         }
 
-        public virtual async Task<IPagedList<ForumPost>> GetAllPosts(
+        public virtual async Task<IPagedCollection<ForumPost>> GetAllPosts(
             int forumTopicId = 0,
             string userId = null,
             string keywords = null,
@@ -673,7 +672,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             return await forumPrivateMessageRepository.FindOneAsync(privateMessageId);
         }
 
-        public virtual async Task<IPagedList<PrivateMessage>> GetAllPrivateMessages(
+        public virtual async Task<IPagedCollection<PrivateMessage>> GetAllPrivateMessages(
             string fromUserId,
             string toUserId,
             bool? isRead,
@@ -791,7 +790,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             return await forumSubscriptionRepository.FindOneAsync(forumSubscriptionId);
         }
 
-        public virtual async Task<IPagedList<ForumSubscription>> GetAllSubscriptions(
+        public virtual async Task<IPagedCollection<ForumSubscription>> GetAllSubscriptions(
             string userId = null,
             int forumId = 0,
             int topicId = 0,
@@ -1083,7 +1082,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
 
             for (int i = 0; i < forumPosts.ItemCount; i++)
             {
-                if (forumPosts[i].Id == postId)
+                if (forumPosts.ElementAt(i).Id == postId)
                 {
                     if (pageSize > 0)
                     {
