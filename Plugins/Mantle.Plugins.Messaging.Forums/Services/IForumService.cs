@@ -34,7 +34,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
 
         Task<ForumTopic> GetTopicById(int forumTopicId, bool increaseViews);
 
-        Task<IPagedList<ForumTopic>> GetAllTopics(
+        Task<IPagedCollection<ForumTopic>> GetAllTopics(
             int forumId = 0,
             string userId = null,
             string keywords = null,
@@ -43,7 +43,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
             int pageIndex = 0,
             int pageSize = int.MaxValue);
 
-        Task<IPagedList<ForumTopic>> GetActiveTopics(
+        Task<IPagedCollection<ForumTopic>> GetActiveTopics(
             int forumId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue);
@@ -58,14 +58,14 @@ namespace Mantle.Plugins.Messaging.Forums.Services
 
         Task<ForumPost> GetPostById(int forumPostId);
 
-        Task<IPagedList<ForumPost>> GetAllPosts(
+        Task<IPagedCollection<ForumPost>> GetAllPosts(
             int forumTopicId = 0,
             string userId = null,
             string keywords = null,
             int pageIndex = 0,
             int pageSize = int.MaxValue);
 
-        Task<IPagedList<ForumPost>> GetAllPosts(
+        Task<IPagedCollection<ForumPost>> GetAllPosts(
             int forumTopicId = 0,
             string userId = null,
             string keywords = null,
@@ -81,7 +81,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
 
         Task<PrivateMessage> GetPrivateMessageById(int privateMessageId);
 
-        Task<IPagedList<PrivateMessage>> GetAllPrivateMessages(
+        Task<IPagedCollection<PrivateMessage>> GetAllPrivateMessages(
             string fromCustomerId,
             string toCustomerId,
             bool? isRead,
@@ -99,7 +99,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
 
         Task<ForumSubscription> GetSubscriptionById(int forumSubscriptionId);
 
-        Task<IPagedList<ForumSubscription>> GetAllSubscriptions(
+        Task<IPagedCollection<ForumSubscription>> GetAllSubscriptions(
             string userId = null,
             int forumId = 0,
             int topicId = 0,

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extenso.Data.Entity" Version="1.0.1" />
+    <PackageReference Include="Extenso.Data.Entity" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
   </ItemGroup>
 

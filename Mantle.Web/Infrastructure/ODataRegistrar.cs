@@ -73,7 +73,7 @@ namespace Mantle.Web.Infrastructure
         {
             var getUsersInRoleFunction = builder.EntityType<MantleUser>().Collection.Function("GetUsersInRole");
             getUsersInRoleFunction.Parameter<string>("roleId");
-            getUsersInRoleFunction.ReturnsCollectionFromEntitySet<MantleUser>("Users");
+            getUsersInRoleFunction.Returns<IActionResult>();
 
             var assignUserToRolesAction = builder.EntityType<MantleUser>().Collection.Action("AssignUserToRoles");
             assignUserToRolesAction.Parameter<string>("userId");
@@ -87,7 +87,7 @@ namespace Mantle.Web.Infrastructure
 
             var getRolesForUserFunction = builder.EntityType<MantleRole>().Collection.Function("GetRolesForUser");
             getRolesForUserFunction.Parameter<string>("userId");
-            getRolesForUserFunction.ReturnsCollection<EdmRole>();
+            getRolesForUserFunction.Returns<IActionResult>();
 
             var assignPermissionsToRoleAction = builder.EntityType<MantleRole>().Collection.Action("AssignPermissionsToRole");
             assignPermissionsToRoleAction.Parameter<string>("roleId");
@@ -96,7 +96,7 @@ namespace Mantle.Web.Infrastructure
 
             var getPermissionsForRoleFunction = builder.EntityType<MantlePermission>().Collection.Function("GetPermissionsForRole");
             getPermissionsForRoleFunction.Parameter<string>("roleId");
-            getPermissionsForRoleFunction.ReturnsCollection<EdmMantlePermission>();
+            getPermissionsForRoleFunction.Returns<IActionResult>();
         }
 
         //private static void RegisterPluginODataActions(ODataModelBuilder builder)
@@ -138,7 +138,7 @@ namespace Mantle.Web.Infrastructure
         {
             var getComparitiveTableFunction = builder.EntityType<LocalizableString>().Collection.Function("GetComparitiveTable");
             getComparitiveTableFunction.Parameter<string>("cultureCode");
-            getComparitiveTableFunction.ReturnsCollection<ComparitiveLocalizableString>();
+            getComparitiveTableFunction.Returns<IActionResult>();
 
             var putComparitiveAction = builder.EntityType<LocalizableString>().Collection.Action("PutComparitive");
             putComparitiveAction.Parameter<string>("cultureCode");

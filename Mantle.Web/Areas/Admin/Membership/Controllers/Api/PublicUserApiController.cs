@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Extenso.Data.Entity;
+using Extenso.Collections;
 using Mantle.Security.Membership;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Query;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
 {
@@ -20,7 +20,7 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
             this.workContext = workContext;
         }
 
-        public virtual async Task<IEnumerable<PublicUserInfo>> Get(ODataQueryOptions<PublicUserInfo> options)
+        public virtual async Task<IActionResult> Get(ODataQueryOptions<PublicUserInfo> options)
         {
             var query = (await Service.GetAllUsers(workContext.CurrentTenant.Id))
                 .Select(x => new PublicUserInfo
@@ -30,7 +30,8 @@ namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
                 }).AsQueryable();
 
             var results = options.ApplyTo(query);
-            return await (results as IQueryable<PublicUserInfo>).ToHashSetAsync();
+            var response = await Task.FromResult((results as IQueryable<PublicUserInfo>).ToHashSet());
+            return Ok(response);
         }
 
         public virtual async Task<PublicUserInfo> Get([FromODataUri] string key)

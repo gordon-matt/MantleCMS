@@ -183,9 +183,9 @@ export class RoleViewModel {
         let json = response.content;
 
         let self = this;
-        if (json.value && json.value.length > 0) {
-            $.each(json.value, function () {
-                self.permissions.push(this.Id);
+        if (json && json.length > 0) {
+            $.each(json, function () {
+                self.permissions.push(this.id);
             });
         }
 

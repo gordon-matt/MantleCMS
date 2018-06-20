@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="1.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
