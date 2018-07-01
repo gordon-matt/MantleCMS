@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Extenso;
 using Extenso.Data.Entity;
-using Extenso.Reflection;
 using Mantle.Caching;
 using Mantle.Data.Services;
+using Mantle.Reflection;
 using Mantle.Web.Configuration.Domain;
 
 namespace Mantle.Web.Configuration.Services
@@ -94,7 +94,7 @@ namespace Mantle.Web.Configuration.Services
             }
             else
             {
-                valueStr = value.ToJson();
+                valueStr = value.JsonSerialize();
             }
 
             if (prop != null)

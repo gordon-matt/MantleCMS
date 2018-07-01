@@ -35,7 +35,7 @@ namespace Mantle.Web.Messaging.Infrastructure
             var getCurrentVersionFunction = builder.EntityType<MessageTemplateVersion>().Collection.Function("GetCurrentVersion");
             getCurrentVersionFunction.Parameter<int>("templateId");
             getCurrentVersionFunction.Parameter<string>("cultureCode");
-            getCurrentVersionFunction.Returns<MessageTemplateVersion>();
+            getCurrentVersionFunction.ReturnsFromEntitySet<MessageTemplateVersion>("MessageTemplateVersionApi");
         }
     }
 }

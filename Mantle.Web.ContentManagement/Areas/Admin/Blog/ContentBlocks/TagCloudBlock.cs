@@ -173,7 +173,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
             }
             if (!string.IsNullOrWhiteSpace(Colors))
             {
-                sb.AppendFormat("colors:[{0}],", string.Join("','", Colors.Split(',')).AddSingleQuotes());
+                sb.AppendFormat("colors:[{0}],", string.Join("','", Colors.Split(',')).EnquoteSingle());
             }
             if (FontSizeFrom.HasValue && FontSizeTo.HasValue)
             {

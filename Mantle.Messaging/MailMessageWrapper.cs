@@ -275,7 +275,7 @@ namespace Mantle.Messaging
             //};
             //return this.ToJson(settings);
 
-            return this.ToJson();
+            return this.JsonSerialize();
         }
 
         #region Nested type: AttachmentWrapper

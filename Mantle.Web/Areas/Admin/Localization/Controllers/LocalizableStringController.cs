@@ -85,7 +85,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
                 LocalizedStrings = localizedStrings.ToDictionary(k => k.TextKey, v => v.TextValue)
             };
 
-            string json = languagePack.ToJson();
+            string json = languagePack.JsonSerialize();
             string fileName = string.Format("{0}_LanguagePack_{1}_{2:yyyy-MM-dd}.json", siteSettings.SiteName, cultureCode, DateTime.Now);
             return File(new UTF8Encoding().GetBytes(json), "application/json", fileName);
         }

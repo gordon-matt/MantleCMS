@@ -68,8 +68,8 @@ namespace Mantle.Web.Messaging.Controllers.Api
             //    currentVersion.Data = data.Html;
             //}
 
-            return new JsonResult(JObject.FromObject(currentVersion)); // Works, but shouldn't need to use this.. Ok() was fine in MVC5
-            //return Ok(currentVersion); // Broken
+            //return new JsonResult(JObject.FromObject(currentVersion));
+            return Ok(currentVersion);
         }
 
         protected override Permission ReadPermission

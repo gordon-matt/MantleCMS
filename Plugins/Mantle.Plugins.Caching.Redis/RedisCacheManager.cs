@@ -83,7 +83,7 @@ namespace Mantle.Plugins.Caching.Redis
             }
             else if (data is IEnumerable)
             {
-                string json = data.ToJson();
+                string json = data.JsonSerialize();
                 Database.StringSet(cacheKey, json, TimeSpan.FromMinutes(cacheTimeInMinutes));
             }
             else

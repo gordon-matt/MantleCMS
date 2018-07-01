@@ -22,7 +22,7 @@ namespace Mantle.Web
                 }
                 else
                 {
-                    keyPairs.Add(string.Format(@"""{0}"": {1}", pair.Key, pair.Value.ToJson()));
+                    keyPairs.Add(string.Format(@"""{0}"": {1}", pair.Key, pair.Value.JsonSerialize()));
                 }
             }
 
