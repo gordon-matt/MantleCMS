@@ -16,7 +16,7 @@
         title = x.Name,
         start = x.StartDateTime,
         end = x.EndDateTime
-    }).ToJson();
+    }).JsonSerialize();
     string blockId = "calendar-" + Guid.NewGuid();
 }
 

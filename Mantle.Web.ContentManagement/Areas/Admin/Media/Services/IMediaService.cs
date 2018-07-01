@@ -57,7 +57,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Services
                 ThumbPath = path.Replace("/Media/Uploads/", "/Media/Uploads/.tmb/"),
                 DirectoryPath = directoryPath,
                 Type = file.Extension,
-                Size = file.GetFileSizeInKiloBytes(),
+                Size = file.FileSizeInKiloBytes(),
                 LastUpdated = file.LastWriteTimeUtc
             };
         }

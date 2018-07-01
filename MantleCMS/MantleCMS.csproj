@@ -56,6 +56,7 @@
     <PackageReference Include="Peachpie.NETCore.Web" Version="0.9.0-CI00965" />
     <PackageReference Include="ResponsiveFileManager" Version="1.0.7" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.1" />
   </ItemGroup>
   <!--<ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />

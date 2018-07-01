@@ -145,7 +145,7 @@ namespace Mantle.Web.Messaging.Controllers
                 x.MessageTemplateId == id &&
                 x.CultureCode == cultureCode);
 
-            entity.Data = data.ToJson();
+            entity.Data = data.JsonSerialize();
 
             await messageTemplateVersionService.Value.UpdateAsync(entity);
 

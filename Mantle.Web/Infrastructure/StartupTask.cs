@@ -225,7 +225,7 @@ namespace Mantle.Web.Infrastructure
                 TenantId = null,
                 Name = x.Name,
                 Type = x.GetType().FullName,
-                Value = Activator.CreateInstance(x.GetType()).ToJson()
+                Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
             }).ToList();
 
             if (!settingsToAdd.IsNullOrEmpty())
@@ -255,7 +255,7 @@ namespace Mantle.Web.Infrastructure
                     TenantId = tenantId,
                     Name = x.Name,
                     Type = x.GetType().FullName,
-                    Value = Activator.CreateInstance(x.GetType()).ToJson()
+                    Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
                 }).ToList();
 
                 if (!settingsToAdd.IsNullOrEmpty())

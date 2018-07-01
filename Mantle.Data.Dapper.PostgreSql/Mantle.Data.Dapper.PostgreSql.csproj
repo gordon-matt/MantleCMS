@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
-    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="1.1.0" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="1.1.2" />
     <PackageReference Include="Npgsql" Version="4.0.0" />
   </ItemGroup>
 
