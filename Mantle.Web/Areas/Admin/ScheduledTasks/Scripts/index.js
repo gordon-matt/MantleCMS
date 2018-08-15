@@ -204,13 +204,12 @@ export class ViewModel {
         }
 
         let record = {
-            Id: this.id,
             Seconds: this.seconds,
             Enabled: this.enabled,
             StopOnError: this.stopOnError
         };
 
-        let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
+        let response = await this.http.patch(`${this.apiUrl}(${this.id})`, record);
 
         if (response.isSuccess) {
             $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
