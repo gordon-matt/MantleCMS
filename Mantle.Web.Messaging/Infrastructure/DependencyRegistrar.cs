@@ -22,6 +22,9 @@ namespace Mantle.Web.Messaging.Infrastructure
             builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 
+            // Embedded File Provider
+            builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+
             // Configuration
             builder.RegisterType<SmtpSettings>().As<ISettings>().InstancePerLifetimeScope();
 
