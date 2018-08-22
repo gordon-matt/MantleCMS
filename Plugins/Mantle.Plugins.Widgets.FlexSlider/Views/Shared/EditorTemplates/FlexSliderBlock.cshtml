@@ -371,7 +371,7 @@
     function dismissModal() {
         modalDismissed = true;
         $('#myModal').modal('hide');
-    };
+    }
 
     $(document).ready(function () {
         $('#myModal').on('hidden.bs.modal', function () {
@@ -383,113 +383,113 @@
                 //blockModel.mediaFolder(url);
             }
             modalDismissed = false;
-        })
+        });
     });
 
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = ko.observable("");
-            blockModel.controlId = ko.observable("slider");
-            blockModel.namespace = ko.observable(null);
-            blockModel.selector = ko.observable(null);
-            blockModel.startAt = ko.observable(0);
-            blockModel.slideshow = ko.observable(true);
-            blockModel.slideshowSpeed = ko.observable(7000);
-            blockModel.initDelay = ko.observable(0);
-            blockModel.randomize = ko.observable(false);
-            blockModel.pauseOnAction = ko.observable(true);
-            blockModel.pauseOnHover = ko.observable(false);
-            blockModel.touch = ko.observable(true);
-            blockModel.video = ko.observable(false);
-            blockModel.sync = ko.observable("");
-            blockModel.asNavFor = ko.observable("");
-            blockModel.itemWidth = ko.observable(0);
-            blockModel.itemMargin = ko.observable(0);
-            blockModel.minItems = ko.observable(0);
-            blockModel.maxItems = ko.observable(0);
-            blockModel.animation = ko.observable(0);
-            blockModel.animationSpeed = ko.observable(600);
-            blockModel.direction = ko.observable(0);
-            blockModel.reverse = ko.observable(false);
-            blockModel.move = ko.observable(0);
-            blockModel.animationLoop = ko.observable(true);
-            blockModel.smoothHeight = ko.observable(false);
-            blockModel.easing = ko.observable(1);
-            blockModel.useCSS = ko.observable(true);
-            blockModel.controlNav = ko.observable(1);
-            blockModel.directionNav = ko.observable(true);
-            blockModel.prevText = ko.observable("Previous");
-            blockModel.nextText = ko.observable("Next");
-            blockModel.pausePlay = ko.observable(false);
-            blockModel.pauseText = ko.observable("Pause");
-            blockModel.playText = ko.observable("Play");
-            blockModel.controlsContainer = ko.observable("");
-            blockModel.manualControls = ko.observable("");
-            blockModel.keyboard = ko.observable(true);
-            blockModel.multipleKeyboard = ko.observable(false);
-            blockModel.mousewheel = ko.observable(false);
-            blockModel.onStart = ko.observable(null);
-            blockModel.onEnd = ko.observable(null);
-            blockModel.onBefore = ko.observable(null);
-            blockModel.onAfter = ko.observable(null);
-            blockModel.onAdded = ko.observable(null);
-            blockModel.onRemoved = ko.observable(null);
+            //blockModel.mediaFolder = '';
+            blockModel.controlId = "slider";
+            blockModel.namespace = null;
+            blockModel.selector = null;
+            blockModel.startAt = 0;
+            blockModel.slideshow = true;
+            blockModel.slideshowSpeed = 7000;
+            blockModel.initDelay = 0;
+            blockModel.randomize = false;
+            blockModel.pauseOnAction = true;
+            blockModel.pauseOnHover = false;
+            blockModel.touch = true;
+            blockModel.video = false;
+            blockModel.sync = '';
+            blockModel.asNavFor = '';
+            blockModel.itemWidth = 0;
+            blockModel.itemMargin = 0;
+            blockModel.minItems = 0;
+            blockModel.maxItems = 0;
+            blockModel.animation = 0;
+            blockModel.animationSpeed = 600;
+            blockModel.direction = 0;
+            blockModel.reverse = false;
+            blockModel.move = 0;
+            blockModel.animationLoop = true;
+            blockModel.smoothHeight = false;
+            blockModel.easing = 1;
+            blockModel.useCSS = true;
+            blockModel.controlNav = 1;
+            blockModel.directionNav = true;
+            blockModel.prevText = "Previous";
+            blockModel.nextText = "Next";
+            blockModel.pausePlay = false;
+            blockModel.pauseText = "Pause";
+            blockModel.playText = "Play";
+            blockModel.controlsContainer = '';
+            blockModel.manualControls = '';
+            blockModel.keyboard = true;
+            blockModel.multipleKeyboard = false;
+            blockModel.mousewheel = false;
+            blockModel.onStart = null;
+            blockModel.onEnd = null;
+            blockModel.onBefore = null;
+            blockModel.onAfter = null;
+            blockModel.onAdded = null;
+            blockModel.onRemoved = null;
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.MediaFolder == undefined) {
                     // If this is not set, it means the contentBlock is new and we have nothing in blockValues
                     return;
                 }
-                $('#MediaFolder').val(data.MediaFolder());
-                //blockModel.mediaFolder(data.MediaFolder());
-                blockModel.controlId(data.ControlId());
-                blockModel.namespace(data.Namespace());
-                blockModel.selector(data.Selector());
-                blockModel.startAt(data.StartAt());
-                blockModel.slideshow(data.Slideshow());
-                blockModel.slideshowSpeed(data.SlideshowSpeed());
-                blockModel.initDelay(data.InitDelay());
-                blockModel.randomize(data.Randomize());
-                blockModel.pauseOnAction(data.PauseOnAction());
-                blockModel.pauseOnHover(data.PauseOnHover());
-                blockModel.touch(data.Touch());
-                blockModel.video(data.Video());
-                blockModel.sync(data.Sync());
-                blockModel.asNavFor(data.AsNavFor());
-                blockModel.itemWidth(data.ItemWidth());
-                blockModel.itemMargin(data.ItemMargin());
-                blockModel.minItems(data.MinItems());
-                blockModel.maxItems(data.MaxItems());
-                blockModel.animation(data.Animation());
-                blockModel.animationSpeed(data.AnimationSpeed());
-                blockModel.direction(data.Direction());
-                blockModel.reverse(data.Reverse());
-                blockModel.move(data.Move());
-                blockModel.animationLoop(data.AnimationLoop());
-                blockModel.smoothHeight(data.SmoothHeight());
-                blockModel.easing(data.Easing());
-                blockModel.useCSS(data.UseCSS());
-                blockModel.controlNav(data.ControlNav());
-                blockModel.directionNav(data.DirectionNav());
-                blockModel.prevText(data.PrevText());
-                blockModel.nextText(data.NextText());
-                blockModel.pausePlay(data.PausePlay());
-                blockModel.pauseText(data.PauseText());
-                blockModel.playText(data.PlayText());
-                blockModel.controlsContainer(data.ControlsContainer());
-                blockModel.manualControls(data.ManualControls());
-                blockModel.keyboard(data.Keyboard());
-                blockModel.multipleKeyboard(data.MultipleKeyboard());
-                blockModel.mousewheel(data.Mousewheel());
-                blockModel.onStart(data.OnStart());
-                blockModel.onEnd(data.OnEnd());
-                blockModel.onBefore(data.OnBefore());
-                blockModel.onAfter(data.OnAfter());
-                blockModel.onAdded(data.OnAdded());
-                blockModel.onRemoved(data.OnRemoved());
+                $('#MediaFolder').val(data.MediaFolder);
+                //blockModel.mediaFolder = data.MediaFolder;
+                blockModel.controlId = data.ControlId;
+                blockModel.namespace = data.Namespace;
+                blockModel.selector = data.Selector;
+                blockModel.startAt = data.StartAt;
+                blockModel.slideshow = data.Slideshow;
+                blockModel.slideshowSpeed = data.SlideshowSpeed;
+                blockModel.initDelay = data.InitDelay;
+                blockModel.randomize = data.Randomize;
+                blockModel.pauseOnAction = data.PauseOnAction;
+                blockModel.pauseOnHover = data.PauseOnHover;
+                blockModel.touch = data.Touch;
+                blockModel.video = data.Video;
+                blockModel.sync = data.Sync;
+                blockModel.asNavFor = data.AsNavFor;
+                blockModel.itemWidth = data.ItemWidth;
+                blockModel.itemMargin = data.ItemMargin;
+                blockModel.minItems = data.MinItems;
+                blockModel.maxItems = data.MaxItems;
+                blockModel.animation = data.Animation;
+                blockModel.animationSpeed = data.AnimationSpeed;
+                blockModel.direction = data.Direction;
+                blockModel.reverse = data.Reverse;
+                blockModel.move = data.Move;
+                blockModel.animationLoop = data.AnimationLoop;
+                blockModel.smoothHeight = data.SmoothHeight;
+                blockModel.easing = data.Easing;
+                blockModel.useCSS = data.UseCSS;
+                blockModel.controlNav = data.ControlNav;
+                blockModel.directionNav = data.DirectionNav;
+                blockModel.prevText = data.PrevText;
+                blockModel.nextText = data.NextText;
+                blockModel.pausePlay = data.PausePlay;
+                blockModel.pauseText = data.PauseText;
+                blockModel.playText = data.PlayText;
+                blockModel.controlsContainer = data.ControlsContainer;
+                blockModel.manualControls = data.ManualControls;
+                blockModel.keyboard = data.Keyboard;
+                blockModel.multipleKeyboard = data.MultipleKeyboard;
+                blockModel.mousewheel = data.Mousewheel;
+                blockModel.onStart = data.OnStart;
+                blockModel.onEnd = data.OnEnd;
+                blockModel.onBefore = data.OnBefore;
+                blockModel.onAfter = data.OnAfter;
+                blockModel.onAdded = data.OnAdded;
+                blockModel.onRemoved = data.OnRemoved;
             }
         };
         f.cleanUp = function (blockModel) {
@@ -543,54 +543,54 @@
         f.onBeforeSave = function (blockModel) {
             var data = {
                 MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder(),
-                ControlId: blockModel.controlId(),
-                Namespace: blockModel.namespace(),
-                Selector: blockModel.selector(),
-                StartAt: blockModel.startAt(),
-                Slideshow: blockModel.slideshow(),
-                SlideshowSpeed: blockModel.slideshowSpeed(),
-                InitDelay: blockModel.initDelay(),
-                Randomize: blockModel.randomize(),
-                PauseOnAction: blockModel.pauseOnAction(),
-                PauseOnHover: blockModel.pauseOnHover(),
-                Touch: blockModel.touch(),
-                Video: blockModel.video(),
-                Sync: blockModel.sync(),
-                AsNavFor: blockModel.asNavFor(),
-                ItemWidth: blockModel.itemWidth(),
-                ItemMargin: blockModel.itemMargin(),
-                MinItems: blockModel.minItems(),
-                MaxItems: blockModel.maxItems(),
-                Animation: blockModel.animation(),
-                AnimationSpeed: blockModel.animationSpeed(),
-                Direction: blockModel.direction(),
-                Reverse: blockModel.reverse(),
-                Move: blockModel.move(),
-                AnimationLoop: blockModel.animationLoop(),
-                SmoothHeight: blockModel.smoothHeight(),
-                Easing: blockModel.easing(),
-                UseCSS: blockModel.useCSS(),
-                ControlNav: blockModel.controlNav(),
-                DirectionNav: blockModel.directionNav(),
-                PrevText: blockModel.prevText(),
-                NextText: blockModel.nextText(),
-                PausePlay: blockModel.pausePlay(),
-                PauseText: blockModel.pauseText(),
-                PlayText: blockModel.playText(),
-                ControlsContainer: blockModel.controlsContainer(),
-                ManualControls: blockModel.manualControls(),
-                Keyboard: blockModel.keyboard(),
-                MultipleKeyboard: blockModel.multipleKeyboard(),
-                Mousewheel: blockModel.mousewheel(),
-                OnStart: blockModel.onStart(),
-                OnEnd: blockModel.onEnd(),
-                OnBefore: blockModel.onBefore(),
-                OnAfter: blockModel.onAfter(),
-                OnAdded: blockModel.onAdded(),
-                OnRemoved: blockModel.onRemoved()
+                //MediaFolder: blockModel.mediaFolder,
+                ControlId: blockModel.controlId,
+                Namespace: blockModel.namespace,
+                Selector: blockModel.selector,
+                StartAt: blockModel.startAt,
+                Slideshow: blockModel.slideshow,
+                SlideshowSpeed: blockModel.slideshowSpeed,
+                InitDelay: blockModel.initDelay,
+                Randomize: blockModel.randomize,
+                PauseOnAction: blockModel.pauseOnAction,
+                PauseOnHover: blockModel.pauseOnHover,
+                Touch: blockModel.touch,
+                Video: blockModel.video,
+                Sync: blockModel.sync,
+                AsNavFor: blockModel.asNavFor,
+                ItemWidth: blockModel.itemWidth,
+                ItemMargin: blockModel.itemMargin,
+                MinItems: blockModel.minItems,
+                MaxItems: blockModel.maxItems,
+                Animation: blockModel.animation,
+                AnimationSpeed: blockModel.animationSpeed,
+                Direction: blockModel.direction,
+                Reverse: blockModel.reverse,
+                Move: blockModel.move,
+                AnimationLoop: blockModel.animationLoop,
+                SmoothHeight: blockModel.smoothHeight,
+                Easing: blockModel.easing,
+                UseCSS: blockModel.useCSS,
+                ControlNav: blockModel.controlNav,
+                DirectionNav: blockModel.directionNav,
+                PrevText: blockModel.prevText,
+                NextText: blockModel.nextText,
+                PausePlay: blockModel.pausePlay,
+                PauseText: blockModel.pauseText,
+                PlayText: blockModel.playText,
+                ControlsContainer: blockModel.controlsContainer,
+                ManualControls: blockModel.manualControls,
+                Keyboard: blockModel.keyboard,
+                MultipleKeyboard: blockModel.multipleKeyboard,
+                Mousewheel: blockModel.mousewheel,
+                OnStart: blockModel.onStart,
+                OnEnd: blockModel.onEnd,
+                OnBefore: blockModel.onBefore,
+                OnAfter: blockModel.onAfter,
+                OnAdded: blockModel.onAdded,
+                OnRemoved: blockModel.onRemoved
             };
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();

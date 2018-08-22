@@ -191,107 +191,107 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.calendarId = ko.observable(0);
-            blockModel.firstDay = ko.observable(0);
-            blockModel.theme = ko.observable(false);
-            blockModel.weekends = ko.observable(true);
-            blockModel.fixedWeekCount = ko.observable(true);
-            blockModel.weekNumbers = ko.observable(false);
-            blockModel.aspectRatio = ko.observable(1.35);
-            blockModel.handleWindowResize = ko.observable(true);
+            blockModel.calendarId = 0;
+            blockModel.firstDay = 0;
+            blockModel.theme = false;
+            blockModel.weekends = true;
+            blockModel.fixedWeekCount = true;
+            blockModel.weekNumbers = false;
+            blockModel.aspectRatio = 1.35;
+            blockModel.handleWindowResize = true;
 
-            blockModel.allDaySlot = ko.observable(true);
-            blockModel.allDayText = ko.observable(null);
-            blockModel.slotDuration = ko.observable('00:30:00');
-            blockModel.scrollTime = ko.observable('06:00:00');
-            blockModel.minTime = ko.observable('00:00:00');
-            blockModel.maxTime = ko.observable('24:00:00');
-            blockModel.slotEventOverlap = ko.observable(true);
+            blockModel.allDaySlot = true;
+            blockModel.allDayText = null;
+            blockModel.slotDuration = '00:30:00';
+            blockModel.scrollTime = '06:00:00';
+            blockModel.minTime = '00:00:00';
+            blockModel.maxTime = '24:00:00';
+            blockModel.slotEventOverlap = true;
 
-            blockModel.selectable = ko.observable(false);
-            blockModel.unselectAuto = ko.observable(true);
-            blockModel.selectOverlap = ko.observable(true);
+            blockModel.selectable = false;
+            blockModel.unselectAuto = true;
+            blockModel.selectOverlap = true;
 
-            blockModel.eventColor = ko.observable(null);
-            blockModel.eventBackgroundColor = ko.observable(null);
-            blockModel.eventBorderColor = ko.observable(null);
-            blockModel.eventTextColor = ko.observable(null);
-            blockModel.nextDayThreshold = ko.observable('09:00:00');
+            blockModel.eventColor = null;
+            blockModel.eventBackgroundColor = null;
+            blockModel.eventBorderColor = null;
+            blockModel.eventTextColor = null;
+            blockModel.nextDayThreshold = '09:00:00';
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if (data) {
                 if (data.CalendarId) {
-                    blockModel.calendarId(data.CalendarId());
+                    blockModel.calendarId = data.CalendarId;
                 }
                 if (data.FirstDay) {
-                    blockModel.firstDay(data.FirstDay());
+                    blockModel.firstDay = data.FirstDay;
                 }
                 if (data.Theme) {
-                    blockModel.theme(data.Theme());
+                    blockModel.theme = data.Theme;
                 }
                 if (data.Weekends) {
-                    blockModel.weekends(data.Weekends());
+                    blockModel.weekends = data.Weekends;
                 }
                 if (data.FixedWeekCount) {
-                    blockModel.fixedWeekCount(data.FixedWeekCount());
+                    blockModel.fixedWeekCount = data.FixedWeekCount;
                 }
                 if (data.WeekNumbers) {
-                    blockModel.weekNumbers(data.WeekNumbers());
+                    blockModel.weekNumbers = data.WeekNumbers;
                 }
                 if (data.AspectRatio) {
-                    blockModel.aspectRatio(data.AspectRatio());
+                    blockModel.aspectRatio = data.AspectRatio;
                 }
                 if (data.HandleWindowResize) {
-                    blockModel.handleWindowResize(data.HandleWindowResize());
+                    blockModel.handleWindowResize = data.HandleWindowResize;
                 }
 
                 if (data.AllDaySlot) {
-                    blockModel.allDaySlot(data.AllDaySlot());
+                    blockModel.allDaySlot = data.AllDaySlot;
                 }
                 if (data.AllDayText) {
-                    blockModel.allDayText(data.AllDayText());
+                    blockModel.allDayText = data.AllDayText;
                 }
                 if (data.SlotDuration) {
-                    blockModel.slotDuration(data.SlotDuration());
+                    blockModel.slotDuration = data.SlotDuration;
                 }
                 if (data.ScrollTime) {
-                    blockModel.scrollTime(data.ScrollTime());
+                    blockModel.scrollTime = data.ScrollTime;
                 }
                 if (data.MinTime) {
-                    blockModel.minTime(data.MinTime());
+                    blockModel.minTime = data.MinTime;
                 }
                 if (data.MaxTime) {
-                    blockModel.maxTime(data.MaxTime());
+                    blockModel.maxTime = data.MaxTime;
                 }
                 if (data.SlotEventOverlap) {
-                    blockModel.slotEventOverlap(data.SlotEventOverlap());
+                    blockModel.slotEventOverlap = data.SlotEventOverlap;
                 }
 
                 if (data.Selectable) {
-                    blockModel.selectable(data.Selectable());
+                    blockModel.selectable = data.Selectable;
                 }
                 if (data.UnselectAuto) {
-                    blockModel.unselectAuto(data.UnselectAuto());
+                    blockModel.unselectAuto = data.UnselectAuto;
                 }
                 if (data.SelectOverlap) {
-                    blockModel.selectOverlap(data.SelectOverlap());
+                    blockModel.selectOverlap = data.SelectOverlap;
                 }
 
                 if (data.EventColor) {
-                    blockModel.eventColor(data.EventColor());
+                    blockModel.eventColor = data.EventColor;
                 }
                 if (data.EventBackgroundColor) {
-                    blockModel.eventBackgroundColor(data.EventBackgroundColor());
+                    blockModel.eventBackgroundColor = data.EventBackgroundColor;
                 }
                 if (data.EventBorderColor) {
-                    blockModel.eventBorderColor(data.EventBorderColor());
+                    blockModel.eventBorderColor = data.EventBorderColor;
                 }
                 if (data.EventTextColor) {
-                    blockModel.eventTextColor(data.EventTextColor());
+                    blockModel.eventTextColor = data.EventTextColor;
                 }
                 if (data.NextDayThreshold) {
-                    blockModel.nextDayThreshold(data.NextDayThreshold());
+                    blockModel.nextDayThreshold = data.NextDayThreshold;
                 }
             }
         };
@@ -322,32 +322,32 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                CalendarId: blockModel.calendarId(),
-                FirstDay: blockModel.firstDay(),
-                Theme: blockModel.theme(),
-                Weekends: blockModel.weekends(),
-                FixedWeekCount: blockModel.fixedWeekCount(),
-                WeekNumbers: blockModel.weekNumbers(),
-                AspectRatio: blockModel.aspectRatio(),
-                HandleWindowResize: blockModel.handleWindowResize(),
-                AllDaySlot: blockModel.allDaySlot(),
-                AllDayText: blockModel.allDayText(),
-                SlotDuration: blockModel.slotDuration(),
-                ScrollTime: blockModel.scrollTime(),
-                MinTime: blockModel.minTime(),
-                MaxTime: blockModel.maxTime(),
-                SlotEventOverlap: blockModel.slotEventOverlap(),
-                Selectable: blockModel.selectable(),
-                UnselectAuto: blockModel.unselectAuto(),
-                SelectOverlap: blockModel.selectOverlap(),
-                EventColor: blockModel.eventColor(),
-                EventBackgroundColor: blockModel.eventBackgroundColor(),
-                EventBorderColor: blockModel.eventBorderColor(),
-                EventTextColor: blockModel.eventTextColor(),
-                NextDayThreshold: blockModel.nextDayThreshold()
+                CalendarId: blockModel.calendarId,
+                FirstDay: blockModel.firstDay,
+                Theme: blockModel.theme,
+                Weekends: blockModel.weekends,
+                FixedWeekCount: blockModel.fixedWeekCount,
+                WeekNumbers: blockModel.weekNumbers,
+                AspectRatio: blockModel.aspectRatio,
+                HandleWindowResize: blockModel.handleWindowResize,
+                AllDaySlot: blockModel.allDaySlot,
+                AllDayText: blockModel.allDayText,
+                SlotDuration: blockModel.slotDuration,
+                ScrollTime: blockModel.scrollTime,
+                MinTime: blockModel.minTime,
+                MaxTime: blockModel.maxTime,
+                SlotEventOverlap: blockModel.slotEventOverlap,
+                Selectable: blockModel.selectable,
+                UnselectAuto: blockModel.unselectAuto,
+                SelectOverlap: blockModel.selectOverlap,
+                EventColor: blockModel.eventColor,
+                EventBackgroundColor: blockModel.eventBackgroundColor,
+                EventBorderColor: blockModel.eventBorderColor,
+                EventTextColor: blockModel.eventTextColor,
+                NextDayThreshold: blockModel.nextDayThreshold
             };
 
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();
