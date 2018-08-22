@@ -348,7 +348,7 @@
     function dismissModal(modalId) {
         modalDismissed = true;
         $('#' + modalId).modal('hide');
-    };
+    }
 
     $(document).ready(function () {
         $('#imagesDirectoryModal').on('hidden.bs.modal', function () {
@@ -360,7 +360,7 @@
                 $('#ImagesDirectory').val(url);
             }
             modalDismissed = false;
-        })
+        });
         $('#fullSizeImagesDirectoryModal').on('hidden.bs.modal', function () {
             if (!modalDismissed) {
                 var url = $('#FullSizeImagesDirectory').val();
@@ -370,7 +370,7 @@
                 $('#FullSizeImagesDirectory').val(url);
             }
             modalDismissed = false;
-        })
+        });
     });
 
     var contentBlockModel = (function () {
@@ -378,96 +378,96 @@
         f.internalModel = false;
         f.updateModel = function (blockModel) {
             internalModel = blockModel;
-            blockModel.mode = ko.observable(0);
-            blockModel.imagesPattern = ko.observable("image-%COL-%ROW.jpg");
-            //blockModel.imagesDirectory = ko.observable("");
-            //blockModel.fullSizeImagesDirectory = ko.observable("");
-            blockModel.autoRotate = ko.observable(false);
-            blockModel.autoRotateDirection = ko.observable(1);
-            blockModel.autoRotateSpeed = ko.observable(50);
-            blockModel.autoRotateStopOnMove = ko.observable(true);
-            blockModel.loadFullSizeImagesOnZoom = ko.observable(true);
-            blockModel.loadFullSizeImagesOnFullscreen = ko.observable(true);
-            blockModel.width = ko.observable(620);
-            blockModel.height = ko.observable(350);
-            blockModel.rows = ko.observable(1);
-            blockModel.columns = ko.observable(36);
-            blockModel.xAxisSensitivity = ko.observable(10);
-            blockModel.yAxisSensitivity = ko.observable(40);
-            blockModel.inertiaConstant = ko.observable(10);
-            blockModel.buttonWidth = ko.observable(40);
-            blockModel.buttonHeight = ko.observable(40);
-            blockModel.buttonMargin = ko.observable(5);
-            blockModel.turnSpeed = ko.observable(40);
-            blockModel.showButtons = ko.observable(true);
-            blockModel.showTool = ko.observable(true);
-            blockModel.showPlay = ko.observable(true);
-            blockModel.showPause = ko.observable(true);
-            blockModel.showZoom = ko.observable(true);
-            blockModel.showTurn = ko.observable(true);
-            blockModel.showFullscreen = ko.observable(true);
-            blockModel.displayLoader = ko.observable(true);
-            blockModel.loaderHolderClassName = ko.observable("");
-            blockModel.loadingTitle = ko.observable("");
-            blockModel.loadingSubtitle = ko.observable("");
-            blockModel.loadingMessage = ko.observable("");
-            blockModel.loaderModalBackground = ko.observable("#FFF");
-            blockModel.loaderModalOpacity = ko.observable(0.5);
-            blockModel.loaderCircleWidth = ko.observable(70);
-            blockModel.loaderCircleLineWidth = ko.observable(10);
-            blockModel.loaderCircleLineColor = ko.observable("#555");
-            blockModel.loaderCircleBackgroundColor = ko.observable("#FFF");
+            blockModel.mode = 0;
+            blockModel.imagesPattern = "image-%COL-%ROW.jpg";
+            //blockModel.imagesDirectory = '';
+            //blockModel.fullSizeImagesDirectory = '';
+            blockModel.autoRotate = false;
+            blockModel.autoRotateDirection = 1;
+            blockModel.autoRotateSpeed = 50;
+            blockModel.autoRotateStopOnMove = true;
+            blockModel.loadFullSizeImagesOnZoom = true;
+            blockModel.loadFullSizeImagesOnFullscreen = true;
+            blockModel.width = 620;
+            blockModel.height = 350;
+            blockModel.rows = 1;
+            blockModel.columns = 36;
+            blockModel.xAxisSensitivity = 10;
+            blockModel.yAxisSensitivity = 40;
+            blockModel.inertiaConstant = 10;
+            blockModel.buttonWidth = 40;
+            blockModel.buttonHeight = 40;
+            blockModel.buttonMargin = 5;
+            blockModel.turnSpeed = 40;
+            blockModel.showButtons = true;
+            blockModel.showTool = true;
+            blockModel.showPlay = true;
+            blockModel.showPause = true;
+            blockModel.showZoom = true;
+            blockModel.showTurn = true;
+            blockModel.showFullscreen = true;
+            blockModel.displayLoader = true;
+            blockModel.loaderHolderClassName = '';
+            blockModel.loadingTitle = '';
+            blockModel.loadingSubtitle = '';
+            blockModel.loadingMessage = '';
+            blockModel.loaderModalBackground = "#FFF";
+            blockModel.loaderModalOpacity = 0.5;
+            blockModel.loaderCircleWidth = 70;
+            blockModel.loaderCircleLineWidth = 10;
+            blockModel.loaderCircleLineColor = "#555";
+            blockModel.loaderCircleBackgroundColor = "#FFF";
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.Mode == undefined) {
                     // If this is not set, it means the contentBlock is new and we have nothing in blockValues
                     return;
                 }
-                blockModel.mode(data.Mode());
-                blockModel.imagesPattern(data.ImagesPattern());
+                blockModel.mode = data.Mode;
+                blockModel.imagesPattern = data.ImagesPattern;
 
-                $('#ImagesDirectory').val(data.ImagesDirectory());
-                $('#FullSizeImagesDirectory').val(data.FullSizeImagesDirectory());
+                $('#ImagesDirectory').val(data.ImagesDirectory);
+                $('#FullSizeImagesDirectory').val(data.FullSizeImagesDirectory);
 
-                //blockModel.imagesDirectory(data.ImagesDirectory());
-                //blockModel.fullSizeImagesDirectory(data.FullSizeImagesDirectory());
-                blockModel.autoRotate(data.AutoRotate());
-                blockModel.autoRotateDirection(data.AutoRotateDirection());
-                blockModel.autoRotateSpeed(data.AutoRotateSpeed());
-                blockModel.autoRotateStopOnMove(data.AutoRotateStopOnMove());
-                blockModel.loadFullSizeImagesOnZoom(data.LoadFullSizeImagesOnZoom());
-                blockModel.loadFullSizeImagesOnFullscreen(data.LoadFullSizeImagesOnFullscreen());
-                blockModel.width(data.Width());
-                blockModel.height(data.Height());
-                blockModel.rows(data.Rows());
-                blockModel.columns(data.Columns());
-                blockModel.xAxisSensitivity(data.XAxisSensitivity());
-                blockModel.yAxisSensitivity(data.YAxisSensitivity());
-                blockModel.inertiaConstant(data.InertiaConstant());
-                blockModel.buttonWidth(data.ButtonWidth());
-                blockModel.buttonHeight(data.ButtonHeight());
-                blockModel.buttonMargin(data.ButtonMargin());
-                blockModel.turnSpeed(data.TurnSpeed());
-                blockModel.showButtons(data.ShowButtons());
-                blockModel.showTool(data.ShowTool());
-                blockModel.showPlay(data.ShowPlay());
-                blockModel.showPause(data.ShowPause());
-                blockModel.showZoom(data.ShowZoom());
-                blockModel.showTurn(data.ShowTurn());
-                blockModel.showFullscreen(data.ShowFullscreen());
-                blockModel.displayLoader(data.DisplayLoader());
-                blockModel.loaderHolderClassName(data.LoaderHolderClassName());
-                blockModel.loadingTitle(data.LoadingTitle());
-                blockModel.loadingSubtitle(data.LoadingSubtitle());
-                blockModel.loadingMessage(data.LoadingMessage());
-                blockModel.loaderModalBackground(data.LoaderModalBackground());
-                blockModel.loaderModalOpacity(data.LoaderModalOpacity());
-                blockModel.loaderCircleWidth(data.LoaderCircleWidth());
-                blockModel.loaderCircleLineWidth(data.LoaderCircleLineWidth());
-                blockModel.loaderCircleLineColor(data.LoaderCircleLineColor());
-                blockModel.loaderCircleBackgroundColor(data.LoaderCircleBackgroundColor());
+                //blockModel.imagesDirectory = data.ImagesDirectory;
+                //blockModel.fullSizeImagesDirectory = data.FullSizeImagesDirectory;
+                blockModel.autoRotate = data.AutoRotate;
+                blockModel.autoRotateDirection = data.AutoRotateDirection;
+                blockModel.autoRotateSpeed = data.AutoRotateSpeed;
+                blockModel.autoRotateStopOnMove = data.AutoRotateStopOnMove;
+                blockModel.loadFullSizeImagesOnZoom = data.LoadFullSizeImagesOnZoom;
+                blockModel.loadFullSizeImagesOnFullscreen = data.LoadFullSizeImagesOnFullscreen;
+                blockModel.width = data.Width;
+                blockModel.height = data.Height;
+                blockModel.rows = data.Rows;
+                blockModel.columns = data.Columns;
+                blockModel.xAxisSensitivity = data.XAxisSensitivity;
+                blockModel.yAxisSensitivity = data.YAxisSensitivity;
+                blockModel.inertiaConstant = data.InertiaConstant;
+                blockModel.buttonWidth = data.ButtonWidth;
+                blockModel.buttonHeight = data.ButtonHeight;
+                blockModel.buttonMargin = data.ButtonMargin;
+                blockModel.turnSpeed = data.TurnSpeed;
+                blockModel.showButtons = data.ShowButtons;
+                blockModel.showTool = data.ShowTool;
+                blockModel.showPlay = data.ShowPlay;
+                blockModel.showPause = data.ShowPause;
+                blockModel.showZoom = data.ShowZoom;
+                blockModel.showTurn = data.ShowTurn;
+                blockModel.showFullscreen = data.ShowFullscreen;
+                blockModel.displayLoader = data.DisplayLoader;
+                blockModel.loaderHolderClassName = data.LoaderHolderClassName;
+                blockModel.loadingTitle = data.LoadingTitle;
+                blockModel.loadingSubtitle = data.LoadingSubtitle;
+                blockModel.loadingMessage = data.LoadingMessage;
+                blockModel.loaderModalBackground = data.LoaderModalBackground;
+                blockModel.loaderModalOpacity = data.LoaderModalOpacity;
+                blockModel.loaderCircleWidth = data.LoaderCircleWidth;
+                blockModel.loaderCircleLineWidth = data.LoaderCircleLineWidth;
+                blockModel.loaderCircleLineColor = data.LoaderCircleLineColor;
+                blockModel.loaderCircleBackgroundColor = data.LoaderCircleBackgroundColor;
             }
         };
         f.cleanUp = function (blockModel) {
@@ -513,50 +513,50 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                Mode: blockModel.mode(),
-                ImagesPattern: blockModel.imagesPattern(),
+                Mode: blockModel.mode,
+                ImagesPattern: blockModel.imagesPattern,
                 ImagesDirectory: $('#ImagesDirectory').val(),
                 FullSizeImagesDirectory: $('#FullSizeImagesDirectory').val(),
-                //ImagesDirectory: blockModel.imagesDirectory(),
-                //FullSizeImagesDirectory: blockModel.fullSizeImagesDirectory(),
-                AutoRotate: blockModel.autoRotate(),
-                AutoRotateDirection: blockModel.autoRotateDirection(),
-                AutoRotateSpeed: blockModel.autoRotateSpeed(),
-                AutoRotateStopOnMove: blockModel.autoRotateStopOnMove(),
-                LoadFullSizeImagesOnZoom: blockModel.loadFullSizeImagesOnZoom(),
-                LoadFullSizeImagesOnFullscreen: blockModel.loadFullSizeImagesOnFullscreen(),
-                Width: blockModel.width(),
-                Height: blockModel.height(),
-                Rows: blockModel.rows(),
-                Columns: blockModel.columns(),
-                XAxisSensitivity: blockModel.xAxisSensitivity(),
-                YAxisSensitivity: blockModel.yAxisSensitivity(),
-                InertiaConstant: blockModel.inertiaConstant(),
-                ButtonWidth: blockModel.buttonWidth(),
-                ButtonHeight: blockModel.buttonHeight(),
-                ButtonMargin: blockModel.buttonMargin(),
-                TurnSpeed: blockModel.turnSpeed(),
-                ShowButtons: blockModel.showButtons(),
-                ShowTool: blockModel.showTool(),
-                ShowPlay: blockModel.showPlay(),
-                ShowPause: blockModel.showPause(),
-                ShowZoom: blockModel.showZoom(),
-                ShowTurn: blockModel.showTurn(),
-                ShowFullscreen: blockModel.showFullscreen(),
-                DisplayLoader: blockModel.displayLoader(),
-                LoaderHolderClassName: blockModel.loaderHolderClassName(),
-                LoadingTitle: blockModel.loadingTitle(),
-                LoadingSubtitle: blockModel.loadingSubtitle(),
-                LoadingMessage: blockModel.loadingMessage(),
-                LoaderModalBackground: blockModel.loaderModalBackground(),
-                LoaderModalOpacity: blockModel.loaderModalOpacity(),
-                LoaderCircleWidth: blockModel.loaderCircleWidth(),
-                LoaderCircleLineWidth: blockModel.loaderCircleLineWidth(),
-                LoaderCircleLineColor: blockModel.loaderCircleLineColor(),
-                LoaderCircleBackgroundColor: blockModel.loaderCircleBackgroundColor()
+                //ImagesDirectory: blockModel.imagesDirectory,
+                //FullSizeImagesDirectory: blockModel.fullSizeImagesDirectory,
+                AutoRotate: blockModel.autoRotate,
+                AutoRotateDirection: blockModel.autoRotateDirection,
+                AutoRotateSpeed: blockModel.autoRotateSpeed,
+                AutoRotateStopOnMove: blockModel.autoRotateStopOnMove,
+                LoadFullSizeImagesOnZoom: blockModel.loadFullSizeImagesOnZoom,
+                LoadFullSizeImagesOnFullscreen: blockModel.loadFullSizeImagesOnFullscreen,
+                Width: blockModel.width,
+                Height: blockModel.height,
+                Rows: blockModel.rows,
+                Columns: blockModel.columns,
+                XAxisSensitivity: blockModel.xAxisSensitivity,
+                YAxisSensitivity: blockModel.yAxisSensitivity,
+                InertiaConstant: blockModel.inertiaConstant,
+                ButtonWidth: blockModel.buttonWidth,
+                ButtonHeight: blockModel.buttonHeight,
+                ButtonMargin: blockModel.buttonMargin,
+                TurnSpeed: blockModel.turnSpeed,
+                ShowButtons: blockModel.showButtons,
+                ShowTool: blockModel.showTool,
+                ShowPlay: blockModel.showPlay,
+                ShowPause: blockModel.showPause,
+                ShowZoom: blockModel.showZoom,
+                ShowTurn: blockModel.showTurn,
+                ShowFullscreen: blockModel.showFullscreen,
+                DisplayLoader: blockModel.displayLoader,
+                LoaderHolderClassName: blockModel.loaderHolderClassName,
+                LoadingTitle: blockModel.loadingTitle,
+                LoadingSubtitle: blockModel.loadingSubtitle,
+                LoadingMessage: blockModel.loadingMessage,
+                LoaderModalBackground: blockModel.loaderModalBackground,
+                LoaderModalOpacity: blockModel.loaderModalOpacity,
+                LoaderCircleWidth: blockModel.loaderCircleWidth,
+                LoaderCircleLineWidth: blockModel.loaderCircleLineWidth,
+                LoaderCircleLineColor: blockModel.loaderCircleLineColor,
+                LoaderCircleBackgroundColor: blockModel.loaderCircleBackgroundColor
             };
 
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();

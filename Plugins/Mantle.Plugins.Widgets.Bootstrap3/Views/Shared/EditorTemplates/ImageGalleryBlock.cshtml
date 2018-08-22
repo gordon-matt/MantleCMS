@@ -86,19 +86,19 @@
                 //blockModel.mediaFolder(url);
             }
             modalDismissed = false;
-        })
+        });
     });
 
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = ko.observable("");
-            blockModel.imagesPerRowXS = ko.observable(2);
-            blockModel.imagesPerRowS = ko.observable(3);
-            blockModel.imagesPerRowM = ko.observable(3);
-            blockModel.imagesPerRowL = ko.observable(4);
+            //blockModel.mediaFolder = '';
+            blockModel.imagesPerRowXS = 2;
+            blockModel.imagesPerRowS = 3;
+            blockModel.imagesPerRowM = 3;
+            blockModel.imagesPerRowL = 4;
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.MediaFolder == undefined) {
@@ -106,20 +106,20 @@
                     return;
                 }
                 if (isFunction(data.MediaFolder)) {
-                    $('#MediaFolder').val(data.MediaFolder());
-                    //blockModel.mediaFolder(data.MediaFolder());
+                    $('#MediaFolder').val(data.MediaFolder);
+                    //blockModel.mediaFolder = data.MediaFolder;
                 }
                 if (isFunction(data.ImagesPerRowXS)) {
-                    blockModel.imagesPerRowXS(data.ImagesPerRowXS());
+                    blockModel.imagesPerRowXS = data.ImagesPerRowXS;
                 }
                 if (isFunction(data.ImagesPerRowS)) {
-                    blockModel.imagesPerRowS(data.ImagesPerRowS());
+                    blockModel.imagesPerRowS = data.ImagesPerRowS;
                 }
                 if (isFunction(data.ImagesPerRowM)) {
-                    blockModel.imagesPerRowM(data.ImagesPerRowM());
+                    blockModel.imagesPerRowM = data.ImagesPerRowM;
                 }
                 if (isFunction(data.ImagesPerRowL)) {
-                    blockModel.imagesPerRowL(data.ImagesPerRowL());
+                    blockModel.imagesPerRowL = data.ImagesPerRowL;
                 }
             }
         };
@@ -133,14 +133,14 @@
         f.onBeforeSave = function (blockModel) {
             var data = {
                 MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder(),
-                ImagesPerRowXS: blockModel.imagesPerRowXS(),
-                ImagesPerRowS: blockModel.imagesPerRowS(),
-                ImagesPerRowM: blockModel.imagesPerRowM(),
-                ImagesPerRowL: blockModel.imagesPerRowL()
+                //MediaFolder: blockModel.mediaFolder,
+                ImagesPerRowXS: blockModel.imagesPerRowXS,
+                ImagesPerRowS: blockModel.imagesPerRowS,
+                ImagesPerRowM: blockModel.imagesPerRowM,
+                ImagesPerRowL: blockModel.imagesPerRowL
             };
 
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();

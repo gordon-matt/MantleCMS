@@ -1,6 +1,8 @@
 using System.Reflection;
 using Extenso.Collections;
 using Mantle.Infrastructure;
+using Extenso.Collections;
+using Extenso;
 
 namespace Mantle.Web.Mvc.EmbeddedResources
 {
@@ -83,11 +85,11 @@ namespace Mantle.Web.Mvc.EmbeddedResources
                 {
                     var key = name.ToLowerInvariant();
 
-                    if (key.Contains(".scripts."))
+                    if (key.ContainsAny(".wwwroot.js.", ".scripts."))
                     {
                         scripts.AddResource(name, assembly.FullName);
                     }
-                    else if (key.Contains(".content."))
+                    else if (key.ContainsAny(".wwwroot.css.", ".content."))
                     {
                         content.AddResource(name, assembly.FullName);
                     }

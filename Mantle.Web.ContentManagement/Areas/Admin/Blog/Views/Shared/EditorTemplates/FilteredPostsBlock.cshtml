@@ -54,21 +54,21 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.filterType = ko.observable(0);
-            blockModel.categoryId = ko.observable(null);
-            blockModel.tagId = ko.observable(null);
+            blockModel.filterType = 0;
+            blockModel.categoryId = null;
+            blockModel.tagId = null;
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if (data) {
                 if (data.FilterType) {
-                    blockModel.filterType(data.FilterType());
+                    blockModel.filterType = data.FilterType;
                 }
                 if (data.CategoryId) {
-                    blockModel.categoryId(data.CategoryId());
+                    blockModel.categoryId = data.CategoryId;
                 }
                 if (data.TagId) {
-                    blockModel.tagId(data.TagId());
+                    blockModel.tagId = data.TagId;
                 }
             }
         };
@@ -79,12 +79,12 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                FilterType: blockModel.filterType(),
-                CategoryId: blockModel.categoryId(),
-                TagId: blockModel.tagId()
+                FilterType: blockModel.filterType,
+                CategoryId: blockModel.categoryId,
+                TagId: blockModel.tagId
             };
 
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();

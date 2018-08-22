@@ -108,37 +108,37 @@
                 //blockModel.mediaFolder(url);
             }
             modalDismissed = false;
-        })
+        });
     });
 
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = ko.observable("");
-            blockModel.interval = ko.observable(0);
-            blockModel.startIndex = ko.observable(0);
-            blockModel.keyboard = ko.observable(true);
-            blockModel.pauseOnHover = ko.observable(true);
-            blockModel.wrap = ko.observable(true);
-            blockModel.onSlideEvent = ko.observable("");
-            blockModel.onSlidEvent = ko.observable("");
+            //blockModel.mediaFolder = '';
+            blockModel.interval = 0;
+            blockModel.startIndex = 0;
+            blockModel.keyboard = true;
+            blockModel.pauseOnHover = true;
+            blockModel.wrap = true;
+            blockModel.onSlideEvent = '';
+            blockModel.onSlidEvent = '';
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            var data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.MediaFolder == undefined) {
                     // If this is not set, it means the contentBlock is new and we have nothing in blockValues
                     return;
                 }
-                $('#MediaFolder').val(data.MediaFolder());
-                //blockModel.mediaFolder(data.MediaFolder());
-                blockModel.interval(data.Interval());
-                blockModel.startIndex(data.StartIndex());
-                blockModel.keyboard(data.Keyboard());
-                blockModel.pauseOnHover(data.PauseOnHover());
-                blockModel.wrap(data.Wrap());
-                blockModel.onSlideEvent(data.OnSlideEvent());
-                blockModel.onSlidEvent(data.OnSlidEvent());
+                $('#MediaFolder').val(data.MediaFolder);
+                //blockModel.mediaFolder = data.MediaFolder;
+                blockModel.interval = data.Interval;
+                blockModel.startIndex = data.StartIndex;
+                blockModel.keyboard = data.Keyboard;
+                blockModel.pauseOnHover = data.PauseOnHover;
+                blockModel.wrap = data.Wrap;
+                blockModel.onSlideEvent = data.OnSlideEvent;
+                blockModel.onSlidEvent = data.OnSlidEvent;
             }
         };
         f.cleanUp = function (blockModel) {
@@ -154,17 +154,17 @@
         f.onBeforeSave = function (blockModel) {
             var data = {
                 MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder(),
-                Interval: blockModel.interval(),
-                StartIndex: blockModel.startIndex(),
-                Keyboard: blockModel.keyboard(),
-                PauseOnHover: blockModel.pauseOnHover(),
-                Wrap: blockModel.wrap(),
-                OnSlideEvent: blockModel.onSlideEvent(),
-                OnSlidEvent: blockModel.onSlidEvent()
+                //MediaFolder: blockModel.mediaFolder,
+                Interval: blockModel.interval,
+                StartIndex: blockModel.startIndex,
+                Keyboard: blockModel.keyboard,
+                PauseOnHover: blockModel.pauseOnHover,
+                Wrap: blockModel.wrap,
+                OnSlideEvent: blockModel.onSlideEvent,
+                OnSlidEvent: blockModel.onSlidEvent
             };
 
-            blockModel.blockValues(ko.mapping.toJSON(data));
+            blockModel.blockValues = JSON.stringify(data);
         };
         return f;
     })();
