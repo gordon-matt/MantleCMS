@@ -8,9 +8,6 @@ using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;
-using Mantle.Web;
-using Mantle.Web.Common.Areas.Admin.Regions;
-using Mantle.Web.ContentManagement;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging;
 using Mantle.Web.Mvc.Assets;
@@ -82,17 +79,6 @@ namespace MantleCMS
         #region Properties
 
         public IConfigurationRoot Configuration { get; }
-
-        // TODO: Make some interface and resolve all of them instead
-        public ICollection<EmbeddedFileProvider> EmbeddedFileProviders => new List<EmbeddedFileProvider>
-        {
-            new EmbeddedFileProvider(typeof(MantleWebConstants).GetTypeInfo().Assembly, "Mantle.Web"),
-            new EmbeddedFileProvider(typeof(IRegionSettings).GetTypeInfo().Assembly, "Mantle.Web.Common"),
-            new EmbeddedFileProvider(typeof(Mantle.Web.CommonResources.Dummy).GetTypeInfo().Assembly, "Mantle.Web.CommonResources"),
-            new EmbeddedFileProvider(typeof(CmsConstants).GetTypeInfo().Assembly, "Mantle.Web.ContentManagement"),
-            new EmbeddedFileProvider(typeof(MantleWebMessagingConstants).GetTypeInfo().Assembly, "Mantle.Web.Messaging"),
-            //TODO: Add more - and better to detect them automatically somehow
-        };
 
         public IHostingEnvironment HostingEnvironment { get; private set; }
 
@@ -204,7 +190,11 @@ namespace MantleCMS
                 //Add the file provider to the Razor view engine
 
                 options.FileProviders.Add(new EmbeddedViewFileProvider()); // allow embedded views for special cases like dynamic settings in framework
-                foreach (var embeddedFileProvider in EmbeddedFileProviders)
+
+                var embeddedFileProviders = EngineContext.Current.ResolveAll<IEmbeddedFileProviderRegistrar>()
+                    .SelectMany(x => x.EmbeddedFileProviders);
+
+                foreach (var embeddedFileProvider in embeddedFileProviders)
                 {
                     options.FileProviders.Add(embeddedFileProvider);
                 }

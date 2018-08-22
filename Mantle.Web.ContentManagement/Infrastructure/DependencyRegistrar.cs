@@ -33,6 +33,9 @@ namespace Mantle.Web.ContentManagement.Infrastructure
 
             builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
 
+            // Embedded File Provider
+            builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+
             #region Services
 
             // Blog
@@ -130,10 +133,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             //builder.RegisterType<NewsletterMessageTemplates>().As<IMessageTemplatesProvider>().InstancePerDependency();
         }
 
-        public int Order
-        {
-            get { return 1; }
-        }
+        public int Order => 1;
 
         #endregion IDependencyRegistrar Members
     }

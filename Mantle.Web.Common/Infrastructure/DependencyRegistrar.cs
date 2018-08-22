@@ -25,12 +25,12 @@ namespace Mantle.Web.Common.Infrastructure
             builder.RegisterType<Permissions>().As<IPermissionProvider>().SingleInstance();
 
             builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+
+            // Embedded File Provider
+            builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
         }
 
-        public int Order
-        {
-            get { return 1; }
-        }
+        public int Order => 1;
 
         #endregion IDependencyRegistrar Members
     }

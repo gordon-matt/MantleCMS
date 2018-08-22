@@ -84,12 +84,12 @@ namespace Mantle.Web.Infrastructure
             builder.RegisterType<RazorViewRenderService>().As<IRazorViewRenderService>().SingleInstance();
 
             builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+
+            // Embedded File Provider
+            builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
         }
 
-        public int Order
-        {
-            get { return 0; }
-        }
+        public int Order => 0;
 
         #endregion IDependencyRegistrar Members
     }
