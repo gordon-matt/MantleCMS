@@ -30,23 +30,20 @@ namespace Mantle.Web
 
     public partial class WebHelper : IWebHelper
     {
+        private readonly IApplicationLifetime applicationLifetime;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public string ContentRootPath
-        {
-            get { return hostingEnvironment.ContentRootPath; }
-        }
+        public string ContentRootPath => hostingEnvironment.ContentRootPath;
 
-        public string WebRootPath
-        {
-            get { return hostingEnvironment.WebRootPath; }
-        }
+        public string WebRootPath => hostingEnvironment.WebRootPath;
 
         public WebHelper(
+            IApplicationLifetime applicationLifetime,
             IHostingEnvironment hostingEnvironment,
             IHttpContextAccessor httpContextAccessor)
         {
+            this.applicationLifetime = applicationLifetime;
             this.hostingEnvironment = hostingEnvironment;
             this.httpContextAccessor = httpContextAccessor;
         }
@@ -124,28 +121,15 @@ namespace Mantle.Web
 
         public virtual void RestartAppDomain()
         {
-            bool success = TryWriteWebConfig();
-            if (!success)
-            {
-                throw new MantleException("Mantle needs to be restarted due to a configuration change, but was unable to do so." + Environment.NewLine +
-                    "To prevent this issue in the future, a change to the web server configuration is required:" + Environment.NewLine +
-                    "- run the application in a full trust environment, or" + Environment.NewLine +
-                    "- give the application write access to the 'web.config' file.");
-            }
-        }
-
-        private bool TryWriteWebConfig()
-        {
             try
             {
-                // In medium trust, "UnloadAppDomain" is not supported. Touch web.config
-                // to force an AppDomain restart.
-                File.SetLastWriteTimeUtc(CommonHelper.MapPath("~/web.config", ContentRootPath), DateTime.UtcNow);
-                return true;
+                // TODO: Test in IIS
+                applicationLifetime.StopApplication();
             }
             catch
             {
-                return false;
+                throw new MantleException(
+                    $"This site needs to be restarted, but was unable to do so.{Environment.NewLine}Please restart it manually for changes to take effect.");
             }
         }
     }

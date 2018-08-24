@@ -164,7 +164,7 @@ namespace Mantle.Web.ContentManagement
                 .Select(x => new
                 {
                     x.Name,
-                    Type = GetTypeFullName(x.GetType())
+                    Type = x.GetTypeFullName()
                 })
                 .OrderBy(x => x.Name)
                 .ToDictionary(k => k.Name, v => v.Type);
@@ -206,11 +206,6 @@ namespace Mantle.Web.ContentManagement
                     text => text.Name,
                     selectedValue,
                     emptyText);
-        }
-
-        private static string GetTypeFullName(Type type)
-        {
-            return string.Concat(type.FullName, ", ", type.Assembly.FullName);
         }
 
         private static IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
