@@ -82,6 +82,18 @@ namespace Mantle.Web.ContentManagement.Infrastructure
                     Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value
                 });
 
+                #region Content Blocks
+
+                routes.Add(new AureliaRoute
+                {
+                    ModuleId = "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.Blocks.html-block",
+                    Route = "blocks/content-block-types/default/html-block/edit/:id",
+                    Name = "mantle-cms/blocks/content-block-types/default/html-block",
+                    Title = "HTML Block"
+                });
+
+                #endregion
+
                 return routes;
             }
         }
@@ -96,6 +108,9 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers", "admin/newsletters/subscribers" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index", "admin/pages" },
             { "aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.xml-sitemap-index", "admin/sitemap/xml-sitemap" },
+
+            // Blocks
+            { "/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.Blocks.html-block", "admin/blocks/content-block-types/default/html-block/edit" },
         };
 
         #endregion IAureliaRouteProvider Members
