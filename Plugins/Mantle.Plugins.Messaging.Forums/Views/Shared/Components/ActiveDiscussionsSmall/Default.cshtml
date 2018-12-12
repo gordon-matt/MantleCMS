@@ -1,4 +1,4 @@
 ﻿@using Mantle.Plugins.Messaging.Forums.Models
 @model ActiveDiscussionsModel
 
-@Html.Partial("_ActiveTopics", Model)
+@await Html.PartialAsync("_ActiveTopics", Model)

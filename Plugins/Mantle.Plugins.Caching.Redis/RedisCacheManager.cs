@@ -3,6 +3,7 @@ using System.Collections;
 using Extenso;
 using Extenso.Reflection;
 using Mantle.Caching;
+using Mantle.Infrastructure;
 using StackExchange.Redis;
 
 namespace Mantle.Plugins.Caching.Redis
@@ -15,8 +16,8 @@ namespace Mantle.Plugins.Caching.Redis
 
         public RedisCacheManager()
         {
-            //TODO: Find way to register options from plugin!
-            //connectionString = ConfigurationManager.AppSettings["RedisCacheConnection"];
+            //TODO: Test
+            connectionString = EngineContext.Current.Resolve<RedisCacheSettings>().ConnectionString;
         }
 
         ~RedisCacheManager()

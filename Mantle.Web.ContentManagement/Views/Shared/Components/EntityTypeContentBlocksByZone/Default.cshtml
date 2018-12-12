@@ -8,10 +8,10 @@
 {
     if (!string.IsNullOrEmpty(block.CustomTemplatePath))
     {
-        @Html.Partial(block.CustomTemplatePath, block)
+        @await Html.PartialAsync(block.CustomTemplatePath, block)
     }
     else
     {
-        @Html.Partial(block.DisplayTemplatePath, block)
+        @await Html.PartialAsync(block.DisplayTemplatePath, block)
     }
 }

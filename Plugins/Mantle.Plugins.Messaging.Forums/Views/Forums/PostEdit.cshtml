@@ -4,4 +4,4 @@
     ViewBag.Title = T[LocalizableStrings.PageTitle.PostEdit];
 }
 
-@Html.Partial("_CreateUpdatePost", Model)
+@await Html.PartialAsync("_CreateUpdatePost", Model)

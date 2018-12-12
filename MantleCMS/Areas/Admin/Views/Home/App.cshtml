@@ -22,7 +22,7 @@
                     imgHtmlAttributes: new { style = "max-width:200px;margin-top:18px" })
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                @Html.Partial("AdminMenu")
+                @await Html.PartialAsync("AdminMenu")
                 <ul id="secondary-nav" class="nav navbar-nav navbar-right">
                     @*@Html.ContentZone("AdminLanguageSwitch")*@
                     <li>
@@ -48,7 +48,7 @@
         @if (WorkContext.Breadcrumbs.Any())
         {
             <div class="row">
-                @Html.Partial("AdminBreadcrumbs")
+                @await Html.PartialAsync("AdminBreadcrumbs")
             </div>
         }
 

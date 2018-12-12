@@ -1,8 +1,9 @@
 ﻿using Autofac;
 using Mantle.Caching;
 using Mantle.Infrastructure;
+using Mantle.Web.Configuration;
 
-namespace Mantle.Plugins.Caching.Redis
+namespace Mantle.Plugins.Caching.Redis.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
@@ -15,11 +16,9 @@ namespace Mantle.Plugins.Caching.Redis
 
             builder.RegisterType<RedisCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
             builder.RegisterType<RedisCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Per_Request").InstancePerLifetimeScope();
+            builder.RegisterType<RedisCacheSettings>().As<ISettings>().InstancePerLifetimeScope();
         }
 
-        public int Order
-        {
-            get { return 99999; }
-        }
+        public int Order => 99999;
     }
 }

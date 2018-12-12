@@ -8,7 +8,7 @@ namespace Mantle.Data.Entity
     public class MantleEntityFrameworkRepository<TEntity> : EntityFrameworkRepository<TEntity>
         where TEntity : class, IEntity
     {
-        private IDbContextFactory contextFactory;
+        private new IDbContextFactory contextFactory;
 
         #region Constructor
 

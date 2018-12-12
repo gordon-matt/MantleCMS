@@ -46,10 +46,7 @@ namespace MantleCMS.Services
 
         #region IMembershipService Members
 
-        public bool SupportsRolePermissions
-        {
-            get { return true; }
-        }
+        public bool SupportsRolePermissions => true;
 
         public async Task<string> GenerateEmailConfirmationToken(object userId)
         {
@@ -208,14 +205,31 @@ namespace MantleCMS.Services
             var user = await userManager.FindByIdAsync(id);
             var roleNames = await userManager.GetRolesAsync(user);
 
-            var roles = roleManager.Roles
-                .Where(x => roleNames.Contains(x.Name))
-                .Select(x => new MantleRole
+            var roles = new List<MantleRole>();
+            foreach (string roleName in roleNames)
+            {
+                var superRole = await GetRoleByName(null, roleName);
+                if (superRole != null)
                 {
-                    Id = x.Id,
-                    Name = x.Name
-                })
-                .ToList();
+                    roles.Add(new MantleRole
+                    {
+                        Id = superRole.Id,
+                        TenantId = null,
+                        Name = superRole.Name
+                    });
+                }
+
+                var tenantRole = await GetRoleByName(user.TenantId, roleName);
+                if (tenantRole != null)
+                {
+                    roles.Add(new MantleRole
+                    {
+                        Id = tenantRole.Id,
+                        TenantId = null,
+                        Name = tenantRole.Name
+                    });
+                }
+            }
 
             cachedUserRoles.Add(id, roles);
             return roles;

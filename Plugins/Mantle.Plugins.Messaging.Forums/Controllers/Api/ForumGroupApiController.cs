@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Extenso.Data.Entity;
-using KendoGridBinder.ModelBinder.Mvc;
 using Mantle.Caching;
-using Mantle.Data;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Mvc;
+using Mantle.Web.OData;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
 {
-    [Area(Constants.RouteArea)]
-    [Route("api/plugins/messaging/forums/forum-groups")]
-    public class ForumGroupApiController : MantleGenericTenantDataController<ForumGroup, int>
+    public class ForumGroupApiController : GenericTenantODataController<ForumGroup, int>
     {
         private readonly Lazy<ICacheManager> cacheManager;
 
@@ -25,23 +22,16 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
             this.cacheManager = cacheManager;
         }
 
-        [HttpPost]
-        [Route("get")]
-        public override async Task<IActionResult> Get([FromBody]KendoGridMvcRequest request)
+        protected override int GetId(ForumGroup entity)
         {
-            return await base.Get(request);
+            return entity.Id;
         }
 
-        [HttpGet]
-        [Route("{key}")]
-        public override async Task<IActionResult> Get(int key)
+        protected override void SetNewId(ForumGroup entity)
         {
-            return await base.Get(key);
         }
 
-        [HttpPut]
-        [Route("{key}")]
-        public override async Task<IActionResult> Put(int key, [FromBody]ForumGroup entity)
+        public override async Task<IActionResult> Put([FromODataUri] int key, [FromBody] ForumGroup entity)
         {
             // Client does not send all fields, so we get existing and update only the fields that are sent from the client...
             var originalEntity = await Service.FindOneAsync(key);
@@ -53,39 +43,15 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
             return await base.Put(key, originalEntity);
         }
 
-        [HttpPost]
-        [Route("")]
-        public override async Task<IActionResult> Post([FromBody]ForumGroup entity)
+        public override async Task<IActionResult> Post([FromBody] ForumGroup entity)
         {
             entity.CreatedOnUtc = DateTime.UtcNow;
             entity.UpdatedOnUtc = DateTime.UtcNow;
             return await base.Post(entity);
         }
 
-        [HttpDelete]
-        [Route("{key}")]
-        public override async Task<IActionResult> Delete(int key)
-        {
-            return await base.Delete(key);
-        }
+        protected override Permission ReadPermission => ForumPermissions.ReadForums;
 
-        protected override int GetId(ForumGroup entity)
-        {
-            return entity.Id;
-        }
-
-        protected override void SetNewId(ForumGroup entity)
-        {
-        }
-
-        protected override Permission ReadPermission
-        {
-            get { return ForumPermissions.ReadForums; }
-        }
-
-        protected override Permission WritePermission
-        {
-            get { return ForumPermissions.WriteForums; }
-        }
+        protected override Permission WritePermission => ForumPermissions.WriteForums;
     }
 }

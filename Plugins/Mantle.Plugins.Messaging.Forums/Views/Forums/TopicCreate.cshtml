@@ -4,4 +4,4 @@
     ViewBag.Title = T[LocalizableStrings.PageTitle.TopicNew];
 }
 
-@Html.Partial("_CreateUpdateTopic", Model)
+@await Html.PartialAsync("_CreateUpdateTopic", Model)

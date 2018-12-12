@@ -35,10 +35,7 @@ namespace Mantle.Identity
             }
         }
 
-        private int TenantId
-        {
-            get { return WorkContext.CurrentTenant.Id; }
-        }
+        private int TenantId => WorkContext.CurrentTenant.Id;
 
         #endregion Private Properties
 
