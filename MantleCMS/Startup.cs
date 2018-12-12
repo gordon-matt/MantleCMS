@@ -44,7 +44,7 @@ using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
 using Pchp.Core;
-using Peachpie.Web;
+using Peachpie.AspNetCore.Web;
 
 namespace MantleCMS
 {
@@ -338,7 +338,7 @@ namespace MantleCMS
             });
 
             // Responsive File Manager
-            app.UseStaticFiles(new StaticFileOptions()
+            app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(root)
             });
@@ -346,7 +346,7 @@ namespace MantleCMS
             #endregion Static Files
 
             app.UseForwardedHeaders(
-                new ForwardedHeadersOptions()
+                new ForwardedHeadersOptions
                 {
                     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
                 });

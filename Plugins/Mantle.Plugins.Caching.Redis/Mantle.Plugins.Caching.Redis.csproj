@@ -1,29 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Mantle.Plugins.Caching.Redis</AssemblyName>
+    <PackageId>Mantle.Plugins.Caching.Redis</PackageId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Company />
-    <Description />
     <Authors>Matt Gordon</Authors>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\MantleCMS\Plugins\Caching.Redis</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\MantleCMS\Plugins\Caching.Redis</OutputPath>
-    <OutDir>$(OutputPath)</OutDir>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="plugin.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
@@ -37,9 +23,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Description.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Views\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CopyArtifacts" AfterTargets="Build">
+    <PropertyGroup>
+      <PluginCopyDir>..\..\MantleCMS\Plugins\Caching.Redis\</PluginCopyDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)\**\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
+  </Target>
 
 </Project>

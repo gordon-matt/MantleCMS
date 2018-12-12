@@ -5,4 +5,4 @@
     Guid menuId = ViewBag.MenuId;
 }
 
-@Html.Partial(templateViewName, Model)
+@await Html.PartialAsync(templateViewName, Model)
