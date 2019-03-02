@@ -37,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper", "Mantl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper.PostgreSql", "Mantle.Data.Dapper.PostgreSql\Mantle.Data.Dapper.PostgreSql.csproj", "{349A5E6B-5A6B-4C96-A683-45771B36BD3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.JQQueryBuilder", "Mantle.JQQueryBuilder\Mantle.JQQueryBuilder.csproj", "{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.Bootstrap3", "Plugins\Mantle.Plugins.Widgets.Bootstrap3\Mantle.Plugins.Widgets.Bootstrap3.csproj", "{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.JQueryFormBuilder", "Plugins\Mantle.Plugins.Widgets.JQueryFormBuilder\Mantle.Plugins.Widgets.JQueryFormBuilder.csproj", "{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A}"
@@ -74,8 +72,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Caching", "Mantle.Caching\Mantle.Caching.csproj", "{1E3202F0-7942-4897-99C1-0800E98D48B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Caching.Abstractions", "Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj", "{306035BB-1B22-4DF1-898C-B1D3476B32DB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Drawing", "Mantle.Drawing\Mantle.Drawing.csproj", "{8E53EF44-0002-49BD-826B-A1B868D21711}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Infrastructure", "Mantle.Infrastructure\Mantle.Infrastructure.csproj", "{E3FE5B89-CB3D-4B2D-BBC9-68294F9FC514}"
 EndProject
@@ -143,10 +139,6 @@ Global
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E07AF33-D842-4D1A-9D61-6B1AF82DBF15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -219,10 +211,6 @@ Global
 		{306035BB-1B22-4DF1-898C-B1D3476B32DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{306035BB-1B22-4DF1-898C-B1D3476B32DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{306035BB-1B22-4DF1-898C-B1D3476B32DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E53EF44-0002-49BD-826B-A1B868D21711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E53EF44-0002-49BD-826B-A1B868D21711}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E53EF44-0002-49BD-826B-A1B868D21711}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E53EF44-0002-49BD-826B-A1B868D21711}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E3FE5B89-CB3D-4B2D-BBC9-68294F9FC514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3FE5B89-CB3D-4B2D-BBC9-68294F9FC514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3FE5B89-CB3D-4B2D-BBC9-68294F9FC514}.Release|Any CPU.ActiveCfg = Release|Any CPU

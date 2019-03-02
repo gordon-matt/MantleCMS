@@ -15,10 +15,7 @@ namespace Mantle.Data.Dapper
         {
         }
 
-        protected override string LastInsertedRowCommand
-        {
-            get { return "SELECT CAST(SCOPE_IDENTITY() AS int)"; }
-        }
+        protected override string LastInsertedRowCommand => "SELECT CAST(SCOPE_IDENTITY() AS int)";
 
         public override IDbConnection OpenConnection()
         {
@@ -52,7 +49,7 @@ namespace Mantle.Data.Dapper
 
         protected override string EncloseIdentifier(string identifier)
         {
-            return string.Concat('[', identifier, ']');
+            return $"[{identifier}]";
         }
     }
 }
