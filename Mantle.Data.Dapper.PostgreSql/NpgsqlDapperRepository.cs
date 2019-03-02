@@ -16,10 +16,7 @@ namespace Mantle.Data.Dapper.PostgreSql
         {
         }
 
-        protected override string LastInsertedRowCommand
-        {
-            get { return @"RETURNING ""Id"""; }
-        }
+        protected override string LastInsertedRowCommand => @"RETURNING ""Id""";
 
         public override IDbConnection OpenConnection()
         {
@@ -53,7 +50,7 @@ namespace Mantle.Data.Dapper.PostgreSql
 
         protected override string EncloseIdentifier(string identifier)
         {
-            return string.Concat('"', identifier, '"');
+            return $"\"{identifier}\"";
         }
     }
 }
