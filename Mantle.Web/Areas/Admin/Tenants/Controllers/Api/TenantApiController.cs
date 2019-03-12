@@ -66,14 +66,8 @@ namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api
         {
         }
 
-        protected override Permission ReadPermission
-        {
-            get { return StandardPermissions.FullAccess; }
-        }
+        protected override Permission ReadPermission => StandardPermissions.FullAccess;
 
-        protected override Permission WritePermission
-        {
-            get { return StandardPermissions.FullAccess; }
-        }
+        protected override Permission WritePermission => StandardPermissions.FullAccess;
     }
 }

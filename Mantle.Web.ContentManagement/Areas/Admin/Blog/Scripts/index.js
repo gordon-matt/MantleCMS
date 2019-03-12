@@ -69,6 +69,11 @@ export class ViewModel {
 
     // END: Aurelia Component Lifecycle Methods
 
+    dismissModal() {
+        this.modalDismissed = true;
+        $('#myModal').modal('hide');
+    }
+
     showCategories() {
         this.sectionSwitcher.swap('category-grid-section');
     }

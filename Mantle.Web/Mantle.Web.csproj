@@ -20,6 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Areas\Admin\Log\Scripts\index.js" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\DateTimeSettings.cshtml" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\MembershipSettings.cshtml" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\SiteSettings.cshtml" />
@@ -55,6 +56,10 @@
     <Content Remove="Indexing\**" />
     <EmbeddedResource Remove="Indexing\**" />
     <None Remove="Indexing\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\Admin\Log\Scripts\index.js" />
   </ItemGroup>
 
   <ItemGroup>

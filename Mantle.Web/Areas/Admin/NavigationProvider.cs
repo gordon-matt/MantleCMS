@@ -93,6 +93,7 @@ namespace Mantle.Web.Areas.Admin
         {
             builder.Icons("fa fa-wrench");
 
+            // Log
             builder.Add(T[MantleWebLocalizableStrings.Log.Title], "5", item => item
                 .Url("#log")
                 .Icons("fa fa-warning")

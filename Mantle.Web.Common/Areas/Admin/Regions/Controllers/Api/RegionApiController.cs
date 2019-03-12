@@ -55,7 +55,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             string entityType = typeof(Region).FullName;
             string entityId = entity.Id.ToString();
 
-            var localizedRecord = await localizablePropertyService.Value.FindOneAsync(cultureCode, entityType, entityId, "Name");
+            var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
             if (localizedRecord != null)
             {
                 entity.Name = localizedRecord.Value;
@@ -87,7 +87,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
             string entityType = typeof(Region).FullName;
             string entityId = entity.Id.ToString();
 
-            var localizedRecord = await localizablePropertyService.Value.FindOneAsync(cultureCode, entityType, entityId, "Name");
+            var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
             if (localizedRecord == null)
             {
                 localizedRecord = new LocalizableProperty
