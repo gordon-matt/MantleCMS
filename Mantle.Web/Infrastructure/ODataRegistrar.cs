@@ -33,7 +33,7 @@ namespace Mantle.Web.Infrastructure
             builder.EntitySet<LocalizableString>("LocalizableStringApi");
 
             // Log
-            //builder.EntitySet<LogEntry>("LogApi");// TODO
+            builder.EntitySet<LogEntry>("LogApi");
 
             // Membership
             builder.EntitySet<MantlePermission>("PermissionApi");

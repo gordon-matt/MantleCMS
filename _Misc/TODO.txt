@@ -19,8 +19,8 @@
 
 Why does URL have a 0 when editing localizable strings? refresh breaks it as well.
 
-Implement page for log..
-
 Small bug in Regions when on cities page and click "Back" button - it shows blank instead of grid..
 
 Make file manager as an interface, so it can be swapped out (RFM as default, but can be elFinder or other...)
+
+file manager: save to tenant folder!!

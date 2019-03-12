@@ -94,7 +94,7 @@ export class UserViewModel {
                 template:
                     '<div class="btn-group">' +
                         `<button type="button" click.delegate="editRoles(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.roles}"><i class="fa fa-users"></i></button>` +
-                        `<button type="button" click.delegate="changePassword(\'#=Id#\', \'#=UserName#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.password}"><i class="fa fa-lock"></i></button>` +
+                        `<button type="button" click.delegate="changePassword(\'#=Id#\', \'#=UserName#\')" class="btn btn-warning btn-sm" title="${this.parent.translations.password}"><i class="fa fa-lock"></i></button>` +
                         `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.parent.translations.edit}"><i class="fa fa-edit"></i></button>` +
                         `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.parent.translations.delete}"><i class="fa fa-remove"></i></button>` +
                     '</div>',
