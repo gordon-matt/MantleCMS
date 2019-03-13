@@ -96,6 +96,7 @@ System.config({
       "npm:aurelia-templating@1.7.0/aurelia-templating.js"
     ]
   },
+
   map: {
     "aurelia-binding": "npm:aurelia-binding@1.7.1",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@2.2.0",
@@ -124,27 +125,24 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.7",
     "bootstrap-fileinput": "github:kartik-v/bootstrap-fileinput@4.4.8",
     "bootstrap-notify": "npm:bootstrap-notify@3.1.3",
-    "chosen-js": "npm:chosen-js@1.8.5",
+    "chosen-js": "npm:chosen-js@1.8.7",
     "core-js": "npm:core-js@1.2.7",
     "font-awesome": "npm:font-awesome@4.7.0",
     "jquery": "npm:jquery@3.3.1",
     "jquery-migrate": "npm:jquery-migrate@3.0.1",
     "jquery-ui": "npm:jquery-ui@1.12.1",
     "jquery-ui-dist": "npm:jquery-ui-dist@1.12.1",
-    "jquery-validation": "github:jquery-validation/jquery-validation@1.17.0",
-    "jquery-validation-unobtrusive": "github:aspnet/jquery-validation-unobtrusive@3.2.9",
-    "moment": "npm:moment@2.22.1",
+    "jquery-validation": "npm:jquery-validation@1.19.0",
+    "jquery-validation-unobtrusive": "npm:jquery-validation-unobtrusive@3.2.11",
+    "moment": "npm:moment@2.24.0",
     "nprogress": "github:rstacruz/nprogress@0.2.0",
     "text": "github:systemjs/plugin-text@0.0.11",
     "tinymce": "github:tinymce/tinymce-dist@4.7.12",
-    "github:aspnet/jquery-validation-unobtrusive@3.2.9": {
-      "jquery-validation": "github:jquery-validation/jquery-validation@1.17.0"
-    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.1": {
-      "buffer": "npm:buffer@5.1.0"
+      "buffer": "npm:buffer@5.2.1"
     },
     "github:jspm/nodelibs-constants@0.1.0": {
       "constants-browserify": "npm:constants-browserify@0.0.1"
@@ -396,9 +394,9 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:buffer@5.1.0": {
+    "npm:buffer@5.2.1": {
       "base64-js": "npm:base64-js@1.3.0",
-      "ieee754": "npm:ieee754@1.1.11"
+      "ieee754": "npm:ieee754@1.1.12"
     },
     "npm:cipher-base@1.0.4": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
@@ -530,6 +528,14 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2",
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:jquery-validation-unobtrusive@3.2.11": {
+      "jquery": "npm:jquery@3.3.1",
+      "jquery-validation": "npm:jquery-validation@1.19.0"
+    },
+    "npm:jquery-validation@1.19.0": {
+      "jquery": "npm:jquery@3.3.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:md5.js@1.3.4": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
