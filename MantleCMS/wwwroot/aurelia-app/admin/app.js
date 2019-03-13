@@ -1,5 +1,12 @@
 ﻿import 'jquery';
-//import 'bootstrap';
+import 'jquery-migrate';
+import 'jquery-validation';
+import 'jquery-ui';
+import 'bootstrap';
+//import 'bootstrap-notify';
+//import 'tinymce/themes/modern/theme';
+//import '/js/kendo/2014.1.318/kendo.web.min.js';
+
 //import { EventAggregator } from 'aurelia-event-aggregator';
 //import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
