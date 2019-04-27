@@ -25,34 +25,37 @@ tinymce.PluginManager.add('responsivefilemanager', function (editor) {
     }
 
     function openmanager() {
-        var width = window.innerWidth - 30;
-        var height = window.innerHeight - 60;
+        var width = window.innerWidth - 20;
+        var height = window.innerHeight - 40;
         if (width > 1800) width = 1800;
         if (height > 1200) height = 1200;
-        var width_reduce = (width - 20) % 138;
-        width = width - width_reduce + 10;
         if (width > 600) {
             var width_reduce = (width - 20) % 138;
             width = width - width_reduce + 10;
         }
 
         editor.focus(true);
+
         var title = "RESPONSIVE FileManager";
         if (typeof editor.settings.filemanager_title !== "undefined" && editor.settings.filemanager_title) {
             title = editor.settings.filemanager_title;
         }
+
         var akey = "key";
         if (typeof editor.settings.filemanager_access_key !== "undefined" && editor.settings.filemanager_access_key) {
             akey = editor.settings.filemanager_access_key;
         }
+
         var sort_by = "";
         if (typeof editor.settings.filemanager_sort_by !== "undefined" && editor.settings.filemanager_sort_by) {
             sort_by = "&sort_by=" + editor.settings.filemanager_sort_by;
         }
+
         var descending = "false";
         if (typeof editor.settings.filemanager_descending !== "undefined" && editor.settings.filemanager_descending) {
             descending = editor.settings.filemanager_descending;
         }
+
         var fldr = "";
         if (typeof editor.settings.filemanager_subfolder !== "undefined" && editor.settings.filemanager_subfolder) {
             fldr = "&fldr=" + editor.settings.filemanager_subfolder;
@@ -75,31 +78,64 @@ tinymce.PluginManager.add('responsivefilemanager', function (editor) {
             }
         }
 
-        win = editor.windowManager.open({
-            title: title,
-            file: editor.settings.external_filemanager_path + 'dialog.php?type=4&descending=' + descending + sort_by + rootFolder + fldr + crossdomain + '&lang=' + editor.settings.language + '&akey=' + akey,
-            width: width,
-            height: height,
-            inline: 1,
-            resizable: true,
-            maximizable: true
-        });
+        const fileUrl = editor.settings.external_filemanager_path + 'dialog.php?type=4&descending=' + descending + sort_by + rootFolder + fldr + crossdomain + '&lang=' + editor.settings.language + '&akey=' + akey;
+
+        if (tinymce.majorVersion < 5) {
+            win = editor.windowManager.open({
+                title: title,
+                file: fileUrl,
+                width: width,
+                height: height,
+                inline: 1,
+                resizable: true,
+                maximizable: true
+            });
+        } else {
+            win = editor.windowManager.openUrl({
+                title: title,
+                url: fileUrl,
+                width: width,
+                height: height,
+                inline: 1,
+                resizable: true,
+                maximizable: true
+            });
+        }
     }
 
-    editor.addButton('responsivefilemanager', {
-        icon: 'browse',
-        tooltip: 'Insert file',
-        shortcut: 'Ctrl+E',
-        onclick: openmanager
-    });
+    if (tinymce.majorVersion < 5) {
+        editor.addButton('responsivefilemanager', {
+            icon: 'browse',
+            tooltip: 'Insert file',
+            shortcut: 'Ctrl+E',
+            onClick: openmanager
+        });
 
-    editor.addShortcut('Ctrl+E', '', openmanager);
+        editor.addShortcut('Ctrl+E', '', openmanager);
 
-    editor.addMenuItem('responsivefilemanager', {
-        icon: 'browse',
-        text: 'Insert file',
-        shortcut: 'Ctrl+E',
-        onclick: openmanager,
-        context: 'insert'
-    });
+        editor.addMenuItem('responsivefilemanager', {
+            icon: 'browse',
+            text: 'Insert file',
+            shortcut: 'Ctrl+E',
+            onClick: openmanager,
+            context: 'insert'
+        });
+    } else {
+        editor.ui.registry.addButton('responsivefilemanager', {
+            icon: 'browse',
+            tooltip: 'Insert file',
+            shortcut: 'Ctrl+E',
+            onAction: openmanager
+        });
+
+        editor.addShortcut('Ctrl+E', '', openmanager);
+
+        editor.ui.registry.addMenuItem('responsivefilemanager', {
+            icon: 'browse',
+            text: 'Insert file',
+            shortcut: 'Ctrl+E',
+            onAction: openmanager,
+            context: 'insert'
+        });
+    }
 });

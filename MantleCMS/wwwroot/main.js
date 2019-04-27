@@ -10,11 +10,11 @@ export function configure(aurelia) {
         .standardConfiguration()
         .developmentLogging()
         //.plugin(PLATFORM.moduleName('aurelia-kendoui-bridge'))
-        .plugin(PLATFORM.moduleName('aurelia-tinymce-wrapper'))
+        .plugin(PLATFORM.moduleName('aurelia-tinymce-wrapper'));
         //.plugin('aurelia-animator-css')
-        .globalResources([
-            PLATFORM.moduleName('/aurelia-app/shared/loading-indicator')
-        ]);
+        //.globalResources([
+        //    PLATFORM.moduleName('/aurelia-app/shared/loading-indicator')
+        //]);
 
     ViewLocator.prototype.convertOriginToViewUrl = function (origin) {
         let viewUrl = null;

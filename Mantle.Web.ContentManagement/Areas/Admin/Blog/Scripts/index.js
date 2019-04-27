@@ -2,7 +2,7 @@
 import 'jquery-validation';
 import 'bootstrap-notify';
 import 'chosen-js';
-import 'tinymce/themes/modern/theme';
+import 'tinymce/themes/silver/theme';
 import '/js/kendo/2014.1.318/kendo.web.min.js';
 
 import { inject } from 'aurelia-framework';
