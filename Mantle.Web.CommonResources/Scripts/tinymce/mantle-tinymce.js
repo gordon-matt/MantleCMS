@@ -5,7 +5,7 @@ import 'tinymce/plugins/charmap/plugin';
 import 'tinymce/plugins/code/plugin';
 import 'tinymce/plugins/contextmenu/plugin';
 import 'tinymce/plugins/directionality/plugin';
-import 'tinymce/plugins/emoticons/plugin';
+//import 'tinymce/plugins/emoticons/plugin';
 import 'tinymce/plugins/fullscreen/plugin';
 import 'tinymce/plugins/hr/plugin';
 import 'tinymce/plugins/image/plugin';
@@ -33,16 +33,16 @@ import '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.plugins
 export class MantleTinyMCEOptions {
     constructor() {
         this.defaultConfig = {
-            theme: "modern",
+            theme: "silver",
             plugins: [
                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor",
+                "insertdatetime media nonbreaking save table directionality",
+                "template paste",
                 "responsivefilemanager"
             ],
             toolbar1: "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            toolbar2: "print preview media | forecolor backcolor emoticons",
+            toolbar2: "print preview media | forecolor backcolor",
             toolbar3: "responsivefilemanager",
             image_advtab: true,
             image_dimensions: false,
@@ -64,16 +64,16 @@ export class MantleTinyMCEOptions {
         };
 
         this.advancedConfig = {
-            theme: "modern",
+            theme: "silver",
             plugins: [
                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor",
+                "insertdatetime media nonbreaking save table directionality",
+                "template paste",
                 "mantle_contentzone responsivefilemanager"
             ],
             toolbar1: "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            toolbar2: "print preview media | forecolor backcolor emoticons",
+            toolbar2: "print preview media | forecolor backcolor",
             toolbar3: "responsivefilemanager | contentzone",
             image_advtab: true,
             image_dimensions: false,

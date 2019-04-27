@@ -148,8 +148,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" show.bind="!postModel.useExternalLink">
                                 <div class="form-group">
                                     @Html.Label("FullDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.FullDescription], new { @class = "control-label" })
-                                    <tiny-mce id="FullDescription" name="FullDescription" theme="modern" content.bind="postModel.fullDescription" options.bind="tinyMCEConfig"></tiny-mce>
-                                    @*@Html.TextArea("FullDescription", null, new { @class = "form-control", data_bind = "wysiwyg: postModel.fullDescription, wysiwygConfig: tinyMCE_fullDescription" })*@
+                                    <tiny-mce id="FullDescription" name="FullDescription" theme="silver" content.bind="postModel.fullDescription" options.bind="tinyMCEConfig"></tiny-mce>
                                 </div>
                             </div>
 

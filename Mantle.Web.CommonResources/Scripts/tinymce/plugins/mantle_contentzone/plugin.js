@@ -1,9 +1,9 @@
 ﻿tinymce.PluginManager.add('mantle_contentzone', function (editor, url) {
     // Add a button that opens a window
-    editor.addButton('contentzone', {
+    editor.ui.registry.addButton('contentzone', {
         title: 'Content Zone',
         image: '/Mantle.Web.CommonResources.Scripts.tinymce.plugins.mantle_contentzone.img.mantle_contentzone.png',
-        onclick: function () {
+        onAction: function () {
             // Open window
             editor.windowManager.open({
                 title: 'Mantle Content Zone Plugin',
