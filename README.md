@@ -4,6 +4,35 @@
 
 Mantle is a multi-purpose framework and CMS loaded with functionality and features that can be perfectly adapted for any website.
 
+## Intro
+
+Mantle is both a CMS and just a general purpose .NET Core web framework, built up with various extensions / helper classes. It is the successor to [MantleCMS](https://github.com/gordon-matt/MantleCMS. Unfortunately I have not had much time to work on this in the last year or so. It is in a mostly workable state though, but needs further testing. I have decided to make the repository public now rather than wait until I have time to polish it, which may never come if my current workload persists. I welcome any pull requests from anyone wanting to fix bugs or add new features.
+
+## Tech
+
+| | | |
+| :---: | :---: | :---: |
+|[<br />![.NET Core](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/NetCore.png) ](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2)|[<br />![Aurelia](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Aurelia.png) ](https://aurelia.io/)|[<br />![Web API OData](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/OData.png) ](https://github.com/OData/WebApi)|
+| [<br />![Bootstrap](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Bootstrap.jpg) ](http://getbootstrap.com/) |[<br />![KendoUI](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/KendoUI.png) ](https://github.com/telerik/kendo-ui-core)
+
+## Features
+
+As a 1 man team, you'll find my CMS is not quite as featured as many of the commercial solutions, but it is free and lightweight.
+
+- Multi-tenant solution
+- Plugins system
+- Theme Engine
+- File Manager (Responsive File Manager)
+- Membership Management (manage users and roles)
+- Localization
+- Pages (and page types)
+- Content blocks
+- Blog
+- Menus
+- Sitemap Generator
+- Scheduled Tasks
+- and more...
+
 ## Getting Started
 
 ### JSPM
