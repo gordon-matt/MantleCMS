@@ -280,9 +280,7 @@ namespace MantleCMS
 
             var rfmOptions = new ResponsiveFileManagerOptions();
             Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
-
-            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
-
+            
             app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
             {
                 BeforeRequest = (Context ctx) =>
@@ -338,6 +336,7 @@ namespace MantleCMS
             });
 
             // Responsive File Manager
+            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(root)
