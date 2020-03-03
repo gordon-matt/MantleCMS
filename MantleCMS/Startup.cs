@@ -111,12 +111,15 @@ namespace MantleCMS
                 options.AccessDeniedPath = "/account/access-denied";
             });
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserStore<ApplicationUserStore>()
-                .AddRoleStore<ApplicationRoleStore>()
-                //.AddRoleValidator<ApplicationRoleValidator>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddUserStore<ApplicationUserStore>()
+            .AddRoleStore<ApplicationRoleStore>()
+            //.AddRoleValidator<ApplicationRoleValidator>()
+            .AddDefaultTokenProviders();
 
             #endregion Account / Identity
 
@@ -159,7 +162,7 @@ namespace MantleCMS
 
             var mvcBuilder = services.AddMvc(options =>
             {
-                options.EnableEndpointRouting = false; // For OData
+                options.EnableEndpointRouting = false; // For OData (until they support endpoint routing)
             })
             .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
             .AddRazorRuntimeCompilation();
