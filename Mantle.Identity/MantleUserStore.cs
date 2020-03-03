@@ -220,7 +220,7 @@ namespace Mantle.Identity
 
         protected override Task<IdentityUserRole<string>> FindUserRoleAsync(string userId, string roleId, CancellationToken cancellationToken)
         {
-            return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken);
+            return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken).AsTask();
         }
     }
 }

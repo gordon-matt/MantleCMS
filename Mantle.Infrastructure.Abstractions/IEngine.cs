@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Infrastructure
 {
@@ -14,18 +13,12 @@ namespace Mantle.Infrastructure
     public interface IEngine
     {
         /// <summary>
-        /// Initialize engine
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        void Initialize(IServiceCollection services, ApplicationPartManager partManager);
-
-        /// <summary>
         /// Add and configure services
         /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="containerBuilder">Container Builder</param>
         /// <param name="configuration">Configuration root of the application</param>
         /// <returns>Service provider</returns>
-        IServiceProvider ConfigureServices(IServiceCollection services, IConfigurationRoot configuration);
+        IServiceProvider ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration);
 
         /// <summary>
         /// Configure HTTP request pipeline
@@ -47,7 +40,7 @@ namespace Mantle.Infrastructure
 
         object ResolveUnregistered(Type type);
 
-        bool TryResolve<T>(out T instance);
+        bool TryResolve<T>(out T instance) where T : class;
 
         bool TryResolve(Type serviceType, out object instance);
     }

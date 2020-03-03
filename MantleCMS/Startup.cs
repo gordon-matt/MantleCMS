@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Autofac;
 using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
@@ -30,19 +31,19 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using NLog;
-using NLog.Extensions.Logging;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using NLog.Web;
 using Pchp.Core;
 using Peachpie.AspNetCore.Web;
 
@@ -52,9 +53,9 @@ namespace MantleCMS
     {
         #region Constructor
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
-            HostingEnvironment = env;
+            WebHostEnvironment = env;
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -80,14 +81,14 @@ namespace MantleCMS
 
         public IConfigurationRoot Configuration { get; }
 
-        public IHostingEnvironment HostingEnvironment { get; private set; }
+        public IWebHostEnvironment WebHostEnvironment { get; private set; }
 
         public IServiceProvider ServiceProvider { get; private set; }
 
         #endregion Properties
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -147,15 +148,21 @@ namespace MantleCMS
                 routeOptions.LowercaseUrls = true;
             });
 
+            // Framework
+            services.ConfigureMantleOptions(Configuration);
+
             services.AddMultitenancy<Tenant, MantleTenantResolver>();
 
             services.AddMantleLocalization();
 
             services.AddOData();
 
-            var mvcBuilder = services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions((mvcJsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(mvcJsonOptions)));
+            var mvcBuilder = services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false; // For OData
+            })
+            .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
+            .AddRazorRuntimeCompilation();
 
             #region RequestLocalizationOptions
 
@@ -185,7 +192,7 @@ namespace MantleCMS
 
             #region RazorViewEngineOptions
 
-            services.Configure<RazorViewEngineOptions>(options =>
+            services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
             {
                 //Add the file provider to the Razor view engine
 
@@ -198,8 +205,10 @@ namespace MantleCMS
                 {
                     options.FileProviders.Add(embeddedFileProvider);
                 }
+            });
 
-                //options.FileProviders.Add(embeddedFileProvider);
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
                 options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
             });
 
@@ -210,7 +219,7 @@ namespace MantleCMS
 
             #region Mantle Framework Config
 
-            ServiceProvider = services.ConfigureMantleServices(mvcBuilder.PartManager, Configuration);
+            services.ConfigureMantleOptions(Configuration);
             //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
             // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
@@ -237,25 +246,15 @@ namespace MantleCMS
             });
 
             #endregion Mantle Framework Config
-
-            return ServiceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILoggerFactory loggerFactory,
-            IApplicationLifetime appLifetime)
+            IHostApplicationLifetime appLifetime)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            loggerFactory.AddNLog();
-
-            //app.AddNLogWeb();
-
-            env.ConfigureNLog("NLog.config");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -280,7 +279,9 @@ namespace MantleCMS
 
             var rfmOptions = new ResponsiveFileManagerOptions();
             Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
-            
+
+            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
+
             app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
             {
                 BeforeRequest = (Context ctx) =>
@@ -310,7 +311,7 @@ namespace MantleCMS
                 FileProvider = new CompositeFileProvider(
                     new EmbeddedScriptFileProvider(),
                     new EmbeddedContentFileProvider(),
-                    HostingEnvironment.WebRootFileProvider),
+                    WebHostEnvironment.WebRootFileProvider),
 
                 OnPrepareResponse = (context) =>
                 {
@@ -336,7 +337,6 @@ namespace MantleCMS
             });
 
             // Responsive File Manager
-            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(root)
@@ -350,8 +350,8 @@ namespace MantleCMS
                     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
                 });
 
-            //app.UseIdentity();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMultitenancy<Tenant>();
 
@@ -387,9 +387,9 @@ namespace MantleCMS
             ConfigureNLog();
         }
 
-        private JsonSerializerSettings ConfigureJsonSerializerSettings(MvcJsonOptions options)
+        private JsonSerializerSettings ConfigureJsonSerializerSettings(MvcNewtonsoftJsonOptions options)
         {
-            if (HostingEnvironment.IsDevelopment())
+            if (WebHostEnvironment.IsDevelopment())
             {
                 // Make JSON easier to read for debugging at the expense of larger payloads
                 options.SerializerSettings.Formatting = Formatting.Indented;
@@ -429,6 +429,12 @@ namespace MantleCMS
                 databaseTarget.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
             }
             catch { }
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Add extra registrations here, if needed...
+            //  But it's better to use IDependencyRegistrar
         }
     }
 }

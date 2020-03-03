@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore;
+﻿using Mantle.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NLog.Web;
 
 namespace MantleCMS
@@ -12,34 +10,24 @@ namespace MantleCMS
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                BuildWebHost(args).Run();
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Unhandled exception: {ex}");
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", true)
-                .AddEnvironmentVariables()
-                .Build();
-
-            return WebHost.CreateDefaultBuilder(args)
-                .UseKestrel((p) => p.AddServerHeader = false)
-                .ConfigureServices(services => services.AddAutofac())
-                .UseConfiguration(configuration)
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .CaptureStartupErrors(true)
-                .UseNLog()
-                .Build();
-        }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddDebug();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseIISIntegration();
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseNLog();
+                })
+                .UseServiceProviderFactory(new MantleAutofacServiceProviderFactory())
+                .UseNLog();
     }
 }

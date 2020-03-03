@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Autofac;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,9 +10,9 @@ namespace Mantle.Infrastructure
         /// <summary>
         /// Add and configure any of the middleware
         /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="containerBuilder">Container Builder</param>
         /// <param name="configuration">Configuration root of the application</param>
-        void ConfigureServices(IServiceCollection services, IConfigurationRoot configuration);
+        void ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration);
 
         /// <summary>
         /// Configure the using of added middleware
