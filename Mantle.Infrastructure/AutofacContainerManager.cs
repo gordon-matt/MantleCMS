@@ -8,14 +8,13 @@ namespace Mantle.Infrastructure
 {
     public class AutofacContainerManager : IDisposable
     {
-        private readonly IContainer container;
         private bool disposed = false;
 
-        public IContainer Container => container;
+        public IContainer Container { get; }
 
         public AutofacContainerManager(IContainer container)
         {
-            this.container = container;
+            Container = container;
         }
 
         public T Resolve<T>(string key = "") where T : class
@@ -96,7 +95,7 @@ namespace Mantle.Infrastructure
             throw new MantleException("No constructor was found that had all the dependencies satisfied.", innerException);
         }
 
-        public bool TryResolve<T>(out T instance)
+        public bool TryResolve<T>(out T instance) where T : class
         {
             return Container.TryResolve<T>(out instance);
         }

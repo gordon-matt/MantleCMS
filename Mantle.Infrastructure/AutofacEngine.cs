@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Helpers;
 using Mantle.Infrastructure.Configuration;
 using Mantle.Plugins;
-using Mantle.Plugins.Configuration;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,33 +35,12 @@ namespace Mantle.Infrastructure
         #region IEngine Members
 
         /// <summary>
-        /// Initialize engine
-        /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
-        public virtual void Initialize(IServiceCollection services, ApplicationPartManager partManager)
-        {
-            //most of API providers require TLS 1.2 nowadays
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            //set base application path
-            var provider = services.BuildServiceProvider();
-            var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
-            var options = provider.GetRequiredService<MantlePluginOptions>();
-            CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
-
-            //initialize plugins
-            //var mvcCoreBuilder = services.AddMvcCore();
-            //var mvcBuilder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            PluginManager.Initialize(partManager, hostingEnvironment, options);
-        }
-
-        /// <summary>
         /// Add and configure services
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
         /// <param name="configuration">Configuration root of the application</param>
         /// <returns>Service provider</returns>
-        public virtual IServiceProvider ConfigureServices(IServiceCollection services, IConfigurationRoot configuration)
+        public virtual IServiceProvider ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration)
         {
             //find startup configurations provided by other assemblies
             var typeFinder = new WebAppTypeFinder();
@@ -81,13 +55,13 @@ namespace Mantle.Infrastructure
             //configure services
             foreach (var instance in instances)
             {
-                instance.ConfigureServices(services, configuration);
+                instance.ConfigureServices(containerBuilder, configuration);
             }
 
             //register dependencies
-            var options = services.BuildServiceProvider().GetService<MantleInfrastructureOptions>();
-            RegisterDependencies(services, typeFinder);
+            RegisterDependencies(containerBuilder, typeFinder);
 
+            var options = ServiceProvider.GetService<MantleInfrastructureOptions>();
             //run startup tasks
             if (!options.IgnoreStartupTasks)
             {
@@ -164,7 +138,7 @@ namespace Mantle.Infrastructure
             return containerManager.ResolveUnregistered(type);
         }
 
-        public bool TryResolve<T>(out T instance)
+        public bool TryResolve<T>(out T instance) where T : class
         {
             return containerManager.TryResolve<T>(out instance);
         }
@@ -192,12 +166,10 @@ namespace Mantle.Infrastructure
         /// <summary>
         /// Register dependencies using Autofac
         /// </summary>
-        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="containerBuilder">Container Builder</param>
         /// <param name="typeFinder">Type finder</param>
-        protected virtual IServiceProvider RegisterDependencies(IServiceCollection services, ITypeFinder typeFinder)
+        protected virtual IServiceProvider RegisterDependencies(ContainerBuilder containerBuilder, ITypeFinder typeFinder)
         {
-            var containerBuilder = new ContainerBuilder();
-
             //register engine
             containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
 
@@ -215,10 +187,12 @@ namespace Mantle.Infrastructure
 
             //register all provided dependencies
             foreach (var dependencyRegistrar in instances)
+            {
                 dependencyRegistrar.Register(containerBuilder, typeFinder);
+            }
 
-            //populate Autofac container builder with the set of registered service descriptors
-            containerBuilder.Populate(services);
+            ////populate Autofac container builder with the set of registered service descriptors
+            //containerBuilder.Populate(services);
 
             //create service provider
             var container = containerBuilder.Build();
