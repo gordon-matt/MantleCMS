@@ -15,7 +15,7 @@ namespace Mantle.Infrastructure
     public class MantleAutofacServiceProviderFactory : IServiceProviderFactory<ContainerBuilder>
     {
         private readonly Action<ContainerBuilder> configurationAction;
-        private readonly IServiceCollection services;
+        private IServiceCollection services;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AutofacServiceProviderFactory"/> class.
@@ -33,6 +33,8 @@ namespace Mantle.Infrastructure
         /// <returns>A container builder that can be used to create an <see cref="IServiceProvider" />.</returns>
         public ContainerBuilder CreateBuilder(IServiceCollection services)
         {
+            this.services = services; // To use in CreateServiceProvider()
+
             var builder = new ContainerBuilder();
             builder.Populate(services);
             configurationAction(builder);

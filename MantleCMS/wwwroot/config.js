@@ -96,7 +96,6 @@ System.config({
       "npm:aurelia-templating@1.10.1/aurelia-templating.js"
     ]
   },
-
   map: {
     "aurelia-binding": "npm:aurelia-binding@2.2.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@2.3.2",
@@ -662,9 +661,6 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.1"
-    },
-    "npm:tinymce@5.0.4": {
-      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:tinymce@5.0.4": {
       "process": "github:jspm/nodelibs-process@0.1.2"

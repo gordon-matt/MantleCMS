@@ -9,7 +9,12 @@
     <Authors>Matt Gordon</Authors>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\form-builder.min.js" />
@@ -18,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
