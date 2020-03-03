@@ -42,6 +42,14 @@ As a 1 man team, you'll find my CMS is not quite as featured as many of the comm
 3. Clone/download this project
 4. Restore JSPM packages: `jspm install`
 > **NOTE:** Do this from the root directory of the project (**MantleCMS**) (not the solution root)
+> **OPTIONAL:** When working with JSPM, I recommend using the following Visual Studio extension: [Package Installer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.PackageInstaller)
+5. Navigate to the `wwwroot` folder. Then open a Git Bash and run the following command:
+
+```
+gulp bundle
+```
+
+That will create a new file here: `\wwwroot\dist\aurelia-build.js`. This is used for the admin area.
 
 ### Database
 

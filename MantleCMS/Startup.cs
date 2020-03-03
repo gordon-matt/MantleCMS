@@ -276,32 +276,32 @@ namespace MantleCMS
 
             #region PeachPie / Responsive File Manager
 
-            // ================================================================================
-            // Peachpie
-            app.UseSession();
+            // TODO: Make PeachPie work with .NET Core 3.1. Find out what's changed.
 
-            var rfmOptions = new ResponsiveFileManagerOptions();
-            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
+            //app.UseSession();
 
-            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
+            //var rfmOptions = new ResponsiveFileManagerOptions();
+            //Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
 
-            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
-            {
-                BeforeRequest = (Context ctx) =>
-                {
-                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
-                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
+            //string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
 
-                    ctx.Globals["appsettings"] = (PhpValue)new PhpArray()
-                    {
-                        { "upload_dir", rfmOptions.UploadDirectory },
-                        { "current_path", rfmOptions.CurrentPath },
-                        { "thumbs_base_path", rfmOptions.ThumbsBasePath }
-                    };
-                }
-            });
+            //app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
+            //{
+            //    BeforeRequest = (Context ctx) =>
+            //    {
+            //        // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
+            //        //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
 
-            app.UseDefaultFiles();
+            //        ctx.Globals["appsettings"] = (PhpValue)new PhpArray()
+            //        {
+            //            { "upload_dir", rfmOptions.UploadDirectory },
+            //            { "current_path", rfmOptions.CurrentPath },
+            //            { "thumbs_base_path", rfmOptions.ThumbsBasePath }
+            //        };
+            //    }
+            //});
+
+            //app.UseDefaultFiles();
 
             #endregion PeachPie / Responsive File Manager
 
@@ -339,11 +339,11 @@ namespace MantleCMS
                 }
             });
 
-            // Responsive File Manager
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(root)
-            });
+            //// Responsive File Manager
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(root)
+            //});
 
             #endregion Static Files
 
