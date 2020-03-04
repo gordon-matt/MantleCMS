@@ -276,32 +276,30 @@ namespace MantleCMS
 
             #region PeachPie / Responsive File Manager
 
-            // TODO: Make PeachPie work with .NET Core 3.1. Find out what's changed.
+            app.UseSession();
 
-            //app.UseSession();
+            var rfmOptions = new ResponsiveFileManagerOptions();
+            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
 
-            //var rfmOptions = new ResponsiveFileManagerOptions();
-            //Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
+            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
 
-            //string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
+            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
+            {
+                BeforeRequest = (Context ctx) =>
+                {
+                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
+                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
 
-            //app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
-            //{
-            //    BeforeRequest = (Context ctx) =>
-            //    {
-            //        // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
-            //        //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
+                    ctx.Globals["appsettings"] = new PhpArray
+                    {
+                        { "upload_dir", rfmOptions.UploadDirectory },
+                        { "current_path", rfmOptions.CurrentPath },
+                        { "thumbs_base_path", rfmOptions.ThumbsBasePath }
+                    };
+                }
+            });
 
-            //        ctx.Globals["appsettings"] = (PhpValue)new PhpArray()
-            //        {
-            //            { "upload_dir", rfmOptions.UploadDirectory },
-            //            { "current_path", rfmOptions.CurrentPath },
-            //            { "thumbs_base_path", rfmOptions.ThumbsBasePath }
-            //        };
-            //    }
-            //});
-
-            //app.UseDefaultFiles();
+            app.UseDefaultFiles();
 
             #endregion PeachPie / Responsive File Manager
 
@@ -339,11 +337,11 @@ namespace MantleCMS
                 }
             });
 
-            //// Responsive File Manager
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(root)
-            //});
+            // Responsive File Manager
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(root)
+            });
 
             #endregion Static Files
 
