@@ -68,6 +68,8 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
             builder.Property(x => x.UpdatedOnUtc).IsRequired();
 
             builder.HasOne(x => x.Forum).WithMany().HasForeignKey(x => x.ForumId);
+
+            builder.HasIndex(x => x.ForumId);
         }
 
         #region IEntityTypeConfiguration Members

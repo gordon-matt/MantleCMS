@@ -1,4 +1,5 @@
-﻿using Mantle.Web.Configuration;
+﻿using Mantle.Infrastructure;
+using Mantle.Web.Configuration;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,11 @@ namespace MantleCMS.Controllers
         [Route("")]
         public IActionResult Index()
         {
+            if (!DataSettingsHelper.IsDatabaseInstalled)
+            {
+                return RedirectToAction("Index", "Installation");
+            }
+
             ViewBag.Title = siteSettings.HomePageTitle;
             return View();
         }

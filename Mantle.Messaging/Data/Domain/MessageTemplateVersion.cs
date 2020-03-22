@@ -48,6 +48,8 @@ namespace Mantle.Messaging.Data.Domain
             builder.Property(x => x.DateModifiedUtc).IsRequired();
 
             builder.HasOne(x => x.MessageTemplate).WithMany().HasForeignKey(x => x.MessageTemplateId);
+
+            builder.HasIndex(x => x.MessageTemplateId);
         }
 
         public bool IsEnabled => true;

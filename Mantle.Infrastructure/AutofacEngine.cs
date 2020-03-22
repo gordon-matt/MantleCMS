@@ -207,6 +207,11 @@ namespace Mantle.Infrastructure
         /// <param name="typeFinder">Type finder</param>
         protected virtual void RunStartupTasks(ITypeFinder typeFinder)
         {
+            if (!DataSettingsHelper.IsDatabaseInstalled)
+            {
+                return;
+            }
+
             //find startup tasks provided by other assemblies
             var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();
 

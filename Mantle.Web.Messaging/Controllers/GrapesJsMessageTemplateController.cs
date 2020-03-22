@@ -21,16 +21,16 @@ namespace Mantle.Web.Messaging.Controllers
     {
         private readonly Lazy<IMessageTemplateService> messageTemplateService;
         private readonly Lazy<IMessageTemplateVersionService> messageTemplateVersionService;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public GrapesJsMessageTemplateController(
             Lazy<IMessageTemplateService> messageTemplateService,
             Lazy<IMessageTemplateVersionService> messageTemplateVersionService,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment webHostEnvironment)
         {
             this.messageTemplateService = messageTemplateService;
             this.messageTemplateVersionService = messageTemplateVersionService;
-            this.hostingEnvironment = hostingEnvironment;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Route("edit/{id}/{cultureCode?}")]
@@ -171,7 +171,7 @@ namespace Mantle.Web.Messaging.Controllers
             foreach (var file in files)
             {
                 string path = Path.Combine(
-                    hostingEnvironment.WebRootPath,
+                    webHostEnvironment.WebRootPath,
                     "Media\\Uploads\\",
                     WorkContext.CurrentTenant.Id.ToString(),
                     "EmailTemplates\\",
@@ -205,7 +205,7 @@ namespace Mantle.Web.Messaging.Controllers
             }
 
             path = path.RightOf("/Media").Replace("/", "\\");
-            path = Path.Combine(hostingEnvironment.WebRootPath, path);
+            path = Path.Combine(webHostEnvironment.WebRootPath, path);
 
             if (!System.IO.File.Exists(path))
             {

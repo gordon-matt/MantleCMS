@@ -25,6 +25,9 @@ namespace Mantle.Web.Infrastructure
 
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
+            var settings = DataSettingsManager.LoadSettings();
+            builder.Register(x => settings).As<DataSettings>();
+
             // Helpers
             builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
             builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();

@@ -55,6 +55,8 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
             builder.Property(m => m.HasStates).IsRequired();
             builder.Property(m => m.StateCode).HasMaxLength(10).IsUnicode(false);
             builder.HasOne(p => p.Parent).WithMany(p => p.Children).HasForeignKey(x => x.ParentId).OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.ParentId);
         }
 
         #region IEntityTypeConfiguration Members

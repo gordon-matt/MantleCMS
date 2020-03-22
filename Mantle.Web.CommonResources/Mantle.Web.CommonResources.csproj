@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Mantle.Web.CommonResources</AssemblyName>
     <PackageId>Mantle.Web.CommonResources</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -11,6 +11,10 @@
     <Authors>Matt Gordon</Authors>
     <Description>Mantle - Common Resources: Includes embedded JavaScript used by many of the framework's projects.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\generic-http-interceptor.js" />
