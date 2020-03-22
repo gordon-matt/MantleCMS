@@ -8,9 +8,9 @@ namespace Mantle.Web.Mvc.Controls
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
     using Extenso.AspNetCore.Mvc.Rendering;
+    using Mantle.Infrastructure;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
     using Microsoft.AspNetCore.Routing;
 
     /// <summary>
@@ -319,7 +319,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string);
         }
 
@@ -354,7 +357,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object htmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, new RouteValueDictionary(), new RouteValueDictionary(htmlAttributes));
         }
 
@@ -389,7 +395,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, IDictionary<string, object> htmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, new RouteValueDictionary(), htmlAttributes);
         }
 
@@ -425,7 +434,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object titleHtmlAttributes, object htmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, TitleCssClass, PanelCssClass, new RouteValueDictionary(titleHtmlAttributes), new RouteValueDictionary(htmlAttributes));
         }
 
@@ -461,7 +473,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, IDictionary<string, object> titleHtmlAttributes, IDictionary<string, object> htmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, TitleCssClass, PanelCssClass, titleHtmlAttributes, htmlAttributes);
         }
 
@@ -497,7 +512,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string panelCssClass)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, TitleCssClass, panelCssClass);
         }
 
@@ -535,7 +553,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string titleCssClass, string panelCssClass)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, titleCssClass, panelCssClass, new RouteValueDictionary(), new RouteValueDictionary());
         }
 
@@ -575,7 +596,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string titleCssClass, string panelCssClass, object titleHtmlAttributes, object panelHtmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, titleCssClass, panelCssClass, new RouteValueDictionary(titleHtmlAttributes), new RouteValueDictionary(panelHtmlAttributes));
         }
 
@@ -615,7 +639,10 @@ namespace Mantle.Web.Mvc.Controls
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This is an appropriate nesting of generic types")]
         public static MvcPanel BeginPanelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, string titleCssClass, string panelCssClass, IDictionary<string, object> titleHtmlAttributes, IDictionary<string, object> panelHtmlAttributes)
         {
-            var modelExplorer = ExpressionMetadataProvider.FromLambdaExpression(expression, html.ViewData, html.MetadataProvider);
+            // TODO: Test
+            var modelExpressionProvider = EngineContext.Current.Resolve<ModelExpressionProvider>();
+            var modelExpression = modelExpressionProvider.CreateModelExpression(html.ViewData, expression);
+            var modelExplorer = html.MetadataProvider.GetModelExplorerForType(typeof(TModel), modelExpression.Model);
             return BeginPanel(html, modelExplorer.Model as string, titleCssClass, panelCssClass, titleHtmlAttributes, panelHtmlAttributes);
         }
 

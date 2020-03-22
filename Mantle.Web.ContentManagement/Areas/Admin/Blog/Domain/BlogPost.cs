@@ -83,6 +83,8 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
             //    m.MapRightKey("TagId");
             //    m.builder.ToTable("Mantle_BlogPostTags");
             //});
+
+            builder.HasIndex(x => x.CategoryId);
         }
 
         #region IEntityTypeConfiguration Members

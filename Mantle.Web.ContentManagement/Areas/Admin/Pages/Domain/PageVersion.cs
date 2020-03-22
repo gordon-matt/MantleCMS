@@ -63,6 +63,8 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
             builder.Property(x => x.Fields).IsUnicode(true);
 
             builder.HasOne(x => x.Page).WithMany(x => x.Versions).HasForeignKey(x => x.PageId);
+
+            builder.HasIndex(x => x.PageId);
         }
 
         public bool IsEnabled => true;

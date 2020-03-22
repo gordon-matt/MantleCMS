@@ -35,6 +35,8 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 
             builder.HasOne(x => x.Post).WithMany(x => x.Tags).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.Tag).WithMany(x => x.Posts).HasForeignKey(x => x.TagId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.TagId);
         }
 
         #region IEntityTypeConfiguration Members

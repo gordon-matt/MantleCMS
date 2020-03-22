@@ -45,7 +45,6 @@ using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using Pchp.Core;
-using Peachpie.AspNetCore.Web;
 
 namespace MantleCMS
 {
@@ -92,11 +91,17 @@ namespace MantleCMS
         {
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            if (DataSettingsHelper.IsDatabaseInstalled)
+            {
+                var dataSettings = DataSettingsManager.LoadSettings();
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(dataSettings.ConnectionString));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseInMemoryDatabase("MantleCMS"));
+            }
 
             // This must be added BEFORE we call AddIdentity().
             // For further info, see: https://github.com/aspnet/Identity/issues/1112
@@ -343,6 +348,16 @@ namespace MantleCMS
                 FileProvider = new PhysicalFileProvider(root)
             });
 
+            //// Add support for node_modules but only during development
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseStaticFiles(new StaticFileOptions
+            //    {
+            //        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"node_modules")),
+            //        RequestPath = new PathString("/vendor")
+            //    });
+            //}
+
             #endregion Static Files
 
             app.UseForwardedHeaders(
@@ -426,8 +441,10 @@ namespace MantleCMS
                     databaseTarget = wrapperTarget.WrappedTarget as DatabaseTarget;
                 }
 
-                databaseTarget.DBProvider = "Npgsql"; // TODO: Not sure if this is right
-                databaseTarget.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+                //databaseTarget.DBProvider = "Npgsql"; // If using other provider...
+
+                var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+                databaseTarget.ConnectionString = dataSettings.ConnectionString;
             }
             catch { }
         }

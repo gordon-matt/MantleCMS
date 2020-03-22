@@ -1,4 +1,5 @@
 ﻿using Extenso.Data.Entity;
+using Mantle.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -22,7 +23,17 @@ namespace MantleCMS.Data
                 if (options == null)
                 {
                     var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                    optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+
+                    if (DataSettingsHelper.IsDatabaseInstalled)
+                    {
+                        var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+                        optionsBuilder.UseSqlServer(dataSettings.ConnectionString);
+                    }
+                    else
+                    {
+                        optionsBuilder.UseInMemoryDatabase("MantleCMS");
+                    }
+
                     options = optionsBuilder.Options;
                 }
                 return options;
@@ -32,6 +43,13 @@ namespace MantleCMS.Data
         public DbContext GetContext()
         {
             return new ApplicationDbContext(Options);
+        }
+
+        public DbContext GetContext(string connectionString)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+            return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
 }
