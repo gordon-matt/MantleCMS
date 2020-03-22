@@ -1,9 +1,11 @@
 ﻿using System;
-using System.IO;
+using System.Linq;
 using Mantle.Exceptions;
-using Mantle.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 
 namespace Mantle.Web
 {
@@ -17,7 +19,7 @@ namespace Mantle.Web
 
         string GetRemoteIpAddress();
 
-        string GetUrlHost();
+        string GetUrlHost(bool? useSsl = null);
 
         string GetUrlReferrer();
 
@@ -30,36 +32,32 @@ namespace Mantle.Web
 
     public partial class WebHelper : IWebHelper
     {
-        private readonly IApplicationLifetime applicationLifetime;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IHostApplicationLifetime applicationLifetime;
+        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public string ContentRootPath => hostingEnvironment.ContentRootPath;
+        public string ContentRootPath => webHostEnvironment.ContentRootPath;
 
-        public string WebRootPath => hostingEnvironment.WebRootPath;
+        public string WebRootPath => webHostEnvironment.WebRootPath;
 
         public WebHelper(
-            IApplicationLifetime applicationLifetime,
-            IHostingEnvironment hostingEnvironment,
+            IHostApplicationLifetime applicationLifetime,
+            IWebHostEnvironment webHostEnvironment,
             IHttpContextAccessor httpContextAccessor)
         {
             this.applicationLifetime = applicationLifetime;
-            this.hostingEnvironment = hostingEnvironment;
+            this.webHostEnvironment = webHostEnvironment;
             this.httpContextAccessor = httpContextAccessor;
         }
 
         public virtual bool IsCurrentConnectionSecured()
         {
-            bool useSsl = false;
-
-            var httpContext = httpContextAccessor.HttpContext;
-
-            if (httpContext != null && httpContext.Request != null)
+            if (!IsRequestAvailable())
             {
-                useSsl = httpContext.Request.IsHttps;
+                return false;
             }
 
-            return useSsl;
+            return httpContextAccessor.HttpContext.Request.IsHttps;
         }
 
         public virtual string GetRemoteIpAddress()
@@ -67,14 +65,36 @@ namespace Mantle.Web
             return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
         }
 
-        public virtual string GetUrlHost()
+        public virtual string GetUrlHost(bool? useSsl = null)
         {
-            return httpContextAccessor.HttpContext.Request.Host.Host;
+            if (!IsRequestAvailable())
+            {
+                return string.Empty;
+            }
+
+            var hostHeader = httpContextAccessor.HttpContext?.Request?.Headers[HeaderNames.Host];
+
+            if (!hostHeader.HasValue || StringValues.IsNullOrEmpty(hostHeader.Value))
+            {
+                return string.Empty;
+            }
+
+            if (!useSsl.HasValue)
+            {
+                useSsl = IsCurrentConnectionSecured();
+            }
+
+            string host = $"{(useSsl.Value ? Uri.UriSchemeHttps : Uri.UriSchemeHttp)}{Uri.SchemeDelimiter}{hostHeader.Value.FirstOrDefault()}";
+
+            // Ensure that host ends with a slash
+            host = $"{host.TrimEnd('/')}/";
+
+            return host;
         }
 
         public virtual string GetUrlReferrer()
         {
-            return httpContextAccessor.HttpContext.Request.Headers["Referer"];
+            return httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Referer];
         }
 
         //public virtual string MapPath(string path, string basePath = null)
@@ -131,6 +151,28 @@ namespace Mantle.Web
                 throw new MantleException(
                     $"This site needs to be restarted, but was unable to do so.{Environment.NewLine}Please restart it manually for changes to take effect.");
             }
+        }
+
+        protected virtual bool IsRequestAvailable()
+        {
+            if (httpContextAccessor?.HttpContext == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                if (httpContextAccessor.HttpContext.Request == null)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
