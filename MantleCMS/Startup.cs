@@ -279,36 +279,11 @@ namespace MantleCMS
             var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(requestLocalizationOptions.Value);
 
-            #region PeachPie / Responsive File Manager
-
             app.UseSession();
 
-            var rfmOptions = new ResponsiveFileManagerOptions();
-            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
-
-            string root = Path.Combine(new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName, "wwwroot");
-
-            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
-            {
-                BeforeRequest = (Context ctx) =>
-                {
-                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
-                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
-
-                    ctx.Globals["appsettings"] = new PhpArray
-                    {
-                        { "upload_dir", rfmOptions.UploadDirectory },
-                        { "current_path", rfmOptions.CurrentPath },
-                        { "thumbs_base_path", rfmOptions.ThumbsBasePath }
-                    };
-                }
-            });
-
-            app.UseDefaultFiles();
-
-            #endregion PeachPie / Responsive File Manager
-
             #region Static Files
+
+            app.UseDefaultFiles(); // For PeachPie
 
             // embedded files
             app.UseStaticFiles(new StaticFileOptions
@@ -322,7 +297,7 @@ namespace MantleCMS
                 OnPrepareResponse = (context) =>
                 {
                     var headers = context.Context.Response.GetTypedHeaders();
-                    headers.CacheControl = new CacheControlHeaderValue()
+                    headers.CacheControl = new CacheControlHeaderValue
                     {
                         MaxAge = TimeSpan.FromDays(7)
                     };
@@ -345,7 +320,8 @@ namespace MantleCMS
             // Responsive File Manager
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(root)
+                RequestPath = new PathString("/filemanager"),
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath(Path.Combine(Assembly.GetEntryAssembly().Location, "../filemanager"))),
             });
 
             //// Add support for node_modules but only during development
@@ -359,6 +335,30 @@ namespace MantleCMS
             //}
 
             #endregion Static Files
+
+            #region PeachPie / Responsive File Manager
+
+            var rfmOptions = new ResponsiveFileManagerOptions();
+            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
+
+            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
+            {
+                BeforeRequest = (Context ctx) =>
+                {
+                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
+                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
+
+                    ctx.Globals["appsettings"] = new PhpArray
+                    {
+                        { "upload_dir", rfmOptions.UploadDirectory },
+                        { "current_path", rfmOptions.CurrentPath },
+                        { "thumbs_base_path", rfmOptions.ThumbsBasePath },
+                        { "MaxSizeUpload", rfmOptions.MaxSizeUpload } //TODO: Test this new option
+                    };
+                }
+            });
+
+            #endregion PeachPie / Responsive File Manager
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions
