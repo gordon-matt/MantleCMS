@@ -43,7 +43,7 @@ namespace Mantle.Web.Security.Membership
 
                         if (user == null)
                         {
-                            return default(T);
+                            return default;
                         }
                         return (T)(object)user;
                     };
