@@ -172,6 +172,11 @@ namespace MantleCMS
             .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
             .AddRazorRuntimeCompilation();
 
+            services.AddResponsiveFileManager(options =>
+            {
+                options.MaxSizeUpload = 32;
+            });
+
             #region RequestLocalizationOptions
 
             services.Configure<RequestLocalizationOptions>(
@@ -317,13 +322,6 @@ namespace MantleCMS
                 }
             });
 
-            // Responsive File Manager
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = new PathString("/filemanager"),
-                FileProvider = new PhysicalFileProvider(Path.GetFullPath(Path.Combine(Assembly.GetEntryAssembly().Location, "../filemanager"))),
-            });
-
             //// Add support for node_modules but only during development
             //if (env.IsDevelopment())
             //{
@@ -336,29 +334,8 @@ namespace MantleCMS
 
             #endregion Static Files
 
-            #region PeachPie / Responsive File Manager
-
-            var rfmOptions = new ResponsiveFileManagerOptions();
-            Configuration.GetSection("ResponsiveFileManagerOptions").Bind(rfmOptions);
-
-            app.UsePhp(new PhpRequestOptions(scriptAssemblyName: "ResponsiveFileManager")
-            {
-                BeforeRequest = (Context ctx) =>
-                {
-                    // Since the config.php file is compiled, we cannot modify it once deployed... everything is hard coded there.
-                    //  TODO: Place these values in appsettings.json and pass them in here to override the ones from config.php
-
-                    ctx.Globals["appsettings"] = new PhpArray
-                    {
-                        { "upload_dir", rfmOptions.UploadDirectory },
-                        { "current_path", rfmOptions.CurrentPath },
-                        { "thumbs_base_path", rfmOptions.ThumbsBasePath },
-                        { "MaxSizeUpload", rfmOptions.MaxSizeUpload } //TODO: Test this new option
-                    };
-                }
-            });
-
-            #endregion PeachPie / Responsive File Manager
+            // PeachPie / Responsive File Manager
+            app.UseResponsiveFileManager();
 
             app.UseForwardedHeaders(
                 new ForwardedHeadersOptions
