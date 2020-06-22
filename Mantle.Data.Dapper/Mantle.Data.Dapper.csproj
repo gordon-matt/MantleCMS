@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Extenso.Data.QueryBuilder" Version="2.0.0" />
+    <PackageReference Include="Extenso.Data.QueryBuilder" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
