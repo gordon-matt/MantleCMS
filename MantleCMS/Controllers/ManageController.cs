@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Mantle.Identity;
 using Mantle.Identity.Models.ManageViewModels;
 using Mantle.Identity.Services;
+using Mantle.Web.Configuration;
 using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,8 +21,9 @@ namespace MantleCMS.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<ManageController> logger,
-            UrlEncoder urlEncoder)
-            : base(userManager, signInManager, emailSender, logger, urlEncoder)
+            UrlEncoder urlEncoder,
+            SiteSettings siteSettings)
+            : base(userManager, signInManager, emailSender, logger, urlEncoder, siteSettings)
         {
         }
 

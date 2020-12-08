@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Mantle.Localization</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

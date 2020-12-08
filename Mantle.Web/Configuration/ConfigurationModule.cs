@@ -23,7 +23,7 @@ namespace Mantle.Web.Configuration
 
             public IEnumerable<IComponentRegistration> RegistrationsFor(
                 Service service,
-                Func<Service, IEnumerable<IComponentRegistration>> registrations)
+                Func<Service, IEnumerable<ServiceRegistration>> registrationAccessor)
             {
                 var ts = service as TypedService;
                 if (ts != null)
