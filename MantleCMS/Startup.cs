@@ -103,6 +103,8 @@ namespace MantleCMS
                     options.UseInMemoryDatabase("MantleCMS"));
             }
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
             // This must be added BEFORE we call AddIdentity().
             // For further info, see: https://github.com/aspnet/Identity/issues/1112
             services.AddScoped(typeof(IRoleValidator<ApplicationRole>), typeof(ApplicationRoleValidator));
@@ -265,13 +267,12 @@ namespace MantleCMS
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
-            ILoggerFactory loggerFactory,
             IHostApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
                 //app.UseBrowserLink();
             }
             else
@@ -399,7 +400,7 @@ namespace MantleCMS
             return options.SerializerSettings;
         }
 
-        private void ConfigureNLog()
+        private static void ConfigureNLog()
         {
             try
             {
