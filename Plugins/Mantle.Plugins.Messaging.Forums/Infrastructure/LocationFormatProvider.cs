@@ -13,17 +13,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/Shared/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -34,17 +25,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/Shared/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -55,17 +37,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Themes/{3}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Areas/{2}/Views/Shared/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -76,17 +49,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
                     "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
                     "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Views/Shared/{0}.cshtml",
                 };
             }
         }
@@ -97,17 +61,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
                     "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
                     "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Views/Shared/{0}.cshtml",
                 };
             }
         }
@@ -118,17 +73,8 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             {
                 return new[]
                 {
-                    //themes
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //shared
                     "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
                     "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-
-                    //default
-                    "~/Plugins/Messaging.Forums/Views/{1}/{0}.cshtml",
-                    "~/Plugins/Messaging.Forums/Views/Shared/{0}.cshtml",
                 };
             }
         }

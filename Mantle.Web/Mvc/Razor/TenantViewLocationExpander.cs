@@ -22,17 +22,23 @@ namespace Mantle.Web.Mvc.Razor
         {
             viewLocations = base.ExpandViewLocations(context, viewLocations);
 
-            string theme = null;
-            if (context.Values.TryGetValue(THEME_KEY, out theme))
+            if (context.Values.TryGetValue(THEME_KEY, out string theme))
             {
-                viewLocations = new[]
+                var locations = new HashSet<string>();
+                foreach (string location in viewLocations)
                 {
-                    $"/Areas/{{2}}/Themes/{theme}/Views/{{1}}/{{0}}.cshtml",
-                    $"/Areas/{{2}}/Themes/{theme}/Views/Shared/{{0}}.cshtml",
-                    $"/Themes/{theme}/Views/{{1}}/{{0}}.cshtml",
-                    $"/Themes/{theme}/Views/Shared/{{0}}.cshtml",
+                    if (location.StartsWith("~"))
+                    {
+                        locations.Add($"~/Themes/{theme}{location.Replace("~", string.Empty)}");
+                    }
+                    else
+                    {
+                        locations.Add($"/Themes/{theme}{location}");
+                    }
+
+                    locations.Add(location);
                 }
-                .Concat(viewLocations);
+                return locations;
             }
 
             return viewLocations;

@@ -13,8 +13,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/Shared/{0}.cshtml",
                 };
@@ -27,8 +25,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/Shared/{0}.cshtml",
                 };
@@ -41,8 +37,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Mantle.Web.ContentManagement/Areas/{2}/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Areas/{2}/Shared/{0}.cshtml",
                 };
@@ -55,8 +49,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Shared/{0}.cshtml",
                 };
@@ -69,8 +61,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Shared/{0}.cshtml",
                 };
@@ -83,8 +73,6 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Mantle.Web.ContentManagement/Views/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.ContentManagement/Shared/{0}.cshtml",
                 };
