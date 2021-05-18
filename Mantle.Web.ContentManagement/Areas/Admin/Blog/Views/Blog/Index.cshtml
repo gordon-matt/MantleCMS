@@ -73,6 +73,7 @@
                                         </span>
                                         @Html.MantleCMS().BlogCategoryDropDownList(
                                             "CategoryId",
+                                            emptyText: T[MantleWebLocalizableStrings.General.SelectOption],
                                             htmlAttributes: new Dictionary<string, object>
                                             {
                                                 { "class", "form-control" },

@@ -13,10 +13,8 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -27,10 +25,8 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -41,10 +37,8 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{3}/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Areas/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/{1}/{0}.cshtml",
+                    "~/Views/Mantle.Web.Common/Areas/{2}/Shared/{0}.cshtml",
                 };
             }
         }
@@ -55,8 +49,6 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                 };
@@ -69,8 +61,6 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                 };
@@ -83,8 +73,6 @@ namespace Mantle.Web.Common.Infrastructure
             {
                 return new[]
                 {
-                    "~/Themes/{2}/Views/Mantle.Web.Common/{1}/{0}.cshtml",
-                    "~/Themes/{2}/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/{1}/{0}.cshtml",
                     "~/Views/Mantle.Web.Common/Shared/{0}.cshtml",
                 };
