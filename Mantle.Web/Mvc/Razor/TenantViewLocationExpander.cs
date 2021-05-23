@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Extenso;
 using Mantle.Infrastructure;
 using Mantle.Web.Configuration;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -27,6 +28,14 @@ namespace Mantle.Web.Mvc.Razor
                 var locations = new HashSet<string>();
                 foreach (string location in viewLocations)
                 {
+                    string viewName = location.Replace(".cshtml", string.Empty).RightOfLastIndexOf('/');
+                    if (viewName.Contains('.'))
+                    {
+                        // Embedded View, so don't add theme name for now.. but we should probably support doing so in future..
+                        locations.Add(location);
+                        continue;
+                    }
+
                     if (location.StartsWith("~"))
                     {
                         locations.Add($"~/Themes/{theme}{location.Replace("~", string.Empty)}");
