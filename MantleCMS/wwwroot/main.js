@@ -10,8 +10,9 @@ export function configure(aurelia) {
         .standardConfiguration()
         .developmentLogging()
         //.plugin(PLATFORM.moduleName('aurelia-kendoui-bridge'))
-        .plugin(PLATFORM.moduleName('aurelia-tinymce-wrapper'));
+        .plugin(PLATFORM.moduleName('aurelia-tinymce-wrapper'))
         //.plugin('aurelia-animator-css')
+        //.feature('resources');
         //.globalResources([
         //    PLATFORM.moduleName('/aurelia-app/shared/loading-indicator')
         //]);

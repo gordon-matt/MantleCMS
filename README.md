@@ -38,7 +38,7 @@ As a 1 man team, you'll find my CMS is not quite as featured as many of the comm
 ### JSPM
 
 1. If not already installed, install [NodeJS](https://nodejs.org/en/download/)
-2. Install JSPM globally: `npm install -g jspm`
+2. Install JSPM globally: `npm install -g jspm@0.16.55`
 3. Clone/download this project
 4. Restore JSPM packages: `jspm install`
 > **NOTE:** Do this from the root directory of the project (**MantleCMS**) (not the solution root)

@@ -25,7 +25,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">
             @Html.Label("BodyContent", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent], new { @class = "control-label" })
-            <tiny-mce theme="silver" content.bind="pageVersionModel.bodyContent" options.bind="pageVersionModel.tinyMCE_bodyContent"></tiny-mce>
+            <tiny-mce theme="silver" content.two-way="pageVersionModel.bodyContent" options.bind="pageVersionModel.tinyMCEOptions"></tiny-mce>
         </div>
     </div>
 </div>
@@ -57,14 +57,14 @@
             }
 
             // TODO: Find a better solution
-            pageVersionModel.tinyMCE_bodyContent = pageVersionModel.parent.mantleAdvancedTinyMCEConfig;
+            pageVersionModel.tinyMCEOptions = pageVersionModel.parent.mantleAdvancedTinyMCEConfig;
         };
         f.cleanUp = function (pageVersionModel) {
             delete pageVersionModel.metaTitle;
             delete pageVersionModel.metaKeywords;
             delete pageVersionModel.metaDescription;
             delete pageVersionModel.bodyContent;
-            delete pageVersionModel.tinyMCE_bodyContent;
+            delete pageVersionModel.tinyMCEOptions;
         };
         f.onBeforeSave = function (pageVersionModel) {
             var data = {
