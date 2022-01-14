@@ -6,9 +6,11 @@ using Mantle.Infrastructure;
 using Mantle.Plugins;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Plugins.Models;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Logging;
 
 namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api

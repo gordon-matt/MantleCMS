@@ -1,17 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Mantle.Localization</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.1" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Infrastructure.Abstractions\Mantle.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Tenants.Abstractions\Mantle.Tenants.Abstractions.csproj" />
   </ItemGroup>
-
 </Project>

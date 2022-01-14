@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.OData;
+﻿using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {

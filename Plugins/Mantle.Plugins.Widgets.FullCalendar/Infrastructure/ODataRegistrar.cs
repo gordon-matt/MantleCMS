@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;
-using Mantle.Web.Infrastructure;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 {
@@ -11,13 +9,13 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
     {
         #region IODataRegistrar Members
 
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Calendar>("CalendarApi");
             builder.EntitySet<CalendarEvent>("CalendarEventApi");
 
-            routes.MapODataServiceRoute("OData_Mantle_Plugin_FullCalendar", "odata/Mantle/plugins/full-calendar", builder.GetEdmModel());
+            options.AddRouteComponents("odata/Mantle/plugins/full-calendar", builder.GetEdmModel());
         }
 
         #endregion IODataRegistrar Members

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Autofac;
+using Extenso.AspNetCore.OData;
 using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
@@ -19,9 +19,7 @@ using Mantle.Web.Tenants;
 using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
-using MantleCMS.Options;
 using MantleCMS.Services;
-using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,19 +30,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using Pchp.Core;
 
 namespace MantleCMS
 {
@@ -64,7 +61,7 @@ namespace MantleCMS
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets<Startup>();
+                builder.AddUserSecrets<Startup>(optional: true);
 
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
@@ -165,14 +162,22 @@ namespace MantleCMS
 
             services.AddMantleLocalization();
 
-            services.AddOData();
-
-            var mvcBuilder = services.AddMvc(options =>
+            services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false; // For OData (until they support endpoint routing)
             })
-            .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
-            .AddRazorRuntimeCompilation();
+            .AddNewtonsoftJson(jsonOptions => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
+            .AddRazorRuntimeCompilation()
+            .AddOData((options, serviceProvider) =>
+            {
+                options.Select().Expand().Filter().OrderBy().SetMaxTop(null).Count();
+
+                var registrars = serviceProvider.GetRequiredService<IEnumerable<IODataRegistrar>>();
+                foreach (var registrar in registrars)
+                {
+                    registrar.Register(options);
+                }
+            });
 
             services.AddResponsiveFileManager(options =>
             {
@@ -353,15 +358,6 @@ namespace MantleCMS
 
             app.UseMvc(routes =>
             {
-                // Enable all OData functions
-                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
-
-                var registrars = EngineContext.Current.ResolveAll<IODataRegistrar>();
-                foreach (var registrar in registrars)
-                {
-                    registrar.Register(routes, app.ApplicationServices);
-                }
-
                 var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
                 routePublisher.RegisterRoutes(routes);
 

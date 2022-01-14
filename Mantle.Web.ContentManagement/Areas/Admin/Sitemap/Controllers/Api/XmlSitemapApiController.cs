@@ -14,10 +14,10 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Extenso.AspNetCore.Mvc.Rendering;
+using Extenso.AspNetCore.OData;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins;

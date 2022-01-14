@@ -4,8 +4,8 @@ using Extenso.Data.Entity;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Tasks.Domain;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.Extensions.Logging;
 using MantleTask = Mantle.Tasks.Task;
 

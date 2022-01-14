@@ -5,8 +5,8 @@ using Mantle.Caching;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
 {

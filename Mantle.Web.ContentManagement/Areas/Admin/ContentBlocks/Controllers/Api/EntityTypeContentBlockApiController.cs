@@ -8,8 +8,8 @@ using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api
 {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Localization.Domain;
 using Mantle.Logging.Domain;
 using Mantle.Security.Membership;
@@ -9,10 +9,9 @@ using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.Areas.Admin.Membership.Controllers.Api;
 using Mantle.Web.Areas.Admin.Plugins.Models;
 using Mantle.Web.Configuration.Domain;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Web.Infrastructure
 {
@@ -20,9 +19,9 @@ namespace Mantle.Web.Infrastructure
     {
         #region IODataRegistrar Members
 
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
 
             // Configuration
             builder.EntitySet<Setting>("SettingsApi");
@@ -58,7 +57,7 @@ namespace Mantle.Web.Infrastructure
             RegisterScheduledTaskODataActions(builder);
             RegisterThemeODataActions(builder);
 
-            routes.MapODataServiceRoute("OData_Mantle_Web", "odata/mantle/web", builder.GetEdmModel());
+            options.AddRouteComponents("odata/mantle/web", builder.GetEdmModel());
         }
 
         #endregion IODataRegistrar Members

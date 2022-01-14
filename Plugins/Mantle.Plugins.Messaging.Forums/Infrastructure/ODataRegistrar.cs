@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
-using Mantle.Web.Infrastructure;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure
 {
@@ -11,13 +9,13 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
     {
         #region IODataRegistrar Members
 
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Forum>("ForumApi");
             builder.EntitySet<ForumGroup>("ForumGroupApi");
 
-            routes.MapODataServiceRoute("OData_Mantle_Plugin_Forums", "odata/Mantle/plugins/forums", builder.GetEdmModel());
+            options.AddRouteComponents("odata/Mantle/plugins/forums", builder.GetEdmModel());
         }
 
         #endregion IODataRegistrar Members

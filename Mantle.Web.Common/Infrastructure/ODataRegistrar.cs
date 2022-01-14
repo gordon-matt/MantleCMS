@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
-using Mantle.Web.Infrastructure;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Web.Common.Infrastructure
 {
@@ -13,16 +11,16 @@ namespace Mantle.Web.Common.Infrastructure
     {
         #region IODataRegistrar Members
 
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Region>("RegionApi");
             builder.EntitySet<RegionSettings>("RegionSettingsApi");
 
             RegisterRegionODataActions(builder);
             RegisterRegionSettingsODataActions(builder);
 
-            routes.MapODataServiceRoute("OData_Kore_Common", "odata/mantle/common", builder.GetEdmModel());
+            options.AddRouteComponents("odata/mantle/common", builder.GetEdmModel());
         }
 
         private static void RegisterRegionODataActions(ODataModelBuilder builder)
