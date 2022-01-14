@@ -1,4 +1,5 @@
 ﻿using System;
+using Extenso.AspNetCore.OData;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
@@ -8,10 +9,10 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Mantle.Web.Infrastructure;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
 {
@@ -19,9 +20,9 @@ namespace Mantle.Web.ContentManagement.Infrastructure
     {
         #region IODataRegistrar Members
 
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
 
             // Blog
             builder.EntitySet<BlogCategory>("BlogCategoryApi");
@@ -55,7 +56,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             RegisterPageVersionODataActions(builder);
             RegisterXmlSitemapODataActions(builder);
 
-            routes.MapODataServiceRoute("OData_Mantle_CMS", "odata/mantle/cms", builder.GetEdmModel());
+            options.AddRouteComponents("odata/mantle/cms", builder.GetEdmModel());
         }
 
         #endregion IODataRegistrar Members

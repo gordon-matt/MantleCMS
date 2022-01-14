@@ -8,8 +8,8 @@ using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Media;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers.Api
 {

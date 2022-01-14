@@ -7,9 +7,10 @@ using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Mvc.KendoUI;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
 {

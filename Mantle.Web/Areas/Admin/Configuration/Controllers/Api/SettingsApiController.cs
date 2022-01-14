@@ -6,8 +6,9 @@ using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
 {

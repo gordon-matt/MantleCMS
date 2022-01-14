@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Extenso.Collections;
 using Extenso.Data.Entity;
 using Mantle.Caching;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership.Permissions;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
