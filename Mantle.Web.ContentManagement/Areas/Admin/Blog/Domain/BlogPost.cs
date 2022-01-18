@@ -7,13 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 {
-    public class BlogPost : ITenantEntity
+    public class BlogPost : TenantEntity<Guid>
     {
         private ICollection<BlogPostTag> tags;
-
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
 
         public string UserId { get; set; }
 
@@ -46,15 +42,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
             get { return tags ?? (tags = new HashSet<BlogPostTag>()); }
             set { tags = value; }
         }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class PostMap : IEntityTypeConfiguration<BlogPost>, IMantleEntityTypeConfiguration

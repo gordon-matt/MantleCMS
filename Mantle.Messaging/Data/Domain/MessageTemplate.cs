@@ -6,12 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Messaging.Data.Domain
 {
-    public class MessageTemplate : ITenantEntity
+    public class MessageTemplate : TenantEntity<int>
     {
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string Name { get; set; }
 
         public string Editor { get; set; }
@@ -19,15 +15,6 @@ namespace Mantle.Messaging.Data.Domain
         public Guid? OwnerId { get; set; }
 
         public bool Enabled { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class MessageTemplateMap : IEntityTypeConfiguration<MessageTemplate>, IMantleEntityTypeConfiguration

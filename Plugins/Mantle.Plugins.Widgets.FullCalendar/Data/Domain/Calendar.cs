@@ -6,13 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Data.Domain
 {
-    public class Calendar : ITenantEntity
+    public class Calendar : TenantEntity<int>
     {
         private ICollection<CalendarEvent> events;
-
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
 
         public string Name { get; set; }
 
@@ -21,15 +17,6 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Data.Domain
             get { return events ?? (events = new HashSet<CalendarEvent>()); }
             set { events = value; }
         }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class CalendarMap : IEntityTypeConfiguration<Calendar>, IMantleEntityTypeConfiguration

@@ -4,11 +4,8 @@ using Extenso.Data.Entity;
 namespace Mantle.Localization.Domain
 {
     [DataContract]
-    public class LocalizableProperty : IEntity
+    public class LocalizableProperty : BaseEntity<int>
     {
-        [DataMember]
-        public int Id { get; set; }
-
         [DataMember]
         public string CultureCode { get; set; }
 
@@ -23,14 +20,5 @@ namespace Mantle.Localization.Domain
 
         [DataMember]
         public string Value { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 }

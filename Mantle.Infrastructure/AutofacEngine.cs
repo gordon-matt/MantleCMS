@@ -77,29 +77,6 @@ namespace Mantle.Infrastructure
             return ServiceProvider;
         }
 
-        /// <summary>
-        /// Configure HTTP request pipeline
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public virtual void ConfigureRequestPipeline(IApplicationBuilder application)
-        {
-            //find startup configurations provided by other assemblies
-            var typeFinder = Resolve<ITypeFinder>();
-            var startupConfigurations = typeFinder.FindClassesOfType<IMantleStartup>();
-
-            //create and sort instances of startup configurations
-            var instances = startupConfigurations
-                .Where(startup => PluginManager.FindPlugin(startup)?.Installed ?? true) //ignore not installed plugins
-                .Select(startup => (IMantleStartup)Activator.CreateInstance(startup))
-                .OrderBy(startup => startup.Order);
-
-            //configure request pipeline
-            foreach (var instance in instances)
-            {
-                instance.Configure(application);
-            }
-        }
-
         public virtual T Resolve<T>() where T : class
         {
             return containerManager.Resolve<T>();

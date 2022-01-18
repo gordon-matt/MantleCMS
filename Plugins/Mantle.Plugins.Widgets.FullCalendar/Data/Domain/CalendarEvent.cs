@@ -1,16 +1,13 @@
 ﻿using System;
 using Extenso.Data.Entity;
-using Mantle.Data;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Data.Domain
 {
-    public class CalendarEvent : IEntity
+    public class CalendarEvent : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         public int CalendarId { get; set; }
 
         public string Name { get; set; }
@@ -20,15 +17,6 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Data.Domain
         public DateTime EndDateTime { get; set; }
 
         public virtual Calendar Calendar { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class CalendarEntryMap : IEntityTypeConfiguration<CalendarEvent>, IMantleEntityTypeConfiguration

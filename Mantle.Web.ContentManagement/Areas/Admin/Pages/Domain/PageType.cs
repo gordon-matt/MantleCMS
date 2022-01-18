@@ -6,22 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
 {
-    public class PageType : IEntity
+    public class PageType : BaseEntity<Guid>
     {
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
 
         public string LayoutPath { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class PageTypeMap : IEntityTypeConfiguration<PageType>, IMantleEntityTypeConfiguration

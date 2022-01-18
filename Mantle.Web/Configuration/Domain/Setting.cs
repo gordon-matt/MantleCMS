@@ -6,12 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Configuration.Domain
 {
-    public class Setting : ITenantEntity
+    public class Setting : TenantEntity<Guid>
     {
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         /// <summary>
         /// Gets or sets the name
         /// </summary>
@@ -23,15 +19,6 @@ namespace Mantle.Web.Configuration.Domain
         /// Gets or sets the value
         /// </summary>
         public string Value { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
 
         public override string ToString()
         {
