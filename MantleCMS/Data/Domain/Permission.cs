@@ -6,26 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MantleCMS.Data.Domain
 {
-    public class Permission : ITenantEntity
+    public class Permission : TenantEntity<int>
     {
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string Name { get; set; }
 
         public string Category { get; set; }
 
         public string Description { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
 
         public virtual ICollection<RolePermission> RolesPermissions { get; set; }
     }

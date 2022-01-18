@@ -5,26 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MantleCMS.Data.Domain
 {
-    public class UserProfileEntry : ITenantEntity
+    public class UserProfileEntry : TenantEntity<int>
     {
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string UserId { get; set; }
 
         public string Key { get; set; }
 
         public string Value { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class UserProfileEntryMap : IEntityTypeConfiguration<UserProfileEntry>, IMantleEntityTypeConfiguration

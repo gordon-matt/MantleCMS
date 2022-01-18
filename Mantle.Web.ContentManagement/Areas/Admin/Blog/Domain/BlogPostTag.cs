@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 
         #region IEntity Members
 
+        [IgnoreDataMember]
         public object[] KeyValues
         {
             get { return new object[] { PostId, TagId }; }

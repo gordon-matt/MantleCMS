@@ -6,24 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
 {
-    public class Menu : ITenantEntity
+    public class Menu : TenantEntity<Guid>
     {
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string Name { get; set; }
 
         public string UrlFilter { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class MenuMap : IEntityTypeConfiguration<Menu>, IMantleEntityTypeConfiguration

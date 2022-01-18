@@ -53,7 +53,6 @@ namespace Mantle.Infrastructure
                 throw new ArgumentNullException(nameof(containerBuilder));
             }
 
-            var engine = EngineContext.Create(new AutofacEngine());
 
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -70,7 +69,10 @@ namespace Mantle.Infrastructure
             PluginManager.Initialize(partManager, hostingEnvironment, options);
 
             var configuration = provider.GetService<IConfigurationRoot>();
+
+            var engine = new AutofacEngine();
             var serviceProvider = engine.ConfigureServices(containerBuilder, configuration);
+            EngineContext.Create(engine);
 
             //// TODO: This should not be here. Find somewhere else to put it.. problem is making sure it's after engine context has been initialized above.
             ////if (DataSettingsHelper.IsDatabaseInstalled && FrameworkConfigurationSection.Instance.ScheduledTasks.Enabled)

@@ -8,18 +8,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
 {
     [DataContract]
-    public class SitemapConfig : ITenantEntity
+    public class SitemapConfig : TenantEntity<int>
     {
         public SitemapConfig()
         {
             Priority = .5f;
         }
-
-        [DataMember]
-        public int Id { get; set; }
-
-        [IgnoreDataMember]
-        public int? TenantId { get; set; }
 
         [DataMember]
         public Guid PageId { get; set; }
@@ -29,15 +23,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
 
         [DataMember]
         public float Priority { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class SitemapConfigMap : IEntityTypeConfiguration<SitemapConfig>, IMantleEntityTypeConfiguration

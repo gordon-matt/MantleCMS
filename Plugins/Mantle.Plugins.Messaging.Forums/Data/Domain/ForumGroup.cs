@@ -7,13 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Messaging.Forums.Data.Domain
 {
-    public class ForumGroup : ITenantEntity
+    public class ForumGroup : TenantEntity<int>
     {
         private ICollection<Forum> forums;
-
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
 
         public string Name { get; set; }
 
@@ -28,15 +24,6 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
             get { return forums ?? (forums = new List<Forum>()); }
             protected set { forums = value; }
         }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class ForumGroupMap : IEntityTypeConfiguration<ForumGroup>, IMantleEntityTypeConfiguration

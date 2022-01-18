@@ -5,14 +5,8 @@ using Mantle.Tenants.Domain;
 namespace Mantle.Localization.Domain
 {
     [DataContract]
-    public class Language : ITenantEntity
+    public class Language : TenantEntity<Guid>
     {
-        [DataMember]
-        public Guid Id { get; set; }
-
-        [DataMember]
-        public int? TenantId { get; set; }
-
         [DataMember]
         public string Name { get; set; }
 
@@ -27,14 +21,5 @@ namespace Mantle.Localization.Domain
 
         [DataMember]
         public int SortOrder { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 }

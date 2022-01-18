@@ -6,4 +6,9 @@ namespace Mantle.Tenants.Domain
     {
         int? TenantId { get; set; }
     }
+
+    public class TenantEntity<T> : BaseEntity<T>, ITenantEntity
+    {
+        public int? TenantId { get; set; }
+    }
 }
