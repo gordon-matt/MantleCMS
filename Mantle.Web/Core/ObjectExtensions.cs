@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Dynamic;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Mantle.Web
 {

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
+using Extenso.AspNetCore.OData;
 using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
@@ -19,12 +14,7 @@ using Mantle.Web.Tenants;
 using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
-using MantleCMS.Options;
 using MantleCMS.Services;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -32,19 +22,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using NLog;
-using NLog.Targets;
-using NLog.Targets.Wrappers;
-using Pchp.Core;
+using System.Globalization;
 
 namespace MantleCMS
 {
@@ -165,14 +149,21 @@ namespace MantleCMS
 
             services.AddMantleLocalization();
 
-            services.AddOData();
+            var mvcBuilder = services.AddControllersWithViews()
+                .AddOData((options, serviceProvider) =>
+                {
+                    options.Select().Expand().Filter().OrderBy().SetMaxTop(null).Count();
 
-            var mvcBuilder = services.AddMvc(options =>
-            {
-                options.EnableEndpointRouting = false; // For OData (until they support endpoint routing)
-            })
-            .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
-            .AddRazorRuntimeCompilation();
+                    var registrars = serviceProvider.GetRequiredService<IEnumerable<IODataRegistrar>>();
+                    foreach (var registrar in registrars)
+                    {
+                        registrar.Register(options);
+                    }
+                })
+                .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
+                .AddRazorRuntimeCompilation();
+
+            services.AddRazorPages();
 
             services.AddResponsiveFileManager(options =>
             {
@@ -351,27 +342,47 @@ namespace MantleCMS
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
-            app.UseMvc(routes =>
-            {
-                // Enable all OData functions
-                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
+            //app.UseMvc(routes =>
+            //{
+            //    var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
+            //    routePublisher.RegisterRoutes(routes);
 
-                var registrars = EngineContext.Current.ResolveAll<IODataRegistrar>();
-                foreach (var registrar in registrars)
-                {
-                    registrar.Register(routes, app.ApplicationServices);
-                }
+            //    //routes.MapRoute(
+            //    //    name: "areaRoute",
+            //    //    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+            //    //routes.MapRoute(
+            //    //    name: "default",
+            //    //    template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            // Use odata route debug, /$odata
+            app.UseODataRouteDebug();
+
+            // If you want to use /$openapi, enable the middleware.
+            //app.UseODataOpenApi();
+
+            // Add OData /$query middleware
+            app.UseODataQueryRequest();
+
+            // Add the OData Batch middleware to support OData $Batch
+            //app.UseODataBatching();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
 
                 var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
-                routePublisher.RegisterRoutes(routes);
-
-                //routes.MapRoute(
-                //    name: "areaRoute",
-                //    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                //routes.MapRoute(
-                //    name: "default",
-                //    template: "{controller=Home}/{action=Index}/{id?}");
+                routePublisher.RegisterRoutes(endpoints);
             });
 
             // If you want to dispose of resources that have been resolved in the
@@ -404,25 +415,26 @@ namespace MantleCMS
         {
             try
             {
-                var target = LogManager.Configuration.FindTargetByName("database");
+                //TODO
+                //var target = LogManager.Configuration.FindTargetByName("database");
 
-                DatabaseTarget databaseTarget = null;
-                var wrapperTarget = target as WrapperTargetBase;
+                //DatabaseTarget databaseTarget = null;
+                //var wrapperTarget = target as WrapperTargetBase;
 
-                // Unwrap the target if necessary.
-                if (wrapperTarget == null)
-                {
-                    databaseTarget = target as DatabaseTarget;
-                }
-                else
-                {
-                    databaseTarget = wrapperTarget.WrappedTarget as DatabaseTarget;
-                }
+                //// Unwrap the target if necessary.
+                //if (wrapperTarget == null)
+                //{
+                //    databaseTarget = target as DatabaseTarget;
+                //}
+                //else
+                //{
+                //    databaseTarget = wrapperTarget.WrappedTarget as DatabaseTarget;
+                //}
 
-                //databaseTarget.DBProvider = "Npgsql"; // If using other provider...
+                ////databaseTarget.DBProvider = "Npgsql"; // If using other provider...
 
-                var dataSettings = EngineContext.Current.Resolve<DataSettings>();
-                databaseTarget.ConnectionString = dataSettings.ConnectionString;
+                //var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+                //databaseTarget.ConnectionString = dataSettings.ConnectionString;
             }
             catch { }
         }

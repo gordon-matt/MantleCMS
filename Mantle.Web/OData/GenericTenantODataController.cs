@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Data.Services;
 using Mantle.Infrastructure;
 using Mantle.Security.Membership.Permissions;

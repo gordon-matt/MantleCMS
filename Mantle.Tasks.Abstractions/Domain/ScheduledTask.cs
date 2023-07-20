@@ -1,5 +1,4 @@
-﻿using System;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 
 namespace Mantle.Tasks.Domain
 {

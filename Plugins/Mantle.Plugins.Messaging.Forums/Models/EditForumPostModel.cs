@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Mantle.Plugins.Messaging.Forums.Data.Domain;
+﻿using Mantle.Plugins.Messaging.Forums.Data.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mantle.Plugins.Messaging.Forums.Models
 {

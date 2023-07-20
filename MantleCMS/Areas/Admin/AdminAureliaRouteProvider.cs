@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Web;
+﻿using Mantle.Web;
 using Mantle.Web.Infrastructure;
 
 namespace MantleCMS.Areas.Admin

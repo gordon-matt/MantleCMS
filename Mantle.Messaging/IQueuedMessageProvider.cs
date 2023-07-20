@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Messaging
+﻿namespace Mantle.Messaging
 {
     public interface IQueuedMessageProvider
     {

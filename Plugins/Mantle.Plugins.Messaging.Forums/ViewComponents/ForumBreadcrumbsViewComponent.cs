@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mantle.Plugins.Messaging.Forums.Data.Domain;
+﻿using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Mantle.Plugins.Messaging.Forums.Services;

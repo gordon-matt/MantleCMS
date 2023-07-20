@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Areas.Admin.Localization.Models
+﻿namespace Mantle.Web.Areas.Admin.Localization.Models
 {
     public class LanguagePackFile
     {

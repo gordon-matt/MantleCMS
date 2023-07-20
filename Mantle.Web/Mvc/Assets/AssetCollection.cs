@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Mvc.Assets
+﻿namespace Mantle.Web.Mvc.Assets
 {
     public class AssetCollection
     {

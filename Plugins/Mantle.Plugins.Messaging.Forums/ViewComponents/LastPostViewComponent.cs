@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Mantle.Plugins.Messaging.Forums.Extensions;
+﻿using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Security.Membership;

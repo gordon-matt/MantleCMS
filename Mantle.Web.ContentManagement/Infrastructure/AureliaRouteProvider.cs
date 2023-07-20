@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Microsoft.Extensions.Localization;
 
@@ -92,7 +91,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
                     Title = "HTML Block"
                 });
 
-                #endregion
+                #endregion Content Blocks
 
                 return routes;
             }

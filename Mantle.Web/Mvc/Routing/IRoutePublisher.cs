@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Plugins;
 using Microsoft.AspNetCore.Routing;
 
@@ -9,7 +6,7 @@ namespace Mantle.Web.Mvc.Routing
 {
     public interface IRoutePublisher
     {
-        void RegisterRoutes(IRouteBuilder routeCollection);
+        void RegisterRoutes(IEndpointRouteBuilder endpoints);
     }
 
     public class RoutePublisher : IRoutePublisher
@@ -44,7 +41,7 @@ namespace Mantle.Web.Mvc.Routing
             return null;
         }
 
-        public virtual void RegisterRoutes(IRouteBuilder routes)
+        public virtual void RegisterRoutes(IEndpointRouteBuilder endpoints)
         {
             var routeProviderTypes = typeFinder.FindClassesOfType<IRouteProvider>();
             var routeProviders = new List<IRouteProvider>();
@@ -63,7 +60,7 @@ namespace Mantle.Web.Mvc.Routing
             }
 
             routeProviders = routeProviders.OrderByDescending(rp => rp.Priority).ToList();
-            routeProviders.ForEach(rp => rp.RegisterRoutes(routes));
+            routeProviders.ForEach(rp => rp.RegisterRoutes(endpoints));
         }
     }
 }

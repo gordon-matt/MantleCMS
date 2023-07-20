@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Extenso.Collections;
-using Mantle.Security.Membership;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
+﻿using Mantle.Security.Membership;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
 {

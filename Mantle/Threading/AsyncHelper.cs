@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Mantle.Threading
+﻿namespace Mantle.Threading
 {
     // Taken from:
     // http://www.symbolsource.org/MyGet/Metadata/aspnetwebstacknightly/Project/Microsoft.AspNet.Identity.Core/2.0.0-beta1-140203/Release/Default/Microsoft.AspNet.Identity.Core/Microsoft.AspNet.Identity.Core/AsyncHelper.cs?ImageName=Microsoft.AspNet.Identity.Core

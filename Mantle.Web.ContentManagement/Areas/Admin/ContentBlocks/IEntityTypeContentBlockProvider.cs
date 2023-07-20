@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks

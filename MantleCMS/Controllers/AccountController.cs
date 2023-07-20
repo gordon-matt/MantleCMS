@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Mantle.Identity;
+﻿using Mantle.Identity;
 using Mantle.Identity.Models.AccountViewModels;
 using Mantle.Identity.Services;
 using Mantle.Security.Membership;
@@ -10,7 +7,6 @@ using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace MantleCMS.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Extenso.AspNetCore.Mvc.Rendering;
+﻿using Extenso.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web.Mvc.MantleUI

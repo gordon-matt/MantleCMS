@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle
+﻿namespace Mantle
 {
     public static class ArgumentHelper
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Tasks.Domain;
 using Mantle.Tasks.Services;
 using Microsoft.Extensions.Logging;

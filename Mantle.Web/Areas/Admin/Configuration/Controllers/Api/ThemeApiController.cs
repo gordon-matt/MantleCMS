@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Extenso.Collections;
-using Mantle.Security.Membership.Permissions;
+﻿using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;
 using Mantle.Web.Mvc.Themes;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
 {

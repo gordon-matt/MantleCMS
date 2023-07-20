@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Mantle.Infrastructure
+﻿namespace Mantle.Infrastructure
 {
     /// <summary>
     /// A statically compiled "singleton" used to store objects throughout the

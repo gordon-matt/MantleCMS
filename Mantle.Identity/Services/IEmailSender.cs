@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Mantle.Identity.Services
+﻿namespace Mantle.Identity.Services
 {
     public interface IEmailSender
     {

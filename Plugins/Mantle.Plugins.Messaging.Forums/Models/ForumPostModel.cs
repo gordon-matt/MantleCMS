@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Plugins.Messaging.Forums.Models
+﻿namespace Mantle.Plugins.Messaging.Forums.Models
 {
     public class ForumPostModel
     {

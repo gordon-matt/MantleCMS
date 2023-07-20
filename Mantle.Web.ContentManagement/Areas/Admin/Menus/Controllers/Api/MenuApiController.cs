@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Security.Membership.Permissions;
+﻿using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
 using Mantle.Web.OData;

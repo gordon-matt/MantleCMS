@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Mantle.Localization.Domain;
+﻿using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Messaging.Data.Domain;
+﻿using Mantle.Messaging.Data.Domain;
 using Mantle.Messaging.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;

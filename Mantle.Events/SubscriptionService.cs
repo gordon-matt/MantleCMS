@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 
 namespace Mantle.Events
 {

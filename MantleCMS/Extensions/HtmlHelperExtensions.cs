@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Extenso.AspNetCore.Mvc.Rendering;
+﻿using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using Microsoft.AspNetCore.Html;

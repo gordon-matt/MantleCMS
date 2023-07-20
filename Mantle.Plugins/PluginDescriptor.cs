@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Mantle.Plugins
 {

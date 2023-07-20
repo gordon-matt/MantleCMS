@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Messaging.Data.Domain;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Messaging.Controllers.Api
 {

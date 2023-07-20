@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Security.Membership;
+﻿using Mantle.Security.Membership;
 using Mantle.Threading;
 using Microsoft.AspNetCore.Http;
 

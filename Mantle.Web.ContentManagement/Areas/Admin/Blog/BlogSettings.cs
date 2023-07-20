@@ -28,7 +28,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog
 
         [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.MenuPosition)]
         public byte MenuPosition { get; set; }
-        
+
         [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.AccessRestrictions)]
         public string AccessRestrictions { get; set; }
 

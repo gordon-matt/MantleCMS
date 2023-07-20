@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Mantle.Plugins.Messaging.Forums.Data.Domain;
+﻿using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mantle.Plugins.Messaging.Forums.Models
 {

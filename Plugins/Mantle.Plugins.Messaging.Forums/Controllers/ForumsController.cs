@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Mantle.Exceptions;
+﻿using Mantle.Exceptions;
 using Mantle.Helpers;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Plugins.Messaging.Forums.Extensions;
@@ -813,7 +808,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("topic/create-post")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> TopicCreatePost(EditForumTopicModel model)
         {
             if (!forumSettings.ForumsEnabled)
@@ -993,7 +987,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("topic/edit-post")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> TopicEditPost(EditForumTopicModel model)
         {
             if (!forumSettings.ForumsEnabled)
@@ -1135,7 +1128,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("topic/save")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> TopicSave(EditForumTopicModel model)
         {
             if (model.IsEdit)
@@ -1267,7 +1259,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("post/create-post")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> PostCreatePost(EditForumPostModel model)
         {
             if (!forumSettings.ForumsEnabled)
@@ -1444,7 +1435,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("post/edit-post")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> PostEditPost(EditForumPostModel model)
         {
             if (!forumSettings.ForumsEnabled)
@@ -1557,7 +1547,6 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [HttpPost]
         //[FrontendAntiForgery]
         [Route("post/save")]
-        //[ValidateInput(false)]
         public async Task<IActionResult> PostSave(EditForumPostModel model)
         {
             if (model.IsEdit)

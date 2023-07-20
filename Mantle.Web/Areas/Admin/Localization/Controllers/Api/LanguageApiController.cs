@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Mantle.Caching;
+﻿using Mantle.Caching;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
 using LanguageEntity = Mantle.Localization.Domain.Language;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api

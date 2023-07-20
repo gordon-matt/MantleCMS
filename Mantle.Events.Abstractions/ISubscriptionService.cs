@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Events
+﻿namespace Mantle.Events
 {
     /// <summary>
     /// Event subscription service

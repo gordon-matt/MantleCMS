@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 namespace Mantle.Caching
 {

@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <Authors>Matt Gordon</Authors>
     <Company />
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -9,9 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.90" />
-    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="5.0.0" />
-    <PackageReference Include="Npgsql" Version="5.0.5" />
+    <PackageReference Include="Dapper" Version="2.0.143" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="7.0.0" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>

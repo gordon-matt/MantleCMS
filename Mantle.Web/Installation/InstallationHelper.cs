@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-using Extenso.Data.Common;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.Models;

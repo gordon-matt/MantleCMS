@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Extenso.Data.Entity;
+using Extenso.Data.QueryBuilder;
 using System.Data;
 using System.Data.SqlClient;
-using Extenso.Data.Entity;
-using Extenso.Data.QueryBuilder;
 
 namespace Mantle.Data.Dapper
 {

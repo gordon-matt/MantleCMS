@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Mantle.Localization.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mantle.Web.Configuration
 {
