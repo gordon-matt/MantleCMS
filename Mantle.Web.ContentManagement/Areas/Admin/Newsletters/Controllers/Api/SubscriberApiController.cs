@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Extenso.Collections;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Security.Membership;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Security.Membership;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers.Api
 {

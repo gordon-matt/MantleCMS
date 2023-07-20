@@ -1,5 +1,4 @@
-﻿using System;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Localization.ComponentModel;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks

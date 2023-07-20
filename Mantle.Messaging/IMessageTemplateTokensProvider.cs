@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Messaging
+﻿namespace Mantle.Web.Messaging
 {
     public interface IMessageTemplateTokensProvider
     {

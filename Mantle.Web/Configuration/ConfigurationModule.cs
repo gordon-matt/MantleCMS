@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
 using Mantle.Web.Configuration.Services;
+using System.Reflection;
 using Module = Autofac.Module;
 
 namespace Mantle.Web.Configuration

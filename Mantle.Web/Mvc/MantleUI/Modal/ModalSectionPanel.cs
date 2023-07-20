@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Mantle.Web.Mvc.MantleUI.Providers;
+﻿using Mantle.Web.Mvc.MantleUI.Providers;
 using Microsoft.AspNetCore.Html;
 
 namespace Mantle.Web.Mvc.MantleUI

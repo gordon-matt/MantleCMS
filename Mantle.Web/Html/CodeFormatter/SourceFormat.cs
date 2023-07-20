@@ -22,8 +22,6 @@
 
 #endregion Copyright © 2001-2003 Jean-Claude Manoli [jc@manoli.net]
 
-using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;

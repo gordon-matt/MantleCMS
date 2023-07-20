@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Helpers;
 using Mantle.Plugins;
@@ -9,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace Mantle.Infrastructure
 {

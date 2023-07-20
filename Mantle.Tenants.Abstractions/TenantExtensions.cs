@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Mantle.Tenants.Domain;
+﻿using Mantle.Tenants.Domain;
 
 namespace Mantle.Tenants
 {

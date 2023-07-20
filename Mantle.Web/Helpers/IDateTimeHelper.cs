@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Mantle.Security.Membership;
 using System.Collections.ObjectModel;
-using Mantle.Security.Membership;
 
 namespace Mantle.Web.Helpers
 {

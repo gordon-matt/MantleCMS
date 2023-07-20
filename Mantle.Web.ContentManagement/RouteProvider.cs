@@ -5,10 +5,10 @@ namespace Mantle.Web.ContentManagement
 {
     public class RouteProvider : IRouteProvider
     {
-        public void RegisterRoutes(IRouteBuilder routes)
+        public void RegisterRoutes(IEndpointRouteBuilder endpoints)
         {
             // register CMS pages route
-            //routes.MapRoute(
+            //endpoints.MapRoute(
             //    name: "CmsRoute",
             //    template: "{*slug}",
             //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }

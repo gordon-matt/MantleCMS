@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using Dapper;
+﻿using Dapper;
 using Extenso.Data.Entity;
 using Extenso.Data.QueryBuilder;
 using Mantle.Data.Dapper.Attributes;
+using System.Data;
+using System.Reflection;
 
 namespace Mantle.Data.Dapper
 {

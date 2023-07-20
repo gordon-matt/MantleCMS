@@ -1,7 +1,6 @@
-﻿using System;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
+using System.Reflection;
 
 namespace Mantle.Data.Dapper.Infrastructure
 {

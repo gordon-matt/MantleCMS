@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Mvc.KendoUI;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
 {
@@ -46,7 +43,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpGet]
-        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri]string settingsId, [FromODataUri] int regionId)
+        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri] string settingsId, [FromODataUri] int regionId)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {

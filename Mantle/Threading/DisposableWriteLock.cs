@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Mantle.Threading
+﻿namespace Mantle.Threading
 {
     /// <summary>
     /// Provides a convenience methodology for implementing locked access to resources.

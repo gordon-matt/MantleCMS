@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Microsoft.Extensions.Localization;
 
 namespace Mantle.Localization.ComponentModel

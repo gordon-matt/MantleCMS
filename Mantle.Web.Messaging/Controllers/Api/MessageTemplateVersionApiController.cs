@@ -1,11 +1,9 @@
-﻿using System;
-using Mantle.Messaging.Data.Domain;
+﻿using Mantle.Messaging.Data.Domain;
 using Mantle.Messaging.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Messaging.Controllers.Api
 {

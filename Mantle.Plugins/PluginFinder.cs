@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Mantle.Events;
+﻿using Mantle.Events;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Events;
 using Mantle.Security.Membership;

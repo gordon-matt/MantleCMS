@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Extenso.AspNetCore.OData;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Security.Membership.Permissions;

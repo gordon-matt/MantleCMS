@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using Mantle.Web.Messaging.Configuration;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
-using Mantle.Web.Messaging.Configuration;
 
 namespace Mantle.Web.Messaging.Services
 {

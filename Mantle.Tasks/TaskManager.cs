@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Tasks.Services;
+using System.Collections.ObjectModel;
 
 namespace Mantle.Tasks
 {

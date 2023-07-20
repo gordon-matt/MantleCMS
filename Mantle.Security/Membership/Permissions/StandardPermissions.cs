@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Security.Membership.Permissions
+﻿namespace Mantle.Security.Membership.Permissions
 {
     public class StandardPermissions : IPermissionProvider
     {

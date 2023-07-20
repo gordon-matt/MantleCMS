@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mantle.Events;
+﻿using Mantle.Events;
 using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Threading;

@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Microsoft.Extensions.FileProviders;
+using System.Reflection;
 
 namespace Mantle.Web.Mvc.EmbeddedResources
 {

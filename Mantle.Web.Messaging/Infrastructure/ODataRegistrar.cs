@@ -1,17 +1,15 @@
-﻿using System;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Messaging.Data.Domain;
-using Mantle.Web.Infrastructure;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Web.Messaging.Infrastructure
 {
     public class ODataRegistrar : IODataRegistrar
     {
-        public void Register(IRouteBuilder routes, IServiceProvider services)
+        public void Register(ODataOptions options)
         {
-            ODataModelBuilder builder = new ODataConventionModelBuilder(services);
+            ODataModelBuilder builder = new ODataConventionModelBuilder();
 
             builder.EntitySet<MessageTemplate>("MessageTemplateApi");
             builder.EntitySet<MessageTemplateVersion>("MessageTemplateVersionApi");
@@ -20,7 +18,7 @@ namespace Mantle.Web.Messaging.Infrastructure
             RegisterMessageTemplateODataActions(builder);
             RegisterMessageTemplateVersionODataActions(builder);
 
-            routes.MapODataServiceRoute("OData_Mantle_Web_Messaging", "odata/mantle/web/messaging", builder.GetEdmModel());
+            options.AddRouteComponents("odata/mantle/web/messaging", builder.GetEdmModel());
         }
 
         private static void RegisterMessageTemplateODataActions(ODataModelBuilder builder)

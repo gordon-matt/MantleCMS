@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mantle.Web.Mvc.Resources
 {

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using Dapper;
 using System.Reflection;
-using Dapper;
 
 namespace Mantle.Data.Dapper
 {

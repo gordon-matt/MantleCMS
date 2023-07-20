@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Web.Mvc.MantleUI.Providers;
+﻿using Mantle.Web.Mvc.MantleUI.Providers;
 
 namespace Mantle.Web.Mvc.MantleUI
 {

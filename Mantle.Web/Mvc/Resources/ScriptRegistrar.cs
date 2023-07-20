@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Extenso.AspNetCore.Mvc.Html;
+﻿using Extenso.AspNetCore.Mvc.Html;
 using Extenso.AspNetCore.Mvc.Rendering;
 using Mantle.Infrastructure;
 using Mantle.Web.IO;

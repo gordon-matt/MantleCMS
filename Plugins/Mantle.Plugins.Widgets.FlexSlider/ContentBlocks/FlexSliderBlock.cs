@@ -1,7 +1,7 @@
-﻿using System.Text;
-using Mantle.Localization.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Microsoft.AspNetCore.Html;
+using System.Text;
 
 namespace Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
 {

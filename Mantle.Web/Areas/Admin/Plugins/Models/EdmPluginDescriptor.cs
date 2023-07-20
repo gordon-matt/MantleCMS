@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mantle.Plugins;
+﻿using Mantle.Plugins;
 
 namespace Mantle.Web.Areas.Admin.Plugins.Models
 {

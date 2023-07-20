@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Html;
+﻿using Microsoft.AspNetCore.Html;
 
 namespace Mantle.Web.Mvc.MantleUI
 {

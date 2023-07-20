@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership;
 using Mantle.Threading;

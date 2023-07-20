@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Caching;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Domain;
 using Mantle.Web.OData;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
 {

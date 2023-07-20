@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Microsoft.AspNetCore.Mvc;
 

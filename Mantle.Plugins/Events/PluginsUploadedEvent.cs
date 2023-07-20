@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Plugins.Events
+﻿namespace Mantle.Plugins.Events
 {
     /// <summary>
     /// Plugins uploaded event

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Models
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Media.Models
 {
     public class MediaFile
     {

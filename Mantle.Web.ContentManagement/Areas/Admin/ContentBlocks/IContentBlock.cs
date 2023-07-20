@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 {
     public interface IContentBlock
     {

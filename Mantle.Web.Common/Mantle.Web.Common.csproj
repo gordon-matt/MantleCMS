@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.Common</AssemblyName>
     <PackageId>Mantle.Web.Common</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -30,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="5.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

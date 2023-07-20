@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Caching;
+﻿using Mantle.Caching;
 using Microsoft.AspNetCore.Http;
 
 namespace Mantle.Web.Localization
