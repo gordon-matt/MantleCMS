@@ -5,22 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
 {
-    public class Zone : ITenantEntity
+    public class Zone : TenantEntity<Guid>
     {
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string Name { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class ZoneMap : IEntityTypeConfiguration<Zone>, IMantleEntityTypeConfiguration

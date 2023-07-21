@@ -203,32 +203,32 @@ namespace MantleCMS.Controllers
         #region User Profile
 
         [Route("profile/{userId}")]
-        public override async Task<ActionResult> ViewProfile(string userId)
+        public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> ViewProfile(string userId)
         {
             return await base.ViewProfile(userId);
         }
 
         [Route("my-profile")]
-        public override async Task<ActionResult> ViewMyProfile()
+        public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> ViewMyProfile()
         {
             return await base.ViewMyProfile();
         }
 
         [Route("profile/edit/{userId}/")]
-        public override async Task<ActionResult> EditProfile(string userId)
+        public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> EditProfile(string userId)
         {
             return await base.EditProfile(userId);
         }
 
         [Route("my-profile/edit")]
-        public override async Task<ActionResult> EditMyProfile()
+        public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> EditMyProfile()
         {
             return await base.EditMyProfile();
         }
 
         [HttpPost]
         [Route("update-profile")]
-        public override async Task<ActionResult> UpdateProfile()
+        public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> UpdateProfile()
         {
             return await base.UpdateProfile();
         }

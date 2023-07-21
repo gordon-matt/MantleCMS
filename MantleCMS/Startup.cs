@@ -1,4 +1,5 @@
-﻿using Autofac;
+using System.Globalization;
+using Autofac;
 using Extenso.AspNetCore.OData;
 using Extenso.Collections;
 using Mantle.Identity.Services;
@@ -28,7 +29,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace MantleCMS
 {
@@ -48,7 +48,7 @@ namespace MantleCMS
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets<Startup>();
+                builder.AddUserSecrets<Startup>(optional: true);
 
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
@@ -65,8 +65,6 @@ namespace MantleCMS
         public IConfigurationRoot Configuration { get; }
 
         public IWebHostEnvironment WebHostEnvironment { get; private set; }
-
-        public IServiceProvider ServiceProvider { get; private set; }
 
         #endregion Properties
 
@@ -149,7 +147,9 @@ namespace MantleCMS
 
             services.AddMantleLocalization();
 
-            var mvcBuilder = services.AddControllersWithViews()
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(jsonOptions => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
+                .AddRazorRuntimeCompilation()
                 .AddOData((options, serviceProvider) =>
                 {
                     options.Select().Expand().Filter().OrderBy().SetMaxTop(null).Count();
@@ -159,9 +159,7 @@ namespace MantleCMS
                     {
                         registrar.Register(options);
                     }
-                })
-                .AddNewtonsoftJson((jsonOptions) => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
-                .AddRazorRuntimeCompilation();
+                });
 
             services.AddRazorPages();
 
@@ -255,10 +253,7 @@ namespace MantleCMS
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            IHostApplicationLifetime appLifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -335,27 +330,6 @@ namespace MantleCMS
                     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
                 });
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseMultitenancy<Tenant>();
-
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
-            //app.UseMvc(routes =>
-            //{
-            //    var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
-            //    routePublisher.RegisterRoutes(routes);
-
-            //    //routes.MapRoute(
-            //    //    name: "areaRoute",
-            //    //    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-            //    //routes.MapRoute(
-            //    //    name: "default",
-            //    //    template: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
             // Use odata route debug, /$odata
             app.UseODataRouteDebug();
 
@@ -373,8 +347,16 @@ namespace MantleCMS
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMultitenancy<Tenant>();
+
+            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -382,7 +364,7 @@ namespace MantleCMS
                 endpoints.MapRazorPages();
 
                 var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
-                routePublisher.RegisterRoutes(endpoints);
+                routePublisher.RegisterEndpoints(endpoints);
             });
 
             // If you want to dispose of resources that have been resolved in the
@@ -392,23 +374,10 @@ namespace MantleCMS
             ConfigureNLog();
         }
 
-        private JsonSerializerSettings ConfigureJsonSerializerSettings(MvcNewtonsoftJsonOptions options)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
-            if (WebHostEnvironment.IsDevelopment())
-            {
-                // Make JSON easier to read for debugging at the expense of larger payloads
-                options.SerializerSettings.Formatting = Formatting.Indented;
-            }
-
-            // Omit nulls to reduce payload size
-            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-
-            options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-
-            // Explicitly define behavior when serializing DateTime values
-            options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
-
-            return options.SerializerSettings;
+            // Add extra registrations here, if needed...
+            //  But it's better to use IDependencyRegistrar
         }
 
         private static void ConfigureNLog()
@@ -439,10 +408,23 @@ namespace MantleCMS
             catch { }
         }
 
-        public void ConfigureContainer(ContainerBuilder builder)
+        private JsonSerializerSettings ConfigureJsonSerializerSettings(MvcNewtonsoftJsonOptions options)
         {
-            // Add extra registrations here, if needed...
-            //  But it's better to use IDependencyRegistrar
+            if (WebHostEnvironment.IsDevelopment())
+            {
+                // Make JSON easier to read for debugging at the expense of larger payloads
+                options.SerializerSettings.Formatting = Formatting.Indented;
+            }
+
+            // Omit nulls to reduce payload size
+            options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
+            options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
+
+            // Explicitly define behavior when serializing DateTime values
+            options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssK";   // Only return DateTimes to a 1 second precision
+
+            return options.SerializerSettings;
         }
     }
 }

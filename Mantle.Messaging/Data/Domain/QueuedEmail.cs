@@ -6,12 +6,8 @@ using System.Net.Mail;
 
 namespace Mantle.Messaging.Data.Domain
 {
-    public class QueuedEmail : ITenantEntity, IMailMessage
+    public class QueuedEmail : TenantEntity<Guid>, IMailMessage
     {
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         /// <summary>
         /// Gets or sets the priority
         /// </summary>
@@ -58,15 +54,6 @@ namespace Mantle.Messaging.Data.Domain
         /// Gets or sets the sent date and time
         /// </summary>
         public DateTime? SentOnUtc { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
 
         #region IMailMessage Members
 

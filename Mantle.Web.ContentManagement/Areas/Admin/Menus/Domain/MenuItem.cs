@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
 {
-    public class MenuItem : IEntity
+    public class MenuItem : BaseEntity<Guid>
     {
-        public Guid Id { get; set; }
-
         public Guid MenuId { get; set; }
 
         public string Text { get; set; }
@@ -32,15 +30,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
         //public virtual Menu Menu { get; set; }
 
         //public virtual MenuItem Parent { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
 
         public override string ToString()
         {

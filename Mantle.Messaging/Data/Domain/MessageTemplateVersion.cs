@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Messaging.Data.Domain
 {
-    public class MessageTemplateVersion : IEntity
+    public class MessageTemplateVersion : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         public int MessageTemplateId { get; set; }
 
         public string CultureCode { get; set; }
@@ -22,15 +20,6 @@ namespace Mantle.Messaging.Data.Domain
         public DateTime DateModifiedUtc { get; set; }
 
         public virtual MessageTemplate MessageTemplate { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class MessageTemplateVersionMap : IEntityTypeConfiguration<MessageTemplateVersion>, IMantleEntityTypeConfiguration

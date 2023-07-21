@@ -1,7 +1,3 @@
-﻿using Autofac;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-
 namespace Mantle.Infrastructure
 {
     /// <summary>
@@ -10,20 +6,6 @@ namespace Mantle.Infrastructure
     /// </summary>
     public interface IEngine
     {
-        /// <summary>
-        /// Add and configure services
-        /// </summary>
-        /// <param name="containerBuilder">Container Builder</param>
-        /// <param name="configuration">Configuration root of the application</param>
-        /// <returns>Service provider</returns>
-        IServiceProvider ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration);
-
-        /// <summary>
-        /// Configure HTTP request pipeline
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        void ConfigureRequestPipeline(IApplicationBuilder application);
-
         T Resolve<T>() where T : class;
 
         T Resolve<T>(IDictionary<string, object> ctorArgs) where T : class;

@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
 {
-    public class PageVersion : ITenantEntity
+    public class PageVersion : TenantEntity<Guid>
     {
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public Guid PageId { get; set; }
 
         public string CultureCode { get; set; }
@@ -28,15 +24,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
         public string Fields { get; set; }
 
         public virtual Page Page { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public enum VersionStatus : byte

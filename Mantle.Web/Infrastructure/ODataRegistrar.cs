@@ -57,6 +57,9 @@ namespace Mantle.Web.Infrastructure
             RegisterScheduledTaskODataActions(builder);
             RegisterThemeODataActions(builder);
 
+            builder.EntityType<Language>().HasKey(x => x.Id);
+            builder.EntityType<LocalizableString>().HasKey(x => x.Id);
+
             options.AddRouteComponents("odata/mantle/web", builder.GetEdmModel());
         }
 
@@ -118,13 +121,9 @@ namespace Mantle.Web.Infrastructure
 
         private static void RegisterThemeODataActions(ODataModelBuilder builder)
         {
-            var setDesktopThemeAction = builder.EntityType<EdmThemeConfiguration>().Collection.Action("SetDesktopTheme");
+            var setDesktopThemeAction = builder.EntityType<EdmThemeConfiguration>().Collection.Action("SetTheme");
             setDesktopThemeAction.Parameter<string>("themeName");
             setDesktopThemeAction.Returns<IActionResult>();
-
-            var setMobileThemeAction = builder.EntityType<EdmThemeConfiguration>().Collection.Action("SetMobileTheme");
-            setMobileThemeAction.Parameter<string>("themeName");
-            setMobileThemeAction.Returns<IActionResult>();
         }
 
         private static void RegisterLanguageODataActions(ODataModelBuilder builder)

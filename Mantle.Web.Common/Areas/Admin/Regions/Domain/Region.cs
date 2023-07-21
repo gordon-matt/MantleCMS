@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
 {
-    public class Region : ITenantEntity
+    public class Region : TenantEntity<int>
     {
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public string Name { get; set; }
 
         /// <summary>
@@ -31,15 +27,6 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Domain
         public virtual Region Parent { get; set; }
 
         public virtual ICollection<Region> Children { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class RegionMap : IEntityTypeConfiguration<Region>, IMantleEntityTypeConfiguration

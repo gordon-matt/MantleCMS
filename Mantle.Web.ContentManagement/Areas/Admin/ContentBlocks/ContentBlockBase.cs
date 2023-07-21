@@ -3,11 +3,9 @@ using Mantle.Localization.ComponentModel;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 {
-    public abstract class ContentBlockBase : IEntity, IContentBlock
+    public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
     {
         #region IContentBlock Members
-
-        public Guid Id { get; set; }
 
         public string Title { get; set; }
 
@@ -36,14 +34,5 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
         public abstract string EditorTemplatePath { get; }
 
         #endregion IContentBlock Members
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 }
