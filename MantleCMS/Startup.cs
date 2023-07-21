@@ -147,7 +147,7 @@ namespace MantleCMS
 
             services.AddMantleLocalization();
 
-            services.AddControllersWithViews()
+            var mvcBuilder = services.AddControllersWithViews()
                 .AddNewtonsoftJson(jsonOptions => services.AddSingleton(ConfigureJsonSerializerSettings(jsonOptions)))
                 .AddRazorRuntimeCompilation()
                 .AddOData((options, serviceProvider) =>
@@ -160,6 +160,12 @@ namespace MantleCMS
                         registrar.Register(options);
                     }
                 });
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
+            foreach (var assembly in assemblies)
+            {
+                mvcBuilder.AddApplicationPart(assembly);
+            }
 
             services.AddRazorPages();
 
