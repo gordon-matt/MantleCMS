@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Localization
+﻿namespace Mantle.Localization
 {
     public interface ILanguagePack
     {

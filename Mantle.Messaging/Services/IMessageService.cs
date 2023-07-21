@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Caching;
 using Mantle.Data.Services;
 using Mantle.Messaging.Data.Domain;
+using System.Net.Mail;
+using System.Text;
 
 namespace Mantle.Messaging.Services
 {

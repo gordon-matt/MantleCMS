@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Microsoft.Extensions.Localization;
+using System.ComponentModel;
 
 namespace Mantle.Localization.ComponentModel
 {

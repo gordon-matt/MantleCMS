@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mantle.Identity.Services;
+﻿using Mantle.Identity.Services;
 
 namespace MantleCMS.Services
 {

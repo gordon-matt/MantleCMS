@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Mantle.Localization.ComponentModel;
+﻿using Mantle.Localization.ComponentModel;
 using Mantle.Web.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mantle.Plugins.Caching.Redis
 {

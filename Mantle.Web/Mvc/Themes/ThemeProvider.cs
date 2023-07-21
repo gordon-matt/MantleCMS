@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Mantle.Helpers;
+﻿using Mantle.Helpers;
 
 namespace Mantle.Web.Mvc.Themes
 {

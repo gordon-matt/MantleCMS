@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Localization.Domain;
 using Mantle.Localization.Services;

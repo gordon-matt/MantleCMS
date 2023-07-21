@@ -1,5 +1,5 @@
-﻿using System.Net.Mail;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
 {

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Mantle.Web.Mvc.EmbeddedResources
 {
     public class EmbeddedResourceTable

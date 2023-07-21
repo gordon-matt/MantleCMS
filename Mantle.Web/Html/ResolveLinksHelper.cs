@@ -1,6 +1,5 @@
 // Taken from nopCommerce v3.7
 
-using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 

@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.FileProviders;
 using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Extensions.FileProviders;
 
 namespace Mantle.Web.Mvc.EmbeddedResources
 {

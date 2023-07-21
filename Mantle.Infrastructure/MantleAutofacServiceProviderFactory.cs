@@ -1,14 +1,15 @@
-﻿using System;
-using System.Net;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Helpers;
+using Mantle.Infrastructure.Configuration;
 using Mantle.Plugins;
 using Mantle.Plugins.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Reflection;
 
 namespace Mantle.Infrastructure
 {
@@ -73,6 +74,13 @@ namespace Mantle.Infrastructure
             var engine = new AutofacEngine();
             var serviceProvider = engine.ConfigureServices(containerBuilder, configuration);
             EngineContext.Create(engine);
+
+            var options1 = provider.GetService<MantleInfrastructureOptions>();
+            //run startup tasks
+            if (!options1.IgnoreStartupTasks)
+            {
+                engine.RunStartupTasks();
+            }
 
             //// TODO: This should not be here. Find somewhere else to put it.. problem is making sure it's after engine context has been initialized above.
             ////if (DataSettingsHelper.IsDatabaseInstalled && FrameworkConfigurationSection.Instance.ScheduledTasks.Enabled)

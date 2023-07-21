@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Mantle.Data.Entity;
+﻿using Mantle.Data.Entity;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Runtime.Serialization;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
 {

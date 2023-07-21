@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Web.Mvc.MantleUI.Providers;
+﻿using Mantle.Web.Mvc.MantleUI.Providers;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

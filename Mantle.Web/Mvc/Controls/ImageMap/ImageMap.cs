@@ -1,9 +1,9 @@
 ﻿//No license, but credit to Richard Lee:
 //http://www.avantprime.com/blog/9/asp-net-mvc-image-map-helper
 
-using System.Text;
 using Extenso.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 
 namespace Mantle.Web.Mvc.Controls
 {

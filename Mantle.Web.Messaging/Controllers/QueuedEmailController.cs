@@ -32,7 +32,6 @@ namespace Mantle.Web.Messaging.Controllers
         {
             return Json(new
             {
-
                 gridPageSize = SiteSettings.Value.DefaultGridPageSize,
                 translations = new
                 {

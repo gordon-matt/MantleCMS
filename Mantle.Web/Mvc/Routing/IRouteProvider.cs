@@ -4,7 +4,7 @@ namespace Mantle.Web.Mvc.Routing
 {
     public interface IRouteProvider
     {
-        void RegisterRoutes(IRouteBuilder routes);
+        void RegisterRoutes(IEndpointRouteBuilder endpoints);
 
         void RegisterEndpoints(IEndpointRouteBuilder endpoints);
 

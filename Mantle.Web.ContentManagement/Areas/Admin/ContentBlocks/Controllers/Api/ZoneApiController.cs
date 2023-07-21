@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Security.Membership.Permissions;
+﻿using Mantle.Security.Membership.Permissions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.OData;

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Mantle.Tenants.Domain;
 using System.Runtime.Serialization;
-using Mantle.Tenants.Domain;
 
 namespace Mantle.Localization.Domain
 {

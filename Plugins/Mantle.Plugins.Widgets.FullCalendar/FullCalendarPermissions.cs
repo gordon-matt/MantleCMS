@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Security.Membership.Permissions;
+﻿using Mantle.Security.Membership.Permissions;
 
 namespace Mantle.Plugins.Widgets.FullCalendar
 {

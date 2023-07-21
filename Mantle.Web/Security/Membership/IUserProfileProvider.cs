@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Security.Membership
+﻿namespace Mantle.Web.Security.Membership
 {
     public interface IUserProfileProvider
     {

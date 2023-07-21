@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Caching;
 using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Security.Membership.Permissions;
@@ -30,7 +28,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
         {
         }
 
-        public override async Task<IActionResult> Put(int key, [FromBody]Forum entity)
+        public override async Task<IActionResult> Put(int key, [FromBody] Forum entity)
         {
             // Client does not send all fields, so we get existing and update only the fields that are sent from the client...
             var originalEntity = await Service.FindOneAsync(key);
@@ -43,7 +41,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers.Api
             return await base.Put(key, originalEntity);
         }
 
-        public override async Task<IActionResult> Post([FromBody]Forum entity)
+        public override async Task<IActionResult> Post([FromBody] Forum entity)
         {
             entity.CreatedOnUtc = DateTime.UtcNow;
             entity.UpdatedOnUtc = DateTime.UtcNow;

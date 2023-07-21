@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using System.Security.Principal;
-using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
 {

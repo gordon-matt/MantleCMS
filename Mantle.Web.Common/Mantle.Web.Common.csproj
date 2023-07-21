@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.Common</AssemblyName>
     <PackageId>Mantle.Web.Common</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -11,9 +13,11 @@
     <Authors>Matt Gordon</Authors>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Regions\Content\Images\WorldMap.jpg" />
     <EmbeddedResource Include="Areas\Admin\Regions\Scripts\city-model.js" />
@@ -25,17 +29,18 @@
     <EmbeddedResource Include="Areas\Admin\Regions\Scripts\state-model.js" />
     <EmbeddedResource Include="Areas\Admin\Regions\Views\Region\Index.cshtml" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="Areas\Admin\Regions\Scripts\index.js">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -50,4 +55,5 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
 </Project>

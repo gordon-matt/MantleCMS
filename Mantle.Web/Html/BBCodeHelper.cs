@@ -1,8 +1,7 @@
 ﻿// Taken from nopCommerce v3.7
 
-using System;
-using System.Text.RegularExpressions;
 using Mantle.Web.Html.CodeFormatter;
+using System.Text.RegularExpressions;
 
 namespace Mantle.Web.Html
 {

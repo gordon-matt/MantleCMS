@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-using Extenso.Data.Common;
-using Extenso.Data.Entity;
+﻿using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Web.Models;
@@ -15,12 +11,12 @@ namespace Mantle.Web.Installation
         /// <summary>
         /// {0}: Server, {1}: Database, {2}: User, {3}: Password
         /// </summary>
-        private static string ConnectionStringFormat = @"Server={0};Initial Catalog={1};User={2};Password={3};Persist Security Info=True;MultipleActiveResultSets=True";
+        private static string ConnectionStringFormat = @"Server={0};Initial Catalog={1};User={2};Password={3};Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
         /// <summary>
         /// {0}: Server, {1}: Database
         /// </summary>
-        private static string ConnectionStringWAFormat = @"Server={0};Initial Catalog={1};Integrated Security=True;Persist Security Info=True;MultipleActiveResultSets=True";
+        private static string ConnectionStringWAFormat = @"Server={0};Initial Catalog={1};Integrated Security=True;Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
         public static void Install<TContext>(InstallationModel model) where TContext : DbContext, ISupportSeed
         {

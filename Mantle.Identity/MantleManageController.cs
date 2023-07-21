@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Mantle.Identity.Domain;
+﻿using Mantle.Identity.Domain;
 using Mantle.Identity.Models.ManageViewModels;
 using Mantle.Identity.Services;
 using Mantle.Web.Configuration;
@@ -12,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Mantle.Identity
 {

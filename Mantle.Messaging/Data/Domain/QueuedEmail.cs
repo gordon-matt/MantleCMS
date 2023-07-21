@@ -1,9 +1,8 @@
-﻿using System;
-using System.Net.Mail;
-using Mantle.Data.Entity;
+﻿using Mantle.Data.Entity;
 using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Net.Mail;
 
 namespace Mantle.Messaging.Data.Domain
 {

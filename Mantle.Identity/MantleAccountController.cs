@@ -1,9 +1,5 @@
 ﻿//TODO: Review all of this and replace some code with membershipService, same as in Mantle
 
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Mantle.Identity.Domain;
 using Mantle.Identity.Models.AccountViewModels;
 using Mantle.Identity.Services;
@@ -18,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace Mantle.Identity
 {

@@ -1,9 +1,9 @@
-﻿using System.Text;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Plugins.Messaging.Forums.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
+using System.Text;
 
 namespace Mantle.Plugins.Messaging.Forums.Extensions
 {

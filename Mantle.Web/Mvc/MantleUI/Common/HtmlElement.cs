@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Mantle.Web.Mvc.MantleUI.Providers;
+﻿using Mantle.Web.Mvc.MantleUI.Providers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Mantle.Web.Mvc.MantleUI

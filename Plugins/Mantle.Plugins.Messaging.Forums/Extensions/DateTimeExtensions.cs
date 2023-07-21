@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Web.Helpers;
 
 namespace Mantle.Plugins.Messaging.Forums.Extensions

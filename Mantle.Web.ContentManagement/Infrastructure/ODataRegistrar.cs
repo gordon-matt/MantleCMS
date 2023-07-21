@@ -1,5 +1,5 @@
-﻿using System;
 using Extenso.AspNetCore.OData;
+using Mantle.Localization.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
@@ -8,10 +8,8 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
-using Mantle.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.OData.ModelBuilder;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
@@ -55,6 +53,8 @@ namespace Mantle.Web.ContentManagement.Infrastructure
             RegisterPageODataActions(builder);
             RegisterPageVersionODataActions(builder);
             RegisterXmlSitemapODataActions(builder);
+
+            builder.EntityType<SitemapConfig>().HasKey(x => x.Id);
 
             options.AddRouteComponents("odata/mantle/cms", builder.GetEdmModel());
         }

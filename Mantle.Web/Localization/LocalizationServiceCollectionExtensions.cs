@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Web.Localization;
+﻿using Mantle.Web.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.ContentBlocks
 {

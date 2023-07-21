@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MantleCMS.Models
+﻿namespace MantleCMS.Models
 {
     public struct RequireJsConfig
     {
