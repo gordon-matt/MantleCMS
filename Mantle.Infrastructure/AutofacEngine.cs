@@ -58,13 +58,6 @@ namespace Mantle.Infrastructure
             //register dependencies
             RegisterDependencies(containerBuilder, typeFinder);
 
-            var options = ServiceProvider.GetService<MantleInfrastructureOptions>();
-            //run startup tasks
-            if (!options.IgnoreStartupTasks)
-            {
-                RunStartupTasks(typeFinder);
-            }
-
             //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
@@ -72,29 +65,6 @@ namespace Mantle.Infrastructure
             AppDomain.CurrentDomain.SetData("DataDirectory", CommonHelper.MapPath("~/App_Data/"));
 
             return ServiceProvider;
-        }
-
-        /// <summary>
-        /// Configure HTTP request pipeline
-        /// </summary>
-        /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public virtual void ConfigureRequestPipeline(IApplicationBuilder application)
-        {
-            //find startup configurations provided by other assemblies
-            var typeFinder = Resolve<ITypeFinder>();
-            var startupConfigurations = typeFinder.FindClassesOfType<IMantleStartup>();
-
-            //create and sort instances of startup configurations
-            var instances = startupConfigurations
-                .Where(startup => PluginManager.FindPlugin(startup)?.Installed ?? true) //ignore not installed plugins
-                .Select(startup => (IMantleStartup)Activator.CreateInstance(startup))
-                .OrderBy(startup => startup.Order);
-
-            //configure request pipeline
-            foreach (var instance in instances)
-            {
-                instance.Configure(application);
-            }
         }
 
         public virtual T Resolve<T>() where T : class
@@ -202,12 +172,14 @@ namespace Mantle.Infrastructure
         /// Run startup tasks
         /// </summary>
         /// <param name="typeFinder">Type finder</param>
-        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
+        internal virtual void RunStartupTasks()
         {
             if (!DataSettingsHelper.IsDatabaseInstalled)
             {
                 return;
             }
+
+            var typeFinder = Resolve<ITypeFinder>();
 
             //find startup tasks provided by other assemblies
             var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();

@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Configuration.Domain
 {
-    public class GenericAttribute : IEntity
+    public class GenericAttribute : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         public string EntityType { get; set; }
 
         public string EntityId { get; set; }
@@ -16,15 +14,6 @@ namespace Mantle.Web.Configuration.Domain
         public string Property { get; set; }
 
         public string Value { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class GenericAttributeMap : IEntityTypeConfiguration<GenericAttribute>, IMantleEntityTypeConfiguration

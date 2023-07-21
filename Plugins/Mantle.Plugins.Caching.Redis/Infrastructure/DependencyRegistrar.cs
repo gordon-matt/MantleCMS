@@ -7,7 +7,7 @@ namespace Mantle.Plugins.Caching.Redis.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

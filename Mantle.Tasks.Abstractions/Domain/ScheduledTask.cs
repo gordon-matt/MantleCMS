@@ -2,10 +2,8 @@
 
 namespace Mantle.Tasks.Domain
 {
-    public class ScheduledTask : IEntity
+    public class ScheduledTask : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name
         /// </summary>
@@ -36,14 +34,5 @@ namespace Mantle.Tasks.Domain
         public DateTime? LastEndUtc { get; set; }
 
         public DateTime? LastSuccessUtc { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 }

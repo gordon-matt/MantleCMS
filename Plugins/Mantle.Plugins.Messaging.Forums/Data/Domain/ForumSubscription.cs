@@ -1,14 +1,12 @@
-﻿using Extenso.Data.Entity;
+using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Messaging.Forums.Data.Domain
 {
-    public class ForumSubscription : IEntity
+    public class ForumSubscription : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         public string UserId { get; set; }
 
         public int ForumId { get; set; }
@@ -16,15 +14,6 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
         public int TopicId { get; set; }
 
         public DateTime CreatedOnUtc { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class ForumSubscriptionMap : IEntityTypeConfiguration<ForumSubscription>, IMantleEntityTypeConfiguration

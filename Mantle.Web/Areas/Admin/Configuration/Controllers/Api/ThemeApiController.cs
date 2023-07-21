@@ -1,4 +1,4 @@
-﻿using Mantle.Security.Membership.Permissions;
+using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Configuration.Services;

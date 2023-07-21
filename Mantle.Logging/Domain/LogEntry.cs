@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Logging.Domain
 {
-    public class LogEntry : ITenantEntity
+    public class LogEntry : TenantEntity<int>
     {
-        public int Id { get; set; }
-
-        public int? TenantId { get; set; }
-
         public DateTime EventDateTime { get; set; }
 
         public string EventLevel { get; set; }
@@ -30,15 +26,6 @@ namespace Mantle.Logging.Domain
         public string ErrorMessage { get; set; }
 
         public string InnerErrorMessage { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class LogEntryMap : IEntityTypeConfiguration<LogEntry>, IMantleEntityTypeConfiguration

@@ -6,6 +6,8 @@ namespace Mantle.Web.Mvc.Routing
     {
         void RegisterRoutes(IEndpointRouteBuilder endpoints);
 
+        void RegisterEndpoints(IEndpointRouteBuilder endpoints);
+
         int Priority { get; }
     }
 }

@@ -4,14 +4,8 @@ using System.Runtime.Serialization;
 namespace Mantle.Localization.Domain
 {
     [DataContract]
-    public class LocalizableString : ITenantEntity
+    public class LocalizableString : TenantEntity<Guid>
     {
-        [DataMember]
-        public Guid Id { get; set; }
-
-        [DataMember]
-        public int? TenantId { get; set; }
-
         [DataMember]
         public string CultureCode { get; set; }
 
@@ -20,14 +14,5 @@ namespace Mantle.Localization.Domain
 
         [DataMember]
         public string TextValue { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 }

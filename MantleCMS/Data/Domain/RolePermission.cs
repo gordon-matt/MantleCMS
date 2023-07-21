@@ -1,4 +1,5 @@
-﻿using Extenso.Data.Entity;
+﻿using System.Runtime.Serialization;
+using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -13,6 +14,7 @@ namespace MantleCMS.Data.Domain
 
         #region IEntity Members
 
+        [IgnoreDataMember]
         public object[] KeyValues
         {
             get { return new object[] { Permission, RoleId }; }

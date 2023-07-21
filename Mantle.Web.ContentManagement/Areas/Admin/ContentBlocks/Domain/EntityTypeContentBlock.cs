@@ -5,10 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
 {
-    public class EntityTypeContentBlock : IEntity
+    public class EntityTypeContentBlock : BaseEntity<Guid>
     {
-        public Guid Id { get; set; }
-
         public string EntityType { get; set; }
 
         public string EntityId { get; set; }
@@ -28,15 +26,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain
         public string BlockValues { get; set; }
 
         public string CustomTemplatePath { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class EntityTypeContentBlockMap : IEntityTypeConfiguration<EntityTypeContentBlock>, IMantleEntityTypeConfiguration

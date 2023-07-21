@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
 {
-    public class Page : ITenantEntity
+    public class Page : TenantEntity<Guid>
     {
         private ICollection<PageVersion> versions;
-
-        public Guid Id { get; set; }
-
-        public int? TenantId { get; set; }
 
         public Guid? ParentId { get; set; }
 
@@ -32,15 +28,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain
             get { return versions ?? (versions = new HashSet<PageVersion>()); }
             set { versions = value; }
         }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class PageMap : IEntityTypeConfiguration<Page>, IMantleEntityTypeConfiguration

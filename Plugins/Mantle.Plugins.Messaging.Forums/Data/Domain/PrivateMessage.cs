@@ -1,14 +1,12 @@
-﻿using Extenso.Data.Entity;
+using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Messaging.Forums.Data.Domain
 {
-    public class PrivateMessage : IEntity
+    public class PrivateMessage : BaseEntity<int>
     {
-        public int Id { get; set; }
-
         //public int TenantId { get; set; }
 
         public string FromUserId { get; set; }
@@ -26,15 +24,6 @@ namespace Mantle.Plugins.Messaging.Forums.Data.Domain
         public bool IsDeletedByRecipient { get; set; }
 
         public DateTime CreatedOnUtc { get; set; }
-
-        #region IEntity Members
-
-        public object[] KeyValues
-        {
-            get { return new object[] { Id }; }
-        }
-
-        #endregion IEntity Members
     }
 
     public class PrivateMessageMap : IEntityTypeConfiguration<PrivateMessage>, IMantleEntityTypeConfiguration

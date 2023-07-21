@@ -90,7 +90,7 @@ namespace MantleCMS.Extensions
                     .EndTag(); // </li>
             }
 
-            return new HtmlString(tagBuiler.ToString());
+            return new Microsoft.AspNetCore.Html.HtmlString(tagBuiler.ToString());
         }
 
         public IHtmlContent BuildSubMenuItems(MenuItem menuItem, string currentUrl)
@@ -110,7 +110,7 @@ namespace MantleCMS.Extensions
                 .MergeAttribute("href", url)
                 .SetInnerHtml(menuItem.Text);
 
-            return new HtmlString(tagBuiler.ToString());
+            return new Microsoft.AspNetCore.Html.HtmlString(tagBuiler.ToString());
         }
     }
 }
