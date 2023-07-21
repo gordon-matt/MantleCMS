@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Mantle</AssemblyName>
     <PackageId>Mantle</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -9,14 +10,17 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <Description>Mantle</Description>
+	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Extenso.Core" Version="7.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Localization.Abstractions\Mantle.Localization.Abstractions.csproj" />
   </ItemGroup>
+
 </Project>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Mantle.Caching;
+﻿using Mantle.Caching;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Localization.Domain;

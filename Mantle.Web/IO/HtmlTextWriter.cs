@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.AspNetCore.Html;
 using System.Text;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Html;
 
 namespace Mantle.Web.IO
 {

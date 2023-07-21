@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Infrastructure</AssemblyName>
     <PackageId>Mantle.Infrastructure</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -10,18 +12,20 @@
     <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Infrastructure.Abstractions\Mantle.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Plugins\Mantle.Plugins.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
 </Project>

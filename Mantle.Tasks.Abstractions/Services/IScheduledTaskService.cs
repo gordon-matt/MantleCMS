@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Mantle.Tasks.Domain;
 
 namespace Mantle.Tasks.Services

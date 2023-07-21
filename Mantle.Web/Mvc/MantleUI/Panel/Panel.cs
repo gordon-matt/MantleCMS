@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Mantle.Web.Mvc.MantleUI
+﻿namespace Mantle.Web.Mvc.MantleUI
 {
     public class Panel : HtmlElement
     {

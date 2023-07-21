@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Localization;
+﻿using Mantle.Localization;
 
 namespace Mantle.Plugins.Caching.Redis.Infrastructure
 {

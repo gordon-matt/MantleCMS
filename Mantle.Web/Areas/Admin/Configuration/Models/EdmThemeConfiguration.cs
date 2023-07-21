@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Web.Mvc.Themes;
+﻿using Mantle.Web.Mvc.Themes;
 
 namespace Mantle.Web.Areas.Admin.Configuration.Models
 {

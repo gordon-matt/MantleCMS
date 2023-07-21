@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Web.Mvc.Resources
+﻿namespace Mantle.Web.Mvc.Resources
 {
     [Serializable]
     public class UnregisteredBundleException : Exception

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mantle.Web.Infrastructure;
+﻿using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Mantle.Events</RootNamespace>
+	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Web
+﻿namespace Mantle.Web
 {
     public interface IWorkContextStateProvider
     {

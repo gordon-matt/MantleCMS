@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Data.Dapper.Infrastructure
+﻿namespace Mantle.Data.Dapper.Infrastructure
 {
     public interface ITableNameResolver
     {

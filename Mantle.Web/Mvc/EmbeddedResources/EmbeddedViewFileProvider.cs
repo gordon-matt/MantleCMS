@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 

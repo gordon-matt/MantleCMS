@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Extenso;
+﻿using Extenso;
 using Extenso.Collections;
 using Extenso.Data.Entity;
 using Mantle.Helpers;
@@ -20,6 +14,8 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api
 {

@@ -1,6 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Mantle.Identity;
+﻿using Mantle.Identity;
 using Mantle.Identity.Models.ManageViewModels;
 using Mantle.Identity.Services;
 using Mantle.Web.Configuration;
@@ -8,7 +6,7 @@ using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
 
 namespace MantleCMS.Controllers
 {

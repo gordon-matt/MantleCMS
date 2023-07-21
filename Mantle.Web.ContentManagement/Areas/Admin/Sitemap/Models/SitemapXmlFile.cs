@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using System.Xml.Serialization;
-using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models
 {

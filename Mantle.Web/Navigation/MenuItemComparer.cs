@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Mantle.Web.Navigation
+﻿namespace Mantle.Web.Navigation
 {
     public class MenuItemComparer : IEqualityComparer<MenuItem>
     {

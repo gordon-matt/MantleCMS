@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Security.Membership;
+﻿using Mantle.Security.Membership;
 
 namespace Mantle.Plugins
 {

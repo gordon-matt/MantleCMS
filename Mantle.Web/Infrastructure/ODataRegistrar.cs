@@ -57,6 +57,9 @@ namespace Mantle.Web.Infrastructure
             RegisterScheduledTaskODataActions(builder);
             RegisterThemeODataActions(builder);
 
+            builder.EntityType<Language>().HasKey(x => x.Id);
+            builder.EntityType<LocalizableString>().HasKey(x => x.Id);
+
             options.AddRouteComponents("odata/mantle/web", builder.GetEdmModel());
         }
 

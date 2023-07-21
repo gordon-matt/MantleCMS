@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Caching;
+﻿using Mantle.Caching;
 using Mantle.Infrastructure;
 using Mantle.Localization.Services;
 using Microsoft.Extensions.Localization;

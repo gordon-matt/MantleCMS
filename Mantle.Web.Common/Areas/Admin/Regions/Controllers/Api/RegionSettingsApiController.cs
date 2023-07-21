@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
@@ -47,7 +43,7 @@ namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
         }
 
         [HttpGet]
-        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri]string settingsId, [FromODataUri] int regionId)
+        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri] string settingsId, [FromODataUri] int regionId)
         {
             if (!CheckPermission(Permissions.RegionsRead))
             {

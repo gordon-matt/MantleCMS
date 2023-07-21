@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using Autofac;
 using Extenso.AspNetCore.OData;
 using Extenso.Collections;
@@ -20,9 +16,6 @@ using MantleCMS.Data;
 using MantleCMS.Data.Domain;
 using MantleCMS.Identity;
 using MantleCMS.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -32,16 +25,10 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using NLog;
-using NLog.Targets;
-using NLog.Targets.Wrappers;
 
 namespace MantleCMS
 {
@@ -80,121 +67,6 @@ namespace MantleCMS
         public IWebHostEnvironment WebHostEnvironment { get; private set; }
 
         #endregion Properties
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            IHostApplicationLifetime appLifetime)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
-                //app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseCors("AllowAll");
-
-            var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(requestLocalizationOptions.Value);
-
-            app.UseSession();
-
-            #region Static Files
-
-            app.UseDefaultFiles(); // For PeachPie
-
-            // embedded files
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                // Override file provider to allow embedded resources
-                FileProvider = new CompositeFileProvider(
-                    new EmbeddedScriptFileProvider(),
-                    new EmbeddedContentFileProvider(),
-                    WebHostEnvironment.WebRootFileProvider),
-
-                OnPrepareResponse = (context) =>
-                {
-                    var headers = context.Context.Response.GetTypedHeaders();
-                    headers.CacheControl = new CacheControlHeaderValue
-                    {
-                        MaxAge = TimeSpan.FromDays(7)
-                    };
-                }
-            });
-
-            // plugins
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
-                RequestPath = new PathString("/Plugins"),
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800");
-                    //if (!string.IsNullOrEmpty(nopConfig.StaticFilesCacheControl))
-                    //    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, mantleConfig.StaticFilesCacheControl);
-                }
-            });
-
-            #endregion Static Files
-
-            // PeachPie / Responsive File Manager
-            app.UseResponsiveFileManager();
-
-            app.UseForwardedHeaders(
-                new ForwardedHeadersOptions
-                {
-                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-                });
-
-            // Use odata route debug, /$odata
-            app.UseODataRouteDebug();
-
-            // If you want to use /$openapi, enable the middleware.
-            //app.UseODataOpenApi();
-
-            // Add OData /$query middleware
-            app.UseODataQueryRequest();
-
-            // Add the OData Batch middleware to support OData $Batch
-            //app.UseODataBatching();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseMultitenancy<Tenant>();
-
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
-            app.UseEndpoints(endpoints =>
-            {
-                var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
-                routePublisher.RegisterEndpoints(endpoints);
-
-                endpoints.MapControllerRoute(
-                    name: "areaRoute",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapRazorPages();
-            });
-
-            // If you want to dispose of resources that have been resolved in the
-            // application container, register for the "ApplicationStopped" event.
-            //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
-
-            ConfigureNLog();
-        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -380,6 +252,128 @@ namespace MantleCMS
             #endregion Mantle Framework Config
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
+                //app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseCors("AllowAll");
+
+            var requestLocalizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(requestLocalizationOptions.Value);
+
+            app.UseSession();
+
+            #region Static Files
+
+            app.UseDefaultFiles(); // For PeachPie
+
+            // embedded files
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                // Override file provider to allow embedded resources
+                FileProvider = new CompositeFileProvider(
+                    new EmbeddedScriptFileProvider(),
+                    new EmbeddedContentFileProvider(),
+                    WebHostEnvironment.WebRootFileProvider),
+
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        MaxAge = TimeSpan.FromDays(7)
+                    };
+                }
+            });
+
+            // plugins
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
+                RequestPath = new PathString("/Plugins"),
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800");
+                    //if (!string.IsNullOrEmpty(nopConfig.StaticFilesCacheControl))
+                    //    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, mantleConfig.StaticFilesCacheControl);
+                }
+            });
+
+            //// Add support for node_modules but only during development
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseStaticFiles(new StaticFileOptions
+            //    {
+            //        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"node_modules")),
+            //        RequestPath = new PathString("/vendor")
+            //    });
+            //}
+
+            #endregion Static Files
+
+            // PeachPie / Responsive File Manager
+            app.UseResponsiveFileManager();
+
+            app.UseForwardedHeaders(
+                new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+
+            // Use odata route debug, /$odata
+            app.UseODataRouteDebug();
+
+            // If you want to use /$openapi, enable the middleware.
+            //app.UseODataOpenApi();
+
+            // Add OData /$query middleware
+            app.UseODataQueryRequest();
+
+            // Add the OData Batch middleware to support OData $Batch
+            //app.UseODataBatching();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseMultitenancy<Tenant>();
+
+            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapRazorPages();
+
+                var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
+                routePublisher.RegisterEndpoints(endpoints);
+            });
+
+            // If you want to dispose of resources that have been resolved in the
+            // application container, register for the "ApplicationStopped" event.
+            //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
+
+            ConfigureNLog();
+        }
+
         public void ConfigureContainer(ContainerBuilder builder)
         {
             // Add extra registrations here, if needed...
@@ -390,25 +384,26 @@ namespace MantleCMS
         {
             try
             {
-                var target = LogManager.Configuration.FindTargetByName("database");
+                //TODO
+                //var target = LogManager.Configuration.FindTargetByName("database");
 
-                DatabaseTarget databaseTarget = null;
-                var wrapperTarget = target as WrapperTargetBase;
+                //DatabaseTarget databaseTarget = null;
+                //var wrapperTarget = target as WrapperTargetBase;
 
-                // Unwrap the target if necessary.
-                if (wrapperTarget == null)
-                {
-                    databaseTarget = target as DatabaseTarget;
-                }
-                else
-                {
-                    databaseTarget = wrapperTarget.WrappedTarget as DatabaseTarget;
-                }
+                //// Unwrap the target if necessary.
+                //if (wrapperTarget == null)
+                //{
+                //    databaseTarget = target as DatabaseTarget;
+                //}
+                //else
+                //{
+                //    databaseTarget = wrapperTarget.WrappedTarget as DatabaseTarget;
+                //}
 
-                //databaseTarget.DBProvider = "Npgsql"; // If using other provider...
+                ////databaseTarget.DBProvider = "Npgsql"; // If using other provider...
 
-                var dataSettings = EngineContext.Current.Resolve<DataSettings>();
-                databaseTarget.ConnectionString = dataSettings.ConnectionString;
+                //var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+                //databaseTarget.ConnectionString = dataSettings.ConnectionString;
             }
             catch { }
         }

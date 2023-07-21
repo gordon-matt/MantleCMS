@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using Extenso.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using Extenso.IO;
 
 namespace Mantle.Web.Mvc.Themes
 {

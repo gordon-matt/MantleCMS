@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Extenso.Reflection;
+﻿using Extenso.Reflection;
 using StackExchange.Redis;
+using System.Reflection;
 
 namespace Mantle.Plugins.Caching.Redis
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Infrastructure;
+﻿using Mantle.Infrastructure;
 
 namespace Mantle.Web.Mvc.Themes
 {

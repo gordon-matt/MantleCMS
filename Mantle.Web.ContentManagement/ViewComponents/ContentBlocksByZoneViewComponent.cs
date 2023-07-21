@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mantle.Web.ContentManagement.ViewComponents

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Web.Mvc.Themes;
+﻿using Mantle.Web.Mvc.Themes;
 
 namespace Mantle.Web.ContentManagement.Infrastructure
 {

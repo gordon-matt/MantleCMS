@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mantle.Exceptions;
+﻿using Mantle.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;

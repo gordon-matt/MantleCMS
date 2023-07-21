@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using Extenso.Collections;
+﻿using Extenso.Collections;
 using Mantle.Threading;
+using System.Security;
 
 namespace Mantle.Security.Membership.Permissions
 {

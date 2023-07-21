@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mantle.Web.Mvc.Controllers
+﻿namespace Mantle.Web.Mvc.Controllers
 {
     internal interface ITypeActivatorCache
     {

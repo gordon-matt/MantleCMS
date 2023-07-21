@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.ContentManagement</AssemblyName>
     <PackageId>Mantle.Web.ContentManagement</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -12,9 +14,11 @@
     <Description>Content Management package for the Mantle framework</Description>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-category-model.js" />
     <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-post-model.js" />
@@ -88,11 +92,14 @@
     <EmbeddedResource Include="Areas\Admin\Pages\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Sitemap\Scripts\xml-sitemap-index.js" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.17.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
@@ -102,4 +109,5 @@
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
 </Project>

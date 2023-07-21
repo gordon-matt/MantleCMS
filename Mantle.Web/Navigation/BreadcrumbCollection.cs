@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Navigation
+﻿namespace Mantle.Web.Navigation
 {
     public class BreadcrumbCollection : List<Breadcrumb>
     {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Web.Infrastructure;
+﻿using Mantle.Web.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 
 namespace Mantle.Web.CommonResources.Infrastructure

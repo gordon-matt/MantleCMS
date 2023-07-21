@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Web.Mvc;
+﻿using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

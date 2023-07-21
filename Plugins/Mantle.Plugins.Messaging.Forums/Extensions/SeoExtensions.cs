@@ -1,5 +1,4 @@
-﻿using System;
-using Mantle.Plugins.Messaging.Forums.Data.Domain;
+﻿using Mantle.Plugins.Messaging.Forums.Data.Domain;
 using Mantle.Web;
 
 namespace Mantle.Plugins.Messaging.Forums.Extensions

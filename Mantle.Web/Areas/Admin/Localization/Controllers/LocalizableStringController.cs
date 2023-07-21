@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using Extenso;
+﻿using Extenso;
 using Mantle.Localization.Services;
 using Mantle.Web.Areas.Admin.Localization.Models;
 using Mantle.Web.Configuration;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers
 {
@@ -47,7 +45,7 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
 
             ViewBag.Title = T[MantleWebLocalizableStrings.Localization.Title].Value;
             ViewBag.SubTitle = T[MantleWebLocalizableStrings.Localization.LocalizableStrings].Value;
-            
+
             return PartialView();
         }
 

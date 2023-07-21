@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web</AssemblyName>
     <PackageId>Mantle.Web</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -12,9 +14,11 @@
     <Description>Mantle - Web. Includes admin pages for Membership, Localization, Configuration, Tenants, Scheduled Tasks, etc. Also includes many extensions and helper classes.</Description>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Log\Scripts\index.js" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\DateTimeSettings.cshtml" />
@@ -46,6 +50,7 @@
     <EmbeddedResource Include="Areas\Admin\ScheduledTasks\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Tenants\Scripts\index.js" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Remove="Areas\Admin\Log\**" />
     <Compile Remove="Indexing\**" />
@@ -56,22 +61,28 @@
     <None Remove="Areas\Admin\Log\**" />
     <None Remove="Indexing\**" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
     <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="6.0.0" />
-    <PackageReference Include="Extenso.AspNetCore.OData" Version="6.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.OData" Version="7.0.1" />
+    <PackageReference Include="Extenso.Core" Version="7.1.1" />
+    <PackageReference Include="Extenso.Data" Version="7.1.2" />
     <PackageReference Include="KendoGridBinder.AspNetCore" Version="3.2.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.9" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.17.0" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
@@ -82,4 +93,5 @@
     <ProjectReference Include="..\Mantle.Tasks\Mantle.Tasks.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
 </Project>

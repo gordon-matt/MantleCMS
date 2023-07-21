@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Identity.Domain;
+﻿using Mantle.Identity.Domain;
 
 namespace MantleCMS.Data.Domain
 {

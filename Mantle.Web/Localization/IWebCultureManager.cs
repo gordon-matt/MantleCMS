@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mantle.Localization;
+﻿using Mantle.Localization;
 using Mantle.Web.Localization.Services;
 using Microsoft.AspNetCore.Http;
 

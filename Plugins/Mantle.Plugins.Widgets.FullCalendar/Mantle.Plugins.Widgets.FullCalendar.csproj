@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
     <AssemblyName>Mantle.Plugins.Widgets.FullCalendar</AssemblyName>
     <PackageId>Mantle.Plugins.Widgets.FullCalendar</PackageId>
@@ -10,22 +12,25 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Remove="wwwroot\js\index.js" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\js\index.js">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Autofac" Version="7.0.1" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\..\Mantle.Data\Mantle.Data.csproj" />
@@ -33,15 +38,18 @@
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Views\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
   <ItemGroup>
     <Content Update="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
   <Target Name="CopyArtifacts" AfterTargets="Build">
     <PropertyGroup>
       <PluginCopyDir>..\..\MantleCMS\Plugins\Widgets.FullCalendar\</PluginCopyDir>
@@ -52,4 +60,5 @@
     <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
     <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
   </Target>
+
 </Project>

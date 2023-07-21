@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
-using System.Threading;
-using Mantle.Helpers;
+﻿using Mantle.Helpers;
 using Mantle.Plugins.Configuration;
 using Mantle.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.Loader;
 
 //Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
@@ -226,7 +221,7 @@ namespace Mantle.Plugins
                                     applicationPartManager.ApplicationParts.Add(part);
                                 }
                             }
-                            
+
                             ////load all other referenced assemblies now
                             //foreach (var plugin in pluginFiles
                             //    .Where(x => !x.Name.Equals(mainPluginFile.Name, StringComparison.InvariantCultureIgnoreCase))

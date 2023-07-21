@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Mantle.Security.Membership;
+﻿using Mantle.Security.Membership;
 using Mantle.Web.Collections;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;

@@ -3,15 +3,15 @@
 
 namespace Mantle.Web.Mvc.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
     using Extenso.AspNetCore.Mvc.Rendering;
     using Mantle.Infrastructure;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Routing;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Extension methods for <see cref="HtmlHelper"/>

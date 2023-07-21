@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Mantle.Helpers;
 using Mantle.Infrastructure.Configuration;
@@ -11,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Mantle.Infrastructure
 {
@@ -60,13 +57,6 @@ namespace Mantle.Infrastructure
 
             //register dependencies
             RegisterDependencies(containerBuilder, typeFinder);
-
-            var options = ServiceProvider.GetService<MantleInfrastructureOptions>();
-            //run startup tasks
-            if (!options.IgnoreStartupTasks)
-            {
-                RunStartupTasks(typeFinder);
-            }
 
             //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -182,12 +172,14 @@ namespace Mantle.Infrastructure
         /// Run startup tasks
         /// </summary>
         /// <param name="typeFinder">Type finder</param>
-        protected virtual void RunStartupTasks(ITypeFinder typeFinder)
+        internal virtual void RunStartupTasks()
         {
             if (!DataSettingsHelper.IsDatabaseInstalled)
             {
                 return;
             }
+
+            var typeFinder = Resolve<ITypeFinder>();
 
             //find startup tasks provided by other assemblies
             var startupTasks = typeFinder.FindClassesOfType<IStartupTask>();

@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.Messaging</AssemblyName>
     <PackageId>Mantle.Web.Messaging</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -13,9 +15,11 @@
     <Authors>Matt Gordon</Authors>
     <Description>This package includes admin pages for email templates, queued emails, etc.</Description>
   </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="Views\GrapesJsMessageTemplate\Edit.cshtml" />
     <EmbeddedResource Include="Views\MessageTemplate\Index.cshtml" />
@@ -26,14 +30,15 @@
     <EmbeddedResource Include="Scripts\MessageTemplates\message-template.js" />
     <EmbeddedResource Include="Scripts\QueuedEmails\index.js" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Autofac" Version="7.0.1" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Messaging\Mantle.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
+
 </Project>

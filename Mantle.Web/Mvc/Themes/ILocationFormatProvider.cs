@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mantle.Web.Mvc.Themes
+﻿namespace Mantle.Web.Mvc.Themes
 {
     public interface ILocationFormatProvider
     {

@@ -1,9 +1,6 @@
 ﻿//No license, but credit to Kazi Manzur Rashid
 //http://weblogs.asp.net/rashid/archive/2009/04/20/adrotator-for-asp-net-mvc.aspx
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Extenso.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Mantle.Data.Services;
+﻿using Mantle.Data.Services;
 using LanguageEntity = Mantle.Localization.Domain.Language;
 
 namespace Mantle.Localization.Services

@@ -1,7 +1,6 @@
 ﻿using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace MantleCMS.Data
 {

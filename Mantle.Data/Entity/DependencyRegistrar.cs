@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Mantle.Infrastructure;
+using System.Reflection;
 
 namespace Mantle.Data.Entity
 {
