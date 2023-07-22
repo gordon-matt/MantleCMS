@@ -21,7 +21,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
                 return;
             }
 
-            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
 
             // Embedded File Provider
             builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();

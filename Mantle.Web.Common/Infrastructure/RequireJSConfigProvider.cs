@@ -1,37 +1,36 @@
-﻿//using System.Collections.Generic;
-//using Mantle.Infrastructure;
-//using Mantle.Web.Infrastructure;
+﻿using Mantle.Web.Infrastructure;
 
-//namespace Mantle.Web.Common.Infrastructure
-//{
-//    public class RequireJSConfigProvider : IRequireJSConfigProvider
-//    {
-//        #region IRequireJSConfigProvider Members
+namespace Mantle.Web.Common.Infrastructure;
 
-//        public IDictionary<string, string> Paths
-//        {
-//            get
-//            {
-//                var paths = new Dictionary<string, string>();
+public class RequireJSConfigProvider : IRequireJSConfigProvider
+{
+    #region IRequireJSConfigProvider Members
 
-//                paths.Add("jquery-image-mapster", "/Mantle.Web.Common.Areas.Admin.Regions.Scripts.jquery.imagemapster");
+    public IDictionary<string, string> Paths
+    {
+        get
+        {
+            var paths = new Dictionary<string, string>
+            {
+                { "jquery-image-mapster", "/Mantle.Web.Common.Areas.Admin.Regions.Scripts.jquery.imagemapster" }
+            };
 
-//                return paths;
-//            }
-//        }
+            return paths;
+        }
+    }
 
-//        public IDictionary<string, string[]> Shim
-//        {
-//            get
-//            {
-//                var shim = new Dictionary<string, string[]>();
+    public IDictionary<string, string[]> Shim
+    {
+        get
+        {
+            var shim = new Dictionary<string, string[]>
+            {
+                { "jquery-image-mapster", new[] { "jquery" } }
+            };
 
-//                shim.Add("jquery-image-mapster", new[] { "jquery" });
+            return shim;
+        }
+    }
 
-//                return shim;
-//            }
-//        }
-
-//        #endregion IRequireJSConfigProvider Members
-//    }
-//}
+    #endregion IRequireJSConfigProvider Members
+}

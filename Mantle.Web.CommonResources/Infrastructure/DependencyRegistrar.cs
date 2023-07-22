@@ -12,6 +12,7 @@ namespace Mantle.Web.CommonResources.Infrastructure
         {
             // Embedded File Provider
             builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+            builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
         }
 
         public int Order => 1;

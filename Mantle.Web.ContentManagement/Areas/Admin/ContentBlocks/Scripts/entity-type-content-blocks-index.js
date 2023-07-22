@@ -8,11 +8,11 @@ import { HttpClient } from 'aurelia-http-client';
 import { Router } from "aurelia-router";
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { EntityTypeContentBlockViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-block-model';
-import { ZoneViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.zone-model';
+import { EntityTypeContentBlockViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-block-model';
+import { ZoneViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.zone-model';
 
 @inject(TemplatingEngine, Router)
 export class ViewModel {

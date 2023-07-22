@@ -8,12 +8,12 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { MantleTinyMCEOptions } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { MantleTinyMCEOptions } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { TemplateModel } from '/aurelia-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.message-template';
-import { TemplateVersionModel } from '/aurelia-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.message-template-version';
+import { TemplateModel } from '/durandal-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.message-template';
+import { TemplateVersionModel } from '/durandal-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.message-template-version';
 
 @inject(TemplatingEngine)
 export class ViewModel {

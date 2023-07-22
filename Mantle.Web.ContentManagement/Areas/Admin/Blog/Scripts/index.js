@@ -9,13 +9,13 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { MantleTinyMCEOptions } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { MantleTinyMCEOptions } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { BlogCategoryViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-category-model';
-import { BlogPostViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-post-model';
-import { BlogTagViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-tag-model';
+import { BlogCategoryViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-category-model';
+import { BlogPostViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-post-model';
+import { BlogTagViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog-tag-model';
 
 @inject(TemplatingEngine)
 export class ViewModel {
