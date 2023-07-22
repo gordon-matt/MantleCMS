@@ -62,7 +62,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 new DurandalRoute
                 {
                     ModuleId = "viewmodels/admin/scheduled-tasks",
-                    Route = "scheduledtasks",
+                    Route = "scheduled-tasks",
                     JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.ScheduledTasks.Scripts.index",
                     Title = T[MantleWebLocalizableStrings.ScheduledTasks.Title]
                 },
