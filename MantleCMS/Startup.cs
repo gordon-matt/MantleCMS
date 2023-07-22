@@ -228,7 +228,7 @@ namespace MantleCMS
 
             #endregion RazorViewEngineOptions
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             #region Mantle Framework Config
