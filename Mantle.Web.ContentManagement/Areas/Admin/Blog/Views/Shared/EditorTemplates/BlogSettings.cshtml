@@ -9,87 +9,91 @@
 <div id="settings-content">
     <div class="form-group">
         @Html.LabelFor(m => m.PageTitle, new { @class = "control-label" })
-        <input type="text" id="PageTitle" name="PageTitle" class="form-control" value.bind="pageTitle" />
+        @Html.TextBoxFor(m => m.PageTitle, new { @class = "form-control", data_bind = "value: pageTitle" })
         @Html.ValidationMessageFor(m => m.PageTitle)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DateFormat, new { @class = "control-label" })
-        <input type="text" id="DateFormat" name="DateFormat" class="form-control" value.bind="dateFormat" />
+        @Html.TextBoxFor(m => m.DateFormat, new { @class = "form-control", data_bind = "value: dateFormat" })
         @Html.ValidationMessageFor(m => m.DateFormat)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ItemsPerPage, new { @class = "control-label" })
-        <input type="text" id="ItemsPerPage" name="ItemsPerPage" class="form-control" value.bind="itemsPerPage" />
+        @Html.TextBoxFor(m => m.ItemsPerPage, new { type = "number", @class = "form-control", data_bind = "value: itemsPerPage" })
         @Html.ValidationMessageFor(m => m.ItemsPerPage)
     </div>
     <div class="form-group">
         <div class="checkbox">
             <label>
-                <input type="checkbox" id="ShowOnMenus" name="ShowOnMenus" checked.bind="showOnMenus" /> @T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]
+                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]
             </label>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.MenuPosition, new { @class = "control-label" })
-        <input type="text" id="MenuPosition" name="MenuPosition" class="form-control" value.bind="menuPosition" />
+        @Html.TextBoxFor(m => m.MenuPosition, new { type = "number", @class = "form-control", data_bind = "value: menuPosition" })
         @Html.ValidationMessageFor(m => m.MenuPosition)
     </div>
+    @*<div class="form-group">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: useAjax" }) @T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]
+            </label>
+        </div>
+    </div>*@
     <div class="form-group">
         @Html.Label("Roles", "Roles", new { @class = "control-label" })
-        @Html.Mantle().RolesCheckBoxList(
-            "Roles",
-            null,
-            new { @class = "checkbox" },
-            new Dictionary<string, object>
-            {
-                { "checked.bind", "roles" }
-            })
+        @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: roles" })
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.LayoutPathOverride, new { @class = "control-label" })
-        <input type="text" id="LayoutPathOverride" name="LayoutPathOverride" class="form-control" value.bind="layoutPathOverride" />
+        @Html.TextBoxFor(m => m.LayoutPathOverride, new { @class = "form-control", data_bind = "value: layoutPathOverride" })
         @Html.ValidationMessageFor(m => m.LayoutPathOverride)
     </div>
 </div>
 
 <script type="text/javascript">
     function updateModel(viewModel, data) {
-        viewModel.pageTitle = 'Blog';
-        viewModel.dateFormat = 'YYYY-MM-DD HH:mm:ss';
-        viewModel.itemsPerPage = 5;
-        viewModel.showOnMenus = true;
-        viewModel.menuPosition = 0;
-        viewModel.layoutPathOverride = null;
+        viewModel.pageTitle = ko.observable("Blog");
+        viewModel.dateFormat = ko.observable("YYYY-MM-DD HH:mm:ss");
+        viewModel.itemsPerPage = ko.observable(5);
+        viewModel.showOnMenus = ko.observable(true);
+        viewModel.menuPosition = ko.observable(0);
+        viewModel.useAjax = ko.observable(false);
+        viewModel.layoutPathOverride = ko.observable(null);
 
         viewModel.accessRestrictions = null;
-        viewModel.roles = [];
+        viewModel.roles = ko.observableArray([]);
 
         if (data) {
             if (data.PageTitle) {
-                viewModel.pageTitle = data.PageTitle;
+                viewModel.pageTitle(data.PageTitle);
             }
             if (data.DateFormat) {
-                viewModel.dateFormat = data.DateFormat;
+                viewModel.dateFormat(data.DateFormat);
             }
             if (data.ItemsPerPage) {
-                viewModel.itemsPerPage = data.ItemsPerPage;
+                viewModel.itemsPerPage(data.ItemsPerPage);
             }
             if (data.ShowOnMenus && typeof data.ShowOnMenus === 'boolean') {
-                viewModel.showOnMenus = data.ShowOnMenus;
+                viewModel.showOnMenus(data.ShowOnMenus);
             }
             if (data.MenuPosition) {
-                viewModel.menuPosition = data.MenuPosition;
+                viewModel.menuPosition(data.MenuPosition);
+            }
+            if (data.UseAjax && typeof data.UseAjax === 'boolean') {
+                viewModel.useAjax(data.UseAjax);
             }
             if (data.AccessRestrictions) {
-                viewModel.accessRestrictions = JSON.parse(data.AccessRestrictions);
+                viewModel.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
 
-                if (viewModel.accessRestrictions.Roles) {
-                    var split = viewModel.accessRestrictions.Roles.split(',');
-                    viewModel.roles = split;
+                if (viewModel.accessRestrictions.Roles != null) {
+                    var split = viewModel.accessRestrictions.Roles().split(',');
+                    viewModel.roles(split);
                 }
             }
             if (data.LayoutPathOverride) {
-                viewModel.layoutPathOverride = data.LayoutPathOverride;
+                viewModel.layoutPathOverride(data.LayoutPathOverride);
             }
         }
     };
@@ -100,6 +104,7 @@
         delete viewModel.itemsPerPage;
         delete viewModel.showOnMenus;
         delete viewModel.menuPosition;
+        delete viewModel.useAjax;
         delete viewModel.accessRestrictions;
         delete viewModel.roles;
         delete viewModel.layoutPathOverride;
@@ -107,17 +112,18 @@
 
     function onBeforeSave(viewModel) {
         var data = {
-            PageTitle: viewModel.pageTitle,
-            DateFormat: viewModel.dateFormat,
-            ItemsPerPage: viewModel.itemsPerPage,
-            ShowOnMenus: viewModel.showOnMenus,
-            MenuPosition: viewModel.menuPosition,
+            PageTitle: viewModel.pageTitle(),
+            DateFormat: viewModel.dateFormat(),
+            ItemsPerPage: viewModel.itemsPerPage(),
+            ShowOnMenus: viewModel.showOnMenus(),
+            MenuPosition: viewModel.menuPosition(),
+            UseAjax: viewModel.useAjax(),
             AccessRestrictions: JSON.stringify({
-                Roles: viewModel.roles.join()
+                Roles: viewModel.roles().join()
             }),
-            LayoutPathOverride: viewModel.layoutPathOverride
+            LayoutPathOverride: viewModel.layoutPathOverride()
         };
-    
-        viewModel.value = JSON.stringify(data);
+
+        viewModel.value(ko.mapping.toJSON(data));
     };
 </script>

@@ -24,7 +24,7 @@
         <div class="form-group">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
-                <tiny-mce theme="silver" content.bind="blockModel.thankYouMessage" options.bind="blockModel.tinyMCEConfig"></tiny-mce>
+                @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.RedirectUrl, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <input type="text" name="RedirectUrl" class="form-control" value.bind="blockModel.redirectUrl" />
+                @Html.TextBoxFor(m => m.RedirectUrl, new { @class = "form-control", data_bind = "value: blockModel.redirectUrl" })
             </div>
         </div>
         <div class="form-group">
@@ -40,7 +40,7 @@
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="UseAjax" checked.bind="blockModel.useAjax" /> @T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]
+                        @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: blockModel.useAjax" }) @T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]
                     </label>
                 </div>
             </div>
@@ -50,52 +50,52 @@
         <div class="form-group">
             @Html.LabelFor(m => m.EmailAddress, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <input type="text" name="EmailAddress" class="form-control" value.bind="blockModel.emailAddress" />
+                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", data_bind = "value: blockModel.emailAddress" })
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/wwwroot/js/form-builder.min.js"></script>
+<script type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/Scripts/form-builder.min.js"></script>
 <script type="text/javascript">
-    //function stripHTML(html) {
-    //    return $("<div/>").html(html).text();
-    //}
+    function stripHTML(html) {
+        return $("<div/>").html(html).text();
+    };
 
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.metadata = '';
-            blockModel.thankYouMessage = '';
-            blockModel.redirectUrl = '';
-            blockModel.emailAddress = '';
-            blockModel.useAjax = false;
+            blockModel.metadata = ko.observable("");
+            blockModel.thankYouMessage = ko.observable("");
+            blockModel.redirectUrl = ko.observable("");
+            blockModel.emailAddress = ko.observable("");
+            blockModel.useAjax = ko.observable(false);
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             var fbEditor = document.getElementById('build-wrap');
             blockModel.formBuilder = $(fbEditor).formBuilder({ showActionButtons: false });
 
             if (data) {
                 if (data.Metadata) {
-                    var metadata = data.Metadata;
-                    blockModel.metadata = metadata;
+                    var metadata = data.Metadata();
+                    blockModel.metadata(metadata);
 
                     blockModel.formBuilder.promise.then(function (fb) {
                         fb.actions.setData(metadata);
                     });
                 }
                 if (data.ThankYouMessage) {
-                    blockModel.thankYouMessage = data.ThankYouMessage;
+                    blockModel.thankYouMessage(data.ThankYouMessage());
                 }
                 if (data.RedirectUrl) {
-                    blockModel.redirectUrl = data.RedirectUrl;
+                    blockModel.redirectUrl(data.RedirectUrl());
                 }
                 if (data.EmailAddress) {
-                    blockModel.emailAddress = data.EmailAddress;
+                    blockModel.emailAddress(data.EmailAddress());
                 }
                 if (data.UseAjax) {
-                    blockModel.useAjax = data.UseAjax;
+                    blockModel.useAjax(data.UseAjax());
                 }
             }
 
@@ -112,27 +112,26 @@
             delete blockModel.formBuilder;
         };
         f.onBeforeSave = function (blockModel) {
-            //var fbEditor = document.getElementById('build-wrap');
+            var fbEditor = document.getElementById('build-wrap');
             var fbMetadata = blockModel.formBuilder.actions.getData('json', true);
 
             console.log('source: ' + fbMetadata);
             blockModel.metadata(fbMetadata);
 
-            var thankYouMessage = blockModel.thankYouMessage;
-            if (blockModel.useAjax) {
-                //thankYouMessage = stripHTML(thankYouMessage);
-                thankYouMessage = $("<div/>").html(thankYouMessage).text();
+            var thankYouMessage = blockModel.thankYouMessage();
+            if (blockModel.useAjax()) {
+                thankYouMessage = stripHTML(thankYouMessage);
             }
 
             var data = {
-                Metadata: blockModel.metadata,
+                Metadata: blockModel.metadata(),
                 ThankYouMessage: thankYouMessage,
-                RedirectUrl: blockModel.redirectUrl,
-                EmailAddress: blockModel.emailAddress,
-                UseAjax: blockModel.useAjax
+                RedirectUrl: blockModel.redirectUrl(),
+                EmailAddress: blockModel.emailAddress(),
+                UseAjax: blockModel.useAjax()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

@@ -64,40 +64,40 @@
 </div>
 
 <script type="text/javascript">
-    //function stripHTML(html) {
-    //    return $("<div/>").html(html).text();
-    //}
+    function stripHTML(html) {
+        return $("<div/>").html(html).text();
+    };
 
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.htmlTemplate = '';
-            blockModel.thankYouMessage = '';
-            blockModel.redirectUrl = '';
-            blockModel.emailAddress = '';
-            blockModel.formUrl = null;
-            blockModel.useAjax = false;
+            blockModel.htmlTemplate = ko.observable("");
+            blockModel.thankYouMessage = ko.observable("");
+            blockModel.redirectUrl = ko.observable("");
+            blockModel.emailAddress = ko.observable("");
+            blockModel.formUrl = ko.observable(null);
+            blockModel.useAjax = ko.observable(false);
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data) {
                 if (data.HtmlTemplate) {
-                    blockModel.htmlTemplate = data.HtmlTemplate;
+                    blockModel.htmlTemplate(data.HtmlTemplate());
                 }
                 if (data.ThankYouMessage) {
-                    blockModel.thankYouMessage = data.ThankYouMessage;
+                    blockModel.thankYouMessage(data.ThankYouMessage());
                 }
                 if (data.RedirectUrl) {
-                    blockModel.redirectUrl = data.RedirectUrl;
+                    blockModel.redirectUrl(data.RedirectUrl());
                 }
                 if (data.EmailAddress) {
-                    blockModel.emailAddress = data.EmailAddress;
+                    blockModel.emailAddress(data.EmailAddress());
                 }
                 if (data.FormUrl) {
-                    blockModel.formUrl = data.FormUrl;
+                    blockModel.formUrl(data.FormUrl());
                 }
-                if (data.UseAjax && typeof data.UseAjax === 'boolean') {
-                    blockModel.useAjax = data.UseAjax;
+                if (data.UseAjax && typeof data.UseAjax() === 'boolean') {
+                    blockModel.useAjax(data.UseAjax());
                 }
             }
 
@@ -113,22 +113,22 @@
             delete blockModel.tinyMCEConfig;
         };
         f.onBeforeSave = function (blockModel) {
+
             var thankYouMessage = blockModel.thankYouMessage();
-            if (blockModel.useAjax) {
-                //thankYouMessage = stripHTML(thankYouMessage);
-                thankYouMessage = $("<div/>").html(thankYouMessage).text();
+            if (blockModel.useAjax()) {
+                thankYouMessage = stripHTML(thankYouMessage);
             }
 
             var data = {
-                HtmlTemplate: blockModel.htmlTemplate,
+                HtmlTemplate: blockModel.htmlTemplate(),
                 ThankYouMessage: thankYouMessage,
-                RedirectUrl: blockModel.redirectUrl,
-                EmailAddress: blockModel.emailAddress,
-                FormUrl: blockModel.formUrl,
-                UseAjax: blockModel.useAjax
+                RedirectUrl: blockModel.redirectUrl(),
+                EmailAddress: blockModel.emailAddress(),
+                FormUrl: blockModel.formUrl(),
+                UseAjax: blockModel.useAjax()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

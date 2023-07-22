@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Log\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\index.js" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\DateTimeSettings.cshtml" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\MembershipSettings.cshtml" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\SiteSettings.cshtml" />
@@ -42,10 +43,6 @@
     <EmbeddedResource Include="Areas\Admin\Configuration\Scripts\themes.js" />
     <EmbeddedResource Include="Areas\Admin\Localization\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Localization\Scripts\localizable-strings.js" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\change-password.js" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\role.js" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\user.js" />
     <EmbeddedResource Include="Areas\Admin\Plugins\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\ScheduledTasks\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Tenants\Scripts\index.js" />
@@ -60,6 +57,10 @@
     <EmbeddedResource Remove="Indexing\**" />
     <None Remove="Areas\Admin\Log\**" />
     <None Remove="Indexing\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\Admin\Membership\Scripts\index.js" />
   </ItemGroup>
 
   <ItemGroup>

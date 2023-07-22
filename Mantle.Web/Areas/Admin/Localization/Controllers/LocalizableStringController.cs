@@ -49,20 +49,17 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
             return PartialView();
         }
 
-        [Route("get-view-data")]
-        public JsonResult GetViewData()
+        //[OutputCache(Duration = 86400, VaryByParam = "none")]
+        [Route("get-translations")]
+        public JsonResult GetTranslations()
         {
             return Json(new
             {
-                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
-                translations = new
+                Columns = new
                 {
-                    columns = new
-                    {
-                        invariantValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.InvariantValue].Value,
-                        key = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.Key].Value,
-                        localizedValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.LocalizedValue].Value,
-                    }
+                    InvariantValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.InvariantValue].Value,
+                    Key = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.Key].Value,
+                    LocalizedValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.LocalizedValue].Value,
                 }
             });
         }

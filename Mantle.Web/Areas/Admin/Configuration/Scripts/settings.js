@@ -1,227 +1,238 @@
-﻿import 'jquery';
-import 'bootstrap-notify';
-import '/js/kendo/2014.1.318/kendo.web.min.js';
-import { inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-http-client';
-import { TemplatingEngine } from 'aurelia-templating';
+﻿define(function (require) {
+    'use strict'
 
-import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+    var $ = require('jquery');
+    var ko = require('knockout');
+    var koMap = require('knockout-mapping');
 
-@inject(TemplatingEngine)
-export class ViewModel {
-    apiUrl = "/odata/mantle/web/SettingsApi";
+    require('jqueryval');
+    require('kendo');
+    require('notify');
 
-    constructor(templatingEngine) {
-        this.templatingEngine = templatingEngine;
-        
-        this.http = new HttpClient();
-        this.http.configure(config => {
-            config.withInterceptor(new GenericHttpInterceptor());
-        });
-    }
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
 
-    // Aurelia Component Lifecycle Methods
+    var apiUrl = "/odata/mantle/web/SettingsApi";
 
-    async attached() {
-        // Load translations first, else will have errors
-        let response = await this.http.get("/admin/configuration/settings/get-view-data");
-        let viewData = response.content;
-        this.translations = viewData.translations;
+    ko.mapping = koMap;
 
-        this.sectionSwitcher = new SectionSwitcher('grid-section');
+    var ViewModel = function () {
+        var self = this;
 
-        let self = this;
+        self.gridPageSize = 10;
+        self.translations = false;
 
-        $("#grid").kendoGrid({
-            data: null,
-            dataSource: {
-                type: "odata",
-                transport: {
-                    read: {
-                        url: this.apiUrl,
-                        dataType: "json"
-                    },
-                    parameterMap: function (options, operation) {
-                        var paramMap = kendo.data.transports.odata.parameterMap(options);
-                        if (paramMap.$inlinecount) {
-                            if (paramMap.$inlinecount == "allpages") {
-                                paramMap.$count = true;
-                            }
-                            delete paramMap.$inlinecount;
-                        }
-                        if (paramMap.$filter) {
-                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                        }
-                        return paramMap;
-                    }
-                },
-                schema: {
-                    data: function (data) {
-                        return data.value;
-                    },
-                    total: function (data) {
-                        return data["@odata.count"];
-                    },
-                    model: {
-                        fields: {
-                            Name: { type: "string" }
-                        }
-                    }
-                },
-                pageSize: viewData.gridPageSize,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-                sort: { field: "Name", dir: "asc" }
-            },
-            dataBound: function (e) {
-                let body = $('#grid').find('tbody')[0];
-                if (body) {
-                    self.templatingEngine.enhance({ element: body, bindingContext: self });
-                }
-            },
-            filterable: true,
-            sortable: {
-                allowUnsort: false
-            },
-            pageable: {
-                refresh: true
-            },
-            scrollable: false,
-            columns: [{
-                field: "Name",
-                title: this.translations.columns.name
-            }, {
-                field: "Id",
-                title: " ",
-                template:
-                    '<div class="btn-group">' +
-                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                    '</div>',
-                attributes: { "class": "text-center" },
-                filterable: false,
-                width: 50
-            }]
-        });
-    }
+        self.id = ko.observable(emptyGuid);
+        self.name = ko.observable("");
+        self.type = ko.observable("");
+        self.value = ko.observable(null);
 
-    // END: Aurelia Component Lifecycle Methods
+        self.attached = function () {
+            currentSection = $("#grid-section");
 
-    async edit(id) {
-        let response = await this.http.get(`${this.apiUrl}(${id})`);
-        if (response.isSuccess) {
-            let entity = response.content;
-
-            this.id = entity.Id;
-            this.name = entity.Name;
-            this.type = entity.Type;
-            this.value = entity.Value;
-
-            await this.getEditorUI();
-        }
-    }
-
-    async save() {
-        // ensure the function exists before calling it...
-        if (typeof onBeforeSave == 'function') {
-            onBeforeSave(this);
-        }
-
-        let isNew = (this.id == 0);
-
-        let record = {
-            Id: this.id,
-            Name: this.name,
-            Type: this.type,
-            Value: this.value
-        };
-
-        let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
-        if (response.isSuccess) {
-            $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-        }
-        else {
-            $.notify({ message: this.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-        }
-
-        this.refreshGrid();
-        this.cleanUpPreviousSettings();
-        this.sectionSwitcher.swap('grid-section');
-    }
-
-    cancel() {
-        this.cleanUpPreviousSettings();
-        this.sectionSwitcher.swap('grid-section');
-    }
-
-    refreshGrid() {
-        $('#grid').data('kendoGrid').dataSource.read();
-        $('#grid').data('kendoGrid').refresh();
-    }
-
-    replaceAll(string, find, replace) {
-        return string.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
-    }
-
-    escapeRegExp(string) {
-        return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-    }
-
-    async getEditorUI() {
-        let response = await this.http.get("/admin/configuration/settings/get-editor-ui/" + this.replaceAll(this.type, ".", "-"));
-        if (response.isSuccess) {
-            let json = response.content;
-
-            // TODO: Try a new approach: Perhaps use the following:
-            //  <runtime-view html.bind="htmlThatCameFromTheServer" context.bind="$this"> </runtime-view>
-            //  as suggested here: https://stackoverflow.com/questions/50184788/how-to-inject-replace-part-of-the-view-and-view-model-in-aurelia?noredirect=1#comment87386973_50184788
-
-            this.cleanUpPreviousSettings();
-
-            let elementToBind = $("#form-section")[0];
-
-            let result = $(json.content);
-
-            // Add new HTML
-            let content = $(result.filter('#settings-content')[0]);
-            let details = $('<div>').append(content.clone()).html();
-            $("#settings-details").html(details);
-
-            // Add new Scripts
-            let scripts = result.filter('script');
-
-            $.each(scripts, function () {
-                let script = $(this);
-                script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                script.appendTo('body');
+            // Load translations first, else will have errors
+            $.ajax({
+                url: "/admin/configuration/settings/get-translations",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
             });
 
-            // Update Bindings
-            // Ensure the function exists before calling it...
-            if (typeof updateModel == 'function') {
-                let data = JSON.parse(this.value);
-                updateModel(this, data);
-                this.templatingEngine.enhance({ element: elementToBind, bindingContext: this });
+            self.gridPageSize = $("#GridPageSize").val();
+
+            $("#Grid").kendoGrid({
+                data: null,
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: apiUrl,
+                            dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
+                        }
+                    },
+                    schema: {
+                        data: function (data) {
+                            return data.value;
+                        },
+                        total: function (data) {
+                            return data["@odata.count"];
+                        },
+                        model: {
+                            fields: {
+                                Name: { type: "string" }
+                            }
+                        }
+                    },
+                    pageSize: self.gridPageSize,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true,
+                    sort: { field: "Name", dir: "asc" }
+                },
+                dataBound: function (e) {
+                    var body = this.element.find("tbody")[0];
+                    if (body) {
+                        ko.cleanNode(body);
+                        ko.applyBindings(ko.dataFor(body), body);
+                    }
+                },
+                filterable: true,
+                sortable: {
+                    allowUnsort: false
+                },
+                pageable: {
+                    refresh: true
+                },
+                scrollable: false,
+                columns: [{
+                    field: "Name",
+                    title: self.translations.columns.name,
+                    filterable: true
+                }, {
+                    field: "Id",
+                    title: " ",
+                    template: '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a></div>',
+                    attributes: { "class": "text-center" },
+                    filterable: false,
+                    width: 120
+                }]
+            });
+        };
+        self.edit = function (id) {
+            $.ajax({
+                url: apiUrl + "(" + id + ")",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.id(json.Id);
+                self.name(json.Name);
+                self.type(json.Type);
+                self.value(json.Value);
+
+                $.ajax({
+                    url: "/admin/configuration/settings/get-editor-ui/" + replaceAll(self.type(), ".", "-"),
+                    type: "GET",
+                    dataType: "json",
+                    async: false
+                })
+                .done(function (json) {
+
+                    // Clean up from previously injected html/scripts
+                    if (typeof cleanUp == 'function') {
+                        cleanUp(self);
+                    }
+
+                    // Remove Old Scripts
+                    var oldScripts = $('script[data-settings-script="true"]');
+
+                    if (oldScripts.length > 0) {
+                        $.each(oldScripts, function () {
+                            $(this).remove();
+                        });
+                    }
+
+                    var elementToBind = $("#form-section")[0];
+                    ko.cleanNode(elementToBind);
+
+                    var result = $(json.content);
+
+                    // Add new HTML
+                    var content = $(result.filter('#settings-content')[0]);
+                    var details = $('<div>').append(content.clone()).html();
+                    $("#settings-details").html(details);
+
+                    // Add new Scripts
+                    var scripts = result.filter('script');
+
+                    $.each(scripts, function () {
+                        var script = $(this);
+                        script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        script.appendTo('body');
+                    });
+
+                    // Update Bindings
+                    // Ensure the function exists before calling it...
+                    if (typeof updateModel == 'function') {
+                        var data = ko.toJS(ko.mapping.fromJSON(self.value()));
+                        updateModel(self, data);
+                        ko.applyBindings(self, elementToBind);
+                    }
+
+                    //self.validator.resetForm();
+                    switchSection($("#form-section"));
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.getRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+        self.save = function () {
+            // ensure the function exists before calling it...
+            if (typeof onBeforeSave == 'function') {
+                onBeforeSave(self);
             }
 
-            this.sectionSwitcher.swap('form-section');
-        }
-    }
+            var record = {
+                Id: self.id(),
+                Name: self.name(),
+                Type: self.type(),
+                Value: self.value()
+            };
 
-    cleanUpPreviousSettings() {
-        // Clean up from previously injected html/scripts
-        if (typeof cleanUp == 'function') {
-            cleanUp(this);
-        }
+            $.ajax({
+                url: apiUrl + "(" + self.id() + ")",
+                type: "PUT",
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(record),
+                dataType: "json",
+                async: false,
+                //xhrFields: {
+                //    withCredentials: true
+                //}
+            })
+            .done(function (json) {
+                switchSection($("#grid-section"));
 
-        // Remove Old Scripts
-        let oldScripts = $('script[data-settings-script="true"]');
-
-        if (oldScripts.length > 0) {
-            $.each(oldScripts, function () {
-                $(this).remove();
+                $.notify(self.translations.updateRecordSuccess, "success");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.translations.updateRecordError + ": " + jqXHR.responseText || textStatus, "error");
+                console.log(textStatus + ': ' + errorThrown);
             });
-        }
-    }
-}
+        };
+        self.cancel = function () {
+            switchSection($("#grid-section"));
+        };
+    };
+
+    var viewModel = new ViewModel();
+    return viewModel;
+});

@@ -46,23 +46,20 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Controllers
             return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Subscriber.Index");
         }
 
-        [Route("get-view-data")]
-        public JsonResult GetViewData()
+        //[OutputCache(Duration = 86400, VaryByParam = "none")]
+        [Route("get-translations")]
+        public JsonResult GetTranslations()
         {
             return Json(new
             {
-                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
-                translations = new
+                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                Columns = new
                 {
-                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                    columns = new
-                    {
-                        email = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Email].Value,
-                        name = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Name].Value,
-                    }
+                    Email = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Email].Value,
+                    Name = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Name].Value,
                 }
             });
         }

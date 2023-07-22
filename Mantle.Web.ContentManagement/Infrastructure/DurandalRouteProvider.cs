@@ -17,7 +17,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
                     {
                         ModuleId = "viewmodels/admin/blog",
                         Route = "blog",
-                        JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.index",
+                        JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog",
                         Title = T[MantleCmsLocalizableStrings.Blog.Title].Value
                     },
 

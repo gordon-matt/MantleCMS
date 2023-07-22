@@ -6,14 +6,14 @@
         <div class="form-group">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 @Html.LabelFor(m => m.BodyContent, new { @class = "control-label" })
-                <tiny-mce theme="silver" content.bind="blockModel.bodyContent" options.bind="blockModel.tinyMCEConfig"></tiny-mce>
+                @Html.TextAreaFor(m => m.BodyContent, new { @class = "form-control", data_bind = "wysiwyg: blockModel.bodyContent, wysiwygConfig: blockModel.tinyMCEConfig" })
                 @Html.HelpTextFor(m => m.BodyContent)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 @Html.LabelFor(m => m.Script, new { @class = "control-label" })
-                <textarea name="Script" class="form-control" rows="7" value.bind="blockModel.script"></textarea>
+                @Html.TextAreaFor(m => m.Script, new { @class = "form-control", data_bind = "value: blockModel.script", rows = 7 })
                 @Html.HelpTextFor(m => m.Script)
             </div>
         </div>
@@ -21,25 +21,22 @@
 </div>
 
 <script type="text/javascript">
-    //import { MantleTinyMCEOptions } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
-
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.bodyContent = '';
-            blockModel.script = '';
+            blockModel.bodyContent = ko.observable("");
+            blockModel.script = ko.observable("");
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data && data.BodyContent) {
-                blockModel.bodyContent = data.BodyContent;
+                blockModel.bodyContent(data.BodyContent());
             }
             if (data && data.Script) {
-                blockModel.script = data.Script;
+                blockModel.script(data.Script());
             }
 
-            let options = new MantleTinyMCEOptions();
-            blockModel.tinyMCEConfig = options.defaultConfig;
+            blockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;
         };
         f.cleanUp = function (blockModel) {
             delete blockModel.bodyContent;
@@ -48,11 +45,11 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                BodyContent: blockModel.bodyContent,
-                Script: blockModel.script
+                BodyContent: blockModel.bodyContent(),
+                Script: blockModel.script()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

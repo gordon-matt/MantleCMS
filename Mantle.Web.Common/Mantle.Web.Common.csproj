@@ -20,13 +20,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Regions\Content\Images\WorldMap.jpg" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\city-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\country-model.js" />
     <EmbeddedResource Include="Areas\Admin\Regions\Scripts\index.js" />
     <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.js" />
     <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\settings-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\state-model.js" />
     <EmbeddedResource Include="Areas\Admin\Regions\Views\Region\Index.cshtml" />
   </ItemGroup>
 

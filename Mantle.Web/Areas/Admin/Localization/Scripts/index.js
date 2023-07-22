@@ -1,276 +1,326 @@
-﻿import 'jquery';
-import 'jquery-validation';
-//import 'bootstrap';
-import 'bootstrap-fileinput';
-import 'bootstrap-notify';
-import '/js/kendo/2014.1.318/kendo.web.min.js';
+﻿define(function (require) {
+    'use strict'
 
-import { inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-http-client';
-import { TemplatingEngine } from 'aurelia-templating';
+    var $ = require('jquery');
+    var ko = require('knockout');
 
-import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+    require('jqueryval');
+    require('kendo');
+    require('notify');
 
-@inject(TemplatingEngine)
-export class ViewModel {
-    apiUrl = "/odata/mantle/web/LanguageApi";
-    emptyGuid = '00000000-0000-0000-0000-000000000000';
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
+    require('bootstrap-fileinput');
 
-    constructor(templatingEngine) {
-        this.templatingEngine = templatingEngine;
+    var apiUrl = "/odata/mantle/web/LanguageApi";
 
-        this.http = new HttpClient();
-        this.http.configure(config => {
-            config.withInterceptor(new GenericHttpInterceptor());
-        });
-    }
+    var ViewModel = function () {
+        var self = this;
 
-    // Aurelia Component Lifecycle Methods
+        self.gridPageSize = 10;
+        self.translations = false;
 
-    async attached() {
-        $('a[data-toggle=dropdown').dropdown(); // Fix: https://discourse.aurelia.io/t/bootstrap-import-bootstrap-breaks-dropdown-menu-in-navbar/641/7
+        self.id = ko.observable(emptyGuid);
+        self.name = ko.observable(null);
+        self.cultureCode = ko.observable(null);
+        self.isRTL = ko.observable(false);
+        self.isEnabled = ko.observable(false);
+        self.sortOrder = ko.observable(0);
 
-        // Load translations first, else will have errors
-        let response = await this.http.get("/admin/localization/languages/get-view-data");
-        let viewData = response.content;
-        this.translations = viewData.translations;
+        self.validator = false;
 
-        this.sectionSwitcher = new SectionSwitcher('grid-section');
+        self.attached = function () {
+            currentSection = $("#grid-section");
 
-        this.validator = $("#form-section-form").validate({
-            rules: {
-                Name: { required: true, maxlength: 255 },
-                CultureCode: { required: true, maxlength: 10 },
-                SortOrder: { required: true }
-            }
-        });
+            // Load translations first, else will have errors
+            $.ajax({
+                url: "/admin/localization/languages/get-translations",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
 
-        let self = this;
+            self.gridPageSize = $("#GridPageSize").val();
 
-        $("#grid").kendoGrid({
-            data: null,
-            dataSource: {
-                type: "odata",
-                transport: {
-                    read: {
-                        url: this.apiUrl,
-                        dataType: "json"
-                    },
-                    parameterMap: function (options, operation) {
-                        var paramMap = kendo.data.transports.odata.parameterMap(options);
-                        if (paramMap.$inlinecount) {
-                            if (paramMap.$inlinecount == "allpages") {
-                                paramMap.$count = true;
-                            }
-                            delete paramMap.$inlinecount;
-                        }
-                        if (paramMap.$filter) {
-                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                        }
-                        return paramMap;
-                    }
-                },
-                schema: {
-                    data: function (data) {
-                        return data.value;
-                    },
-                    total: function (data) {
-                        return data["@odata.count"];
-                    },
-                    model: {
-                        fields: {
-                            Name: { type: "string" },
-                            CultureCode: { type: "string" },
-                            IsEnabled: { type: "boolean" },
-                            SortOrder: { type: "number" }
-                        }
-                    }
-                },
-                pageSize: viewData.gridPageSize,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-                sort: { field: "Name", dir: "asc" }
-            },
-            dataBound: function (e) {
-                let body = $('#grid').find('tbody')[0];
-                if (body) {
-                    self.templatingEngine.enhance({ element: body, bindingContext: self });
+            self.validator = $("#form-section-form").validate({
+                rules: {
+                    Name: { required: true, maxlength: 255 },
+                    CultureCode: { required: true, maxlength: 10 },
+                    SortOrder: { required: true }
                 }
-            },
-            filterable: true,
-            sortable: {
-                allowUnsort: false
-            },
-            pageable: {
-                refresh: true
-            },
-            scrollable: false,
-            columns: [{
-                field: "Name",
-                title: self.translations.columns.name
-            }, {
-                field: "CultureCode",
-                title: self.translations.columns.cultureCode,
-                width: 70
-            }, {
-                field: "IsEnabled",
-                title: self.translations.columns.isEnabled,
-                template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
-                attributes: { "class": "text-center" },
-                width: 70
-            }, {
-                field: "SortOrder",
-                title: self.translations.columns.sortOrder,
-                width: 70
-            }, {
-                field: "Id",
-                title: " ",
-                template:
-                    '<div class="btn-group">' +
-                        `<button type="button" click.delegate="edit(\'#=Id#\')" class="btn btn-default btn-sm" title="${this.translations.edit}"><i class="fa fa-edit"></i></button>` +
-                        `<button type="button" click.delegate="remove(\'#=Id#\')" class="btn btn-danger btn-sm" title="${this.translations.delete}"><i class="fa fa-remove"></i></button>` +
-                        `<a route-href="route: mantle-web/localization/localizable-strings; params.bind: { cultureCode: #=CultureCode# }" class="btn btn-primary btn-sm" title="${this.translations.localize}"><i class="fa fa-globe"></i></a>` +
-                    '</div>',
-                attributes: { "class": "text-center" },
-                filterable: false,
-                width: 150
-            }]
-        });
+            });
 
-        $("#Upload").fileinput({
-            uploadUrl: '/admin/localization/languages/import-language-pack',
-            uploadAsync: false,
-            maxFileCount: 1,
-            showPreview: false,
-            showRemove: false,
-            allowedFileExtensions: ['json']
-        });
-        
-        $('#Upload').on('filebatchuploadsuccess', function (event, data) {
-            var response = data.response;
-            self.refreshGrid();
-            self.sectionSwitcher.swap('grid-section');
-            $.notify({ message: response.message, icon: 'fa fa-check' }, { type: 'success' });
-        });
-    }
+            $("#Upload").fileinput({
+                uploadUrl: '/admin/localization/languages/import-language-pack',
+                uploadAsync: false,
+                maxFileCount: 1,
+                showPreview: false,
+                showRemove: false,
+                allowedFileExtensions: ['json']
+            });
+            $('#Upload').on('filebatchuploadsuccess', function (event, data, previewId, index) {
+                var response = data.response;
+                $('#Grid').data('kendoGrid').dataSource.read();
+                $('#Grid').data('kendoGrid').refresh();
+                switchSection($("#grid-section"));
+                $.notify(response.Message, "success");
+            });
 
-    // END: Aurelia Component Lifecycle Methods
-
-    create() {
-        this.id = this.emptyGuid;
-        this.name = null;
-        this.cultureCode = null;
-        this.isRTL = false;
-        this.isEnabled = false;
-        this.sortOrder = 0;
-
-        this.validator.resetForm();
-        $("#form-section-legend").html(this.translations.create);
-        this.sectionSwitcher.swap('form-section');
-    }
-
-    async edit(id) {
-        let response = await this.http.get(`${this.apiUrl}(${id})`);
-        let entity = response.content;
-
-        this.id = entity.Id;
-        this.name = entity.Name;
-        this.cultureCode = entity.CultureCode;
-        this.isRTL = entity.IsRTL;
-        this.isEnabled = entity.IsEnabled;
-        this.sortOrder = entity.SortOrder;
-
-        this.validator.resetForm();
-        $("#form-section-legend").html(this.translations.edit);
-        this.sectionSwitcher.swap('form-section');
-    }
-
-    async remove(id) {
-        if (confirm(this.translations.deleteRecordConfirm)) {
-            let response = await this.http.delete(`${this.apiUrl}(${id})`);
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-            }
-            else {
-                $.notify({ message: this.translations.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            }
-
-            this.refreshGrid();
-        }
-    }
-
-    async save() {
-        if (!$("#form-section-form").valid()) {
-            return false;
-        }
-
-        let isNew = (this.id == this.emptyGuid);
-
-        let record = {
-            Id: this.id,
-            Name: this.name,
-            CultureCode: this.cultureCode,
-            IsRTL: this.isRTL,
-            IsEnabled: this.isEnabled,
-            SortOrder: this.sortOrder,
-            Hosts: this.hosts
+            $("#Grid").kendoGrid({
+                data: null,
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: apiUrl,
+                            dataType: "json"
+                        },
+                        parameterMap: function (options, operation) {
+                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            if (paramMap.$inlinecount) {
+                                if (paramMap.$inlinecount == "allpages") {
+                                    paramMap.$count = true;
+                                }
+                                delete paramMap.$inlinecount;
+                            }
+                            if (paramMap.$filter) {
+                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            }
+                            return paramMap;
+                        }
+                    },
+                    schema: {
+                        data: function (data) {
+                            return data.value;
+                        },
+                        total: function (data) {
+                            return data["@odata.count"];
+                        },
+                        model: {
+                            fields: {
+                                Name: { type: "string" },
+                                CultureCode: { type: "string" },
+                                IsEnabled: { type: "boolean" },
+                                SortOrder: { type: "number" }
+                            }
+                        }
+                    },
+                    pageSize: self.gridPageSize,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true,
+                    sort: { field: "Name", dir: "asc" }
+                },
+                dataBound: function (e) {
+                    var body = this.element.find("tbody")[0];
+                    if (body) {
+                        ko.cleanNode(body);
+                        ko.applyBindings(ko.dataFor(body), body);
+                    }
+                },
+                filterable: true,
+                sortable: {
+                    allowUnsort: false
+                },
+                pageable: {
+                    refresh: true
+                },
+                scrollable: false,
+                columns: [{
+                    field: "Name",
+                    title: self.translations.columns.name,
+                    filterable: true
+                }, {
+                    field: "CultureCode",
+                    title: self.translations.columns.cultureCode,
+                    filterable: true,
+                    width: 70
+                }, {
+                    field: "IsEnabled",
+                    title: self.translations.columns.isEnabled,
+                    template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
+                    attributes: { "class": "text-center" },
+                    filterable: true,
+                    width: 70
+                }, {
+                    field: "SortOrder",
+                    title: self.translations.columns.sortOrder,
+                    filterable: true,
+                    width: 70
+                }, {
+                    field: "Id",
+                    title: " ",
+                    template:
+                        '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
+                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
+                        '<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">' + self.translations.localize + '</a>' +
+                        '</div>',
+                    //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-default btn-xs">Set Default</a></div>',
+                    attributes: { "class": "text-center" },
+                    filterable: false,
+                    width: 170
+                }]
+            });
         };
+        self.create = function () {
+            self.id(emptyGuid);
+            self.name(null);
+            self.cultureCode(null);
+            self.isRTL(false);
+            self.isEnabled(false);
+            self.sortOrder(0);
 
-        if (isNew) {
-            let response = await this.http.post(this.apiUrl, record);
-            //console.log('response: ' + JSON.stringify(response));
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.insertRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.translations.create);
+        };
+        self.edit = function (id) {
+            $.ajax({
+                url: apiUrl + "(" + id + ")",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.id(json.Id);
+                self.name(json.Name);
+                self.cultureCode(json.CultureCode);
+                self.isRTL(json.IsRTL);
+                self.isEnabled(json.IsEnabled);
+                self.sortOrder(json.SortOrder);
+
+                self.validator.resetForm();
+                switchSection($("#form-section"));
+                $("#form-section-legend").html(self.translations.edit);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
+        };
+        self.remove = function (id) {
+            if (confirm(self.translations.deleteRecordConfirm)) {
+                $.ajax({
+                    url: apiUrl + "(" + id + ")",
+                    type: "DELETE",
+                    async: false
+                })
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
+
+                    $.notify(self.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
+            }
+        };
+        self.save = function () {
+
+            if (!$("#form-section-form").valid()) {
+                return false;
+            }
+
+            var cultureCode = self.cultureCode();
+            if (cultureCode == '') {
+                cultureCode = null;
+            }
+
+            var record = {
+                Id: self.id(),
+                Name: self.name(),
+                CultureCode: cultureCode,
+                IsRTL: self.isRTL(),
+                IsEnabled: self.isEnabled(),
+                SortOrder: self.sortOrder()
+            };
+
+            if (self.id() == emptyGuid) {
+                // INSERT
+                $.ajax({
+                    url: apiUrl,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(record),
+                    dataType: "json",
+                    async: false
+                })
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
+
+                    switchSection($("#grid-section"));
+
+                    $.notify(self.translations.insertRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.insertRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
             else {
-                $.notify({ message: this.translations.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                // UPDATE
+                $.ajax({
+                    url: apiUrl + "(" + self.id() + ")",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(record),
+                    dataType: "json",
+                    async: false
+                })
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
+
+                    switchSection($("#grid-section"));
+
+                    $.notify(self.translations.updateRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.updateRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
-        }
-        else {
-            let response = await this.http.put(`${this.apiUrl}(${this.id})`, record);
-            //console.log('response: ' + JSON.stringify(response));
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
+        };
+        self.cancel = function () {
+            switchSection($("#grid-section"));
+        };
+        self.onCultureCodeChanged = function () {
+            var cultureName = $('#CultureCode option:selected').text();
+            self.name(cultureName);
+        };
+        self.clear = function () {
+            if (confirm(self.translations.resetLocalizableStringsConfirm)) {
+                $.ajax({
+                    url: apiUrl + "/Default.ResetLocalizableStrings",
+                    type: "POST"
+                })
+                .done(function (json) {
+                    $.notify(self.translations.resetLocalizableStringsSuccess, "success");
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 500);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.resetLocalizableStringsError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
-            else {
-                $.notify({ message: this.translations.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            }
-        }
+        };
+        self.importLanguagePack = function () {
+            switchSection($("#upload-section"));
+        };
+    };
 
-        this.refreshGrid();
-        this.sectionSwitcher.swap('grid-section');
-    }
-
-    cancel() {
-        this.sectionSwitcher.swap('grid-section');
-    }
-
-    refreshGrid() {
-        $('#grid').data('kendoGrid').dataSource.read();
-        $('#grid').data('kendoGrid').refresh();
-    }
-
-    async clear() {
-        $.notify({ message: "This will delete all localized strings for all languages.", icon: 'fa fa-warning' }, { type: 'warning' });
-
-        if (confirm(this.translations.resetLocalizableStringsConfirm)) {
-            let response = await this.http.post(`${this.apiUrl}/Default.ResetLocalizableStrings`);
-
-            if (response.isSuccess) {
-                $.notify({ message: this.translations.resetLocalizableStringsSuccess, icon: 'fa fa-check' }, { type: 'success' });
-                setTimeout(function () {
-                    window.location.reload();
-                }, 500);
-            }
-            else {
-                $.notify({ message: this.translations.resetLocalizableStringsError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            }
-        }
-    }
-
-    importLanguagePack() {
-        this.sectionSwitcher.swap('upload-section');
-    }
-}
+    var viewModel = new ViewModel();
+    return viewModel;
+});
