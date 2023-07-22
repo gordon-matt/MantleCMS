@@ -18,7 +18,7 @@
   <ItemGroup>
     <None Remove="Areas\Admin\Blog\Scripts\blog.js" />
     <None Remove="Areas\Admin\Blog\Scripts\blogContent.js" />
-    <None Remove="Areas\Admin\Menus\Scripts\menus.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\index.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +33,7 @@
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />

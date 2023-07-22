@@ -13,7 +13,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
             return new Dictionary<string, string>
             {
                 { "mantle-common", "/Mantle.Web.CommonResources.Scripts.mantle-common" },
-                { "mantle-chosen-knockout", "/Mantle.Web.CommonResources.Scripts.mantle-knockout-chosen" },
+                { "mantle-knockout-chosen", "/Mantle.Web.CommonResources.Scripts.mantle-knockout-chosen" },
                 { "mantle-jqueryval", "/Mantle.Web.CommonResources.Scripts.mantle-jqval" },
                 { "mantle-section-switching", "/Mantle.Web.CommonResources.Scripts.mantle-section-switching" },
                 { "mantle-tinymce", "/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce" },
@@ -31,7 +31,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
         {
             return new Dictionary<string, string[]>
             {
-                { "mantle-chosen-knockout", new[] { "chosen", "knockout" } },
+                { "mantle-knockout-chosen", new[] { "chosen", "knockout" } },
                 { "mantle-jqueryval", new[] { "jqueryval" } },
                 { "mantle-tinymce", new[] { "tinymce" } },
                 { "bootstrap-fileinput", new[] { "jquery", "bootstrap" } },

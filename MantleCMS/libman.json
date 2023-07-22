@@ -13,6 +13,10 @@
     {
       "library": "jquery@3.7.0",
       "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "tinymce@5.2.0",
+      "destination": "wwwroot/lib/tinymce/"
     }
   ]
 }

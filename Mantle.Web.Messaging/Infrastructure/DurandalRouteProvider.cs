@@ -17,7 +17,7 @@ namespace Mantle.Web.Messaging.Infrastructure
                     {
                         ModuleId = "viewmodels/admin/messaging/templates",
                         Route = "messaging/templates",
-                        JsPath = "/durandal-app/embedded/Mantle.Web.Messaging.Scripts.MessageTemplates.index",
+                        JsPath = "/durandal-app/embedded/Mantle.Web.Messaging.Scripts.messageTemplates",
                         Title = T[LocalizableStrings.MessageTemplates].Value
                     },
 
@@ -25,7 +25,7 @@ namespace Mantle.Web.Messaging.Infrastructure
                     {
                         ModuleId = "viewmodels/admin/messaging/queued-email",
                         Route = "messaging/queued-email",
-                        JsPath = "/durandal-app/embedded/Mantle.Web.Messaging.Scripts.QueuedEmails.index",
+                        JsPath = "/durandal-app/embedded/Mantle.Web.Messaging.Scripts.queuedEmails",
                         Title = T[LocalizableStrings.QueuedEmails].Value
                     }
                 };

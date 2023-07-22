@@ -13,8 +13,8 @@
     'kendo-knockout': '../../knockout-kendo.min',
     'knockout-mapping': '../../knockout.mapping-latest.debug',
     'notify': '../../notify.min',
-    'tinymce': '../../tinymce/tinymce.min',
-    'tinymce-jquery': '../../tinymce/jquery.tinymce.min',
+    'tinymce': '../../../lib/tinymce/tinymce.min',
+    'tinymce-jquery': '../../../lib/tinymce/jquery.tinymce.min',
     'tinymce-knockout': '../../wysiwyg.min',
 
     'smart-config': '../../app.config',
