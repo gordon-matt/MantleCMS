@@ -9,20 +9,20 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-<template>
-    <div id="grid-section" class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="generateFile()" class="btn btn-success">
-                <i class="fa fa-save"></i>
-                @T[MantleCmsLocalizableStrings.Sitemap.GenerateFile]
-            </button>
-        </div>
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="grid"></div>
-        </div>
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: generateFile" href="javascript:void(0)" class="btn btn-success">
+            <i class="fa fa-save"></i>
+            @T[MantleCmsLocalizableStrings.Sitemap.GenerateFile]
+        </a>
     </div>
-</template>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
+    </div>
+</div>

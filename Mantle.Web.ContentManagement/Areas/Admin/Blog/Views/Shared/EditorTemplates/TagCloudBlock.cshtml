@@ -83,77 +83,77 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            //blockModel.width = 100;
-            //blockModel.widthUnit = 1;
-            //blockModel.height = 250;
-            //blockModel.heightUnit = 0;
-            //blockModel.centerX = 0.5;
-            //blockModel.centerY = 0.5;
-            blockModel.autoResize = false;
-            blockModel.steps = 10;
-            blockModel.classPattern = 'w{n}';
-            blockModel.afterCloudRender = null;
-            blockModel.delay = null;
-            blockModel.shape = 0;
-            blockModel.removeOverflowing = true;
-            blockModel.encodeURI = true;
-            blockModel.colors = null;
-            blockModel.fontSizeFrom = null;
-            blockModel.fontSizeTo = null;
+            //blockModel.width = ko.observable(100);
+            //blockModel.widthUnit = ko.observable(1);
+            //blockModel.height = ko.observable(250);
+            //blockModel.heightUnit = ko.observable(0);
+            //blockModel.centerX = ko.observable(0.5);
+            //blockModel.centerY = ko.observable(0.5);
+            blockModel.autoResize = ko.observable(false);
+            blockModel.steps = ko.observable(10);
+            blockModel.classPattern = ko.observable('w{n}');
+            blockModel.afterCloudRender = ko.observable(null);
+            blockModel.delay = ko.observable(null);
+            blockModel.shape = ko.observable(0);
+            blockModel.removeOverflowing = ko.observable(true);
+            blockModel.encodeURI = ko.observable(true);
+            blockModel.colors = ko.observable(null);
+            blockModel.fontSizeFrom = ko.observable(null);
+            blockModel.fontSizeTo = ko.observable(null);
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data) {
                 //if (data.Width) {
-                //    blockModel.width = data.Width;
+                //    blockModel.width(data.Width());
                 //}
                 //if (data.WidthUnit) {
-                //    blockModel.widthUnit = data.WidthUnit;
+                //    blockModel.widthUnit(data.WidthUnit());
                 //}
                 //if (data.Height) {
-                //    blockModel.height = data.Height;
+                //    blockModel.height(data.Height());
                 //}
                 //if (data.HeightUnit) {
-                //    blockModel.heightUnit = data.HeightUnit;
+                //    blockModel.heightUnit(data.HeightUnit());
                 //}
                 //if (data.CenterX) {
-                //    blockModel.centerX = data.CenterX;
+                //    blockModel.centerX(data.CenterX());
                 //}
                 //if (data.CenterY) {
-                //    blockModel.centerY = data.CenterY;
+                //    blockModel.centerY(data.CenterY());
                 //}
-                if (data.AutoResize && typeof data.AutoResize === 'boolean') {
-                    blockModel.autoResize = data.AutoResize;
+                if (data.AutoResize && typeof data.AutoResize() === 'boolean') {
+                    blockModel.autoResize(data.AutoResize());
                 }
                 if (data.Steps) {
-                    blockModel.steps = data.Steps;
+                    blockModel.steps(data.Steps());
                 }
                 if (data.ClassPattern) {
-                    blockModel.classPattern = data.ClassPattern;
+                    blockModel.classPattern(data.ClassPattern());
                 }
                 if (data.AfterCloudRender) {
-                    blockModel.afterCloudRender = data.AfterCloudRender;
+                    blockModel.afterCloudRender(data.AfterCloudRender());
                 }
                 if (data.Delay) {
-                    blockModel.delay = data.Delay;
+                    blockModel.delay(data.Delay());
                 }
                 if (data.Shape) {
-                    blockModel.shape = data.Shape;
+                    blockModel.shape(data.Shape());
                 }
-                if (data.RemoveOverflowing && typeof data.RemoveOverflowing === 'boolean') {
-                    blockModel.removeOverflowing = data.RemoveOverflowing;
+                if (data.RemoveOverflowing && typeof data.RemoveOverflowing() === 'boolean') {
+                    blockModel.removeOverflowing(data.RemoveOverflowing());
                 }
-                if (data.EncodeURI && typeof data.EncodeURI === 'boolean') {
-                    blockModel.encodeURI = data.EncodeURI;
+                if (data.EncodeURI && typeof data.EncodeURI() === 'boolean') {
+                    blockModel.encodeURI(data.EncodeURI());
                 }
                 if (data.Colors) {
-                    blockModel.colors = data.Colors;
+                    blockModel.colors(data.Colors());
                 }
                 if (data.FontSizeFrom) {
-                    blockModel.fontSizeFrom = data.FontSizeFrom;
+                    blockModel.fontSizeFrom(data.FontSizeFrom());
                 }
                 if (data.FontSizeTo) {
-                    blockModel.fontSizeTo = data.FontSizeTo;
+                    blockModel.fontSizeTo(data.FontSizeTo());
                 }
             }
         };
@@ -178,26 +178,26 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                //Width: blockModel.width,
-                //WidthUnit: blockModel.widthUnit,
-                //Height: blockModel.height,
-                //HeightUnit: blockModel.heightUnit,
-                //CenterX: blockModel.centerX,
-                //CenterY: blockModel.centerY,
-                AutoResize: blockModel.autoResize,
-                Steps: blockModel.steps,
-                ClassPattern: blockModel.classPattern,
-                AfterCloudRender: blockModel.afterCloudRender,
-                Delay: blockModel.delay,
-                Shape: blockModel.shape,
-                RemoveOverflowing: blockModel.removeOverflowing,
-                EncodeURI: blockModel.encodeURI,
-                Colors: blockModel.colors,
-                FontSizeFrom: blockModel.fontSizeFrom,
-                FontSizeTo: blockModel.fontSizeTo
+                //Width: blockModel.width(),
+                //WidthUnit: blockModel.widthUnit(),
+                //Height: blockModel.height(),
+                //HeightUnit: blockModel.heightUnit(),
+                //CenterX: blockModel.centerX(),
+                //CenterY: blockModel.centerY(),
+                AutoResize: blockModel.autoResize(),
+                Steps: blockModel.steps(),
+                ClassPattern: blockModel.classPattern(),
+                AfterCloudRender: blockModel.afterCloudRender(),
+                Delay: blockModel.delay(),
+                Shape: blockModel.shape(),
+                RemoveOverflowing: blockModel.removeOverflowing(),
+                EncodeURI: blockModel.encodeURI(),
+                Colors: blockModel.colors(),
+                FontSizeFrom: blockModel.fontSizeFrom(),
+                FontSizeTo: blockModel.fontSizeTo()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

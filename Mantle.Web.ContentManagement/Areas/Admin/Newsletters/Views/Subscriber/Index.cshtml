@@ -1,4 +1,5 @@
-﻿@using Mantle.Web.ContentManagement
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+@using Mantle.Web.ContentManagement
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
@@ -7,20 +8,20 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-<template>
-    <div id="grid-section" class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="downloadCsv()" class="btn btn-primary">
-                <i class="fa fa-download"></i>
-                @T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]
-            </button>
-        </div>
-
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="grid"></div>
-        </div>
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: downloadCsv" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+            @T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]
+        </a>
     </div>
-</template>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)

@@ -16,12 +16,12 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.numberOfCategories = 5;
+            blockModel.numberOfCategories = ko.observable(5);
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data && data.NumberOfCategories) {
-                blockModel.numberOfCategories = data.NumberOfCategories;
+                blockModel.numberOfCategories(data.NumberOfCategories());
             }
         };
         f.cleanUp = function (blockModel) {
@@ -29,10 +29,10 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                NumberOfCategories: blockModel.numberOfCategories
+                NumberOfCategories: blockModel.numberOfCategories()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

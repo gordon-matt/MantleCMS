@@ -19,314 +19,295 @@
 @inject Mantle.Web.IWorkContext WorkContext
 @inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
-<template>
-    @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
+@Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
-    <require from="chosen-js/chosen.min.css"></require>
+<link rel="stylesheet" type="text/css" href="@Style.GetBundleUrl("chosen")" />
 
-    <style type="text/css">
-        .modal-dialog {
-            width: 80% !important;
-        }
-    </style>
+<style type="text/css">
+    .modal-dialog {
+        width: 80% !important;
+    }
+</style>
 
-    <div id="post-grid-section" class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="postModel.create()" class="btn btn-primary">
-                <i class="fa fa-plus"></i>
-                @T[MantleWebLocalizableStrings.General.Create]
-            </button>
-            <button type="button" click.delegate="showCategories()" class="btn btn-info">
-                <i class="fa fa-folder"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Categories]
-            </button>
-            <button type="button" click.delegate="showTags()" class="btn btn-success">
-                <i class="fa fa-tags"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Tags]
-            </button>
-        </div>
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="post-grid"></div>
-        </div>
+<div id="post-grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: postModel.create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+        <a data-bind="click: showCategories" class="btn btn-info">
+            <i class="fa fa-folder"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Categories]
+        </a>
+        <a data-bind="click: showTags" class="btn btn-success">
+            <i class="fa fa-tags"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Tags]
+        </a>
     </div>
 
-    <div id="post-form-section" class="row" style="display:none">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-            {
-                using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Posts])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="post-form-section-form" role="form">
-                        <fieldset>
-                            <legend id="post-form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.Blog.PostModel.CategoryId], new { @class = "control-label" })
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-folder"></i>
-                                        </span>
-                                        @Html.MantleCMS().BlogCategoryDropDownList(
-                                            "CategoryId",
-                                            emptyText: T[MantleWebLocalizableStrings.General.SelectOption],
-                                            htmlAttributes: new Dictionary<string, object>
-                                            {
-                                                { "class", "form-control" },
-                                                { "value.bind", "postModel.categoryId" }
-                                            })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Headline", T[MantleCmsLocalizableStrings.Blog.PostModel.Headline], new { @class = "control-label" })
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-newspaper-o"></i>
-                                        </span>
-                                        <input type="text" id="Headline" name="Headline" class="form-control" value.bind="postModel.headline" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Slug", T[MantleCmsLocalizableStrings.Blog.PostModel.Slug], new { @class = "control-label" })
-                                    <input type="text" id="Slug" name="Slug" class="form-control" value.bind="postModel.slug" />
-                                </div>
-                            </div>
+    <div class="clearfix"></div>
+    <br />
 
-                            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                                <div if.bind="postModel.teaserImageUrl">
-                                    <img src.bind="postModel.teaserImageUrl" class="img-responsive img-thumbnail" />
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="PostGrid"></div>
+    </div>
+</div>
+
+<div id="post-form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Posts])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="post-form-section-form" role="form">
+                    <fieldset>
+                        <legend id="post-form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.Blog.PostModel.CategoryId], new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-folder"></i>
+                                    </span>
+                                    @Html.MantleCMS().BlogCategoryDropDownList("CategoryId", htmlAttributes: new { @class = "form-control", data_bind = "value: postModel.categoryId" })
                                 </div>
-                                <div else>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Headline", T[MantleCmsLocalizableStrings.Blog.PostModel.Headline], new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-newspaper-o"></i>
+                                    </span>
+                                    @Html.TextBox("Headline", null, new { @class = "form-control", data_bind = "value: postModel.headline" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Slug", T[MantleCmsLocalizableStrings.Blog.PostModel.Slug], new { @class = "control-label" })
+                                @Html.TextBox("Slug", null, new { @class = "form-control", data_bind = "value: postModel.slug" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <div data-bind="if: postModel.teaserImageUrl">
+                                    <img data-bind="attr: { src: postModel.teaserImageUrl }" class="img-responsive img-thumbnail" />
+                                </div>
+                                <div data-bind="ifnot: postModel.teaserImageUrl">
                                     <img src="http://placehold.it/320x240&text=Image+Missing" class="img-responsive img-thumbnail" />
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                            <div class="form-group">
+                                @Html.Label("TeaserImageUrl", T[MantleCmsLocalizableStrings.Blog.PostModel.TeaserImageUrl], new { @class = "control-label" })
+                                <div class="input-group">
+                                    @Html.TextBox("TeaserImageUrl", null, new { @class = "form-control", data_bind = "value: postModel.teaserImageUrl" })
+                                    <span class="input-group-addon">
+                                        <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("ShortDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.ShortDescription], new { @class = "control-label" })
+                                @Html.TextArea("ShortDescription", null, new { @class = "form-control", data_bind = "value: postModel.shortDescription" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBox("UseExternalLink", new { data_bind = "checked: postModel.useExternalLink" }) @T[MantleCmsLocalizableStrings.Blog.PostModel.UseExternalLink]
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-bind="visible: postModel.useExternalLink() == true">
+                            <div class="form-group">
+                                @Html.Label("ExternalLink", T[MantleCmsLocalizableStrings.Blog.PostModel.ExternalLink], new { @class = "control-label" })
+                                @Html.TextBox("ExternalLink", null, new { @class = "form-control", data_bind = "value: postModel.externalLink" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-bind="visible: postModel.useExternalLink() == false">
+                            <div class="form-group">
+                                @Html.Label("FullDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.FullDescription], new { @class = "control-label" })
+                                @Html.TextArea("FullDescription", null, new { @class = "form-control", data_bind = "wysiwyg: postModel.fullDescription, wysiwygConfig: tinyMCE_fullDescription" })
+                            </div>
+                        </div>
 
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                <div class="form-group">
-                                    @Html.Label("TeaserImageUrl", T[MantleCmsLocalizableStrings.Blog.PostModel.TeaserImageUrl], new { @class = "control-label" })
-                                    <div class="input-group">
-                                        <input type="text" id="TeaserImageUrl" name="TeaserImageUrl" class="form-control" value.bind="postModel.teaserImageUrl" />
-                                        <span class="input-group-addon">
-                                            <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
-                                                <i class="fa fa-search"></i>
-                                            </a>
-                                        </span>
-                                    </div>
-                                </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Tags", T[MantleCmsLocalizableStrings.Blog.Tags], new { @class = "control-label" })
+                                <select id="Tags"
+                                        name="Tags"
+                                        class="form-control @chosenRtlClass"
+                                        multiple="multiple"
+                                        data-bind="options: postModel.availableTags, optionsText: 'Name', optionsValue: 'Id', selectedOptions: postModel.chosenTags, chosen: {width: '100%'}"></select>
                             </div>
+                        </div>
 
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("ShortDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.ShortDescription], new { @class = "control-label" })
-                                    <textarea id="ShortDescription" name="ShortDescription" class="form-control" value.bind="postModel.shortDescription"></textarea>
-                                </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("MetaKeywords", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaKeywords], new { @class = "control-label" })
+                                @Html.TextBox("MetaKeywords", null, new { @class = "form-control", data_bind = "value: postModel.metaKeywords" })
                             </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" id="UseExternalLink" name="UseExternalLink" checked.bind="postModel.useExternalLink" /> @T[MantleCmsLocalizableStrings.Blog.PostModel.UseExternalLink]
-                                        </label>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("MetaDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaDescription], new { @class = "control-label" })
+                                @Html.TextBox("MetaDescription", null, new { @class = "form-control", data_bind = "value: postModel.metaDescription" })
                             </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" show.bind="postModel.useExternalLink">
-                                <div class="form-group">
-                                    @Html.Label("ExternalLink", T[MantleCmsLocalizableStrings.Blog.PostModel.ExternalLink], new { @class = "control-label" })
-                                    <input type="text" id="ExternalLink" name="ExternalLink" class="form-control" value.bind="postModel.externalLink" />
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: postModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: postModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" show.bind="!postModel.useExternalLink">
-                                <div class="form-group">
-                                    @Html.Label("FullDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.FullDescription], new { @class = "control-label" })
-                                    <tiny-mce id="FullDescription" name="FullDescription" theme="silver" content.bind="postModel.fullDescription" options.bind="tinyMCEConfig"></tiny-mce>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Tags", T[MantleCmsLocalizableStrings.Blog.Tags], new { @class = "control-label" })
-
-                                    <select id="Tags"
-                                            name="Tags"
-                                            class="form-control @chosenRtlClass"
-                                            multiple="multiple"
-                                            value.bind="postModel.chosenTags">
-                                        <option repeat.for="availableTag of postModel.availableTags" model.bind="availableTag">${availableTag.Name}</option>
-                                    </select>
-
-                                    @*<select id="Tags"
-                                            name="Tags"
-                                            class="form-control @chosenRtlClass"
-                                            multiple="multiple"
-                                            data-bind="options: postModel.availableTags, optionsText: 'Name', optionsValue: 'Id', selectedOptions: postModel.chosenTags, chosen: {width: '100%'}"></select>*@
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("MetaKeywords", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaKeywords], new { @class = "control-label" })
-                                    <input type="text" id="MetaKeywords" name="MetaKeywords" class="form-control" value.bind="postModel.metaKeywords" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("MetaDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaDescription], new { @class = "control-label" })
-                                    <input type="text" id="MetaDescription" name="MetaDescription" class="form-control" value.bind="postModel.metaDescription" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" click.delegate="postModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" click.delegate="postModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                }
+                        </div>
+                    </fieldset>
+                </form>
             }
-        </article>
+        }
+    </article>
+</div>
+
+<div id="category-grid-section" class="row" style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: categoryModel.create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+        <a data-bind="click: showPosts" class="btn btn-info">
+            <i class="fa fa-edit"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Posts]
+        </a>
+        <a data-bind="click: showTags" class="btn btn-success">
+            <i class="fa fa-tags"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Tags]
+        </a>
     </div>
 
-    <div id="category-grid-section" class="row" style="display:none">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="categoryModel.create()" class="btn btn-primary">
-                <i class="fa fa-plus"></i>
-                @T[MantleWebLocalizableStrings.General.Create]
-            </button>
-            <button type="button" click.delegate="showPosts()" class="btn btn-info">
-                <i class="fa fa-edit"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Posts]
-            </button>
-            <button type="button" click.delegate="showTags()" class="btn btn-success">
-                <i class="fa fa-tags"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Tags]
-            </button>
-        </div>
+    <div class="clearfix"></div>
+    <br />
 
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="category-grid"></div>
-        </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="CategoryGrid"></div>
     </div>
+</div>
 
-    <div id="category-form-section" class="row" style="display:none">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+<div id="category-form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Categories])) { }
+            using (var body = panel.BeginBody())
             {
-                using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Categories])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="category-form-section-form" role="form">
-                        <fieldset>
-                            <legend id="category-form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Category_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
-                                    <input type="text" id="Category_Name" name="Category_Name" class="form-control" value.bind="categoryModel.name" />
-                                </div>
+                <form id="category-form-section-form" role="form">
+                    <fieldset>
+                        <legend id="category-form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Category_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
+                                @Html.TextBox("Category_Name", null, new { @class = "form-control", data_bind = "value: categoryModel.name" })
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Category_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
-                                    <input type="text" id="Category_UrlSlug" name="Category_UrlSlug" class="form-control" value.bind="categoryModel.urlSlug" />
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Category_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
+                                @Html.TextBox("Category_UrlSlug", null, new { @class = "form-control", data_bind = "value: categoryModel.urlSlug" })
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" click.delegate="categoryModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" click.delegate="categoryModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: categoryModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: categoryModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
-                        </fieldset>
-                    </form>
-                }
+                        </div>
+                    </fieldset>
+                </form>
             }
-        </article>
+        }
+    </article>
+</div>
+
+<div id="tag-grid-section" class="row" style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: tagModel.create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+        <a data-bind="click: showPosts" class="btn btn-info">
+            <i class="fa fa-edit"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Posts]
+        </a>
+        <a data-bind="click: showCategories" class="btn btn-success">
+            <i class="fa fa-folder"></i>
+            @T[MantleCmsLocalizableStrings.Blog.Categories]
+        </a>
     </div>
 
-    <div id="tag-grid-section" class="row" style="display:none">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="tagModel.create()" class="btn btn-primary">
-                <i class="fa fa-plus"></i>
-                @T[MantleWebLocalizableStrings.General.Create]
-            </button>
-            <button type="button" click.delegate="showPosts()" class="btn btn-info">
-                <i class="fa fa-edit"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Posts]
-            </button>
-            <button type="button" click.delegate="showCategories()" class="btn btn-success">
-                <i class="fa fa-folder"></i>
-                @T[MantleCmsLocalizableStrings.Blog.Categories]
-            </button>
-        </div>
+    <div class="clearfix"></div>
+    <br />
 
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="tag-grid"></div>
-        </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="TagGrid"></div>
     </div>
+</div>
 
-    <div id="tag-form-section" class="row" style="display:none">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+<div id="tag-form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
+            using (var body = panel.BeginBody())
             {
-                using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="tag-form-section-form" role="form">
-                        <fieldset>
-                            <legend id="tag-form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Tag_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
-                                    <input type="text" id="Tag_Name" name="Tag_Name" class="form-control" value.bind="tagModel.name" />
-                                </div>
+                <form id="tag-form-section-form" role="form">
+                    <fieldset>
+                        <legend id="tag-form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Tag_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
+                                @Html.TextBox("Tag_Name", null, new { @class = "form-control", data_bind = "value: tagModel.name" })
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Tag_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
-                                    <input type="text" id="Tag_UrlSlug" name="Tag_UrlSlug" class="form-control" value.bind="tagModel.urlSlug" />
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Tag_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
+                                @Html.TextBox("Tag_UrlSlug", null, new { @class = "form-control", data_bind = "value: tagModel.urlSlug" })
                             </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" click.delegate="tagModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" click.delegate="tagModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                                </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: tagModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: tagModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
                             </div>
-                        </fieldset>
-                    </form>
-                }
+                        </div>
+                    </fieldset>
+                </form>
             }
-        </article>
-    </div>
+        }
+    </article>
+</div>
 
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" click.delegate="dismissModal()" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Select Image</h4>
-                </div>
-                <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=1&relative_url=1&fldr=&field_id=TeaserImageUrl&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
-                </div>
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: dismissModal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Select Image</h4>
+            </div>
+            <div class="modal-body">
+                <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=1&relative_url=1&fldr=&field_id=TeaserImageUrl&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
             </div>
         </div>
     </div>
-</template>
+</div>

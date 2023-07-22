@@ -8,90 +8,90 @@
 <div id="settings-content">
     <div class="form-group">
         @Html.LabelFor(m => m.DisplayName)
-        <input type="text" id="DisplayName" name="DisplayName" class="form-control" value.bind="displayName" />
+        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", data_bind = "value: displayName" })
         @Html.ValidationMessageFor(m => m.DisplayName)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Host)
-        <input type="text" id="Host" name="Host" class="form-control" value.bind="host" />
+        @Html.TextBoxFor(m => m.Host, new { @class = "form-control", data_bind = "value: host" })
         @Html.ValidationMessageFor(m => m.Host)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Port)
-        <input type="number" id="Port" name="Port" class="form-control" value.bind="port" />
+        @Html.TextBoxFor(m => m.Host, new { @class = "form-control", data_bind = "value: port" })
         @Html.ValidationMessageFor(m => m.Port)
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" id="EnableSsl" name="EnableSsl" checked.bind="enableSsl" /> @T[LocalizableStrings.Settings.Smtp.EnableSsl]
+            @Html.CheckBoxFor(m => m.EnableSsl, new { data_bind = "checked: enableSsl" }) @T[LocalizableStrings.Settings.Smtp.EnableSsl]
         </label>
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" id="UseDefaultCredentials" name="UseDefaultCredentials" checked.bind="useDefaultCredentials" /> @T[LocalizableStrings.Settings.Smtp.UseDefaultCredentials]
+            @Html.CheckBoxFor(m => m.UseDefaultCredentials, new { data_bind = "checked: useDefaultCredentials" }) @T[LocalizableStrings.Settings.Smtp.UseDefaultCredentials]
         </label>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Username)
-        <input type="text" id="Username" name="Username" class="form-control" value.bind="username" data-val-requiredif="UseDefaultCredentials:unchecked" />
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", data_bind = "value: username", data_val_requiredif = "UseDefaultCredentials:unchecked" })
         @Html.ValidationMessageFor(m => m.Username)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Password)
-        <input type="password" id="Password" name="Password" class="form-control" value.bind="password" data-val-requiredif="UseDefaultCredentials:unchecked" />
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", data_bind = "value: password", data_val_requiredif = "UseDefaultCredentials:unchecked" })
         @Html.ValidationMessageFor(m => m.Password)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.MaxTries)
-        <input type="number" id="MaxTries" name="MaxTries" class="form-control" value.bind="maxTries" />
+        @Html.TextBoxFor(m => m.MaxTries, new { type = "number", @class = "form-control", data_bind = "value: maxTries" })
         @Html.ValidationMessageFor(m => m.MaxTries)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.MessagesPerBatch)
-        <input type="number" id="MessagesPerBatch" name="MessagesPerBatch" class="form-control" value.bind="messagesPerBatch" />
+        @Html.TextBoxFor(m => m.MessagesPerBatch, new { type = "number", @class = "form-control", data_bind = "value: messagesPerBatch" })
         @Html.ValidationMessageFor(m => m.MessagesPerBatch)
     </div>
 </div>
 
 <script type="text/javascript">
     function updateModel(viewModel, data) {
-        viewModel.displayName = '';
-        viewModel.host = '';
-        viewModel.port = 0;
-        viewModel.enableSsl = false;
-        viewModel.useDefaultCredentials = false;
-        viewModel.username = '';
-        viewModel.password = '';
-        viewModel.maxTries = 0;
-        viewModel.messagesPerBatch = 0;
+        viewModel.displayName = ko.observable("");
+        viewModel.host = ko.observable("");
+        viewModel.port = ko.observable(0);
+        viewModel.enableSsl = ko.observable(false);
+        viewModel.useDefaultCredentials = ko.observable(false);
+        viewModel.username = ko.observable("");
+        viewModel.password = ko.observable("");
+        viewModel.maxTries = ko.observable(0);
+        viewModel.messagesPerBatch = ko.observable(0);
 
         if (data) {
             if (data.DisplayName) {
-                viewModel.displayName = data.DisplayName;
+                viewModel.displayName(data.DisplayName);
             }
             if (data.Host) {
-                viewModel.host = data.Host;
+                viewModel.host(data.Host);
             }
             if (data.Port) {
-                viewModel.port = data.Port;
+                viewModel.port(data.Port);
             }
             if (data.EnableSsl && typeof data.EnableSsl === 'boolean') {
-                viewModel.enableSsl = data.EnableSsl;
+                viewModel.enableSsl(data.EnableSsl);
             }
             if (data.UseDefaultCredentials && typeof data.UseDefaultCredentials === 'boolean') {
-                viewModel.useDefaultCredentials = data.UseDefaultCredentials;
+                viewModel.useDefaultCredentials(data.UseDefaultCredentials);
             }
             if (data.Username) {
-                viewModel.username = data.Username;
+                viewModel.username(data.Username);
             }
             if (data.Password) {
-                viewModel.password = data.Password;
+                viewModel.password(data.Password);
             }
             if (data.MaxTries) {
-                viewModel.maxTries = data.MaxTries;
+                viewModel.maxTries(data.MaxTries);
             }
             if (data.MessagesPerBatch) {
-                viewModel.messagesPerBatch = data.MessagesPerBatch;
+                viewModel.messagesPerBatch(data.MessagesPerBatch);
             }
         }
     };
@@ -110,17 +110,17 @@
 
     function onBeforeSave(viewModel) {
         var data = {
-            DisplayName: viewModel.displayName,
-            Host: viewModel.host,
-            Port: viewModel.port,
-            EnableSsl: viewModel.enableSsl,
-            UseDefaultCredentials: viewModel.useDefaultCredentials,
-            Username: viewModel.username,
-            Password: viewModel.password,
-            MaxTries: viewModel.maxTries,
-            MessagesPerBatch: viewModel.messagesPerBatch
+            DisplayName: viewModel.displayName(),
+            Host: viewModel.host(),
+            Port: viewModel.port(),
+            EnableSsl: viewModel.enableSsl(),
+            UseDefaultCredentials: viewModel.useDefaultCredentials(),
+            Username: viewModel.username(),
+            Password: viewModel.password(),
+            MaxTries: viewModel.maxTries(),
+            MessagesPerBatch: viewModel.messagesPerBatch()
         };
 
-        viewModel.value = JSON.stringify(data);
+        viewModel.value(ko.mapping.toJSON(data));
     };
 </script>

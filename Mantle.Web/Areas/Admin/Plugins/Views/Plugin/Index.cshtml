@@ -12,58 +12,51 @@
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
-<template>
-    <div id="grid-section" class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="grid"></div>
-        </div>
-    </div>
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
-    <div id="form-section" class="row" style="display:none">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-            {
-                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="form-section-form" role="form">
-                        <fieldset>
-                            <legend id="form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("FriendlyName", T[MantleWebLocalizableStrings.Plugins.Model.FriendlyName], new { @class = "control-label" })
-                                    <input type="text" id="FriendlyName" name="FriendlyName" class="form-control" value.bind="friendlyName" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.Plugins.Model.DisplayOrder], new { @class = "control-label" })
-                                    <input type="number" id="DisplayOrder" name="DisplayOrder" class="form-control" value.bind="displayOrder" />
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("LimitedToTenants", T[MantleWebLocalizableStrings.Plugins.Model.LimitedToTenants], new { @class = "control-label" })
-                                    @Html.Mantle().TenantsCheckBoxList(
-                                        "LimitedToTenants",
-                                        null,
-                                        new { @class = "checkbox" },
-                                        new Dictionary<string, object>
-                                        {
-                                            { "checked.bind", "limitedToTenants" }
-                                        })
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group pull-right">
-                                    <button type="button" class="btn btn-default" click.delegate="cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                    <button type="button" class="btn btn-primary" click.delegate="save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                }
-            }
-        </article>
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
     </div>
-</template>
+</div>
+
+<div id="form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="form-section-form" role="form">
+                    <fieldset>
+                        <legend id="form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("FriendlyName", T[MantleWebLocalizableStrings.Plugins.Model.FriendlyName], new { @class = "control-label" })
+                                @Html.TextBox("FriendlyName", null, new { @class = "form-control", data_bind = "value: friendlyName" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.Plugins.Model.DisplayOrder], new { @class = "control-label" })
+                                @Html.TextBox("DisplayOrder", null, new { type = "number", @class = "form-control", data_bind = "value: displayOrder" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("LimitedToTenants", T[MantleWebLocalizableStrings.Plugins.Model.LimitedToTenants], new { @class = "control-label" })
+                                @Html.Mantle().TenantsCheckBoxList("LimitedToTenants", null, new { @class = "checkbox" }, new { data_bind = "checked: limitedToTenants" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group pull-right">
+                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <button type="button" class="btn btn-primary" data-bind="click: save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+    </article>
+</div>

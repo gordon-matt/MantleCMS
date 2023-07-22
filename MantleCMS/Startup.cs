@@ -5,6 +5,7 @@ using Extenso.Collections;
 using Mantle.Identity.Services;
 using Mantle.Infrastructure;
 using Mantle.Tenants.Domain;
+using Mantle.Web;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging;
 using Mantle.Web.Mvc.Assets;
@@ -255,6 +256,15 @@ namespace MantleCMS
                 GrapesJsMjml = new AssetCollection
                 {
                     Scripts = new List<Asset> { new Asset { Path = "/js/grapesjs-mjml.min.js" } },
+                }
+            });
+
+            MantleWebAssets.Init(new MantleWebAssets
+            {
+                BootstrapFileInput = new AssetCollection
+                {
+                    Scripts = new List<Asset> { new Asset { Path = "/js/bootstrapFileInput/fileinput.js" } },
+                    Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
                 }
             });
 

@@ -47,36 +47,33 @@ namespace Mantle.Web.Areas.Admin.Localization.Controllers
             return PartialView();
         }
 
-        [Route("get-view-data")]
-        public JsonResult GetViewData()
+        //[OutputCache(Duration = 86400, VaryByParam = "none")]
+        [Route("get-translations")]
+        public JsonResult GetTranslations()
         {
             return Json(new
             {
-                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
-                translations = new
+                Create = T[MantleWebLocalizableStrings.General.Create].Value,
+                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
+                InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
+                Localize = T[MantleWebLocalizableStrings.Localization.Localize].Value,
+                ResetLocalizableStringsConfirm = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsConfirm].Value,
+                ResetLocalizableStringsError = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsError].Value,
+                ResetLocalizableStringsSuccess = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess].Value,
+                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                Columns = new
                 {
-                    create = T[MantleWebLocalizableStrings.General.Create].Value,
-                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                    insertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-                    insertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-                    localize = T[MantleWebLocalizableStrings.Localization.Localize].Value,
-                    resetLocalizableStringsConfirm = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsConfirm].Value,
-                    resetLocalizableStringsError = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsError].Value,
-                    resetLocalizableStringsSuccess = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess].Value,
-                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                    columns = new
-                    {
-                        name = T[MantleWebLocalizableStrings.Localization.LanguageModel.Name].Value,
-                        cultureCode = T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode].Value,
-                        isEnabled = T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled].Value,
-                        sortOrder = T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder].Value,
-                    }
+                    Name = T[MantleWebLocalizableStrings.Localization.LanguageModel.Name].Value,
+                    CultureCode = T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode].Value,
+                    IsEnabled = T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled].Value,
+                    SortOrder = T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder].Value,
                 }
             });
         }

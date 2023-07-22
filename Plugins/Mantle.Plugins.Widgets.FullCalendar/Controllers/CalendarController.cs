@@ -28,38 +28,35 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Controllers
             return PartialView();
         }
 
-        [Route("get-view-data")]
-        public JsonResult GetViewData()
+        //[OutputCache(Duration = 86400, VaryByParam = "none")]
+        [Route("get-translations")]
+        public JsonResult GetTranslations()
         {
             return Json(new
             {
-                gridPageSize = SiteSettings.Value.DefaultGridPageSize,
-                translations = new
+                Create = T[MantleWebLocalizableStrings.General.Create].Value,
+                Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
+                DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
+                DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
+                DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
+                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+                Events = T[LocalizableStrings.Events].Value,
+                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+                InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
+                InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
+                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+                Columns = new
                 {
-                    create = T[MantleWebLocalizableStrings.General.Create].Value,
-                    delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-                    deleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-                    deleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-                    deleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-                    edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                    events = T[LocalizableStrings.Events].Value,
-                    getRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                    insertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-                    insertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-                    updateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                    updateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                    columns = new
+                    Calendar = new
                     {
-                        calendar = new
-                        {
-                            name = T[LocalizableStrings.CalendarModel.Name].Value,
-                        },
-                        @event = new
-                        {
-                            name = T[LocalizableStrings.CalendarEventModel.Name].Value,
-                            startDateTime = T[LocalizableStrings.CalendarEventModel.StartDateTime].Value,
-                            endDateTime = T[LocalizableStrings.CalendarEventModel.EndDateTime].Value
-                        }
+                        Name = T[LocalizableStrings.CalendarModel.Name].Value,
+                    },
+                    Event = new
+                    {
+                        Name = T[LocalizableStrings.CalendarEventModel.Name].Value,
+                        StartDateTime = T[LocalizableStrings.CalendarEventModel.StartDateTime].Value,
+                        EndDateTime = T[LocalizableStrings.CalendarEventModel.EndDateTime].Value
                     }
                 }
             });

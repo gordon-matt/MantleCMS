@@ -1,162 +1,178 @@
-﻿import 'jquery';
+﻿define(['jquery', 'jqueryval', 'kendo'], function ($, jqueryval, kendo) {
+    'use strict'
 
-import { inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-http-client';
-import { TemplatingEngine } from 'aurelia-templating';
+    var odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
 
-import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+    var ViewModel = function () {
+        var self = this;
 
-@inject(TemplatingEngine)
-export class ViewModel {
-    apiUrl = "/odata/mantle/web/LocalizableStringApi";
+        self.gridPageSize = 10;
+        self.translations = false;
+        self.cultureCode = null;
 
-    constructor(templatingEngine) {
-        this.templatingEngine = templatingEngine;
+        self.activate = function (cultureCode) {
+            self.cultureCode = cultureCode;
 
-        this.http = new HttpClient();
-        this.http.configure(config => {
-            config.withInterceptor(new GenericHttpInterceptor());
-        });
-    }
+            if (!self.cultureCode) {
+                self.cultureCode = null;
+            }
+        };
+        self.attached = function () {
+            // Load translations first, else will have errors
+            $.ajax({
+                url: "/admin/localization/localizable-strings/get-translations",
+                type: "GET",
+                dataType: "json",
+                async: false
+            })
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
 
-    // Aurelia Component Lifecycle Methods
+            self.gridPageSize = $("#GridPageSize").val();
 
-    activate(params, routeConfig) {
-        this.cultureCode = params.cultureCode;
-
-        if (!this.cultureCode) { // could be undefined
-            this.cultureCode = null;
-        }
-    }
-
-    async attached() {
-        // Load translations first, else will have errors
-        let response = await this.http.get("/admin/localization/localizable-strings/get-view-data");
-        let viewData = response.content;
-        this.translations = viewData.translations;
-
-        let self = this;
-
-        $("#grid").kendoGrid({
-            data: null,
-            dataSource: {
-                type: "odata",
-                transport: {
-                    read: {
-                        url: this.apiUrl + "/Default.GetComparitiveTable(cultureCode='" + this.cultureCode + "')",
-                        dataType: "json"
-                    },
-                    update: {
-                        url: this.apiUrl + "/Default.PutComparitive",
-                        dataType: "json",
-                        contentType: "application/json",
-                        type: "POST"
-                    },
-                    destroy: {
-                        url: this.apiUrl + "/Default.DeleteComparitive",
-                        dataType: "json",
-                        contentType: "application/json",
-                        type: "POST"
-                    },
-                    parameterMap: function (options, operation) {
-                        if (operation === "read") {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
+            $("#Grid").kendoGrid({
+                data: null,
+                dataSource: {
+                    type: "odata",
+                    transport: {
+                        read: {
+                            url: odataBaseUrl + "Default.GetComparitiveTable(cultureCode='" + self.cultureCode + "')",
+                            dataType: "json"
+                        },
+                        update: {
+                            url: odataBaseUrl + "Default.PutComparitive",
+                            dataType: "json",
+                            contentType: "application/json",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: odataBaseUrl + "Default.DeleteComparitive",
+                            dataType: "json",
+                            contentType: "application/json",
+                            type: "POST"
+                        },
+                        parameterMap: function (options, operation) {
+                            if (operation === "read") {
+                                var paramMap = kendo.data.transports.odata.parameterMap(options);
+                                if (paramMap.$inlinecount) {
+                                    if (paramMap.$inlinecount == "allpages") {
+                                        paramMap.$count = true;
+                                    }
+                                    delete paramMap.$inlinecount;
                                 }
-                                delete paramMap.$inlinecount;
+                                if (paramMap.$filter) {
+                                    paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                                }
+                                return paramMap;
                             }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+                            else if (operation === "update") {
+                                return kendo.stringify({
+                                    cultureCode: self.cultureCode,
+                                    key: options.Key,
+                                    entity: options
+                                });
                             }
-                            return paramMap;
+                            else if (operation === "destroy") {
+                                return kendo.stringify({
+                                    cultureCode: self.cultureCode,
+                                    key: options.Key
+                                });
+                            }
                         }
-                        else if (operation === "update") {
-                            return kendo.stringify({
-                                cultureCode: self.cultureCode,
-                                key: options.Key,
-                                entity: options
-                            });
-                        }
-                        else if (operation === "destroy") {
-                            return kendo.stringify({
-                                cultureCode: self.cultureCode,
-                                key: options.Key
-                            });
-                        }
-                    }
-                },
-                schema: {
-                    data: function (data) {
-                        return data.value;
                     },
-                    total: function (data) {
-                        return data["@odata.count"];
-                    },
-                    model: {
-                        id: "Key",
-                        fields: {
-                            Key: { type: "string", editable: false },
-                            InvariantValue: { type: "string", editable: false },
-                            LocalizedValue: { type: "string" }
+                    schema: {
+                        data: function (data) {
+                            return data.value;
+                        },
+                        total: function (data) {
+                            return data["@odata.count"];
+                        },
+                        model: {
+                            id: "Key",
+                            fields: {
+                                Key: { type: "string", editable: false },
+                                InvariantValue: { type: "string", editable: false },
+                                LocalizedValue: { type: "string" }
+                            }
                         }
-                    }
+                    },
+                    batch: false,
+                    pageSize: self.gridPageSize,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true,
+                    sort: { field: "Key", dir: "asc" }
                 },
-                batch: false,
-                pageSize: viewData.gridPageSize,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-                sort: { field: "Key", dir: "asc" }
-            },
-            dataBound: function (e) {
-                let body = $('#grid').find('tbody')[0];
-                if (body) {
-                    self.templatingEngine.enhance({ element: body, bindingContext: self });
-                }
-            },
-            filterable: true,
-            sortable: {
-                allowUnsort: false
-            },
-            pageable: {
-                refresh: true
-            },
-            scrollable: false,
-            columns: [{
-                field: "Key",
-                title: this.translations.columns.key
-            }, {
-                field: "InvariantValue",
-                title: this.translations.columns.invariantValue
-            }, {
-                field: "LocalizedValue",
-                title: this.translations.columns.localizedValue
-            }, {
-                command: ["edit", "destroy"],
-                title: "&nbsp;",
-                attributes: { "class": "text-center" },
-                filterable: false,
-                width: 200
-            }],
-            editable: "inline"
-        });
-    }
+                dataBound: function (e) {
+                    var body = this.element.find("tbody")[0];
+                    if (body) {
+                        ko.cleanNode(body);
+                        ko.applyBindings(ko.dataFor(body), body);
+                    }
 
-    // END: Aurelia Component Lifecycle Methods
+                    $(".k-grid-edit").html("Edit");
+                    $(".k-grid-delete").html("Delete");
+                    $(".k-grid-edit").addClass("btn btn-default btn-sm");
+                    $(".k-grid-delete").addClass("btn btn-danger btn-sm");
+                },
+                edit: function (e) {
+                    $(".k-grid-update").html("Update");
+                    $(".k-grid-cancel").html("Cancel");
+                    $(".k-grid-update").addClass("btn btn-success btn-sm");
+                    $(".k-grid-cancel").addClass("btn btn-default btn-sm");
+                },
+                cancel: function (e) {
+                    setTimeout(function () {
+                        $(".k-grid-edit").html("Edit");
+                        $(".k-grid-delete").html("Delete");
+                        $(".k-grid-edit").addClass("btn btn-default btn-sm");
+                        $(".k-grid-delete").addClass("btn btn-danger btn-sm");
+                    }, 0);
+                },
+                filterable: true,
+                sortable: {
+                    allowUnsort: false
+                },
+                pageable: {
+                    refresh: true
+                },
+                scrollable: false,
+                columns: [{
+                    field: "Key",
+                    title: self.translations.columns.key,
+                    filterable: true
+                }, {
+                    field: "InvariantValue",
+                    title: self.translations.columns.invariantValue,
+                    filterable: true
+                }, {
+                    field: "LocalizedValue",
+                    title: self.translations.columns.localizedValue,
+                    filterable: true
+                }, {
+                    command: ["edit", "destroy"],
+                    title: "&nbsp;",
+                    attributes: { "class": "text-center" },
+                    filterable: false,
+                    width: 200
+                }],
+                editable: "inline"
+            });
+        };
+        self.exportFile = function () {
+            var downloadForm = $("<form>")
+                .attr("method", "GET")
+                .attr("action", "/admin/localization/localizable-strings/export/" + self.cultureCode);
+            $("body").append(downloadForm);
+            downloadForm.submit();
+            downloadForm.remove();
+        };
+    };
 
-    exportFile() {
-        var downloadForm = $("<form>")
-            .attr("method", "GET")
-            .attr("action", "/admin/localization/localizable-strings/export/" + this.cultureCode);
-        $("body").append(downloadForm);
-        downloadForm.submit();
-        downloadForm.remove();
-    }
-    
-    refreshGrid() {
-        $('#grid').data('kendoGrid').dataSource.read();
-        $('#grid').data('kendoGrid').refresh();
-    }
-}
+    var viewModel = new ViewModel();
+    return viewModel;
+});

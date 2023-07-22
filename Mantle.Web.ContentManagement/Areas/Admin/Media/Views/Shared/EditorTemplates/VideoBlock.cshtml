@@ -89,7 +89,7 @@
     function dismissModal() {
         modalDismissed = true;
         $('#myModal').modal('hide');
-    }
+    };
 
     $('#myModal').on('hidden.bs.modal', function () {
         if (!modalDismissed) {
@@ -102,33 +102,33 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.controlId = null;
-            blockModel.type = 0;
-            blockModel.source = null;
-            blockModel.showControls = true;
-            blockModel.autoPlay = false;
-            blockModel.loop = false;
+            blockModel.controlId = ko.observable(null);
+            blockModel.type = ko.observable(0);
+            blockModel.source = ko.observable(null);
+            blockModel.showControls = ko.observable(true);
+            blockModel.autoPlay = ko.observable(false);
+            blockModel.loop = ko.observable(false);
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data) {
                 if (data.ControlId) {
-                    blockModel.controlId = data.ControlId;
+                    blockModel.controlId(data.ControlId());
                 }
                 if (data.Type) {
-                    blockModel.type = data.Type;
+                    blockModel.type(data.Type());
                 }
                 if (data.Source) {
-                    blockModel.source = data.Source;
+                    blockModel.source(data.Source());
                 }
-                if (data.ShowControls && typeof data.ShowControls === 'boolean') {
-                    blockModel.showControls = data.ShowControls;
+                if (data.ShowControls && typeof data.ShowControls() === 'boolean') {
+                    blockModel.showControls(data.ShowControls());
                 }
-                if (data.AutoPlay && typeof data.AutoPlay === 'boolean') {
-                    blockModel.autoPlay = data.AutoPlay;
+                if (data.AutoPlay && typeof data.AutoPlay() === 'boolean') {
+                    blockModel.autoPlay(data.AutoPlay());
                 }
-                if (data.Loop && typeof data.Loop === 'boolean') {
-                    blockModel.loop = data.Loop;
+                if (data.Loop && typeof data.Loop() === 'boolean') {
+                    blockModel.loop(data.Loop());
                 }
             }
         };
@@ -142,15 +142,15 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                ControlId: blockModel.controlId,
-                Type: blockModel.type,
-                Source: blockModel.source,
-                ShowControls: blockModel.showControls,
-                AutoPlay: blockModel.autoPlay,
-                Loop: blockModel.loop
+                ControlId: blockModel.controlId(),
+                Type: blockModel.type(),
+                Source: blockModel.source(),
+                ShowControls: blockModel.showControls(),
+                AutoPlay: blockModel.autoPlay(),
+                Loop: blockModel.loop()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

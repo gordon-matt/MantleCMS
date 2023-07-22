@@ -38,21 +38,21 @@
     var contentBlockModel = (function () {
         var f = {};
         f.updateModel = function (blockModel) {
-            blockModel.style = '';
-            blockModel.includeInvariant = false;
-            blockModel.invariantText = "[ Invariant ]";
+            blockModel.style = ko.observable("");
+            blockModel.includeInvariant = ko.observable(false);
+            blockModel.invariantText = ko.observable("[ Invariant ]");
 
-            var data = JSON.parse(blockModel.blockValues);
+            var data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data) {
                 if (data.Style) {
-                    blockModel.style = data.Style;
+                    blockModel.style(data.Style());
                 }
                 if (data.IncludeInvariant) {
-                    blockModel.includeInvariant = data.IncludeInvariant;
+                    blockModel.includeInvariant(data.IncludeInvariant());
                 }
                 if (data.InvariantText) {
-                    blockModel.invariantText = data.InvariantText;
+                    blockModel.invariantText(data.InvariantText());
                 }
             }
         };
@@ -63,12 +63,12 @@
         };
         f.onBeforeSave = function (blockModel) {
             var data = {
-                Style: blockModel.style,
-                IncludeInvariant: blockModel.includeInvariant,
-                InvariantText: blockModel.invariantText
+                Style: blockModel.style(),
+                IncludeInvariant: blockModel.includeInvariant(),
+                InvariantText: blockModel.invariantText()
             };
 
-            blockModel.blockValues = JSON.stringify(data);
+            blockModel.blockValues(ko.mapping.toJSON(data));
         };
         return f;
     })();

@@ -1,14 +1,11 @@
-﻿//define(function (require) {
-define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
+﻿define(function (require) {
     'use strict'
 
-    //var $ = require('jquery');
-    //var ko = require('knockout');
+    var $ = require('jquery');
+    var ko = require('knockout');
 
-    //require('kendo');
-    //require('notify');
-
-    var apiUrl = "/odata/mantle/web/ThemeApi";
+    require('kendo');
+    require('notify');
 
     var ViewModel = function () {
         var self = this;
@@ -19,7 +16,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
         self.attached = function () {
             // Load translations first, else will have errors
             $.ajax({
-                url: "/admin/configuration/themes/get-translations",
+                url: "/admin/messaging/queued-email/get-translations",
                 type: "GET",
                 dataType: "json",
                 async: false
@@ -39,7 +36,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                     type: "odata",
                     transport: {
                         read: {
-                            url: apiUrl,
+                            url: "/odata/mantle/web/messaging/QueuedEmailApi",
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
@@ -64,13 +61,13 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                             return data["@odata.count"];
                         },
                         model: {
+                            id: "Id",
                             fields: {
-                                PreviewImageUrl: { type: "string" },
-                                Title: { type: "string" },
-                                PreviewText: { type: "string" },
-                                SupportRtl: { type: "boolean" },
-                                MobileTheme: { type: "boolean" },
-                                IsDefaultTheme: { type: "boolean" }
+                                Subject: { type: "string" },
+                                ToAddress: { type: "string" },
+                                CreatedOnUtc: { type: "date" },
+                                SentOnUtc: { type: "date" },
+                                SentTries: { type: "number" }
                             }
                         }
                     },
@@ -78,7 +75,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true,
-                    sort: { field: "Title", dir: "asc" }
+                    sort: { field: "CreatedOnUtc", dir: "desc" }
                 },
                 dataBound: function (e) {
                     var body = this.element.find("tbody")[0];
@@ -96,51 +93,57 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                 },
                 scrollable: false,
                 columns: [{
-                    field: "PreviewImageUrl",
-                    title: self.translations.columns.previewImageUrl,
-                    template: '<img src="#=PreviewImageUrl#" alt="#=Title#" class="thumbnail" style="max-width:200px;" />',
-                    filterable: false,
-                    width: 200
-                }, {
-                    field: "Title",
-                    title: self.translations.columns.title,
+                    field: "Subject",
+                    title: self.translations.columns.subject,
                     filterable: true
                 }, {
-                    field: "SupportRtl",
-                    title: self.translations.columns.supportRtl,
-                    template: '<i class="fa #=SupportRtl ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
-                    attributes: { "class": "text-center" },
-                    filterable: true,
-                    width: 70
+                    field: "ToAddress",
+                    title: self.translations.columns.toAddress,
+                    filterable: true
                 }, {
-                    field: "IsDefaultTheme",
-                    title: self.translations.columns.isDefaultTheme,
+                    field: "CreatedOnUtc",
+                    title: self.translations.columns.createdOnUtc,
+                    format: "{0:G}",
+                    filterable: true
+                }, {
+                    field: "SentOnUtc",
+                    title: self.translations.columns.sentOnUtc,
+                    format: "{0:G}",
+                    filterable: true
+                }, {
+                    field: "SentTries",
+                    title: self.translations.columns.sentTries,
+                    filterable: true
+                }, {
+                    field: "Id",
+                    title: " ",
                     template:
-                        '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
-                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-default btn-sm">' + self.translations.set + '</a> #} #',
+                        '<div class="btn-group"><a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
+                        '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
-                    width: 130
+                    width: 100
                 }]
             });
         };
-        self.setTheme = function (name) {
-            $.ajax({
-                url: apiUrl + "/Default.SetTheme",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ themeName: name }),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-                $.notify(self.translations.setThemeSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.SetThemeError + ": " + jqXHR.responseText || textStatus, "error");
-            });
+        self.remove = function(id) {
+            if (confirm(self.translations.deleteRecordConfirm)) {
+                $.ajax({
+                    url: "/odata/mantle/web/messaging/QueuedEmailApi(" + id + ")",
+                    type: "DELETE",
+                    async: false
+                })
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
+
+                    $.notify(self.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
+            }
         };
     };
 

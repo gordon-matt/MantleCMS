@@ -16,25 +16,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Areas\Admin\Blog\Scripts\blog.js" />
+    <None Remove="Areas\Admin\Blog\Scripts\blogContent.js" />
+    <None Remove="Areas\Admin\Menus\Scripts\menus.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-category-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-post-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog-tag-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blogContent.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\content-block-model.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\content-blocks-index.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-block-model.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\zone-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-item-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menu-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-type-model.js" />
-    <EmbeddedResource Include="Areas\Admin\Pages\Scripts\page-version-model.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Scripts\menus.js" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />

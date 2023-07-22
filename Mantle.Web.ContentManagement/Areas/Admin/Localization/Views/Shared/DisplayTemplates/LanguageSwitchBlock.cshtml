@@ -33,22 +33,22 @@
                 </a>
                 <ul role="menu" class="dropdown-menu">
                     @*@if (Model.UseUrlPrefix)
+                    {
+                        foreach (var language in languages)
                         {
-                            foreach (var language in languages)
-                            {
-                                <li>
-                                    <a href="/@language.CultureCode">
-                                        @if (language.CultureCode == WorkContext.CurrentCultureCode)
-                                        {
-                                            <span class="fa fa-fw fa-ok"></span>
-                                        }
-                                        @language.Name
-                                    </a>
-                                </li>
-                            }
+                            <li>
+                                <a href="/@language.CultureCode">
+                                    @if (language.CultureCode == WorkContext.CurrentCultureCode)
+                                    {
+                                        <span class="fa fa-fw fa-ok"></span>
+                                    }
+                                    @language.Name
+                                </a>
+                            </li>
                         }
-                        else
-                        {*@
+                    }
+                    else
+                    {*@
                     @foreach (var language in languages)
                     {
                         <li>
@@ -90,11 +90,11 @@
             {
                 <li class="lang-@language.CultureCode">
                     @*@if (Model.UseUrlPrefix)
-                        {
-                            <a href="/@language.CultureCode">@language.Name</a>
-                        }
-                        else
-                        {*@
+                    {
+                        <a href="/@language.CultureCode">@language.Name</a>
+                    }
+                    else
+                    {*@
                     <a href="javascript:void(0)" onclick="changeLanguage('@language.CultureCode');">@language.Name</a>
                     @*}*@
                 </li>

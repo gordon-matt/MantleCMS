@@ -51,9 +51,9 @@
                         </h4>
                         <p>
                             @Html.Raw(string.Format(
-                                     T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
-                                     string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
-                                     string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
+                                T[MantleCmsLocalizableStrings.Blog.PostedByXOnX],
+                                string.Concat("<strong>", userNames[entry.UserId], "</strong>"),
+                                string.Concat("<strong>", entry.DateCreatedUtc, "</strong>")))
                         </p>
                         @if (!entry.Tags.IsNullOrEmpty())
                         {
@@ -62,11 +62,11 @@
                                 @foreach (var postTag in entry.Tags)
                                 {
                                     @Html.ActionLink(
-                                             tags[postTag.TagId],
-                                             "Tag",
-                                             "BlogContent",
-                                             new { tagSlug = tagUrls[postTag.TagId] },
-                                             new { @class = "badge", style = "margin-right:5px" })
+                                        tags[postTag.TagId],
+                                        "Tag",
+                                        "BlogContent",
+                                        new { tagSlug = tagUrls[postTag.TagId] },
+                                        new { @class = "badge", style = "margin-right:5px" })
                                 }
                             </p>
                         }

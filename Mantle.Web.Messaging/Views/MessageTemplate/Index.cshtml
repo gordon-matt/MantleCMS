@@ -13,160 +13,159 @@
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 @inject Mantle.Web.IWorkContext WorkContext
 
-<template>
-    @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
+@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+@Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
-    <style type="text/css">
-        /*label.radio-img > input {
+<style type="text/css">
+    /*label.radio-img > input {
             visibility: hidden;
             position: absolute;
         }*/
 
-        label.radio-img > img {
-            height: 64px;
-            max-height: 64px;
-        }
-
-        label.radio-img > input + img {
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        label.radio-img > input:checked + img {
-            border: 2px solid #f00;
-        }
-
-    </style>
-
-    <div id="grid-section" class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <button type="button" click.delegate="templateModel.create()" class="btn btn-primary">
-                <i class="fa fa-plus"></i>
-                @T[MantleWebLocalizableStrings.General.Create]
-            </button>
-        </div>
-
-        <div class="clearfix"></div>
-        <br />
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-            <div id="grid"></div>
-        </div>
-    </div>
-
-    <div id="form-section" class="row" style="display:none">
-        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
-            {
-                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="form-section-form" role="form">
-                        <fieldset>
-                            <legend id="form-section-legend"></legend>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <div class="form-group">
-                                    @Html.Label("Name", T[LocalizableStrings.MessageTemplate.Name], new { @class = "control-label" })
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-file"></i>
-                                        </span>
-                                        <input name="Name" type="text" class="form-control" value.bind="templateModel.name" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <label class="control-label">&nbsp;</label>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="Enabled" checked.bind="templateModel.enabled" /> @T[MantleWebLocalizableStrings.General.Enabled]
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "control-label" })
-                                    <ul class="list-unstyled">
-                                        @foreach (var editor in messageTemplateEditors)
-                                        {
-                                            <li>
-                                                <label class="radio-img">
-                                                    <input type="radio" name="Editor" value="@editor.Name" checked.bind="templateModel.editor" />
-                                                    <img src="@editor.LogoUrl" alt="@editor.Name" class="img-thumbnail" />
-                                                </label>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                }
-            }
-            @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary, htmlAttributes: new Dictionary<string, object> { { "show.bind", "templateModel.inEditMode" } })))
-            {
-                using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
-                using (var body = panel.BeginBody())
-                {
-                    <form id="form-section-version-form" role="form">
-                        <fieldset>
-                            <legend id="form-section-legend"></legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "control-label" })
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-file"></i>
-                                        </span>
-                                        <input type="text" name="Subject" class="form-control" value.bind="templateVersionModel.subject" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-10">
-                                <div class="form-group">
-                                    @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "control-label" })
-                                    <tiny-mce theme="silver" content.bind="templateVersionModel.data" options.bind="tinyMCEConfig"></tiny-mce>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-md-2">
-                                <div class="panel panel-default" style="margin-top:23px">
-                                    <div class="panel-heading">@T[LocalizableStrings.MessageTemplate.Tokens]</div>
-                                    <div class="panel-body">
-                                        <ul id="tokens-list" class="list-unstyled"></ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                }
-            }
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group pull-right">
-                    <button type="button" class="btn btn-default" click.delegate="templateModel.cancel()">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                    <button type="button" class="btn btn-primary" click.delegate="templateModel.save()"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
-                </div>
-            </div>
-        </article>
-    </div>
-
-    @using (var modal = Html.MantleUI().Begin(new Modal("cultureModal")))
-    {
-        using (var header = modal.BeginHeader("Select Language")) { }
-        using (var body = modal.BeginBody())
-        {
-            <form>
-                <div class="form-group">
-                    @Html.Hidden("TemplateIdToLocalize")
-                    @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
-                </div>
-            </form>
-        }
-        using (var footer = modal.BeginFooter())
-        {
-            <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-            <button type="button" class="btn btn-primary" click.delegate="templateModel.onCultureSelected()">@T[MantleWebLocalizableStrings.General.OK]</button>
-        }
+    label.radio-img > img {
+        height: 64px;
+        max-height: 64px;
     }
-</template>
+
+    label.radio-img > input + img {
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    label.radio-img > input:checked + img {
+        border: 2px solid #f00;
+    }
+
+</style>
+
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a data-bind="click: templateModel.create" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            @T[MantleWebLocalizableStrings.General.Create]
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+<div id="form-section" class="row" style="display:none">
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="form-section-form" role="form">
+                    <fieldset>
+                        <legend id="form-section-legend"></legend>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                @Html.Label("Name", T[LocalizableStrings.MessageTemplate.Name], new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-file"></i>
+                                    </span>
+                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: templateModel.name" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBox("Enabled", new { data_bind = "checked: templateModel.enabled" }) @T[MantleWebLocalizableStrings.General.Enabled]
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "control-label" })
+                                <ul class="list-unstyled">
+                                    @foreach (var editor in messageTemplateEditors)
+                                    {
+                                        <li>
+                                            <label class="radio-img">
+                                                @Html.RadioButton("Editor", editor.Name, htmlAttributes: new { data_bind = "checked: templateModel.editor" })
+                                                <img src="@editor.LogoUrl" alt="@editor.Name" class="img-thumbnail" />
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary, htmlAttributes: new { data_bind = "visible: templateModel.inEditMode()" })))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <form id="form-section-form" role="form">
+                    <fieldset>
+                        <legend id="form-section-legend"></legend>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-file"></i>
+                                    </span>
+                                    @Html.TextBox("Subject", null, new { @class = "form-control", data_bind = "value: templateVersionModel.subject" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 col-md-10">
+                            <div class="form-group">
+                                @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "control-label" })
+                                @Html.TextArea("Data", null, new { @class = "form-control", data_bind = "wysiwyg: templateVersionModel.data, wysiwygConfig: templateVersionModel.tinyMCEConfig" })
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-md-2">
+                            <div class="panel panel-default" style="margin-top:23px">
+                                <div class="panel-heading">@T[LocalizableStrings.MessageTemplate.Tokens]</div>
+                                <div class="panel-body">
+                                    <ul id="tokens-list" class="list-unstyled"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            }
+        }
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group pull-right">
+                <button type="button" class="btn btn-default" data-bind="click: templateModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                <button type="button" class="btn btn-primary" data-bind="click: templateModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+            </div>
+        </div>
+    </article>
+</div>
+
+@using (var modal = Html.MantleUI().Begin(new Modal("cultureModal")))
+{
+    using (var header = modal.BeginHeader("Select Language")) { }
+    using (var body = modal.BeginBody())
+    {
+        <form>
+            <div class="form-group">
+                @Html.Hidden("TemplateIdToLocalize")
+                @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </form>
+    }
+    using (var footer = modal.BeginFooter())
+    {
+        <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        <button type="button" class="btn btn-primary" data-bind="click: templateModel.onCultureSelected">@T[MantleWebLocalizableStrings.General.OK]</button>
+    }
+}
