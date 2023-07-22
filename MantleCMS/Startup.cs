@@ -242,20 +242,20 @@ namespace MantleCMS
             {
                 GrapesJs = new AssetCollection
                 {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/grapes.min.js" } },
-                    Styles = new List<Asset> { new Asset { Path = "/css/grapes.min.css" } }
+                    Scripts = new List<Asset> { new Asset { Path = "/lib/grapesjs/dist/grapes.min.js" } },
+                    Styles = new List<Asset> { new Asset { Path = "/lib/grapesjs/dist/css/grapes.min.css" } }
                 },
                 GrapesJsAviary = new AssetCollection
                 {
                     Scripts = new List<Asset>
                     {
                         new Asset { Path = "http://feather.aviary.com/imaging/v3/editor.js" },
-                        new Asset { Path = "/js/grapesjs-aviary.min.js" }
+                        new Asset { Path = "/lib/grapesjs-aviary/dist/grapesjs-aviary.min.js" }
                     },
                 },
                 GrapesJsMjml = new AssetCollection
                 {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/grapesjs-mjml.min.js" } },
+                    Scripts = new List<Asset> { new Asset { Path = "/lib/grapesjs-mjml/dist/index.min.js" } },
                 }
             });
 
@@ -263,8 +263,8 @@ namespace MantleCMS
             {
                 BootstrapFileInput = new AssetCollection
                 {
-                    Scripts = new List<Asset> { new Asset { Path = "/js/bootstrapFileInput/fileinput.js" } },
-                    Styles = new List<Asset> { new Asset { Path = "/css/bootstrapFileInput/css/fileinput.css" } }
+                    Scripts = new List<Asset> { new Asset { Path = "/lib/bootstrap-fileinput/js/fileinput.js" } },
+                    Styles = new List<Asset> { new Asset { Path = "/lib/bootstrap-fileinput/css/fileinput.css" } }
                 }
             });
 

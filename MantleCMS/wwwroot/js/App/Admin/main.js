@@ -1,40 +1,32 @@
 ﻿var paths = {
-    'text': '../../text',
-    'durandal': '../../durandal',
-    'plugins': '../../durandal/plugins',
-    'transitions': '../../durandal/transitions',
+    'text': '../../../lib/requirejs-text/text',
+    'durandal': '../../../lib/durandal/js',
+    'plugins': '../../../lib/durandal/js/plugins',
+    'transitions': '../../../lib/durandal/js/transitions',
 
-    'bootstrap': '../../bootstrap/bootstrap.min',
-    'chosen': '../../chosen.jquery',
-    'jquery-ui': '../../../lib/jquery-ui/jquery-ui.min',
-    'jqueryval': '../../jquery.validate',
-    'jqueryval-unobtrusive': '../../jquery.validate.unobtrusive',
+    'bootstrap': '../../../lib/bootstrap/bootstrap.min',
+    'chosen': '../../../lib/chosen-js/chosen.jquery',
+    'jqueryval': '../../../lib/jquery-validation/dist/jquery.validate',
+    'jqueryval-unobtrusive': '../../../lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive',
     'kendo': '../../kendo/2014.1.318/kendo.web.min',
-    'kendo-knockout': '../../knockout-kendo.min',
-    'knockout-mapping': '../../knockout.mapping-latest.debug',
-    'notify': '../../notify.min',
+    'kendo-knockout': '../../../lib/knockout-kendo/build/knockout-kendo',
+    'knockout-mapping': '../../../lib/knockout.mapping/knockout.mapping',
+    'notify': '../../../lib/notifyjs-browser/dist/notify.min',
     'tinymce': '../../../lib/tinymce/tinymce.min',
     'tinymce-jquery': '../../../lib/tinymce/jquery.tinymce.min',
-    'tinymce-knockout': '../../wysiwyg.min',
+    'tinymce-knockout': '../../../lib/tinymce-knockout-binding/src/wysiwyg.min',
 
-    'smart-config': '../../app.config',
-    'smart-app': '../../app.min',
-
-    'bootstrap-fileinput': '../../bootstrapFileInput/fileinput'
+    'bootstrap-fileinput': '../../../lib/bootstrap-fileinput/js/fileinput'
 };
 
 var shim = {
     'bootstrap': ['jquery'],
-    'elfinder': ['jquery', 'jquery-ui'],
     'jqueryval': ['jquery'],
     'jqueryval-unobtrusive': ['jquery', 'jqueryval'],
     'kendo-knockout': ['kendo', 'knockout'],
     'knockout-mapping': ['knockout'],
     'tinymce-jquery': ['jquery', 'tinymce'],
     'tinymce-knockout': ['knockout', 'tinymce', 'tinymce-jquery'],
-
-    'smart-config': ['jquery'],
-    'smart-app': ['jquery', 'smart-config'],
 
     'bootstrap-fileinput': ['jquery', 'bootstrap'],
 };

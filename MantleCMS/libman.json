@@ -17,6 +17,71 @@
     {
       "library": "tinymce@5.2.0",
       "destination": "wwwroot/lib/tinymce/"
+    },
+    {
+      "library": "knockout@3.4.2",
+      "destination": "wwwroot/lib/knockout/"
+    },
+    {
+      "library": "moment@2.29.4",
+      "destination": "wwwroot/lib/moment/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-fileinput@4.5.3",
+      "destination": "wwwroot/lib/bootstrap-fileinput/"
+    },
+    {
+      "library": "knockout.mapping@2.4.3",
+      "destination": "wwwroot/lib/knockout.mapping/"
+    },
+    {
+      "library": "jquery-validation@1.19.5",
+      "destination": "wwwroot/lib/jquery-validation/"
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.12",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+    },
+    {
+      "library": "knockout-kendo@0.10.0",
+      "destination": "wwwroot/lib/knockout-kendo/"
+    },
+    {
+      "library": "requirejs@2.3.6",
+      "destination": "wwwroot/lib/requirejs/"
+    },
+    {
+      "library": "requirejs-text@2.0.16",
+      "destination": "wwwroot/lib/requirejs-text/"
+    },
+    {
+      "library": "durandal@2.2.0",
+      "destination": "wwwroot/lib/durandal/"
+    },
+    {
+      "library": "tinymce-knockout-binding@1.1.1",
+      "destination": "wwwroot/lib/tinymce-knockout-binding/"
+    },
+    {
+      "library": "chosen-js@1.8.7",
+      "destination": "wwwroot/lib/chosen-js/"
+    },
+    {
+      "library": "notifyjs-browser@0.4.2",
+      "destination": "wwwroot/lib/notifyjs-browser/"
+    },
+    {
+      "library": "grapesjs@0.21.3",
+      "destination": "wwwroot/lib/grapesjs/"
+    },
+    {
+      "library": "grapesjs-aviary@0.1.2",
+      "destination": "wwwroot/lib/grapesjs-aviary/"
+    },
+    {
+      "library": "grapesjs-mjml@1.0.5",
+      "destination": "wwwroot/lib/grapesjs-mjml/"
     }
   ]
 }
