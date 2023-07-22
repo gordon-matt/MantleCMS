@@ -5,12 +5,12 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { UserViewModel } from '/aurelia-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.user';
-import { RoleViewModel } from '/aurelia-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.role';
-import { ChangePasswordViewModel } from '/aurelia-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.change-password';
+import { UserViewModel } from '/durandal-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.user';
+import { RoleViewModel } from '/durandal-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.role';
+import { ChangePasswordViewModel } from '/durandal-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.change-password';
 
 @inject(TemplatingEngine)
 export class ViewModel {

@@ -161,7 +161,10 @@ namespace MantleCMS
                     }
                 });
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
+
+            // View Components won't work unless we do this.
             foreach (var assembly in assemblies)
             {
                 mvcBuilder.AddApplicationPart(assembly);

@@ -27,8 +27,8 @@ import 'tinymce/plugins/visualblocks/plugin';
 import 'tinymce/plugins/visualchars/plugin';
 import 'tinymce/plugins/wordcount/plugin';
 
-import '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.plugins.mantle_contentzone.plugin';
-import '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.plugins.responsivefilemanager.plugin';
+import '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.plugins.mantle_contentzone.plugin';
+import '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.plugins.responsivefilemanager.plugin';
 
 export class MantleTinyMCEOptions {
     constructor() {

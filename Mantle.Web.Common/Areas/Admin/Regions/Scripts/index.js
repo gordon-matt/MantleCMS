@@ -8,15 +8,15 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { CountryViewModel } from '/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.country-model';
-import { StateViewModel } from '/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.state-model';
-import { CityViewModel } from '/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.city-model';
-import { RegionSettingsViewModel } from '/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.settings-model';
+import { CountryViewModel } from '/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.country-model';
+import { StateViewModel } from '/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.state-model';
+import { CityViewModel } from '/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.city-model';
+import { RegionSettingsViewModel } from '/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.settings-model';
 
-import '/aurelia-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.jquery.imagemapster';
+import '/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.jquery.imagemapster';
 
 @inject(TemplatingEngine)
 export class ViewModel {

@@ -9,13 +9,13 @@ import { inject } from 'aurelia-framework';
 import { HttpClient } from 'aurelia-http-client';
 import { TemplatingEngine } from 'aurelia-templating';
 
-import { MantleTinyMCEOptions } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
-import { GenericHttpInterceptor } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
-import { SectionSwitcher } from '/aurelia-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
+import { MantleTinyMCEOptions } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce';
+import { GenericHttpInterceptor } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.generic-http-interceptor';
+import { SectionSwitcher } from '/durandal-app/embedded/Mantle.Web.CommonResources.Scripts.section-switching';
 
-import { PageViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-model';
-import { PageTypeViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-type-model';
-import { PageVersionViewModel } from '/aurelia-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-version-model';
+import { PageViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-model';
+import { PageTypeViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-type-model';
+import { PageVersionViewModel } from '/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.page-version-model';
 
 @inject(TemplatingEngine)
 export class ViewModel {

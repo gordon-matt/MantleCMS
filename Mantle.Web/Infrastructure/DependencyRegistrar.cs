@@ -58,7 +58,7 @@ namespace Mantle.Web.Infrastructure
             builder.RegisterType<MembershipSettings>().As<ISettings>().InstancePerLifetimeScope();
 
             // Navigation
-            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationManager>().As<INavigationManager>().InstancePerDependency();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 

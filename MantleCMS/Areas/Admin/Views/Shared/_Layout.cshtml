@@ -1,4 +1,6 @@
-﻿@{
+﻿@using MantleIdentityLocalizableStrings = Mantle.Identity.LocalizableStrings
+
+@{
     bool isRTL = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft;
     string dir = isRTL ? "rtl" : string.Empty;
     string lang = WorkContext.CurrentCultureCode.LeftOf('-');
@@ -8,33 +10,115 @@
 <html lang="@lang">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - @SiteSettings.SiteName</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @SiteSettings.SiteName</title>
     @RenderSection("meta", required: false)
 
     <!-- Basic Styles -->
-    <link rel="stylesheet" type="text/css" media="screen" href="/jspm_packages/github/twbs/bootstrap@3.4.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/jspm_packages/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet"
+              href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    </environment>
 
     @if (isRTL)
     {
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.1/css/bootstrap-rtl.css" />
     }
+
+    <link rel="stylesheet" type="text/css" media="screen" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="~/css/dashboard.css" />
 
     <!-- Kendo -->
     <link rel="stylesheet" type="text/css" href="/css/kendo/2014.1.318/kendo.common.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/kendo/2014.1.318/kendo.bootstrap.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
+    <!-- Durandal -->
+    <link rel="stylesheet" type="text/css" href="~/css/durandal/ie10mobile.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/durandal/durandal.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/durandal/starterkit.css" />
 
     <!-- TinyMCE -->
     <link rel="stylesheet" type="text/css" href="/jspm_packages/npm/tinymce@5.0.4/skins/ui/oxide/skin.min.css" />
     <link rel="stylesheet" type="text/css" href="/jspm_packages/npm/tinymce@5.0.4/skins/ui/oxide/content.min.css" />
 
     @RenderSection("styles", required: false)
-    @RenderSection("scripts", required: false)
 </head>
 <body dir="@dir">
-    @RenderBody()
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm">
+        @Html.AntiForgeryToken()
+    </form>
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">@T[LocalizableStrings.Dashboard.ToggleNavigation]</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ImageLink(
+                Url,
+                "/img/logo.png",
+                SiteSettings.SiteName,
+                "#",
+                imgHtmlAttributes: new { style = "max-width:200px;margin-top:18px" })
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                @await Html.PartialAsync("AdminMenu")
+                <ul id="secondary-nav" class="nav navbar-nav navbar-right">
+                    @*@Html.ContentZone("AdminLanguageSwitch")*@
+                    <li>
+                        <a href="/">
+                            <i class="fa fa-home"></i>
+                            <span>@T[LocalizableStrings.Dashboard.Frontend]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="fa fa-power-off"></i>
+                            <span>@T[MantleIdentityLocalizableStrings.LogOut]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        @if (WorkContext.Breadcrumbs.Any())
+        {
+            <div class="row">
+                @await Html.PartialAsync("AdminBreadcrumbs")
+            </div>
+        }
+
+        @RenderBody()
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>

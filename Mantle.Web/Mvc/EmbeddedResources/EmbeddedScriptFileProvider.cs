@@ -37,10 +37,9 @@ namespace Mantle.Web.Mvc.EmbeddedResources
                 subpath = subpath.Substring(1);
             }
 
-            // Support for Aurelia:
-            if (subpath.Contains("aurelia-app/embedded/"))
+            if (subpath.Contains("durandal-app/embedded/"))
             {
-                subpath = subpath.Replace("aurelia-app/embedded/", string.Empty);
+                subpath = subpath.Replace("durandal-app/embedded/", string.Empty);
             }
 
             if (!IsEmbeddedScript(subpath))

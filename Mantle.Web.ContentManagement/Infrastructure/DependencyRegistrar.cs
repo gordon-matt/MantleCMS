@@ -32,7 +32,7 @@ namespace Mantle.Web.ContentManagement.Infrastructure
         {
             //builder.RegisterType<DbSeeder>().As<IDbSeeder>().InstancePerDependency(); // TODO?
 
-            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
 
             // Embedded File Provider
             builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();

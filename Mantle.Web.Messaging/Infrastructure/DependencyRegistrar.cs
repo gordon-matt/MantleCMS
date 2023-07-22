@@ -20,7 +20,7 @@ namespace Mantle.Web.Messaging.Infrastructure
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             // Navigation
-            builder.RegisterType<AureliaRouteProvider>().As<IAureliaRouteProvider>().SingleInstance();
+            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 
             // Embedded File Provider

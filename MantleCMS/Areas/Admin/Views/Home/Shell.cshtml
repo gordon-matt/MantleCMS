@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+
+<div>
+    <div data-bind="if: router.isNavigating">
+        <div class="splash">
+            <div class="message">
+                Loading...
+            </div>
+            <i class="fa fa-spinner fa-spin"></i>
+        </div>
+    </div>
+    <div class="page-host" data-bind="router: { cacheViews: false }"></div>
+</div>
