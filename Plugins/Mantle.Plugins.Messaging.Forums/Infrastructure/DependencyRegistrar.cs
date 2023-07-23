@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Extenso.AspNetCore.OData;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
@@ -32,6 +33,7 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             builder.RegisterType<ForumPermissions>().As<IPermissionProvider>().SingleInstance();
             builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
+            builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
 
             //builder.RegisterType<AutoMenuProvider>().As<IAutoMenuProvider>().SingleInstance();
             builder.RegisterType<ForumService>().As<IForumService>().InstancePerDependency();
