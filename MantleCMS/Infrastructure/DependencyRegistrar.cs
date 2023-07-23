@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Extenso.Data.Entity;
 using Mantle.Data.Entity;
+using Mantle.Data.Services;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Security.Membership;
@@ -28,6 +29,8 @@ namespace MantleCMS.Infrastructure
             builder.RegisterGeneric(typeof(MantleEntityFrameworkRepository<>))
                 .As(typeof(IRepository<>))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<SqlServerEntityFrameworkHelper>().As<IMantleEntityFrameworkHelper>().SingleInstance();
 
             // SPA Routes
             builder.RegisterType<AdminDurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
