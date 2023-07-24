@@ -1,4 +1,4 @@
-﻿define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
+﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko, kendo, notify) {
     'use strict'
 
     const odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi/";

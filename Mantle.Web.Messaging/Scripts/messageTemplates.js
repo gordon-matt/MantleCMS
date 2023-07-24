@@ -7,6 +7,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('odata-helpers');
     require('tinymce');
     require('tinymce-jquery');
     require('tinymce-knockout');

@@ -1,4 +1,4 @@
-﻿define(['jquery', 'knockout', 'kendo', 'mantle-common', 'notify', 'jqueryval', 'mantle-section-switching', 'mantle-jqueryval'],
+﻿define(['jquery', 'knockout', 'kendo', 'mantle-common', 'notify', 'odata-helpers', 'jqueryval', 'mantle-section-switching', 'mantle-jqueryval'],
 function ($, ko, kendo, mantle_common, notify) {
     'use strict'
     

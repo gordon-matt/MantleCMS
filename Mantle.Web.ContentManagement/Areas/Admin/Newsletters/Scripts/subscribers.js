@@ -1,4 +1,4 @@
-﻿define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko) {
+﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko) {
     'use strict'
 
     var ViewModel = function () {

@@ -6,6 +6,7 @@
 
     require('kendo');
     require('notify');
+    require('odata-helpers');
 
     var ViewModel = function () {
         var self = this;

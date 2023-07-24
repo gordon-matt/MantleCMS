@@ -1,12 +1,5 @@
-﻿//define(function (require) {
-define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
+﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko, kendo, notify) {
     'use strict'
-
-    //const $ = require('jquery');
-    //const ko = require('knockout');
-
-    //require('kendo');
-    //require('notify');
 
     const apiUrl = "/odata/mantle/web/ThemeApi";
 

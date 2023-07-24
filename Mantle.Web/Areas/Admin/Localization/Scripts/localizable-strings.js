@@ -1,4 +1,4 @@
-﻿define(['jquery', 'jqueryval', 'kendo'], function ($, jqueryval, kendo) {
+﻿define(['jquery', 'jqueryval', 'kendo', 'odata-helpers'], function ($, jqueryval, kendo) {
     'use strict'
 
     const odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
