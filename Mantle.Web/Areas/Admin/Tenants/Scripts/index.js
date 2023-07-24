@@ -140,7 +140,7 @@
             $("#form-section-legend").html(self.translations.create);
         };
         self.edit = async function (id) {
-            const data = await getOData(`${odataBaseUrl}(${id})`);
+            const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
             self.id(data.Id);
             self.name(data.Name);
             self.url(data.Url);
@@ -150,7 +150,7 @@
             $("#form-section-legend").html(self.translations.edit);
         };
         self.remove = async function (id) {
-            await deleteOData(`${odataBaseUrl}(${id})`);
+            await ODataHelper.deleteOData(`${odataBaseUrl}(${id})`);
         };
         self.save = async function () {
             const isNew = (self.id() == 0);
@@ -167,11 +167,11 @@
             };
 
             if (isNew) {
-                await postOData(odataBaseUrl, record);
+                await ODataHelper.postOData(odataBaseUrl, record);
                 switchSection($("#grid-section"));
             }
             else {
-                await putOData(`${odataBaseUrl}(${self.id()})`, record);
+                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
                 switchSection($("#grid-section"));
             }
         };

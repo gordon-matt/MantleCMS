@@ -1,4 +1,4 @@
-﻿define(['jquery', 'jqueryval', 'knockout', 'kendo', 'notify', 'mantle-section-switching', 'mantle-jqueryval'],
+﻿define(['jquery', 'jqueryval', 'knockout', 'kendo', 'notify', 'odata-helpers', 'mantle-section-switching', 'mantle-jqueryval'],
 function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
     'use strict'
 
@@ -173,30 +173,21 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                 }]
             });
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: odataBaseUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.seconds(json.Seconds);
-                self.enabled(json.Enabled);
-                self.stopOnError(json.StopOnError);
 
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.seconds(data.Seconds);
+            self.enabled(data.Enabled);
+            self.stopOnError(data.StopOnError);
+
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.translations.edit);
         };
-        self.save = function () {
+
+        self.save = async function () {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
@@ -208,47 +199,37 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                 StopOnError: self.stopOnError()
             };
 
-            $.ajax({
-                url: odataBaseUrl + "(" + self.id() + ")",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-
-                switchSection($("#grid-section"));
-
-                $.notify(self.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
+            switchSection($("#grid-section"));
         };
+
         self.cancel = function () {
             switchSection($("#grid-section"));
         };
-        self.runNow = function (id) {
-            $.ajax({
-                url: "/odata/mantle/web/ScheduledTaskApi/Default.RunNow",
-                type: "POST",
-                data: JSON.stringify({
+
+        self.runNow = async function (id) {
+            await fetch(`${odataBaseUrl}/Default.RunNow`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8'
+                },
+                body: JSON.stringify({
                     taskId: id
-                }),
-                contentType: "application/json; charset=utf-8"
+                })
             })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-                $.notify(self.translations.executedTaskSuccess, "success");
+            .then(response => {
+                if (response.ok) {
+                    refreshODataGrid();
+                    $.notify(self.translations.executedTaskSuccess, "success");
+                }
+                else {
+                    $.notify(self.translations.executedTaskError, "error");
+                }
+                return response;
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .catch(error => {
                 $.notify(self.translations.executedTaskError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+                console.error('Error: ', error);
             });
         };
     }

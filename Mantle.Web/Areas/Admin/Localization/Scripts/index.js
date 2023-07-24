@@ -7,6 +7,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('odata-helpers');
 
     require('mantle-common');
     require('mantle-section-switching');
