@@ -391,11 +391,6 @@ namespace MantleCMS
             //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
 
             ConfigureNLog();
-
-            var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-            using var context = contextFactory.GetContext() as ApplicationDbContext;
-            var efHelper = EngineContext.Current.Resolve<IMantleEntityFrameworkHelper>();
-            efHelper.EnsureTables(context);
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

@@ -54,20 +54,19 @@ namespace Mantle.Infrastructure
                 throw new ArgumentNullException(nameof(containerBuilder));
             }
 
-
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             //set base application path
             var provider = services.BuildServiceProvider();
             var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
-            var options = provider.GetRequiredService<MantlePluginOptions>();
+            var pluginOptions = provider.GetRequiredService<MantlePluginOptions>();
             CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
 
             var partManager = provider.GetService<ApplicationPartManager>();
 
             //initialize plugins
-            PluginManager.Initialize(partManager, hostingEnvironment, options);
+            PluginManager.Initialize(partManager, hostingEnvironment, pluginOptions);
 
             var configuration = provider.GetService<IConfigurationRoot>();
 
@@ -75,9 +74,9 @@ namespace Mantle.Infrastructure
             var serviceProvider = engine.ConfigureServices(containerBuilder, configuration);
             EngineContext.Create(engine);
 
-            var options1 = provider.GetService<MantleInfrastructureOptions>();
+            var infrastructureOptions = provider.GetService<MantleInfrastructureOptions>();
             //run startup tasks
-            if (!options1.IgnoreStartupTasks)
+            if (!infrastructureOptions.IgnoreStartupTasks)
             {
                 engine.RunStartupTasks();
             }

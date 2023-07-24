@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace MantleCMS.Controllers
 {
     [Route("installation")]
-    public class InstallationController : Microsoft.AspNetCore.Mvc.Controller
+    public class InstallationController : Controller
     {
         [Route("")]
-        public Microsoft.AspNetCore.Mvc.ActionResult Index()
+        public IActionResult Index()
         {
             var model = new InstallationModel
             {
@@ -21,7 +21,7 @@ namespace MantleCMS.Controllers
 
         [HttpPost]
         [Route("post-install")]
-        public Microsoft.AspNetCore.Mvc.ActionResult PostInstall(InstallationModel model)
+        public IActionResult PostInstall(InstallationModel model)
         {
             if (!ModelState.IsValid)
             {
