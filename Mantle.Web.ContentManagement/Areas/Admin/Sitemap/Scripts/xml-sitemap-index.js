@@ -1,7 +1,7 @@
 ﻿define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
     'use strict'
 
-    var odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi/";
+    const odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi/";
 
     var ViewModel = function () {
         var self = this;
@@ -55,7 +55,7 @@
                         },
                         parameterMap: function (options, operation) {
                             if (operation === "read") {
-                                var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                                let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                                 if (paramMap.$inlinecount) {
                                     if (paramMap.$inlinecount == "allpages") {
                                         paramMap.$count = true;
@@ -110,7 +110,7 @@
                     sort: { field: "Location", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -167,8 +167,8 @@
             });
         };
         self.getChangeFrequencyIndex = function (name) {
-            for (var i = 0; i < self.changeFrequencies.length; i++) {
-                var item = self.changeFrequencies[i];
+            for (let i = 0; i < self.changeFrequencies.length; i++) {
+                const item = self.changeFrequencies[i];
                 if (item.Name == name) {
                     return i;
                 }
@@ -186,9 +186,9 @@
                     template: "#=data.Name#"
                 });
 
-            var selectedIndex = self.getChangeFrequencyIndex(options.model.ChangeFrequency);
+            const selectedIndex = self.getChangeFrequencyIndex(options.model.ChangeFrequency);
             setTimeout(function () {
-                var dropdownlist = $("#test").data("kendoDropDownList");
+                const dropdownlist = $("#test").data("kendoDropDownList");
                 dropdownlist.select(selectedIndex);
             }, 200);
         }

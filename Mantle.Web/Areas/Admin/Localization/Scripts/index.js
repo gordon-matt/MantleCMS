@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -13,7 +13,7 @@
     require('mantle-jqueryval');
     require('bootstrap-fileinput');
 
-    var apiUrl = "/odata/mantle/web/LanguageApi";
+    const apiUrl = "/odata/mantle/web/LanguageApi";
 
     var ViewModel = function () {
         var self = this;
@@ -66,7 +66,7 @@
                 allowedFileExtensions: ['json']
             });
             $('#Upload').on('filebatchuploadsuccess', function (event, data, previewId, index) {
-                var response = data.response;
+                const response = data.response;
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
                 switchSection($("#grid-section"));
@@ -83,7 +83,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -119,7 +119,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -230,12 +230,12 @@
                 return false;
             }
 
-            var cultureCode = self.cultureCode();
+            let cultureCode = self.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 CultureCode: cultureCode,
@@ -295,7 +295,7 @@
             switchSection($("#grid-section"));
         };
         self.onCultureCodeChanged = function () {
-            var cultureName = $('#CultureCode option:selected').text();
+            const cultureName = $('#CultureCode option:selected').text();
             self.name(cultureName);
         };
         self.clear = function () {

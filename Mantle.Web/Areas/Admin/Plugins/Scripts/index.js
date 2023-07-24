@@ -2,7 +2,7 @@
 function ($, ko, kendo, mantle_common, notify) {
     'use strict'
     
-    var apiUrl = "/odata/mantle/web/PluginApi";
+    const apiUrl = "/odata/mantle/web/PluginApi";
 
     var ViewModel = function () {
         var self = this;
@@ -53,7 +53,7 @@ function ($, ko, kendo, mantle_common, notify) {
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -88,7 +88,7 @@ function ($, ko, kendo, mantle_common, notify) {
                     sort: { field: "Group", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -163,7 +163,7 @@ function ($, ko, kendo, mantle_common, notify) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 FriendlyName: self.friendlyName(),
                 DisplayOrder: self.displayOrder(),
                 LimitedToTenants: self.limitedToTenants()

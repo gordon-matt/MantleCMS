@@ -48,6 +48,7 @@
     <EmbeddedResource Include="Scripts\mantle-utils.js" />
     <EmbeddedResource Include="Scripts\mantle-jqval.js" />
     <EmbeddedResource Include="Scripts\moment-with-locales.min.js" />
+    <EmbeddedResource Include="Scripts\odata-helpers.js" />
     <EmbeddedResource Include="Scripts\tinymce\mantle-tinymce.js" />
     <EmbeddedResource Include="Scripts\mantle-section-switching.js" />
     <EmbeddedResource Include="Scripts\tinymce\plugins\mantle_contentzone\img\mantle_contentzone.png" />
@@ -88,6 +89,7 @@
     <None Remove="Scripts\mantle-knockout-chosen.js" />
     <None Remove="Scripts\mantle-section-switching.js" />
     <None Remove="Scripts\moment-with-locales.min.js" />
+    <None Remove="Scripts\odata-helpers.js" />
     <None Remove="Scripts\tinymce\plugins\mantle_contentzone\img\mantle_contentzone.png" />
     <None Remove="Scripts\tinymce\plugins\mantle_contentzone\plugin.js" />
     <None Remove="Scripts\tinymce\plugins\mantle_contentzone\plugin.min.js" />

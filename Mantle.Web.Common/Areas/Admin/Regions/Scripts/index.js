@@ -1,9 +1,9 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
-    var koMap = require('knockout-mapping');
+    const $ = require('jquery');
+    const ko = require('knockout');
+    const koMap = require('knockout-mapping');
 
     require('jqueryval');
     require('kendo');
@@ -16,8 +16,8 @@
     //require('jquery-maphilight');
     require('jquery-image-mapster');
 
-    var apiUrl = "/odata/mantle/common/RegionApi";
-    var settingsApiUrl = "/odata/mantle/common/RegionSettingsApi";
+    const apiUrl = "/odata/mantle/common/RegionApi";
+    const settingsApiUrl = "/odata/mantle/common/RegionSettingsApi";
 
     ko.mapping = koMap;
 
@@ -40,7 +40,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -73,7 +73,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -133,7 +133,7 @@
                         $(this).remove();
                     });
 
-                    //var oldScripts = $('script[data-settings-script="true"]');
+                    //let oldScripts = $('script[data-settings-script="true"]');
 
                     //if (oldScripts.length > 0) {
                     //    $.each(oldScripts, function () {
@@ -141,21 +141,21 @@
                     //    });
                     //}
 
-                    var elementToBind = $("#settings-form-section")[0];
+                    const elementToBind = $("#settings-form-section")[0];
                     ko.cleanNode(elementToBind);
 
-                    var result = $(json.Content);
+                    const result = $(json.Content);
 
                     // Add new HTML
-                    var content = $(result.filter('#region-settings')[0]);
-                    var details = $('<div>').append(content.clone()).html();
+                    const content = $(result.filter('#region-settings')[0]);
+                    const details = $('<div>').append(content.clone()).html();
                     $("#settings-details").html(details);
 
                     // Add new Scripts
-                    var scripts = result.filter('script');
+                    const scripts = result.filter('script');
 
                     $.each(scripts, function () {
-                        var script = $(this);
+                        const script = $(this);
                         script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
                         script.appendTo('body');
                     });
@@ -163,7 +163,7 @@
                     // Update Bindings
                     // Ensure the function exists before calling it...
                     if (typeof updateModel == 'function') {
-                        var data = ko.toJS(ko.mapping.fromJSON(self.fields()));
+                        let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
                         updateModel(self, data);
                         ko.applyBindings(self.parent, elementToBind);
                     }
@@ -187,7 +187,7 @@
                 onBeforeSave(self);
             }
 
-            var record = {
+            const record = {
                 settingsId: self.settingsId(),
                 regionId: self.regionId(),
                 fields: self.fields()
@@ -252,7 +252,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -285,7 +285,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -336,7 +336,7 @@
             $("#country-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + "(" + id + ")";
+            let url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
@@ -394,18 +394,18 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#country-form-section-form").valid()) {
                 return false;
             }
 
-            var order = self.order();
+            let order = self.order();
             if (!order) {
                 order = null;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 RegionType: 'Country',
@@ -499,7 +499,7 @@
             self.parent.selectedCountryId(countryId);
             self.parent.selectedStateId(0);
 
-            var grid = $('#StateGrid').data('kendoGrid');
+            const grid = $('#StateGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
@@ -512,7 +512,7 @@
             self.parent.selectedCountryId(countryId);
             self.parent.selectedStateId(0);
 
-            var grid = $('#CityGrid').data('kendoGrid');
+            const grid = $('#CityGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
@@ -554,7 +554,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -587,7 +587,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -636,7 +636,7 @@
             $("#state-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + "(" + id + ")";
+            let url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
@@ -693,18 +693,18 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#state-form-section-form").valid()) {
                 return false;
             }
 
-            var order = self.order();
+            let order = self.order();
             if (!order) {
                 order = null;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 RegionType: 'State',
@@ -796,7 +796,7 @@
             //TODO: Filter states grid
             self.parent.selectedStateId(stateId);
 
-            var grid = $('#CityGrid').data('kendoGrid');
+            const grid = $('#CityGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
@@ -836,7 +836,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -869,7 +869,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -922,7 +922,7 @@
             $("#city-form-section-legend").html(self.parent.translations.create);
         };
         self.edit = function (id, cultureCode) {
-            var url = apiUrl + "(" + id + ")";
+            let url = apiUrl + "(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
@@ -978,18 +978,18 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#city-form-section-form").valid()) {
                 return false;
             }
 
-            var order = self.order();
+            let order = self.order();
             if (!order) {
                 order = null;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 RegionType: 'City',
@@ -1144,7 +1144,7 @@
         self.showCountries = function (continentId) {
             self.selectedContinentId(continentId);
 
-            var grid = $('#CountryGrid').data('kendoGrid');
+            const grid = $('#CountryGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
@@ -1158,9 +1158,9 @@
         };
 
         self.onCultureSelected = function () {
-            var regionType = $("#RegionType").val();
-            var id = $("#SelectedId").val();
-            var cultureCode = $("#CultureCode").val();
+            const regionType = $("#RegionType").val();
+            const id = $("#SelectedId").val();
+            const cultureCode = $("#CultureCode").val();
 
             switch (regionType) {
                 case 'Country': self.country.edit(id, cultureCode); break;

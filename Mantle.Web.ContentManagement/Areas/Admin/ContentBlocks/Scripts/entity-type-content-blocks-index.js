@@ -1,10 +1,10 @@
 ﻿define(function (require) {
     'use strict'
 
-    var router = require('plugins/router');
-    var $ = require('jquery');
-    var ko = require('knockout');
-    var koMap = require('knockout-mapping');
+    const router = require('plugins/router');
+    const $ = require('jquery');
+    const ko = require('knockout');
+    const koMap = require('knockout-mapping');
 
     require('jqueryval');
     require('kendo');
@@ -69,7 +69,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -105,7 +105,7 @@
                     sort: { field: "Title", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -176,7 +176,7 @@
             self.contentBlockModelStub = null;
 
             // Remove Old Scripts
-            var oldScripts = $('script[data-block-script="true"]');
+            const oldScripts = $('script[data-block-script="true"]');
 
             if (oldScripts.length > 0) {
                 $.each(oldScripts, function () {
@@ -184,7 +184,7 @@
                 });
             }
 
-            var elementToBind = $("#block-details")[0];
+            const elementToBind = $("#block-details")[0];
             ko.cleanNode(elementToBind);
             $("#block-details").html("");
 
@@ -192,7 +192,7 @@
             switchSection($("#create-section"));
         };
         self.edit = function (id, cultureCode) {
-            var url = "/odata/mantle/cms/EntityTypeContentBlockApi(" + id + ")";
+            let url = "/odata/mantle/cms/EntityTypeContentBlockApi(" + id + ")";
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
@@ -209,92 +209,92 @@
                 dataType: "json",
                 async: false
             })
+            .done(function (json) {
+                self.id(json.Id);
+                self.entityType(json.EntityType);
+                self.entityId(json.EntityId);
+                self.blockName(json.BlockName);
+                self.blockType(json.BlockType);
+                self.title(json.Title);
+                self.zoneId(json.ZoneId);
+                self.order(json.Order);
+                self.isEnabled(json.IsEnabled);
+                self.blockValues(json.BlockValues);
+                self.customTemplatePath(json.CustomTemplatePath);
+
+                $.ajax({
+                    url: "/admin/blocks/entity-type-content-blocks/get-editor-ui/" + self.id(),
+                    type: "GET",
+                    dataType: "json",
+                    async: false
+                })
                 .done(function (json) {
-                    self.id(json.Id);
-                    self.entityType(json.EntityType);
-                    self.entityId(json.EntityId);
-                    self.blockName(json.BlockName);
-                    self.blockType(json.BlockType);
-                    self.title(json.Title);
-                    self.zoneId(json.ZoneId);
-                    self.order(json.Order);
-                    self.isEnabled(json.IsEnabled);
-                    self.blockValues(json.BlockValues);
-                    self.customTemplatePath(json.CustomTemplatePath);
 
-                    $.ajax({
-                        url: "/admin/blocks/entity-type-content-blocks/get-editor-ui/" + self.id(),
-                        type: "GET",
-                        dataType: "json",
-                        async: false
-                    })
-                        .done(function (json) {
+                    // Clean up from previously injected html/scripts
+                    if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
+                        self.contentBlockModelStub.cleanUp(self);
+                    }
+                    self.contentBlockModelStub = null;
 
-                            // Clean up from previously injected html/scripts
-                            if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
-                                self.contentBlockModelStub.cleanUp(self);
-                            }
-                            self.contentBlockModelStub = null;
+                    // Remove Old Scripts
+                    const oldScripts = $('script[data-block-script="true"]');
 
-                            // Remove Old Scripts
-                            var oldScripts = $('script[data-block-script="true"]');
-
-                            if (oldScripts.length > 0) {
-                                $.each(oldScripts, function () {
-                                    $(this).remove();
-                                });
-                            }
-
-                            var elementToBind = $("#block-details")[0];
-                            ko.cleanNode(elementToBind);
-                            $("#block-details").html("");
-
-                            var result = $(json.content);
-
-                            // Add new HTML
-                            var content = $(result.filter('#block-content')[0]);
-                            var details = $('<div>').append(content.clone()).html();
-                            $("#block-details").html(details);
-
-                            // Add new Scripts
-                            var scripts = result.filter('script');
-
-                            $.each(scripts, function () {
-                                var script = $(this);
-                                script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                                script.appendTo('body');
-                            });
-
-                            // Update Bindings
-                            // Ensure the function exists before calling it...
-                            if (typeof contentBlockModel != null) {
-                                self.contentBlockModelStub = contentBlockModel;
-                                if (typeof self.contentBlockModelStub.updateModel === 'function') {
-                                    self.contentBlockModelStub.updateModel(self);
-                                }
-                                ko.applyBindings(self.parent, elementToBind);
-                            }
-                        })
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            $.notify(self.parent.translations.getRecordError, "error");
-                            console.log(textStatus + ': ' + errorThrown);
+                    if (oldScripts.length > 0) {
+                        $.each(oldScripts, function () {
+                            $(this).remove();
                         });
+                    }
 
-                    self.editFormValidator.resetForm();
-                    switchSection($("#edit-section"));
+                    const elementToBind = $("#block-details")[0];
+                    ko.cleanNode(elementToBind);
+                    $("#block-details").html("");
+
+                    const result = $(json.content);
+
+                    // Add new HTML
+                    const content = $(result.filter('#block-content')[0]);
+                    const details = $('<div>').append(content.clone()).html();
+                    $("#block-details").html(details);
+
+                    // Add new Scripts
+                    const scripts = result.filter('script');
+
+                    $.each(scripts, function () {
+                        const script = $(this);
+                        script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        script.appendTo('body');
+                    });
+
+                    // Update Bindings
+                    // Ensure the function exists before calling it...
+                    if (typeof contentBlockModel != null) {
+                        self.contentBlockModelStub = contentBlockModel;
+                        if (typeof self.contentBlockModelStub.updateModel === 'function') {
+                            self.contentBlockModelStub.updateModel(self);
+                        }
+                        ko.applyBindings(self.parent, elementToBind);
+                    }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     $.notify(self.parent.translations.getRecordError, "error");
                     console.log(textStatus + ': ' + errorThrown);
                 });
+
+                self.editFormValidator.resetForm();
+                switchSection($("#edit-section"));
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
         self.localize = function (id) {
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
         self.onCultureSelected = function () {
-            var id = $("#SelectedId").val();
-            var cultureCode = $("#CultureCode").val();
+            const id = $("#SelectedId").val();
+            const cultureCode = $("#CultureCode").val();
             self.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };
@@ -305,20 +305,20 @@
                     type: "DELETE",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#Grid').data('kendoGrid').dataSource.read();
-                        $('#Grid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
 
-                        $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.deleteRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.save = function () {
-            var isNew = (self.id() == emptyGuid);
+            const isNew = (self.id() == emptyGuid);
 
             if (isNew) {
                 if (!$("#create-section-form").valid()) {
@@ -336,7 +336,7 @@
                 self.contentBlockModelStub.onBeforeSave(self);
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 EntityType: self.entityType(),
                 EntityId: self.entityId(),
@@ -359,18 +359,18 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#Grid').data('kendoGrid').dataSource.read();
-                        $('#Grid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                    $('#Grid').data('kendoGrid').refresh();
 
-                        switchSection($("#grid-section"));
+                    switchSection($("#grid-section"));
 
-                        $.notify(self.parent.translations.insertRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.insertRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.insertRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
             else {
                 if (self.cultureCode() != null) {
@@ -385,18 +385,18 @@
                         dataType: "json",
                         async: false
                     })
-                        .done(function (json) {
-                            $('#Grid').data('kendoGrid').dataSource.read();
-                            $('#Grid').data('kendoGrid').refresh();
+                    .done(function (json) {
+                        $('#Grid').data('kendoGrid').dataSource.read();
+                        $('#Grid').data('kendoGrid').refresh();
 
-                            switchSection($("#grid-section"));
+                        switchSection($("#grid-section"));
 
-                            $.notify(self.parent.translations.updateRecordSuccess, "success");
-                        })
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            $.notify(self.parent.translations.updateRecordError, "error");
-                            console.log(textStatus + ': ' + errorThrown);
-                        });
+                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        $.notify(self.parent.translations.updateRecordError, "error");
+                        console.log(textStatus + ': ' + errorThrown);
+                    });
                 }
                 else {
                     $.ajax({
@@ -407,18 +407,18 @@
                         dataType: "json",
                         async: false
                     })
-                        .done(function (json) {
-                            $('#Grid').data('kendoGrid').dataSource.read();
-                            $('#Grid').data('kendoGrid').refresh();
+                    .done(function (json) {
+                        $('#Grid').data('kendoGrid').dataSource.read();
+                        $('#Grid').data('kendoGrid').refresh();
 
-                            switchSection($("#grid-section"));
+                        switchSection($("#grid-section"));
 
-                            $.notify(self.parent.translations.updateRecordSuccess, "success");
-                        })
-                        .fail(function (jqXHR, textStatus, errorThrown) {
-                            $.notify(self.parent.translations.updateRecordError, "error");
-                            console.log(textStatus + ': ' + errorThrown);
-                        });
+                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        $.notify(self.parent.translations.updateRecordError, "error");
+                        console.log(textStatus + ': ' + errorThrown);
+                    });
                 }
             }
         };
@@ -430,7 +430,7 @@
             self.contentBlockModelStub = null;
 
             // Remove Old Scripts
-            var oldScripts = $('script[data-block-script="true"]');
+            const oldScripts = $('script[data-block-script="true"]');
 
             if (oldScripts.length > 0) {
                 $.each(oldScripts, function () {
@@ -438,14 +438,14 @@
                 });
             }
 
-            var elementToBind = $("#block-details")[0];
+            const elementToBind = $("#block-details")[0];
             ko.cleanNode(elementToBind);
             $("#block-details").html("");
 
             switchSection($("#grid-section"));
         };
         self.toggleEnabled = function (id, isEnabled) {
-            var patch = {
+            const patch = {
                 IsEnabled: !isEnabled
             };
 
@@ -457,16 +457,16 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
+            .done(function (json) {
+                $('#Grid').data('kendoGrid').dataSource.read();
+                $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.updateRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
     };
 
@@ -496,7 +496,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -529,7 +529,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -572,16 +572,16 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    self.id(json.Id);
-                    self.name(json.Name);
-                    self.validator.resetForm();
-                    switchSection($("#zones-edit-section"));
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+            .done(function (json) {
+                self.id(json.Id);
+                self.name(json.Name);
+                self.validator.resetForm();
+                switchSection($("#zones-edit-section"));
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
         self.remove = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
@@ -591,19 +591,19 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                        $('#ZoneGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
+                    $('#ZoneGrid').data('kendoGrid').refresh();
 
-                        $('#ZoneId option[value="' + id + '"]').remove();
-                        $('#Create_ZoneId option[value="' + id + '"]').remove();
+                    $('#ZoneId option[value="' + id + '"]').remove();
+                    $('#Create_ZoneId option[value="' + id + '"]').remove();
 
-                        $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.deleteRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.save = function () {
@@ -611,7 +611,7 @@
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
             };
@@ -626,28 +626,28 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                        $('#ZoneGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
+                    $('#ZoneGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#zones-grid-section"));
+                    switchSection($("#zones-grid-section"));
 
-                        // Update zone drop downs
-                        $('#ZoneId').append($('<option>', {
-                            value: json.Id,
-                            text: record.Name
-                        }));
-                        $('#Create_ZoneId').append($('<option>', {
-                            value: json.Id,
-                            text: record.Name
-                        }));
+                    // Update zone drop downs
+                    $('#ZoneId').append($('<option>', {
+                        value: json.Id,
+                        text: record.Name
+                    }));
+                    $('#Create_ZoneId').append($('<option>', {
+                        value: json.Id,
+                        text: record.Name
+                    }));
 
-                        $.notify(self.parent.translations.insertRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.insertRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.insertRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
             else {
                 // UPDATE
@@ -659,22 +659,22 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                        $('#ZoneGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
+                    $('#ZoneGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#zones-grid-section"));
+                    switchSection($("#zones-grid-section"));
 
-                        // Update zone drop downs
-                        $('#ZoneId option[value="' + record.Id + '"]').text(record.Name);
-                        $('#Create_ZoneId option[value="' + record.Id + '"]').text(record.Name);
+                    // Update zone drop downs
+                    $('#ZoneId option[value="' + record.Id + '"]').text(record.Name);
+                    $('#Create_ZoneId option[value="' + record.Id + '"]').text(record.Name);
 
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.updateRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.cancel = function () {
@@ -710,12 +710,12 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    self.translations = json;
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
 
             self.gridPageSize = $("#GridPageSize").val();
 

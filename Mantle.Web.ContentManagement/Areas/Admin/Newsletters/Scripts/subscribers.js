@@ -34,7 +34,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -68,7 +68,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -123,7 +123,7 @@
             }
         };
         self.downloadCsv = function () {
-            var downloadForm = $("<form>")
+            const downloadForm = $("<form>")
                 .attr("method", "POST")
                 .attr("action", "/admin/newsletters/subscribers/download-csv");
             $("body").append(downloadForm);

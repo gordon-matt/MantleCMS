@@ -1,7 +1,7 @@
 ﻿define(['jquery', 'jqueryval', 'kendo'], function ($, jqueryval, kendo) {
     'use strict'
 
-    var odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
+    const odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
 
     var ViewModel = function () {
         var self = this;
@@ -57,7 +57,7 @@
                         },
                         parameterMap: function (options, operation) {
                             if (operation === "read") {
-                                var paramMap = kendo.data.transports.odata.parameterMap(options);
+                                let paramMap = kendo.data.transports.odata.parameterMap(options);
                                 if (paramMap.$inlinecount) {
                                     if (paramMap.$inlinecount == "allpages") {
                                         paramMap.$count = true;
@@ -108,7 +108,7 @@
                     sort: { field: "Key", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -164,7 +164,7 @@
             });
         };
         self.exportFile = function () {
-            var downloadForm = $("<form>")
+            const downloadForm = $("<form>")
                 .attr("method", "GET")
                 .attr("action", "/admin/localization/localizable-strings/export/" + self.cultureCode);
             $("body").append(downloadForm);

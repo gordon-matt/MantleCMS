@@ -1,17 +1,18 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('odata-helpers');
 
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var odataBaseUrl = "/odata/mantle/web/TenantApi";
+    const odataBaseUrl = "/odata/mantle/web/TenantApi";
 
     var ViewModel = function () {
         var self = this;
@@ -63,7 +64,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -96,7 +97,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -138,54 +139,27 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: odataBaseUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.url(json.Url);
-                self.hosts(json.Hosts);
+        self.edit = async function (id) {
+            const data = await getOData(`${odataBaseUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.url(data.Url);
+            self.hosts(data.Hosts);
 
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.translations.edit);
         };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: odataBaseUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await deleteOData(`${odataBaseUrl}(${id})`);
         };
-        self.save = function () {
-            var isNew = (self.id() == 0);
+        self.save = async function () {
+            const isNew = (self.id() == 0);
 
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 Url: self.url(),
@@ -193,50 +167,15 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: odataBaseUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await postOData(odataBaseUrl, record);
+                switchSection($("#grid-section"));
             }
             else {
-                $.ajax({
-                    url: odataBaseUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await putOData(`${odataBaseUrl}(${self.id()})`, record);
+                switchSection($("#grid-section"));
             }
         };
+
         self.cancel = function () {
             switchSection($("#grid-section"));
         };
