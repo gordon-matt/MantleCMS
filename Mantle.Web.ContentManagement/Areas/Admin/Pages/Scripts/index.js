@@ -1,9 +1,9 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
-    var koMap = require('knockout-mapping');
+    const $ = require('jquery');
+    const ko = require('knockout');
+    const koMap = require('knockout-mapping');
 
     require('jqueryval');
     require('kendo');
@@ -17,9 +17,9 @@
     require('mantle-jqueryval');
     require('mantle-tinymce');
 
-    var pageApiUrl = "/odata/mantle/cms/PageApi";
-    var pageTypeApiUrl = "/odata/mantle/cms/PageTypeApi";
-    var pageVersionApiUrl = "/odata/mantle/cms/PageVersionApi";
+    const pageApiUrl = "/odata/mantle/cms/PageApi";
+    const pageTypeApiUrl = "/odata/mantle/cms/PageTypeApi";
+    const pageVersionApiUrl = "/odata/mantle/cms/PageVersionApi";
 
     ko.mapping = koMap;
 
@@ -51,7 +51,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -84,7 +84,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -141,13 +141,13 @@
             });
         };
         self.save = function () {
-            var isNew = (self.id() == emptyGuid);
+            const isNew = (self.id() == emptyGuid);
 
             if (!$("#page-type-form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 LayoutPath: self.layoutPath()
@@ -233,7 +233,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -268,7 +268,7 @@
                     sort: { field: "DateModifiedUtc", dir: "desc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -330,7 +330,7 @@
             };
         };
         self.preview = function (id) {
-            var win = window.open('/admin/pages/preview-version/' + id, '_blank');
+            const win = window.open('/admin/pages/preview-version/' + id, '_blank');
             if (win) {
                 win.focus();
             } else {
@@ -392,7 +392,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -403,7 +403,7 @@
                                 paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
 
                                 // Fix for GUIDs
-                                var guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
+                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
                                 paramMap.$filter = paramMap.$filter.replace(guid, "$1");
                             }
                             return paramMap;
@@ -441,7 +441,7 @@
                     }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -553,7 +553,7 @@
             self.parent.pageVersionModel.pageModelStub = null;
 
             // Remove Old Scripts
-            var oldScripts = $('script[data-fields-script="true"]');
+            const oldScripts = $('script[data-fields-script="true"]');
 
             if (oldScripts.length > 0) {
                 $.each(oldScripts, function () {
@@ -561,7 +561,7 @@
                 });
             }
 
-            var elementToBind = $("#fields-definition")[0];
+            const elementToBind = $("#fields-definition")[0];
             ko.cleanNode(elementToBind);
             $("#fields-definition").html("");
 
@@ -592,14 +592,14 @@
                 self.accessRestrictions = ko.mapping.fromJSON(json.AccessRestrictions);
 
                 if (self.accessRestrictions.Roles != null) {
-                    var split = self.accessRestrictions.Roles().split(',');
+                    const split = self.accessRestrictions.Roles().split(',');
                     self.roles(split);
                 }
                 else {
                     self.roles([]);
                 }
 
-                var getCurrentVersionUrl = "";
+                let getCurrentVersionUrl = "";
                 if (self.parent.currentCulture) {
                     getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
                 }
@@ -668,7 +668,7 @@
                 self.parent.pageVersionModel.pageModelStub = null;
 
                 // Remove Old Scripts
-                var oldScripts = $('script[data-fields-script="true"]');
+                const oldScripts = $('script[data-fields-script="true"]');
 
                 if (oldScripts.length > 0) {
                     $.each(oldScripts, function () {
@@ -676,21 +676,21 @@
                     });
                 }
 
-                var elementToBind = $("#fields-definition")[0];
+                const elementToBind = $("#fields-definition")[0];
                 ko.cleanNode(elementToBind);
 
-                var result = $(json.content);
+                const result = $(json.content);
 
                 // Add new HTML
-                var content = $(result.filter('#fields-content')[0]);
-                var details = $('<div>').append(content.clone()).html();
+                const content = $(result.filter('#fields-content')[0]);
+                const details = $('<div>').append(content.clone()).html();
                 $("#fields-definition").html(details);
 
                 // Add new Scripts
-                var scripts = result.filter('script');
+                const scripts = result.filter('script');
 
                 $.each(scripts, function () {
-                    var script = $(this);
+                    const script = $(this);
                     script.attr("data-fields-script", "true");//for some reason, .data("fields-script", "true") doesn't work here
                     script.appendTo('body');
                 });
@@ -730,7 +730,7 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == emptyGuid);
+            const isNew = (self.id() == emptyGuid);
 
             if (!$("#form-section-form").valid()) {
                 return false;
@@ -742,9 +742,9 @@
                 }
             }
 
-            var parentId = self.parentId();
+            const parentId = self.parentId();
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 ParentId: parentId,
                 PageTypeId: self.pageTypeId(),
@@ -804,12 +804,12 @@
                 self.parent.pageVersionModel.pageModelStub.onBeforeSave(self.parent.pageVersionModel);
             }
 
-            var cultureCode = self.parent.pageVersionModel.cultureCode();
+            let cultureCode = self.parent.pageVersionModel.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
 
-            var status = 'Draft';
+            let status = 'Draft';
 
             // if not preset to 'Archived' status...
             if (self.parent.pageVersionModel.status() != 'Archived') {
@@ -824,7 +824,7 @@
                 }
             }
 
-            var record = {
+            const record = {
                 Id: self.parent.pageVersionModel.id(), // Should always create a new one, so don't send Id!
                 PageId: self.parent.pageVersionModel.pageId(),
                 CultureCode: cultureCode,
@@ -859,7 +859,7 @@
             self.parent.pageVersionModel.pageModelStub = null;
 
             // Remove Old Scripts
-            var oldScripts = $('script[data-fields-script="true"]');
+            const oldScripts = $('script[data-fields-script="true"]');
 
             if (oldScripts.length > 0) {
                 $.each(oldScripts, function () {
@@ -867,14 +867,14 @@
                 });
             }
 
-            var elementToBind = $("#fields-definition")[0];
+            const elementToBind = $("#fields-definition")[0];
             ko.cleanNode(elementToBind);
             $("#fields-definition").html("");
 
             switchSection($("#page-grid-section"));
         };
         self.toggleEnabled = function (id, parentId, isEnabled) {
-            var patch = {
+            const patch = {
                 IsEnabled: !isEnabled
             };
 
@@ -928,7 +928,7 @@
         };
 
         self.detailInit = function (e) {
-            var detailRow = e.detailRow;
+            const detailRow = e.detailRow;
 
             detailRow.find(".detail-grid").kendoGrid({
                 data: null,
@@ -940,7 +940,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -951,7 +951,7 @@
                                 paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
 
                                 // Fix for GUIDs
-                                var guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
+                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
                                 paramMap.$filter = paramMap.$filter.replace(guid, "$1");
                             }
                             return paramMap;
@@ -989,7 +989,7 @@
                     }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -1063,7 +1063,7 @@
         };
 
         self.preview = function (id) {
-            var win = window.open('/admin/pages/preview/' + id, '_blank');
+            const win = window.open('/admin/pages/preview/' + id, '_blank');
             if (win) {
                 win.focus();
             } else {
@@ -1089,14 +1089,14 @@
                     text: '[Root]'
                 }));
                 $.each(json.value, function () {
-                    var item = this;
+                    const item = this;
                     $('#ParentId').append($('<option>', {
                         value: item.Id,
                         text: item.Name
                     }));
                 });
 
-                var elementToBind = $("#ParentId")[0];
+                const elementToBind = $("#ParentId")[0];
                 ko.cleanNode(elementToBind);
                 ko.applyBindings(self.parent, elementToBind);
             })
@@ -1106,8 +1106,8 @@
             });
         };
         self.onParentSelected = function () {
-            var id = $("#PageIdToMove").val();
-            var parentId = $("#ParentId").val();
+            const id = $("#PageIdToMove").val();
+            let parentId = $("#ParentId").val();
 
             if (parentId == id) {
                 $("#parentPageModal").modal("hide");
@@ -1117,7 +1117,7 @@
                 parentId = null;
             }
 
-            var patch = {
+            const patch = {
                 ParentId: parentId
             };
 
@@ -1144,8 +1144,8 @@
             $("#cultureModal").modal("show");
         };
         self.onCultureSelected = function () {
-            var id = $("#PageIdToLocalize").val();
-            var cultureCode = $("#CultureCode").val();
+            const id = $("#PageIdToLocalize").val();
+            const cultureCode = $("#CultureCode").val();
             self.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };

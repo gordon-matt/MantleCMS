@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -18,9 +18,9 @@
     require('mantle-knockout-chosen');
     require('mantle-tinymce');
 
-    var postApiUrl = "/odata/mantle/cms/BlogPostApi";
-    var categoryApiUrl = "/odata/mantle/cms/BlogCategoryApi";
-    var tagApiUrl = "/odata/mantle/cms/BlogTagApi";
+    const postApiUrl = "/odata/mantle/cms/BlogPostApi";
+    const categoryApiUrl = "/odata/mantle/cms/BlogCategoryApi";
+    const tagApiUrl = "/odata/mantle/cms/BlogTagApi";
 
     var PostModel = function (parent) {
         var self = this;
@@ -67,7 +67,7 @@
                 self.chosenTags([]);
 
                 $(json.value).each(function () {
-                    var current = this;
+                    const current = this;
                     self.availableTags.push({ Id: current.Id, Name: current.Name });
                 });
             })
@@ -86,7 +86,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -120,7 +120,7 @@
                     sort: { field: "DateCreatedUtc", dir: "desc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -228,19 +228,19 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == emptyGuid);
+            const isNew = (self.id() == emptyGuid);
 
             if (!$("#post-form-section-form").valid()) {
                 return false;
             }
 
-            var tags = self.chosenTags().map(function (item) {
+            const tags = self.chosenTags().map(function (item) {
                 return {
                     TagId: item
                 }
             });
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 CategoryId: self.categoryId(),
                 Headline: self.headline(),
@@ -333,7 +333,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -366,7 +366,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -447,13 +447,13 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#category-form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 UrlSlug: self.urlSlug(),
@@ -536,7 +536,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -569,7 +569,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -650,13 +650,13 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#tag-form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 UrlSlug: self.urlSlug(),
@@ -755,7 +755,7 @@
 
             $('#myModal').on('hidden.bs.modal', function () {
                 if (!self.modalDismissed) {
-                    var url = $('#TeaserImageUrl').val();
+                    const url = $('#TeaserImageUrl').val();
                     //url = "/Media/Uploads/" + url;
                     self.postModel.teaserImageUrl(url);
                 }

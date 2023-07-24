@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -12,9 +12,9 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var permissionsApiUrl = "/odata/mantle/web/PermissionApi";
-    var rolesApiUrl = "/odata/mantle/web/RoleApi";
-    var usersApiUrl = "/odata/mantle/web/UserApi";
+    const permissionsApiUrl = "/odata/mantle/web/PermissionApi";
+    const rolesApiUrl = "/odata/mantle/web/RoleApi";
+    const usersApiUrl = "/odata/mantle/web/UserApi";
 
     var RoleModel = function (parent) {
         var self = this;
@@ -44,7 +44,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -77,7 +77,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -167,7 +167,7 @@
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name()
             };
@@ -250,7 +250,7 @@
             switchSection($("#roles-grid-section"));
         };
         self.editPermissions_save = function () {
-            var data = {
+            const data = {
                 roleId: self.id(),
                 permissions: self.permissions()
             };
@@ -300,7 +300,7 @@
                 return false;
             }
 
-            var record = {
+            const record = {
                 userId: self.id(),
                 password: self.password()
             };
@@ -355,7 +355,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -390,7 +390,7 @@
                     sort: { field: "UserName", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -491,13 +491,13 @@
         };
         self.save = function () {
 
-            var isNew = (self.id() == emptyGuid);
+            const isNew = (self.id() == emptyGuid);
 
             if (!$("#users-edit-form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 UserName: self.userName(),
                 Email: self.email(),
@@ -583,7 +583,7 @@
             switchSection($("#users-grid-section"));
         };
         self.editRoles_save = function () {
-            var data = {
+            const data = {
                 userId: self.id(),
                 roles: self.roles()
             };
@@ -611,14 +611,14 @@
             switchSection($("#change-password-form-section"));
         };
         self.filterRole = function () {
-            var grid = $('#UsersGrid').data('kendoGrid');
+            const grid = $('#UsersGrid').data('kendoGrid');
 
             if (self.filterRoleId() == "") {
                 grid.dataSource.transport.options.read.url = usersApiUrl;
                 grid.dataSource.transport.options.read.type = "GET";
                 delete grid.dataSource.transport.options.read.contentType;
                 grid.dataSource.transport.parameterMap = function (options, operation) {
-                    var paramMap = kendo.data.transports.odata.parameterMap(options);
+                    let paramMap = kendo.data.transports.odata.parameterMap(options);
                     if (paramMap.$inlinecount) {
                         if (paramMap.$inlinecount == "allpages") {
                             paramMap.$count = true;
@@ -635,17 +635,17 @@
                 // For some reason, the OData query string doesn't get populated by Kendo Grid when we're using POST,
                 // so we need to build it ourselves manually
                 grid.dataSource.transport.options.read.url = function (data) {
-                    var params = {
+                    const params = {
                         page: grid.dataSource.page(),
                         sort: grid.dataSource.sort(),
                         filter: grid.dataSource.filter()
                     };
 
-                    var queryString = "page=" + (params.page || "~");
+                    let queryString = "page=" + (params.page || "~");
 
                     if (params.sort) {
                         queryString += "&$orderby=";
-                        var isFirst = true;
+                        let isFirst = true;
                         $.each(params.sort, function () {
                             if (!isFirst) {
                                 queryString += ",";
@@ -659,7 +659,7 @@
 
                     if (params.filter) {
                         queryString += "&$filter=";
-                        var isFirst = true;
+                        let isFirst = true;
                         $.each(params.filter, function () {
                             if (!isFirst) {
                                 queryString += " and ";

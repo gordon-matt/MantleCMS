@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -16,8 +16,8 @@
     require('mantle-jqueryval');
     require('mantle-tinymce');
 
-    var templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
-    var templateVersionApiUrl = "/odata/mantle/web/messaging/MessageTemplateVersionApi";
+    const templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
+    const templateVersionApiUrl = "/odata/mantle/web/messaging/MessageTemplateVersionApi";
 
     var TemplateVersionModel = function (parent) {
         var self = this;
@@ -75,7 +75,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -111,7 +111,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -209,8 +209,8 @@
             })
             .done(function (json) {
                 if (json.Editor != "[Default]") {
-                    var editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == json.Editor; })[0];
-                    var url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
+                    const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == json.Editor; })[0];
+                    const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
 
                     if (editor.openInNewWindow) {
                         window.open(url);
@@ -230,7 +230,7 @@
                 //---------------------------------------------------------------------------------------
                 // Get Template Version
                 //---------------------------------------------------------------------------------------
-                var getCurrentVersionUrl = "";
+                let getCurrentVersionUrl = "";
                 if (self.parent.currentCulture) {
                     getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
                 }
@@ -260,7 +260,7 @@
                     })
                     .done(function (json) {
                         if (json.value && json.value.length > 0) {
-                            var s = '';
+                            let s = '';
                             $.each(json.value, function () {
                                 s += '<li>' + this + '</li>';
                             });
@@ -343,7 +343,7 @@
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#form-section-form").valid()) {
                 return false;
@@ -355,7 +355,7 @@
                 }
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 Editor: self.editor(),
@@ -411,12 +411,12 @@
             switchSection($("#grid-section"));
         };
         self.saveVersion = function () {
-            var cultureCode = self.parent.templateVersionModel.cultureCode();
+            let cultureCode = self.parent.templateVersionModel.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
 
-            var record = {
+            const record = {
                 Id: self.parent.templateVersionModel.id(), // Should always create a new one, so don't send Id!
                 MessageTemplateId: self.parent.templateVersionModel.messageTemplateId(),
                 CultureCode: cultureCode,
@@ -445,7 +445,7 @@
             switchSection($("#grid-section"));
         };
         self.toggleEnabled = function (id, isEnabled) {
-            var patch = {
+            const patch = {
                 Enabled: !isEnabled
             };
 
@@ -474,8 +474,8 @@
             $("#cultureModal").modal("show");
         };
         self.onCultureSelected = function () {
-            var id = $("#TemplateIdToLocalize").val();
-            var cultureCode = $("#CultureCode").val();
+            const id = $("#TemplateIdToLocalize").val();
+            const cultureCode = $("#CultureCode").val();
             self.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };

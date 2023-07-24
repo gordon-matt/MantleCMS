@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -50,7 +50,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -61,7 +61,7 @@
                                 paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
 
                                 // Fix for GUIDs
-                                var guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
+                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
                                 paramMap.$filter = paramMap.$filter.replace(guid, "$1");
                             }
                             return paramMap;
@@ -98,7 +98,7 @@
                     }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -215,9 +215,9 @@
                 return false;
             }
 
-            var parentId = self.parentId();
+            const parentId = self.parentId();
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 MenuId: self.menuId(),
                 Text: self.text(),
@@ -279,7 +279,7 @@
             switchSection($("#items-grid-section"));
         };
         self.toggleEnabled = function (id, parentId, isEnabled) {
-            var patch = {
+            const patch = {
                 Enabled: !isEnabled
             };
 
@@ -318,7 +318,7 @@
             }
         }
         self.detailInit = function(e) {
-            var detailRow = e.detailRow;
+            const detailRow = e.detailRow;
 
             detailRow.find(".tabstrip").kendoTabStrip({
                 animation: {
@@ -336,7 +336,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -347,7 +347,7 @@
                                 paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
 
                                 // Fix for GUIDs
-                                var guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
+                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
                                 paramMap.$filter = paramMap.$filter.replace(guid, "$1");
                             }
                             return paramMap;
@@ -378,7 +378,7 @@
                     filter: { field: "ParentId", operator: "eq", value: e.data.Id }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -454,7 +454,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -489,7 +489,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -580,7 +580,7 @@
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 UrlFilter: self.urlFilter()
@@ -638,7 +638,7 @@
         };
         self.items = function (id) {
             self.id(id);// to support "Create" button for when parent ID is null (top level items)
-            var itemsGrid = $("#ItemsGrid").data("kendoGrid");
+            const itemsGrid = $("#ItemsGrid").data("kendoGrid");
             itemsGrid.dataSource.filter([{
                 logic: "and",
                 filters: [

@@ -20,7 +20,8 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
                 { "bootstrap-fileinput", "/Mantle.Web.CommonResources.Scripts.bootstrapFileInput.fileinput.min" },
                 { "bootstrap-slider", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider.min" },
                 { "bootstrap-slider-knockout", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider-knockout-binding" },
-                { "momentjs", "/Mantle.Web.CommonResources.Scripts.moment-with-locales.min" }
+                { "momentjs", "/Mantle.Web.CommonResources.Scripts.moment-with-locales.min" },
+                { "odata-helpers", "/Mantle.Web.CommonResources.Scripts.odata-helpers" }
             };
         }
     }

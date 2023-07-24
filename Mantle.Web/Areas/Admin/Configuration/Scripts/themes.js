@@ -2,13 +2,13 @@
 define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify) {
     'use strict'
 
-    //var $ = require('jquery');
-    //var ko = require('knockout');
+    //const $ = require('jquery');
+    //const ko = require('knockout');
 
     //require('kendo');
     //require('notify');
 
-    var apiUrl = "/odata/mantle/web/ThemeApi";
+    const apiUrl = "/odata/mantle/web/ThemeApi";
 
     var ViewModel = function () {
         var self = this;
@@ -43,7 +43,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -81,7 +81,7 @@ define(['jquery', 'knockout', 'kendo', 'notify'], function ($, ko, kendo, notify
                     sort: { field: "Title", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);

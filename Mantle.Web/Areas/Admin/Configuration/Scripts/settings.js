@@ -1,9 +1,9 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
-    var koMap = require('knockout-mapping');
+    const $ = require('jquery');
+    const ko = require('knockout');
+    const koMap = require('knockout-mapping');
 
     require('jqueryval');
     require('kendo');
@@ -13,7 +13,7 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var apiUrl = "/odata/mantle/web/SettingsApi";
+    const apiUrl = "/odata/mantle/web/SettingsApi";
 
     ko.mapping = koMap;
 
@@ -57,7 +57,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -90,7 +90,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -145,7 +145,7 @@
                     }
 
                     // Remove Old Scripts
-                    var oldScripts = $('script[data-settings-script="true"]');
+                    const oldScripts = $('script[data-settings-script="true"]');
 
                     if (oldScripts.length > 0) {
                         $.each(oldScripts, function () {
@@ -153,21 +153,21 @@
                         });
                     }
 
-                    var elementToBind = $("#form-section")[0];
+                    const elementToBind = $("#form-section")[0];
                     ko.cleanNode(elementToBind);
 
-                    var result = $(json.content);
+                    const result = $(json.content);
 
                     // Add new HTML
-                    var content = $(result.filter('#settings-content')[0]);
-                    var details = $('<div>').append(content.clone()).html();
+                    const content = $(result.filter('#settings-content')[0]);
+                    const details = $('<div>').append(content.clone()).html();
                     $("#settings-details").html(details);
 
                     // Add new Scripts
-                    var scripts = result.filter('script');
+                    const scripts = result.filter('script');
 
                     $.each(scripts, function () {
-                        var script = $(this);
+                        const script = $(this);
                         script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
                         script.appendTo('body');
                     });
@@ -175,7 +175,7 @@
                     // Update Bindings
                     // Ensure the function exists before calling it...
                     if (typeof updateModel == 'function') {
-                        var data = ko.toJS(ko.mapping.fromJSON(self.value()));
+                        const data = ko.toJS(ko.mapping.fromJSON(self.value()));
                         updateModel(self, data);
                         ko.applyBindings(self, elementToBind);
                     }
@@ -199,7 +199,7 @@
                 onBeforeSave(self);
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 Type: self.type(),

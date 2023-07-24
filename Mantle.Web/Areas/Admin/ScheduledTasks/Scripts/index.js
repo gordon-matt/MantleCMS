@@ -2,7 +2,7 @@
 function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
     'use strict'
 
-    var odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
+    const odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
     var ViewModel = function () {
         var self = this;
@@ -55,7 +55,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                         },
                         parameterMap: function (options, operation) {
                             if (operation === "read") {
-                                var paramMap = kendo.data.transports.odata.parameterMap(options, operation);
+                                let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                                 if (paramMap.$inlinecount) {
                                     if (paramMap.$inlinecount == "allpages") {
                                         paramMap.$count = true;
@@ -101,7 +101,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -201,7 +201,7 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Seconds: self.seconds(),
                 Enabled: self.enabled(),

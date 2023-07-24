@@ -1,8 +1,8 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
+    const $ = require('jquery');
+    const ko = require('knockout');
 
     require('jqueryval');
     require('kendo');
@@ -11,8 +11,8 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
-    var forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";
+    const forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
+    const forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";
 
     var ForumModel = function (parent) {
         var self = this;
@@ -44,7 +44,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -79,7 +79,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -138,21 +138,21 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    self.id(json.Id);
-                    self.forumGroupId(json.ForumGroupId);
-                    self.name(json.Name);
-                    self.description(json.Description);
-                    self.displayOrder(json.DisplayOrder);
+            .done(function (json) {
+                self.id(json.Id);
+                self.forumGroupId(json.ForumGroupId);
+                self.name(json.Name);
+                self.description(json.Description);
+                self.displayOrder(json.DisplayOrder);
 
-                    self.validator.resetForm();
-                    switchSection($("#forum-form-section"));
-                    $("#forum-form-section-legend").html(self.parent.translations.edit);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                self.validator.resetForm();
+                switchSection($("#forum-form-section"));
+                $("#forum-form-section-legend").html(self.parent.translations.edit);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
         self.remove = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
@@ -162,25 +162,25 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGrid').data('kendoGrid').refresh();
-                        $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.deleteRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                .done(function (json) {
+                    $('#ForumGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGrid').data('kendoGrid').refresh();
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.save = function () {
-            var isNew = (self.id() == 0);
+            const isNew = (self.id() == 0);
 
             if (!$("#forum-form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 ForumGroupId: self.forumGroupId(),
                 Name: self.name(),
@@ -197,18 +197,18 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ForumGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#forum-grid-section"));
+                    switchSection($("#forum-grid-section"));
 
-                        $.notify(self.parent.translations.insertRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.insertRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.insertRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
             else {
                 $.ajax({
@@ -219,18 +219,18 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ForumGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#forum-grid-section"));
+                    switchSection($("#forum-grid-section"));
 
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.updateRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.goBack = function () {
@@ -268,7 +268,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -303,7 +303,7 @@
                     sort: { field: "Name", dir: "asc" }
                 },
                 dataBound: function (e) {
-                    var body = this.element.find("tbody")[0];
+                    let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
                         ko.applyBindings(ko.dataFor(body), body);
@@ -361,19 +361,19 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    self.id(json.Id);
-                    self.name(json.Name);
-                    self.displayOrder(json.DisplayOrder);
+            .done(function (json) {
+                self.id(json.Id);
+                self.name(json.Name);
+                self.displayOrder(json.DisplayOrder);
 
-                    self.validator.resetForm();
-                    switchSection($("#forum-group-form-section"));
-                    $("#forum-group-form-section-legend").html(self.parent.translations.edit);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                self.validator.resetForm();
+                switchSection($("#forum-group-form-section"));
+                $("#forum-group-form-section-legend").html(self.parent.translations.edit);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify(self.parent.translations.getRecordError, "error");
+                console.log(textStatus + ': ' + errorThrown);
+            });
         };
         self.remove = function (id) {
             if (confirm(self.parent.translations.deleteRecordConfirm)) {
@@ -382,16 +382,16 @@
                     type: "DELETE",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGroupGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGroupGrid').data('kendoGrid').refresh();
 
-                        $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.deleteRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.deleteRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.save = function () {
@@ -400,7 +400,7 @@
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name(),
                 DisplayOrder: self.displayOrder()
@@ -416,18 +416,18 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGroupGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGroupGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#forum-group-grid-section"));
+                    switchSection($("#forum-group-grid-section"));
 
-                        $.notify(self.parent.translations.insertRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.insertRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.insertRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
             else {
                 // UPDATE
@@ -439,18 +439,18 @@
                     dataType: "json",
                     async: false
                 })
-                    .done(function (json) {
-                        $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                        $('#ForumGroupGrid').data('kendoGrid').refresh();
+                .done(function (json) {
+                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
+                    $('#ForumGroupGrid').data('kendoGrid').refresh();
 
-                        switchSection($("#forum-group-grid-section"));
+                    switchSection($("#forum-group-grid-section"));
 
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    $.notify(self.parent.translations.updateRecordError, "error");
+                    console.log(textStatus + ': ' + errorThrown);
+                });
             }
         };
         self.cancel = function () {
@@ -483,12 +483,12 @@
                 dataType: "json",
                 async: false
             })
-                .done(function (json) {
-                    self.translations = json;
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+            .done(function (json) {
+                self.translations = json;
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ': ' + errorThrown);
+            });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -498,7 +498,7 @@
         self.showForums = function (forumGroupId) {
             self.selectedForumGroupId(forumGroupId);
 
-            var grid = $('#ForumGrid').data('kendoGrid');
+            const grid = $('#ForumGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = forumApiUrl + "?$filter=ForumGroupId eq " + forumGroupId;
             grid.dataSource.page(1);
 
