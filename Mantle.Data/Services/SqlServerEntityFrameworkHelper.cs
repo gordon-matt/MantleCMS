@@ -18,7 +18,7 @@ namespace Mantle.Data.Services
             var existingTableNames = new List<string>();
 
             using var command = connection.CreateCommand();
-            command.CommandText = "SELECT table_name from INFORMATION_SCHEMA.TABLES WHERE table_type = 'base table'";
+            command.CommandText = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'";
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -27,7 +27,7 @@ namespace Mantle.Data.Services
 
             var commands = context.Database.GenerateCreateScript()
                 .Split("GO", StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Trim());
+                .Select(x => x.Trim());
 
             var newTables = commands
                 .Where(x => x.StartsWith("CREATE TABLE [", StringComparison.OrdinalIgnoreCase))
