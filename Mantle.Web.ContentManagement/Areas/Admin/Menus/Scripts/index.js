@@ -165,53 +165,27 @@
             self.validator.resetForm();
             switchSection($("#items-edit-section"));
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.menuId(json.MenuId);
-                self.text(json.Text);
-                self.description(json.Description);
-                self.url(json.Url);
-                self.cssClass(json.CssClass);
-                self.position(json.Position);
-                self.parentId(json.ParentId);
-                self.enabled(json.Enabled);
-                self.isExternalUrl(json.IsExternalUrl);
-                self.refId(json.RefId);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuItemApi(${id})`);
+            self.id(data.Id);
+            self.menuId(data.MenuId);
+            self.text(data.Text);
+            self.description(data.Description);
+            self.url(data.Url);
+            self.cssClass(data.CssClass);
+            self.position(data.Position);
+            self.parentId(data.ParentId);
+            self.enabled(data.Enabled);
+            self.isExternalUrl(data.IsExternalUrl);
+            self.refId(data.RefId);
 
-                self.validator.resetForm();
-                switchSection($("#items-edit-section"));
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#items-edit-section"));
         };
-        self.remove = function (id, parentId) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
-                    type: "DELETE",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    self.refreshGrid(parentId);
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id, parentId) {
+            await ODataHelper.deleteOData(`/odata/mantle/cms/MenuItemApi(${id})`);
         };
-        self.save = function () {
+        self.save = async function () {
             if (!$("#item-edit-section-form").valid()) {
                 return false;
             }
@@ -233,43 +207,17 @@
             };
 
             if (self.id() == emptyGuid) {
-                // INSERT
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuItemApi",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData("/odata/mantle/cms/MenuItemApi", record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuItemApi(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`/odata/mantle/cms/MenuItemApi(${self.id()})`, record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -279,7 +227,7 @@
         self.cancel = function () {
             switchSection($("#items-grid-section"));
         };
-        self.toggleEnabled = function (id, parentId, isEnabled) {
+        self.toggleEnabled = async function (id, parentId, isEnabled) {
             const patch = {
                 Enabled: !isEnabled
             };
@@ -535,47 +483,20 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: "/odata/mantle/cms/MenuApi(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.urlFilter(json.UrlFilter);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuApi(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.urlFilter(data.UrlFilter);
 
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.parent.translations.edit);
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuApi(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`/odata/mantle/cms/MenuApi(${id})`);
         };
-        self.save = function () {
+        self.save = async function () {
 
             if (!$("#form-section-form").valid()) {
                 return false;
@@ -588,50 +509,10 @@
             };
 
             if (self.id() == emptyGuid) {
-                // INSERT
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuApi",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.postOData("/odata/mantle/cms/MenuApi", record);
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: "/odata/mantle/cms/MenuApi(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.putOData(`/odata/mantle/cms/MenuApi(${self.id()})`, record);
             }
         };
         self.cancel = function () {

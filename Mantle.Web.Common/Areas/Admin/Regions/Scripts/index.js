@@ -102,87 +102,76 @@
                 }]
             });
         };
-        self.edit = function (id) {
+        self.edit = async function (id) {
             self.settingsId(id);
 
+            const data = await ODataHelper.getOData(`${settingsApiUrl}/Default.GetSettings(settingsId='${id}',regionId=${self.regionId()})`);
+            self.fields(data.Fields);
+
             $.ajax({
-                url: settingsApiUrl + "/Default.GetSettings(settingsId='" + id + "',regionId=" + seld.regionId() + ")",
+                url: "/admin/regions/get-editor-ui/" + id,
                 type: "GET",
                 dataType: "json",
                 async: false
             })
             .done(function (json) {
-                self.fields(json.Fields);
 
-                $.ajax({
-                    url: "/admin/regions/get-editor-ui/" + id,
-                    type: "GET",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                // Clean up from previously injected html/scripts
+                if (typeof cleanUp == 'function') {
+                    cleanUp(self);
+                }
 
-                    // Clean up from previously injected html/scripts
-                    if (typeof cleanUp == 'function') {
-                        cleanUp(self);
-                    }
+                // Remove Old Scripts
+                //$('script[data-settings-script="true"]').remove();
 
-                    // Remove Old Scripts
-                    //$('script[data-settings-script="true"]').remove();
-
-                    $('script[data-settings-script="true"]').each(function () {
-                        $(this).remove();
-                    });
-
-                    //let oldScripts = $('script[data-settings-script="true"]');
-
-                    //if (oldScripts.length > 0) {
-                    //    $.each(oldScripts, function () {
-                    //        $(this).remove();
-                    //    });
-                    //}
-
-                    const elementToBind = $("#settings-form-section")[0];
-                    ko.cleanNode(elementToBind);
-
-                    const result = $(json.Content);
-
-                    // Add new HTML
-                    const content = $(result.filter('#region-settings')[0]);
-                    const details = $('<div>').append(content.clone()).html();
-                    $("#settings-details").html(details);
-
-                    // Add new Scripts
-                    const scripts = result.filter('script');
-
-                    $.each(scripts, function () {
-                        const script = $(this);
-                        script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                        script.appendTo('body');
-                    });
-
-                    // Update Bindings
-                    // Ensure the function exists before calling it...
-                    if (typeof updateModel == 'function') {
-                        let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
-                        updateModel(self, data);
-                        ko.applyBindings(self.parent, elementToBind);
-                    }
-
-                    //self.validator.resetForm();
-                    switchSection($("#settings-form-section"));
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
+                $('script[data-settings-script="true"]').each(function () {
+                    $(this).remove();
                 });
+
+                //let oldScripts = $('script[data-settings-script="true"]');
+
+                //if (oldScripts.length > 0) {
+                //    $.each(oldScripts, function () {
+                //        $(this).remove();
+                //    });
+                //}
+
+                const elementToBind = $("#settings-form-section")[0];
+                ko.cleanNode(elementToBind);
+
+                const result = $(json.Content);
+
+                // Add new HTML
+                const content = $(result.filter('#region-settings')[0]);
+                const details = $('<div>').append(content.clone()).html();
+                $("#settings-details").html(details);
+
+                // Add new Scripts
+                const scripts = result.filter('script');
+
+                $.each(scripts, function () {
+                    const script = $(this);
+                    script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                    script.appendTo('body');
+                });
+
+                // Update Bindings
+                // Ensure the function exists before calling it...
+                if (typeof updateModel == 'function') {
+                    let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
+                    updateModel(self, data);
+                    ko.applyBindings(self.parent, elementToBind);
+                }
+
+                //self.validator.resetForm();
+                switchSection($("#settings-form-section"));
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
         };
-        self.save = function () {
+        self.save = async function () {
             // ensure the function exists before calling it...
             if (typeof onBeforeSave == 'function') {
                 onBeforeSave(self);
@@ -194,22 +183,11 @@
                 fields: self.fields()
             };
 
-            $.ajax({
-                url: settingsApiUrl + "/Default.SaveSettings",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                dataType: "json",
-                async: false,
-            })
-            .done(function (json) {
+            await ODataHelper.postOData(`${settingsApiUrl}/Default.SaveSettings`, record, () => {
                 switchSection($("#settings-grid-section"));
-
                 $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.updateRecordError + ": " + jqXHR.responseText || textStatus, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            }, () => {
+                $.notify(self.parent.translations.updateRecordError, "error");
             });
         };
         self.cancel = function () {
@@ -336,65 +314,42 @@
             switchSection($("#country-form-section"));
             $("#country-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id, cultureCode) {
-            let url = apiUrl + "(" + id + ")";
+        self.edit = async function (id, cultureCode) {
+            let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
+                url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
                 self.cultureCode(null);
             }
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.countryCode(json.CountryCode);
-                self.hasStates(json.HasStates);
-                self.parentId(json.ParentId);
-                self.order(json.Order);
+            const data = await ODataHelper.getOData(url);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.countryCode(data.CountryCode);
+            self.hasStates(data.HasStates);
+            self.parentId(data.ParentId);
+            self.order(data.Order);
 
-                self.validator.resetForm();
-                switchSection($("#country-form-section"));
-                $("#country-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#country-form-section"));
+            $("#country-form-section-legend").html(self.parent.translations.edit);
         };
         self.localize = function (id) {
             $("#RegionType").val('Country');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: apiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#CountryGrid').data('kendoGrid').dataSource.read();
-                    $('#CountryGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.removeItem = async function (id) {
+            await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
+                $('#CountryGrid').data('kendoGrid').dataSource.read();
+                $('#CountryGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+            });
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#country-form-section-form").valid()) {
@@ -417,73 +372,30 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: apiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(apiUrl, record, () => {
                     $('#CountryGrid').data('kendoGrid').dataSource.read();
                     $('#CountryGrid').data('kendoGrid').refresh();
-
                     switchSection($("#country-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 if (self.cultureCode() != null) {
-                    $.ajax({
-                        url: apiUrl + "/Default.SaveLocalized",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            cultureCode: self.cultureCode(),
-                            entity: record
-                        }),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
-
                         switchSection($("#country-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
+                    }, () => {
                         $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
                 else {
-                    $.ajax({
-                        url: apiUrl + "(" + self.id() + ")",
-                        type: "PUT",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(record),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
-
                         switchSection($("#country-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
             }
@@ -636,64 +548,41 @@
             switchSection($("#state-form-section"));
             $("#state-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id, cultureCode) {
-            let url = apiUrl + "(" + id + ")";
+        self.edit = async function (id, cultureCode) {
+            let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
+                url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
                 self.cultureCode(null);
             }
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.stateCode(json.StateCode);
-                self.parentId(json.ParentId);
-                self.order(json.Order);
+            const data = await ODataHelper.getOData(url);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.stateCode(data.StateCode);
+            self.parentId(data.ParentId);
+            self.order(data.Order);
 
-                self.validator.resetForm();
-                switchSection($("#state-form-section"));
-                $("#state-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#state-form-section"));
+            $("#state-form-section-legend").html(self.parent.translations.edit);
         };
         self.localize = function (id) {
             $("#RegionType").val('State');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: apiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#StateGrid').data('kendoGrid').dataSource.read();
-                    $('#StateGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.removeItem = async function (id) {
+            await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
+                $('#StateGrid').data('kendoGrid').dataSource.read();
+                $('#StateGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+            });
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#state-form-section-form").valid()) {
@@ -713,75 +602,33 @@
                 ParentId: self.parentId(),
                 Order: order,
             };
+            
 
             if (isNew) {
-                $.ajax({
-                    url: apiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(apiUrl, record, () => {
                     $('#StateGrid').data('kendoGrid').dataSource.read();
                     $('#StateGrid').data('kendoGrid').refresh();
-
                     switchSection($("#state-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 if (self.cultureCode() != null) {
-                    $.ajax({
-                        url: apiUrl + "/Default.SaveLocalized",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            cultureCode: self.cultureCode(),
-                            entity: record
-                        }),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
-
                         switchSection($("#state-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
+                    }, () => {
                         $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
                 else {
-                    $.ajax({
-                        url: apiUrl + "(" + self.id() + ")",
-                        type: "PUT",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(record),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
-
                         switchSection($("#state-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
             }
@@ -922,63 +769,40 @@
             switchSection($("#city-form-section"));
             $("#city-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id, cultureCode) {
-            let url = apiUrl + "(" + id + ")";
+        self.edit = async function (id, cultureCode) {
+            let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
                 self.cultureCode(cultureCode);
-                url = apiUrl + "/Default.GetLocalized(id=" + id + ",cultureCode='" + cultureCode + "')";
+                url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
                 self.cultureCode(null);
             }
 
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.parentId(json.ParentId);
-                self.order(json.Order);
+            const data = await ODataHelper.getOData(url);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.parentId(data.ParentId);
+            self.order(data.Order);
 
-                self.validator.resetForm();
-                switchSection($("#city-form-section"));
-                $("#city-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#city-form-section"));
+            $("#city-form-section-legend").html(self.parent.translations.edit);
         };
         self.localize = function (id) {
             $("#RegionType").val('City');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: apiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#CityGrid').data('kendoGrid').dataSource.read();
-                    $('#CityGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.removeItem = async function (id) {
+            await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
+                $('#CityGrid').data('kendoGrid').dataSource.read();
+                $('#CityGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+            });
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#city-form-section-form").valid()) {
@@ -999,73 +823,30 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: apiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(apiUrl, record, () => {
                     $('#CityGrid').data('kendoGrid').dataSource.read();
                     $('#CityGrid').data('kendoGrid').refresh();
-
                     switchSection($("#city-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
                 if (self.cultureCode() != null) {
-                    $.ajax({
-                        url: apiUrl + "/Default.SaveLocalized",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            cultureCode: self.cultureCode(),
-                            entity: record
-                        }),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
-
                         switchSection($("#city-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
+                    }, () => {
                         $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
                 else {
-                    $.ajax({
-                        url: apiUrl + "(" + self.id() + ")",
-                        type: "PUT",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(record),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
+                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
-
                         switchSection($("#city-grid-section"));
-
                         $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
                     });
                 }
             }

@@ -175,60 +175,37 @@
             switchSection($("#post-form-section"));
             $("#post-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: postApiUrl + "(" + id + ")?$expand=Tags",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.categoryId(json.CategoryId);
-                self.headline(json.Headline);
-                self.slug(json.Slug);
-                self.teaserImageUrl(json.TeaserImageUrl);
-                self.shortDescription(json.ShortDescription);
-                self.fullDescription(json.FullDescription);
-                self.useExternalLink(json.UseExternalLink);
-                self.externalLink(json.ExternalLink);
-                self.metaKeywords(json.MetaKeywords);
-                self.metaDescription(json.MetaDescription);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${postApiUrl}(${id})?$expand=Tags`);
+            self.id(data.Id);
+            self.categoryId(data.CategoryId);
+            self.headline(data.Headline);
+            self.slug(data.Slug);
+            self.teaserImageUrl(data.TeaserImageUrl);
+            self.shortDescription(data.ShortDescription);
+            self.fullDescription(data.FullDescription);
+            self.useExternalLink(data.UseExternalLink);
+            self.externalLink(data.ExternalLink);
+            self.metaKeywords(data.MetaKeywords);
+            self.metaDescription(data.MetaDescription);
 
-                self.chosenTags([]);
-                $(json.Tags).each(function (index, item) {
-                    self.chosenTags.push(item.TagId);
-                });
+            self.chosenTags([]);
+            $(data.Tags).each(function (index, item) {
+                self.chosenTags.push(item.TagId);
+            });
 
-                self.validator.resetForm();
-                switchSection($("#post-form-section"));
-                $("#post-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#post-form-section"));
+            $("#post-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${postApiUrl}(${id})`, () => {
+                $('#PostGrid').data('kendoGrid').dataSource.read();
+                $('#PostGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: postApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#PostGrid').data('kendoGrid').dataSource.read();
-                    $('#PostGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == emptyGuid);
 
             if (!$("#post-form-section-form").valid()) {
@@ -257,47 +234,19 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: postApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(postApiUrl, record, () => {
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
-
                     switchSection($("#post-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: postApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${postApiUrl}(${self.id()})`, record, () => {
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
-
                     switchSection($("#post-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -407,47 +356,24 @@
             switchSection($("#category-form-section"));
             $("#category-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: categoryApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.urlSlug(json.UrlSlug);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${categoryApiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.urlSlug(data.UrlSlug);
 
-                self.validator.resetForm();
-                switchSection($("#category-form-section"));
-                $("#category-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#category-form-section"));
+            $("#category-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${categoryApiUrl}(${id})`, () => {
+                $('#CategoryGrid').data('kendoGrid').dataSource.read();
+                $('#CategoryGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: categoryApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#CategoryGrid').data('kendoGrid').dataSource.read();
-                    $('#CategoryGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#category-form-section-form").valid()) {
@@ -461,47 +387,19 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: categoryApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(categoryApiUrl, record, () => {
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
-
                     switchSection($("#category-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: categoryApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${categoryApiUrl}(${self.id()})`, record, () => {
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
-
                     switchSection($("#category-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -610,47 +508,24 @@
             switchSection($("#tag-form-section"));
             $("#tag-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: tagApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.urlSlug(json.UrlSlug);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${tagApiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.urlSlug(data.UrlSlug);
 
-                self.validator.resetForm();
-                switchSection($("#tag-form-section"));
-                $("#tag-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#tag-form-section"));
+            $("#tag-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${tagApiUrl}(${id})`, () => {
+                $('#TagGrid').data('kendoGrid').dataSource.read();
+                $('#TagGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: tagApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#TagGrid').data('kendoGrid').dataSource.read();
-                    $('#TagGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#tag-form-section-form").valid()) {
@@ -664,47 +539,19 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: tagApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(tagApiUrl, record, () => {
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
-
                     switchSection($("#tag-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: tagApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${tagApiUrl}(${self.id()})`, record, () => {
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
-
                     switchSection($("#tag-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
