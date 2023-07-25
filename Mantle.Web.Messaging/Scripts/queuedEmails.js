@@ -127,7 +127,7 @@
                 }]
             });
         };
-        self.remove = function (id) {
+        self.remove = async function (id) {
             await ODataHelper.deleteOData(`/odata/mantle/web/messaging/QueuedEmailApi(${id})`);
         };
     };

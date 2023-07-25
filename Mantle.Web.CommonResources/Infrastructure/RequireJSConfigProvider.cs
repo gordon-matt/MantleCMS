@@ -17,7 +17,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
                 { "mantle-jqueryval", "/Mantle.Web.CommonResources.Scripts.mantle-jqval" },
                 { "mantle-section-switching", "/Mantle.Web.CommonResources.Scripts.mantle-section-switching" },
                 { "mantle-tinymce", "/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce" },
-                { "bootstrap-fileinput", "/Mantle.Web.CommonResources.Scripts.bootstrapFileInput.fileinput.min" },
+                //{ "bootstrap-fileinput", "/Mantle.Web.CommonResources.Scripts.bootstrapFileInput.fileinput.min" },
                 { "bootstrap-slider", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider.min" },
                 { "bootstrap-slider-knockout", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider-knockout-binding" },
                 { "momentjs", "/Mantle.Web.CommonResources.Scripts.moment-with-locales.min" },

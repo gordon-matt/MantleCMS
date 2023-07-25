@@ -4,7 +4,7 @@
     'plugins': '../../../lib/durandal/js/plugins',
     'transitions': '../../../lib/durandal/js/transitions',
 
-    'bootstrap': '../../../lib/bootstrap/bootstrap.min',
+    'bootstrap': '../../../lib/bootstrap/dist/js/bootstrap.min',
     'chosen': '../../../lib/chosen-js/chosen.jquery',
     'jqueryval': '../../../lib/jquery-validation/dist/jquery.validate',
     'jqueryval-unobtrusive': '../../../lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive',
