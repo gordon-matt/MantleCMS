@@ -131,49 +131,26 @@
             switchSection($("#forum-form-section"));
             $("#forum-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: forumApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.forumGroupId(json.ForumGroupId);
-                self.name(json.Name);
-                self.description(json.Description);
-                self.displayOrder(json.DisplayOrder);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${forumApiUrl}(${id})`);
+            self.id(data.Id);
+            self.forumGroupId(data.ForumGroupId);
+            self.name(data.Name);
+            self.description(data.Description);
+            self.displayOrder(data.DisplayOrder);
 
-                self.validator.resetForm();
-                switchSection($("#forum-form-section"));
-                $("#forum-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#forum-form-section"));
+            $("#forum-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${forumApiUrl}(${id})`, () => {
+                $('#ForumGrid').data('kendoGrid').dataSource.read();
+                $('#ForumGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: forumApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#ForumGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGrid').data('kendoGrid').refresh();
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == 0);
 
             if (!$("#forum-form-section-form").valid()) {
@@ -189,47 +166,19 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: forumApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(forumApiUrl, record, () => {
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
-
                     switchSection($("#forum-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: forumApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${forumApiUrl}(${self.id()})`, record, () => {
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
-
                     switchSection($("#forum-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -345,7 +294,7 @@
                 }]
             });
         };
-        self.create = function () {
+        self.create = async function () {
             self.id(0);
             self.name(null);
             self.displayOrder(0);
@@ -354,51 +303,29 @@
             switchSection($("#forum-group-form-section"));
             $("#forum-group-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: forumGroupApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.displayOrder(json.DisplayOrder);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${forumGroupApiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.displayOrder(data.DisplayOrder);
 
-                self.validator.resetForm();
-                switchSection($("#forum-group-form-section"));
-                $("#forum-group-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#forum-group-form-section"));
+            $("#forum-group-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${forumGroupApiUrl}(${id})`, () => {
+                $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
+                $('#ForumGroupGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: forumGroupApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGroupGrid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
-
+        self.save = async function () {
             if (!$("#forum-group-form-section-form").valid()) {
                 return false;
             }
+
+            const isNew = (self.id() == 0);
 
             const record = {
                 Id: self.id(),
@@ -406,50 +333,20 @@
                 DisplayOrder: self.displayOrder()
             };
 
-            if (self.id() == 0) {
-                // INSERT
-                $.ajax({
-                    url: forumGroupApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+            if (isNew) {
+                await ODataHelper.postOData(forumGroupApiUrl, record, () => {
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
-
                     switchSection($("#forum-group-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: forumGroupApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${forumGroupApiUrl}(${self.id()})`, record, () => {
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
-
                     switchSection($("#forum-group-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };

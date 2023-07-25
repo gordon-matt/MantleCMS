@@ -168,11 +168,9 @@
 
             if (isNew) {
                 await ODataHelper.postOData(odataBaseUrl, record);
-                switchSection($("#grid-section"));
             }
             else {
                 await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
-                switchSection($("#grid-section"));
             }
         };
 

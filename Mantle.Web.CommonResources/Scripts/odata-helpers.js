@@ -14,17 +14,22 @@
 
     static options = this.#defaultOptions;
 
-    static async getOData(url) {
+    static async getOData(url, onError) {
         return await fetch(url)
             .then(response => response.json())
             .catch(error => {
-                //$.notify({ message: this.options.messages.getRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.getRecordError, 'danger');
+                if (onError) {
+                    onError();
+                }
+                else {
+                    //$.notify({ message: this.options.messages.getRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                    $.notify(this.options.messages.getRecordError, 'danger');
+                }
                 console.error('Error: ', error);
             });
     }
 
-    static async deleteOData(url, onSuccess) {
+    static async deleteOData(url, onSuccess, onError) {
         if (confirm(this.options.messages.deleteRecordConfirm)) {
             await fetch(url, { method: 'DELETE' })
                 .then(response => {
@@ -38,19 +43,29 @@
                             $.notify(this.options.messages.deleteRecordSuccess, 'success');
                         }
                     } else {
-                        //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                        $.notify(this.options.messages.deleteRecordError, 'danger');
+                        if (onError) {
+                            onError();
+                        }
+                        else {
+                            //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                            $.notify(this.options.messages.deleteRecordError, 'danger');
+                        }
                     }
                 })
                 .catch(error => {
-                    //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                    $.notify(this.options.messages.deleteRecordError, 'danger');
+                    if (onError) {
+                        onError();
+                    }
+                    else {
+                        //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                        $.notify(this.options.messages.deleteRecordError, 'danger');
+                    }
                     console.error('Error: ', error);
                 });
         }
     }
 
-    static async postOData(url, record, onSuccess) {
+    static async postOData(url, record, onSuccess, onError) {
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -71,19 +86,29 @@
                 }
             }
             else {
-                //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.insertRecordError, 'danger');
+                if (onError) {
+                    onError();
+                }
+                else {
+                    //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                    $.notify(this.options.messages.insertRecordError, 'danger');
+                }
             }
             return response;
         })
         .catch(error => {
-            //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            $.notify(this.options.messages.insertRecordError, 'danger' );
+            if (onError) {
+                onError();
+            }
+            else {
+                //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                $.notify(this.options.messages.insertRecordError, 'danger');
+            }
             console.error('Error: ', error);
         });
     }
 
-    static async putOData(url, record, onSuccess) {
+    static async putOData(url, record, onSuccess, onError) {
         return await fetch(url, {
             method: "PUT",
             headers: {
@@ -104,19 +129,29 @@
                 }
             }
             else {
-                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.updateRecordError, 'danger' );
+                if (onError) {
+                    onError();
+                }
+                else {
+                    //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                    $.notify(this.options.messages.updateRecordError, 'danger');
+                }
             }
             return response;
         })
         .catch(error => {
-            //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            $.notify(this.options.messages.updateRecordError, 'danger' );
+            if (onError) {
+                onError();
+            }
+            else {
+                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                $.notify(this.options.messages.updateRecordError, 'danger');
+            }
             console.error('Error: ', error);
         });
     }
 
-    static async patchOData(url, patch, onSuccess) {
+    static async patchOData(url, patch, onSuccess, onError) {
         return await fetch(url, {
             method: "PATCH",
             headers: {
@@ -136,20 +171,33 @@
                 }
             }
             else {
-                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.updateRecordError, 'danger' );
+                if (onError) {
+                    onError();
+                }
+                else {
+                    //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                    $.notify(this.options.messages.updateRecordError, 'danger');
+                }
             }
             return response;
         })
         .catch(error => {
-            //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-            $.notify(this.options.messages.updateRecordError, 'danger' );
+            if (onError) {
+                onError();
+            }
+            else {
+                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
+                $.notify(this.options.messages.updateRecordError, 'danger');
+            }
             console.error('Error: ', error);
         });
     }
 
     static async refreshODataGrid() {
-        $('#Grid').data('kendoGrid').dataSource.read();
-        $('#Grid').data('kendoGrid').refresh();
+        const grid = $('#Grid').data('kendoGrid');
+        if (grid) {
+            grid.dataSource.read();
+            grid.refresh();
+        }
     };
 }

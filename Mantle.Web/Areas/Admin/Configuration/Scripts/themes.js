@@ -117,22 +117,13 @@
                 }]
             });
         };
-        self.setTheme = function (name) {
-            $.ajax({
-                url: apiUrl + "/Default.SetTheme",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ themeName: name }),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
+        self.setTheme = async function (name) {
+            await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
                 $.notify(self.translations.setThemeSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.SetThemeError + ": " + jqXHR.responseText || textStatus, "error");
+            }, () => {
+                $.notify(self.translations.setThemeError, "error");
             });
         };
     };

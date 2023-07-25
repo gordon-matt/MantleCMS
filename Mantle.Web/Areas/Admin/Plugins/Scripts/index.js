@@ -130,66 +130,38 @@ function ($, ko, kendo, mantle_common, notify) {
             });
         };
 
-        self.edit = function (systemName) {
+        self.edit = async function (systemName) {
             systemName = replaceAll(systemName, ".", "-");
 
             self.limitedToTenants([]);
 
-            $.ajax({
-                url: apiUrl + "('" + systemName + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.systemName(systemName);
-                self.friendlyName(json.FriendlyName);
-                self.displayOrder(json.DisplayOrder);
-                $(json.LimitedToTenants).each(function () {
-                    self.limitedToTenants.push(this);
-                });
-
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            const data = await ODataHelper.getOData(`${apiUrl}('${systemName}')`);
+            self.systemName(systemName);
+            self.friendlyName(data.FriendlyName);
+            self.displayOrder(data.DisplayOrder);
+            $(data.LimitedToTenants).each(function () {
+                self.limitedToTenants.push(this);
             });
+
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.translations.edit);
         };
-        self.save = function () {
+
+        self.save = async function () {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
-            const record = {
+            await ODataHelper.postOData(`${apiUrl}('${self.systemName()}')`, {
                 FriendlyName: self.friendlyName(),
                 DisplayOrder: self.displayOrder(),
                 LimitedToTenants: self.limitedToTenants()
-            };
-
-            $.ajax({
-                url: apiUrl + "('" + self.systemName() + "')",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-
-                switchSection($("#grid-section"));
-
-                $.notify(self.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
+
+            $.notify(self.translations.updateRecordSuccess, "success");
         };
+
         self.cancel = function () {
             switchSection($("#grid-section"));
         };

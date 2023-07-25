@@ -114,34 +114,23 @@
                 }]
             });
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: pageTypeApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${pageTypeApiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
 
-                if (json.LayoutPath) {
-                    self.layoutPath(json.LayoutPath);
-                }
-                else {
-                    self.layoutPath(self.parent.defaultFrontendLayoutPath);
-                }
+            if (data.LayoutPath) {
+                self.layoutPath(data.LayoutPath);
+            }
+            else {
+                self.layoutPath(self.parent.defaultFrontendLayoutPath);
+            }
 
-                self.validator.resetForm();
-                switchSection($("#page-type-form-section"));
-                $("#page-type-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#page-type-form-section"));
+            $("#page-type-form-section-legend").html(self.parent.translations.edit);
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == emptyGuid);
 
             if (!$("#page-type-form-section-form").valid()) {
@@ -155,47 +144,23 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: pageTypeApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(pageTypeApiUrl, record, () => {
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
-
                     switchSection($("#page-type-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: pageTypeApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${pageTypeApiUrl}(${self.id()})`, record, () => {
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
-
                     switchSection($("#page-type-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -312,21 +277,15 @@
                 }]
             });
         };
-        self.restore = function (id) {
+        self.restore = async function (id) {
             if (confirm(self.parent.translations.pageHistoryRestoreConfirm)) {
-                $.ajax({
-                    url: pageVersionApiUrl + "(" + id + ")/Default.RestoreVersion",
-                    type: "POST"
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(`${pageVersionApiUrl}(${id})/Default.RestoreVersion`, record, () => {
                     $('#PageVersionGrid').data('kendoGrid').dataSource.read();
                     $('#PageVersionGrid').data('kendoGrid').refresh();
                     switchSection($("#page-grid-section"));
                     $.notify(self.parent.translations.pageHistoryRestoreSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.parent.translations.pageHistoryRestoreError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             };
         };
@@ -568,7 +527,7 @@
 
             self.versionValidator.resetForm();
         };
-        self.edit = function (id, cultureCode) {
+        self.edit = async function (id, cultureCode) {
             if (cultureCode) {
                 self.parent.currentCulture = cultureCode;
             }
@@ -576,62 +535,40 @@
                 self.parent.currentCulture = null;
             }
 
-            $.ajax({
-                url: pageApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.parentId(json.ParentId);
-                self.pageTypeId(json.PageTypeId);
-                self.name(json.Name);
-                self.isEnabled(json.IsEnabled);
-                self.order(json.Order);
-                self.showOnMenus(json.ShowOnMenus);
-                self.accessRestrictions = ko.mapping.fromJSON(json.AccessRestrictions);
+            const data = await ODataHelper.getOData(`${pageApiUrl}(${id})`);
+            self.id(data.Id);
+            self.parentId(data.ParentId);
+            self.pageTypeId(data.PageTypeId);
+            self.name(data.Name);
+            self.isEnabled(data.IsEnabled);
+            self.order(data.Order);
+            self.showOnMenus(data.ShowOnMenus);
+            self.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
 
-                if (self.accessRestrictions.Roles != null) {
-                    const split = self.accessRestrictions.Roles().split(',');
-                    self.roles(split);
-                }
-                else {
-                    self.roles([]);
-                }
+            if (self.accessRestrictions.Roles != null) {
+                const split = self.accessRestrictions.Roles().split(',');
+                self.roles(split);
+            }
+            else {
+                self.roles([]);
+            }
 
-                let getCurrentVersionUrl = "";
-                if (self.parent.currentCulture) {
-                    getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
-                }
-                else {
-                    getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode=null)";
-                }
+            let getCurrentVersionUrl = "";
+            if (self.parent.currentCulture) {
+                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
+            }
+            else {
+                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode=null)";
+            }
 
-                $.ajax({
-                    url: getCurrentVersionUrl,
-                    type: "GET",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    self.setupVersionEditSection(json);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+            const currentVersion = await ODataHelper.getOData(getCurrentVersionUrl);
+            self.setupVersionEditSection(currentVersion);
 
-                self.inEditMode(true);
+            self.inEditMode(true);
 
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.parent.translations.edit);
         };
         self.setupVersionEditSection = function (json) {
             self.parent.pageVersionModel.id(json.Id);
@@ -713,22 +650,11 @@
 
             self.versionValidator.resetForm();
         };
-        self.remove = function (id, parentId) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: pageApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    self.refreshGrid(parentId);
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id, parentId) {
+            await ODataHelper.deleteOData(`${pageApiUrl}(${id})`, () => {
+                self.refreshGrid(parentId);
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+            });
         };
         self.save = function () {
             const isNew = (self.id() == emptyGuid);
@@ -759,46 +685,17 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: pageApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.postOData(pageApiUrl, record);
             }
             else {
-                $.ajax({
-                    url: pageApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-
-                self.saveVersion();
+                await ODataHelper.putOData(`${pageApiUrl}(${self.id()})`, record);
+                await self.saveVersion();
             }
 
             self.refreshGrid(parentId);
             switchSection($("#page-grid-section"));
         };
-        self.saveVersion = function () {
+        self.saveVersion = async function () {
 
             // ensure the function exists before calling it...
             if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.onBeforeSave === 'function') {
@@ -835,22 +732,7 @@
                 Fields: self.parent.pageVersionModel.fields(),
             };
 
-            // UPDATE only (no option for insert here)
-            $.ajax({
-                url: pageVersionApiUrl + "(" + self.parent.pageVersionModel.id() + ")",
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await ODataHelper.putOData(`${pageVersionApiUrl}(${self.parent.pageVersionModel.id()})`, record);
         };
         self.cancel = function () {
             // Clean up from previously injected html/scripts
@@ -874,26 +756,9 @@
 
             switchSection($("#page-grid-section"));
         };
-        self.toggleEnabled = function (id, parentId, isEnabled) {
-            const patch = {
-                IsEnabled: !isEnabled
-            };
-
-            $.ajax({
-                url: pageApiUrl + "(" + id + ")",
-                type: "PATCH",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(patch),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.refreshGrid(parentId);
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+        self.toggleEnabled = async function (id, parentId, isEnabled) {
+            await ODataHelper.patchOData(`${pageApiUrl}(${id})`, {
+                Enabled: !isEnabled
             });
         };
         self.showPageHistory = function (id) {
@@ -1076,37 +941,26 @@
             $("#PageIdToMove").val(id)
             $("#parentPageModal").modal("show");
         };
-        self.reloadTopLevelPages = function () {
-            $.ajax({
-                url: pageApiUrl + "/Default.GetTopLevelPages()",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#ParentId').html('');
+        self.reloadTopLevelPages = async function () {
+            const data = await ODataHelper.getOData(`${pageApiUrl}/Default.GetTopLevelPages()`);
+            $('#ParentId').html('');
+            $('#ParentId').append($('<option>', {
+                value: '',
+                text: '[Root]'
+            }));
+            $.each(data.value, function () {
+                const item = this;
                 $('#ParentId').append($('<option>', {
-                    value: '',
-                    text: '[Root]'
+                    value: item.Id,
+                    text: item.Name
                 }));
-                $.each(json.value, function () {
-                    const item = this;
-                    $('#ParentId').append($('<option>', {
-                        value: item.Id,
-                        text: item.Name
-                    }));
-                });
-
-                const elementToBind = $("#ParentId")[0];
-                ko.cleanNode(elementToBind);
-                ko.applyBindings(self.parent, elementToBind);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
+
+            const elementToBind = $("#ParentId")[0];
+            ko.cleanNode(elementToBind);
+            ko.applyBindings(self.parent, elementToBind);
         };
-        self.onParentSelected = function () {
+        self.onParentSelected = async function () {
             const id = $("#PageIdToMove").val();
             let parentId = $("#ParentId").val();
 
@@ -1122,22 +976,12 @@
                 ParentId: parentId
             };
 
-            $.ajax({
-                url: pageApiUrl + "(" + id + ")",
-                type: "PATCH",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(patch),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
+            await ODataHelper.patchOData(`${pageApiUrl}(${id})`, { ParentId: parentId }, () => {
                 $("#parentPageModal").modal("hide");
                 self.refreshGrid(parentId);
                 $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            }, () => {
                 $.notify(self.parent.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.localize = function (id) {

@@ -111,6 +111,7 @@
                 }]
             });
         };
+
         self.create = function () {
             self.id(emptyGuid);
             self.name(null);
@@ -121,49 +122,27 @@
             switchSection($("#roles-form-section"));
             $("#roles-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: rolesApiUrl + "('" + id + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
 
-                self.permissions([]);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${rolesApiUrl}('${id}')`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.permissions([]);
 
-                self.validator.resetForm();
-                switchSection($("#roles-form-section"));
-                $("#roles-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#roles-form-section"));
+            $("#roles-form-section-legend").html(self.parent.translations.edit);
+        };
+
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${rolesApiUrl}('${id}')`, () => {
+                $('#RolesGrid').data('kendoGrid').dataSource.read();
+                $('#RolesGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: rolesApiUrl + "('" + id + "')",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#RolesGrid').data('kendoGrid').dataSource.read();
-                    $('#RolesGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
-
+        self.save = async function () {
             if (!$("#roles-form-section-form").valid()) {
                 return false;
             }
@@ -174,102 +153,56 @@
             };
 
             if (self.id() == emptyGuid) {
-                // INSERT
-                $.ajax({
-                    url: rolesApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(rolesApiUrl, record, () => {
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
-
                     switchSection($("#roles-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: rolesApiUrl + "('" + self.id() + "')",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${rolesApiUrl}('${self.id()}')`, record, () => {
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
-
                     switchSection($("#roles-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
+
         self.cancel = function () {
             switchSection($("#roles-grid-section"));
         };
-        self.editPermissions = function (id) {
+
+        self.editPermissions = async function (id) {
             self.id(id);
             self.permissions([]);
 
-            $.ajax({
-                url: permissionsApiUrl + "/Default.GetPermissionsForRole(roleId='" + id + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                if (json.value && json.value.length > 0) {
-                    $.each(json.value, function () {
-                        self.permissions.push(this.Id);
-                    });
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            const data = await ODataHelper.getOData(`${permissionsApiUrl}/Default.GetPermissionsForRole(roleId='${id}')`);
+            if (data.value && data.value.length > 0) {
+                $.each(data.value, function () {
+                    self.permissions.push(this.Id);
+                });
+            }
 
             switchSection($("#role-permissions-form-section"));
         };
+
         self.editPermissions_cancel = function (id) {
             switchSection($("#roles-grid-section"));
         };
-        self.editPermissions_save = function () {
+
+        self.editPermissions_save = async function () {
             const data = {
                 roleId: self.id(),
                 permissions: self.permissions()
             };
 
-            $.ajax({
-                url: rolesApiUrl + "/Default.AssignPermissionsToRole",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data),
-                async: false
-            })
-            .done(function (json) {
+            await ODataHelper.postOData(`${rolesApiUrl}/Default.AssignPermissionsToRole`, data, () => {
                 switchSection($("#roles-grid-section"));
                 $.notify(self.parent.translations.savePermissionsSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            }, () => {
                 $.notify(self.parent.translations.savePermissionsError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
     };
@@ -293,10 +226,12 @@
                 }
             });
         };
+
         self.cancel = function () {
             switchSection($("#users-grid-section"));
         };
-        self.save = function () {
+
+        self.save = async function () {
             if (!$("#change-password-form-section-form").valid()) {
                 return false;
             }
@@ -306,20 +241,11 @@
                 password: self.password()
             };
 
-            $.ajax({
-                url: usersApiUrl + "/Default.ChangePassword",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(record),
-                async: false
-            })
-            .done(function (json) {
+            await ODataHelper.postOData(`${usersApiUrl}/Default.ChangePassword`, record, () => {
                 switchSection($("#users-grid-section"));
                 $.notify(self.parent.translations.changePasswordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            }, () => {
                 $.notify(self.parent.translations.changePasswordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
     };
@@ -435,6 +361,7 @@
                 }]
             });
         };
+
         self.create = function () {
             self.id(emptyGuid);
             self.userName(null);
@@ -447,51 +374,29 @@
             self.validator.resetForm();
             switchSection($("#users-edit-form-section"));
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: usersApiUrl + "('" + id + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.userName(json.UserName);
-                self.email(json.Email);
-                self.isLockedOut(json.IsLockedOut);
 
-                self.roles([]);
-                self.filterRoleId(emptyGuid);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${usersApiUrl}('${id}')`);
+            self.id(data.Id);
+            self.userName(data.UserName);
+            self.email(data.Email);
+            self.isLockedOut(data.IsLockedOut);
+            self.roles([]);
+            self.filterRoleId(emptyGuid);
 
-                self.validator.resetForm();
-                switchSection($("#users-edit-form-section"));
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+            self.validator.resetForm();
+            switchSection($("#users-edit-form-section"));
+        };
+
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${usersApiUrl}('${id}')`, () => {
+                $('#UsersGrid').data('kendoGrid').dataSource.read();
+                $('#UsersGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: usersApiUrl + "('" + id + "')",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#UsersGrid').data('kendoGrid').dataSource.read();
-                    $('#UsersGrid').data('kendoGrid').refresh();
 
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
-
+        self.save = async function () {
             const isNew = (self.id() == emptyGuid);
 
             if (!$("#users-edit-form-section-form").valid()) {
@@ -506,103 +411,61 @@
             };
 
             if (isNew) {
-                // INSERT
-                $.ajax({
-                    url: usersApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(usersApiUrl, record, () => {
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
-
                     switchSection($("#users-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: usersApiUrl + "('" + self.id() + "')",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${usersApiUrl}('${self.id()}')`, record, () => {
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
-
                     switchSection($("#users-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
+
         self.cancel = function () {
             switchSection($("#users-grid-section"));
         };
-        self.editRoles = function (id) {
+
+        self.editRoles = async function (id) {
             self.id(id);
             self.roles([]);
             self.filterRoleId(emptyGuid);
 
-            $.ajax({
-                url: rolesApiUrl + "/Default.GetRolesForUser(userId='" + id + "')",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                if (json.value && json.value.length > 0) {
-                    $.each(json.value, function () {
-                        self.roles.push(this.Id);
-                    });
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            const data = await ODataHelper.getOData(`${usersApiUrl}/Default.GetRolesForUser(userId='${id}')`);
+            if (data.value && data.value.length > 0) {
+                $.each(data.value, function () {
+                    self.roles.push(this.Id);
+                });
+            }
 
             switchSection($("#user-roles-form-section"));
         };
+
         self.editRoles_cancel = function () {
             switchSection($("#users-grid-section"));
         };
-        self.editRoles_save = function () {
+
+        self.editRoles_save = async function () {
             const data = {
                 userId: self.id(),
                 roles: self.roles()
             };
 
-            $.ajax({
-                url: usersApiUrl + "/Default.AssignUserToRoles",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data),
-                async: false
-            })
-            .done(function (json) {
+            await ODataHelper.postOData(`${usersApiUrl}/Default.AssignUserToRoles`, data, () => {
                 switchSection($("#users-grid-section"));
                 $.notify(self.parent.translations.saveRolesSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            }, () => {
                 $.notify(self.parent.translations.saveRolesError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
         self.changePassword = function (id, userName) {
@@ -668,10 +531,10 @@
                             else {
                                 isFirst = false;
                             }
-                            queryString += this.field + " " + this.operator + " '" + this.value + "'";
+                            queryString += `${this.field} ${this.operator} '${this.value}'`;
                         });
                     }
-                    return usersApiUrl + "/Default.GetUsersInRole(roleId=" + self.filterRoleId() + ")?" + queryString;
+                    return `${usersApiUrl}/Default.GetUsersInRole(roleId=${self.filterRoleId()})?${queryString}`;
                 };
             }
             grid.dataSource.read();
