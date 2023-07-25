@@ -1,7 +1,7 @@
 ﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko, kendo, notify) {
     'use strict'
 
-    const odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi/";
+    const odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi";
 
     var ViewModel = function () {
         var self = this;
@@ -44,11 +44,11 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: odataBaseUrl + "Default.GetConfig",
+                            url: odataBaseUrl + "/Default.GetConfig",
                             dataType: "json"
                         },
                         update: {
-                            url: odataBaseUrl + "Default.SetConfig",
+                            url: odataBaseUrl + "/Default.SetConfig",
                             dataType: "json",
                             contentType: "application/json",
                             type: "POST"
@@ -166,6 +166,7 @@
                 editable: "inline"
             });
         };
+
         self.getChangeFrequencyIndex = function (name) {
             for (let i = 0; i < self.changeFrequencies.length; i++) {
                 const item = self.changeFrequencies[i];
@@ -175,6 +176,7 @@
             }
             return 3;
         };
+
         self.changeFrequenciesDropDownEditor = function (container, options) {
             $('<input id="test" required data-text-field="Name" data-value-field="Id" data-bind="value:' + options.field + '"/>')
                 .appendTo(container)
@@ -192,21 +194,13 @@
                 dropdownlist.select(selectedIndex);
             }, 200);
         }
+
         self.generateFile = function () {
             if (confirm(self.translations.confirmGenerateFile)) {
-                $.ajax({
-                    url: odataBaseUrl + "Default.Generate",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(`${odataBaseUrl}/Default.Generate`, null, () => {
                     $.notify(self.translations.generateFileSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.translations.generateFileError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         }

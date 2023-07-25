@@ -170,6 +170,7 @@
                 }]
             });
         };
+
         self.create = function () {
             self.id(emptyGuid);
             self.name(null);
@@ -182,51 +183,26 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: apiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.cultureCode(json.CultureCode);
-                self.isRTL(json.IsRTL);
-                self.isEnabled(json.IsEnabled);
-                self.sortOrder(json.SortOrder);
 
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${apiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.cultureCode(data.CultureCode);
+            self.isRTL(data.IsRTL);
+            self.isEnabled(data.IsEnabled);
+            self.sortOrder(data.SortOrder);
+
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.translations.edit);
         };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: apiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
 
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${apiUrl}(${id})`);
         };
-        self.save = function () {
 
+        self.save = async function () {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
@@ -246,77 +222,35 @@
             };
 
             if (self.id() == emptyGuid) {
-                // INSERT
-                $.ajax({
-                    url: apiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.postOData(apiUrl, record);
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: apiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
             }
         };
+
         self.cancel = function () {
             switchSection($("#grid-section"));
         };
+
         self.onCultureCodeChanged = function () {
             const cultureName = $('#CultureCode option:selected').text();
             self.name(cultureName);
         };
-        self.clear = function () {
+
+        self.clear = async function () {
             if (confirm(self.translations.resetLocalizableStringsConfirm)) {
-                $.ajax({
-                    url: apiUrl + "/Default.ResetLocalizableStrings",
-                    type: "POST"
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(`${apiUrl}/Default.ResetLocalizableStrings`, null, () => {
                     $.notify(self.translations.resetLocalizableStringsSuccess, "success");
                     setTimeout(function () {
                         window.location.reload();
                     }, 500);
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                }, () => {
                     $.notify(self.translations.resetLocalizableStringsError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
+
         self.importLanguagePack = function () {
             switchSection($("#upload-section"));
         };

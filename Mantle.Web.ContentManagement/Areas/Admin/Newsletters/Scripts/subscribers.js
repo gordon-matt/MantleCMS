@@ -103,24 +103,8 @@
                 }]
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/SubscriberApi(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    $.notify(self.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`/odata/mantle/cms/SubscriberApi(${id})`);
         };
         self.downloadCsv = function () {
             const downloadForm = $("<form>")
