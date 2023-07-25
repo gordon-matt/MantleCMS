@@ -656,7 +656,7 @@
                 $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == emptyGuid);
 
             if (!$("#form-section-form").valid()) {

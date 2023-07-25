@@ -195,7 +195,7 @@
             }, 200);
         }
 
-        self.generateFile = function () {
+        self.generateFile = async function () {
             if (confirm(self.translations.confirmGenerateFile)) {
                 await ODataHelper.postOData(`${odataBaseUrl}/Default.Generate`, null, () => {
                     $.notify(self.translations.generateFileSuccess, "success");

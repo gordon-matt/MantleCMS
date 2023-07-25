@@ -192,7 +192,7 @@
             self.createFormValidator.resetForm();
             switchSection($("#create-section"));
         };
-        self.edit = function (id, cultureCode) {
+        self.edit = async function (id, cultureCode) {
             let url = "/odata/mantle/cms/EntityTypeContentBlockApi(" + id + ")";
 
             if (cultureCode) {
@@ -203,91 +203,79 @@
                 self.cultureCode(null);
             }
 
+            const data = await ODataHelper.getOData(url);
+            self.id(data.Id);
+            self.entityType(data.EntityType);
+            self.entityId(data.EntityId);
+            self.blockName(data.BlockName);
+            self.blockType(data.BlockType);
+            self.title(data.Title);
+            self.zoneId(data.ZoneId);
+            self.order(data.Order);
+            self.isEnabled(data.IsEnabled);
+            self.blockValues(data.BlockValues);
+            self.customTemplatePath(data.CustomTemplatePath);
+
             $.ajax({
-                url: url,
+                url: "/admin/blocks/entity-type-content-blocks/get-editor-ui/" + self.id(),
                 type: "GET",
-                //contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false
             })
             .done(function (json) {
-                self.id(json.Id);
-                self.entityType(json.EntityType);
-                self.entityId(json.EntityId);
-                self.blockName(json.BlockName);
-                self.blockType(json.BlockType);
-                self.title(json.Title);
-                self.zoneId(json.ZoneId);
-                self.order(json.Order);
-                self.isEnabled(json.IsEnabled);
-                self.blockValues(json.BlockValues);
-                self.customTemplatePath(json.CustomTemplatePath);
 
-                $.ajax({
-                    url: "/admin/blocks/entity-type-content-blocks/get-editor-ui/" + self.id(),
-                    type: "GET",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                // Clean up from previously injected html/scripts
+                if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
+                    self.contentBlockModelStub.cleanUp(self);
+                }
+                self.contentBlockModelStub = null;
 
-                    // Clean up from previously injected html/scripts
-                    if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
-                        self.contentBlockModelStub.cleanUp(self);
-                    }
-                    self.contentBlockModelStub = null;
+                // Remove Old Scripts
+                const oldScripts = $('script[data-block-script="true"]');
 
-                    // Remove Old Scripts
-                    const oldScripts = $('script[data-block-script="true"]');
-
-                    if (oldScripts.length > 0) {
-                        $.each(oldScripts, function () {
-                            $(this).remove();
-                        });
-                    }
-
-                    const elementToBind = $("#block-details")[0];
-                    ko.cleanNode(elementToBind);
-                    $("#block-details").html("");
-
-                    const result = $(json.content);
-
-                    // Add new HTML
-                    const content = $(result.filter('#block-content')[0]);
-                    const details = $('<div>').append(content.clone()).html();
-                    $("#block-details").html(details);
-
-                    // Add new Scripts
-                    const scripts = result.filter('script');
-
-                    $.each(scripts, function () {
-                        const script = $(this);
-                        script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                        script.appendTo('body');
+                if (oldScripts.length > 0) {
+                    $.each(oldScripts, function () {
+                        $(this).remove();
                     });
+                }
 
-                    // Update Bindings
-                    // Ensure the function exists before calling it...
-                    if (typeof contentBlockModel != null) {
-                        self.contentBlockModelStub = contentBlockModel;
-                        if (typeof self.contentBlockModelStub.updateModel === 'function') {
-                            self.contentBlockModelStub.updateModel(self);
-                        }
-                        ko.applyBindings(self.parent, elementToBind);
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
+                const elementToBind = $("#block-details")[0];
+                ko.cleanNode(elementToBind);
+                $("#block-details").html("");
+
+                const result = $(json.content);
+
+                // Add new HTML
+                const content = $(result.filter('#block-content')[0]);
+                const details = $('<div>').append(content.clone()).html();
+                $("#block-details").html(details);
+
+                // Add new Scripts
+                const scripts = result.filter('script');
+
+                $.each(scripts, function () {
+                    const script = $(this);
+                    script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                    script.appendTo('body');
                 });
 
-                self.editFormValidator.resetForm();
-                switchSection($("#edit-section"));
+                // Update Bindings
+                // Ensure the function exists before calling it...
+                if (typeof contentBlockModel != null) {
+                    self.contentBlockModelStub = contentBlockModel;
+                    if (typeof self.contentBlockModelStub.updateModel === 'function') {
+                        self.contentBlockModelStub.updateModel(self);
+                    }
+                    ko.applyBindings(self.parent, elementToBind);
+                }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 $.notify(self.parent.translations.getRecordError, "error");
                 console.log(textStatus + ': ' + errorThrown);
             });
+
+            self.editFormValidator.resetForm();
+            switchSection($("#edit-section"));
         };
         self.localize = function (id) {
             $("#SelectedId").val(id);
@@ -299,26 +287,10 @@
             self.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/EntityTypeContentBlockApi(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`/odata/mantle/cms/EntityTypeContentBlockApi(${id})`);
         };
-        self.save = function () {
+        self.save = async function () {
             const isNew = (self.id() == emptyGuid);
 
             if (isNew) {
@@ -352,74 +324,17 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: "/odata/mantle/cms/EntityTypeContentBlockApi",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.postOData("/odata/mantle/cms/EntityTypeContentBlockApi", record);
             }
             else {
                 if (self.cultureCode() != null) {
-                    $.ajax({
-                        url: "/odata/mantle/cms/EntityTypeContentBlockApi/Default.SaveLocalized",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            cultureCode: self.cultureCode(),
-                            entity: record
-                        }),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
-                        $('#Grid').data('kendoGrid').dataSource.read();
-                        $('#Grid').data('kendoGrid').refresh();
-
-                        switchSection($("#grid-section"));
-
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
+                    await ODataHelper.postOData("/odata/mantle/cms/EntityTypeContentBlockApi/Default.SaveLocalized", {
+                        cultureCode: self.cultureCode(),
+                        entity: record
                     });
                 }
                 else {
-                    $.ajax({
-                        url: "/odata/mantle/cms/EntityTypeContentBlockApi(" + self.id() + ")",
-                        type: "PUT",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(record),
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
-                        $('#Grid').data('kendoGrid').dataSource.read();
-                        $('#Grid').data('kendoGrid').refresh();
-
-                        switchSection($("#grid-section"));
-
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        $.notify(self.parent.translations.updateRecordError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    await ODataHelper.putOData(`/odata/mantle/cms/EntityTypeContentBlockApi(${self.id()})`, record);
                 }
             }
         };
@@ -445,28 +360,9 @@
 
             switchSection($("#grid-section"));
         };
-        self.toggleEnabled = function (id, isEnabled) {
-            const patch = {
+        self.toggleEnabled = async function (id, isEnabled) {
+            await ODataHelper.patchOData(`/odata/mantle/cms/EntityTypeContentBlockApi(${id})`, {
                 IsEnabled: !isEnabled
-            };
-
-            $.ajax({
-                url: "/odata/mantle/cms/EntityTypeContentBlockApi(" + id + ")",
-                type: "PATCH",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(patch),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
-
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
     };
@@ -566,48 +462,23 @@
             self.validator.resetForm();
             switchSection($("#zones-edit-section"));
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: "/odata/mantle/cms/ZoneApi(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-                self.validator.resetForm();
-                switchSection($("#zones-edit-section"));
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`/odata/mantle/cms/ZoneApi(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.validator.resetForm();
+            switchSection($("#zones-edit-section"));
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`/odata/mantle/cms/ZoneApi(${id})`, () => {
+                $('#ZoneGrid').data('kendoGrid').dataSource.read();
+                $('#ZoneGrid').data('kendoGrid').refresh();
+                $('#ZoneId option[value="' + id + '"]').remove();
+                $('#Create_ZoneId option[value="' + id + '"]').remove();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: "/odata/mantle/cms/ZoneApi(" + id + ")",
-                    type: "DELETE",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                    $('#ZoneGrid').data('kendoGrid').refresh();
-
-                    $('#ZoneId option[value="' + id + '"]').remove();
-                    $('#Create_ZoneId option[value="' + id + '"]').remove();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
+        self.save = async function () {
             if (!$("#zone-edit-section-form").valid()) {
                 return false;
             }
@@ -617,17 +488,8 @@
                 Name: self.name(),
             };
 
-            if (self.id() == emptyGuid) {
-                // INSERT
-                $.ajax({
-                    url: "/odata/mantle/cms/ZoneApi",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+            if (isNew) {
+                await ODataHelper.postOData("/odata/mantle/cms/ZoneApi", record, () => {
                     $('#ZoneGrid').data('kendoGrid').dataSource.read();
                     $('#ZoneGrid').data('kendoGrid').refresh();
 
@@ -644,23 +506,10 @@
                     }));
 
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: "/odata/mantle/cms/ZoneApi(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`/odata/mantle/cms/ZoneApi(${self.id()})`, record, () => {
                     $('#ZoneGrid').data('kendoGrid').dataSource.read();
                     $('#ZoneGrid').data('kendoGrid').refresh();
 
@@ -671,10 +520,6 @@
                     $('#Create_ZoneId option[value="' + record.Id + '"]').text(record.Name);
 
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
