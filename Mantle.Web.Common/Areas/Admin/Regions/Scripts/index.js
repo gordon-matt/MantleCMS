@@ -22,8 +22,8 @@
 
     ko.mapping = koMap;
 
-    var SettingsModel = function (parent) {
-        var self = this;
+    const SettingsModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.regionId = ko.observable(0);
@@ -108,68 +108,63 @@
             const data = await ODataHelper.getOData(`${settingsApiUrl}/Default.GetSettings(settingsId='${id}',regionId=${self.regionId()})`);
             self.fields(data.Fields);
 
-            $.ajax({
-                url: "/admin/regions/get-editor-ui/" + id,
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
+            await fetch(`/admin/regions/get-editor-ui/${id}`)
+                .then(response => response.json())
+                .then((data) => {
+                    // Clean up from previously injected html/scripts
+                    if (typeof cleanUp == 'function') {
+                        cleanUp(self);
+                    }
 
-                // Clean up from previously injected html/scripts
-                if (typeof cleanUp == 'function') {
-                    cleanUp(self);
-                }
+                    // Remove Old Scripts
+                    //$('script[data-settings-script="true"]').remove();
 
-                // Remove Old Scripts
-                //$('script[data-settings-script="true"]').remove();
+                    $('script[data-settings-script="true"]').each(function () {
+                        $(this).remove();
+                    });
 
-                $('script[data-settings-script="true"]').each(function () {
-                    $(this).remove();
+                    //let oldScripts = $('script[data-settings-script="true"]');
+
+                    //if (oldScripts.length > 0) {
+                    //    $.each(oldScripts, function () {
+                    //        $(this).remove();
+                    //    });
+                    //}
+
+                    const elementToBind = $("#settings-form-section")[0];
+                    ko.cleanNode(elementToBind);
+
+                    const result = $(data.Content);
+
+                    // Add new HTML
+                    const content = $(result.filter('#region-settings')[0]);
+                    const details = $('<div>').append(content.clone()).html();
+                    $("#settings-details").html(details);
+
+                    // Add new Scripts
+                    const scripts = result.filter('script');
+
+                    $.each(scripts, function () {
+                        const script = $(this);
+                        script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        script.appendTo('body');
+                    });
+
+                    // Update Bindings
+                    // Ensure the function exists before calling it...
+                    if (typeof updateModel == 'function') {
+                        let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
+                        updateModel(self, data);
+                        ko.applyBindings(self.parent, elementToBind);
+                    }
+
+                    //self.validator.resetForm();
+                    switchSection($("#settings-form-section"));
+                })
+                .catch(error => {
+                    $.notify(self.parent.translations.getRecordError, "error");
+                    console.error('Error: ', error);
                 });
-
-                //let oldScripts = $('script[data-settings-script="true"]');
-
-                //if (oldScripts.length > 0) {
-                //    $.each(oldScripts, function () {
-                //        $(this).remove();
-                //    });
-                //}
-
-                const elementToBind = $("#settings-form-section")[0];
-                ko.cleanNode(elementToBind);
-
-                const result = $(json.Content);
-
-                // Add new HTML
-                const content = $(result.filter('#region-settings')[0]);
-                const details = $('<div>').append(content.clone()).html();
-                $("#settings-details").html(details);
-
-                // Add new Scripts
-                const scripts = result.filter('script');
-
-                $.each(scripts, function () {
-                    const script = $(this);
-                    script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                    script.appendTo('body');
-                });
-
-                // Update Bindings
-                // Ensure the function exists before calling it...
-                if (typeof updateModel == 'function') {
-                    let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
-                    updateModel(self, data);
-                    ko.applyBindings(self.parent, elementToBind);
-                }
-
-                //self.validator.resetForm();
-                switchSection($("#settings-form-section"));
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
         };
         self.save = async function () {
             // ensure the function exists before calling it...
@@ -198,8 +193,8 @@
         };
     };
 
-    var CountryModel = function (parent) {
-        var self = this;
+    const CountryModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -435,8 +430,8 @@
         };
     };
 
-    var StateModel = function (parent) {
-        var self = this;
+    const StateModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -654,8 +649,8 @@
         };
     };
 
-    var CityModel = function (parent) {
-        var self = this;
+    const CityModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -864,8 +859,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -951,6 +946,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

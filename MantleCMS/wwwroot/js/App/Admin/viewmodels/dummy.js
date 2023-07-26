@@ -1,5 +1,5 @@
 ﻿define(function() {
-    var ctor = function () {
+    const ctor = function () {
         //this.displayName = 'Welcome to Kore Admin!';
     };
     return ctor;

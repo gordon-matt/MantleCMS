@@ -4,8 +4,8 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
 
     const odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -230,6 +230,6 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
         };
     }
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

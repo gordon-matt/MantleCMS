@@ -17,8 +17,8 @@
     const rolesApiUrl = "/odata/mantle/web/RoleApi";
     const usersApiUrl = "/odata/mantle/web/UserApi";
 
-    var RoleModel = function (parent) {
-        var self = this;
+    const RoleModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -207,8 +207,8 @@
         };
     };
 
-    var ChangePasswordModel = function (parent) {
-        var self = this;
+    const ChangePasswordModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -250,8 +250,8 @@
         };
     };
 
-    var UserModel = function (parent) {
-        var self = this;
+    const UserModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -542,8 +542,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -584,6 +584,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

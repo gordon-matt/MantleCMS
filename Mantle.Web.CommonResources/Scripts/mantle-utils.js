@@ -19,8 +19,8 @@
     }
 
     static getLocalStorageKeys() {
-        let keys = [];
-        for (var i = 0; i < localStorage.length; i++) {
+        const keys = [];
+        for (const i = 0; i < localStorage.length; i++) {
             keys[i] = localStorage.key(i);
         }
         return keys;
@@ -35,7 +35,7 @@
     }
 
     static isFunction(functionToCheck) {
-        var getType = {};
+        const getType = {};
         return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
     }
 }

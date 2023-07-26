@@ -24,8 +24,8 @@
 
     ko.mapping = koMap;
 
-    var PageTypeModel = function (parent) {
-        var self = this;
+    const PageTypeModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -172,8 +172,8 @@
         };
     };
 
-    var PageVersionModel = function (parent) {
-        var self = this;
+    const PageVersionModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -303,8 +303,8 @@
         };
     };
 
-    var PageModel = function (parent) {
-        var self = this;
+    const PageModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -570,7 +570,7 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.parent.translations.edit);
         };
-        self.setupVersionEditSection = function (json) {
+        self.setupVersionEditSection = async function (json) {
             self.parent.pageVersionModel.id(json.Id);
             self.parent.pageVersionModel.pageId(json.PageId);
 
@@ -991,8 +991,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -1034,6 +1034,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

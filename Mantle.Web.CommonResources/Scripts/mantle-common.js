@@ -1,4 +1,4 @@
-﻿var emptyGuid = '00000000-0000-0000-0000-000000000000';
+﻿const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
 if (typeof String.prototype.startsWith != 'function') {
     String.prototype.startsWith = function (str) {
@@ -18,8 +18,8 @@ function stringToNullIfEmpty(s) {
 };
 
 function getLocalStorageKeys() {
-    var keys = [];
-    for (var i = 0; i < localStorage.length; i++) {
+    const keys = [];
+    for (const i = 0; i < localStorage.length; i++) {
         keys[i] = localStorage.key(i);
     }
     return keys;
@@ -34,6 +34,6 @@ function replaceAll(string, find, replace) {
 }
 
 function isFunction(functionToCheck) {
-    var getType = {};
+    const getType = {};
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }

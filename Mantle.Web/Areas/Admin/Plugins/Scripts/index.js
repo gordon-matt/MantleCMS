@@ -4,8 +4,8 @@ function ($, ko, kendo, mantle_common, notify) {
     
     const apiUrl = "/odata/mantle/web/PluginApi";
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -186,7 +186,7 @@ function ($, ko, kendo, mantle_common, notify) {
                 console.error('Error: ', error);
             });
         }
-        self.uninstall = function (systemName) {
+        self.uninstall = async function (systemName) {
             systemName = replaceAll(systemName, ".", "-");
 
             await fetch(`/admin/plugins/uninstall/${systemName}`, {
@@ -212,6 +212,6 @@ function ($, ko, kendo, mantle_common, notify) {
         }
     }
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

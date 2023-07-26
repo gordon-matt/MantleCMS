@@ -14,8 +14,8 @@
     const forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
     const forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";
 
-    var ForumModel = function (parent) {
-        var self = this;
+    const ForumModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -190,8 +190,8 @@
         };
     };
 
-    var ForumGroupModel = function (parent) {
-        var self = this;
+    const ForumGroupModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -355,8 +355,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -399,6 +399,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

@@ -22,8 +22,8 @@
 
     ko.mapping = koMap;
 
-    var BlockModel = function (parent) {
-        var self = this;
+    const BlockModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -216,63 +216,58 @@
             self.blockValues(data.BlockValues);
             self.customTemplatePath(data.CustomTemplatePath);
 
-            $.ajax({
-                url: "/admin/blocks/entity-type-content-blocks/get-editor-ui/" + self.id(),
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-
-                // Clean up from previously injected html/scripts
-                if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
-                    self.contentBlockModelStub.cleanUp(self);
-                }
-                self.contentBlockModelStub = null;
-
-                // Remove Old Scripts
-                const oldScripts = $('script[data-block-script="true"]');
-
-                if (oldScripts.length > 0) {
-                    $.each(oldScripts, function () {
-                        $(this).remove();
-                    });
-                }
-
-                const elementToBind = $("#block-details")[0];
-                ko.cleanNode(elementToBind);
-                $("#block-details").html("");
-
-                const result = $(json.content);
-
-                // Add new HTML
-                const content = $(result.filter('#block-content')[0]);
-                const details = $('<div>').append(content.clone()).html();
-                $("#block-details").html(details);
-
-                // Add new Scripts
-                const scripts = result.filter('script');
-
-                $.each(scripts, function () {
-                    const script = $(this);
-                    script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                    script.appendTo('body');
-                });
-
-                // Update Bindings
-                // Ensure the function exists before calling it...
-                if (typeof contentBlockModel != null) {
-                    self.contentBlockModelStub = contentBlockModel;
-                    if (typeof self.contentBlockModelStub.updateModel === 'function') {
-                        self.contentBlockModelStub.updateModel(self);
+            await fetch(`/admin/blocks/entity-type-content-blocks/get-editor-ui/${self.id()}`)
+                .then(response => response.json())
+                .then((data) => {
+                    // Clean up from previously injected html/scripts
+                    if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
+                        self.contentBlockModelStub.cleanUp(self);
                     }
-                    ko.applyBindings(self.parent, elementToBind);
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+                    self.contentBlockModelStub = null;
+
+                    // Remove Old Scripts
+                    const oldScripts = $('script[data-block-script="true"]');
+
+                    if (oldScripts.length > 0) {
+                        $.each(oldScripts, function () {
+                            $(this).remove();
+                        });
+                    }
+
+                    const elementToBind = $("#block-details")[0];
+                    ko.cleanNode(elementToBind);
+                    $("#block-details").html("");
+
+                    const result = $(data.content);
+
+                    // Add new HTML
+                    const content = $(result.filter('#block-content')[0]);
+                    const details = $('<div>').append(content.clone()).html();
+                    $("#block-details").html(details);
+
+                    // Add new Scripts
+                    const scripts = result.filter('script');
+
+                    $.each(scripts, function () {
+                        const script = $(this);
+                        script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        script.appendTo('body');
+                    });
+
+                    // Update Bindings
+                    // Ensure the function exists before calling it...
+                    if (typeof contentBlockModel != null) {
+                        self.contentBlockModelStub = contentBlockModel;
+                        if (typeof self.contentBlockModelStub.updateModel === 'function') {
+                            self.contentBlockModelStub.updateModel(self);
+                        }
+                        ko.applyBindings(self.parent, elementToBind);
+                    }
+                })
+                .catch(error => {
+                    $.notify(self.parent.translations.getRecordError, "error");
+                    console.error('Error: ', error);
+                });
 
             self.editFormValidator.resetForm();
             switchSection($("#edit-section"));
@@ -367,8 +362,8 @@
         };
     };
 
-    var ZoneModel = function (parent) {
-        var self = this;
+    const ZoneModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -528,8 +523,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.entityType = null;
@@ -575,6 +570,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

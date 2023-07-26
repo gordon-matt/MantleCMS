@@ -1,5 +1,5 @@
 ﻿define(function () {
-    var viewModel = function () {
+    const viewModel = function () {
     };
     return viewModel;
 });

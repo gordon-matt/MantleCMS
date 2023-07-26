@@ -1,4 +1,4 @@
-﻿var paths = {
+﻿const paths = {
     'text': '../../../lib/requirejs-text/text',
     'durandal': '../../../lib/durandal/js',
     'plugins': '../../../lib/durandal/js/plugins',
@@ -19,7 +19,7 @@
     'bootstrap-fileinput': '../../../lib/bootstrap-fileinput/js/fileinput'
 };
 
-var shim = {
+const shim = {
     'bootstrap': ['jquery'],
     'jqueryval': ['jquery'],
     'jqueryval-unobtrusive': ['jquery', 'jqueryval'],
@@ -62,11 +62,11 @@ define('jquery', function () { return jQuery; });
 define('knockout', ko);
 
 define(function (require) {
-    var system = require('durandal/system');
-    var app = require('durandal/app');
-    var viewLocator = require('durandal/viewLocator');
-    var viewEngine = require('durandal/viewEngine');
-    var binder = require('durandal/binder');
+    const system = require('durandal/system');
+    const app = require('durandal/app');
+    const viewLocator = require('durandal/viewLocator');
+    const viewEngine = require('durandal/viewEngine');
+    const binder = require('durandal/binder');
     //require('bootstrap');
 
     //>>excludeStart("build", true);
