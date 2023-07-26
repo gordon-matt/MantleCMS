@@ -84,6 +84,7 @@
     <None Remove="Scripts\bootstrapFileInput\fileinput_locale_tr.js" />
     <None Remove="Scripts\bootstrapFileInput\fileinput_locale_uk.js" />
     <None Remove="Scripts\bootstrapFileInput\fileinput_locale_zh.js" />
+    <None Remove="Scripts\grid-helper.js" />
     <None Remove="Scripts\jquery.bootpag.min.js" />
     <None Remove="Scripts\mantle-common.js" />
     <None Remove="Scripts\mantle-knockout-chosen.js" />
@@ -96,6 +97,10 @@
     <None Remove="Scripts\tinymce\plugins\responsivefilemanager\img\insertfile.gif" />
     <None Remove="Scripts\tinymce\plugins\responsivefilemanager\plugin.js" />
     <None Remove="Scripts\tinymce\plugins\responsivefilemanager\plugin.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\grid-helper.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,15 @@
-﻿define(['jquery', 'knockout', 'kendo', 'mantle-common', 'notify', 'odata-helpers', 'jqueryval', 'mantle-section-switching', 'mantle-jqueryval'],
-function ($, ko, kendo, mantle_common, notify) {
+﻿define(function (require) {
     'use strict'
+
+    const $ = require('jquery');
+    const ko = require('knockout');
+
+    require('kendo');
+    require('notify');
+    require('grid-helper');
+    require('odata-helpers');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
     
     const apiUrl = "/odata/mantle/web/PluginApi";
 
@@ -39,66 +48,16 @@ function ($, ko, kendo, mantle_common, notify) {
                 }
             });
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: apiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Group: { type: "string" },
-                                FriendlyName: { type: "string" },
-                                Installed: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Group", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                apiUrl,
+                {
+                    fields: {
+                        Group: { type: "string" },
+                        FriendlyName: { type: "string" },
+                        Installed: { type: "boolean" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Group",
                     title: self.translations.columns.group,
                     filterable: true
@@ -122,8 +81,9 @@ function ($, ko, kendo, mantle_common, notify) {
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Group", dir: "asc" });
         };
 
         self.edit = async function (systemName) {

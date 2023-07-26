@@ -1,5 +1,13 @@
-﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko, kendo, notify) {
+﻿define(function (require) {
     'use strict'
+
+    const $ = require('jquery');
+    const ko = require('knockout');
+
+    require('kendo');
+    require('notify');
+    require('grid-helper');
+    require('odata-helpers');
 
     const apiUrl = "/odata/mantle/web/ThemeApi";
 
@@ -22,69 +30,19 @@
 
             self.gridPageSize = $("#GridPageSize").val();
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: apiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                PreviewImageUrl: { type: "string" },
-                                Title: { type: "string" },
-                                PreviewText: { type: "string" },
-                                SupportRtl: { type: "boolean" },
-                                MobileTheme: { type: "boolean" },
-                                IsDefaultTheme: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Title", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                apiUrl,
+                {
+                    fields: {
+                        PreviewImageUrl: { type: "string" },
+                        Title: { type: "string" },
+                        PreviewText: { type: "string" },
+                        SupportRtl: { type: "boolean" },
+                        MobileTheme: { type: "boolean" },
+                        IsDefaultTheme: { type: "boolean" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "PreviewImageUrl",
                     title: self.translations.columns.previewImageUrl,
                     template: '<img src="#=PreviewImageUrl#" alt="#=Title#" class="thumbnail" style="max-width:200px;" />',
@@ -110,8 +68,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Title", dir: "asc" });
         };
         self.setTheme = async function (name) {
             await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {

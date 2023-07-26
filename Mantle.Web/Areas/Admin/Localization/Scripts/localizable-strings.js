@@ -1,5 +1,12 @@
-﻿define(['jquery', 'jqueryval', 'kendo', 'odata-helpers'], function ($, jqueryval, kendo) {
+﻿define(function (require) {
     'use strict'
+
+    const $ = require('jquery');
+    const ko = require('knockout');
+
+    require('kendo');
+    require('grid-helper');
+    require('odata-helpers');
 
     const odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
 

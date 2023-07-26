@@ -21,6 +21,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
                 { "bootstrap-slider", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider.min" },
                 { "bootstrap-slider-knockout", "/Mantle.Web.CommonResources.Scripts.bootstrap-slider-knockout-binding" },
                 { "momentjs", "/Mantle.Web.CommonResources.Scripts.moment-with-locales.min" },
+                { "grid-helper", "/Mantle.Web.CommonResources.Scripts.grid-helper" },
                 { "odata-helpers", "/Mantle.Web.CommonResources.Scripts.odata-helpers" }
             };
         }
