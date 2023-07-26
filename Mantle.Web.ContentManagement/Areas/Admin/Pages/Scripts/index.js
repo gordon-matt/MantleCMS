@@ -591,62 +591,57 @@
             else {
                 self.parent.pageVersionModel.isDraft(false);
             }
-
-            $.ajax({
-                url: "/admin/pages/get-editor-ui/" + self.parent.pageVersionModel.id(),
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                // Clean up from previously injected html/scripts
-                if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
-                    self.parent.pageVersionModel.pageModelStub.cleanUp(self.parent.pageVersionModel);
-                }
-                self.parent.pageVersionModel.pageModelStub = null;
-
-                // Remove Old Scripts
-                const oldScripts = $('script[data-fields-script="true"]');
-
-                if (oldScripts.length > 0) {
-                    $.each(oldScripts, function () {
-                        $(this).remove();
-                    });
-                }
-
-                const elementToBind = $("#fields-definition")[0];
-                ko.cleanNode(elementToBind);
-
-                const result = $(json.content);
-
-                // Add new HTML
-                const content = $(result.filter('#fields-content')[0]);
-                const details = $('<div>').append(content.clone()).html();
-                $("#fields-definition").html(details);
-
-                // Add new Scripts
-                const scripts = result.filter('script');
-
-                $.each(scripts, function () {
-                    const script = $(this);
-                    script.attr("data-fields-script", "true");//for some reason, .data("fields-script", "true") doesn't work here
-                    script.appendTo('body');
-                });
-
-                // Update Bindings
-                // Ensure the function exists before calling it...
-                if (typeof pageModel != null) {
-                    self.parent.pageVersionModel.pageModelStub = pageModel;
-                    if (typeof self.parent.pageVersionModel.pageModelStub.updateModel === 'function') {
-                        self.parent.pageVersionModel.pageModelStub.updateModel(self.parent.pageVersionModel);
+            await fetch(`/admin/pages/get-editor-ui/${self.parent.pageVersionModel.id() }`)
+                .then(response => response.json())
+                .then((data) => {
+                    // Clean up from previously injected html/scripts
+                    if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
+                        self.parent.pageVersionModel.pageModelStub.cleanUp(self.parent.pageVersionModel);
                     }
-                    ko.applyBindings(self.parent, elementToBind);
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+                    self.parent.pageVersionModel.pageModelStub = null;
+
+                    // Remove Old Scripts
+                    const oldScripts = $('script[data-fields-script="true"]');
+
+                    if (oldScripts.length > 0) {
+                        $.each(oldScripts, function () {
+                            $(this).remove();
+                        });
+                    }
+
+                    const elementToBind = $("#fields-definition")[0];
+                    ko.cleanNode(elementToBind);
+
+                    const result = $(data.content);
+
+                    // Add new HTML
+                    const content = $(result.filter('#fields-content')[0]);
+                    const details = $('<div>').append(content.clone()).html();
+                    $("#fields-definition").html(details);
+
+                    // Add new Scripts
+                    const scripts = result.filter('script');
+
+                    $.each(scripts, function () {
+                        const script = $(this);
+                        script.attr("data-fields-script", "true");//for some reason, .data("fields-script", "true") doesn't work here
+                        script.appendTo('body');
+                    });
+
+                    // Update Bindings
+                    // Ensure the function exists before calling it...
+                    if (typeof pageModel != null) {
+                        self.parent.pageVersionModel.pageModelStub = pageModel;
+                        if (typeof self.parent.pageVersionModel.pageModelStub.updateModel === 'function') {
+                            self.parent.pageVersionModel.pageModelStub.updateModel(self.parent.pageVersionModel);
+                        }
+                        ko.applyBindings(self.parent, elementToBind);
+                    }
+                })
+                .catch(error => {
+                    $.notify(self.parent.translations.getRecordError, "error");
+                    console.error('Error: ', error);
+                });
 
             self.versionValidator.resetForm();
         };
@@ -1013,22 +1008,18 @@
             self.pageVersionModel = new PageVersionModel(self);
             self.pageTypeModel = new PageTypeModel(self);
         };
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#page-grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/pages/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/pages/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.gridPageSize = $("#GridPageSize").val();
             self.defaultFrontendLayoutPath = $("#DefaultFrontendLayoutPath").val();

@@ -1,11 +1,10 @@
-﻿function T(key) {
-    $.ajax({
-        url: "/admin/localization/localizable-strings/translate/" + encodeURIComponent(key),
-        type: "GET",
-        dataType: "json",
-        async: false
-    })
-    .done(function (json) {
-        return json.Translation;
-    });
+﻿async function Translate(key) {
+    await fetch(`/admin/localization/localizable-strings/translate/${encodeURIComponent(key) }`)
+        .then(response => response.json())
+        .then((data) => {
+            return data.Translation;
+        })
+        .catch(error => {
+            console.error('Error: ', error);
+        });
 }

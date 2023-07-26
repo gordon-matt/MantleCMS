@@ -17,22 +17,18 @@ function ($, ko, kendo, mantle_common, notify) {
 
         self.validator = false;
 
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/plugins/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/plugins/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -166,52 +162,52 @@ function ($, ko, kendo, mantle_common, notify) {
             switchSection($("#grid-section"));
         };
 
-        self.install = function (systemName) {
+        self.install = async function (systemName) {
             systemName = replaceAll(systemName, ".", "-");
 
-            $.ajax({
-                url: "/admin/plugins/install/" + systemName,
-                type: "POST"
+            await fetch(`/admin/plugins/install/${systemName}`, {
+                method: "POST"
             })
-            .done(function (json) {
-                if (json.Success) {
-                    $.notify(json.Message, "success");
+            .then(response => response.json())
+            .then((data) => {
+                if (data.Success) {
+                    $.notify(data.Message, "success");
                 }
                 else {
-                    $.notify(json.Message, "error");
+                    $.notify(data.Message, "error");
                 }
 
                 setTimeout(function () {
                     window.location.reload();
                 }, 1000);
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .catch(error => {
                 $.notify(self.translations.installPluginError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+                console.error('Error: ', error);
             });
         }
         self.uninstall = function (systemName) {
             systemName = replaceAll(systemName, ".", "-");
 
-            $.ajax({
-                url: "/admin/plugins/uninstall/" + systemName,
-                type: "POST"
+            await fetch(`/admin/plugins/uninstall/${systemName}`, {
+                method: "POST"
             })
-            .done(function (json) {
-                if (json.Success) {
-                    $.notify(json.Message, "success");
+            .then(response => response.json())
+            .then((data) => {
+                if (data.Success) {
+                    $.notify(data.Message, "success");
                 }
                 else {
-                    $.notify(json.Message, "error");
+                    $.notify(data.Message, "error");
                 }
 
                 setTimeout(function () {
                     window.location.reload();
                 }, 1000);
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .catch(error => {
                 $.notify(self.translations.uninstallPluginError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+                console.error('Error: ', error);
             });
         }
     }

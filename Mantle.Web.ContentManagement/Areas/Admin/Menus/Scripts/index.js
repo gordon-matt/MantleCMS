@@ -228,25 +228,8 @@
             switchSection($("#items-grid-section"));
         };
         self.toggleEnabled = async function (id, parentId, isEnabled) {
-            const patch = {
+            await ODataHelper.patchOData(`/odata/mantle/cms/MenuItemApi(${id})`, {
                 Enabled: !isEnabled
-            };
-
-            $.ajax({
-                url: "/odata/mantle/cms/MenuItemApi(" + id + ")",
-                type: "PATCH",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(patch),
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.refreshGrid(parentId);
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.updateRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
             });
         };
 
@@ -547,22 +530,18 @@
             self.menuModel = new MenuModel(self);
             self.menuItemModel = new MenuItemModel(self);
         };
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/menus/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/menus/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
