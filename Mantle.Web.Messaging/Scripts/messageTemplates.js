@@ -191,7 +191,7 @@
             self.parent.templateVersionModel.data('');
             self.versionValidator.resetForm();
         };
-        self.edit = function (id, cultureCode) {
+        self.edit = async function (id, cultureCode) {
             if (cultureCode && cultureCode != 'null') {
                 self.parent.currentCulture = cultureCode;
             }
@@ -202,103 +202,66 @@
             //---------------------------------------------------------------------------------------
             // Get Template
             //---------------------------------------------------------------------------------------
-            $.ajax({
-                url: templateApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                if (json.Editor != "[Default]") {
-                    const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == json.Editor; })[0];
-                    const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
+            await fetch(`${templateApiUrl}(${id})`)
+                .then(response => response.json())
+                .then((template) => {
+                    if (template.Editor != "[Default]") {
+                        const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == template.Editor; })[0];
+                        const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
 
-                    if (editor.openInNewWindow) {
-                        window.open(url);
+                        if (editor.openInNewWindow) {
+                            window.open(url);
+                        }
+                        else {
+                            window.location.replace(url);
+                        }
+                        return;
+                    }
+
+                    self.id(template.Id);
+                    self.name(template.Name);
+                    self.editor(template.Editor);
+                    self.ownerId(template.OwnerId);
+                    self.enabled(template.Enabled);
+
+                    //---------------------------------------------------------------------------------------
+                    // Get Template Version
+                    //---------------------------------------------------------------------------------------
+                    let getCurrentVersionUrl = "";
+                    if (self.parent.currentCulture) {
+                        getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
                     }
                     else {
-                        window.location.replace(url);
+                        getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode=null)";
                     }
-                    return;
-                }
 
-                self.id(json.Id);
-                self.name(json.Name);
-                self.editor(json.Editor);
-                self.ownerId(json.OwnerId);
-                self.enabled(json.Enabled);
+                    const version = await ODataHelper.getOData(getCurrentVersionUrl);
+                    self.setupVersionEditSection(version);
 
-                //---------------------------------------------------------------------------------------
-                // Get Template Version
-                //---------------------------------------------------------------------------------------
-                let getCurrentVersionUrl = "";
-                if (self.parent.currentCulture) {
-                    getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
-                }
-                else {
-                    getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode=null)";
-                }
-
-                $.ajax({
-                    url: getCurrentVersionUrl,
-                    type: "GET",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    self.setupVersionEditSection(json);
-                    
                     $("#tokens-list").html("");
 
-                    //---------------------------------------------------------------------------------------
-                    // Get Tokens
-                    //---------------------------------------------------------------------------------------
-                    $.ajax({
-                        url: templateApiUrl + "/Default.GetTokens(templateName='" + self.name() + "')",
-                        type: "GET",
-                        dataType: "json",
-                        async: false
-                    })
-                    .done(function (json) {
-                        if (json.value && json.value.length > 0) {
-                            let s = '';
-                            $.each(json.value, function () {
-                                s += '<li>' + this + '</li>';
-                            });
-                            $("#tokens-list").html(s);
-                        }
+                    const tokens = await ODataHelper.getOData(`${templateApiUrl}/Default.GetTokens(templateName='${self.name()}')`);
+                    if (tokens.value && tokens.value.length > 0) {
+                        let s = '';
+                        $.each(tokens.value, function () {
+                            s += '<li>' + this + '</li>';
+                        });
+                        $("#tokens-list").html(s);
+                    }
 
-                        self.inEditMode(true);
-                        
-                        //---------------------------------------------------------------------------------------
-                        // Reset
-                        //---------------------------------------------------------------------------------------
-                        self.validator.resetForm();
-                        switchSection($("#form-section"));
-                        $("#form-section-legend").html(self.parent.translations.edit);
-                        //---------------------------------------------------------------------------------------
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        //$.notify(self.parent.translations.getRecordError, "error");
-                        $.notify(self.parent.translations.getTokensError, "error");
-                        console.log(textStatus + ': ' + errorThrown);
-                    });
+                    self.inEditMode(true);
+                    self.validator.resetForm();
+                    switchSection($("#form-section"));
+                    $("#form-section-legend").html(self.parent.translations.edit);
+
                     //---------------------------------------------------------------------------------------
-                    // END: Get Tokens
+                    // END: Get Template Version
                     //---------------------------------------------------------------------------------------
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                .catch(error => {
                     $.notify(self.parent.translations.getRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
+                    console.error('Error: ', error);
                 });
-                //---------------------------------------------------------------------------------------
-                // END: Get Template Version
-                //---------------------------------------------------------------------------------------
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
             //---------------------------------------------------------------------------------------
             // END: Get Template
             //---------------------------------------------------------------------------------------
@@ -410,36 +373,28 @@
             self.templateModel = new TemplateModel(self);
             self.templateVersionModel = new TemplateVersionModel(self);
         };
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/messaging/templates/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/messaging/templates/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             // Load editors
-            $.ajax({
-                url: "/admin/messaging/templates/get-available-editors",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.messageTemplateEditors = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/messaging/templates/get-available-editors")
+                .then(response => response.json())
+                .then((data) => {
+                    self.messageTemplateEditors = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

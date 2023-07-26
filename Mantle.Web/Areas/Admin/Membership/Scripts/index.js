@@ -557,22 +557,18 @@
             self.roleModel = new RoleModel(self);
             self.changePasswordModel = new ChangePasswordModel(self);
         };
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#users-grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/admin/membership/get-translations",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.translations = json;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/admin/membership/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

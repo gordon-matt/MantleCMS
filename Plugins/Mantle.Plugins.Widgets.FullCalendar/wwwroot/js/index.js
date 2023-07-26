@@ -1,19 +1,20 @@
 ﻿define(function (require) {
     'use strict'
 
-    var $ = require('jquery');
-    var ko = require('knockout');
-    var moment = require('momentjs');
+    const $ = require('jquery');
+    const ko = require('knockout');
+    const moment = require('momentjs');
 
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('odata-helpers');
 
     require('Mantle-section-switching');
     require('Mantle-jqueryval');
 
-    var calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
-    var eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
+    const calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
+    const eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
 
     var EventModel = function (parent) {
         var self = this;
@@ -46,7 +47,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -134,59 +135,35 @@
             switchSection($("#events-form-section"));
             $("#events-form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: eventApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.calendarId(json.CalendarId);
-                self.name(json.Name);
-                self.startDateTime(json.StartDateTime);
-                self.endDateTime(json.EndDateTime);
-
-                self.validator.resetForm();
-                switchSection($("#events-form-section"));
-                $("#events-form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${eventApiUrl}(${id})`);
+            self.id(data.Id);
+            self.calendarId(data.CalendarId);
+            self.name(data.Name);
+            self.startDateTime(data.StartDateTime);
+            self.endDateTime(data.EndDateTime);
+            self.validator.resetForm();
+            switchSection($("#events-form-section"));
+            $("#events-form-section-legend").html(self.parent.translations.edit);
+        };
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${eventApiUrl}(${id})`, () => {
+                $('#EventGrid').data('kendoGrid').dataSource.read();
+                $('#EventGrid').data('kendoGrid').refresh();
+                $.notify(self.parent.translations.deleteRecordSuccess, "success");
             });
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: eventApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#EventGrid').data('kendoGrid').dataSource.read();
-                    $('#EventGrid').data('kendoGrid').refresh();
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
-        };
-        self.save = function () {
-            var isNew = (self.id() == 0);
+        self.save = async function () {
+            const isNew = (self.id() == 0);
 
             if (!$("#events-form-section-form").valid()) {
                 return false;
             }
 
-            var startDateTime = moment(self.startDateTime());
-            var endDateTime = moment(self.endDateTime());
+            const startDateTime = moment(self.startDateTime());
+            const endDateTime = moment(self.endDateTime());
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 CalendarId: self.calendarId(),
                 Name: self.name(),
@@ -195,47 +172,19 @@
             };
 
             if (isNew) {
-                $.ajax({
-                    url: eventApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.postOData(eventApiUrl, record, () => {
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
-
                     switchSection($("#events-grid-section"));
-
                     $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
             else {
-                $.ajax({
-                    url: eventApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
+                await ODataHelper.putOData(`${eventApiUrl}(${self.id()})`, record, () => {
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
-
                     switchSection($("#events-grid-section"));
-
                     $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
                 });
             }
         };
@@ -272,7 +221,7 @@
                             dataType: "json"
                         },
                         parameterMap: function (options, operation) {
-                            var paramMap = kendo.data.transports.odata.parameterMap(options);
+                            let paramMap = kendo.data.transports.odata.parameterMap(options);
                             if (paramMap.$inlinecount) {
                                 if (paramMap.$inlinecount == "allpages") {
                                     paramMap.$count = true;
@@ -345,101 +294,32 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.parent.translations.create);
         };
-        self.edit = function (id) {
-            $.ajax({
-                url: calendarApiUrl + "(" + id + ")",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.id(json.Id);
-                self.name(json.Name);
-
-                self.validator.resetForm();
-                switchSection($("#form-section"));
-                $("#form-section-legend").html(self.parent.translations.edit);
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(self.parent.translations.getRecordError, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
+        self.edit = async function (id) {
+            const data = await ODataHelper.getOData(`${calendarApiUrl}(${id})`);
+            self.id(data.Id);
+            self.name(data.Name);
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.parent.translations.edit);
         };
-        self.remove = function (id) {
-            if (confirm(self.parent.translations.deleteRecordConfirm)) {
-                $.ajax({
-                    url: calendarApiUrl + "(" + id + ")",
-                    type: "DELETE",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    $.notify(self.parent.translations.deleteRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.deleteRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
-            }
+        self.remove = async function (id) {
+            await ODataHelper.deleteOData(`${calendarApiUrl}(${id})`);
         };
-        self.save = function () {
-
+        self.save = async function () {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
-            var record = {
+            const record = {
                 Id: self.id(),
                 Name: self.name()
             };
 
             if (self.id() == 0) {
-                // INSERT
-                $.ajax({
-                    url: calendarApiUrl,
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.insertRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.postOData(odataBaseUrl, record);
             }
             else {
-                // UPDATE
-                $.ajax({
-                    url: calendarApiUrl + "(" + self.id() + ")",
-                    type: "PUT",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(record),
-                    dataType: "json",
-                    async: false
-                })
-                .done(function (json) {
-                    $('#Grid').data('kendoGrid').dataSource.read();
-                    $('#Grid').data('kendoGrid').refresh();
-
-                    switchSection($("#grid-section"));
-
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $.notify(self.parent.translations.updateRecordError, "error");
-                    console.log(textStatus + ': ' + errorThrown);
-                });
+                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
             }
         };
         self.cancel = function () {
@@ -462,23 +342,18 @@
             self.calendarModel = new CalendarModel(self);
             self.eventModel = new EventModel(self);
         };
-        self.attached = function () {
+        self.attached = async function () {
             currentSection = $("#grid-section");
 
             // Load translations first, else will have errors
-            $.ajax({
-                url: "/plugins/widgets/fullcalendar/get-view-data",
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (viewData) {
-                self.translations = viewData.translations;
-                self.gridPageSize = viewData.gridPageSize;
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus + ': ' + errorThrown);
-            });
+            await fetch("/plugins/widgets/fullcalendar/get-translations")
+                .then(response => response.json())
+                .then((data) => {
+                    self.translations = data;
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                });
 
             self.calendarModel.init();
             self.eventModel.init();
@@ -489,8 +364,8 @@
         self.showEvents = function (calendarId) {
             self.selectedCalendarId(calendarId);
 
-            var grid = $('#EventGrid').data('kendoGrid');
-            grid.dataSource.transport.options.read.url = eventApiUrl + "?$filter=CalendarId eq " + calendarId;
+            const grid = $('#EventGrid').data('kendoGrid');
+            grid.dataSource.transport.options.read.url = `${eventApiUrl}?$filter=CalendarId eq ${calendarId}`;
             grid.dataSource.page(1);
 
             switchSection($("#events-grid-section"));
