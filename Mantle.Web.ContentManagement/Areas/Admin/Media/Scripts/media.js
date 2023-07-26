@@ -1,9 +1,9 @@
 ﻿define(function (require) {
     'use strict'
 
-    var ViewModel = function () {
+    const ViewModel = function () {
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

@@ -20,8 +20,8 @@
     const templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
     const templateVersionApiUrl = "/odata/mantle/web/messaging/MessageTemplateVersionApi";
 
-    var TemplateVersionModel = function (parent) {
-        var self = this;
+    const TemplateVersionModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -37,8 +37,8 @@
         };
     };
 
-    var TemplateModel = function (parent) {
-        var self = this;
+    const TemplateModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -358,8 +358,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -403,6 +403,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

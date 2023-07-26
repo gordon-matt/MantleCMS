@@ -23,8 +23,8 @@
     const categoryApiUrl = "/odata/mantle/cms/BlogCategoryApi";
     const tagApiUrl = "/odata/mantle/cms/BlogTagApi";
 
-    var PostModel = function (parent) {
-        var self = this;
+    const PostModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -44,7 +44,7 @@
 
         self.validator = false;
 
-        self.init = function () {
+        self.init = async function () {
             self.validator = $("#post-form-section-form").validate({
                 rules: {
                     CategoryId: { required: true },
@@ -57,25 +57,20 @@
                 }
             });
 
-            $.ajax({
-                url: '/odata/mantle/cms/BlogTagApi?$orderby=Name',
-                type: "GET",
-                dataType: "json",
-                async: false
-            })
-            .done(function (json) {
-                self.availableTags([]);
-                self.chosenTags([]);
+            await fetch('/odata/mantle/cms/BlogTagApi?$orderby=Name')
+                .then(response => response.json())
+                .then((data) => {
+                    self.availableTags([]);
+                    self.chosenTags([]);
 
-                $(json.value).each(function () {
-                    const current = this;
-                    self.availableTags.push({ Id: current.Id, Name: current.Name });
+                    $(data.value).each(function () {
+                        const current = this;
+                        self.availableTags.push({ Id: current.Id, Name: current.Name });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
                 });
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $.notify(textStatus, "error");
-                console.log(textStatus + ': ' + errorThrown);
-            });
 
             $("#PostGrid").kendoGrid({
                 data: null,
@@ -255,8 +250,8 @@
         };
     };
 
-    var CategoryModel = function (parent) {
-        var self = this;
+    const CategoryModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -408,8 +403,8 @@
         };
     };
 
-    var TagModel = function (parent) {
-        var self = this;
+    const TagModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -560,8 +555,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -623,6 +618,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

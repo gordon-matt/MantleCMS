@@ -13,8 +13,8 @@
     require('mantle-section-switching');
     require('mantle-jqueryval');
 
-    var MenuItemModel = function (parent) {
-        var self = this;
+    const MenuItemModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -359,8 +359,8 @@
         }
     };
 
-    var MenuModel = function (parent) {
-        var self = this;
+    const MenuModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(emptyGuid);
@@ -517,8 +517,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -550,6 +550,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

@@ -7,7 +7,7 @@
             app.showMessage('Search not yet implemented...');
         },
         activate: function () {
-            var routes = [];
+            const routes = [];
 
             $.ajax({
                 url: "/admin/get-spa-routes",

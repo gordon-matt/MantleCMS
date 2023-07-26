@@ -16,8 +16,8 @@
     const calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
     const eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
 
-    var EventModel = function (parent) {
-        var self = this;
+    const EventModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -196,8 +196,8 @@
         };
     };
 
-    var CalendarModel = function (parent) {
-        var self = this;
+    const CalendarModel = function (parent) {
+        const self = this;
 
         self.parent = parent;
         self.id = ko.observable(0);
@@ -327,8 +327,8 @@
         };
     };
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -372,6 +372,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });

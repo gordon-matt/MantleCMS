@@ -1,10 +1,10 @@
 ﻿'use strict'
 
-var localStorageRootKey = "BlogContent_";
-var localStorageUsersKey = localStorageRootKey + "Users_";
+const localStorageRootKey = "BlogContent_";
+const localStorageUsersKey = localStorageRootKey + "Users_";
 
-var BlogEntryModel = function () {
-    var self = this;
+const BlogEntryModel = function () {
+    const self = this;
 
     self.headline = ko.observable(null);
     self.userId = ko.observable(null);
@@ -22,8 +22,8 @@ var BlogEntryModel = function () {
     };
 };
 
-var ViewModel = function () {
-    var self = this;
+const ViewModel = function () {
+    const self = this;
     self.entries = ko.observableArray([]);
     self.selected = ko.observable(new BlogEntryModel());
 
@@ -40,41 +40,41 @@ var ViewModel = function () {
     };
 
     self.showPrevious = function () {
-        var selectedIndex = $.inArray(self.selected(), self.entries());
+        const selectedIndex = $.inArray(self.selected(), self.entries());
         if (selectedIndex == 0) {
             if (self.pageIndex() > 1) {
                 $("li[data-lp=" + (self.pageIndex() - 1) + "] > a").click();
                 setTimeout(function () {
-                    var previous = self.entries()[self.entries().length - 1];
+                    const previous = self.entries()[self.entries().length - 1];
                     self.selected(previous);
                 }, 500);
             }
         }
         else {
-            var previous = self.entries()[selectedIndex - 1];
+            const previous = self.entries()[selectedIndex - 1];
             self.selected(previous);
         }
     };
 
     self.showNext = function () {
-        var selectedIndex = $.inArray(self.selected(), self.entries());
+        const selectedIndex = $.inArray(self.selected(), self.entries());
         if (selectedIndex == (self.entries().length - 1)) {
             if (self.pageIndex() < self.pageCount()) {
                 $("li[data-lp=" + (self.pageIndex() + 1) + "] > a").click();
                 setTimeout(function () {
-                    var next = self.entries()[0];
+                    const next = self.entries()[0];
                     self.selected(next);
                 }, 500);
             }
         }
         else {
-            var next = self.entries()[selectedIndex + 1];
+            const next = self.entries()[selectedIndex + 1];
             self.selected(next);
         }
     };
 
     self.canShowPrevious = function () {
-        var selectedIndex = $.inArray(self.selected(), self.entries());
+        const selectedIndex = $.inArray(self.selected(), self.entries());
         if (self.pageIndex() == 1 && selectedIndex == 0) {
             return false;
         }
@@ -82,7 +82,7 @@ var ViewModel = function () {
     };
 
     self.canShowNext = function () {
-        var selectedIndex = $.inArray(self.selected(), self.entries());
+        const selectedIndex = $.inArray(self.selected(), self.entries());
         if (self.pageIndex() == self.pageCount() && selectedIndex == (self.entries().length - 1)) {
             return false;
         }
@@ -91,18 +91,18 @@ var ViewModel = function () {
 };
 
 breeze.config.initializeAdapterInstances({ dataService: "OData" });
-var manager = new breeze.EntityManager('/odata/mantle/cms');
+const manager = new breeze.EntityManager('/odata/mantle/cms');
 
-var pagerInitialized = false;
-var userIds = [];
+const pagerInitialized = false;
+const userIds = [];
 
-var viewModel;
+let viewModel;
 $(document).ready(function () {
     //TODO: Maybe clear this only after a certain amount of time (not very page load)?
 
-    var keys = getLocalStorageKeys();
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
+    const keys = getLocalStorageKeys();
+    for (const i = 0; i < keys.length; i++) {
+        const key = keys[i];
         if (key.startsWith(localStorageUsersKey)) {
             localStorage.removeItem(key);
         }
@@ -116,7 +116,7 @@ $(document).ready(function () {
 function getBlogs() {
     userIds = [];
 
-    var query = new breeze.EntityQuery()
+    const query = new breeze.EntityQuery()
         .from("BlogPostApi")
         .orderBy("DateCreatedUtc desc")
         .skip((viewModel.pageIndex() - 1) * viewModel.pageSize)
@@ -129,12 +129,12 @@ function getBlogs() {
         viewModel.total(data.inlineCount);
 
         $(data.httpResponse.data.results).each(function () {
-            var current = this;
-            var entry = new BlogEntryModel();
+            const current = this;
+            const entry = new BlogEntryModel();
             entry.headline(current.Headline);
             entry.userId(current.UserId);
 
-            var date = moment(current.DateCreatedUtc);
+            const date = moment(current.DateCreatedUtc);
             entry.dateCreatedUtc(date.format(settings.dateFormat));
 
             entry.teaserImageUrl(current.TeaserImageUrl);
@@ -166,10 +166,10 @@ function getBlogs() {
 };
 
 function getUserNames() {
-    var query = new breeze.EntityQuery().from("PublicUserApi");
+    let query = new breeze.EntityQuery().from("PublicUserApi");
 
-    var predicate = null;
-    var haveAnyNew = false;
+    let predicate = null;
+    let haveAnyNew = false;
     $(userIds).each(function (index, userId) {
         if (!localStorage.getItem(localStorageUsersKey + userId)) {
             haveAnyNew = true;

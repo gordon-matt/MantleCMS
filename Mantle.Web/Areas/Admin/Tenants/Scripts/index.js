@@ -14,8 +14,8 @@
 
     const odataBaseUrl = "/odata/mantle/web/TenantApi";
 
-    var ViewModel = function () {
-        var self = this;
+    const ViewModel = function () {
+        const self = this;
 
         self.gridPageSize = 10;
         self.translations = false;
@@ -125,6 +125,7 @@
                 }]
             });
         };
+
         self.create = function () {
             self.id(0);
             self.name(null);
@@ -135,6 +136,7 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.translations.create);
         };
+
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
             self.id(data.Id);
@@ -145,9 +147,11 @@
             switchSection($("#form-section"));
             $("#form-section-legend").html(self.translations.edit);
         };
+
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${odataBaseUrl}(${id})`);
         };
+
         self.save = async function () {
             const isNew = (self.id() == 0);
 
@@ -175,6 +179,6 @@
         };
     };
 
-    var viewModel = new ViewModel();
+    const viewModel = new ViewModel();
     return viewModel;
 });
