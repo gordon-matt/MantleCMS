@@ -8,6 +8,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
     require('tinymce');
     require('tinymce-jquery');
@@ -42,64 +43,14 @@
                 }
             });
 
-            $("#PageTypesGrid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: pageTypeApiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.parent.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "PageTypesGrid",
+                pageTypeApiUrl,
+                {
+                    fields: {
+                        Name: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.parent.translations.columns.pageType.name,
                     filterable: true
@@ -111,8 +62,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
-                }]
-            });
+                }],
+                self.parent.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${pageTypeApiUrl}(${id})`);
@@ -189,66 +141,16 @@
         self.pageModelStub = null;
 
         self.init = function () {
-            $("#PageVersionGrid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: pageVersionApiUrl + "?$filter=CultureCode eq null",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Title: { type: "string" },
-                                DateModifiedUtc: { type: "date" },
-                                IsEnabled: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.parent.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "DateModifiedUtc", dir: "desc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "PageVersionGrid",
+                `${pageVersionApiUrl}?$filter=CultureCode eq null`,
+                {
+                    fields: {
+                        Title: { type: "string" },
+                        DateModifiedUtc: { type: "date" },
+                        IsEnabled: { type: "boolean" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Title",
                     title: self.parent.translations.columns.pageVersion.title,
                     filterable: true
@@ -274,8 +176,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "DateModifiedUtc", dir: "desc" });
         };
         self.restore = async function (id) {
             if (confirm(self.parent.translations.pageHistoryRestoreConfirm)) {

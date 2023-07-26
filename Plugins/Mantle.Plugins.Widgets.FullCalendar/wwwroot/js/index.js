@@ -8,6 +8,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
 
     require('Mantle-section-switching');
@@ -37,69 +38,16 @@
                 }
             });
 
-            $("#EventGrid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: eventApiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" },
-                                StartDateTime: { type: "date" },
-                                EndDateTime: { type: "date" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: [
-                        { field: "StartDateTime", dir: "desc" },
-                        { field: "Name", dir: "asc" }
-                    ]
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "EventGrid",
+                eventApiUrl,
+                {
+                    fields: {
+                        Name: { type: "string" },
+                        StartDateTime: { type: "date" },
+                        EndDateTime: { type: "date" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.parent.translations.columns.event.Name
                 }, {
@@ -121,8 +69,12 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 180
-                }]
-            });
+                }],
+                self.gridPageSize,
+                [
+                    { field: "StartDateTime", dir: "desc" },
+                    { field: "Name", dir: "asc" }
+                ]);
         };
         self.create = function () {
             self.id(0);

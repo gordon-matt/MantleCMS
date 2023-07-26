@@ -7,6 +7,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
 
     require('mantle-section-switching');
@@ -50,80 +51,22 @@
                 }
             });
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: odataBaseUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                odataBaseUrl,
+                {
+                    fields: {
+                        Name: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.translations.columns.name,
                     filterable: true
-                }, {
-                    field: "Id",
-                    title: " ",
-                    template:
-                        '<div class="btn-group">' +
-                        '<a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '</div>',
-                    attributes: { "class": "text-center" },
-                    filterable: false,
-                    width: 120
-                }]
-            });
+                },
+                    GridHelper.defaultActionColumn(self.translations.edit, self.translations.delete)
+                ],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
 
         self.create = function () {

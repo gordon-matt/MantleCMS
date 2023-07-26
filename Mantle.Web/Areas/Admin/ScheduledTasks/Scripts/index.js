@@ -1,6 +1,15 @@
-﻿define(['jquery', 'jqueryval', 'knockout', 'kendo', 'notify', 'odata-helpers', 'mantle-section-switching', 'mantle-jqueryval'],
-function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
+﻿define(function (require) {
     'use strict'
+
+    const $ = require('jquery');
+    const ko = require('knockout');
+
+    require('kendo');
+    require('notify');
+    require('grid-helper');
+    require('odata-helpers');
+    require('mantle-section-switching');
+    require('mantle-jqueryval');
 
     const odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
@@ -39,79 +48,22 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
 
             self.gridPageSize = $("#GridPageSize").val();
 
-            $("#Grid").kendoGrid({
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: odataBaseUrl,
-                            type: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                        },
-                        parameterMap: function (options, operation) {
-                            if (operation === "read") {
-                                let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
-                                if (paramMap.$inlinecount) {
-                                    if (paramMap.$inlinecount == "allpages") {
-                                        paramMap.$count = true;
-                                    }
-                                    delete paramMap.$inlinecount;
-                                }
-                                if (paramMap.$filter) {
-                                    paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                                }
-                                return paramMap;
-                            }
-                            else {
-                                return kendo.data.transports.odata.parameterMap(options, operation);
-                            }
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            id: "Id",
-                            fields: {
-                                Name: { type: "string" },
-                                Seconds: { type: "number" },
-                                Enabled: { type: "boolean" },
-                                StopOnError: { type: "boolean" },
-                                LastStartUtc: { type: "date" },
-                                LastEndUtc: { type: "date" },
-                                LastSuccessUtc: { type: "date" },
-                                Id: { type: "number" }
-                            }
-                        }
-                    },
-                    batch: false,
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                odataBaseUrl,
+                {
+                    id: "Id",
+                    fields: {
+                        Name: { type: "string" },
+                        Seconds: { type: "number" },
+                        Enabled: { type: "boolean" },
+                        StopOnError: { type: "boolean" },
+                        LastStartUtc: { type: "date" },
+                        LastEndUtc: { type: "date" },
+                        LastSuccessUtc: { type: "date" },
+                        Id: { type: "number" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.translations.columns.name,
                     filterable: true
@@ -166,8 +118,9 @@ function ($, jQVal, ko, kendo, notify, kSections, kJQVal) {
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 150,
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
 
         self.edit = async function (id) {

@@ -7,6 +7,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
     require('tinymce');
     require('tinymce-jquery');
@@ -66,67 +67,17 @@
                 }
             });
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: templateApiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            id: "Id",
-                            fields: {
-                                Name: { type: "string" },
-                                Editor: { type: "string" },
-                                Enabled: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                templateApiUrl,
+                {
+                    id: "Id",
+                    fields: {
+                        Name: { type: "string" },
+                        Editor: { type: "string" },
+                        Enabled: { type: "boolean" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.parent.translations.columns.name,
                     filterable: true
@@ -146,23 +97,24 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                            '<a data-bind="click: templateModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
-                            '<i class="fa fa-edit"></i></a>' +
+                        '<a data-bind="click: templateModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
+                        '<i class="fa fa-edit"></i></a>' +
 
-                            '<a data-bind="click: templateModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
-                            '<i class="fa fa-trash"></i></a>' +
-                    
-                            '<a data-bind="click: templateModel.toggleEnabled.bind($data,\'#=Id#\',#=Enabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
-                            '<i class="fa fa-toggle-on"></i></a>' +
+                        '<a data-bind="click: templateModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
+                        '<i class="fa fa-trash"></i></a>' +
 
-                            '<a data-bind="click: templateModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
-                            '<i class="fa fa-globe"></i></a>' +
+                        '<a data-bind="click: templateModel.toggleEnabled.bind($data,\'#=Id#\',#=Enabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
+                        '<i class="fa fa-toggle-on"></i></a>' +
+
+                        '<a data-bind="click: templateModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
+                        '<i class="fa fa-globe"></i></a>' +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 200
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
         self.create = function () {
             self.parent.currentCulture = null;

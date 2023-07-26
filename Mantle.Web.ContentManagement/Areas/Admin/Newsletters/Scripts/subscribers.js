@@ -1,5 +1,13 @@
-﻿define(['jquery', 'knockout', 'kendo', 'notify', 'odata-helpers'], function ($, ko) {
+﻿define(function (require) {
     'use strict'
+
+    const $ = require('jquery');
+    const ko = require('knockout');
+
+    require('kendo');
+    require('notify');
+    require('grid-helper');
+    require('odata-helpers');
 
     const ViewModel = function () {
         const self = this;
@@ -20,65 +28,15 @@
 
             self.gridPageSize = $("#GridPageSize").val();
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/cms/SubscriberApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" },
-                                Email: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                "/odata/mantle/cms/SubscriberApi",
+                {
+                    fields: {
+                        Name: { type: "string" },
+                        Email: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.translations.columns.name,
                     filterable: true
@@ -96,8 +54,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`/odata/mantle/cms/SubscriberApi(${id})`);

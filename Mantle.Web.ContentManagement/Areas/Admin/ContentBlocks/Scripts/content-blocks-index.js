@@ -8,6 +8,7 @@
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
     require('tinymce');
     require('tinymce-jquery');
@@ -58,74 +59,19 @@
                 }
             });
 
-            let ds = {
-                type: "odata",
-                transport: {
-                    read: {
-                        url: "/odata/mantle/cms/ContentBlockApi",
-                        dataType: "json"
-                    },
-                    parameterMap: function (options, operation) {
-                        let paramMap = kendo.data.transports.odata.parameterMap(options);
-                        if (paramMap.$inlinecount) {
-                            if (paramMap.$inlinecount == "allpages") {
-                                paramMap.$count = true;
-                            }
-                            delete paramMap.$inlinecount;
-                        }
-                        if (paramMap.$filter) {
-                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                        }
-                        return paramMap;
-                    }
-                },
-                schema: {
-                    data: function (data) {
-                        return data.value;
-                    },
-                    total: function (data) {
-                        return data["@odata.count"];
-                    },
-                    model: {
-                        fields: {
-                            Title: { type: "string" },
-                            BlockName: { type: "string" },
-                            Order: { type: "number" },
-                            IsEnabled: { type: "boolean" }
-                        }
-                    }
-                },
-                pageSize: self.parent.gridPageSize,
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
-                sort: { field: "Title", dir: "asc" }
-            };
+            const isForPage = (self.parent.pageId && self.parent.pageId != '');
 
-            // Override grid data source if necessary (to filter by Page ID)
-            if (self.parent.pageId && self.parent.pageId != '') {
-                ds.transport.read.url = "/odata/mantle/cms/ContentBlockApi/Default.GetByPageId(pageId=" + self.parent.pageId + ")";
-            }
-
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: ds,
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                isForPage ? `/odata/mantle/cms/ContentBlockApi/Default.GetByPageId(pageId=${self.parent.pageId})` : "/odata/mantle/cms/ContentBlockApi",
+                {
+                    fields: {
+                        Title: { type: "string" },
+                        BlockName: { type: "string" },
+                        Order: { type: "number" },
+                        IsEnabled: { type: "boolean" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Title",
                     title: self.parent.translations.columns.title,
                     filterable: true
@@ -157,8 +103,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 250
-                }]
-            });
+                }],
+                self.parent.gridPageSize,
+                { field: "Title", dir: "asc" });
         };
         self.create = function () {
             self.id(emptyGuid);
@@ -380,64 +327,14 @@
                 }
             });
 
-            $("#ZoneGrid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/cms/ZoneApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.parent.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "ZoneGrid",
+                "/odata/mantle/cms/ZoneApi",
+                {
+                    fields: {
+                        Name: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.parent.translations.columns.name,
                     filterable: true
@@ -450,8 +347,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
         self.create = function () {
             self.id(emptyGuid);

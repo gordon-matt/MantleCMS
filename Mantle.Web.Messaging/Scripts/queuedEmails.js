@@ -6,6 +6,7 @@
 
     require('kendo');
     require('notify');
+    require('grid-helper');
     require('odata-helpers');
 
     const ViewModel = function () {
@@ -27,69 +28,19 @@
 
             self.gridPageSize = $("#GridPageSize").val();
 
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/web/messaging/QueuedEmailApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            id: "Id",
-                            fields: {
-                                Subject: { type: "string" },
-                                ToAddress: { type: "string" },
-                                CreatedOnUtc: { type: "date" },
-                                SentOnUtc: { type: "date" },
-                                SentTries: { type: "number" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "CreatedOnUtc", dir: "desc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoGrid(
+                "Grid",
+                "/odata/mantle/web/messaging/QueuedEmailApi",
+                {
+                    id: "Id",
+                    fields: {
+                        Subject: { type: "string" },
+                        ToAddress: { type: "string" },
+                        CreatedOnUtc: { type: "date" },
+                        SentOnUtc: { type: "date" },
+                        SentTries: { type: "number" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Subject",
                     title: self.translations.columns.subject,
                     filterable: true
@@ -120,8 +71,9 @@
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 100
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "CreatedOnUtc", dir: "desc" });
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`/odata/mantle/web/messaging/QueuedEmailApi(${id})`);
