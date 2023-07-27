@@ -22,54 +22,40 @@ namespace Mantle.Web.Mvc.Resources
             urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
         }
 
-        protected override string BundleBasePath => "/js/bundles/";
-
         protected override string VirtualBasePath => "/js"; // TODO: Make configurable?
 
         protected override ResourceLocation DefaultLocation => ResourceLocation.Foot;
 
-        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreIfExists = false)
-        {
-            base.IncludeInline(
-                string.Concat("<script type=\"text/javascript\">", code, "</script>"),
-                location,
-                ignoreIfExists);
-        }
+        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreIfExists = false) =>
+            base.IncludeInline($"<script type=\"text/javascript\">${code}</script>", location, ignoreIfExists);
 
-        protected override string BuildInlineResources(IEnumerable<string> resources)
-        {
-            return string.Format("{0}{1}{0}", Environment.NewLine, string.Join(Environment.NewLine, resources));
-        }
+        protected override string BuildInlineResources(IEnumerable<string> resources) =>
+            $"{Environment.NewLine}{string.Join(Environment.NewLine, resources)}{Environment.NewLine}";
 
         protected override string BuildResource(ResourceEntry resource)
         {
-            var builder = new FluentTagBuilder("script")
+            return new FluentTagBuilder("script")
                 .MergeAttribute("type", "text/javascript")
                 .MergeAttribute("src", urlHelper.Content(resource.Path))
-                .MergeAttributes(resource.HtmlAttributes);
-
-            return builder.ToString();
+                .MergeAttributes(resource.HtmlAttributes)
+                .ToString();
         }
 
-        public IDisposable AtFoot(IHtmlHelper html)
-        {
-            return new ScriptBlock(html.ViewContext, s => base.IncludeInline(s.GetString(), ResourceLocation.Foot));
-        }
+        public IDisposable AtFoot(IHtmlHelper html) => new ScriptBlock(html.ViewContext, s => base.IncludeInline(s.GetString(), ResourceLocation.Foot));
 
         private class ScriptBlock : IDisposable
         {
             private readonly Action<IHtmlContent> callback;
 
-            private ViewContext viewContext;
-            private TextWriter originalWriter;
-            private HtmlTextWriter scriptWriter;
+            private readonly ViewContext viewContext;
+            private readonly TextWriter originalWriter;
+            private readonly HtmlTextWriter scriptWriter;
             private bool isDisposed;
 
             public ScriptBlock(ViewContext viewContext, Action<IHtmlContent> callback)
             {
                 this.viewContext = viewContext;
                 this.callback = callback;
-
                 originalWriter = viewContext.Writer;
                 viewContext.Writer = scriptWriter = new HtmlTextWriter();
             }
@@ -89,6 +75,7 @@ namespace Mantle.Web.Mvc.Resources
                 {
                     // Restore the original TextWriter
                     viewContext.Writer = originalWriter;
+                    scriptWriter?.Dispose();
                     isDisposed = true;
                 }
             }
