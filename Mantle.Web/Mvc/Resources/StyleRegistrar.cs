@@ -19,31 +19,24 @@ namespace Mantle.Web.Mvc.Resources
             urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
         }
 
-        protected override string BundleBasePath => "/css/bundles/";
-
         protected override string VirtualBasePath => "/css"; // TODO: Make configurable?
 
         protected override ResourceLocation DefaultLocation => ResourceLocation.Head;
 
-        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreIfExists = false)
-        {
+        public override void IncludeInline(string code, ResourceLocation? location = null, bool ignoreIfExists = false) =>
             throw new NotSupportedException();
-        }
 
-        protected override string BuildInlineResources(IEnumerable<string> resources)
-        {
-            return string.Format("<style type=\"text/css\">{0}</style>", string.Join(Environment.NewLine, resources));
-        }
+        protected override string BuildInlineResources(IEnumerable<string> resources) =>
+            $"<style type=\"text/css\">{string.Join(Environment.NewLine, resources)}</style>";
 
         protected override string BuildResource(ResourceEntry resource)
         {
-            var builder = new FluentTagBuilder("link", TagRenderMode.SelfClosing)
+            return new FluentTagBuilder("link", TagRenderMode.SelfClosing)
                 .MergeAttribute("type", "text/css")
                 .MergeAttribute("rel", "stylesheet")
                 .MergeAttribute("href", urlHelper.Content(resource.Path))
-                .MergeAttributes(resource.HtmlAttributes);
-
-            return builder.ToString();
+                .MergeAttributes(resource.HtmlAttributes)
+                .ToString();
         }
     }
 }

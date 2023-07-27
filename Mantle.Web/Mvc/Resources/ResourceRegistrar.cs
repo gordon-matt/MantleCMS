@@ -7,19 +7,18 @@ namespace Mantle.Web.Mvc.Resources
     {
         private readonly IWorkContext workContext;
 
-        protected readonly Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>> resources =
-            new Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>>();
+        protected readonly Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>> resources = new();
 
-        protected readonly Dictionary<ResourceLocation, List<string>> inlineResources = new Dictionary<ResourceLocation, List<string>>();
+        protected readonly Dictionary<ResourceLocation, List<string>> inlineResources = new();
 
         protected ResourceRegistrar(IWorkContext workContext)
         {
             this.workContext = workContext;
         }
 
-        protected abstract string BundleBasePath { get; }
-
         protected abstract string VirtualBasePath { get; }
+
+        protected virtual string BundleBasePath => $"{VirtualBasePath}/bundles/";
 
         protected abstract ResourceLocation DefaultLocation { get; }
 
@@ -35,13 +34,13 @@ namespace Mantle.Web.Mvc.Resources
             {
                 var virtualBasePath = VirtualBasePath.TrimStart('/');
                 resourceEntry = new ResourceEntry(
-                    string.Format("/Themes/{0}/{1}/{2}", workContext.CurrentTheme, virtualBasePath, path),
+                    $"/Themes/{workContext.CurrentTheme}/{virtualBasePath}/{path}",
                     location ?? DefaultLocation);
             }
             else
             {
                 resourceEntry = new ResourceEntry(
-                    string.Concat(VirtualBasePath, "/", path),
+                    $"{VirtualBasePath}/{path}",
                     location ?? DefaultLocation);
             }
             RegisterResource(resourceEntry);
@@ -56,10 +55,7 @@ namespace Mantle.Web.Mvc.Resources
             return resourceEntry;
         }
 
-        public virtual string GetBundleUrl(string bundleName)
-        {
-            return string.Concat(BundleBasePath, bundleName);
-        }
+        public virtual string GetBundleUrl(string bundleName) => string.Concat(BundleBasePath, bundleName);
 
         public virtual ResourceEntry IncludeBundle(
             string bundleName,
