@@ -1,72 +1,64 @@
-﻿using Extenso.AspNetCore.Mvc.Rendering;
-using Mantle.Infrastructure;
-using Mantle.Web.Configuration;
-using Mantle.Web.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿namespace Mantle.Web.Areas.Admin.Configuration.Controllers;
 
-namespace Mantle.Web.Areas.Admin.Configuration.Controllers
+[Authorize]
+[Area(MantleWebConstants.Areas.Configuration)]
+[Route("admin/configuration/settings")]
+public class SettingsController : MantleController
 {
-    [Authorize]
-    [Area(MantleWebConstants.Areas.Configuration)]
-    [Route("admin/configuration/settings")]
-    public class SettingsController : MantleController
+    private readonly Lazy<IEnumerable<ISettings>> settings;
+
+    public SettingsController(Lazy<IEnumerable<ISettings>> settings)
+        : base()
     {
-        private readonly Lazy<IEnumerable<ISettings>> settings;
+        this.settings = settings;
+    }
 
-        public SettingsController(Lazy<IEnumerable<ISettings>> settings)
-            : base()
+    [Route("")]
+    public IActionResult Index()
+    {
+        if (!CheckPermission(MantleWebPermissions.SettingsRead))
         {
-            this.settings = settings;
+            return Unauthorized();
         }
 
-        [Route("")]
-        public IActionResult Index()
+        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Configuration].Value);
+        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Settings].Value);
+
+        ViewBag.Title = T[MantleWebLocalizableStrings.General.Configuration].Value;
+        ViewBag.SubTitle = T[MantleWebLocalizableStrings.General.Settings].Value;
+
+        return PartialView();
+    }
+
+    //[OutputCache(Duration = 86400, VaryByParam = "none")]
+    [Route("get-translations")]
+    public JsonResult GetTranslations()
+    {
+        return Json(new
         {
-            if (!CheckPermission(MantleWebPermissions.SettingsRead))
+            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
+            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
+            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
+            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
+            Columns = new
             {
-                return Unauthorized();
+                Name = T[MantleWebLocalizableStrings.Settings.Model.Name].Value,
             }
+        });
+    }
 
-            WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Configuration].Value);
-            WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Settings].Value);
+    [Route("get-editor-ui/{type}")]
+    public async Task<IActionResult> GetEditorUI(string type)
+    {
+        var model = settings.Value.FirstOrDefault(x => x.GetType().FullName == type.Replace('-', '.'));
 
-            ViewBag.Title = T[MantleWebLocalizableStrings.General.Configuration].Value;
-            ViewBag.SubTitle = T[MantleWebLocalizableStrings.General.Settings].Value;
-
-            return PartialView();
-        }
-
-        //[OutputCache(Duration = 86400, VaryByParam = "none")]
-        [Route("get-translations")]
-        public JsonResult GetTranslations()
+        if (model == null)
         {
-            return Json(new
-            {
-                Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-                GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-                UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-                UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-                Columns = new
-                {
-                    Name = T[MantleWebLocalizableStrings.Settings.Model.Name].Value,
-                }
-            });
+            return NotFound();
         }
 
-        [Route("get-editor-ui/{type}")]
-        public async Task<IActionResult> GetEditorUI(string type)
-        {
-            var model = settings.Value.FirstOrDefault(x => x.GetType().FullName == type.Replace('-', '.'));
-
-            if (model == null)
-            {
-                return NotFound();
-            }
-
-            var razorViewRenderService = EngineContext.Current.Resolve<IRazorViewRenderService>();
-            string content = await razorViewRenderService.RenderToStringAsync(model.EditorTemplatePath, model);
-            return Json(new { Content = content });
-        }
+        var razorViewRenderService = EngineContext.Current.Resolve<IRazorViewRenderService>();
+        string content = await razorViewRenderService.RenderToStringAsync(model.EditorTemplatePath, model);
+        return Json(new { Content = content });
     }
 }

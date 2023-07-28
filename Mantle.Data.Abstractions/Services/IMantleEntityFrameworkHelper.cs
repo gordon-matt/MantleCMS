@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace Mantle.Data.Services;
 
-namespace Mantle.Data.Services
+public interface IMantleEntityFrameworkHelper
 {
-    public interface IMantleEntityFrameworkHelper
-    {
-        void EnsureTables<TContext>(TContext context) where TContext : DbContext;
-    }
+    void EnsureTables<TContext>(TContext context) where TContext : DbContext;
 }

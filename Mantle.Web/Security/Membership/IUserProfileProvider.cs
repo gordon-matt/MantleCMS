@@ -1,17 +1,16 @@
-﻿namespace Mantle.Web.Security.Membership
+﻿namespace Mantle.Web.Security.Membership;
+
+public interface IUserProfileProvider
 {
-    public interface IUserProfileProvider
-    {
-        string Name { get; }
+    string Name { get; }
 
-        string DisplayTemplatePath { get; }
+    string DisplayTemplatePath { get; }
 
-        string EditorTemplatePath { get; }
+    string EditorTemplatePath { get; }
 
-        int Order { get; }
+    int Order { get; }
 
-        IEnumerable<string> GetFieldNames();
+    IEnumerable<string> GetFieldNames();
 
-        void PopulateFields(string userId);
-    }
+    void PopulateFields(string userId);
 }

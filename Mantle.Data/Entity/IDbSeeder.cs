@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace Mantle.Data.Entity;
 
-namespace Mantle.Data.Entity
+public interface IDbSeeder
 {
-    public interface IDbSeeder
-    {
-        void Seed(DbContext context);
+    void Seed(DbContext context);
 
-        int Order { get; }
-    }
+    int Order { get; }
 }

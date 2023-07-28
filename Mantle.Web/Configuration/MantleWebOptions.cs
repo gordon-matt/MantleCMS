@@ -1,19 +1,18 @@
-﻿namespace Mantle.Web.Configuration
+﻿namespace Mantle.Web.Configuration;
+
+public class MantleWebOptions
 {
-    public class MantleWebOptions
+    public MantleWebOptions()
     {
-        public MantleWebOptions()
-        {
-            Resources = new Resources();
-        }
-
-        public Resources Resources { get; set; }
+        Resources = new Resources();
     }
 
-    public class Resources
-    {
-        public string ScriptsBasePath { get; set; }
+    public Resources Resources { get; set; }
+}
 
-        public string StylesBasePath { get; set; }
-    }
+public class Resources
+{
+    public string ScriptsBasePath { get; set; }
+
+    public string StylesBasePath { get; set; }
 }

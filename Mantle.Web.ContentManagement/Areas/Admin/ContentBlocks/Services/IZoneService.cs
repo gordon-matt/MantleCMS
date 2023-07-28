@@ -1,19 +1,15 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Caching;
-using Mantle.Data.Services;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services
+namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
+
+public interface IZoneService : IGenericDataService<Zone>
 {
-    public interface IZoneService : IGenericDataService<Zone>
-    {
-    }
+}
 
-    public class ZoneService : GenericDataService<Zone>, IZoneService
+public class ZoneService : GenericDataService<Zone>, IZoneService
+{
+    public ZoneService(ICacheManager cacheManager, IRepository<Zone> repository)
+        : base(cacheManager, repository)
     {
-        public ZoneService(ICacheManager cacheManager, IRepository<Zone> repository)
-            : base(cacheManager, repository)
-        {
-        }
     }
 }

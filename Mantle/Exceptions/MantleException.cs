@@ -1,26 +1,25 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Mantle.Exceptions
+namespace Mantle.Exceptions;
+
+public class MantleException : Exception
 {
-    public class MantleException : Exception
+    public MantleException()
     {
-        public MantleException()
-        {
-        }
+    }
 
-        public MantleException(string message)
-            : base(message)
-        {
-        }
+    public MantleException(string message)
+        : base(message)
+    {
+    }
 
-        public MantleException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+    public MantleException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
 
-        protected MantleException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+    protected MantleException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
     }
 }

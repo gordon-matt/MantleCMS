@@ -1,120 +1,114 @@
 ﻿using Mantle.Localization.Domain;
-using Mantle.Localization.Services;
-using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
-using Mantle.Web.OData;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
 
-namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
+namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api;
+
+public class RegionApiController : GenericTenantODataController<Region, int>
 {
-    public class RegionApiController : GenericTenantODataController<Region, int>
+    private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;
+
+    public RegionApiController(
+        IRegionService service,
+        Lazy<ILocalizablePropertyService> localizablePropertyService)
+        : base(service)
     {
-        private readonly Lazy<ILocalizablePropertyService> localizablePropertyService;
+        this.localizablePropertyService = localizablePropertyService;
+    }
 
-        public RegionApiController(
-            IRegionService service,
-            Lazy<ILocalizablePropertyService> localizablePropertyService)
-            : base(service)
+    protected override int GetId(Region entity)
+    {
+        return entity.Id;
+    }
+
+    protected override void SetNewId(Region entity)
+    {
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetLocalized([FromODataUri] int id, [FromODataUri] string cultureCode)
+    {
+        if (!CheckPermission(ReadPermission))
         {
-            this.localizablePropertyService = localizablePropertyService;
+            return Unauthorized();
         }
 
-        protected override int GetId(Region entity)
+        if (id == 0)
         {
-            return entity.Id;
+            return BadRequest();
         }
 
-        protected override void SetNewId(Region entity)
+        var entity = await Service.FindOneAsync(id);
+
+        if (entity == null)
         {
+            return NotFound();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetLocalized([FromODataUri] int id, [FromODataUri] string cultureCode)
+        string entityType = typeof(Region).FullName;
+        string entityId = entity.Id.ToString();
+
+        var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
+        if (localizedRecord != null)
         {
-            if (!CheckPermission(ReadPermission))
-            {
-                return Unauthorized();
-            }
-
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-
-            var entity = await Service.FindOneAsync(id);
-
-            if (entity == null)
-            {
-                return NotFound();
-            }
-
-            string entityType = typeof(Region).FullName;
-            string entityId = entity.Id.ToString();
-
-            var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
-            if (localizedRecord != null)
-            {
-                entity.Name = localizedRecord.Value;
-            }
-
-            return Ok(entity);
+            entity.Name = localizedRecord.Value;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveLocalized([FromBody] ODataActionParameters parameters)
+        return Ok(entity);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveLocalized([FromBody] ODataActionParameters parameters)
+    {
+        if (!CheckPermission(WritePermission))
         {
-            if (!CheckPermission(WritePermission))
-            {
-                return Unauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            string cultureCode = (string)parameters["cultureCode"];
-            var entity = (Region)parameters["entity"];
-
-            if (entity.Id == 0)
-            {
-                return BadRequest();
-            }
-            string entityType = typeof(Region).FullName;
-            string entityId = entity.Id.ToString();
-
-            var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
-            if (localizedRecord == null)
-            {
-                localizedRecord = new LocalizableProperty
-                {
-                    CultureCode = cultureCode,
-                    EntityType = entityType,
-                    EntityId = entityId,
-                    Property = "Name",
-                    Value = entity.Name
-                };
-                await localizablePropertyService.Value.InsertAsync(localizedRecord);
-                return Ok();
-            }
-            else
-            {
-                localizedRecord.Value = entity.Name;
-                await localizablePropertyService.Value.UpdateAsync(localizedRecord);
-                return Ok();
-            }
+            return Unauthorized();
         }
 
-        protected override Permission ReadPermission
+        if (!ModelState.IsValid)
         {
-            get { return Permissions.RegionsRead; }
+            return BadRequest(ModelState);
         }
 
-        protected override Permission WritePermission
+        string cultureCode = (string)parameters["cultureCode"];
+        var entity = (Region)parameters["entity"];
+
+        if (entity.Id == 0)
         {
-            get { return Permissions.RegionsWrite; }
+            return BadRequest();
         }
+        string entityType = typeof(Region).FullName;
+        string entityId = entity.Id.ToString();
+
+        var localizedRecord = localizablePropertyService.Value.FindOne(cultureCode, entityType, entityId, "Name");
+        if (localizedRecord == null)
+        {
+            localizedRecord = new LocalizableProperty
+            {
+                CultureCode = cultureCode,
+                EntityType = entityType,
+                EntityId = entityId,
+                Property = "Name",
+                Value = entity.Name
+            };
+            await localizablePropertyService.Value.InsertAsync(localizedRecord);
+            return Ok();
+        }
+        else
+        {
+            localizedRecord.Value = entity.Name;
+            await localizablePropertyService.Value.UpdateAsync(localizedRecord);
+            return Ok();
+        }
+    }
+
+    protected override Permission ReadPermission
+    {
+        get { return Permissions.RegionsRead; }
+    }
+
+    protected override Permission WritePermission
+    {
+        get { return Permissions.RegionsWrite; }
     }
 }

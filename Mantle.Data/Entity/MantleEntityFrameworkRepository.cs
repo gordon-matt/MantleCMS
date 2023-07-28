@@ -1,34 +1,30 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-namespace Mantle.Data.Entity
+namespace Mantle.Data.Entity;
+
+public class MantleEntityFrameworkRepository<TEntity> : EntityFrameworkRepository<TEntity>
+    where TEntity : class, IEntity
 {
-    public class MantleEntityFrameworkRepository<TEntity> : EntityFrameworkRepository<TEntity>
-        where TEntity : class, IEntity
+    private new IDbContextFactory contextFactory;
+
+    #region Constructor
+
+    public MantleEntityFrameworkRepository(
+        IDbContextFactory contextFactory,
+        ILoggerFactory loggerFactory)
+        : base(contextFactory, loggerFactory)
     {
-        private new IDbContextFactory contextFactory;
+        this.contextFactory = contextFactory;
+    }
 
-        #region Constructor
+    #endregion Constructor
 
-        public MantleEntityFrameworkRepository(
-            IDbContextFactory contextFactory,
-            ILoggerFactory loggerFactory)
-            : base(contextFactory, loggerFactory)
+    protected override DbContext GetContext()
+    {
+        if (contextFactory == null)
         {
-            this.contextFactory = contextFactory;
+            contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
         }
-
-        #endregion Constructor
-
-        protected override DbContext GetContext()
-        {
-            if (contextFactory == null)
-            {
-                contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-            }
-            return contextFactory.GetContext();
-        }
+        return contextFactory.GetContext();
     }
 }

@@ -1,13 +1,12 @@
-﻿namespace Mantle.Web.Mvc.MantleUI
+﻿namespace Mantle.Web.Mvc.MantleUI;
+
+public enum State : byte
 {
-    public enum State : byte
-    {
-        Default,
-        Primary,
-        Info,
-        Success,
-        Warning,
-        Important,
-        Inverse
-    }
+    Default,
+    Primary,
+    Info,
+    Success,
+    Warning,
+    Important,
+    Inverse
 }

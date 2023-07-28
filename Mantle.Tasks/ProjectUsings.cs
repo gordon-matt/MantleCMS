@@ -1,0 +1,12 @@
+﻿global using Autofac;
+global using Extenso;
+global using Extenso.Collections;
+global using Extenso.Data.Entity;
+global using Mantle.Data.Entity;
+global using Mantle.Infrastructure;
+global using Mantle.Tasks.Configuration;
+global using Mantle.Tasks.Domain;
+global using Mantle.Tasks.Services;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using System.Collections.ObjectModel;

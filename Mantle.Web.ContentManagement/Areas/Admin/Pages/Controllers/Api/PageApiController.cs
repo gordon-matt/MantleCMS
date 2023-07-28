@@ -1,58 +1,54 @@
-﻿using Mantle.Security.Membership.Permissions;
-using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Mantle.Web.OData;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
+namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api;
+
+public class PageApiController : GenericTenantODataController<Page, Guid>
 {
-    public class PageApiController : GenericTenantODataController<Page, Guid>
+    private readonly IPageVersionService pageVersionService;
+    private readonly IWorkContext workContext;
+
+    public PageApiController(
+        IPageService service,
+        IPageVersionService pageVersionService,
+        IWorkContext workContext)
+        : base(service)
     {
-        private readonly IPageVersionService pageVersionService;
-        private readonly IWorkContext workContext;
+        this.pageVersionService = pageVersionService;
+        this.workContext = workContext;
+    }
 
-        public PageApiController(
-            IPageService service,
-            IPageVersionService pageVersionService,
-            IWorkContext workContext)
-            : base(service)
+    protected override Guid GetId(Page entity)
+    {
+        return entity.Id;
+    }
+
+    protected override void SetNewId(Page entity)
+    {
+        entity.Id = Guid.NewGuid();
+    }
+
+    protected override Permission ReadPermission
+    {
+        get { return CmsPermissions.PagesRead; }
+    }
+
+    protected override Permission WritePermission
+    {
+        get { return CmsPermissions.PagesWrite; }
+    }
+
+    [HttpGet]
+    public IActionResult GetTopLevelPages()
+    {
+        if (!CheckPermission(ReadPermission))
         {
-            this.pageVersionService = pageVersionService;
-            this.workContext = workContext;
+            return Unauthorized();
         }
 
-        protected override Guid GetId(Page entity)
-        {
-            return entity.Id;
-        }
+        int tenantId = GetTenantId();
+        var topLevelPages = (Service as IPageService).GetTopLevelPages(tenantId);
 
-        protected override void SetNewId(Page entity)
-        {
-            entity.Id = Guid.NewGuid();
-        }
-
-        protected override Permission ReadPermission
-        {
-            get { return CmsPermissions.PagesRead; }
-        }
-
-        protected override Permission WritePermission
-        {
-            get { return CmsPermissions.PagesWrite; }
-        }
-
-        [HttpGet]
-        public IActionResult GetTopLevelPages()
-        {
-            if (!CheckPermission(ReadPermission))
-            {
-                return Unauthorized();
-            }
-
-            int tenantId = GetTenantId();
-            var topLevelPages = (Service as IPageService).GetTopLevelPages(tenantId);
-
-            return Ok(topLevelPages);
-        }
+        return Ok(topLevelPages);
     }
 }

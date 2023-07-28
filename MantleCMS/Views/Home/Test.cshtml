@@ -1,16 +1,14 @@
 ﻿@* This page is a kind of sandbox, just for testing things... *@
 @using Mantle.Web.ContentManagement
+@addTagHelper *, Mantle.Web
 
-@{
-    Style.IncludeBundle("kendo-ui.css");
-}
+@*<script asp-location="Foot" src="/lib/chosen-js/chosen.jquery.js"></script>
+<script asp-location="Foot" src="/lib/bootstrap-fileinput/js/fileinput.js"></script>
+*@
+<script asp-location="Foot">
+    alert('yay!!');
+</script>
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        var test = '123';
-    </script>
-}
 
 @*@Url.Script("/js/knockout-3.4.0.js")*@
 

@@ -1,176 +1,186 @@
-﻿using Mantle.Exceptions;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
+﻿namespace Mantle.Web;
 
-namespace Mantle.Web
+public partial interface IWebHelper
 {
-    public partial interface IWebHelper
+    string ContentRootPath { get; }
+
+    string WebRootPath { get; }
+
+    bool IsCurrentConnectionSecured();
+
+    string GetRemoteIpAddress();
+
+    string GetUrlHost(bool? useSsl = null);
+
+    string GetUrlReferrer();
+
+    //string MapPath(string path, string basePath = null);
+
+    //void DeleteDirectory(string path);
+
+    void RestartAppDomain();
+
+    bool IsAjaxRequest(HttpRequest request);
+}
+
+public partial class WebHelper : IWebHelper
+{
+    private readonly IHostApplicationLifetime applicationLifetime;
+    private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly IHttpContextAccessor httpContextAccessor;
+
+    public string ContentRootPath => webHostEnvironment.ContentRootPath;
+
+    public string WebRootPath => webHostEnvironment.WebRootPath;
+
+    public WebHelper(
+        IHostApplicationLifetime applicationLifetime,
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor)
     {
-        string ContentRootPath { get; }
-
-        string WebRootPath { get; }
-
-        bool IsCurrentConnectionSecured();
-
-        string GetRemoteIpAddress();
-
-        string GetUrlHost(bool? useSsl = null);
-
-        string GetUrlReferrer();
-
-        //string MapPath(string path, string basePath = null);
-
-        //void DeleteDirectory(string path);
-
-        void RestartAppDomain();
+        this.applicationLifetime = applicationLifetime;
+        this.webHostEnvironment = webHostEnvironment;
+        this.httpContextAccessor = httpContextAccessor;
     }
 
-    public partial class WebHelper : IWebHelper
+    public virtual bool IsCurrentConnectionSecured()
     {
-        private readonly IHostApplicationLifetime applicationLifetime;
-        private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly IHttpContextAccessor httpContextAccessor;
-
-        public string ContentRootPath => webHostEnvironment.ContentRootPath;
-
-        public string WebRootPath => webHostEnvironment.WebRootPath;
-
-        public WebHelper(
-            IHostApplicationLifetime applicationLifetime,
-            IWebHostEnvironment webHostEnvironment,
-            IHttpContextAccessor httpContextAccessor)
+        if (!IsRequestAvailable())
         {
-            this.applicationLifetime = applicationLifetime;
-            this.webHostEnvironment = webHostEnvironment;
-            this.httpContextAccessor = httpContextAccessor;
+            return false;
         }
 
-        public virtual bool IsCurrentConnectionSecured()
+        return httpContextAccessor.HttpContext.Request.IsHttps;
+    }
+
+    public virtual string GetRemoteIpAddress()
+    {
+        return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+    }
+
+    public virtual string GetUrlHost(bool? useSsl = null)
+    {
+        if (!IsRequestAvailable())
         {
-            if (!IsRequestAvailable())
+            return string.Empty;
+        }
+
+        var hostHeader = httpContextAccessor.HttpContext?.Request?.Headers[HeaderNames.Host];
+
+        if (!hostHeader.HasValue || StringValues.IsNullOrEmpty(hostHeader.Value))
+        {
+            return string.Empty;
+        }
+
+        if (!useSsl.HasValue)
+        {
+            useSsl = IsCurrentConnectionSecured();
+        }
+
+        string host = $"{(useSsl.Value ? Uri.UriSchemeHttps : Uri.UriSchemeHttp)}{Uri.SchemeDelimiter}{hostHeader.Value.FirstOrDefault()}";
+
+        // Ensure that host ends with a slash
+        host = $"{host.TrimEnd('/')}/";
+
+        return host;
+    }
+
+    public virtual string GetUrlReferrer()
+    {
+        return httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Referer];
+    }
+
+    //public virtual string MapPath(string path, string basePath = null)
+    //{
+    //    if (string.IsNullOrEmpty(basePath))
+    //    {
+    //        basePath = WebRootPath;
+    //    }
+
+    //    path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
+    //    return Path.Combine(basePath, path);
+    //}
+
+    ///// <summary>
+    /////  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
+    ///// </summary>
+    ///// <param name="path">Directory path</param>
+    //public void DeleteDirectory(string path)
+    //{
+    //    if (string.IsNullOrEmpty(path))
+    //        throw new ArgumentNullException(path);
+
+    //    //find more info about directory deletion
+    //    //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
+
+    //    foreach (var directory in Directory.GetDirectories(path))
+    //    {
+    //        DeleteDirectory(directory);
+    //    }
+
+    //    try
+    //    {
+    //        Directory.Delete(path, true);
+    //    }
+    //    catch (IOException)
+    //    {
+    //        Directory.Delete(path, true);
+    //    }
+    //    catch (UnauthorizedAccessException)
+    //    {
+    //        Directory.Delete(path, true);
+    //    }
+    //}
+
+    public virtual void RestartAppDomain()
+    {
+        try
+        {
+            // TODO: Test in IIS
+            applicationLifetime.StopApplication();
+        }
+        catch
+        {
+            throw new MantleException(
+                $"This site needs to be restarted, but was unable to do so.{Environment.NewLine}Please restart it manually for changes to take effect.");
+        }
+    }
+
+    protected virtual bool IsRequestAvailable()
+    {
+        if (httpContextAccessor?.HttpContext == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (httpContextAccessor.HttpContext.Request == null)
             {
                 return false;
             }
-
-            return httpContextAccessor.HttpContext.Request.IsHttps;
         }
-
-        public virtual string GetRemoteIpAddress()
+        catch
         {
-            return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            return false;
         }
 
-        public virtual string GetUrlHost(bool? useSsl = null)
-        {
-            if (!IsRequestAvailable())
-            {
-                return string.Empty;
-            }
+        return true;
+    }
 
-            var hostHeader = httpContextAccessor.HttpContext?.Request?.Headers[HeaderNames.Host];
+    /// <summary>
+    /// Gets whether the request is made with AJAX
+    /// </summary>
+    /// <param name="request">HTTP request</param>
+    /// <returns>Result</returns>
+    public virtual bool IsAjaxRequest(HttpRequest request)
+    {
+        if (request == null)
+            throw new ArgumentNullException(nameof(request));
 
-            if (!hostHeader.HasValue || StringValues.IsNullOrEmpty(hostHeader.Value))
-            {
-                return string.Empty;
-            }
+        if (request.Headers == null)
+            return false;
 
-            if (!useSsl.HasValue)
-            {
-                useSsl = IsCurrentConnectionSecured();
-            }
-
-            string host = $"{(useSsl.Value ? Uri.UriSchemeHttps : Uri.UriSchemeHttp)}{Uri.SchemeDelimiter}{hostHeader.Value.FirstOrDefault()}";
-
-            // Ensure that host ends with a slash
-            host = $"{host.TrimEnd('/')}/";
-
-            return host;
-        }
-
-        public virtual string GetUrlReferrer()
-        {
-            return httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Referer];
-        }
-
-        //public virtual string MapPath(string path, string basePath = null)
-        //{
-        //    if (string.IsNullOrEmpty(basePath))
-        //    {
-        //        basePath = WebRootPath;
-        //    }
-
-        //    path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
-        //    return Path.Combine(basePath, path);
-        //}
-
-        ///// <summary>
-        /////  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
-        ///// </summary>
-        ///// <param name="path">Directory path</param>
-        //public void DeleteDirectory(string path)
-        //{
-        //    if (string.IsNullOrEmpty(path))
-        //        throw new ArgumentNullException(path);
-
-        //    //find more info about directory deletion
-        //    //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
-
-        //    foreach (var directory in Directory.GetDirectories(path))
-        //    {
-        //        DeleteDirectory(directory);
-        //    }
-
-        //    try
-        //    {
-        //        Directory.Delete(path, true);
-        //    }
-        //    catch (IOException)
-        //    {
-        //        Directory.Delete(path, true);
-        //    }
-        //    catch (UnauthorizedAccessException)
-        //    {
-        //        Directory.Delete(path, true);
-        //    }
-        //}
-
-        public virtual void RestartAppDomain()
-        {
-            try
-            {
-                // TODO: Test in IIS
-                applicationLifetime.StopApplication();
-            }
-            catch
-            {
-                throw new MantleException(
-                    $"This site needs to be restarted, but was unable to do so.{Environment.NewLine}Please restart it manually for changes to take effect.");
-            }
-        }
-
-        protected virtual bool IsRequestAvailable()
-        {
-            if (httpContextAccessor?.HttpContext == null)
-            {
-                return false;
-            }
-
-            try
-            {
-                if (httpContextAccessor.HttpContext.Request == null)
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
+        return request.Headers["X-Requested-With"] == "XMLHttpRequest";
     }
 }

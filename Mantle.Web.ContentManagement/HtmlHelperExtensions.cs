@@ -1,225 +1,218 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Infrastructure;
-using Mantle.Web.Collections;
-using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq.Expressions;
 
-namespace Mantle.Web.ContentManagement
+namespace Mantle.Web.ContentManagement;
+
+public static class HtmlHelperExtensions
 {
-    public static class HtmlHelperExtensions
+    public static MantleCMS<TModel> MantleCMS<TModel>(this IHtmlHelper<TModel> html) where TModel : class
     {
-        public static MantleCMS<TModel> MantleCMS<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-        {
-            return new MantleCMS<TModel>(html);
-        }
+        return new MantleCMS<TModel>(html);
+    }
+}
+
+public enum WidgetColumns : byte
+{
+    Default = 0,
+    One = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4
+}
+
+public class MantleCMS<TModel>
+    where TModel : class
+{
+    private readonly IHtmlHelper<TModel> html;
+
+    internal MantleCMS(IHtmlHelper<TModel> html)
+    {
+        this.html = html;
     }
 
-    public enum WidgetColumns : byte
+    public IHtmlContent BlogCategoryDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
     {
-        Default = 0,
-        One = 1,
-        Two = 2,
-        Three = 3,
-        Four = 4
+        var selectList = GetBlogCategorySelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
     }
 
-    public class MantleCMS<TModel>
-        where TModel : class
+    public IHtmlContent BlogCategoryDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
     {
-        private readonly IHtmlHelper<TModel> html;
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-        internal MantleCMS(IHtmlHelper<TModel> html)
-        {
-            this.html = html;
-        }
+        var selectList = GetBlogCategorySelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent BlogCategoryDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetBlogCategorySelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    public IHtmlContent BlogTagDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
+    {
+        var selectList = GetBlogTagSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent BlogCategoryDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IHtmlContent BlogTagDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-            var selectList = GetBlogCategorySelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
+        var selectList = GetBlogTagSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent BlogTagDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetBlogTagSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    public IHtmlContent ContentBlockTypesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
+    {
+        var selectList = GetContentBlockTypesSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent BlogTagDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IHtmlContent ContentBlockTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-            var selectList = GetBlogTagSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
+        var selectList = GetContentBlockTypesSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent ContentBlockTypesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetContentBlockTypesSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    public IHtmlContent PageTypesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
+    {
+        var selectList = GetPageTypesSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent ContentBlockTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IHtmlContent PageTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-            var selectList = GetContentBlockTypesSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
+        var selectList = GetPageTypesSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent PageTypesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetPageTypesSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    public IHtmlContent TopLevelPagesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
+    {
+        var selectList = GetTopLevelPagesSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent PageTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IHtmlContent TopLevelPagesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-            var selectList = GetPageTypesSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
+        var selectList = GetTopLevelPagesSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent TopLevelPagesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetTopLevelPagesSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    public IHtmlContent ZonesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
+    {
+        var selectList = GetZonesSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent TopLevelPagesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IHtmlContent ZonesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        var selectedValue = func(html.ViewData.Model);
 
-            var selectList = GetTopLevelPagesSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
+        var selectList = GetZonesSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent ZonesDropDownList(string name, string selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetZonesSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+    private static IEnumerable<SelectListItem> GetBlogCategorySelectList(int? selectedValue = null, string emptyText = null)
+    {
+        var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
 
-        public IHtmlContent ZonesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
-
-            var selectList = GetZonesSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
-
-        private static IEnumerable<SelectListItem> GetBlogCategorySelectList(int? selectedValue = null, string emptyText = null)
-        {
-            var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
-
-            return categoryService.Find()
-                .ToSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValue,
-                    emptyText);
-        }
-
-        private static IEnumerable<SelectListItem> GetBlogTagSelectList(int? selectedValue = null, string emptyText = null)
-        {
-            var tagService = EngineContext.Current.Resolve<IBlogTagService>();
-
-            return tagService.Find()
-                .ToSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValue,
-                    emptyText);
-        }
-
-        private static IEnumerable<SelectListItem> GetContentBlockTypesSelectList(string selectedValue = null, string emptyText = null)
-        {
-            var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
-
-            var blockTypes = contentBlocks
-                .Select(x => new
-                {
-                    x.Name,
-                    Type = x.GetTypeFullName()
-                })
-                .OrderBy(x => x.Name)
-                .ToDictionary(k => k.Name, v => v.Type);
-
-            return blockTypes.ToSelectList(
-                value => value.Value,
-                text => text.Key,
+        return categoryService.Find()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
                 selectedValue,
                 emptyText);
-        }
+    }
 
-        private static IEnumerable<SelectListItem> GetPageTypesSelectList(string selectedValue = null, string emptyText = null)
-        {
-            var repository = EngineContext.Current.Resolve<IRepository<PageType>>();
+    private static IEnumerable<SelectListItem> GetBlogTagSelectList(int? selectedValue = null, string emptyText = null)
+    {
+        var tagService = EngineContext.Current.Resolve<IBlogTagService>();
 
-            using (var connection = repository.OpenConnection())
+        return tagService.Find()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
+    }
+
+    private static IEnumerable<SelectListItem> GetContentBlockTypesSelectList(string selectedValue = null, string emptyText = null)
+    {
+        var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
+
+        var blockTypes = contentBlocks
+            .Select(x => new
             {
-                return connection.Query()
-                    .OrderBy(x => x.Name)
-                    .ToList()
-                    .ToSelectList(
-                        value => value.Id,
-                        text => text.Name,
-                        selectedValue,
-                        emptyText);
-            }
-        }
+                x.Name,
+                Type = x.GetTypeFullName()
+            })
+            .OrderBy(x => x.Name)
+            .ToDictionary(k => k.Name, v => v.Type);
 
-        private static IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
+        return blockTypes.ToSelectList(
+            value => value.Value,
+            text => text.Key,
+            selectedValue,
+            emptyText);
+    }
+
+    private static IEnumerable<SelectListItem> GetPageTypesSelectList(string selectedValue = null, string emptyText = null)
+    {
+        var repository = EngineContext.Current.Resolve<IRepository<PageType>>();
+
+        using (var connection = repository.OpenConnection())
         {
-            var pageService = EngineContext.Current.Resolve<IPageService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-
-            int tenantId = workContext.CurrentTenant.Id;
-
-            return pageService.GetTopLevelPages(tenantId)
+            return connection.Query()
+                .OrderBy(x => x.Name)
+                .ToList()
                 .ToSelectList(
                     value => value.Id,
                     text => text.Name,
                     selectedValue,
                     emptyText);
         }
+    }
 
-        private static IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
+    private static IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
+    {
+        var pageService = EngineContext.Current.Resolve<IPageService>();
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+
+        int tenantId = workContext.CurrentTenant.Id;
+
+        return pageService.GetTopLevelPages(tenantId)
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
+    }
+
+    private static IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
+    {
+        var zoneService = EngineContext.Current.Resolve<IZoneService>();
+
+        using (var connection = zoneService.OpenConnection())
         {
-            var zoneService = EngineContext.Current.Resolve<IZoneService>();
-
-            using (var connection = zoneService.OpenConnection())
-            {
-                return connection.Query()
-                    .OrderBy(x => x.Name)
-                    .ToList()
-                    .ToSelectList(
-                        value => value.Id,
-                        text => text.Name,
-                        selectedValue,
-                        emptyText);
-            }
+            return connection.Query()
+                .OrderBy(x => x.Name)
+                .ToList()
+                .ToSelectList(
+                    value => value.Id,
+                    text => text.Name,
+                    selectedValue,
+                    emptyText);
         }
     }
 }

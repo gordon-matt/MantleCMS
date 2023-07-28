@@ -1,20 +1,17 @@
-﻿using Mantle.Infrastructure;
+﻿namespace Mantle.Events;
 
-namespace Mantle.Events
+/// <summary>
+/// Event subscription service
+/// </summary>
+public class SubscriptionService : ISubscriptionService
 {
     /// <summary>
-    /// Event subscription service
+    /// Get subscriptions
     /// </summary>
-    public class SubscriptionService : ISubscriptionService
+    /// <typeparam name="T">Type</typeparam>
+    /// <returns>Event consumers</returns>
+    public IList<IConsumer<T>> GetSubscriptions<T>()
     {
-        /// <summary>
-        /// Get subscriptions
-        /// </summary>
-        /// <typeparam name="T">Type</typeparam>
-        /// <returns>Event consumers</returns>
-        public IList<IConsumer<T>> GetSubscriptions<T>()
-        {
-            return EngineContext.Current.ResolveAll<IConsumer<T>>().ToList();
-        }
+        return EngineContext.Current.ResolveAll<IConsumer<T>>().ToList();
     }
 }

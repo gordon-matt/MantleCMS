@@ -1,14 +1,13 @@
-﻿namespace Mantle.Tasks
+﻿namespace Mantle.Tasks;
+
+/// <summary>
+/// Interface that should be implemented by each task
+/// </summary>
+public partial interface ITask
 {
-    /// <summary>
-    /// Interface that should be implemented by each task
-    /// </summary>
-    public partial interface ITask
-    {
-        string Name { get; }
+    string Name { get; }
 
-        int DefaultInterval { get; }
+    int DefaultInterval { get; }
 
-        void Execute();
-    }
+    void Execute();
 }

@@ -1,11 +1,10 @@
-﻿namespace Mantle.Web.Mvc.MantleUI
-{
-    public enum TabPosition
-    {
-        Top = 0,
-        Left,
-        Right,
+﻿namespace Mantle.Web.Mvc.MantleUI;
 
-        //Bottom <-- currently not supported... need to make some changes to the way rendering is done before can use this option
-    }
+public enum TabPosition
+{
+    Top = 0,
+    Left,
+    Right,
+
+    //Bottom <-- currently not supported... need to make some changes to the way rendering is done before can use this option
 }

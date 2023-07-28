@@ -1,91 +1,80 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Caching;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Configuration;
-using Mantle.Web.Configuration.Domain;
-using Mantle.Web.OData;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Formatter;
+﻿namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api;
 
-namespace Mantle.Web.Areas.Admin.Configuration.Controllers.Api
+public class SettingsApiController : GenericTenantODataController<Setting, Guid>
 {
-    public class SettingsApiController : GenericTenantODataController<Setting, Guid>
+    private readonly ICacheManager cacheManager;
+
+    public SettingsApiController(IRepository<Setting> repository, ICacheManager cacheManager)
+        : base(repository)
     {
-        private readonly ICacheManager cacheManager;
+        this.cacheManager = cacheManager;
+    }
 
-        public SettingsApiController(IRepository<Setting> repository, ICacheManager cacheManager)
-            : base(repository)
+    protected override Guid GetId(Setting entity)
+    {
+        return entity.Id;
+    }
+
+    protected override void SetNewId(Setting entity)
+    {
+        entity.Id = Guid.NewGuid();
+    }
+
+    public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
+    {
+        var result = await base.Put(key, entity);
+
+        string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
+        cacheManager.Remove(cacheKey);
+
+        // TODO: This is an ugly hack. We need to have a way for each setting to perform some tasks after update
+        if (entity.Name == new SiteSettings().Name)
         {
-            this.cacheManager = cacheManager;
+            cacheManager.Remove(MantleWebConstants.CacheKeys.CurrentCulture);
         }
 
-        protected override Guid GetId(Setting entity)
-        {
-            return entity.Id;
-        }
+        return result;
+    }
 
-        protected override void SetNewId(Setting entity)
-        {
-            entity.Id = Guid.NewGuid();
-        }
+    public override async Task<IActionResult> Post([FromBody] Setting entity)
+    {
+        var result = await base.Post(entity);
 
-        public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
-        {
-            var result = await base.Put(key, entity);
+        string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
+        cacheManager.Remove(cacheKey);
 
-            string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
-            cacheManager.Remove(cacheKey);
+        return result;
+    }
 
-            // TODO: This is an ugly hack. We need to have a way for each setting to perform some tasks after update
-            if (entity.Name == new SiteSettings().Name)
-            {
-                cacheManager.Remove(MantleWebConstants.CacheKeys.CurrentCulture);
-            }
+    public override async Task<IActionResult> Patch([FromODataUri] Guid key, Delta<Setting> patch)
+    {
+        var result = await base.Patch(key, patch);
 
-            return result;
-        }
+        var entity = await Service.FindOneAsync(key);
+        string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
+        cacheManager.Remove(cacheKey);
 
-        public override async Task<IActionResult> Post([FromBody] Setting entity)
-        {
-            var result = await base.Post(entity);
+        return result;
+    }
 
-            string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
-            cacheManager.Remove(cacheKey);
+    public override async Task<IActionResult> Delete([FromODataUri] Guid key)
+    {
+        var result = base.Delete(key);
 
-            return result;
-        }
+        var entity = await Service.FindOneAsync(key);
+        string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
+        cacheManager.Remove(cacheKey);
 
-        public override async Task<IActionResult> Patch([FromODataUri] Guid key, Delta<Setting> patch)
-        {
-            var result = await base.Patch(key, patch);
+        return await result;
+    }
 
-            var entity = await Service.FindOneAsync(key);
-            string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
-            cacheManager.Remove(cacheKey);
+    protected override Permission ReadPermission
+    {
+        get { return MantleWebPermissions.SettingsRead; }
+    }
 
-            return result;
-        }
-
-        public override async Task<IActionResult> Delete([FromODataUri] Guid key)
-        {
-            var result = base.Delete(key);
-
-            var entity = await Service.FindOneAsync(key);
-            string cacheKey = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, entity.TenantId, entity.Type);
-            cacheManager.Remove(cacheKey);
-
-            return await result;
-        }
-
-        protected override Permission ReadPermission
-        {
-            get { return MantleWebPermissions.SettingsRead; }
-        }
-
-        protected override Permission WritePermission
-        {
-            get { return MantleWebPermissions.SettingsWrite; }
-        }
+    protected override Permission WritePermission
+    {
+        get { return MantleWebPermissions.SettingsWrite; }
     }
 }

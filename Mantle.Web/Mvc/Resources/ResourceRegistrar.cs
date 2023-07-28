@@ -1,224 +1,220 @@
-﻿using Microsoft.AspNetCore.Html;
-using System.Text;
+﻿namespace Mantle.Web.Mvc.Resources;
 
-namespace Mantle.Web.Mvc.Resources
+public abstract class ResourceRegistrar
 {
-    public abstract class ResourceRegistrar
+    private readonly IWorkContext workContext;
+
+    protected readonly Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>> resources = new();
+
+    protected readonly Dictionary<ResourceLocation, List<string>> inlineResources = new();
+
+    protected ResourceRegistrar(IWorkContext workContext)
     {
-        private readonly IWorkContext workContext;
+        this.workContext = workContext;
+    }
 
-        protected readonly Dictionary<ResourceLocation, Dictionary<string, ResourceEntry>> resources = new();
+    protected abstract string VirtualBasePath { get; }
 
-        protected readonly Dictionary<ResourceLocation, List<string>> inlineResources = new();
+    protected virtual string BundleBasePath => $"{VirtualBasePath}/bundles/";
 
-        protected ResourceRegistrar(IWorkContext workContext)
+    protected abstract ResourceLocation DefaultLocation { get; }
+
+    public virtual ResourceEntry Include(
+        string path,
+        ResourceLocation? location = null,
+        bool isThemePath = false,
+        int? order = null,
+        object htmlAttributes = null)
+    {
+        ResourceEntry resourceEntry;
+        if (isThemePath)
         {
-            this.workContext = workContext;
+            var virtualBasePath = VirtualBasePath.TrimStart('/');
+            resourceEntry = new ResourceEntry(
+                $"/Themes/{workContext.CurrentTheme}/{virtualBasePath}/{path}",
+                location ?? DefaultLocation);
+        }
+        else
+        {
+            resourceEntry = new ResourceEntry(
+                $"{VirtualBasePath}/{path}",
+                location ?? DefaultLocation);
+        }
+        RegisterResource(resourceEntry);
+
+        if (order.HasValue)
+        {
+            resourceEntry.Order = order.Value;
         }
 
-        protected abstract string VirtualBasePath { get; }
+        resourceEntry.HtmlAttributes = htmlAttributes;
 
-        protected virtual string BundleBasePath => $"{VirtualBasePath}/bundles/";
+        return resourceEntry;
+    }
 
-        protected abstract ResourceLocation DefaultLocation { get; }
+    public virtual string GetBundleUrl(string bundleName) => string.Concat(BundleBasePath, bundleName);
 
-        public virtual ResourceEntry Include(
-            string path,
-            ResourceLocation? location = null,
-            bool isThemePath = false,
-            int? order = null,
-            object htmlAttributes = null)
+    public virtual ResourceEntry IncludeBundle(
+        string bundleName,
+        ResourceLocation? location = null,
+        int? order = null,
+        object htmlAttributes = null)
+    {
+        string bundleUrl = GetBundleUrl(bundleName);
+
+        //if (!string.IsNullOrEmpty(bundleUrl))
+        //{
+        var resourceEntry = new ResourceEntry(bundleUrl, location ?? DefaultLocation);
+        RegisterResource(resourceEntry);
+
+        if (order.HasValue)
         {
-            ResourceEntry resourceEntry;
-            if (isThemePath)
-            {
-                var virtualBasePath = VirtualBasePath.TrimStart('/');
-                resourceEntry = new ResourceEntry(
-                    $"/Themes/{workContext.CurrentTheme}/{virtualBasePath}/{path}",
-                    location ?? DefaultLocation);
-            }
-            else
-            {
-                resourceEntry = new ResourceEntry(
-                    $"{VirtualBasePath}/{path}",
-                    location ?? DefaultLocation);
-            }
-            RegisterResource(resourceEntry);
-
-            if (order.HasValue)
-            {
-                resourceEntry.Order = order.Value;
-            }
-
-            resourceEntry.HtmlAttributes = htmlAttributes;
-
-            return resourceEntry;
+            resourceEntry.Order = order.Value;
         }
 
-        public virtual string GetBundleUrl(string bundleName) => string.Concat(BundleBasePath, bundleName);
+        resourceEntry.HtmlAttributes = htmlAttributes;
 
-        public virtual ResourceEntry IncludeBundle(
-            string bundleName,
-            ResourceLocation? location = null,
-            int? order = null,
-            object htmlAttributes = null)
+        return resourceEntry;
+        //}
+
+        //throw new UnregisteredBundleException(bundleUrl);
+    }
+
+    public void IncludeExternal(
+        string path,
+        ResourceLocation? location = null,
+        int? order = null,
+        object htmlAttributes = null)
+    {
+        if (order.HasValue)
         {
-            string bundleUrl = GetBundleUrl(bundleName);
-
-            //if (!string.IsNullOrEmpty(bundleUrl))
-            //{
-            var resourceEntry = new ResourceEntry(bundleUrl, location ?? DefaultLocation);
-            RegisterResource(resourceEntry);
-
-            if (order.HasValue)
+            RegisterResource(new ResourceEntry(path, location ?? DefaultLocation)
             {
-                resourceEntry.Order = order.Value;
-            }
+                Order = order.Value,
+                HtmlAttributes = htmlAttributes
+            });
+        }
+        else
+        {
+            RegisterResource(new ResourceEntry(path, location ?? DefaultLocation)
+            {
+                HtmlAttributes = htmlAttributes
+            });
+        }
+    }
 
-            resourceEntry.HtmlAttributes = htmlAttributes;
+    public virtual void IncludeInline(
+        string code,
+        ResourceLocation? location = null,
+        bool ignoreIfExists = false)
+    {
+        RegisterInlineResource(location ?? DefaultLocation, code, ignoreIfExists);
+    }
 
-            return resourceEntry;
-            //}
+    public virtual IHtmlContent Render(ResourceLocation location)
+    {
+        var resources = GetResources(location);
 
-            //throw new UnregisteredBundleException(bundleUrl);
+        var inlineResources = GetInlineResources(location);
+
+        if (!resources.Any() && !inlineResources.Any())
+        {
+            return null;
         }
 
-        public void IncludeExternal(
-            string path,
-            ResourceLocation? location = null,
-            int? order = null,
-            object htmlAttributes = null)
+        var sb = new StringBuilder();
+
+        foreach (var resource in resources)
         {
-            if (order.HasValue)
-            {
-                RegisterResource(new ResourceEntry(path, location ?? DefaultLocation)
-                {
-                    Order = order.Value,
-                    HtmlAttributes = htmlAttributes
-                });
-            }
-            else
-            {
-                RegisterResource(new ResourceEntry(path, location ?? DefaultLocation)
-                {
-                    HtmlAttributes = htmlAttributes
-                });
-            }
+            sb.AppendLine(BuildResource(resource));
         }
 
-        public virtual void IncludeInline(
-            string code,
-            ResourceLocation? location = null,
-            bool ignoreIfExists = false)
+        if (inlineResources.Any())
         {
-            RegisterInlineResource(location ?? DefaultLocation, code, ignoreIfExists);
+            sb.Append(BuildInlineResources(inlineResources));
         }
 
-        public virtual IHtmlContent Render(ResourceLocation location)
+        // Clear the resources, now that they've been rendered (to prevent them being rendered again on different all other pages)
+        // in which case, we can also use old method (use script/style registrars directly instead of via HTML Helpers)
+        ClearResources(location);
+
+        return new HtmlString(sb.ToString());
+    }
+
+    protected abstract string BuildInlineResources(IEnumerable<string> resources);
+
+    protected abstract string BuildResource(ResourceEntry resource);
+
+    protected virtual void RegisterResource(ResourceEntry resourceEntry)
+    {
+        if (!resources.ContainsKey(resourceEntry.Location))
         {
-            var resources = GetResources(location);
-
-            var inlineResources = GetInlineResources(location);
-
-            if (!resources.Any() && !inlineResources.Any())
-            {
-                return null;
-            }
-
-            var sb = new StringBuilder();
-
-            foreach (var resource in resources)
-            {
-                sb.AppendLine(BuildResource(resource));
-            }
-
-            if (inlineResources.Any())
-            {
-                sb.Append(BuildInlineResources(inlineResources));
-            }
-
-            // Clear the resources, now that they've been rendered (to prevent them being rendered again on different all other pages)
-            // in which case, we can also use old method (use script/style registrars directly instead of via HTML Helpers)
-            ClearResources(location);
-
-            return new HtmlString(sb.ToString());
+            resources.Add(resourceEntry.Location, new Dictionary<string, ResourceEntry>(StringComparer.InvariantCultureIgnoreCase));
         }
 
-        protected abstract string BuildInlineResources(IEnumerable<string> resources);
-
-        protected abstract string BuildResource(ResourceEntry resource);
-
-        protected virtual void RegisterResource(ResourceEntry resourceEntry)
+        if (!resources[resourceEntry.Location].ContainsKey(resourceEntry.Path))
         {
-            if (!resources.ContainsKey(resourceEntry.Location))
-            {
-                resources.Add(resourceEntry.Location, new Dictionary<string, ResourceEntry>(StringComparer.InvariantCultureIgnoreCase));
-            }
+            resources[resourceEntry.Location].Add(resourceEntry.Path, resourceEntry);
+        }
+    }
 
-            if (!resources[resourceEntry.Location].ContainsKey(resourceEntry.Path))
-            {
-                resources[resourceEntry.Location].Add(resourceEntry.Path, resourceEntry);
-            }
+    protected virtual void RegisterInlineResource(ResourceLocation location, string code, bool ignoreIfExists = false)
+    {
+        if (!inlineResources.ContainsKey(location))
+        {
+            inlineResources.Add(location, new List<string>());
         }
 
-        protected virtual void RegisterInlineResource(ResourceLocation location, string code, bool ignoreIfExists = false)
+        if (string.IsNullOrEmpty(code))
         {
-            if (!inlineResources.ContainsKey(location))
-            {
-                inlineResources.Add(location, new List<string>());
-            }
+            return;
+        }
 
-            if (string.IsNullOrEmpty(code))
-            {
-                return;
-            }
-
-            if (ignoreIfExists)
-            {
-                if (!inlineResources[location].Contains(code))
-                {
-                    inlineResources[location].Add(code);
-                }
-            }
-            else
+        if (ignoreIfExists)
+        {
+            if (!inlineResources[location].Contains(code))
             {
                 inlineResources[location].Add(code);
             }
         }
-
-        protected virtual IEnumerable<ResourceEntry> GetResources(ResourceLocation location)
+        else
         {
-            if (!resources.ContainsKey(location))
-            {
-                return Enumerable.Empty<ResourceEntry>();
-            }
+            inlineResources[location].Add(code);
+        }
+    }
 
-            return resources[location]
-                .OrderBy(x => x.Value.Order)
-                .Select(x => x.Value);
+    protected virtual IEnumerable<ResourceEntry> GetResources(ResourceLocation location)
+    {
+        if (!resources.ContainsKey(location))
+        {
+            return Enumerable.Empty<ResourceEntry>();
         }
 
-        protected virtual IEnumerable<string> GetInlineResources(ResourceLocation location)
-        {
-            if (!inlineResources.ContainsKey(location))
-            {
-                return Enumerable.Empty<string>();
-            }
+        return resources[location]
+            .OrderBy(x => x.Value.Order)
+            .Select(x => x.Value);
+    }
 
-            return inlineResources[location];
+    protected virtual IEnumerable<string> GetInlineResources(ResourceLocation location)
+    {
+        if (!inlineResources.ContainsKey(location))
+        {
+            return Enumerable.Empty<string>();
         }
 
-        protected virtual void ClearResources(ResourceLocation location)
-        {
-            if (resources.ContainsKey(location))
-            {
-                resources[location].Clear();
-            }
+        return inlineResources[location];
+    }
 
-            if (inlineResources.ContainsKey(location))
-            {
-                inlineResources[location].Clear();
-            }
+    protected virtual void ClearResources(ResourceLocation location)
+    {
+        if (resources.ContainsKey(location))
+        {
+            resources[location].Clear();
+        }
+
+        if (inlineResources.ContainsKey(location))
+        {
+            inlineResources[location].Clear();
         }
     }
 }

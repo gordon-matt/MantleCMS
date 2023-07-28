@@ -1,35 +1,30 @@
 ﻿//No license, but credit to Richard Lee:
 //http://www.avantprime.com/blog/9/asp-net-mvc-image-map-helper
 
-using Extenso.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text;
+namespace Mantle.Web.Mvc.Controls;
 
-namespace Mantle.Web.Mvc.Controls
+public class ImageMap
 {
-    public class ImageMap
+    public string ID { get; set; }
+
+    public string Name { get; set; }
+
+    public ImageMapHotSpot[] HotSpots { get; set; }
+
+    public override string ToString()
     {
-        public string ID { get; set; }
+        var builder = new TagBuilder("map");
+        builder.MergeAttribute("id", ID);
+        builder.MergeAttribute("name", Name);
 
-        public string Name { get; set; }
-
-        public ImageMapHotSpot[] HotSpots { get; set; }
-
-        public override string ToString()
+        var sb = new StringBuilder();
+        foreach (var hotSpot in HotSpots)
         {
-            var builder = new TagBuilder("map");
-            builder.MergeAttribute("id", ID);
-            builder.MergeAttribute("name", Name);
-
-            var sb = new StringBuilder();
-            foreach (var hotSpot in HotSpots)
-            {
-                sb.Append(hotSpot);
-            }
-
-            builder.InnerHtml.AppendHtml(sb.ToString());
-
-            return builder.Build();
+            sb.Append(hotSpot);
         }
+
+        builder.InnerHtml.AppendHtml(sb.ToString());
+
+        return builder.Build();
     }
 }

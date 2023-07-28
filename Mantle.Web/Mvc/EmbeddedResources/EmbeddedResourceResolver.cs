@@ -1,121 +1,115 @@
-using Extenso;
-using Extenso.Collections;
-using Mantle.Infrastructure;
-using System.Reflection;
+namespace Mantle.Web.Mvc.EmbeddedResources;
 
-namespace Mantle.Web.Mvc.EmbeddedResources
+public class EmbeddedResourceResolver : IEmbeddedResourceResolver
 {
-    public class EmbeddedResourceResolver : IEmbeddedResourceResolver
+    private ITypeFinder typeFinder;
+
+    private static EmbeddedResourceTable scripts;
+    private static EmbeddedResourceTable content;
+    private static EmbeddedResourceTable views;
+
+    public EmbeddedResourceResolver(ITypeFinder typeFinder)
     {
-        private ITypeFinder typeFinder;
+        this.typeFinder = typeFinder;
+    }
 
-        private static EmbeddedResourceTable scripts;
-        private static EmbeddedResourceTable content;
-        private static EmbeddedResourceTable views;
+    #region IEmbeddedResourceResolver Members
 
-        public EmbeddedResourceResolver(ITypeFinder typeFinder)
+    public EmbeddedResourceTable Scripts
+    {
+        get
         {
-            this.typeFinder = typeFinder;
+            if (scripts == null)
+            {
+                GetEmbeddedResources();
+            }
+            return scripts;
+        }
+    }
+
+    public EmbeddedResourceTable Content
+    {
+        get
+        {
+            if (content == null)
+            {
+                GetEmbeddedResources();
+            }
+            return content;
+        }
+    }
+
+    public EmbeddedResourceTable Views
+    {
+        get
+        {
+            if (views == null)
+            {
+                GetEmbeddedResources();
+            }
+            return views;
+        }
+    }
+
+    #endregion IEmbeddedResourceResolver Members
+
+    private void GetEmbeddedResources()
+    {
+        scripts = new EmbeddedResourceTable();
+        content = new EmbeddedResourceTable();
+        views = new EmbeddedResourceTable();
+
+        var assemblies = typeFinder.GetAssemblies();
+
+        if (assemblies.IsNullOrEmpty())
+        {
+            return;
         }
 
-        #region IEmbeddedResourceResolver Members
-
-        public EmbeddedResourceTable Scripts
+        foreach (var assembly in assemblies)
         {
-            get
+            var names = GetNamesOfAssemblyResources(assembly);
+
+            if (names.IsNullOrEmpty())
             {
-                if (scripts == null)
-                {
-                    GetEmbeddedResources();
-                }
-                return scripts;
-            }
-        }
-
-        public EmbeddedResourceTable Content
-        {
-            get
-            {
-                if (content == null)
-                {
-                    GetEmbeddedResources();
-                }
-                return content;
-            }
-        }
-
-        public EmbeddedResourceTable Views
-        {
-            get
-            {
-                if (views == null)
-                {
-                    GetEmbeddedResources();
-                }
-                return views;
-            }
-        }
-
-        #endregion IEmbeddedResourceResolver Members
-
-        private void GetEmbeddedResources()
-        {
-            scripts = new EmbeddedResourceTable();
-            content = new EmbeddedResourceTable();
-            views = new EmbeddedResourceTable();
-
-            var assemblies = typeFinder.GetAssemblies();
-
-            if (assemblies.IsNullOrEmpty())
-            {
-                return;
+                continue;
             }
 
-            foreach (var assembly in assemblies)
+            foreach (var name in names)
             {
-                var names = GetNamesOfAssemblyResources(assembly);
+                var key = name.ToLowerInvariant();
 
-                if (names.IsNullOrEmpty())
+                if (key.ContainsAny(".wwwroot.js.", ".scripts."))
                 {
-                    continue;
+                    scripts.AddResource(name, assembly.FullName);
                 }
-
-                foreach (var name in names)
+                else if (key.ContainsAny(".wwwroot.css.", ".content."))
                 {
-                    var key = name.ToLowerInvariant();
-
-                    if (key.ContainsAny(".wwwroot.js.", ".scripts."))
-                    {
-                        scripts.AddResource(name, assembly.FullName);
-                    }
-                    else if (key.ContainsAny(".wwwroot.css.", ".content."))
-                    {
-                        content.AddResource(name, assembly.FullName);
-                    }
-                    else if (key.Contains(".views."))
-                    {
-                        views.AddResource(name, assembly.FullName);
-                    }
+                    content.AddResource(name, assembly.FullName);
+                }
+                else if (key.Contains(".views."))
+                {
+                    views.AddResource(name, assembly.FullName);
                 }
             }
         }
+    }
 
-        private static string[] GetNamesOfAssemblyResources(Assembly assembly)
+    private static string[] GetNamesOfAssemblyResources(Assembly assembly)
+    {
+        //GetManifestResourceNames will throw a NotSupportedException when run on a dynamic assembly
+        try
         {
-            //GetManifestResourceNames will throw a NotSupportedException when run on a dynamic assembly
-            try
+            if (!assembly.IsDynamic)
             {
-                if (!assembly.IsDynamic)
-                {
-                    return assembly.GetManifestResourceNames();
-                }
+                return assembly.GetManifestResourceNames();
             }
-            catch
-            {
-                // Any exception we fall back to returning an empty array.
-            }
-
-            return new string[] { };
         }
+        catch
+        {
+            // Any exception we fall back to returning an empty array.
+        }
+
+        return new string[] { };
     }
 }

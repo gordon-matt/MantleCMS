@@ -1,0 +1,17 @@
+﻿global using Extenso;
+global using Extenso.Data.Entity;
+global using Mantle.Caching;
+global using Mantle.Events;
+global using Mantle.Helpers;
+global using Mantle.Infrastructure;
+global using Mantle.Plugins.Configuration;
+global using Mantle.Plugins.Events;
+global using Mantle.Security.Membership;
+global using Mantle.Threading;
+global using Microsoft.AspNetCore.Hosting;
+global using Microsoft.AspNetCore.Mvc.ApplicationParts;
+global using Microsoft.EntityFrameworkCore;
+global using Newtonsoft.Json;
+global using System.Diagnostics;
+global using System.Reflection;
+global using System.Runtime.Loader;

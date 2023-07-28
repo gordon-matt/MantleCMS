@@ -1,79 +1,75 @@
-﻿using Dapper;
-using System.Reflection;
+﻿namespace Mantle.Data.Dapper;
 
-namespace Mantle.Data.Dapper
+public class FallbackTypeMapper : SqlMapper.ITypeMap
 {
-    public class FallbackTypeMapper : SqlMapper.ITypeMap
+    private readonly IEnumerable<SqlMapper.ITypeMap> mappers;
+
+    public FallbackTypeMapper(IEnumerable<SqlMapper.ITypeMap> mappers)
     {
-        private readonly IEnumerable<SqlMapper.ITypeMap> mappers;
+        this.mappers = mappers;
+    }
 
-        public FallbackTypeMapper(IEnumerable<SqlMapper.ITypeMap> mappers)
+    public ConstructorInfo FindConstructor(string[] names, Type[] types)
+    {
+        foreach (var mapper in mappers)
         {
-            this.mappers = mappers;
-        }
-
-        public ConstructorInfo FindConstructor(string[] names, Type[] types)
-        {
-            foreach (var mapper in mappers)
+            try
             {
-                try
+                ConstructorInfo result = mapper.FindConstructor(names, types);
+                if (result != null)
                 {
-                    ConstructorInfo result = mapper.FindConstructor(names, types);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-            return null;
-        }
-
-        public SqlMapper.IMemberMap GetConstructorParameter(ConstructorInfo constructor, string columnName)
-        {
-            foreach (var mapper in mappers)
+            catch (NotImplementedException)
             {
-                try
+            }
+        }
+        return null;
+    }
+
+    public SqlMapper.IMemberMap GetConstructorParameter(ConstructorInfo constructor, string columnName)
+    {
+        foreach (var mapper in mappers)
+        {
+            try
+            {
+                var result = mapper.GetConstructorParameter(constructor, columnName);
+                if (result != null)
                 {
-                    var result = mapper.GetConstructorParameter(constructor, columnName);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-            return null;
-        }
-
-        public SqlMapper.IMemberMap GetMember(string columnName)
-        {
-            foreach (var mapper in mappers)
+            catch (NotImplementedException)
             {
-                try
+            }
+        }
+        return null;
+    }
+
+    public SqlMapper.IMemberMap GetMember(string columnName)
+    {
+        foreach (var mapper in mappers)
+        {
+            try
+            {
+                var result = mapper.GetMember(columnName);
+                if (result != null)
                 {
-                    var result = mapper.GetMember(columnName);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-                catch (NotImplementedException)
-                {
+                    return result;
                 }
             }
-            return null;
+            catch (NotImplementedException)
+            {
+            }
         }
+        return null;
+    }
 
-        public ConstructorInfo FindExplicitConstructor()
-        {
-            return mappers
-                .Select(mapper => mapper.FindExplicitConstructor())
-                .FirstOrDefault(result => result != null);
-        }
+    public ConstructorInfo FindExplicitConstructor()
+    {
+        return mappers
+            .Select(mapper => mapper.FindExplicitConstructor())
+            .FirstOrDefault(result => result != null);
     }
 }

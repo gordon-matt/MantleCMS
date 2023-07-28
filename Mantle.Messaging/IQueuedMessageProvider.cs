@@ -1,11 +1,10 @@
-﻿namespace Mantle.Messaging
+﻿namespace Mantle.Messaging;
+
+public interface IQueuedMessageProvider
 {
-    public interface IQueuedMessageProvider
-    {
-        IEnumerable<IMailMessage> GetQueuedEmails(int tenantId, int maxSendTries, int maxMessageItems);
+    IEnumerable<IMailMessage> GetQueuedEmails(int tenantId, int maxSendTries, int maxMessageItems);
 
-        void OnSendSuccess(IMailMessage mailMessage);
+    void OnSendSuccess(IMailMessage mailMessage);
 
-        void OnSendError(IMailMessage mailMessage);
-    }
+    void OnSendError(IMailMessage mailMessage);
 }

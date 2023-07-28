@@ -1,9 +1,8 @@
-﻿namespace Mantle.Web.Mvc.Assets
-{
-    public class Asset
-    {
-        public string Path { get; set; }
+﻿namespace Mantle.Web.Mvc.Assets;
 
-        public int Order { get; set; }
-    }
+public class Asset
+{
+    public string Path { get; set; }
+
+    public int Order { get; set; }
 }

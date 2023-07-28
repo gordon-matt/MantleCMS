@@ -1,9 +1,6 @@
-﻿using System.Net.Mail;
+﻿namespace Mantle.Messaging;
 
-namespace Mantle.Messaging
+public interface IMailMessage
 {
-    public interface IMailMessage
-    {
-        MailMessage GetMailMessage();
-    }
+    MailMessage GetMailMessage();
 }

@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
+namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+
+public interface IFormBlockProcessor
 {
-    public interface IFormBlockProcessor
-    {
-        void Process(FormCollection formCollection, MailMessage mailMessage);
-    }
+    void Process(FormCollection formCollection, MailMessage mailMessage);
 }

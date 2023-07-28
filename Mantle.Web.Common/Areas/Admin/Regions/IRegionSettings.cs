@@ -1,9 +1,8 @@
-﻿namespace Mantle.Web.Common.Areas.Admin.Regions
-{
-    public interface IRegionSettings
-    {
-        string Name { get; }
+﻿namespace Mantle.Web.Common.Areas.Admin.Regions;
 
-        string EditorTemplatePath { get; }
-    }
+public interface IRegionSettings
+{
+    string Name { get; }
+
+    string EditorTemplatePath { get; }
 }

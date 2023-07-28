@@ -1,32 +1,30 @@
-﻿using Mantle.Exceptions;
-using Mantle.Web.Mvc.Assets;
+﻿using Mantle.Web.Mvc.Assets;
 
-namespace Mantle.Web
+namespace Mantle.Web;
+
+public class MantleWebAssets
 {
-    public class MantleWebAssets
+    private static bool isInitialized = false;
+    private static MantleWebAssets instance = null;
+
+    public static MantleWebAssets Instance
     {
-        private static bool isInitialized = false;
-        private static MantleWebAssets instance = null;
-
-        public static MantleWebAssets Instance
+        get
         {
-            get
+            if (instance == null || !isInitialized)
             {
-                if (instance == null || !isInitialized)
-                {
-                    throw new MantleException(string.Format("Web assets for {0} have not been initialized.", nameof(MantleWebAssets)));
-                }
-                return instance;
+                throw new MantleException(string.Format("Web assets for {0} have not been initialized.", nameof(MantleWebAssets)));
             }
-            private set { instance = value; }
+            return instance;
         }
-
-        public static void Init(MantleWebAssets assets)
-        {
-            Instance = assets;
-            isInitialized = true;
-        }
-
-        public AssetCollection BootstrapFileInput { get; set; }
+        private set { instance = value; }
     }
+
+    public static void Init(MantleWebAssets assets)
+    {
+        Instance = assets;
+        isInitialized = true;
+    }
+
+    public AssetCollection BootstrapFileInput { get; set; }
 }

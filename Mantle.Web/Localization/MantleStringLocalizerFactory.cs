@@ -1,34 +1,28 @@
-﻿using Mantle.Caching;
-using Mantle.Infrastructure;
-using Mantle.Localization.Services;
-using Microsoft.Extensions.Localization;
+﻿namespace Mantle.Web.Localization;
 
-namespace Mantle.Web.Localization
+public class MantleStringLocalizerFactory : IStringLocalizerFactory
 {
-    public class MantleStringLocalizerFactory : IStringLocalizerFactory
+    private MantleStringLocalizer stringLocalizer;
+
+    public IStringLocalizer Create(Type resourceSource)
     {
-        private MantleStringLocalizer stringLocalizer;
+        return Create();
+    }
 
-        public IStringLocalizer Create(Type resourceSource)
-        {
-            return Create();
-        }
+    public IStringLocalizer Create(string baseName, string location)
+    {
+        return Create();
+    }
 
-        public IStringLocalizer Create(string baseName, string location)
+    protected IStringLocalizer Create()
+    {
+        if (stringLocalizer == null)
         {
-            return Create();
+            var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
+            var localizableStringService = EngineContext.Current.Resolve<ILocalizableStringService>();
+            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            stringLocalizer = new MantleStringLocalizer(cacheManager, workContext, localizableStringService);
         }
-
-        protected IStringLocalizer Create()
-        {
-            if (stringLocalizer == null)
-            {
-                var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-                var localizableStringService = EngineContext.Current.Resolve<ILocalizableStringService>();
-                var workContext = EngineContext.Current.Resolve<IWorkContext>();
-                stringLocalizer = new MantleStringLocalizer(cacheManager, workContext, localizableStringService);
-            }
-            return stringLocalizer;
-        }
+        return stringLocalizer;
     }
 }

@@ -1,159 +1,152 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Common.Areas.Admin.Regions.Domain;
+﻿using Mantle.Web.Common.Areas.Admin.Regions.Domain;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Mvc.KendoUI;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api
+namespace Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api;
+
+public class RegionSettingsApiController : ODataController
 {
-    public class RegionSettingsApiController : ODataController
+    private readonly IEnumerable<IRegionSettings> regionSettings;
+    private readonly Lazy<IRegionSettingsService> regionSettingsService;
+
+    public RegionSettingsApiController(
+        IEnumerable<IRegionSettings> regionSettings,
+        Lazy<IRegionSettingsService> regionSettingsService)
     {
-        private readonly IEnumerable<IRegionSettings> regionSettings;
-        private readonly Lazy<IRegionSettingsService> regionSettingsService;
+        this.regionSettings = regionSettings;
+        this.regionSettingsService = regionSettingsService;
+    }
 
-        public RegionSettingsApiController(
-            IEnumerable<IRegionSettings> regionSettings,
-            Lazy<IRegionSettingsService> regionSettingsService)
+    public virtual IEnumerable<EdmRegionSettings> Get(ODataQueryOptions<EdmRegionSettings> options)
+    {
+        if (!CheckPermission(Permissions.RegionsRead))
         {
-            this.regionSettings = regionSettings;
-            this.regionSettingsService = regionSettingsService;
+            return Enumerable.Empty<EdmRegionSettings>().AsQueryable();
         }
 
-        public virtual IEnumerable<EdmRegionSettings> Get(ODataQueryOptions<EdmRegionSettings> options)
-        {
-            if (!CheckPermission(Permissions.RegionsRead))
+        var query = regionSettings
+            .Select(x => new EdmRegionSettings
             {
-                return Enumerable.Empty<EdmRegionSettings>().AsQueryable();
-            }
+                Id = x.Name.ToSlugUrl(),
+                Name = x.Name
+            })
+            .AsQueryable();
 
-            var query = regionSettings
-                .Select(x => new EdmRegionSettings
-                {
-                    Id = x.Name.ToSlugUrl(),
-                    Name = x.Name
-                })
-                .AsQueryable();
+        var results = options.ApplyTo(query);
+        return (results as IQueryable<EdmRegionSettings>).ToHashSet();
+    }
 
-            var results = options.ApplyTo(query);
-            return (results as IQueryable<EdmRegionSettings>).ToHashSet();
+    [HttpGet]
+    public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri] string settingsId, [FromODataUri] int regionId)
+    {
+        if (!CheckPermission(Permissions.RegionsRead))
+        {
+            return null;
         }
 
-        [HttpGet]
-        public virtual async Task<EdmRegionSettings> GetSettings([FromODataUri] string settingsId, [FromODataUri] int regionId)
+        var dictionary = regionSettings.ToDictionary(k => k.Name.ToSlugUrl(), v => v);
+
+        if (!dictionary.ContainsKey(settingsId))
         {
-            if (!CheckPermission(Permissions.RegionsRead))
-            {
-                return null;
-            }
+            return null;
+        }
 
-            var dictionary = regionSettings.ToDictionary(k => k.Name.ToSlugUrl(), v => v);
+        var settings = dictionary[settingsId];
 
-            if (!dictionary.ContainsKey(settingsId))
-            {
-                return null;
-            }
+        var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
+            x.RegionId == regionId &&
+            x.SettingsId == settingsId);
 
-            var settings = dictionary[settingsId];
-
-            var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
-                x.RegionId == regionId &&
-                x.SettingsId == settingsId);
-
-            if (dataEntity != null)
-            {
-                return new EdmRegionSettings
-                {
-                    Id = settingsId,
-                    Name = settings.Name,
-                    Fields = dataEntity.Fields
-                };
-            }
-
+        if (dataEntity != null)
+        {
             return new EdmRegionSettings
             {
                 Id = settingsId,
                 Name = settings.Name,
-                Fields = null
+                Fields = dataEntity.Fields
             };
         }
 
-        [HttpPost]
-        public virtual async Task<IActionResult> SaveSettings([FromBody] ODataActionParameters parameters)
+        return new EdmRegionSettings
         {
-            if (!CheckPermission(Permissions.RegionsWrite))
-            {
-                return Unauthorized();
-            }
-
-            string settingsId = (string)parameters["settingsId"];
-            int regionId = (int)parameters["regionId"];
-            string fields = (string)parameters["fields"];
-
-            if (string.IsNullOrEmpty(settingsId))
-            {
-                return this.BadRequest("SettingsId has not been provided");
-            }
-            if (regionId == 0)
-            {
-                return this.BadRequest("RegionId has not been provided.");
-            }
-
-            var allSettingsIds = regionSettings.Select(x => x.Name.ToSlugUrl());
-
-            if (!allSettingsIds.Contains(settingsId))
-            {
-                return this.BadRequest(string.Format("SettingsId, '{0}' is not recognized.", settingsId));
-            }
-
-            var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
-                x.RegionId == regionId &&
-                x.SettingsId == settingsId);
-
-            if (dataEntity == null)
-            {
-                dataEntity = new RegionSettings
-                {
-                    SettingsId = settingsId,
-                    RegionId = regionId,
-                    Fields = fields
-                };
-                await regionSettingsService.Value.InsertAsync(dataEntity);
-                return Ok();
-                //TODO (currently throws error because of missing entity set on odata, basically we need to create
-                //      the separate Api Controller for it. A good idea might be to make this controller do that and make the
-                //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
-                //return Created(dataEntity);
-            }
-            else
-            {
-                dataEntity.Fields = fields;
-                await regionSettingsService.Value.UpdateAsync(dataEntity);
-                return Ok();
-                //TODO (currently throws error because of missing entity set on odata, basically we need to create
-                //      the separate Api Controller for it. A good idea might be to make this controller do that and make the
-                //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
-                //return Updated(dataEntity);
-            }
-        }
-
-        protected static bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-        }
+            Id = settingsId,
+            Name = settings.Name,
+            Fields = null
+        };
     }
 
-    public class EdmRegionSettings
+    [HttpPost]
+    public virtual async Task<IActionResult> SaveSettings([FromBody] ODataActionParameters parameters)
     {
-        public string Id { get; set; }
+        if (!CheckPermission(Permissions.RegionsWrite))
+        {
+            return Unauthorized();
+        }
 
-        public string Name { get; set; }
+        string settingsId = (string)parameters["settingsId"];
+        int regionId = (int)parameters["regionId"];
+        string fields = (string)parameters["fields"];
 
-        public string Fields { get; set; }
+        if (string.IsNullOrEmpty(settingsId))
+        {
+            return this.BadRequest("SettingsId has not been provided");
+        }
+        if (regionId == 0)
+        {
+            return this.BadRequest("RegionId has not been provided.");
+        }
+
+        var allSettingsIds = regionSettings.Select(x => x.Name.ToSlugUrl());
+
+        if (!allSettingsIds.Contains(settingsId))
+        {
+            return this.BadRequest(string.Format("SettingsId, '{0}' is not recognized.", settingsId));
+        }
+
+        var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
+            x.RegionId == regionId &&
+            x.SettingsId == settingsId);
+
+        if (dataEntity == null)
+        {
+            dataEntity = new RegionSettings
+            {
+                SettingsId = settingsId,
+                RegionId = regionId,
+                Fields = fields
+            };
+            await regionSettingsService.Value.InsertAsync(dataEntity);
+            return Ok();
+            //TODO (currently throws error because of missing entity set on odata, basically we need to create
+            //      the separate Api Controller for it. A good idea might be to make this controller do that and make the
+            //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
+            //return Created(dataEntity);
+        }
+        else
+        {
+            dataEntity.Fields = fields;
+            await regionSettingsService.Value.UpdateAsync(dataEntity);
+            return Ok();
+            //TODO (currently throws error because of missing entity set on odata, basically we need to create
+            //      the separate Api Controller for it. A good idea might be to make this controller do that and make the
+            //      current Get() method an OData action instead... and maybe call it GetSettingsTypes())
+            //return Updated(dataEntity);
+        }
     }
+
+    protected static bool CheckPermission(Permission permission)
+    {
+        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
+    }
+}
+
+public class EdmRegionSettings
+{
+    public string Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string Fields { get; set; }
 }

@@ -1,65 +1,61 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc;
+﻿namespace Mantle.Web.ContentManagement;
 
-namespace Mantle.Web.ContentManagement
+public static class ViewComponentHelperExtensions
 {
-    public static class ViewComponentHelperExtensions
+    public static async Task<IHtmlContent> AutoBreadcrumbsAsync(this IViewComponentHelper component, string templateViewName)
     {
-        public static async Task<IHtmlContent> AutoBreadcrumbsAsync(this IViewComponentHelper component, string templateViewName)
+        return await component.InvokeAsync("AutoBreadcrumbs", new
         {
-            return await component.InvokeAsync("AutoBreadcrumbs", new
-            {
-                templateViewName = templateViewName
-            });
-        }
+            templateViewName = templateViewName
+        });
+    }
 
-        public static async Task<IHtmlContent> AutoMenuAsync(this IViewComponentHelper component, string templateViewName, bool includeHomePageLink = true)
+    public static async Task<IHtmlContent> AutoMenuAsync(this IViewComponentHelper component, string templateViewName, bool includeHomePageLink = true)
+    {
+        return await component.InvokeAsync("AutoMenu", new
         {
-            return await component.InvokeAsync("AutoMenu", new
-            {
-                templateViewName = templateViewName,
-                includeHomePageLink = includeHomePageLink
-            });
-        }
+            templateViewName = templateViewName,
+            includeHomePageLink = includeHomePageLink
+        });
+    }
 
-        public static async Task<IHtmlContent> AutoSubMenuAsync(this IViewComponentHelper component, string templateViewName)
+    public static async Task<IHtmlContent> AutoSubMenuAsync(this IViewComponentHelper component, string templateViewName)
+    {
+        return await component.InvokeAsync("AutoSubMenu", new
         {
-            return await component.InvokeAsync("AutoSubMenu", new
-            {
-                templateViewName = templateViewName
-            });
-        }
+            templateViewName = templateViewName
+        });
+    }
 
-        public static async Task<IHtmlContent> ContentZoneAsync(this IViewComponentHelper component, string zoneName, bool renderAsWidgets = false, WidgetColumns widgetColumns = WidgetColumns.Default)
+    public static async Task<IHtmlContent> ContentZoneAsync(this IViewComponentHelper component, string zoneName, bool renderAsWidgets = false, WidgetColumns widgetColumns = WidgetColumns.Default)
+    {
+        return await component.InvokeAsync("ContentBlocksByZone", new
         {
-            return await component.InvokeAsync("ContentBlocksByZone", new
-            {
-                zoneName = zoneName,
-                renderAsWidgets = renderAsWidgets,
-                widgetColumns = widgetColumns
-            });
-        }
+            zoneName = zoneName,
+            renderAsWidgets = renderAsWidgets,
+            widgetColumns = widgetColumns
+        });
+    }
 
-        public static async Task<IHtmlContent> EntityTypeContentZoneAsync(this IViewComponentHelper component, string zoneName, string entityType, object entityId, bool renderAsWidgets = false, WidgetColumns widgetColumns = WidgetColumns.Default)
+    public static async Task<IHtmlContent> EntityTypeContentZoneAsync(this IViewComponentHelper component, string zoneName, string entityType, object entityId, bool renderAsWidgets = false, WidgetColumns widgetColumns = WidgetColumns.Default)
+    {
+        return await component.InvokeAsync("EntityTypeContentBlocksByZone", new
         {
-            return await component.InvokeAsync("EntityTypeContentBlocksByZone", new
-            {
-                entityType = entityType,
-                entityId = entityId,
-                zoneName = zoneName,
-                renderAsWidgets = renderAsWidgets,
-                widgetColumns = widgetColumns
-            });
-        }
+            entityType = entityType,
+            entityId = entityId,
+            zoneName = zoneName,
+            renderAsWidgets = renderAsWidgets,
+            widgetColumns = widgetColumns
+        });
+    }
 
-        public static async Task<IHtmlContent> MenuAsync(this IViewComponentHelper component, string menuName, string templateViewName, bool filterByUrl = false)
+    public static async Task<IHtmlContent> MenuAsync(this IViewComponentHelper component, string menuName, string templateViewName, bool filterByUrl = false)
+    {
+        return await component.InvokeAsync("Menu", new
         {
-            return await component.InvokeAsync("Menu", new
-            {
-                name = menuName,
-                templateViewName = templateViewName,
-                filterByUrl = filterByUrl
-            });
-        }
+            name = menuName,
+            templateViewName = templateViewName,
+            filterByUrl = filterByUrl
+        });
     }
 }

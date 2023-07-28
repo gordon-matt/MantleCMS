@@ -1,12 +1,11 @@
-﻿namespace Mantle.Localization
-{
-    public interface ILanguagePack
-    {
-        /// <summary>
-        /// Leave NULL for default (invariant) culture
-        /// </summary>
-        string CultureCode { get; }
+﻿namespace Mantle.Localization;
 
-        IDictionary<string, string> LocalizedStrings { get; }
-    }
+public interface ILanguagePack
+{
+    /// <summary>
+    /// Leave NULL for default (invariant) culture
+    /// </summary>
+    string CultureCode { get; }
+
+    IDictionary<string, string> LocalizedStrings { get; }
 }

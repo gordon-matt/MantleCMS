@@ -1,11 +1,8 @@
-﻿using Autofac;
+﻿namespace Mantle.Infrastructure;
 
-namespace Mantle.Infrastructure
+public interface IDependencyRegistrar
 {
-    public interface IDependencyRegistrar
-    {
-        void Register(ContainerBuilder builder, ITypeFinder typeFinder);
+    void Register(ContainerBuilder builder, ITypeFinder typeFinder);
 
-        int Order { get; }
-    }
+    int Order { get; }
 }

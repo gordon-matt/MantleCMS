@@ -1,29 +1,25 @@
-﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc;
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Blog;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Blog
+public static class ViewComponentHelperExtensions
 {
-    public static class ViewComponentHelperExtensions
+    public static async Task<IHtmlContent> BlogPostsAsync(this IViewComponentHelper component)
     {
-        public static async Task<IHtmlContent> BlogPostsAsync(this IViewComponentHelper component)
-        {
-            return await component.InvokeAsync("BlogPosts", null);
-        }
+        return await component.InvokeAsync("BlogPosts", null);
+    }
 
-        public static async Task<IHtmlContent> BlogPostsByCategoryAsync(this IViewComponentHelper component, string categorySlug)
+    public static async Task<IHtmlContent> BlogPostsByCategoryAsync(this IViewComponentHelper component, string categorySlug)
+    {
+        return await component.InvokeAsync("BlogPostsByCategory", new
         {
-            return await component.InvokeAsync("BlogPostsByCategory", new
-            {
-                categorySlug = categorySlug
-            });
-        }
+            categorySlug = categorySlug
+        });
+    }
 
-        public static async Task<IHtmlContent> BlogPostsByTagAsync(this IViewComponentHelper component, string tagSlug)
+    public static async Task<IHtmlContent> BlogPostsByTagAsync(this IViewComponentHelper component, string tagSlug)
+    {
+        return await component.InvokeAsync("BlogPostsByTag", new
         {
-            return await component.InvokeAsync("BlogPostsByTag", new
-            {
-                tagSlug = tagSlug
-            });
-        }
+            tagSlug = tagSlug
+        });
     }
 }

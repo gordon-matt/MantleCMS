@@ -22,28 +22,27 @@
 
 #endregion Copyright © 2001-2003 Jean-Claude Manoli [jc@manoli.net]
 
-namespace Mantle.Web.Html.CodeFormatter
+namespace Mantle.Web.Html.CodeFormatter;
+
+/// <summary>
+/// Provides a base class for formatting languages similar to C.
+/// </summary>
+public abstract partial class CLikeFormat : CodeFormat
 {
     /// <summary>
-    /// Provides a base class for formatting languages similar to C.
+    /// Regular expression string to match single line and multi-line
+    /// comments (// and /* */).
     /// </summary>
-    public abstract partial class CLikeFormat : CodeFormat
+    protected override string CommentRegex
     {
-        /// <summary>
-        /// Regular expression string to match single line and multi-line
-        /// comments (// and /* */).
-        /// </summary>
-        protected override string CommentRegex
-        {
-            get { return @"/\*.*?\*/|//.*?(?=\r|\n)"; }
-        }
+        get { return @"/\*.*?\*/|//.*?(?=\r|\n)"; }
+    }
 
-        /// <summary>
-        /// Regular expression string to match string and character literals.
-        /// </summary>
-        protected override string StringRegex
-        {
-            get { return @"@?""""|@?"".*?(?!\\).""|''|'.*?(?!\\).'"; }
-        }
+    /// <summary>
+    /// Regular expression string to match string and character literals.
+    /// </summary>
+    protected override string StringRegex
+    {
+        get { return @"@?""""|@?"".*?(?!\\).""|''|'.*?(?!\\).'"; }
     }
 }

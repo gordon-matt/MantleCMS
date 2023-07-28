@@ -1,14 +1,13 @@
 ﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
 using System.Security.Principal;
 
-namespace Mantle.Web.ContentManagement.Infrastructure
+namespace Mantle.Web.ContentManagement.Infrastructure;
+
+public interface IAutoMenuProvider
 {
-    public interface IAutoMenuProvider
-    {
-        string RootUrlSlug { get; }
+    string RootUrlSlug { get; }
 
-        IEnumerable<MenuItem> GetMainMenuItems(IPrincipal user);
+    IEnumerable<MenuItem> GetMainMenuItems(IPrincipal user);
 
-        IEnumerable<MenuItem> GetSubMenuItems(string currentUrlSlug, IPrincipal user);
-    }
+    IEnumerable<MenuItem> GetSubMenuItems(string currentUrlSlug, IPrincipal user);
 }

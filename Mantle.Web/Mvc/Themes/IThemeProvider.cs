@@ -1,11 +1,10 @@
-﻿namespace Mantle.Web.Mvc.Themes
+﻿namespace Mantle.Web.Mvc.Themes;
+
+public partial interface IThemeProvider
 {
-    public partial interface IThemeProvider
-    {
-        ThemeConfiguration GetThemeConfiguration(string themeName);
+    ThemeConfiguration GetThemeConfiguration(string themeName);
 
-        IList<ThemeConfiguration> GetThemeConfigurations();
+    IList<ThemeConfiguration> GetThemeConfigurations();
 
-        bool ThemeConfigurationExists(string themeName);
-    }
+    bool ThemeConfigurationExists(string themeName);
 }

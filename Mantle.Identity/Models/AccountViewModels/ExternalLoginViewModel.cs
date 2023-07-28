@@ -1,11 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+namespace Mantle.Identity.Models.AccountViewModels;
 
-namespace Mantle.Identity.Models.AccountViewModels
+public class ExternalLoginViewModel
 {
-    public class ExternalLoginViewModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
 }

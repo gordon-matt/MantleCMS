@@ -2,19 +2,18 @@
 using Mantle.Infrastructure;
 using Mantle.Tenants.Services;
 
-namespace Mantle.Tenants.Infrastructure
+namespace Mantle.Tenants.Infrastructure;
+
+public class DependencyRegistrar : IDependencyRegistrar
 {
-    public class DependencyRegistrar : IDependencyRegistrar
+    #region IDependencyRegistrar Members
+
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
     {
-        #region IDependencyRegistrar Members
-
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
-        {
-            builder.RegisterType<TenantService>().As<ITenantService>().InstancePerDependency();
-        }
-
-        public int Order => 0;
-
-        #endregion IDependencyRegistrar Members
+        builder.RegisterType<TenantService>().As<ITenantService>().InstancePerDependency();
     }
+
+    public int Order => 0;
+
+    #endregion IDependencyRegistrar Members
 }

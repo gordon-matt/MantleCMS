@@ -1,45 +1,37 @@
-﻿using Mantle.Infrastructure;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Routing;
+﻿namespace Mantle.Web.Mvc;
 
-namespace Mantle.Web.Mvc
+public static class MvcHelpers
 {
-    public static class MvcHelpers
+    private static ActionContext actionContext;
+    private static IUrlHelper urlHelper;
+
+    public static ActionContext ActionContext
     {
-        private static ActionContext actionContext;
-        private static IUrlHelper urlHelper;
-
-        public static ActionContext ActionContext
+        get
         {
-            get
+            if (actionContext == null)
             {
-                if (actionContext == null)
-                {
-                    var serviceProvider = EngineContext.Current.Resolve<IServiceProvider>();
+                var serviceProvider = EngineContext.Current.Resolve<IServiceProvider>();
 
-                    actionContext = new ActionContext(
-                        new DefaultHttpContext { RequestServices = serviceProvider },
-                        new RouteData(),
-                        new ActionDescriptor());
-                }
-                return actionContext;
+                actionContext = new ActionContext(
+                    new DefaultHttpContext { RequestServices = serviceProvider },
+                    new RouteData(),
+                    new ActionDescriptor());
             }
+            return actionContext;
         }
+    }
 
-        public static IUrlHelper UrlHelper
+    public static IUrlHelper UrlHelper
+    {
+        get
         {
-            get
+            if (urlHelper == null)
             {
-                if (urlHelper == null)
-                {
-                    var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
-                    urlHelper = urlHelperFactory.GetUrlHelper(ActionContext);
-                }
-                return urlHelper;
+                var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
+                urlHelper = urlHelperFactory.GetUrlHelper(ActionContext);
             }
+            return urlHelper;
         }
     }
 }

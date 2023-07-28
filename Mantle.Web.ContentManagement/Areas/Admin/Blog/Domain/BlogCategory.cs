@@ -1,42 +1,36 @@
-﻿using Mantle.Data.Entity;
-using Mantle.Tenants.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+public class BlogCategory : TenantEntity<int>
 {
-    public class BlogCategory : TenantEntity<int>
+    private ICollection<BlogPost> posts;
+
+    public string Name { get; set; }
+
+    public string UrlSlug { get; set; }
+
+    public ICollection<BlogPost> Posts
     {
-        private ICollection<BlogPost> posts;
+        get { return posts ?? (posts = new HashSet<BlogPost>()); }
+        set { posts = value; }
+    }
+}
 
-        public string Name { get; set; }
-
-        public string UrlSlug { get; set; }
-
-        public ICollection<BlogPost> Posts
-        {
-            get { return posts ?? (posts = new HashSet<BlogPost>()); }
-            set { posts = value; }
-        }
+public class CategoryMap : IEntityTypeConfiguration<BlogCategory>, IMantleEntityTypeConfiguration
+{
+    public void Configure(EntityTypeBuilder<BlogCategory> builder)
+    {
+        builder.ToTable(CmsConstants.Tables.BlogCategories);
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
+        builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);
     }
 
-    public class CategoryMap : IEntityTypeConfiguration<BlogCategory>, IMantleEntityTypeConfiguration
+    #region IEntityTypeConfiguration Members
+
+    public bool IsEnabled
     {
-        public void Configure(EntityTypeBuilder<BlogCategory> builder)
-        {
-            builder.ToTable(CmsConstants.Tables.BlogCategories);
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
-            builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);
-        }
-
-        #region IEntityTypeConfiguration Members
-
-        public bool IsEnabled
-        {
-            get { return true; }
-        }
-
-        #endregion IEntityTypeConfiguration Members
+        get { return true; }
     }
+
+    #endregion IEntityTypeConfiguration Members
 }

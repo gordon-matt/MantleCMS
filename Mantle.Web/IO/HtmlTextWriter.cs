@@ -1,51 +1,48 @@
-﻿using Microsoft.AspNetCore.Html;
-using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 
-namespace Mantle.Web.IO
+namespace Mantle.Web.IO;
+
+public class HtmlTextWriter : TextWriter, IHtmlContent
 {
-    public class HtmlTextWriter : TextWriter, IHtmlContent
+    private readonly TextWriter stringWriter;
+
+    public HtmlTextWriter()
     {
-        private readonly TextWriter stringWriter;
+        stringWriter = new StringWriter();
+    }
 
-        public HtmlTextWriter()
+    public override Encoding Encoding
+    {
+        get { return stringWriter.Encoding; }
+    }
+
+    public override string ToString()
+    {
+        return stringWriter.ToString();
+    }
+
+    public override void Write(string value)
+    {
+        stringWriter.Write(value);
+    }
+
+    public override void Write(char value)
+    {
+        stringWriter.Write(value);
+    }
+
+    public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+    {
+        if (writer == null)
         {
-            stringWriter = new StringWriter();
+            throw new ArgumentNullException(nameof(writer));
         }
 
-        public override Encoding Encoding
-        {
-            get { return stringWriter.Encoding; }
-        }
+        //if (encoder == null)
+        //{
+        //    throw new ArgumentNullException(nameof(encoder));
+        //}
 
-        public override string ToString()
-        {
-            return stringWriter.ToString();
-        }
-
-        public override void Write(string value)
-        {
-            stringWriter.Write(value);
-        }
-
-        public override void Write(char value)
-        {
-            stringWriter.Write(value);
-        }
-
-        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
-        {
-            if (writer == null)
-            {
-                throw new ArgumentNullException(nameof(writer));
-            }
-
-            //if (encoder == null)
-            //{
-            //    throw new ArgumentNullException(nameof(encoder));
-            //}
-
-            writer.Write(stringWriter.ToString());
-        }
+        writer.Write(stringWriter.ToString());
     }
 }

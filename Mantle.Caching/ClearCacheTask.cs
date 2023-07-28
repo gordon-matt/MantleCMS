@@ -1,25 +1,16 @@
-﻿using Mantle.Tasks;
+﻿namespace Mantle.Caching;
 
-namespace Mantle.Caching
+/// <summary>
+/// Clear cache schedueled task implementation
+/// </summary>
+public class ClearCacheTask : ITask
 {
-    /// <summary>
-    /// Clear cache schedueled task implementation
-    /// </summary>
-    public class ClearCacheTask : ITask
+    public string Name => "Clear Cache Task";
+
+    public int DefaultInterval => 600;
+
+    public void Execute()
     {
-        public string Name
-        {
-            get { return "Clear Cache Task"; }
-        }
-
-        public int DefaultInterval
-        {
-            get { return 600; }
-        }
-
-        public void Execute()
-        {
-            //TODO
-        }
+        //TODO
     }
 }

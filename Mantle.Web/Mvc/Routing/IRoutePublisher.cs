@@ -1,66 +1,61 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Plugins;
-using Microsoft.AspNetCore.Routing;
+﻿namespace Mantle.Web.Mvc.Routing;
 
-namespace Mantle.Web.Mvc.Routing
+public interface IRoutePublisher
 {
-    public interface IRoutePublisher
+    void RegisterEndpoints(IEndpointRouteBuilder endpoints);
+}
+
+public class RoutePublisher : IRoutePublisher
+{
+    protected readonly ITypeFinder typeFinder;
+
+    public RoutePublisher(ITypeFinder typeFinder)
     {
-        void RegisterEndpoints(IEndpointRouteBuilder endpoints);
+        this.typeFinder = typeFinder;
     }
 
-    public class RoutePublisher : IRoutePublisher
+    protected virtual PluginDescriptor FindPlugin(Type providerType)
     {
-        protected readonly ITypeFinder typeFinder;
-
-        public RoutePublisher(ITypeFinder typeFinder)
+        if (providerType == null)
         {
-            this.typeFinder = typeFinder;
+            throw new ArgumentNullException("providerType");
         }
 
-        protected virtual PluginDescriptor FindPlugin(Type providerType)
+        foreach (var plugin in PluginManager.ReferencedPlugins)
         {
-            if (providerType == null)
+            if (plugin.ReferencedAssembly == null)
             {
-                throw new ArgumentNullException("providerType");
+                continue;
             }
 
-            foreach (var plugin in PluginManager.ReferencedPlugins)
+            if (plugin.ReferencedAssembly.FullName == providerType.Assembly.FullName)
             {
-                if (plugin.ReferencedAssembly == null)
-                {
-                    continue;
-                }
-
-                if (plugin.ReferencedAssembly.FullName == providerType.Assembly.FullName)
-                {
-                    return plugin;
-                }
+                return plugin;
             }
-
-            return null;
         }
 
-        public void RegisterEndpoints(IEndpointRouteBuilder endpoints)
+        return null;
+    }
+
+    public void RegisterEndpoints(IEndpointRouteBuilder endpoints)
+    {
+        var routeProviderTypes = typeFinder.FindClassesOfType<IRouteProvider>();
+        var routeProviders = new List<IRouteProvider>();
+
+        foreach (var providerType in routeProviderTypes)
         {
-            var routeProviderTypes = typeFinder.FindClassesOfType<IRouteProvider>();
-            var routeProviders = new List<IRouteProvider>();
-
-            foreach (var providerType in routeProviderTypes)
+            //Ignore not installed plugins
+            var plugin = FindPlugin(providerType);
+            if (plugin != null && !plugin.Installed)
             {
-                //Ignore not installed plugins
-                var plugin = FindPlugin(providerType);
-                if (plugin != null && !plugin.Installed)
-                {
-                    continue;
-                }
-
-                var provider = Activator.CreateInstance(providerType) as IRouteProvider;
-                routeProviders.Add(provider);
+                continue;
             }
 
-            routeProviders = routeProviders.OrderByDescending(rp => rp.Priority).ToList();
-            routeProviders.ForEach(rp => rp.RegisterEndpoints(endpoints));
+            var provider = Activator.CreateInstance(providerType) as IRouteProvider;
+            routeProviders.Add(provider);
         }
+
+        routeProviders = routeProviders.OrderByDescending(rp => rp.Priority).ToList();
+        routeProviders.ForEach(rp => rp.RegisterEndpoints(endpoints));
     }
 }
