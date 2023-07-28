@@ -43,10 +43,14 @@ public partial class MantleLinkTagHelper : UrlResolutionTagHelper
     public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
         if (context is null)
+        {
             throw new ArgumentNullException(nameof(context));
+        }
 
         if (output == null)
+        {
             throw new ArgumentNullException(nameof(output));
+        }
 
         mantleHtmlHelper.AddCssFileParts(Href, string.Empty, ExcludeFromBundle);
 

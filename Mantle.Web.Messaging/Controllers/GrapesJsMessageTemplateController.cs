@@ -175,10 +175,8 @@ public class GrapesJsMessageTemplateController : MantleController
                 Source = path.RightOf("\\Media\\").Replace("\\", "/").Prepend("/")
             });
 
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(path, FileMode.Create);
+            await file.CopyToAsync(stream);
         }
 
         return Json(new { data = newAssets });

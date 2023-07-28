@@ -20,7 +20,7 @@ public class Page : TenantEntity<Guid>
 
     public ICollection<PageVersion> Versions
     {
-        get { return versions ?? (versions = new HashSet<PageVersion>()); }
+        get { return versions ??= new HashSet<PageVersion>(); }
         set { versions = value; }
     }
 }

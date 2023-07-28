@@ -23,56 +23,48 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     public virtual IEnumerable<TEntity> Find()
     {
-        using (var connection = OpenConnection())
-        {
-            return connection.Query<TEntity>(string.Concat("SELECT * FROM ", GetTableName()));
-        }
+        using var connection = OpenConnection();
+        return connection.Query<TEntity>(string.Concat("SELECT * FROM ", GetTableName()));
     }
 
     public virtual IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
     {
         string sql = queryBuilder.BuildQuery();
-        using (var connection = OpenConnection())
-        {
-            return connection.Query<TEntity>(sql);
-        }
+        using var connection = OpenConnection();
+        return connection.Query<TEntity>(sql);
     }
 
     public virtual IEnumerable<TEntity> Find(string predicate, int skip = 0, short take = -1, string orderBy = null, SortDirection sortDirection = SortDirection.Ascending)
     {
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        if (take > 0)
         {
-            if (take > 0)
-            {
-                return connection.Query<TEntity>(string.Format(
-                    "SELECT * FROM {0} WHERE {1} ORDER BY {2} OFFSET {3} ROWS FETCH NEXT {4} ROWS ONLY;",
-                    GetTableName(),
-                    predicate,
-                    orderBy == null ? "1 " + GetDirection(sortDirection) : EncloseIdentifier(orderBy) + " " + GetDirection(sortDirection),
-                    skip,
-                    take));
-            }
-
             return connection.Query<TEntity>(string.Format(
-                "SELECT * FROM {0} WHERE {1}{2}",
+                "SELECT * FROM {0} WHERE {1} ORDER BY {2} OFFSET {3} ROWS FETCH NEXT {4} ROWS ONLY;",
                 GetTableName(),
                 predicate,
-                orderBy == null ? null : "ORDER BY " + EncloseIdentifier(orderBy) + " " + GetDirection(sortDirection)));
+                orderBy == null ? "1 " + GetDirection(sortDirection) : EncloseIdentifier(orderBy) + " " + GetDirection(sortDirection),
+                skip,
+                take));
         }
+
+        return connection.Query<TEntity>(string.Format(
+            "SELECT * FROM {0} WHERE {1}{2}",
+            GetTableName(),
+            predicate,
+            orderBy == null ? null : "ORDER BY " + EncloseIdentifier(orderBy) + " " + GetDirection(sortDirection)));
     }
 
     public virtual TEntity FindOne(TKey id)
     {
-        using (var connection = OpenConnection())
-        {
-            return connection
-                .Query<TEntity>(string.Format(
-                    "SELECT * FROM {0} WHERE {1} = {2}",
-                    GetTableName(),
-                    EncloseIdentifier("Id"),
-                    FormatValue(id)))
-                .FirstOrDefault();
-        }
+        using var connection = OpenConnection();
+        return connection
+            .Query<TEntity>(string.Format(
+                "SELECT * FROM {0} WHERE {1} = {2}",
+                GetTableName(),
+                EncloseIdentifier("Id"),
+                FormatValue(id)))
+            .FirstOrDefault();
     }
 
     public virtual TEntity FindOne(string predicate)
@@ -82,71 +74,61 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     public virtual int Count()
     {
-        using (var connection = OpenConnection())
-        {
-            return connection.Query<int>(string.Concat("SELECT COUNT(*) FROM ", GetTableName())).FirstOrDefault();
-        }
+        using var connection = OpenConnection();
+        return connection.Query<int>(string.Concat("SELECT COUNT(*) FROM ", GetTableName())).FirstOrDefault();
     }
 
     public virtual int Count(ISelectQueryBuilder queryBuilder)
     {
         string sql = queryBuilder.BuildQuery();
-        using (var connection = OpenConnection())
-        {
-            return connection.Query<int>(sql).FirstOrDefault();
-        }
+        using var connection = OpenConnection();
+        return connection.Query<int>(sql).FirstOrDefault();
     }
 
     public virtual int Count(string predicate)
     {
-        using (var connection = OpenConnection())
-        {
-            return connection
-                .Query<int>(string.Format(
-                    "SELECT COUNT(*) FROM {0} WHERE {1}",
-                    GetTableName(),
-                    predicate))
-                .FirstOrDefault();
-        }
+        using var connection = OpenConnection();
+        return connection
+            .Query<int>(string.Format(
+                "SELECT COUNT(*) FROM {0} WHERE {1}",
+                GetTableName(),
+                predicate))
+            .FirstOrDefault();
     }
 
     public virtual int Delete(TEntity entity)
     {
         int recordsAffected = 0;
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
-            {
-                string sql = string.Format("DELETE FROM {0} WHERE {1} = @Id;", GetTableName(), EncloseIdentifier("Id"));
-                recordsAffected = connection.Execute(sql, entity);
-            }
-            catch
-            {
-                return 0;
-            }
-
-            return recordsAffected;
+            string sql = string.Format("DELETE FROM {0} WHERE {1} = @Id;", GetTableName(), EncloseIdentifier("Id"));
+            recordsAffected = connection.Execute(sql, entity);
         }
+        catch
+        {
+            return 0;
+        }
+
+        return recordsAffected;
     }
 
     public virtual int Delete(IEnumerable<TEntity> entities)
     {
         int recordsAffected = 0;
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
-            {
-                var ids = string.Join(",", entities.Select(x => FormatValue(x.Id)));
-                string sql = string.Format("DELETE FROM {0} WHERE {1} IN({2});", GetTableName(), EncloseIdentifier("Id"), ids);
-                recordsAffected = connection.Execute(sql);
-            }
-            catch
-            {
-                return 0;
-            }
-
-            return recordsAffected;
+            string ids = string.Join(",", entities.Select(x => FormatValue(x.Id)));
+            string sql = string.Format("DELETE FROM {0} WHERE {1} IN({2});", GetTableName(), EncloseIdentifier("Id"), ids);
+            recordsAffected = connection.Execute(sql);
         }
+        catch
+        {
+            return 0;
+        }
+
+        return recordsAffected;
     }
 
     public virtual bool Insert(TEntity entity)
@@ -158,127 +140,119 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
             string.Join(", @", propertyContainer.ValueNames),
             LastInsertedRowCommand);
 
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
+            var propertyInfo = entity.GetType().GetTypeInfo().GetProperty("Id");
+
+            switch (Type.GetTypeCode(propertyInfo.PropertyType))
             {
-                var propertyInfo = entity.GetType().GetTypeInfo().GetProperty("Id");
+                case TypeCode.Int32:
+                    {
+                        int newId = connection.Query<int>(sql, entity).FirstOrDefault();
+                        propertyInfo.SetValue(entity, newId);
+                    }
+                    break;
 
-                switch (Type.GetTypeCode(propertyInfo.PropertyType))
-                {
-                    case TypeCode.Int32:
-                        {
-                            int newId = connection.Query<int>(sql, entity).FirstOrDefault();
-                            propertyInfo.SetValue(entity, newId);
-                        }
-                        break;
+                case TypeCode.Int64:
+                    {
+                        long newId = connection.Query<long>(sql, entity).FirstOrDefault();
+                        propertyInfo.SetValue(entity, newId);
+                    }
+                    break;
 
-                    case TypeCode.Int64:
-                        {
-                            long newId = connection.Query<long>(sql, entity).FirstOrDefault();
-                            propertyInfo.SetValue(entity, newId);
-                        }
-                        break;
+                case TypeCode.Int16:
+                    {
+                        short newId = connection.Query<short>(sql, entity).FirstOrDefault();
+                        propertyInfo.SetValue(entity, newId);
+                    }
+                    break;
 
-                    case TypeCode.Int16:
-                        {
-                            short newId = connection.Query<short>(sql, entity).FirstOrDefault();
-                            propertyInfo.SetValue(entity, newId);
-                        }
-                        break;
+                case TypeCode.Byte:
+                    {
+                        byte newId = connection.Query<byte>(sql, entity).FirstOrDefault();
+                        propertyInfo.SetValue(entity, newId);
+                    }
+                    break;
 
-                    case TypeCode.Byte:
-                        {
-                            byte newId = connection.Query<byte>(sql, entity).FirstOrDefault();
-                            propertyInfo.SetValue(entity, newId);
-                        }
-                        break;
-
-                    default: connection.Execute(sql, entity); break;
-                }
+                default: connection.Execute(sql, entity); break;
             }
-            catch
-            {
-                return false;
-            }
-
-            return true;
         }
+        catch
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public virtual int Insert(IEnumerable<TEntity> entities)
     {
         int rowsAffected = 0;
 
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    var propertyContainer = ParseProperties(entity);
-                    string sql = string.Format("INSERT INTO {0}({1}) VALUES(@{2})",
-                        GetTableName(),
-                        string.Join(", ", propertyContainer.ValueNames.Select(x => EncloseIdentifier(x))),
-                        string.Join(", @", propertyContainer.ValueNames));
+                var propertyContainer = ParseProperties(entity);
+                string sql = string.Format("INSERT INTO {0}({1}) VALUES(@{2})",
+                    GetTableName(),
+                    string.Join(", ", propertyContainer.ValueNames.Select(x => EncloseIdentifier(x))),
+                    string.Join(", @", propertyContainer.ValueNames));
 
-                    rowsAffected += connection.Execute(sql, entity);
-                }
+                rowsAffected += connection.Execute(sql, entity);
             }
-            catch
-            {
-                return 0;
-            }
-
-            return rowsAffected;
         }
+        catch
+        {
+            return 0;
+        }
+
+        return rowsAffected;
     }
 
     public virtual int Update(TEntity entity)
     {
         int recordsAffected = 0;
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
-            {
-                var propertyContainer = ParseProperties(entity);
-                var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
-                var sqlValuePairs = GetSqlPairs(propertyContainer.ValueNames);
-                var sql = string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(), sqlValuePairs, sqlIdPairs);
-                recordsAffected = connection.Execute(sql, entity);
-            }
-            catch
-            {
-                return 0;
-            }
-
-            return recordsAffected;
+            var propertyContainer = ParseProperties(entity);
+            string sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
+            string sqlValuePairs = GetSqlPairs(propertyContainer.ValueNames);
+            string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(), sqlValuePairs, sqlIdPairs);
+            recordsAffected = connection.Execute(sql, entity);
         }
+        catch
+        {
+            return 0;
+        }
+
+        return recordsAffected;
     }
 
     public virtual int Update(IEnumerable<TEntity> entities)
     {
         int recordsAffected = 0;
-        using (var connection = OpenConnection())
+        using var connection = OpenConnection();
+        try
         {
-            try
+            foreach (var entity in entities)
             {
-                foreach (var entity in entities)
-                {
-                    var propertyContainer = ParseProperties(entity);
-                    var sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
-                    var sqlValuePairs = GetSqlPairs(propertyContainer.ValueNames);
-                    var sql = string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(), sqlValuePairs, sqlIdPairs);
-                    recordsAffected += connection.Execute(sql, entity);
-                }
+                var propertyContainer = ParseProperties(entity);
+                string sqlIdPairs = GetSqlPairs(propertyContainer.IdNames);
+                string sqlValuePairs = GetSqlPairs(propertyContainer.ValueNames);
+                string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(), sqlValuePairs, sqlIdPairs);
+                recordsAffected += connection.Execute(sql, entity);
             }
-            catch
-            {
-                return 0;
-            }
-
-            return recordsAffected;
         }
+        catch
+        {
+            return 0;
+        }
+
+        return recordsAffected;
     }
 
     public abstract ISelectQueryBuilder CreateQuery();
@@ -298,7 +272,7 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     protected virtual object FormatValue(object value)
     {
-        if (value is string || value is Guid || value is DateTime)
+        if (value is string or Guid or DateTime)
         {
             return string.Concat("'", value, "'");
         }
@@ -312,8 +286,8 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
         var type = typeof(TEntity);
 
-        var typeName = type.Name;
-        var validKeyNames = new[]
+        string typeName = type.Name;
+        string[] validKeyNames = new[]
         {
             "Id",
             string.Concat(typeName, "Id"),
@@ -341,8 +315,8 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
                 continue;
             }
 
-            var name = property.Name;
-            var value = type.GetProperty(property.Name).GetValue(entity, null);
+            string name = property.Name;
+            object value = type.GetProperty(property.Name).GetValue(entity, null);
 
             if (property.IsDefined(typeof(DapperKey), false) || validKeyNames.Contains(name))
             {

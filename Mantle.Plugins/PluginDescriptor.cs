@@ -1,6 +1,4 @@
-﻿using Mantle.Infrastructure;
-
-namespace Mantle.Plugins;
+﻿namespace Mantle.Plugins;
 
 /// <summary>
 /// Represents a plugin descriptor
@@ -57,14 +55,14 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
         {
             //try resolve
         }
-        if (instance == null)
-        {
-            //not resolved
-            instance = EngineContext.Current.ResolveUnregistered(PluginType);
-        }
+        //not resolved
+        instance ??= EngineContext.Current.ResolveUnregistered(PluginType);
         var typedInstance = instance as T;
         if (typedInstance != null)
+        {
             typedInstance.PluginDescriptor = this;
+        }
+
         return typedInstance;
     }
 
@@ -76,7 +74,9 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     public int CompareTo(PluginDescriptor other)
     {
         if (DisplayOrder != other.DisplayOrder)
+        {
             return DisplayOrder.CompareTo(other.DisplayOrder);
+        }
 
         return FriendlyName.CompareTo(other.FriendlyName);
     }

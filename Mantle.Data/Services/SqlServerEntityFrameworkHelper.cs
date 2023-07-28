@@ -5,7 +5,7 @@ public class SqlServerEntityFrameworkHelper : IMantleEntityFrameworkHelper
     public void EnsureTables<TContext>(TContext context) where TContext : DbContext
     {
         var connection = context.Database.GetDbConnection();
-        var isConnectionClosed = connection.State == ConnectionState.Closed;
+        bool isConnectionClosed = connection.State == ConnectionState.Closed;
         if (isConnectionClosed)
         {
             connection.Open();
@@ -35,7 +35,7 @@ public class SqlServerEntityFrameworkHelper : IMantleEntityFrameworkHelper
         {
             string quotedTableName = $"[{newTable}]";
             var tableCommands = commands.Where(x => x.Contains(quotedTableName, StringComparison.OrdinalIgnoreCase)).ToList();
-            var createCommand = tableCommands.First(x => x.StartsWith($"CREATE TABLE {quotedTableName}", StringComparison.OrdinalIgnoreCase));
+            string createCommand = tableCommands.First(x => x.StartsWith($"CREATE TABLE {quotedTableName}", StringComparison.OrdinalIgnoreCase));
 
             try
             {
@@ -45,7 +45,7 @@ public class SqlServerEntityFrameworkHelper : IMantleEntityFrameworkHelper
 
             tableCommands.Remove(createCommand);
 
-            foreach (var cmd in tableCommands)
+            foreach (string cmd in tableCommands)
             {
                 if (cmd.StartsWith($"CREATE TABLE ", StringComparison.OrdinalIgnoreCase))
                 {

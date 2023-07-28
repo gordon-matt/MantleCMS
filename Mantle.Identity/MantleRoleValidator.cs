@@ -37,7 +37,7 @@ public abstract class MantleRoleValidator<TRole> : RoleValidator<TRole>
         TRole role,
         ICollection<IdentityError> errors)
     {
-        var roleName = await manager.GetRoleNameAsync(role);
+        string roleName = await manager.GetRoleNameAsync(role);
         if (string.IsNullOrWhiteSpace(roleName))
         {
             errors.Add(Describer.InvalidRoleName(roleName));

@@ -2,7 +2,6 @@
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Controllers;
 

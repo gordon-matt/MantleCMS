@@ -54,7 +54,7 @@ public class DefaultControllerFactory : IControllerFactory
             throw new ArgumentException($"The '{nameof(ControllerContext.ActionDescriptor)}' property of '{nameof(ControllerContext)}' must not be null.");
         }
 
-        var controller = _controllerActivator.Create(context);
+        object controller = _controllerActivator.Create(context);
         foreach (var propertyActivator in _propertyActivators)
         {
             propertyActivator.Activate(context, controller);

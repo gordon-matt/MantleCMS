@@ -15,7 +15,7 @@ public partial class ResolveLinksHelper
     /// <summary>
     /// The regular expression used to parse links.
     /// </summary>
-    private static readonly Regex regex = new Regex("((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&\\(\\)#,=\\-_\\./\\+]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex regex = new("((http://|https://|www\\.)([A-Z0-9.\\-]{1,})\\.[0-9A-Z?;~&\\(\\)#,=\\-_\\./\\+]{2,})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private const string link = "<a href=\"{0}{1}\" rel=\"nofollow\">{2}</a>";
     private const int MAX_LENGTH = 50;
@@ -30,15 +30,21 @@ public partial class ResolveLinksHelper
     private static string ShortenUrl(string url, int max)
     {
         if (url.Length <= max)
+        {
             return url;
+        }
 
         // Remove the protocal
         int startIndex = url.IndexOf("://");
         if (startIndex > -1)
-            url = url.Substring(startIndex + 3);
+        {
+            url = url[(startIndex + 3)..];
+        }
 
         if (url.Length <= max)
+        {
             return url;
+        }
 
         // Compress folder structure
         int firstIndex = url.IndexOf("/") + 1;
@@ -50,33 +56,45 @@ public partial class ResolveLinksHelper
         }
 
         if (url.Length <= max)
+        {
             return url;
+        }
 
         // Remove URL parameters
         int queryIndex = url.IndexOf("?");
         if (queryIndex > -1)
-            url = url.Substring(0, queryIndex);
+        {
+            url = url[..queryIndex];
+        }
 
         if (url.Length <= max)
+        {
             return url;
+        }
 
         // Remove URL fragment
         int fragmentIndex = url.IndexOf("#");
         if (fragmentIndex > -1)
-            url = url.Substring(0, fragmentIndex);
+        {
+            url = url[..fragmentIndex];
+        }
 
         if (url.Length <= max)
+        {
             return url;
+        }
 
         // Compress page
         firstIndex = url.LastIndexOf("/") + 1;
         lastIndex = url.LastIndexOf(".");
         if (lastIndex - firstIndex > 10)
         {
-            string page = url.Substring(firstIndex, lastIndex - firstIndex);
+            string page = url[firstIndex..lastIndex];
             int length = url.Length - max + 3;
             if (page.Length > length)
-                url = url.Replace(page, "..." + page.Substring(length));
+            {
+                url = url.Replace(page, "..." + page[length..]);
+            }
         }
 
         return url;
@@ -94,7 +112,9 @@ public partial class ResolveLinksHelper
     public static string FormatText(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         var info = CultureInfo.InvariantCulture;
         foreach (Match match in regex.Matches(text))

@@ -2,7 +2,7 @@
 
 public class MetaEntry
 {
-    private readonly TagBuilder builder = new TagBuilder("meta");
+    private readonly TagBuilder builder = new("meta");
 
     public string Charset
     {

@@ -45,11 +45,8 @@ public partial class Task
                 {
                     //try resolve
                 }
-                if (instance == null)
-                {
-                    //not resolved
-                    instance = EngineContext.Current.ResolveUnregistered(type2);
-                }
+                //not resolved
+                instance ??= EngineContext.Current.ResolveUnregistered(type2);
 
                 task = instance as ITask;
             }

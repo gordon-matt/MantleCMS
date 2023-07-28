@@ -6,7 +6,7 @@ public abstract class BaseUIProvider : IMantleUIProvider
 
     public ICollection<string> Scripts
     {
-        get { return scripts ?? (scripts = new List<string>()); }
+        get { return scripts ??= new List<string>(); }
         set { scripts = value; }
     }
 

@@ -231,7 +231,7 @@ public class StartupTask : IStartupTask
 
         #region Tenants
 
-        foreach (var tenantId in tenantIds)
+        foreach (int tenantId in tenantIds)
         {
             installedSettings = settingsRepository.Find(x => x.TenantId == tenantId);
             installedSettingNames = installedSettings.Select(x => x.Name).ToList();

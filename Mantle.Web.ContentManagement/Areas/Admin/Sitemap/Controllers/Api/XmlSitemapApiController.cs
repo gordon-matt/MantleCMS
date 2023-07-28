@@ -3,7 +3,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.EntityFrameworkCore;
 using System.Xml.Serialization;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api;
@@ -195,10 +194,7 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
                         .OrderByDescending(x => x.DateModifiedUtc)
                         .FirstOrDefault();
 
-                    if (localizedVersion1 == null)
-                    {
-                        localizedVersion1 = invariantVersion;
-                    }
+                    localizedVersion1 ??= invariantVersion;
 
                     var links = new List<LinkElement>();
 
@@ -217,10 +213,7 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
                             .OrderByDescending(x => x.DateModifiedUtc)
                             .FirstOrDefault();
 
-                        if (localizedVersion2 == null)
-                        {
-                            localizedVersion2 = invariantVersion;
-                        }
+                        localizedVersion2 ??= invariantVersion;
 
                         links.Add(new LinkElement
                         {

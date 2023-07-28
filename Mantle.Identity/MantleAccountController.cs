@@ -113,7 +113,7 @@ public abstract class MantleAccountController<TUser> : MantleController
             throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+        string authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
 
         var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
 
@@ -167,7 +167,7 @@ public abstract class MantleAccountController<TUser> : MantleController
             throw new ApplicationException($"Unable to load two-factor authentication user.");
         }
 
-        var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
+        string recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
 
         var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
 
@@ -218,8 +218,8 @@ public abstract class MantleAccountController<TUser> : MantleController
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = Url.EmailConfirmationLink<TUser>(user.Id, code, Request.Scheme);
+                string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                string callbackUrl = Url.EmailConfirmationLink<TUser>(user.Id, code, Request.Scheme);
                 await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
@@ -248,7 +248,7 @@ public abstract class MantleAccountController<TUser> : MantleController
     public virtual IActionResult ExternalLogin(string provider, string returnUrl = null)
     {
         // Request a redirect to the external login provider.
-        var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+        string redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
     }
@@ -284,7 +284,7 @@ public abstract class MantleAccountController<TUser> : MantleController
             // If the user does not have an account, then ask the user to create an account.
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["LoginProvider"] = info.LoginProvider;
-            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            string email = info.Principal.FindFirstValue(ClaimTypes.Email);
             return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
         }
     }
@@ -361,8 +361,8 @@ public abstract class MantleAccountController<TUser> : MantleController
 
             // For more information on how to enable account confirmation and password reset please
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callbackUrl = Url.ResetPasswordCallbackLink<TUser>(user.Id, code, Request.Scheme);
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string callbackUrl = Url.ResetPasswordCallbackLink<TUser>(user.Id, code, Request.Scheme);
             await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -502,7 +502,7 @@ public abstract class MantleAccountController<TUser> : MantleController
 
         foreach (var provider in userProfileProviders.Value)
         {
-            foreach (var fieldName in provider.GetFieldNames())
+            foreach (string fieldName in provider.GetFieldNames())
             {
                 string value = Request.Form[fieldName];
 

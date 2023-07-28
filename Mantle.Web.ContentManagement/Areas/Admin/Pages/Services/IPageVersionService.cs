@@ -1,5 +1,4 @@
 ﻿using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 
@@ -43,22 +42,20 @@ public class PageVersionService : GenericDataService<PageVersion>, IPageVersionS
         bool enabledOnly = true,
         bool shownOnMenusOnly = true)
     {
-        using (var pageVersionConnection = OpenConnection())
+        using var pageVersionConnection = OpenConnection();
+        IQueryable<PageVersion> query = pageVersionConnection.Query(x => x.TenantId == tenantId).Include(x => x.Page);
+
+        if (enabledOnly)
         {
-            IQueryable<PageVersion> query = pageVersionConnection.Query(x => x.TenantId == tenantId).Include(x => x.Page);
-
-            if (enabledOnly)
-            {
-                query = query.Where(x => x.Page.IsEnabled);
-            }
-
-            if (shownOnMenusOnly)
-            {
-                query = query.Where(x => x.Page.ShowOnMenus);
-            }
-
-            return GetCurrentVersionInternal(pageId, query, cultureCode);
+            query = query.Where(x => x.Page.IsEnabled);
         }
+
+        if (shownOnMenusOnly)
+        {
+            query = query.Where(x => x.Page.ShowOnMenus);
+        }
+
+        return GetCurrentVersionInternal(pageId, query, cultureCode);
     }
 
     public IEnumerable<PageVersion> GetCurrentVersions(
@@ -97,17 +94,15 @@ public class PageVersionService : GenericDataService<PageVersion>, IPageVersionS
             pages = query.ToHashSet();
         }
 
-        using (var pageVersionConnection = OpenConnection())
-        {
-            var pageVersions = pageVersionConnection
-                .Query(x => x.TenantId == tenantId)
-                .Include(x => x.Page)
-                .ToHashSet();
+        using var pageVersionConnection = OpenConnection();
+        var pageVersions = pageVersionConnection
+            .Query(x => x.TenantId == tenantId)
+            .Include(x => x.Page)
+            .ToHashSet();
 
-            return pages
-                .Select(x => GetCurrentVersionInternal(x.Id, pageVersions, cultureCode))
-                .Where(x => x != null);
-        }
+        return pages
+            .Select(x => GetCurrentVersionInternal(x.Id, pageVersions, cultureCode))
+            .Where(x => x != null);
     }
 
     #endregion IPageVersionService Members
@@ -130,13 +125,10 @@ public class PageVersionService : GenericDataService<PageVersion>, IPageVersionS
                     .OrderByDescending(x => x.DateModifiedUtc)
                     .FirstOrDefault();
 
-            if (localizedVersion == null)
-            {
-                localizedVersion = localizedVersions
+            localizedVersion ??= localizedVersions
                     .Where(x => x.Status == VersionStatus.Draft)
                     .OrderByDescending(x => x.DateModifiedUtc)
                     .FirstOrDefault();
-            }
 
             if (localizedVersion != null)
             {

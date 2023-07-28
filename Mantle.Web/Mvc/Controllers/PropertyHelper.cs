@@ -27,11 +27,9 @@ internal class PropertyHelper
         typeof(PropertyHelper).GetTypeInfo().GetDeclaredMethod(nameof(CallPropertySetter));
 
     // Using an array rather than IEnumerable, as target will be called on the hot path numerous times.
-    private static readonly ConcurrentDictionary<Type, PropertyHelper[]> PropertiesCache =
-        new ConcurrentDictionary<Type, PropertyHelper[]>();
+    private static readonly ConcurrentDictionary<Type, PropertyHelper[]> PropertiesCache = new();
 
-    private static readonly ConcurrentDictionary<Type, PropertyHelper[]> VisiblePropertiesCache =
-        new ConcurrentDictionary<Type, PropertyHelper[]>();
+    private static readonly ConcurrentDictionary<Type, PropertyHelper[]> VisiblePropertiesCache = new();
 
     // We need to be able to check if a type is a 'ref struct' - but we need to be able to compile
     // for platforms where the attribute is not defined, like net46. So we can fetch the attribute
@@ -69,10 +67,7 @@ internal class PropertyHelper
     {
         get
         {
-            if (_valueGetter == null)
-            {
-                _valueGetter = MakeFastPropertyGetter(Property);
-            }
+            _valueGetter ??= MakeFastPropertyGetter(Property);
 
             return _valueGetter;
         }
@@ -85,10 +80,7 @@ internal class PropertyHelper
     {
         get
         {
-            if (_valueSetter == null)
-            {
-                _valueSetter = MakeFastPropertySetter(Property);
-            }
+            _valueSetter ??= MakeFastPropertySetter(Property);
 
             return _valueSetter;
         }
@@ -328,8 +320,7 @@ internal class PropertyHelper
     /// </remarks>
     public static IDictionary<string, object> ObjectToDictionary(object value)
     {
-        var dictionary = value as IDictionary<string, object>;
-        if (dictionary != null)
+        if (value is IDictionary<string, object> dictionary)
         {
             return new Dictionary<string, object>(dictionary, StringComparer.OrdinalIgnoreCase);
         }
@@ -416,7 +407,7 @@ internal class PropertyHelper
         }
 
         // The simple and common case, this is normal POCO object - no need to allocate.
-        var allPropertiesDefinedOnType = true;
+        bool allPropertiesDefinedOnType = true;
         var allProperties = GetProperties(type, createPropertyHelper, allPropertiesCache);
         foreach (var propertyHelper in allProperties)
         {
@@ -447,7 +438,7 @@ internal class PropertyHelper
 
             // If this property was declared on a base type then look for the definition closest to the
             // the type to see if we should include it.
-            var ignoreProperty = false;
+            bool ignoreProperty = false;
 
             // Walk up the hierarchy until we find the type that actually declares this
             // PropertyInfo.

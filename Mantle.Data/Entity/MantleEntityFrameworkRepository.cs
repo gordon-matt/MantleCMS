@@ -21,10 +21,7 @@ public class MantleEntityFrameworkRepository<TEntity> : EntityFrameworkRepositor
 
     protected override DbContext GetContext()
     {
-        if (contextFactory == null)
-        {
-            contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-        }
+        contextFactory ??= EngineContext.Current.Resolve<IDbContextFactory>();
         return contextFactory.GetContext();
     }
 }

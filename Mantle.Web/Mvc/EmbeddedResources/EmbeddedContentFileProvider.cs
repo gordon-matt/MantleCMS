@@ -5,7 +5,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources;
 public class EmbeddedContentFileProvider : IFileProvider
 {
     private static readonly char[] invalidFileNameChars = Path.GetInvalidFileNameChars()
-        .Where(c => c != '/' && c != '\\')
+        .Where(c => c is not '/' and not '\\')
         .ToArray();
 
     private EmbeddedResourceTable embeddedContent;
@@ -32,7 +32,7 @@ public class EmbeddedContentFileProvider : IFileProvider
 
         if (subpath.StartsWith("/", StringComparison.Ordinal))
         {
-            subpath = subpath.Substring(1);
+            subpath = subpath[1..];
         }
 
         if (!IsEmbeddedContent(subpath))
@@ -61,7 +61,7 @@ public class EmbeddedContentFileProvider : IFileProvider
         // Relative paths starting with a leading slash okay
         if (subpath.StartsWith("/", StringComparison.Ordinal))
         {
-            subpath = subpath.Substring(1);
+            subpath = subpath[1..];
         }
 
         // Non-hierarchal.

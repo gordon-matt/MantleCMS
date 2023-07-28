@@ -400,13 +400,11 @@ public class PageService : GenericDataService<Page>, IPageService
 
     public IEnumerable<Page> GetTopLevelPages(int tenantId)
     {
-        using (var connection = OpenConnection())
-        {
-            return connection
-                .Query(x => x.TenantId == tenantId && x.ParentId == null)
-                .OrderBy(x => x.Name)
-                .ToHashSet();
-        }
+        using var connection = OpenConnection();
+        return connection
+            .Query(x => x.TenantId == tenantId && x.ParentId == null)
+            .OrderBy(x => x.Name)
+            .ToHashSet();
     }
 
     #endregion IPageService Members

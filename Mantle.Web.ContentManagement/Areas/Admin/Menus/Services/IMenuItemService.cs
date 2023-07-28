@@ -27,20 +27,18 @@ public class MenuItemService : GenericDataService<MenuItem>, IMenuItemService
     {
         return CacheManager.Get(string.Format("Repository_MenuItem_GetByMenuIdAndEnabled_{0}_{1}", menuId, enabledOnly), () =>
         {
-            using (var connection = OpenConnection())
-            {
-                return enabledOnly
-                    ? connection
-                        .Query(x => x.MenuId == menuId && x.Enabled)
-                        .OrderBy(x => x.Position)
-                        .ThenBy(x => x.Text)
-                        .ToList()
-                    : connection
-                        .Query(x => x.MenuId == menuId)
-                        .OrderBy(x => x.Position)
-                        .ThenBy(x => x.Text)
-                        .ToList();
-            }
+            using var connection = OpenConnection();
+            return enabledOnly
+                ? connection
+                    .Query(x => x.MenuId == menuId && x.Enabled)
+                    .OrderBy(x => x.Position)
+                    .ThenBy(x => x.Text)
+                    .ToList()
+                : connection
+                    .Query(x => x.MenuId == menuId)
+                    .OrderBy(x => x.Position)
+                    .ThenBy(x => x.Text)
+                    .ToList();
         });
     }
 

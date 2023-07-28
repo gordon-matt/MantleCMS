@@ -1,5 +1,4 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Localization;
+﻿using Mantle.Localization;
 using Mantle.Localization.Domain;
 
 namespace Mantle.Plugins;

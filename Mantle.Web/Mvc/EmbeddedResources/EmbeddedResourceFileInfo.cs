@@ -33,10 +33,8 @@ public class EmbeddedResourceFileInfo : IFileInfo
         {
             if (!length.HasValue)
             {
-                using (var stream = assembly.GetManifestResourceStream(metadata.ResourceName))
-                {
-                    length = stream.Length;
-                }
+                using var stream = assembly.GetManifestResourceStream(metadata.ResourceName);
+                length = stream.Length;
             }
             return length.Value;
         }

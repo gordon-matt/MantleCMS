@@ -3,7 +3,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
@@ -12,7 +11,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
 //[Route("admin/pages")]
 public class PageContentController : MantleController
 {
-    protected static Regex ContentZonePattern = new Regex(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
+    protected static Regex ContentZonePattern = new(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
     private readonly IContentBlockService contentBlockService;
     private readonly Lazy<IMembershipService> membershipService;
     private readonly IPageService pageService;
@@ -51,7 +50,7 @@ public class PageContentController : MantleController
         //}
 
         int tenantId = WorkContext.CurrentTenant.Id;
-        var currentCulture = WorkContext.CurrentCultureCode;
+        string currentCulture = WorkContext.CurrentCultureCode;
 
         //TODO: To support localized routes, we should probably first try get a single record by slug,
         //  then if there's only 1, fine.. return it.. if more than one.. then add cultureCode as
@@ -78,54 +77,48 @@ public class PageContentController : MantleController
             // ...then try get the last archived one for the current culture
             // NOTE: there's no need to worry about the last one being a draft before being archived, because
             //  we ONLY archive the published ones, not drafts.. so getting the last archived one will be the last published one
-            using (var connection = pageVersionService.OpenConnection())
-            {
-                pageVersion = await connection.Query()
-                    .Include(x => x.Page)
-                    .Where(x =>
-                        x.TenantId == tenantId &&
-                        x.Status == VersionStatus.Archived &&
-                        x.CultureCode == currentCulture &&
-                        x.Slug == slug)
-                    .OrderByDescending(x => x.DateModifiedUtc)
-                    .FirstOrDefaultAsync();
-            }
+            using var connection = pageVersionService.OpenConnection();
+            pageVersion = await connection.Query()
+                .Include(x => x.Page)
+                .Where(x =>
+                    x.TenantId == tenantId &&
+                    x.Status == VersionStatus.Archived &&
+                    x.CultureCode == currentCulture &&
+                    x.Slug == slug)
+                .OrderByDescending(x => x.DateModifiedUtc)
+                .FirstOrDefaultAsync();
         }
 
         // If there isn't one...
         if (pageVersion == null)
         {
             // ...then try get the latest published version for the invariant culture
-            using (var connection = pageVersionService.OpenConnection())
-            {
-                pageVersion = await connection.Query()
-                    .Include(x => x.Page)
-                    .Where(x =>
-                        x.TenantId == tenantId &&
-                        x.Status == VersionStatus.Published &&
-                        x.CultureCode == null &&
-                        x.Slug == slug)
-                    .OrderByDescending(x => x.DateModifiedUtc)
-                    .FirstOrDefaultAsync();
-            }
+            using var connection = pageVersionService.OpenConnection();
+            pageVersion = await connection.Query()
+                .Include(x => x.Page)
+                .Where(x =>
+                    x.TenantId == tenantId &&
+                    x.Status == VersionStatus.Published &&
+                    x.CultureCode == null &&
+                    x.Slug == slug)
+                .OrderByDescending(x => x.DateModifiedUtc)
+                .FirstOrDefaultAsync();
         }
 
         // If there isn't one...
         if (pageVersion == null)
         {
             // ...then try get the last archived one for the invariant culture (TODO: What if last archived was a draft??)
-            using (var connection = pageVersionService.OpenConnection())
-            {
-                pageVersion = await connection.Query()
-                    .Include(x => x.Page)
-                    .Where(x =>
-                        x.TenantId == tenantId &&
-                        x.Status == VersionStatus.Archived &&
-                        x.CultureCode == null &&
-                        x.Slug == slug)
-                    .OrderByDescending(x => x.DateModifiedUtc)
-                    .FirstOrDefaultAsync();
-            }
+            using var connection = pageVersionService.OpenConnection();
+            pageVersion = await connection.Query()
+                .Include(x => x.Page)
+                .Where(x =>
+                    x.TenantId == tenantId &&
+                    x.Status == VersionStatus.Archived &&
+                    x.CultureCode == null &&
+                    x.Slug == slug)
+                .OrderByDescending(x => x.DateModifiedUtc)
+                .FirstOrDefaultAsync();
         }
 
         if (pageVersion != null && pageVersion.Page.IsEnabled)

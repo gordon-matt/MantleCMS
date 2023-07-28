@@ -32,7 +32,7 @@ public class BlogPost : TenantEntity<Guid>
 
     public virtual ICollection<BlogPostTag> Tags
     {
-        get { return tags ?? (tags = new HashSet<BlogPostTag>()); }
+        get { return tags ??= new HashSet<BlogPostTag>(); }
         set { tags = value; }
     }
 }

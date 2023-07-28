@@ -9,10 +9,7 @@ public class LocalizedHelpTextAttribute : Attribute
     {
         get
         {
-            if (localizer == null)
-            {
-                localizer = EngineContext.Current.Resolve<IStringLocalizer>();
-            }
+            localizer ??= EngineContext.Current.Resolve<IStringLocalizer>();
             return localizer;
         }
     }

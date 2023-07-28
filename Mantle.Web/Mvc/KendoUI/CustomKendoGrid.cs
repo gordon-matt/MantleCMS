@@ -151,7 +151,7 @@ public class CustomKendoGrid<TEntity, TViewModel>
         var aggregatesQuery = groupByQuery.Select(aggregatesExpression);
 
         // Try to get first result, cast to DynamicClass as use helper method to convert this to correct response
-        var aggregates = (aggregatesQuery.FirstOrDefault() as DynamicClass).GetAggregatesAsDictionary();
+        object aggregates = (aggregatesQuery.FirstOrDefault() as DynamicClass).GetAggregatesAsDictionary();
 
         return aggregates;
     }
@@ -182,19 +182,19 @@ public class CustomKendoGrid<TEntity, TViewModel>
         var groupByFields = request.GroupObjects.Select(s => $"{MapFieldfromViewModeltoEntity(s.Field)} as {s.Field}").ToList();
 
         // new (new (LastName as Last) as GroupByFields)
-        var groupByExpressionX = $"new (new ({string.Join(",", groupByFields)}) as GroupByFields)";
+        string groupByExpressionX = $"new (new ({string.Join(",", groupByFields)}) as GroupByFields)";
 
         // new (Key.GroupByFields, it as Grouping, new (sum(TEntity__.EmployeeNumber) as sum__TEntity___EmployeeNumber) as Aggregates)
-        var selectExpressionBeforeOrderByX = $"new (Key.GroupByFields, it as Grouping {aggregatesExpression})";
-        var groupSort = string.Join(",", request.GroupObjects.ToList().Select(s => $"{MapFieldfromViewModeltoEntity(s.Field)} {s.Direction}"));
+        string selectExpressionBeforeOrderByX = $"new (Key.GroupByFields, it as Grouping {aggregatesExpression})";
+        string groupSort = string.Join(",", request.GroupObjects.ToList().Select(s => $"{MapFieldfromViewModeltoEntity(s.Field)} {s.Direction}"));
 
         // Adam Downs moved sort to items vs group
-        var orderByFieldsExpression = hasSortObjects ?
+        string orderByFieldsExpression = hasSortObjects ?
             string.Join(",", sort.Select(s => $"{MapFieldfromViewModeltoEntity(s.Field)} {s.Direction}")) :
             MapFieldfromViewModeltoEntity(request.GroupObjects.First().Field);
 
         // new (GroupByFields, Grouping, Aggregates)
-        var selectExpressionAfterOrderByX = $"new (GroupByFields, Grouping{(hasAggregates ? ", Aggregates" : string.Empty)})";
+        string selectExpressionAfterOrderByX = $"new (GroupByFields, Grouping{(hasAggregates ? ", Aggregates" : string.Empty)})";
 
         string includesX = string.Empty;
         if (includes != null && includes.Any())
@@ -202,7 +202,7 @@ public class CustomKendoGrid<TEntity, TViewModel>
             includesX = ", " + string.Join(", ", includes.Select(i => "it." + i + " as TEntity__" + i.Replace(".", "_")));
         }
 
-        IOrderedQueryable<TEntity> limitedQueryOrdered = query.OrderBy(string.Join(",", groupSort, orderByFieldsExpression));
+        var limitedQueryOrdered = query.OrderBy(string.Join(",", groupSort, orderByFieldsExpression));
         IQueryable<TEntity> limitedQuery = limitedQueryOrdered;
 
         // Execute the Dynamic Linq for Paging
@@ -229,11 +229,11 @@ public class CustomKendoGrid<TEntity, TViewModel>
 
         // Create a valid List<KendoGroup> object
         var list = new List<KendoGroup>();
-        foreach (DynamicClass item in tempQuery.ToDynamicList<DynamicClass>())
+        foreach (var item in tempQuery.ToDynamicList<DynamicClass>())
         {
             var grouping = item.GetDynamicPropertyValue<IGrouping<object, object>>("Grouping");
             var groupByDictionary = item.GetDynamicPropertyValue<object>("GroupByFields").ToDictionary();
-            var aggregates = item.GetAggregatesAsDictionary();
+            object aggregates = item.GetAggregatesAsDictionary();
 
             Process(request.GroupObjects, groupByDictionary, grouping, aggregates, list);
         }
@@ -281,13 +281,13 @@ public class CustomKendoGrid<TEntity, TViewModel>
             return null;
         }
 
-        var expression = string.Join(",", sortObjects.Select(s => MapFieldfromViewModeltoEntity(s.Field) + " " + s.Direction));
+        string expression = string.Join(",", sortObjects.Select(s => MapFieldfromViewModeltoEntity(s.Field) + " " + s.Direction));
         return expression.Length > 1 ? expression : null;
     }
 
     protected string GetFiltering(FilterObjectWrapper filter)
     {
-        var finalExpression = string.Empty;
+        string finalExpression = string.Empty;
 
         foreach (var filterObject in filter.FilterObjects)
         {
@@ -301,14 +301,14 @@ public class CustomKendoGrid<TEntity, TViewModel>
 
             if (filterObject.IsConjugate)
             {
-                var expression1 = filterObject.GetExpression1<TEntity>();
-                var expression2 = filterObject.GetExpression2<TEntity>();
-                var combined = $"({expression1} {filterObject.LogicToken} {expression2})";
+                string expression1 = filterObject.GetExpression1<TEntity>();
+                string expression2 = filterObject.GetExpression2<TEntity>();
+                string combined = $"({expression1} {filterObject.LogicToken} {expression2})";
                 finalExpression += combined;
             }
             else
             {
-                var expression = filterObject.GetExpression1<TEntity>();
+                string expression = filterObject.GetExpression1<TEntity>();
                 finalExpression += expression;
             }
         }

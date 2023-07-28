@@ -6,7 +6,7 @@ public static class CmsConstants
 {
     public static class RegexPatterns
     {
-        public static readonly Regex Email = new Regex("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Email = new("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 
     public static class Areas

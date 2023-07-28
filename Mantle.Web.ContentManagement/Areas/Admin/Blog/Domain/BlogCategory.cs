@@ -10,7 +10,7 @@ public class BlogCategory : TenantEntity<int>
 
     public ICollection<BlogPost> Posts
     {
-        get { return posts ?? (posts = new HashSet<BlogPost>()); }
+        get { return posts ??= new HashSet<BlogPost>(); }
         set { posts = value; }
     }
 }

@@ -73,7 +73,7 @@ public abstract class MantleManageController<TUser> : Controller
             throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
         }
 
-        var email = user.Email;
+        string email = user.Email;
         if (model.Email != email)
         {
             var setEmailResult = await userManager.SetEmailAsync(user, model.Email);
@@ -83,7 +83,7 @@ public abstract class MantleManageController<TUser> : Controller
             }
         }
 
-        var phoneNumber = user.PhoneNumber;
+        string phoneNumber = user.PhoneNumber;
         if (model.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
@@ -112,9 +112,9 @@ public abstract class MantleManageController<TUser> : Controller
             throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
         }
 
-        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        var callbackUrl = Url.EmailConfirmationLink<TUser>(user.Id, code, Request.Scheme);
-        var email = user.Email;
+        string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        string callbackUrl = Url.EmailConfirmationLink<TUser>(user.Id, code, Request.Scheme);
+        string email = user.Email;
         await emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
         StatusMessage = "Verification email sent. Please check your email.";
@@ -130,7 +130,7 @@ public abstract class MantleManageController<TUser> : Controller
             throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
         }
 
-        var hasPassword = await userManager.HasPasswordAsync(user);
+        bool hasPassword = await userManager.HasPasswordAsync(user);
         if (!hasPassword)
         {
             return RedirectToAction(nameof(SetPassword));
@@ -178,7 +178,7 @@ public abstract class MantleManageController<TUser> : Controller
             throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
         }
 
-        var hasPassword = await userManager.HasPasswordAsync(user);
+        bool hasPassword = await userManager.HasPasswordAsync(user);
 
         if (hasPassword)
         {
@@ -244,7 +244,7 @@ public abstract class MantleManageController<TUser> : Controller
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
         // Request a redirect to the external login provider to link a login for the current user
-        var redirectUrl = Url.Action(nameof(LinkLoginCallback));
+        string redirectUrl = Url.Action(nameof(LinkLoginCallback));
         var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, userManager.GetUserId(User));
         return new ChallengeResult(provider, properties);
     }
@@ -363,7 +363,7 @@ public abstract class MantleManageController<TUser> : Controller
             throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
         }
 
-        var unformattedKey = await userManager.GetAuthenticatorKeyAsync(user);
+        string unformattedKey = await userManager.GetAuthenticatorKeyAsync(user);
         if (string.IsNullOrEmpty(unformattedKey))
         {
             await userManager.ResetAuthenticatorKeyAsync(user);
@@ -395,9 +395,9 @@ public abstract class MantleManageController<TUser> : Controller
         }
 
         // Strip spaces and hypens
-        var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
+        string verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-        var is2faTokenValid = await userManager.VerifyTwoFactorTokenAsync(
+        bool is2faTokenValid = await userManager.VerifyTwoFactorTokenAsync(
             user, userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
         if (!is2faTokenValid)
@@ -477,7 +477,7 @@ public abstract class MantleManageController<TUser> : Controller
         }
         if (currentPosition < unformattedKey.Length)
         {
-            result.Append(unformattedKey.Substring(currentPosition));
+            result.Append(unformattedKey[currentPosition..]);
         }
 
         return result.ToString().ToLowerInvariant();

@@ -35,7 +35,7 @@ public class Tokenizer : ITokenizer
 
         foreach (var token in tokens)
         {
-            var tokenValue = token.Value;
+            string tokenValue = token.Value;
 
             //do not encode URLs
             if (htmlEncode && token.HtmlEncoded)

@@ -109,8 +109,8 @@ public class DefaultSettingService : ISettingService
     public void SaveSettings<TSettings>(TSettings settings, int? tenantId = null) where TSettings : ISettings
     {
         var type = settings.GetType();
-        var key = type.FullName;
-        var value = settings.JsonSerialize();
+        string key = type.FullName;
+        string value = settings.JsonSerialize();
         SaveSettings(key, value, tenantId);
     }
 }

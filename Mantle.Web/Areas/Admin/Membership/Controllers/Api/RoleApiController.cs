@@ -131,7 +131,7 @@ public class RoleApiController : ODataController
             return BadRequest(ModelState);
         }
 
-        MantleRole entity = await Service.GetRoleById(key);
+        var entity = await Service.GetRoleById(key);
         if (entity == null)
         {
             return NotFound();
@@ -164,7 +164,7 @@ public class RoleApiController : ODataController
             return Unauthorized();
         }
 
-        MantleRole entity = await Service.GetRoleById(key);
+        var entity = await Service.GetRoleById(key);
         if (entity == null)
         {
             return NotFound();

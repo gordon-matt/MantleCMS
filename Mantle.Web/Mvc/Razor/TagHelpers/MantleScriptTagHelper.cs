@@ -64,10 +64,12 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
         var scriptTag = new TagBuilder(SCRIPT_TAG_NAME);
 
         var childContent = await output.GetChildContentAsync();
-        var script = childContent.GetContent();
+        string script = childContent.GetContent();
 
         if (!string.IsNullOrEmpty(script))
+        {
             scriptTag.InnerHtml.SetHtmlContent(new HtmlString(script));
+        }
 
         scriptTag.MergeAttributes(await output.GetAttributeDictionaryAsync(), replaceExisting: false);
 
@@ -77,11 +79,15 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
     protected void ProcessSrcAttribute(TagHelperContext context, TagHelperOutput output)
     {
         if (!string.IsNullOrEmpty(DebugSrc) && _webHostEnvironment.IsDevelopment())
+        {
             Src = DebugSrc;
+        }
 
         // Pass through attribute that is also a well-known HTML attribute.
         if (Src != null)
+        {
             output.CopyHtmlAttribute(SRC_ATTRIBUTE_NAME, context);
+        }
 
         // If there's no "src" attribute in output.Attributes this will noop.
         ProcessUrlAttribute(SRC_ATTRIBUTE_NAME, output);
@@ -90,13 +96,17 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
         // pipeline have touched the value. If the value is already encoded this ScriptTagHelper may
         // not function properly.
         if (output.Attributes[SRC_ATTRIBUTE_NAME]?.Value is string srcAttribute)
+        {
             Src = srcAttribute;
+        }
     }
 
     protected void ProcessAsset(TagHelperOutput output)
     {
         if (string.IsNullOrEmpty(Src))
+        {
             return;
+        }
 
         var urlHelper = UrlHelperFactory.GetUrlHelper(ViewContext);
         if (!urlHelper.IsLocalUrl(Src))
@@ -124,18 +134,26 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
         if (context is null)
+        {
             throw new ArgumentNullException(nameof(context));
+        }
 
         if (output == null)
+        {
             throw new ArgumentNullException(nameof(output));
+        }
 
         if (_webHelper.IsAjaxRequest(ViewContext.HttpContext?.Request))
+        {
             return;
+        }
 
         output.TagMode = TagMode.StartTagAndEndTag;
 
         if (!output.Attributes.ContainsName("type")) // we don't touch other types e.g. text/template
+        {
             output.Attributes.SetAttribute("type", MimeTypes.TextJavascript);
+        }
 
         if (Location == ResourceLocation.Auto)
         {
@@ -155,9 +173,13 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
         }
 
         if (string.IsNullOrEmpty(Src))
+        {
             _nopHtmlHelper.AddInlineScriptParts(Location, await BuildInlineScriptTagAsync(output));
+        }
         else
+        {
             _nopHtmlHelper.AddScriptParts(Location, Src, DebugSrc, ExcludeFromBundle);
+        }
 
         output.SuppressOutput();
     }

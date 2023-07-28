@@ -32,12 +32,12 @@ public class RolesBasedAuthorizationService : IMantleAuthorizationService
 
         var context = new CheckAccessContext { Permission = permission, User = user };
 
-        for (var adjustmentLimiter = 0; adjustmentLimiter != 3; ++adjustmentLimiter)
+        for (int adjustmentLimiter = 0; adjustmentLimiter != 3; ++adjustmentLimiter)
         {
             if (!context.Granted)
             {
                 // determine which set of permissions would satisfy the access check
-                var grantingNames = PermissionNames(context.Permission, Enumerable.Empty<string>()).Distinct().ToArray();
+                string[] grantingNames = PermissionNames(context.Permission, Enumerable.Empty<string>()).Distinct().ToArray();
 
                 // determine what set of roles should be examined by the access check
                 IEnumerable<string> rolesToExamine;
@@ -54,7 +54,7 @@ public class RolesBasedAuthorizationService : IMantleAuthorizationService
                     }
                 }
 
-                foreach (var role in rolesToExamine)
+                foreach (string role in rolesToExamine)
                 {
                     //var rolePermissions = AsyncHelper.RunSync(() => membershipService.GetPermissionsForRole(workContext.CurrentTenant.Id, role));
                     var rolePermissions = AsyncHelper.RunSync(() => membershipService.GetPermissionsForRole(user.TenantId, role));
@@ -107,7 +107,7 @@ public class RolesBasedAuthorizationService : IMantleAuthorizationService
                 }
 
                 // otherwise accumulate the implied permission names recursively
-                foreach (var impliedName in PermissionNames(impliedBy, stack.Concat(new[] { permission.Name })))
+                foreach (string impliedName in PermissionNames(impliedBy, stack.Concat(new[] { permission.Name })))
                 {
                     yield return impliedName;
                 }

@@ -12,9 +12,9 @@ public partial class CodeFormatHelper
     #region Fields
 
     //private static Regex regexCode1 = new Regex(@"(?<begin>\[code:(?<lang>.*?)(?:;ln=(?<linenumbers>(?:on|off)))?(?:;alt=(?<altlinenumbers>(?:on|off)))?(?:;(?<title>.*?))?\])(?<code>.*?)(?<end>\[/code\])", RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-    private static readonly Regex regexHtml = new Regex("<[^>]*>", RegexOptions.Compiled);
+    private static readonly Regex regexHtml = new("<[^>]*>", RegexOptions.Compiled);
 
-    private static readonly Regex regexCode2 = new Regex(@"\[code\](?<inner>(.*?))\[/code\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex regexCode2 = new(@"\[code\](?<inner>(.*?))\[/code\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion Fields
 
@@ -28,7 +28,9 @@ public partial class CodeFormatHelper
     private static string CodeEvaluator(Match match)
     {
         if (!match.Success)
+        {
             return match.Value;
+        }
 
         var options = new HighlightOptions();
 
@@ -52,7 +54,9 @@ public partial class CodeFormatHelper
     private static string CodeEvaluatorSimple(Match match)
     {
         if (!match.Success)
+        {
             return match.Value;
+        }
 
         var options = new HighlightOptions();
 
@@ -75,7 +79,9 @@ public partial class CodeFormatHelper
     private static string StripHtml(string html)
     {
         if (string.IsNullOrEmpty(html))
+        {
             return string.Empty;
+        }
 
         return regexHtml.Replace(html, string.Empty);
     }
@@ -153,7 +159,9 @@ public partial class CodeFormatHelper
     public static string FormatTextSimple(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         if (text.Contains("[/code]"))
         {

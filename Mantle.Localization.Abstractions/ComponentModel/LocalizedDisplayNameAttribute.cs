@@ -11,10 +11,7 @@ public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
         get
         {
-            if (localizer == null)
-            {
-                localizer = EngineContext.Current.Resolve<IStringLocalizer>();
-            }
+            localizer ??= EngineContext.Current.Resolve<IStringLocalizer>();
             return localizer;
         }
     }

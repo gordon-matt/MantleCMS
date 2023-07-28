@@ -25,7 +25,7 @@ public class StartupTask : IStartupTask
     private void EnsureData(DbContext dbContext)
     {
         var regionService = EngineContext.Current.Resolve<IRegionService>();
-        var count = regionService.Count();
+        int count = regionService.Count();
 
         if (count > 0)
         {

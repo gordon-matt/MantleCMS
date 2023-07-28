@@ -4,8 +4,8 @@ public class Permissions : IPermissionProvider
 {
     #region Regions
 
-    public static readonly Permission RegionsRead = new Permission { Name = "Regions_Read", Category = "Common Lib", Description = "Regions: Read" };
-    public static readonly Permission RegionsWrite = new Permission { Name = "Regions_Write", Category = "Common Lib", Description = "Regions: Write" };
+    public static readonly Permission RegionsRead = new() { Name = "Regions_Read", Category = "Common Lib", Description = "Regions: Read" };
+    public static readonly Permission RegionsWrite = new() { Name = "Regions_Write", Category = "Common Lib", Description = "Regions: Write" };
 
     #endregion Regions
 

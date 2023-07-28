@@ -1,7 +1,6 @@
-﻿namespace MantleCMS.Models.ManageViewModels
+﻿namespace MantleCMS.Models.ManageViewModels;
+
+public class FactorViewModel
 {
-    public class FactorViewModel
-    {
-        public string Purpose { get; set; }
-    }
+    public string Purpose { get; set; }
 }

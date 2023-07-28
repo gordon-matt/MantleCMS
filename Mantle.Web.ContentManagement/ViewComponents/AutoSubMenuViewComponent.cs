@@ -4,7 +4,6 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Infrastructure;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.ViewComponents;
 

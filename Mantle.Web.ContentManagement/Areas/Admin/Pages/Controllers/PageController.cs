@@ -2,7 +2,6 @@
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
@@ -12,7 +11,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
 [Route("admin/pages")]
 public class PageController : MantleController
 {
-    protected static Regex ContentZonePattern = new Regex(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
+    protected static Regex ContentZonePattern = new(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
 
     private readonly Lazy<IContentBlockService> contentBlockService;
     private readonly Lazy<IPageService> pageService;
@@ -134,8 +133,8 @@ public class PageController : MantleController
     [Route("preview/{pageId}")]
     public async Task<ActionResult> Preview(Guid pageId)
     {
-        var currentCulture = WorkContext.CurrentCultureCode;
-        var tenantId = WorkContext.CurrentTenant.Id;
+        string currentCulture = WorkContext.CurrentCultureCode;
+        int tenantId = WorkContext.CurrentTenant.Id;
         var pageVersion = pageVersionService.Value.GetCurrentVersion(tenantId, pageId, currentCulture, false, false);
 
         return await PagePreview(pageVersion);

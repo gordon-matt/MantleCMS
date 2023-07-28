@@ -25,7 +25,7 @@ public class NpgsqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, T
 
     public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
     {
-        if (!(queryBuilder is NpgsqlSelectQueryBuilder))
+        if (queryBuilder is not NpgsqlSelectQueryBuilder)
         {
             throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", "queryBuilder");
         }
@@ -34,7 +34,7 @@ public class NpgsqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, T
 
     public override int Count(ISelectQueryBuilder queryBuilder)
     {
-        if (!(queryBuilder is NpgsqlSelectQueryBuilder))
+        if (queryBuilder is not NpgsqlSelectQueryBuilder)
         {
             throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", "queryBuilder");
         }

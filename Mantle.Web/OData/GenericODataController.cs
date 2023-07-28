@@ -166,7 +166,7 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
             return BadRequest(ModelState);
         }
 
-        TEntity entity = await Service.FindOneAsync(key);
+        var entity = await Service.FindOneAsync(key);
 
         if (entity == null)
         {
@@ -202,7 +202,7 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
     // DELETE: odata/<Entity>(5)
     public virtual async Task<IActionResult> Delete([FromODataUri] TKey key)
     {
-        TEntity entity = await Service.FindOneAsync(key);
+        var entity = await Service.FindOneAsync(key);
 
         if (entity == null)
         {
@@ -285,10 +285,7 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
 
     protected IRepositoryConnection<TEntity> GetDisposableConnection()
     {
-        if (disposableConnection == null)
-        {
-            disposableConnection = Service.OpenConnection();
-        }
+        disposableConnection ??= Service.OpenConnection();
         return disposableConnection;
     }
 

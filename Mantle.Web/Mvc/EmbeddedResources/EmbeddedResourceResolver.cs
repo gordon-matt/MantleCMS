@@ -2,7 +2,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources;
 
 public class EmbeddedResourceResolver : IEmbeddedResourceResolver
 {
-    private ITypeFinder typeFinder;
+    private readonly ITypeFinder typeFinder;
 
     private static EmbeddedResourceTable scripts;
     private static EmbeddedResourceTable content;
@@ -68,16 +68,16 @@ public class EmbeddedResourceResolver : IEmbeddedResourceResolver
 
         foreach (var assembly in assemblies)
         {
-            var names = GetNamesOfAssemblyResources(assembly);
+            string[] names = GetNamesOfAssemblyResources(assembly);
 
             if (names.IsNullOrEmpty())
             {
                 continue;
             }
 
-            foreach (var name in names)
+            foreach (string name in names)
             {
-                var key = name.ToLowerInvariant();
+                string key = name.ToLowerInvariant();
 
                 if (key.ContainsAny(".wwwroot.js.", ".scripts."))
                 {

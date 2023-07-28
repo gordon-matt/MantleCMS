@@ -17,7 +17,7 @@ public static class TenantExtensions
             string[] hosts = tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string host in hosts)
             {
-                var tmp = host.Trim();
+                string tmp = host.Trim();
                 if (!string.IsNullOrEmpty(tmp))
                 {
                     parsedValues.Add(tmp);

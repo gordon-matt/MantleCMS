@@ -4,7 +4,7 @@ public class CookieCultureSelector : ICultureSelector
 {
     public CultureSelectorResult GetCulture(HttpContext context)
     {
-        var cookie = context.Request.Cookies["CurrentCulture"];
+        string cookie = context.Request.Cookies["CurrentCulture"];
         if (cookie != null)
         {
             // we allow null or empty value (so we can work with invariant culture for editing pages, etc)

@@ -1,7 +1,6 @@
 ﻿using Mantle.Web.ContentManagement.Areas.Admin.Media;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api;
 

@@ -9,12 +9,12 @@ public static class InstallationHelper
     /// <summary>
     /// {0}: Server, {1}: Database, {2}: User, {3}: Password
     /// </summary>
-    private static string ConnectionStringFormat = @"Server={0};Initial Catalog={1};User={2};Password={3};Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+    private static readonly string ConnectionStringFormat = @"Server={0};Initial Catalog={1};User={2};Password={3};Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
     /// <summary>
     /// {0}: Server, {1}: Database
     /// </summary>
-    private static string ConnectionStringWAFormat = @"Server={0};Initial Catalog={1};Integrated Security=True;Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+    private static readonly string ConnectionStringWAFormat = @"Server={0};Initial Catalog={1};Integrated Security=True;Persist Security Info=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
     public static void Install<TContext>(InstallationModel model) where TContext : DbContext, ISupportSeed
     {

@@ -19,7 +19,7 @@ public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey
 
     public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
     {
-        if (!(queryBuilder is SqlServerSelectQueryBuilder))
+        if (queryBuilder is not SqlServerSelectQueryBuilder)
         {
             throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", "queryBuilder");
         }
@@ -28,7 +28,7 @@ public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey
 
     public override int Count(ISelectQueryBuilder queryBuilder)
     {
-        if (!(queryBuilder is SqlServerSelectQueryBuilder))
+        if (queryBuilder is not SqlServerSelectQueryBuilder)
         {
             throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", "queryBuilder");
         }

@@ -29,7 +29,7 @@ public abstract class ResourceRegistrar
         ResourceEntry resourceEntry;
         if (isThemePath)
         {
-            var virtualBasePath = VirtualBasePath.TrimStart('/');
+            string virtualBasePath = VirtualBasePath.TrimStart('/');
             resourceEntry = new ResourceEntry(
                 $"/Themes/{workContext.CurrentTheme}/{virtualBasePath}/{path}",
                 location ?? DefaultLocation);

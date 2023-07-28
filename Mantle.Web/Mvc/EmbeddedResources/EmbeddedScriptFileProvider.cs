@@ -5,7 +5,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources;
 public class EmbeddedScriptFileProvider : IFileProvider
 {
     private static readonly char[] invalidFileNameChars = Path.GetInvalidFileNameChars()
-        .Where(c => c != '/' && c != '\\')
+        .Where(c => c is not '/' and not '\\')
         .ToArray();
 
     private EmbeddedResourceTable embeddedScripts;
@@ -32,7 +32,7 @@ public class EmbeddedScriptFileProvider : IFileProvider
 
         if (subpath.StartsWith("/", StringComparison.Ordinal))
         {
-            subpath = subpath.Substring(1);
+            subpath = subpath[1..];
         }
 
         if (subpath.Contains("durandal-app/embedded/"))
@@ -66,7 +66,7 @@ public class EmbeddedScriptFileProvider : IFileProvider
         // Relative paths starting with a leading slash okay
         if (subpath.StartsWith("/", StringComparison.Ordinal))
         {
-            subpath = subpath.Substring(1);
+            subpath = subpath[1..];
         }
 
         // Non-hierarchal.

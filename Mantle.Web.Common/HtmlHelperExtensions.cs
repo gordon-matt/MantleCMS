@@ -33,7 +33,7 @@ public class MantleCommon<TModel>
     public IHtmlContent ContinentDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        int selectedValue = func(html.ViewData.Model);
 
         var selectList = GetContinents(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -82,7 +82,7 @@ public class MantleCommon<TModel>
     public IHtmlContent CountryDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        int selectedValue = func(html.ViewData.Model);
 
         var selectList = GetCountries(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);

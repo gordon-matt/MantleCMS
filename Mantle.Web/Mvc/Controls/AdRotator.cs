@@ -28,7 +28,7 @@ public class Ad
 
     public static IHtmlContent Rotate(string keywordFilter, params Ad[] ads)
     {
-        Ad ad = PickAd(keywordFilter, ads);
+        var ad = PickAd(keywordFilter, ads);
 
         string html = (ad == null) ? string.Empty : GenerateHtml(ad);
 
@@ -55,7 +55,7 @@ public class Ad
             int random = new Random().Next(max + 1);
             int runningTotal = 0;
 
-            foreach (Ad ad in matchedAds)
+            foreach (var ad in matchedAds)
             {
                 runningTotal += ad.Impressions;
 
@@ -66,10 +66,7 @@ public class Ad
                 }
             }
 
-            if (targetAd == null)
-            {
-                targetAd = matchedAds.Last();
-            }
+            targetAd ??= matchedAds.Last();
         }
 
         return targetAd;
@@ -93,7 +90,7 @@ public class Ad
             }
         };
 
-        TagBuilder imageBuilder = new TagBuilder("img");
+        var imageBuilder = new TagBuilder("img");
         imageBuilder.TagRenderMode = TagRenderMode.SelfClosing;
 
         merge(imageBuilder, ad.ImageAttributes);
@@ -105,7 +102,7 @@ public class Ad
             imageBuilder.Attributes.Add("alt", string.Empty);
         }
 
-        TagBuilder linkBuilder = new TagBuilder("a");
+        var linkBuilder = new TagBuilder("a");
 
         merge(linkBuilder, ad.LinkAttributes);
         mergeIfNotBlank(linkBuilder, "href", ad.NavigateUrl);

@@ -16,7 +16,7 @@ public static class RouteValueDictionaryExtensions
 
         if (removeKeys != null && removeKeys.Length > 0)
         {
-            foreach (var key in removeKeys.Where(result.ContainsKey))
+            foreach (string key in removeKeys.Where(result.ContainsKey))
             {
                 result.Remove(key);
             }
@@ -28,14 +28,14 @@ public static class RouteValueDictionaryExtensions
     public static RouteValueDictionary Merge(this RouteValueDictionary obj, NameValueCollection values, params string[] removeKeys)
     {
         var result = new RouteValueDictionary(obj);
-        foreach (var key in values.AllKeys)
+        foreach (string key in values.AllKeys)
         {
             result[key] = values[key];
         }
 
         if (removeKeys != null && removeKeys.Length > 0)
         {
-            foreach (var key in removeKeys.Where(result.ContainsKey))
+            foreach (string key in removeKeys.Where(result.ContainsKey))
             {
                 result.Remove(key);
             }

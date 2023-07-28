@@ -32,15 +32,13 @@ public class Singleton
 {
     static Singleton()
     {
-        allSingletons = new Dictionary<Type, object>();
+        AllSingletons = new Dictionary<Type, object>();
     }
-
-    private static readonly IDictionary<Type, object> allSingletons;
 
     /// <summary>
     /// Dictionary of type to singleton instances.
     /// </summary>
-    public static IDictionary<Type, object> AllSingletons => allSingletons;
+    public static IDictionary<Type, object> AllSingletons { get; private set; }
 }
 
 /// <summary>

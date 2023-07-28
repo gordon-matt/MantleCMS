@@ -20,7 +20,7 @@ public partial class MantleCssMinifier : Processor
     {
         var content = new Dictionary<string, byte[]>();
 
-        foreach (var key in context.Content.Keys)
+        foreach (string key in context.Content.Keys)
         {
             if (key.EndsWith(".min.css", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -28,10 +28,10 @@ public partial class MantleCssMinifier : Processor
                 continue;
             }
 
-            var input = context.Content[key].AsString();
+            string input = context.Content[key].AsString();
             var result = Uglify.Css(input, new CssSettings());
 
-            var minified = result.Code;
+            string minified = result.Code;
 
             if (result.HasErrors)
             {

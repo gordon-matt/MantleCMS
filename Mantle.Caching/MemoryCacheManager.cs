@@ -5,7 +5,7 @@ namespace Mantle.Caching;
 /// </summary>
 public class MemoryCacheManager : ICacheManager
 {
-    private IMemoryCache cache;
+    private readonly IMemoryCache cache;
     private readonly HashSet<string> keys;
 
     public MemoryCacheManager(IServiceProvider serviceProvider)

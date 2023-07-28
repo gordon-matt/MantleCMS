@@ -36,7 +36,7 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
 
         if (props == null)
         {
-            return default(TPropType);
+            return default;
         }
 
         var prop = props.FirstOrDefault(ga =>
@@ -44,7 +44,7 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
 
         if (prop == null || string.IsNullOrEmpty(prop.Value))
         {
-            return default(TPropType);
+            return default;
         }
 
         if (typeof(TPropType).IsSimple())

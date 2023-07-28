@@ -53,13 +53,13 @@ public class PluginFinder : IPluginFinder
             throw new ArgumentNullException(nameof(pluginDescriptor));
         }
 
-        switch (loadMode)
+        return loadMode switch
         {
-            case LoadPluginsMode.All: return true;//no filering
-            case LoadPluginsMode.InstalledOnly: return pluginDescriptor.Installed;
-            case LoadPluginsMode.NotInstalledOnly: return !pluginDescriptor.Installed;
-            default: throw new Exception("Not supported LoadPluginsMode");
-        }
+            LoadPluginsMode.All => true,//no filering
+            LoadPluginsMode.InstalledOnly => pluginDescriptor.Installed,
+            LoadPluginsMode.NotInstalledOnly => !pluginDescriptor.Installed,
+            _ => throw new Exception("Not supported LoadPluginsMode"),
+        };
     }
 
     /// <summary>

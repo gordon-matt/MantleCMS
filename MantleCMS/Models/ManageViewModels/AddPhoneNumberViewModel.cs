@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MantleCMS.Models.ManageViewModels
+namespace MantleCMS.Models.ManageViewModels;
+
+public class AddPhoneNumberViewModel
 {
-    public class AddPhoneNumberViewModel
-    {
-        [Required]
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
-    }
+    [Required]
+    [Phone]
+    [Display(Name = "Phone number")]
+    public string PhoneNumber { get; set; }
 }

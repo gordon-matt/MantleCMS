@@ -40,7 +40,9 @@ public class ScheduledTaskApiController : GenericODataController<ScheduledTask, 
 
         var scheduleTask = await Service.FindOneAsync(taskId);
         if (scheduleTask == null)
+        {
             return NotFound();
+        }
 
         var task = new MantleTask(scheduleTask);
         //ensure that the task is enabled

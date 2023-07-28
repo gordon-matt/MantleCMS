@@ -14,13 +14,13 @@ public static class MantleUISettings
 
     public static IMantleUIProvider DefaultAdminProvider
     {
-        get { return defaultAdminProvider ?? (defaultAdminProvider = new Bootstrap3UIProvider()); }
+        get { return defaultAdminProvider ??= new Bootstrap3UIProvider(); }
         set { defaultAdminProvider = value; }
     }
 
     public static IMantleUIProvider DefaultFrontendProvider
     {
-        get { return defaultFrontendProvider ?? (defaultFrontendProvider = new Bootstrap3UIProvider()); }
+        get { return defaultFrontendProvider ??= new Bootstrap3UIProvider(); }
         set { defaultFrontendProvider = value; }
     }
 
