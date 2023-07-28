@@ -1,14 +1,11 @@
 ﻿using Autofac;
-using Extenso.Data.Entity;
 using Mantle.Data.Entity;
 using Mantle.Data.Services;
-using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Security.Membership;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
 using MantleCMS.Areas.Admin;
-using MantleCMS.Data;
 using MantleCMS.Services;
 
 namespace MantleCMS.Infrastructure

@@ -1,6 +1,4 @@
-﻿using Extenso.Data.Entity;
-using MantleCMS.Data.Domain;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace MantleCMS.Services
 {

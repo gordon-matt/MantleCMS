@@ -1,7 +1,7 @@
 ﻿using Mantle.Infrastructure;
 using Mantle.Web.Helpers;
 
-namespace Mantle.Web.Core
+namespace Mantle.Web
 {
     public static class DateTimeExtensions
     {

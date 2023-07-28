@@ -1,9 +1,4 @@
-﻿using Mantle.Web.Installation;
-using Mantle.Web.Models;
-using MantleCMS.Data;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MantleCMS.Controllers
+﻿namespace MantleCMS.Controllers
 {
     [Route("installation")]
     public class InstallationController : Controller
