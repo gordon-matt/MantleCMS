@@ -78,10 +78,14 @@ public partial class HtmlFormat : SourceFormat
     private string AttributeMatchEval(Match match)
     {
         if (match.Groups[1].Success) //attribute value
+        {
             return "<span class=\"kwrd\">" + match.ToString() + "</span>";
+        }
 
         if (match.Groups[2].Success) //attribute name
+        {
             return "<span class=\"attr\">" + match.ToString() + "</span>";
+        }
 
         return match.ToString();
     }

@@ -39,7 +39,7 @@ public class ConfigurationModule : Module
             return RegistrationBuilder
                 .ForDelegate((c, p) =>
                 {
-                    var currentTenantId = c.Resolve<IWorkContext>().CurrentTenant.Id;
+                    int currentTenantId = c.Resolve<IWorkContext>().CurrentTenant.Id;
                     // Uncomment the code below if you want load settings per tenant only when you have two tenants installed.
                     //var currentTenantId = c.Resolve<IWorkContext>().GetAllTenants().Count > 1
                     //    c.Resolve<IWorkContext>().CurrentTenant.Id : 0;

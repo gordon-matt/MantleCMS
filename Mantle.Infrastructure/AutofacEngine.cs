@@ -184,7 +184,9 @@ public class AutofacEngine : IEngine, IDisposable
 
         //execute tasks
         foreach (var task in instances)
+        {
             task.Execute();
+        }
     }
 
     private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -192,7 +194,9 @@ public class AutofacEngine : IEngine, IDisposable
         //check for assembly already loaded
         var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
         if (assembly != null)
+        {
             return assembly;
+        }
 
         //get assembly from TypeFinder
         var tf = Resolve<ITypeFinder>();

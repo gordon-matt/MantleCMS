@@ -106,10 +106,7 @@ public partial class DateTimeHelper : IDateTimeHelper
         }
 
         //default timezone
-        if (timeZoneInfo == null)
-        {
-            timeZoneInfo = this.DefaultTenantTimeZone;
-        }
+        timeZoneInfo ??= this.DefaultTenantTimeZone;
 
         return timeZoneInfo;
     }
@@ -131,10 +128,7 @@ public partial class DateTimeHelper : IDateTimeHelper
                 Debug.Write(exc.ToString());
             }
 
-            if (timeZoneInfo == null)
-            {
-                timeZoneInfo = TimeZoneInfo.Local;
-            }
+            timeZoneInfo ??= TimeZoneInfo.Local;
             return timeZoneInfo;
         }
         set

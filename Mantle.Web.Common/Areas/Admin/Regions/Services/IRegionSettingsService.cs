@@ -28,10 +28,8 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
         var instance = Activator.CreateInstance<T>();
         string settingsId = instance.Name.ToSlugUrl();
 
-        using (var connection = OpenConnection())
-        {
-            return connection.Query(x => x.SettingsId == settingsId).Any();
-        }
+        using var connection = OpenConnection();
+        return connection.Query(x => x.SettingsId == settingsId).Any();
     }
 
     public T GetSettings<T>(int regionId) where T : IRegionSettings
@@ -45,7 +43,7 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
 
         if (settings == null)
         {
-            return default(T);
+            return default;
         }
 
         return settings.Fields.JsonDeserialize<T>();

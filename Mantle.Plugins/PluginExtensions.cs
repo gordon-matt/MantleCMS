@@ -5,7 +5,7 @@ namespace Mantle.Plugins;
 /// </summary>
 public static class PluginExtensions
 {
-    private static readonly List<string> SupportedLogoImageExtensions = new List<string>
+    private static readonly List<string> SupportedLogoImageExtensions = new()
     {
         "jpg",
         "png",
@@ -32,14 +32,14 @@ public static class PluginExtensions
 
         var pluginDirectory = pluginDescriptor.OriginalAssemblyFile.Directory;
 
-        var logoExtension = SupportedLogoImageExtensions.FirstOrDefault(ext => File.Exists(Path.Combine(pluginDirectory.FullName, "logo." + ext)));
+        string logoExtension = SupportedLogoImageExtensions.FirstOrDefault(ext => File.Exists(Path.Combine(pluginDirectory.FullName, "logo." + ext)));
 
         if (string.IsNullOrWhiteSpace(logoExtension))
         {
             return null; //No logo file was found with any of the supported extensions.
         }
 
-        var logoUrl = $"{CommonHelper.BaseDirectory}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
+        string logoUrl = $"{CommonHelper.BaseDirectory}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
         return logoUrl;
     }
 }

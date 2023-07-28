@@ -53,10 +53,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
     {
         get
         {
-            if (workContext == null)
-            {
-                workContext = EngineContext.Current.Resolve<IWorkContext>();
-            }
+            workContext ??= EngineContext.Current.Resolve<IWorkContext>();
             return workContext;
         }
     }
@@ -106,7 +103,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         };
     }
 
-    public override Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default(CancellationToken))
+    public override Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -117,7 +114,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
             cancellationToken);
     }
 
-    public override Task<TUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default(CancellationToken))
+    public override Task<TUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -128,7 +125,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
             cancellationToken);
     }
 
-    public override async Task AddToRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
+    public override async Task AddToRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -152,7 +149,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         UserRoles.Add(CreateUserRole(user, roleEntity));
     }
 
-    public override async Task<bool> IsInRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
+    public override async Task<bool> IsInRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -176,7 +173,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         return false;
     }
 
-    public override async Task RemoveFromRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default(CancellationToken))
+    public override async Task RemoveFromRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();

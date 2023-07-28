@@ -31,7 +31,7 @@ public static class UrlHelperExtensions
         this IUrlHelper url,
         string contentPath)
     {
-        HttpRequest request = url.ActionContext.HttpContext.Request;
+        var request = url.ActionContext.HttpContext.Request;
         return new Uri(new Uri(request.Scheme + "://" + request.Host.Value), url.Content(contentPath)).ToString();
     }
 

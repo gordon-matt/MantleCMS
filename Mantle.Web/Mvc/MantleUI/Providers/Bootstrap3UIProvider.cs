@@ -148,32 +148,32 @@ public class Bootstrap3UIProvider : BaseUIProvider
 
     public override IAccordionProvider AccordionProvider
     {
-        get { return accordionProvider ?? (accordionProvider = new Bootstrap3AccordionProvider()); }
+        get { return accordionProvider ??= new Bootstrap3AccordionProvider(); }
     }
 
     public override IModalProvider ModalProvider
     {
-        get { return modalProvider ?? (modalProvider = new Bootstrap3ModalProvider()); }
+        get { return modalProvider ??= new Bootstrap3ModalProvider(); }
     }
 
     public override IPanelProvider PanelProvider
     {
-        get { return panelProvider ?? (panelProvider = new Bootstrap3PanelProvider()); }
+        get { return panelProvider ??= new Bootstrap3PanelProvider(); }
     }
 
     public override ITabsProvider TabsProvider
     {
-        get { return tabsProvider ?? (tabsProvider = new Bootstrap3TabsProvider()); }
+        get { return tabsProvider ??= new Bootstrap3TabsProvider(); }
     }
 
     public override IThumbnailProvider ThumbnailProvider
     {
-        get { return thumbnailProvider ?? (thumbnailProvider = new Bootstrap3ThumbnailProvider()); }
+        get { return thumbnailProvider ??= new Bootstrap3ThumbnailProvider(); }
     }
 
     public override IToolbarProvider ToolbarProvider
     {
-        get { return toolbarProvider ?? (toolbarProvider = new Bootstrap3ToolbarProvider(this)); }
+        get { return toolbarProvider ??= new Bootstrap3ToolbarProvider(this); }
     }
 
     #endregion Special
@@ -182,31 +182,31 @@ public class Bootstrap3UIProvider : BaseUIProvider
 
     protected override string GetButtonCssClass(State state)
     {
-        switch (state)
+        return state switch
         {
-            case State.Important: return "btn btn-danger";
-            case State.Default: return "btn btn-default";
-            case State.Info: return "btn btn-info";
-            case State.Inverse: return "btn btn-inverse";
-            case State.Primary: return "btn btn-primary";
-            case State.Success: return "btn btn-success";
-            case State.Warning: return "btn btn-warning";
-            default: return "btn btn-default";
-        }
+            State.Important => "btn btn-danger",
+            State.Default => "btn btn-default",
+            State.Info => "btn btn-info",
+            State.Inverse => "btn btn-inverse",
+            State.Primary => "btn btn-primary",
+            State.Success => "btn btn-success",
+            State.Warning => "btn btn-warning",
+            _ => "btn btn-default",
+        };
     }
 
     protected override string GetLabelCssClass(State state)
     {
-        switch (state)
+        return state switch
         {
-            case State.Important: return "label label-danger";
-            case State.Default: return "label label-default";
-            case State.Info: return "label label-info";
-            case State.Inverse: return "label label-inverse";
-            case State.Primary: return "label label-primary";
-            case State.Success: return "label label-success";
-            case State.Warning: return "label label-warning";
-            default: return "label label-default";
-        }
+            State.Important => "label label-danger",
+            State.Default => "label label-default",
+            State.Info => "label label-info",
+            State.Inverse => "label label-inverse",
+            State.Primary => "label label-primary",
+            State.Success => "label label-success",
+            State.Warning => "label label-warning",
+            _ => "label label-default",
+        };
     }
 }

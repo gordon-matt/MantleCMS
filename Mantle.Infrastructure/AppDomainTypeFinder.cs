@@ -10,11 +10,7 @@ public class AppDomainTypeFinder : ITypeFinder
 {
     #region Fields
 
-    private bool ignoreReflectionErrors = true;
-    private bool loadAppDomainAssemblies = true;
-    private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
-    private string assemblyRestrictToLoadingPattern = ".*";
-    private IList<string> assemblyNames = new List<string>();
+    private readonly bool ignoreReflectionErrors = true;
 
     #endregion Fields
 
@@ -47,7 +43,7 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <param name="assemblies"></param>
     protected virtual void AddConfiguredAssemblies(List<string> addedAssemblyNames, List<Assembly> assemblies)
     {
-        foreach (var assemblyName in AssemblyNames)
+        foreach (string assemblyName in AssemblyNames)
         {
             var assembly = Assembly.Load(assemblyName);
             if (!addedAssemblyNames.Contains(assembly.FullName))
@@ -109,7 +105,7 @@ public class AppDomainTypeFinder : ITypeFinder
             return;
         }
 
-        foreach (var dllPath in Directory.GetFiles(directoryPath, "*.dll"))
+        foreach (string dllPath in Directory.GetFiles(directoryPath, "*.dll"))
         {
             try
             {
@@ -147,9 +143,11 @@ public class AppDomainTypeFinder : ITypeFinder
             foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
             {
                 if (!implementedInterface.IsGenericType)
+                {
                     continue;
+                }
 
-                var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
+                bool isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
                 return isMatch;
             }
             return false;
@@ -253,9 +251,11 @@ public class AppDomainTypeFinder : ITypeFinder
         }
         catch (ReflectionTypeLoadException ex)
         {
-            var msg = string.Empty;
+            string msg = string.Empty;
             foreach (var e in ex.LoaderExceptions)
+            {
                 msg += e.Message + Environment.NewLine;
+            }
 
             var fail = new Exception(msg, ex);
             Debug.WriteLine(fail.Message, fail);
@@ -275,7 +275,10 @@ public class AppDomainTypeFinder : ITypeFinder
         var assemblies = new List<Assembly>();
 
         if (LoadAppDomainAssemblies)
+        {
             AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
+        }
+
         AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
         return assemblies;
@@ -292,33 +295,17 @@ public class AppDomainTypeFinder : ITypeFinder
     }
 
     /// <summary>Gets or sets whether Mantle should iterate assemblies in the app domain when loading Mantle types. Loading patterns are applied when loading these assemblies.</summary>
-    public bool LoadAppDomainAssemblies
-    {
-        get { return loadAppDomainAssemblies; }
-        set { loadAppDomainAssemblies = value; }
-    }
+    public bool LoadAppDomainAssemblies { get; set; } = true;
 
     /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-    public IList<string> AssemblyNames
-    {
-        get { return assemblyNames; }
-        set { assemblyNames = value; }
-    }
+    public IList<string> AssemblyNames { get; set; } = new List<string>();
 
     /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
-    public string AssemblySkipLoadingPattern
-    {
-        get { return assemblySkipLoadingPattern; }
-        set { assemblySkipLoadingPattern = value; }
-    }
+    public string AssemblySkipLoadingPattern { get; set; } = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
 
     /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes assemblies and your own.</summary>
     /// <remarks>If you change this so that Mantle assemblies aren't investigated (e.g. by not including something like "^Mantle|..." you may break core functionality.</remarks>
-    public string AssemblyRestrictToLoadingPattern
-    {
-        get { return assemblyRestrictToLoadingPattern; }
-        set { assemblyRestrictToLoadingPattern = value; }
-    }
+    public string AssemblyRestrictToLoadingPattern { get; set; } = ".*";
 
     #endregion Properties
 }

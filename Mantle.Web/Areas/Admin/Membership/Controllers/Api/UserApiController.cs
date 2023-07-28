@@ -137,7 +137,7 @@ public class UserApiController : ODataController
             return BadRequest(ModelState);
         }
 
-        MantleUser entity = await Service.GetUserById(key);
+        var entity = await Service.GetUserById(key);
         if (entity == null)
         {
             return NotFound();
@@ -170,7 +170,7 @@ public class UserApiController : ODataController
             return Unauthorized();
         }
 
-        MantleUser entity = await Service.GetUserById(key);
+        var entity = await Service.GetUserById(key);
         if (entity == null)
         {
             return NotFound();

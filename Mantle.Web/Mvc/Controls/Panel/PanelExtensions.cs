@@ -1,18 +1,10 @@
 ﻿//No license, but thanks to Matteo Tontini
 //http://ilmatte.wordpress.com/2010/11/16/asp-net-mvc-panel-htmlhelper-extension-methods-with-using-syntax/
 
-namespace Mantle.Web.Mvc.Controls;
 
-using Extenso.AspNetCore.Mvc.Rendering;
-using Mantle.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 
+namespace Mantle.Web.Mvc.Controls;
 /// <summary>
 /// Extension methods for <see cref="HtmlHelper"/>
 /// to add rendering capability for panels.
@@ -268,14 +260,14 @@ public static class PanelExtensions
     public static MvcPanel BeginPanel(this HtmlHelper helper, string title, string titleCssClass, string panelCssClass, IDictionary<string, object> titleHtmlAttributes, IDictionary<string, object> panelHtmlAttributes)
     {
         // title panel
-        TagBuilder titleTagBuilder = new TagBuilder("div");
+        var titleTagBuilder = new TagBuilder("div");
         titleTagBuilder.TagRenderMode = TagRenderMode.Normal;
         titleTagBuilder.MergeAttributes(titleHtmlAttributes);
         titleTagBuilder.AddCssClass(titleCssClass);
         titleTagBuilder.InnerHtml.Append(title);
 
         // content panel
-        TagBuilder tagBuilder = new TagBuilder("div");
+        var tagBuilder = new TagBuilder("div");
         tagBuilder.TagRenderMode = TagRenderMode.StartTag;
         tagBuilder.MergeAttributes(panelHtmlAttributes);
         tagBuilder.AddCssClass(panelCssClass);

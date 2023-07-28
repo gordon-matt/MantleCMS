@@ -48,13 +48,11 @@ public abstract partial class SourceFormat
     /// <summary/>
     protected SourceFormat()
     {
-        _tabSpaces = 4;
-        _lineNumbers = false;
-        _alternate = false;
-        _embedStyleSheet = false;
+        TabSpaces = 4;
+        LineNumbers = false;
+        Alternate = false;
+        EmbedStyleSheet = false;
     }
-
-    private byte _tabSpaces;
 
     /// <summary>
     /// Gets or sets the tabs width.
@@ -62,50 +60,28 @@ public abstract partial class SourceFormat
     /// <value>The number of space characters to substitute for tab
     /// characters. The default is <b>4</b>, unless overridden is a
     /// derived class.</value>
-    public byte TabSpaces
-    {
-        get { return _tabSpaces; }
-        set { _tabSpaces = value; }
-    }
-
-    private bool _lineNumbers;
+    public byte TabSpaces { get; set; }
 
     /// <summary>
     /// Enables or disables line numbers in output.
     /// </summary>
     /// <value>When <b>true</b>, line numbers are generated.
     /// The default is <b>false</b>.</value>
-    public bool LineNumbers
-    {
-        get { return _lineNumbers; }
-        set { _lineNumbers = value; }
-    }
-
-    private bool _alternate;
+    public bool LineNumbers { get; set; }
 
     /// <summary>
     /// Enables or disables alternating line background.
     /// </summary>
     /// <value>When <b>true</b>, lines background is alternated.
     /// The default is <b>false</b>.</value>
-    public bool Alternate
-    {
-        get { return _alternate; }
-        set { _alternate = value; }
-    }
-
-    private bool _embedStyleSheet;
+    public bool Alternate { get; set; }
 
     /// <summary>
     /// Enables or disables the embedded CSS style sheet.
     /// </summary>
     /// <value>When <b>true</b>, the CSS &lt;style&gt; element is included
     /// in the HTML output. The default is <b>false</b>.</value>
-    public bool EmbedStyleSheet
-    {
-        get { return _embedStyleSheet; }
-        set { _embedStyleSheet = value; }
-    }
+    public bool EmbedStyleSheet { get; set; }
 
     /// <overloads>Transform source code to HTML 4.01.</overloads>
     ///
@@ -116,11 +92,9 @@ public abstract partial class SourceFormat
     /// <returns>A string containing the HTML formatted code.</returns>
     public string FormatCode(Stream source)
     {
-        using (var reader = new StreamReader(source))
-        {
-            string s = reader.ReadToEnd();
-            return FormatCode(s, _lineNumbers, _alternate, _embedStyleSheet, false);
-        }
+        using var reader = new StreamReader(source);
+        string s = reader.ReadToEnd();
+        return FormatCode(s, LineNumbers, Alternate, EmbedStyleSheet, false);
     }
 
     /// <summary>
@@ -129,7 +103,7 @@ public abstract partial class SourceFormat
     /// <returns>A string containing the HTML formatted code.</returns>
     public string FormatCode(string source)
     {
-        return FormatCode(source, _lineNumbers, _alternate, _embedStyleSheet, false);
+        return FormatCode(source, LineNumbers, Alternate, EmbedStyleSheet, false);
     }
 
     /// <summary>
@@ -161,16 +135,10 @@ public abstract partial class SourceFormat
         return reader.ReadToEnd();
     }
 
-    private Regex codeRegex;
-
     /// <summary>
     /// The regular expression used to capture language tokens.
     /// </summary>
-    protected Regex CodeRegex
-    {
-        get { return codeRegex; }
-        set { codeRegex = value; }
-    }
+    protected Regex CodeRegex { get; set; }
 
     /// <summary>
     /// Called to evaluate the HTML fragment corresponding to each
@@ -193,11 +161,11 @@ public abstract partial class SourceFormat
             sb.Replace("&", "&amp;");
             sb.Replace("<", "&lt;");
             sb.Replace(">", "&gt;");
-            sb.Replace("\t", string.Empty.PadRight(_tabSpaces));
+            sb.Replace("\t", string.Empty.PadRight(TabSpaces));
         }
 
         //color the code
-        source = codeRegex.Replace(sb.ToString(), new MatchEvaluator(this.MatchEval));
+        source = CodeRegex.Replace(sb.ToString(), new MatchEvaluator(this.MatchEval));
 
         sb = new StringBuilder();
 
@@ -233,16 +201,21 @@ public abstract partial class SourceFormat
 
                     if (lineNumbers)
                     {
-                        var order = (int)Math.Log10(i);
+                        int order = (int)Math.Log10(i);
                         sb.Append("<span class=\"lnum\">"
-                            + spaces.Substring(0, 3 - order) + i.ToString()
+                            + spaces[..(3 - order)] + i.ToString()
                             + ":  </span>");
                     }
 
                     if (line.Length == 0)
+                    {
                         sb.Append("&nbsp;");
+                    }
                     else
+                    {
                         sb.Append(line);
+                    }
+
                     sb.Append("</pre>\n");
                 }
             }

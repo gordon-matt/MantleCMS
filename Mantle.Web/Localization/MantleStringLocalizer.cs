@@ -10,11 +10,11 @@ public class MantleStringLocalizer : IStringLocalizer
     private readonly ICacheManager cacheManager;
     private readonly ILocalizableStringService localizableStringService;
     private readonly IWorkContext workContext;
-    private readonly object objSync = new object();
+    private readonly object objSync = new();
 
     public CultureInfo Culture
     {
-        get { return culture ?? (culture = CultureInfo.CurrentCulture); }
+        get { return culture ??= CultureInfo.CurrentCulture; }
         private set { culture = value; }
     }
 

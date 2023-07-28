@@ -2,10 +2,6 @@
 
 public sealed class Token
 {
-    private readonly string key;
-    private readonly bool htmlEncoded;
-    private readonly string value;
-
     public Token(string key, string value) :
         this(key, value, true)
     {
@@ -13,34 +9,25 @@ public sealed class Token
 
     public Token(string key, string value, bool htmlEncoded)
     {
-        this.key = key;
-        this.value = value;
-        this.htmlEncoded = htmlEncoded;
+        this.Key = key;
+        this.Value = value;
+        this.HtmlEncoded = htmlEncoded;
     }
 
     /// <summary>
     /// Token key
     /// </summary>
-    public string Key
-    {
-        get { return key; }
-    }
+    public string Key { get; }
 
     /// <summary>
     /// Token value
     /// </summary>
-    public string Value
-    {
-        get { return value; }
-    }
+    public string Value { get; }
 
     /// <summary>
     /// Indicates whether this token should be HTML encoded
     /// </summary>
-    public bool HtmlEncoded
-    {
-        get { return htmlEncoded; }
-    }
+    public bool HtmlEncoded { get; }
 
     public override string ToString()
     {

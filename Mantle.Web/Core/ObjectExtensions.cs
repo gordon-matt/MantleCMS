@@ -11,7 +11,7 @@ public static class ObjectExtensions
 
     public static ExpandoObject ToExpando(this object anonymousObject)
     {
-        IDictionary<string, object> anonymousDictionary = HtmlHelper.AnonymousObjectToHtmlAttributes(anonymousObject);
+        var anonymousDictionary = HtmlHelper.AnonymousObjectToHtmlAttributes(anonymousObject);
         IDictionary<string, object> expando = new ExpandoObject();
         foreach (var item in anonymousDictionary)
         {

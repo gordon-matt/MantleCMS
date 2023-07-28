@@ -20,10 +20,7 @@ public abstract class MantleRoleStore<TRole, TContext> : RoleStore<TRole, TConte
     {
         get
         {
-            if (workContext == null)
-            {
-                workContext = EngineContext.Current.Resolve<IWorkContext>();
-            }
+            workContext ??= EngineContext.Current.Resolve<IWorkContext>();
             return workContext;
         }
     }
@@ -32,7 +29,7 @@ public abstract class MantleRoleStore<TRole, TContext> : RoleStore<TRole, TConte
 
     #endregion Private Properties
 
-    public override async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default(CancellationToken))
+    public override async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default)
     {
         return await base.CreateAsync(role, cancellationToken);
     }
@@ -55,7 +52,7 @@ public abstract class MantleRoleStore<TRole, TContext> : RoleStore<TRole, TConte
     //        cancellationToken);
     //}
 
-    public override Task<TRole> FindByNameAsync(string normalizedName, CancellationToken cancellationToken = default(CancellationToken))
+    public override Task<TRole> FindByNameAsync(string normalizedName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();

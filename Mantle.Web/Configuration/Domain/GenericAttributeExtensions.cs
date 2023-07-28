@@ -11,10 +11,7 @@ public static class GenericAttributeExtensions
             throw new ArgumentNullException(nameof(entity));
         }
 
-        if (service == null)
-        {
-            service = EngineContext.Current.Resolve<IGenericAttributeService>();
-        }
+        service ??= EngineContext.Current.Resolve<IGenericAttributeService>();
 
         string entityId = string.Join("|", entity.KeyValues);
         string entityType = entity.GetType().Name;
@@ -23,19 +20,19 @@ public static class GenericAttributeExtensions
         //little hack here (only for unit testing). we should write expect-return rules in unit tests for such cases
         if (props == null)
         {
-            return default(TPropType);
+            return default;
         }
 
         if (!props.Any())
         {
-            return default(TPropType);
+            return default;
         }
 
         var prop = props.FirstOrDefault(x => x.Property.Equals(key, StringComparison.OrdinalIgnoreCase));
 
         if (prop == null || string.IsNullOrEmpty(prop.Value))
         {
-            return default(TPropType);
+            return default;
         }
 
         return prop.Value.ConvertTo<TPropType>();

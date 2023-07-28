@@ -115,18 +115,16 @@ public class MessageService : GenericDataService<QueuedEmail>, IMessageService, 
 
     public IEnumerable<IMailMessage> GetQueuedEmails(int tenantId, int maxSendTries, int maxMessageItems)
     {
-        using (var connection = OpenConnection())
-        {
-            return connection
-                .Query(x =>
-                    x.TenantId == tenantId
-                    && x.SentTries < maxSendTries
-                    && x.SentOnUtc == null)
-                .OrderBy(x => x.Priority)
-                .ThenBy(x => x.CreatedOnUtc)
-                .Take(maxMessageItems)
-                .ToList();
-        }
+        using var connection = OpenConnection();
+        return connection
+            .Query(x =>
+                x.TenantId == tenantId
+                && x.SentTries < maxSendTries
+                && x.SentOnUtc == null)
+            .OrderBy(x => x.Priority)
+            .ThenBy(x => x.CreatedOnUtc)
+            .Take(maxMessageItems)
+            .ToList();
     }
 
     public void OnSendSuccess(IMailMessage mailMessage)

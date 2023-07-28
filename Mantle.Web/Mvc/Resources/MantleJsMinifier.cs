@@ -20,7 +20,7 @@ public partial class MantleJsMinifier : Processor
     {
         var content = new Dictionary<string, byte[]>();
 
-        foreach (var key in context.Content.Keys)
+        foreach (string key in context.Content.Keys)
         {
             if (key.EndsWith(".min.js", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -28,10 +28,10 @@ public partial class MantleJsMinifier : Processor
                 continue;
             }
 
-            var input = context.Content[key].AsString();
+            string input = context.Content[key].AsString();
             var result = Uglify.Js(input, new CodeSettings { TermSemicolons = true });
 
-            var minified = result.Code;
+            string minified = result.Code;
 
             if (result.HasErrors)
             {

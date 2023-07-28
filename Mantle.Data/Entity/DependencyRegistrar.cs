@@ -20,7 +20,7 @@ public class DependencyRegistrar : IDependencyRegistrar
                 continue;
             }
 
-            var isEnabled = (Activator.CreateInstance(configuration) as IMantleEntityTypeConfiguration).IsEnabled;
+            bool isEnabled = (Activator.CreateInstance(configuration) as IMantleEntityTypeConfiguration).IsEnabled;
 
             if (isEnabled)
             {

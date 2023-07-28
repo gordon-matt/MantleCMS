@@ -1,6 +1,4 @@
-﻿using Mantle.Security.Membership;
-
-namespace Mantle.Plugins;
+﻿namespace Mantle.Plugins;
 
 /// <summary>
 /// Plugin finder

@@ -19,7 +19,7 @@ public class DefaultContentBlockProvider : IContentBlockProvider
     public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName)
     {
         var workContext = EngineContext.Current.Resolve<IWorkContext>();
-        Guid? pageId = workContext.GetState<Guid?>("CurrentPageId");
+        var pageId = workContext.GetState<Guid?>("CurrentPageId");
 
         var contentBlocks = contentBlockService.GetContentBlocks(zoneName, workContext.CurrentCultureCode, pageId: pageId);
         return contentBlocks.Where(x => IsVisible(x)).ToList();

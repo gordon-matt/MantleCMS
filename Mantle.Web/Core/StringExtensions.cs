@@ -53,7 +53,7 @@ public static class StringExtensions
             .Replace("<", "-")
             .Replace(">", "-");
 
-        var slug = stringBuilder.ToString().Normalize(NormalizationForm.FormKC);
+        string slug = stringBuilder.ToString().Normalize(NormalizationForm.FormKC);
 
         //First to lower case
         slug = slug.ToLowerInvariant();
@@ -61,7 +61,7 @@ public static class StringExtensions
         if (!slug.IsRightToLeft())
         {
             //Remove all accents
-            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(slug);
+            byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(slug);
             slug = Encoding.ASCII.GetString(bytes);
 
             //Remove invalid chars

@@ -8,7 +8,6 @@ public class WebAppTypeFinder : AppDomainTypeFinder
 {
     #region Fields
 
-    private bool _ensureBinFolderAssembliesLoaded = true;
     private bool _binFolderAssembliesLoaded;
 
     #endregion Fields
@@ -18,11 +17,7 @@ public class WebAppTypeFinder : AppDomainTypeFinder
     /// <summary>
     /// Gets or sets whether assemblies in the bin folder of the web application should be specifically checked for being loaded on application load. This is need in situations where plugins need to be loaded in the AppDomain after the application been reloaded.
     /// </summary>
-    public bool EnsureBinFolderAssembliesLoaded
-    {
-        get { return _ensureBinFolderAssembliesLoaded; }
-        set { _ensureBinFolderAssembliesLoaded = value; }
-    }
+    public bool EnsureBinFolderAssembliesLoaded { get; set; } = true;
 
     #endregion Properties
 
@@ -46,7 +41,7 @@ public class WebAppTypeFinder : AppDomainTypeFinder
         if (this.EnsureBinFolderAssembliesLoaded && !_binFolderAssembliesLoaded)
         {
             _binFolderAssembliesLoaded = true;
-            var binPath = GetBinDirectory();
+            string binPath = GetBinDirectory();
             //binPath = _webHelper.MapPath("~/bin");
             LoadMatchingAssemblies(binPath);
         }

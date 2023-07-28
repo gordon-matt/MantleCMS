@@ -71,10 +71,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
                 tenant = tenants.FirstOrDefault(s => s.ContainsHostValue(host));
             }
 
-            if (tenant == null)
-            {
-                tenant = tenants.First();
-            }
+            tenant ??= tenants.First();
 
             logger.LogInformation("[Tenant]: ID: {0}, Name: {1}, Hosts: {2}", tenant.Id, tenant.Name, tenant.Hosts);
             tenantContext = new TenantContext<Tenant>(tenant);

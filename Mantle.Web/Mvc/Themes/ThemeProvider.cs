@@ -7,7 +7,7 @@ public partial class ThemeProvider : IThemeProvider
     #region Fields
 
     private readonly IList<ThemeConfiguration> themeConfigurations = new List<ThemeConfiguration>();
-    private string basePath = string.Empty;
+    private readonly string basePath = string.Empty;
 
     #endregion Fields
 

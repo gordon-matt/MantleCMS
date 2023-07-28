@@ -18,11 +18,13 @@ public partial class TaskThread : IDisposable
     private void Run()
     {
         if (Seconds <= 0)
+        {
             return;
+        }
 
         this.StartedUtc = DateTime.UtcNow;
         this.IsRunning = true;
-        foreach (Task task in this._tasks.Values)
+        foreach (var task in this._tasks.Values)
         {
             task.Execute();
         }
@@ -64,10 +66,7 @@ public partial class TaskThread : IDisposable
     /// </summary>
     public void InitTimer()
     {
-        if (this._timer == null)
-        {
-            this._timer = new Timer(new TimerCallback(this.TimerHandler), null, this.Interval, this.Interval);
-        }
+        this._timer ??= new Timer(new TimerCallback(this.TimerHandler), null, this.Interval, this.Interval);
     }
 
     /// <summary>

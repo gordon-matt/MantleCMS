@@ -26,7 +26,7 @@ internal class PropertyActivator<TContext>
             throw new ArgumentNullException(nameof(instance));
         }
 
-        var value = _valueAccessor(context);
+        object value = _valueAccessor(context);
         _fastPropertySetter(instance, value);
         return value;
     }

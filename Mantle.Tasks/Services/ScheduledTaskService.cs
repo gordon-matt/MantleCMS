@@ -29,7 +29,9 @@ public partial class ScheduledTaskService : IScheduledTaskService
     public virtual void DeleteTask(ScheduledTask task)
     {
         if (task == null)
+        {
             throw new ArgumentNullException(nameof(task));
+        }
 
         taskRepository.Delete(task);
     }
@@ -42,7 +44,9 @@ public partial class ScheduledTaskService : IScheduledTaskService
     public virtual ScheduledTask GetTaskById(int taskId)
     {
         if (taskId == 0)
+        {
             return null;
+        }
 
         return taskRepository.FindOne(taskId);
     }
@@ -59,13 +63,11 @@ public partial class ScheduledTaskService : IScheduledTaskService
             return null;
         }
 
-        using (var connection = taskRepository.OpenConnection())
-        {
-            return connection
-                .Query(st => st.Type == type)
-                .OrderByDescending(t => t.Id)
-                .FirstOrDefault();
-        }
+        using var connection = taskRepository.OpenConnection();
+        return connection
+            .Query(st => st.Type == type)
+            .OrderByDescending(t => t.Id)
+            .FirstOrDefault();
     }
 
     /// <summary>
@@ -75,18 +77,16 @@ public partial class ScheduledTaskService : IScheduledTaskService
     /// <returns>Tasks</returns>
     public virtual IList<ScheduledTask> GetAllTasks(bool showHidden = false)
     {
-        using (var connection = taskRepository.OpenConnection())
+        using var connection = taskRepository.OpenConnection();
+        var query = connection.Query();
+
+        if (!showHidden)
         {
-            var query = connection.Query();
-
-            if (!showHidden)
-            {
-                query = query.Where(t => t.Enabled);
-            }
-            query = query.OrderByDescending(t => t.Seconds);
-
-            return query.ToList();
+            query = query.Where(t => t.Enabled);
         }
+        query = query.OrderByDescending(t => t.Seconds);
+
+        return query.ToList();
     }
 
     /// <summary>
@@ -96,7 +96,9 @@ public partial class ScheduledTaskService : IScheduledTaskService
     public virtual void InsertTask(ScheduledTask task)
     {
         if (task == null)
+        {
             throw new ArgumentNullException(nameof(task));
+        }
 
         taskRepository.Insert(task);
     }
@@ -108,7 +110,9 @@ public partial class ScheduledTaskService : IScheduledTaskService
     public virtual void UpdateTask(ScheduledTask task)
     {
         if (task == null)
+        {
             throw new ArgumentNullException(nameof(task));
+        }
 
         taskRepository.Update(task);
     }

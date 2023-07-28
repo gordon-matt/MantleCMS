@@ -176,10 +176,14 @@ public partial class WebHelper : IWebHelper
     public virtual bool IsAjaxRequest(HttpRequest request)
     {
         if (request == null)
+        {
             throw new ArgumentNullException(nameof(request));
+        }
 
         if (request.Headers == null)
+        {
             return false;
+        }
 
         return request.Headers["X-Requested-With"] == "XMLHttpRequest";
     }

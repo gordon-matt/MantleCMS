@@ -72,7 +72,7 @@ public class AutofacContainerManager : IDisposable
                 //try to resolve constructor parameters
                 var parameters = constructor.GetParameters().Select(parameter =>
                 {
-                    var service = Resolve(parameter.ParameterType);
+                    object service = Resolve(parameter.ParameterType);
                     if (service == null)
                     {
                         throw new MantleException("Unknown dependency");

@@ -8,38 +8,37 @@ using Mantle.Web.Navigation;
 using MantleCMS.Areas.Admin;
 using MantleCMS.Services;
 
-namespace MantleCMS.Infrastructure
+namespace MantleCMS.Infrastructure;
+
+public class DependencyRegistrar : IDependencyRegistrar
 {
-    public class DependencyRegistrar : IDependencyRegistrar
+    public int Order
     {
-        public int Order
-        {
-            get { return 1; }
-        }
+        get { return 1; }
+    }
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
-        {
-            //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    {
+        //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
 
-            builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();
+        builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();
 
-            builder.RegisterGeneric(typeof(MantleEntityFrameworkRepository<>))
-                .As(typeof(IRepository<>))
-                .InstancePerLifetimeScope();
+        builder.RegisterGeneric(typeof(MantleEntityFrameworkRepository<>))
+            .As(typeof(IRepository<>))
+            .InstancePerLifetimeScope();
 
-            builder.RegisterType<SqlServerEntityFrameworkHelper>().As<IMantleEntityFrameworkHelper>().SingleInstance();
+        builder.RegisterType<SqlServerEntityFrameworkHelper>().As<IMantleEntityFrameworkHelper>().SingleInstance();
 
-            // SPA Routes
-            builder.RegisterType<AdminDurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+        // SPA Routes
+        builder.RegisterType<AdminDurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
 
-            // Services
-            builder.RegisterType<MembershipService>().As<IMembershipService>().InstancePerDependency();
+        // Services
+        builder.RegisterType<MembershipService>().As<IMembershipService>().InstancePerDependency();
 
-            // Localization
-            builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().InstancePerDependency();
+        // Localization
+        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().InstancePerDependency();
 
-            // Navigation
-            builder.RegisterType<AdminNavigationProvider>().As<INavigationProvider>().SingleInstance();
-        }
+        // Navigation
+        builder.RegisterType<AdminNavigationProvider>().As<INavigationProvider>().SingleInstance();
     }
 }

@@ -1,12 +1,10 @@
 ﻿//No license, but thanks to Matteo Tontini
 //http://ilmatte.wordpress.com/2010/11/16/asp-net-mvc-panel-htmlhelper-extension-methods-with-using-syntax/
 
-namespace Mantle.Web.Mvc.Controls;
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
+namespace Mantle.Web.Mvc.Controls;
 /// <summary>
 /// Represents a Panel with a title panel.
 /// It's needed to support using syntax when invoking

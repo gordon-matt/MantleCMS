@@ -36,8 +36,7 @@ public class MantleViewLocationExpander : IViewLocationExpander
 
         string controllerAssemblyName = null;
 
-        var controllerActionDescriptor = context.ActionContext.ActionDescriptor as ControllerActionDescriptor;
-        if (controllerActionDescriptor != null)
+        if (context.ActionContext.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
         {
             var controllerTypeInfo = controllerActionDescriptor.ControllerTypeInfo;
             controllerAssemblyName = controllerTypeInfo.Assembly.FullName;
@@ -46,7 +45,7 @@ public class MantleViewLocationExpander : IViewLocationExpander
         {
             var controllerContext = new ControllerContext(context.ActionContext);
             var factory = CreateControllerFactory();
-            var controller = factory.CreateController(controllerContext);
+            object controller = factory.CreateController(controllerContext);
             controllerAssemblyName = controller.GetType().Assembly.FullName;
         }
 

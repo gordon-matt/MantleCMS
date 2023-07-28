@@ -52,7 +52,7 @@ public static class PageSecurityHelper
             {
                 var membershipService = EngineContext.Current.Resolve<IMembershipService>();
 
-                var roleIds = selectedRoles.Split(',');
+                string[] roleIds = selectedRoles.Split(',');
                 var roles = await membershipService.GetRolesByIds(roleIds);
 
                 var mantleUser = await membershipService.GetUserByName(page.TenantId, user.Identity.Name);

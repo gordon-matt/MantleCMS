@@ -11,17 +11,17 @@ public class KendoBootstrap3UIProvider : Bootstrap3UIProvider
 
     public override IAccordionProvider AccordionProvider
     {
-        get { return accordionProvider ?? (accordionProvider = new KendoUIAccordionProvider(this)); }
+        get { return accordionProvider ??= new KendoUIAccordionProvider(this); }
     }
 
     public override IModalProvider ModalProvider
     {
-        get { return modalProvider ?? (modalProvider = new KendoUIModalProvider(this)); }
+        get { return modalProvider ??= new KendoUIModalProvider(this); }
     }
 
     public override ITabsProvider TabsProvider
     {
-        get { return tabsProvider ?? (tabsProvider = new KendoUITabsProvider(this)); }
+        get { return tabsProvider ??= new KendoUITabsProvider(this); }
     }
 
     //public override IToolbarProvider ToolbarProvider
@@ -33,10 +33,10 @@ public class KendoBootstrap3UIProvider : Bootstrap3UIProvider
 
     protected override string GetButtonCssClass(State state)
     {
-        switch (state)
+        return state switch
         {
-            case State.Primary: return "k-primary k-button";
-            default: return "k-button";
-        }
+            State.Primary => "k-primary k-button",
+            _ => "k-button",
+        };
     }
 }

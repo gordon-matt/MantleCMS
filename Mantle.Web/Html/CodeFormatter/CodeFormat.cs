@@ -118,7 +118,7 @@ public abstract partial class CodeFormat : SourceFormat
         regAll.Append(regKeyword);
         regAll.Append(")");
 
-        RegexOptions caseInsensitive = CaseSensitive ? 0 : RegexOptions.IgnoreCase;
+        var caseInsensitive = CaseSensitive ? 0 : RegexOptions.IgnoreCase;
         CodeRegex = new Regex(regAll.ToString(), RegexOptions.Singleline | caseInsensitive);
     }
 

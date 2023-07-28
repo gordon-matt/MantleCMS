@@ -7,7 +7,7 @@ internal class DefaultControllerPropertyActivator : IControllerPropertyActivator
     private static readonly Func<Type, PropertyActivator<ControllerContext>[]> _getPropertiesToActivate =
         GetPropertiesToActivate;
 
-    private object _initializeLock = new object();
+    private object _initializeLock = new();
     private bool _initialized;
     private ConcurrentDictionary<Type, PropertyActivator<ControllerContext>[]> _activateActions;
 
@@ -23,7 +23,7 @@ internal class DefaultControllerPropertyActivator : IControllerPropertyActivator
             controllerType,
             _getPropertiesToActivate);
 
-        for (var i = 0; i < propertiesToActivate.Length; i++)
+        for (int i = 0; i < propertiesToActivate.Length; i++)
         {
             var activateInfo = propertiesToActivate[i];
             activateInfo.Activate(controller, context);
@@ -49,7 +49,7 @@ internal class DefaultControllerPropertyActivator : IControllerPropertyActivator
         var propertiesToActivate = GetPropertiesToActivate(controllerType);
         void Activate(ControllerContext controllerContext, object controller)
         {
-            for (var i = 0; i < propertiesToActivate.Length; i++)
+            for (int i = 0; i < propertiesToActivate.Length; i++)
             {
                 var activateInfo = propertiesToActivate[i];
                 activateInfo.Activate(controller, controllerContext);

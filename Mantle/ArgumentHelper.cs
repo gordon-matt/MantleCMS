@@ -1,49 +1,48 @@
-﻿namespace Mantle
+﻿namespace Mantle;
+
+public static class ArgumentHelper
 {
-    public static class ArgumentHelper
+    public static void ThrowIfFalse(bool condition, string message, string paramName = null)
     {
-        public static void ThrowIfFalse(bool condition, string message, string paramName = null)
+        if (!condition)
         {
-            if (!condition)
+            if (paramName == null)
             {
-                if (paramName == null)
-                {
-                    throw new ArgumentException(message);
-                }
-                else
-                {
-                    throw new ArgumentException(message, paramName);
-                }
+                throw new ArgumentException(message);
+            }
+            else
+            {
+                throw new ArgumentException(message, paramName);
             }
         }
+    }
 
-        public static void ThrowIfNull<T>(T value, string paramName, string message = null) where T : class
+    public static void ThrowIfNull<T>(T value, string paramName, string message = null) where T : class
+    {
+        if (value == null)
         {
-            if (value == null)
+            if (message == null)
             {
-                if (message == null)
-                {
-                    throw new ArgumentNullException(paramName);
-                }
-                else
-                {
-                    throw new ArgumentNullException(paramName, message);
-                }
+                throw new ArgumentNullException(paramName);
+            }
+            else
+            {
+                throw new ArgumentNullException(paramName, message);
             }
         }
+    }
 
-        public static void ThrowIfNullOrEmpty(string value, string paramName, string message = null)
+    public static void ThrowIfNullOrEmpty(string value, string paramName, string message = null)
+    {
+        if (string.IsNullOrEmpty(value))
         {
-            if (string.IsNullOrEmpty(value))
+            if (message == null)
             {
-                if (message == null)
-                {
-                    throw new ArgumentNullException(paramName);
-                }
-                else
-                {
-                    throw new ArgumentNullException(paramName, message);
-                }
+                throw new ArgumentNullException(paramName);
+            }
+            else
+            {
+                throw new ArgumentNullException(paramName, message);
             }
         }
     }

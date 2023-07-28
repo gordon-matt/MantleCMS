@@ -21,7 +21,7 @@ public static class Extensions
             return new List<DataItem>();
         }
 
-        var property = propertyInfo.GetValue(self, null);
+        object property = propertyInfo.GetValue(self, null);
         var props = property.GetType().GetProperties().Where(p => p.Name.Contains("__"));
 
         return props

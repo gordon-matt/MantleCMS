@@ -29,7 +29,7 @@ public static class CommonHelper
         //find more info about directory deletion
         //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
 
-        foreach (var directory in Directory.GetDirectories(path))
+        foreach (string directory in Directory.GetDirectories(path))
         {
             DeleteDirectory(directory);
         }

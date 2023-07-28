@@ -104,7 +104,7 @@ public class MailMessageWrapper
         if (mailMessage.Headers.Count > 0)
         {
             Headers = new Dictionary<string, string>();
-            foreach (var key in mailMessage.Headers.AllKeys)
+            foreach (string key in mailMessage.Headers.AllKeys)
             {
                 Headers.Add(key, mailMessage.Headers[key]);
             }
@@ -174,7 +174,7 @@ public class MailMessageWrapper
         {
             foreach (var attachment in Attachments)
             {
-                var data = attachment.ContentStream.Base64Deserialize<byte[]>();
+                byte[] data = attachment.ContentStream.Base64Deserialize<byte[]>();
                 var ms = new MemoryStream(data);
                 mailMessage.Attachments.Add(new Attachment(ms, attachment.Name, attachment.MediaType));
             }
@@ -224,7 +224,7 @@ public class MailMessageWrapper
 
         if (Headers != null && Headers.Count > 0)
         {
-            foreach (var key in Headers.Keys)
+            foreach (string key in Headers.Keys)
             {
                 mailMessage.Headers.Add(key, Headers[key]);
             }

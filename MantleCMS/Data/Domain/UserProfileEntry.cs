@@ -3,35 +3,34 @@ using Mantle.Tenants.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MantleCMS.Data.Domain
+namespace MantleCMS.Data.Domain;
+
+public class UserProfileEntry : TenantEntity<int>
 {
-    public class UserProfileEntry : TenantEntity<int>
+    public string UserId { get; set; }
+
+    public string Key { get; set; }
+
+    public string Value { get; set; }
+}
+
+public class UserProfileEntryMap : IEntityTypeConfiguration<UserProfileEntry>, IMantleEntityTypeConfiguration
+{
+    public void Configure(EntityTypeBuilder<UserProfileEntry> builder)
     {
-        public string UserId { get; set; }
-
-        public string Key { get; set; }
-
-        public string Value { get; set; }
+        builder.ToTable(Constants.Tables.UserProfiles);
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(false);
+        builder.Property(x => x.Key).IsRequired().HasMaxLength(255).IsUnicode(true);
+        builder.Property(x => x.Value).IsRequired().IsUnicode(true);
     }
 
-    public class UserProfileEntryMap : IEntityTypeConfiguration<UserProfileEntry>, IMantleEntityTypeConfiguration
+    #region IEntityTypeConfiguration Members
+
+    public bool IsEnabled
     {
-        public void Configure(EntityTypeBuilder<UserProfileEntry> builder)
-        {
-            builder.ToTable(Constants.Tables.UserProfiles);
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(false);
-            builder.Property(x => x.Key).IsRequired().HasMaxLength(255).IsUnicode(true);
-            builder.Property(x => x.Value).IsRequired().IsUnicode(true);
-        }
-
-        #region IEntityTypeConfiguration Members
-
-        public bool IsEnabled
-        {
-            get { return true; }
-        }
-
-        #endregion IEntityTypeConfiguration Members
+        get { return true; }
     }
+
+    #endregion IEntityTypeConfiguration Members
 }

@@ -1,9 +1,4 @@
 ﻿namespace Mantle.Messaging;
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 public static class MimeMapping
 {
     private static readonly Lazy<Dictionary<string, string>> mappings;

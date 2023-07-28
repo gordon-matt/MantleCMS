@@ -96,17 +96,21 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     protected static string GetAssetKey(string[] keys, string suffix)
     {
         if (keys is null || keys.Length == 0)
+        {
             throw new ArgumentNullException(nameof(keys));
+        }
 
-        var hashInput = string.Join(',', keys);
+        string hashInput = string.Join(',', keys);
 
         using var sha = MD5.Create();
-        var input = sha.ComputeHash(Encoding.Unicode.GetBytes(hashInput));
+        byte[] input = sha.ComputeHash(Encoding.Unicode.GetBytes(hashInput));
 
-        var key = string.Concat(WebEncoders.Base64UrlEncode(input));
+        string key = string.Concat(WebEncoders.Base64UrlEncode(input));
 
         if (!string.IsNullOrEmpty(suffix))
+        {
             key += suffix;
+        }
 
         return key.ToLower();
     }
@@ -121,13 +125,19 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     protected IAsset GetOrCreateBundle(string bundlePath, Func<string, string[], IAsset> createAsset, params string[] sourceFiles)
     {
         if (string.IsNullOrEmpty(bundlePath))
+        {
             throw new ArgumentNullException(nameof(bundlePath));
+        }
 
         if (createAsset is null)
+        {
             throw new ArgumentNullException(nameof(createAsset));
+        }
 
         if (sourceFiles.Length == 0)
+        {
             sourceFiles = new[] { bundlePath };
+        }
 
         //remove the base path from the generated URL if exists
         var pathBase = _actionContextAccessor.ActionContext?.HttpContext.Request.PathBase ?? PathString.Empty;
@@ -140,8 +150,10 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
         else if (bundleAsset.SourceFiles.Count != sourceFiles.Length || !bundleAsset.SourceFiles.SequenceEqual(sourceFiles))
         {
             bundleAsset.SourceFiles.Clear();
-            foreach (var source in sourceFiles)
+            foreach (string source in sourceFiles)
+            {
                 bundleAsset.TryAddSourceFile(source);
+            }
         }
 
         return bundleAsset;
@@ -158,7 +170,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddMetaDescriptionParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _metaDescriptionParts.Add(part);
     }
@@ -170,7 +184,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendMetaDescriptionParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _metaDescriptionParts.Insert(0, part);
     }
@@ -185,8 +201,8 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         AppendMetaDescriptionParts(part);
 
-        var metaDescription = string.Join(", ", _metaDescriptionParts.AsEnumerable().Reverse().ToArray());
-        var result = !string.IsNullOrEmpty(metaDescription)
+        string metaDescription = string.Join(", ", _metaDescriptionParts.AsEnumerable().Reverse().ToArray());
+        string result = !string.IsNullOrEmpty(metaDescription)
             ? metaDescription
             : siteSettings.DefaultMetaDescription;
 
@@ -200,7 +216,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddMetaKeywordParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _metaKeywordParts.Add(part);
     }
@@ -212,7 +230,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendMetaKeywordParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _metaKeywordParts.Insert(0, part);
     }
@@ -227,8 +247,8 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         AppendMetaKeywordParts(part);
 
-        var metaKeyword = string.Join(", ", _metaKeywordParts.AsEnumerable().Reverse().ToArray());
-        var result = !string.IsNullOrEmpty(metaKeyword)
+        string metaKeyword = string.Join(", ", _metaKeywordParts.AsEnumerable().Reverse().ToArray());
+        string result = !string.IsNullOrEmpty(metaKeyword)
             ? metaKeyword
             : siteSettings.DefaultMetaKeywords;
 
@@ -245,16 +265,24 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddScriptParts(ResourceLocation location, string src, string debugSrc = "", bool excludeFromBundle = false)
     {
         if (!_scriptParts.ContainsKey(location))
+        {
             _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+        }
 
         if (string.IsNullOrEmpty(src))
+        {
             return;
+        }
 
         if (!string.IsNullOrEmpty(debugSrc) && _webHostEnvironment.IsDevelopment())
+        {
             src = debugSrc;
+        }
 
         if (_actionContextAccessor.ActionContext == null)
+        {
             throw new ArgumentNullException(nameof(_actionContextAccessor.ActionContext));
+        }
 
         var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
@@ -276,16 +304,24 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendScriptParts(ResourceLocation location, string src, string debugSrc = "", bool excludeFromBundle = false)
     {
         if (!_scriptParts.ContainsKey(location))
+        {
             _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+        }
 
         if (string.IsNullOrEmpty(src))
+        {
             return;
+        }
 
         if (!string.IsNullOrEmpty(debugSrc) && _webHostEnvironment.IsDevelopment())
+        {
             src = debugSrc;
+        }
 
         if (_actionContextAccessor.ActionContext == null)
+        {
             throw new ArgumentNullException(nameof(_actionContextAccessor.ActionContext));
+        }
 
         var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
@@ -305,10 +341,14 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual IHtmlContent GenerateScripts(ResourceLocation location)
     {
         if (!_scriptParts.ContainsKey(location) || _scriptParts[location] == null)
+        {
             return HtmlString.Empty;
+        }
 
         if (!_scriptParts.Any())
+        {
             return HtmlString.Empty;
+        }
 
         var result = new StringBuilder();
 
@@ -316,12 +356,12 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
 
         if (webOptimizerOptions.EnableJavaScriptBundling && _scriptParts[location].Any(item => !item.ExcludeFromBundle))
         {
-            var sources = _scriptParts[location]
+            string[] sources = _scriptParts[location]
                .Where(item => !item.ExcludeFromBundle && item.IsLocal)
                .Select(item => item.Src)
                .Distinct().ToArray();
 
-            var bundleKey = string.Concat("/js/", GetAssetKey(sources, webOptimizerOptions.JavaScriptBundleSuffix), ".js");
+            string bundleKey = string.Concat("/js/", GetAssetKey(sources, webOptimizerOptions.JavaScriptBundleSuffix), ".js");
 
             var bundleAsset = GetOrCreateBundle(bundleKey, CreateJavaScriptAsset, sources);
 
@@ -362,13 +402,19 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddInlineScriptParts(ResourceLocation location, string script)
     {
         if (!_inlineScriptParts.ContainsKey(location))
+        {
             _inlineScriptParts.Add(location, new());
+        }
 
         if (string.IsNullOrEmpty(script))
+        {
             return;
+        }
 
         if (_inlineScriptParts[location].Contains(script))
+        {
             return;
+        }
 
         _inlineScriptParts[location].Add(script);
     }
@@ -381,13 +427,19 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendInlineScriptParts(ResourceLocation location, string script)
     {
         if (!_inlineScriptParts.ContainsKey(location))
+        {
             _inlineScriptParts.Add(location, new());
+        }
 
         if (string.IsNullOrEmpty(script))
+        {
             return;
+        }
 
         if (_inlineScriptParts[location].Contains(script))
+        {
             return;
+        }
 
         _inlineScriptParts[location].Insert(0, script);
     }
@@ -400,13 +452,17 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual IHtmlContent GenerateInlineScripts(ResourceLocation location)
     {
         if (!_inlineScriptParts.ContainsKey(location) || _inlineScriptParts[location] == null)
+        {
             return HtmlString.Empty;
+        }
 
         if (!_inlineScriptParts.Any())
+        {
             return HtmlString.Empty;
+        }
 
         var result = new StringBuilder();
-        foreach (var item in _inlineScriptParts[location])
+        foreach (string item in _inlineScriptParts[location])
         {
             result.Append(item);
             result.Append(Environment.NewLine);
@@ -423,13 +479,19 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddCssFileParts(string src, string debugSrc = "", bool excludeFromBundle = false)
     {
         if (string.IsNullOrEmpty(src))
+        {
             return;
+        }
 
         if (!string.IsNullOrEmpty(debugSrc) && _webHostEnvironment.IsDevelopment())
+        {
             src = debugSrc;
+        }
 
         if (_actionContextAccessor.ActionContext == null)
+        {
             throw new ArgumentNullException(nameof(_actionContextAccessor.ActionContext));
+        }
 
         var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
@@ -450,13 +512,19 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendCssFileParts(string src, string debugSrc = "", bool excludeFromBundle = false)
     {
         if (string.IsNullOrEmpty(src))
+        {
             return;
+        }
 
         if (!string.IsNullOrEmpty(debugSrc) && _webHostEnvironment.IsDevelopment())
+        {
             src = debugSrc;
+        }
 
         if (_actionContextAccessor.ActionContext == null)
+        {
             throw new ArgumentNullException(nameof(_actionContextAccessor.ActionContext));
+        }
 
         var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
@@ -475,10 +543,14 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual IHtmlContent GenerateCssFiles()
     {
         if (_cssParts.Count == 0)
+        {
             return HtmlString.Empty;
+        }
 
         if (_actionContextAccessor.ActionContext == null)
+        {
             throw new ArgumentNullException(nameof(_actionContextAccessor.ActionContext));
+        }
 
         var result = new StringBuilder();
 
@@ -486,18 +558,20 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
 
         if (webOptimizerOptions.EnableCssBundling && _cssParts.Any(item => !item.ExcludeFromBundle))
         {
-            var bundleSuffix = webOptimizerOptions.CssBundleSuffix;
+            string bundleSuffix = webOptimizerOptions.CssBundleSuffix;
 
             if (CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft)
+            {
                 bundleSuffix += ".rtl";
+            }
 
-            var sources = _cssParts
+            string[] sources = _cssParts
                 .Where(item => !item.ExcludeFromBundle && item.IsLocal)
                 .Distinct()
                 //remove the application path from the generated URL if exists
                 .Select(item => item.Src).ToArray();
 
-            var bundleKey = string.Concat("/css/", GetAssetKey(sources, bundleSuffix), ".css");
+            string bundleKey = string.Concat("/css/", GetAssetKey(sources, bundleSuffix), ".css");
 
             var bundleAsset = GetOrCreateBundle(bundleKey, CreateCssAsset, sources);
 
@@ -537,7 +611,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddCanonicalUrlParts(string part, bool withQueryString = false)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         if (withQueryString)
         {
@@ -557,7 +633,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendCanonicalUrlParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _canonicalUrlParts.Insert(0, part);
     }
@@ -569,7 +647,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual IHtmlContent GenerateCanonicalUrls()
     {
         var result = new StringBuilder();
-        foreach (var canonicalUrl in _canonicalUrlParts)
+        foreach (string canonicalUrl in _canonicalUrlParts)
         {
             result.AppendFormat("<link rel=\"canonical\" href=\"{0}\" />", canonicalUrl);
             result.Append(Environment.NewLine);
@@ -584,7 +662,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddHeadCustomParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _headCustomParts.Add(part);
     }
@@ -596,7 +676,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendHeadCustomParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _headCustomParts.Insert(0, part);
     }
@@ -610,10 +692,12 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
         //use only distinct rows
         var distinctParts = _headCustomParts.Distinct().ToList();
         if (!distinctParts.Any())
+        {
             return HtmlString.Empty;
+        }
 
         var result = new StringBuilder();
-        foreach (var path in distinctParts)
+        foreach (string path in distinctParts)
         {
             result.Append(path);
             result.Append(Environment.NewLine);
@@ -628,7 +712,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AddPageCssClassParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _pageCssClassParts.Add(part);
     }
@@ -640,7 +726,9 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     public virtual void AppendPageCssClassParts(string part)
     {
         if (string.IsNullOrEmpty(part))
+        {
             return;
+        }
 
         _pageCssClassParts.Insert(0, part);
     }
@@ -654,10 +742,12 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         AppendPageCssClassParts(part);
 
-        var result = string.Join(" ", _pageCssClassParts.AsEnumerable().Reverse().ToArray());
+        string result = string.Join(" ", _pageCssClassParts.AsEnumerable().Reverse().ToArray());
 
         if (string.IsNullOrEmpty(result))
+        {
             return string.Empty;
+        }
 
         return _htmlEncoder.Encode(result);
     }

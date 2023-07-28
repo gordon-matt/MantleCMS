@@ -120,7 +120,7 @@ public class PermissionApiController : ODataController
             return BadRequest(ModelState);
         }
 
-        MantlePermission entity = await Service.GetPermissionById(key);
+        var entity = await Service.GetPermissionById(key);
         if (entity == null)
         {
             return NotFound();
@@ -153,7 +153,7 @@ public class PermissionApiController : ODataController
             return Unauthorized();
         }
 
-        MantlePermission entity = await Service.GetPermissionById(key);
+        var entity = await Service.GetPermissionById(key);
         if (entity == null)
         {
             return NotFound();

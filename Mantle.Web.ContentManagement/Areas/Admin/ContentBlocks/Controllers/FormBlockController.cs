@@ -53,7 +53,7 @@ public class FormBlockController : MantleController
         values.Remove("X-Requested-With");
         values.Remove("__RequestVerificationToken");
 
-        var subject = contentBlockTitle;
+        string subject = contentBlockTitle;
 
         #region Render Email Body
 

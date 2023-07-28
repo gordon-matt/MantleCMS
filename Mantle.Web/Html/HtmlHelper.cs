@@ -11,8 +11,8 @@ public partial class HtmlHelper
 {
     #region Fields
 
-    private static readonly Regex paragraphStartRegex = new Regex("<p>", RegexOptions.IgnoreCase);
-    private static readonly Regex paragraphEndRegex = new Regex("</p>", RegexOptions.IgnoreCase);
+    private static readonly Regex paragraphStartRegex = new("<p>", RegexOptions.IgnoreCase);
+    private static readonly Regex paragraphEndRegex = new("</p>", RegexOptions.IgnoreCase);
     //private static Regex ampRegex = new Regex("&(?!(?:#[0-9]{2,4};|[a-z0-9]+;))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     #endregion Fields
@@ -22,7 +22,9 @@ public partial class HtmlHelper
     private static string EnsureOnlyAllowedHtml(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         const string allowedTags = "br,hr,b,i,u,a,div,ol,ul,li,blockquote,img,span,p,em,strong,font,pre,h1,h2,h3,h4,h5,h6,address,cite";
 
@@ -43,19 +45,40 @@ public partial class HtmlHelper
     private static bool IsValidTag(string tag, string tags)
     {
         string[] allowedTags = tags.Split(',');
-        if (tag.IndexOf("javascript") >= 0) return false;
-        if (tag.IndexOf("vbscript") >= 0) return false;
-        if (tag.IndexOf("onclick") >= 0) return false;
+        if (tag.IndexOf("javascript") >= 0)
+        {
+            return false;
+        }
 
-        var endchars = new[] { ' ', '>', '/', '\t' };
+        if (tag.IndexOf("vbscript") >= 0)
+        {
+            return false;
+        }
+
+        if (tag.IndexOf("onclick") >= 0)
+        {
+            return false;
+        }
+
+        char[] endchars = new[] { ' ', '>', '/', '\t' };
 
         int pos = tag.IndexOfAny(endchars, 1);
-        if (pos > 0) tag = tag.Substring(0, pos);
-        if (tag[0] == '/') tag = tag.Substring(1);
+        if (pos > 0)
+        {
+            tag = tag[..pos];
+        }
+
+        if (tag[0] == '/')
+        {
+            tag = tag[1..];
+        }
 
         foreach (string aTag in allowedTags)
         {
-            if (tag == aTag) return true;
+            if (tag == aTag)
+            {
+                return true;
+            }
         }
 
         return false;
@@ -81,7 +104,9 @@ public partial class HtmlHelper
         bool allowBBCode, bool resolveLinks, bool addNoFollowTag)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         try
         {
@@ -127,7 +152,9 @@ public partial class HtmlHelper
     public static string StripTags(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         text = Regex.Replace(text, @"(>)(\r|\n)*(<)", "><");
         text = Regex.Replace(text, "(<[^>]*>)([^<]*)", "$2");
@@ -144,7 +171,9 @@ public partial class HtmlHelper
     public static string ReplaceAnchorTags(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         text = Regex.Replace(text, @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1", RegexOptions.IgnoreCase);
         return text;
@@ -158,7 +187,9 @@ public partial class HtmlHelper
     public static string ConvertPlainTextToHtml(string text)
     {
         if (String.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         text = text.Replace("\r\n", "<br />");
         text = text.Replace("\r", "<br />");
@@ -180,7 +211,9 @@ public partial class HtmlHelper
         bool decode = false, bool replaceAnchorTags = false)
     {
         if (string.IsNullOrEmpty(text))
+        {
             return string.Empty;
+        }
 
         if (decode)
         {
@@ -194,7 +227,9 @@ public partial class HtmlHelper
         text = text.Replace("&nbsp;&nbsp;", "  ");
 
         if (replaceAnchorTags)
+        {
             text = ReplaceAnchorTags(text);
+        }
 
         return text;
     }
@@ -214,9 +249,9 @@ public partial class HtmlHelper
         text = paragraphStartRegex.Replace(text, string.Empty);
         text = paragraphEndRegex.Replace(text, "\n");
         text = text.Replace("\r\n", "\n").Replace("\r", "\n");
-        text = text + "\n\n";
+        text += "\n\n";
         text = text.Replace("\n\n", "\n");
-        var strArray = text.Split(new[] { '\n' });
+        string[] strArray = text.Split(new[] { '\n' });
         var builder = new StringBuilder();
         foreach (string str in strArray)
         {

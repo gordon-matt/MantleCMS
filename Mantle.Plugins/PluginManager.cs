@@ -18,7 +18,7 @@ public class PluginManager
 
     #region Fields
 
-    private static readonly ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
+    private static readonly ReaderWriterLockSlim Locker = new();
     private static DirectoryInfo shadowCopyFolder;
     private static readonly List<string> BaseAppLibraries;
     private static DirectoryInfo reserveShadowCopyFolder;
@@ -108,7 +108,7 @@ public class PluginManager
                         try
                         {
                             //ignore index.htm
-                            var fileName = Path.GetFileName(f.FullName);
+                            string fileName = Path.GetFileName(f.FullName);
                             if (fileName.Equals("index.htm", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 continue;
@@ -239,7 +239,7 @@ public class PluginManager
                     catch (ReflectionTypeLoadException ex)
                     {
                         //add a plugin name. this way we can easily identify a problematic plugin
-                        var msg = $"Plugin '{pluginDescriptor.FriendlyName}'. ";
+                        string msg = $"Plugin '{pluginDescriptor.FriendlyName}'. ";
                         foreach (var e in ex.LoaderExceptions)
                         {
                             msg += e.Message + Environment.NewLine;
@@ -251,7 +251,7 @@ public class PluginManager
                     catch (Exception ex)
                     {
                         //add a plugin name. this way we can easily identify a problematic plugin
-                        var msg = $"Plugin '{pluginDescriptor.FriendlyName}'. {ex.Message}";
+                        string msg = $"Plugin '{pluginDescriptor.FriendlyName}'. {ex.Message}";
 
                         var fail = new Exception(msg, ex);
                         throw fail;
@@ -260,7 +260,7 @@ public class PluginManager
             }
             catch (Exception ex)
             {
-                var msg = string.Empty;
+                string msg = string.Empty;
                 for (var e = ex; e != null; e = e.InnerException)
                 {
                     msg += e.Message + Environment.NewLine;
@@ -286,7 +286,7 @@ public class PluginManager
             throw new ArgumentNullException(nameof(systemName));
         }
 
-        var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
+        string filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
 
         //create file if not exists
         if (!File.Exists(filePath))
@@ -299,7 +299,7 @@ public class PluginManager
         var installedPluginSystemNames = GetInstalledPluginNames(filePath);
 
         //add plugin system name to the list if doesn't already exist
-        var alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
 
         if (!alreadyMarkedAsInstalled)
         {
@@ -321,7 +321,7 @@ public class PluginManager
             throw new ArgumentNullException(nameof(systemName));
         }
 
-        var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
+        string filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
 
         //create file if not exists
         if (!File.Exists(filePath))
@@ -334,7 +334,7 @@ public class PluginManager
         var installedPluginSystemNames = GetInstalledPluginNames(filePath);
 
         //remove plugin system name from the list if exists
-        var alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
         if (alreadyMarkedAsInstalled)
         {
             installedPluginSystemNames.Remove(systemName);
@@ -349,7 +349,7 @@ public class PluginManager
     /// </summary>
     public static void MarkAllPluginsAsUninstalled()
     {
-        var filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
+        string filePath = CommonHelper.MapPath(InstalledPluginsFilePath);
         if (File.Exists(filePath))
         {
             File.Delete(filePath);
@@ -384,7 +384,7 @@ public class PluginManager
     /// <returns>Plugin descriptor</returns>
     public static PluginDescriptor GetPluginDescriptorFromFile(string filePath)
     {
-        var text = File.ReadAllText(filePath);
+        string text = File.ReadAllText(filePath);
         return GetPluginDescriptorFromText(text);
     }
 
@@ -429,14 +429,14 @@ public class PluginManager
             throw new Exception($"Cannot load original assembly path for {pluginDescriptor.SystemName} plugin.");
         }
 
-        var filePath = Path.Combine(pluginDescriptor.OriginalAssemblyFile.Directory.FullName, PluginDescriptionFileName);
+        string filePath = Path.Combine(pluginDescriptor.OriginalAssemblyFile.Directory.FullName, PluginDescriptionFileName);
         if (!File.Exists(filePath))
         {
             throw new Exception($"Description file for {pluginDescriptor.SystemName} plugin does not exist. {filePath}");
         }
 
         //save the file
-        var text = JsonConvert.SerializeObject(pluginDescriptor, Formatting.Indented);
+        string text = JsonConvert.SerializeObject(pluginDescriptor, Formatting.Indented);
         File.WriteAllText(filePath, text);
     }
 
@@ -473,10 +473,7 @@ public class PluginManager
 
     public static bool IsPluginInstalled(string systemName)
     {
-        if (installedPlugins == null)
-        {
-            installedPlugins = new Dictionary<string, bool>();
-        }
+        installedPlugins ??= new Dictionary<string, bool>();
 
         if (!installedPlugins.ContainsKey(systemName))
         {
@@ -563,7 +560,7 @@ public class PluginManager
             return pluginSystemNames;
         }
 
-        var text = File.ReadAllText(filePath);
+        string text = File.ReadAllText(filePath);
         if (string.IsNullOrEmpty(text))
         {
             return new List<string>();
@@ -581,7 +578,7 @@ public class PluginManager
     private static void SaveInstalledPluginNames(IList<string> pluginSystemNames, string filePath)
     {
         //save the file
-        var text = JsonConvert.SerializeObject(pluginSystemNames, Formatting.Indented);
+        string text = JsonConvert.SerializeObject(pluginSystemNames, Formatting.Indented);
         File.WriteAllText(filePath, text);
     }
 
@@ -611,7 +608,7 @@ public class PluginManager
         //do not compare the full assembly name, just filename
         try
         {
-            var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileInfo.FullName);
             if (string.IsNullOrEmpty(fileNameWithoutExt))
             {
                 throw new Exception($"Cannot get file extension for {fileInfo.Name}");
@@ -619,7 +616,7 @@ public class PluginManager
 
             foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
             {
-                var assemblyName = a.FullName.Split(',').FirstOrDefault();
+                string assemblyName = a.FullName.Split(',').FirstOrDefault();
                 if (fileNameWithoutExt.Equals(assemblyName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return true;
@@ -727,7 +724,7 @@ public class PluginManager
     /// <returns></returns>
     private static FileInfo ShadowCopyFile(FileInfo plug, DirectoryInfo shadowCopyPlugFolder)
     {
-        var shouldCopy = true;
+        bool shouldCopy = true;
         var shadowCopiedPlug = new FileInfo(Path.Combine(shadowCopyPlugFolder.FullName, plug.Name));
 
         //check if a shadow copied file already exists and if it does, check if it's updated, if not don't copy
@@ -735,7 +732,7 @@ public class PluginManager
         {
             //it's better to use LastWriteTimeUTC, but not all file systems have this property
             //maybe it is better to compare file hash?
-            var areFilesIdentical = shadowCopiedPlug.CreationTimeUtc.Ticks >= plug.CreationTimeUtc.Ticks;
+            bool areFilesIdentical = shadowCopiedPlug.CreationTimeUtc.Ticks >= plug.CreationTimeUtc.Ticks;
             if (areFilesIdentical)
             {
                 Debug.WriteLine("Not copying; files appear identical: '{0}'", shadowCopiedPlug.Name);
@@ -768,7 +765,7 @@ public class PluginManager
             //which releases the lock, so that it what we are doing here, once it's renamed, we can re-shadow copy
             try
             {
-                var oldFile = shadowCopiedPlug.FullName + Guid.NewGuid().ToString("N") + ".old";
+                string oldFile = shadowCopiedPlug.FullName + Guid.NewGuid().ToString("N") + ".old";
                 File.Move(shadowCopiedPlug.FullName, oldFile);
             }
             catch (IOException exc)

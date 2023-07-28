@@ -2,7 +2,7 @@ namespace Mantle.Web.Mvc.EmbeddedResources;
 
 public class EmbeddedResourceTable
 {
-    private static readonly object _lock = new object();
+    private static readonly object _lock = new();
     private readonly Dictionary<string, EmbeddedResourceMetadata> resourceCache;
 
     public EmbeddedResourceTable()

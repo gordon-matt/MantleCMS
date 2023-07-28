@@ -72,20 +72,18 @@ public class EntityTypeContentBlockService : GenericDataService<EntityTypeConten
                 return Enumerable.Empty<EntityTypeContentBlock>();
             }
 
-            using (var connection = OpenConnection())
+            using var connection = OpenConnection();
+            var query = connection.Query(x =>
+                x.EntityType == entityType &&
+                x.EntityId == entityId &&
+                x.ZoneId == zone.Id);
+
+            if (!includeDisabled)
             {
-                var query = connection.Query(x =>
-                    x.EntityType == entityType &&
-                    x.EntityId == entityId &&
-                    x.ZoneId == zone.Id);
-
-                if (!includeDisabled)
-                {
-                    query = query.Where(x => x.IsEnabled);
-                }
-
-                return query.ToList();
+                query = query.Where(x => x.IsEnabled);
             }
+
+            return query.ToList();
         });
 
         return GetContentBlocks(records, cultureCode);

@@ -42,7 +42,7 @@ public class MantleCMS<TModel>
     public IHtmlContent BlogCategoryDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        int selectedValue = func(html.ViewData.Model);
 
         var selectList = GetBlogCategorySelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -57,7 +57,7 @@ public class MantleCMS<TModel>
     public IHtmlContent BlogTagDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        int selectedValue = func(html.ViewData.Model);
 
         var selectList = GetBlogTagSelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -72,7 +72,7 @@ public class MantleCMS<TModel>
     public IHtmlContent ContentBlockTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = GetContentBlockTypesSelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -87,7 +87,7 @@ public class MantleCMS<TModel>
     public IHtmlContent PageTypesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = GetPageTypesSelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -102,7 +102,7 @@ public class MantleCMS<TModel>
     public IHtmlContent TopLevelPagesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = GetTopLevelPagesSelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -117,7 +117,7 @@ public class MantleCMS<TModel>
     public IHtmlContent ZonesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = GetZonesSelectList(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -171,17 +171,15 @@ public class MantleCMS<TModel>
     {
         var repository = EngineContext.Current.Resolve<IRepository<PageType>>();
 
-        using (var connection = repository.OpenConnection())
-        {
-            return connection.Query()
-                .OrderBy(x => x.Name)
-                .ToList()
-                .ToSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValue,
-                    emptyText);
-        }
+        using var connection = repository.OpenConnection();
+        return connection.Query()
+            .OrderBy(x => x.Name)
+            .ToList()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
     }
 
     private static IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
@@ -203,16 +201,14 @@ public class MantleCMS<TModel>
     {
         var zoneService = EngineContext.Current.Resolve<IZoneService>();
 
-        using (var connection = zoneService.OpenConnection())
-        {
-            return connection.Query()
-                .OrderBy(x => x.Name)
-                .ToList()
-                .ToSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValue,
-                    emptyText);
-        }
+        using var connection = zoneService.OpenConnection();
+        return connection.Query()
+            .OrderBy(x => x.Name)
+            .ToList()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
     }
 }

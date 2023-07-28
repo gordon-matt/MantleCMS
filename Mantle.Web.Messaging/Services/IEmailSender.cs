@@ -15,7 +15,7 @@ public interface IEmailSender
 public class DefaultEmailSender : IEmailSender
 {
     private readonly SmtpSettings smtpSettings;
-    private static readonly Regex regexValidEmail = new Regex(@"[\w-]+@([\w-]+\.)+[\w-]+", RegexOptions.Compiled);
+    private static readonly Regex regexValidEmail = new(@"[\w-]+@([\w-]+\.)+[\w-]+", RegexOptions.Compiled);
 
     public DefaultEmailSender(SmtpSettings smtpSettings)
     {
@@ -24,31 +24,29 @@ public class DefaultEmailSender : IEmailSender
 
     public void Send(MailMessage mailMessage)
     {
-        using (var smtpClient = new SmtpClient())
+        using var smtpClient = new SmtpClient();
+        if (smtpSettings != null && !string.IsNullOrEmpty(smtpSettings.Host))
         {
-            if (smtpSettings != null && !string.IsNullOrEmpty(smtpSettings.Host))
+            smtpClient.UseDefaultCredentials = smtpSettings.UseDefaultCredentials;
+            smtpClient.Host = smtpSettings.Host;
+            smtpClient.Port = smtpSettings.Port;
+            smtpClient.EnableSsl = smtpSettings.EnableSsl;
+            smtpClient.Credentials = smtpSettings.UseDefaultCredentials
+                ? CredentialCache.DefaultNetworkCredentials
+                : new NetworkCredential(smtpSettings.Username, smtpSettings.Password);
+
+            if (mailMessage.From == null && IsValidEmailAddress(smtpSettings.Username))
             {
-                smtpClient.UseDefaultCredentials = smtpSettings.UseDefaultCredentials;
-                smtpClient.Host = smtpSettings.Host;
-                smtpClient.Port = smtpSettings.Port;
-                smtpClient.EnableSsl = smtpSettings.EnableSsl;
-                smtpClient.Credentials = smtpSettings.UseDefaultCredentials
-                    ? CredentialCache.DefaultNetworkCredentials
-                    : new NetworkCredential(smtpSettings.Username, smtpSettings.Password);
-
-                if (mailMessage.From == null && IsValidEmailAddress(smtpSettings.Username))
+                string displayName = mailMessage.Headers["FromDisplayName"];
+                if (string.IsNullOrEmpty(displayName))
                 {
-                    var displayName = mailMessage.Headers["FromDisplayName"];
-                    if (string.IsNullOrEmpty(displayName))
-                    {
-                        displayName = smtpSettings.DisplayName;
-                    }
-                    mailMessage.From = new MailAddress(smtpSettings.Username, displayName);
+                    displayName = smtpSettings.DisplayName;
                 }
+                mailMessage.From = new MailAddress(smtpSettings.Username, displayName);
             }
-
-            smtpClient.Send(mailMessage);
         }
+
+        smtpClient.Send(mailMessage);
     }
 
     public void Send(string subject, string body, string toEmailAddress)

@@ -18,12 +18,10 @@ public class LanguageService : GenericDataService<LanguageEntity>, ILanguageServ
     {
         var rtlLanguages = CacheManager.Get("Repository_Language_RightToLeft_" + tenantId, () =>
         {
-            using (var connection = OpenConnection())
-            {
-                return connection.Query(x => x.TenantId == tenantId && x.IsRTL)
-                    .Select(k => k.CultureCode)
-                    .ToList();
-            }
+            using var connection = OpenConnection();
+            return connection.Query(x => x.TenantId == tenantId && x.IsRTL)
+                .Select(k => k.CultureCode)
+                .ToList();
         });
 
         return rtlLanguages.Contains(cultureCode);

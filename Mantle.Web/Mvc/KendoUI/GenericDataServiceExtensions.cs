@@ -12,28 +12,26 @@ public static class GenericDataServiceExtensions
         Expression<Func<TEntity, bool>> predicate = null)
         where TEntity : class
     {
-        using (var connection = service.OpenConnection())
+        using var connection = service.OpenConnection();
+        var query = predicate == null ? connection.Query() : connection.Query(predicate);
+
+        // Filtering
+        query = request.FilterObjectWrapper != null ? ApplyFiltering(query, request.FilterObjectWrapper) : query;
+
+        // Sorting
+        query = ApplySorting(query, request.SortObjects);
+
+        // Paging
+        if (request.Skip.HasValue && request.Skip > 0)
         {
-            var query = predicate == null ? connection.Query() : connection.Query(predicate);
-
-            // Filtering
-            query = request.FilterObjectWrapper != null ? ApplyFiltering(query, request.FilterObjectWrapper) : query;
-
-            // Sorting
-            query = ApplySorting(query, request.SortObjects);
-
-            // Paging
-            if (request.Skip.HasValue && request.Skip > 0)
-            {
-                query = query.Skip(request.Skip.Value);
-            }
-            if (request.Take.HasValue && request.Take > 0)
-            {
-                query = query.Take(request.Take.Value);
-            }
-
-            return query.ToHashSet();
+            query = query.Skip(request.Skip.Value);
         }
+        if (request.Take.HasValue && request.Take > 0)
+        {
+            query = query.Take(request.Take.Value);
+        }
+
+        return query.ToHashSet();
     }
 
     private static IQueryable<TEntity> ApplyFiltering<TEntity>(IQueryable<TEntity> query, FilterObjectWrapper filter)
@@ -50,7 +48,7 @@ public static class GenericDataServiceExtensions
 
     private static string GetFiltering<TEntity>(FilterObjectWrapper filter)
     {
-        var finalExpression = string.Empty;
+        string finalExpression = string.Empty;
 
         foreach (var filterObject in filter.FilterObjects)
         {
@@ -64,14 +62,14 @@ public static class GenericDataServiceExtensions
 
             if (filterObject.IsConjugate)
             {
-                var expression1 = filterObject.GetExpression1<TEntity>();
-                var expression2 = filterObject.GetExpression2<TEntity>();
-                var combined = $"({expression1} {filterObject.LogicToken} {expression2})";
+                string expression1 = filterObject.GetExpression1<TEntity>();
+                string expression2 = filterObject.GetExpression2<TEntity>();
+                string combined = $"({expression1} {filterObject.LogicToken} {expression2})";
                 finalExpression += combined;
             }
             else
             {
-                var expression = filterObject.GetExpression1<TEntity>();
+                string expression = filterObject.GetExpression1<TEntity>();
                 finalExpression += expression;
             }
         }
@@ -86,7 +84,7 @@ public static class GenericDataServiceExtensions
             return null;
         }
 
-        var expression = string.Join(",", sortObjects.Select(s => MapFieldfromViewModeltoEntity(s.Field) + " " + s.Direction));
+        string expression = string.Join(",", sortObjects.Select(s => MapFieldfromViewModeltoEntity(s.Field) + " " + s.Direction));
         return expression.Length > 1 ? expression : null;
     }
 

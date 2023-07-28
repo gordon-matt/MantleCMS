@@ -128,7 +128,9 @@ public class NavigationManager : INavigationManager
     private static MenuItem Join(IEnumerable<MenuItem> items)
     {
         if (items.Count() < 2)
+        {
             return items.Single();
+        }
 
         var joined = new MenuItem
         {
@@ -163,16 +165,16 @@ public class NavigationManager : INavigationManager
             return null;
         }
 
-        var url = !string.IsNullOrEmpty(menuItemUrl) ? menuItemUrl : urlHelper.RouteUrl(routeValueDictionary);
+        string url = !string.IsNullOrEmpty(menuItemUrl) ? menuItemUrl : urlHelper.RouteUrl(routeValueDictionary);
 
         if (!string.IsNullOrEmpty(url) &&
             !(url.StartsWith("http://") || url.StartsWith("https://") || url.StartsWith("javascript:") || url.StartsWith("#") || url.StartsWith("/")))
         {
             if (url.StartsWith("~/"))
             {
-                url = url.Substring(2);
+                url = url[2..];
             }
-            var appPath = webHelper.WebRootPath;
+            string appPath = webHelper.WebRootPath;
             if (appPath == "/")
             {
                 appPath = "";

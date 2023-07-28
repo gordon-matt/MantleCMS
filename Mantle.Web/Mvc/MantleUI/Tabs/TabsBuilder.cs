@@ -3,7 +3,7 @@
 public class TabsBuilder<TModel> : BuilderBase<TModel, Tabs>
 {
     private bool isHeaderClosed;
-    private Queue<string> tabIds;
+    private readonly Queue<string> tabIds;
     private bool writingContent;
     private string activeTabId;
 

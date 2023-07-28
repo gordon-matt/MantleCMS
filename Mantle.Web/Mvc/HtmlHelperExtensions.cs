@@ -215,7 +215,7 @@ public class Mantle<TModel>
     public IHtmlContent LanguagesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null, bool includeInvariant = false, string invariantText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = GetLanguages(selectedValue, emptyText);
         return html.DropDownListFor(expression, selectList, htmlAttributes);
@@ -314,7 +314,7 @@ public class Mantle<TModel>
     public IHtmlContent RolesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var membershipService = EngineContext.Current.Resolve<IMembershipService>();
         var workContext = EngineContext.Current.Resolve<IWorkContext>();
@@ -339,7 +339,7 @@ public class Mantle<TModel>
     {
         var themeProvider = EngineContext.Current.Resolve<IThemeProvider>();
         var func = expression.Compile();
-        var selectedValue = func(html.ViewData.Model);
+        string selectedValue = func(html.ViewData.Model);
 
         var selectList = themeProvider.GetThemeConfigurations()
             .ToSelectList(
@@ -371,34 +371,30 @@ public class Mantle<TModel>
     {
         var service = EngineContext.Current.Resolve<ITenantService>();
 
-        using (var connection = service.OpenConnection())
-        {
-            return connection.Query()
-                .OrderBy(x => x.Name)
-                .ToList()
-                .ToMultiSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValues,
-                    emptyText);
-        }
+        using var connection = service.OpenConnection();
+        return connection.Query()
+            .OrderBy(x => x.Name)
+            .ToList()
+            .ToMultiSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValues,
+                emptyText);
     }
 
     private static IEnumerable<SelectListItem> GetTenantsSelectList(string selectedValue = null, string emptyText = null)
     {
         var service = EngineContext.Current.Resolve<ITenantService>();
 
-        using (var connection = service.OpenConnection())
-        {
-            return connection.Query()
-                .OrderBy(x => x.Name)
-                .ToList()
-                .ToSelectList(
-                    value => value.Id,
-                    text => text.Name,
-                    selectedValue,
-                    emptyText);
-        }
+        using var connection = service.OpenConnection();
+        return connection.Query()
+            .OrderBy(x => x.Name)
+            .ToList()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
     }
 
     //TODO: Test this (should be different per tenant). Use the "UsePerTenant" feature in SaaSKit when registering RequestLocalizationOptions.
@@ -468,7 +464,7 @@ public class Mantle<TModel>
 
         public int Compare(string x, string y)
         {
-            var value = String.Compare(x, y, StringComparison.Ordinal);
+            int value = String.Compare(x, y, StringComparison.Ordinal);
 
             if (value == 0)
             {

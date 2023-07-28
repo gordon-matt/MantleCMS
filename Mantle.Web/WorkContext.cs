@@ -10,7 +10,7 @@ public partial class WorkContext : IWorkContext
     private Tenant cachedTenant;
 
     private readonly IWebHelper webHelper;
-    private readonly ConcurrentDictionary<string, Func<object>> stateResolvers = new ConcurrentDictionary<string, Func<object>>();
+    private readonly ConcurrentDictionary<string, Func<object>> stateResolvers = new();
     private readonly IEnumerable<IWorkContextStateProvider> workContextStateProviders;
 
     public WorkContext()
@@ -68,11 +68,8 @@ public partial class WorkContext : IWorkContext
                 var allTenants = tenantService.Find();
                 var tenant = allTenants.FirstOrDefault(s => s.ContainsHostValue(host));
 
-                if (tenant == null)
-                {
-                    // Load the first found tenant
-                    tenant = allTenants.FirstOrDefault();
-                }
+                // Load the first found tenant
+                tenant ??= allTenants.FirstOrDefault();
                 if (tenant == null)
                 {
                     throw new MantleException("No tenant could be loaded");

@@ -9,7 +9,7 @@ public static class DateTimeExtensions
         string result;
 
         var ts = new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
-        var delta = ts.TotalSeconds;
+        double delta = ts.TotalSeconds;
 
         if (delta > 0)
         {
@@ -33,7 +33,10 @@ public static class DateTimeExtensions
             {
                 int hours = ts.Hours;
                 if (hours == 1)
+                {
                     hours = 2;
+                }
+
                 result = hours + " hours ago";
             }
             else if (delta < 172800) // 48 (hours) * 60 (minutes) * 60 (seconds)
@@ -57,7 +60,7 @@ public static class DateTimeExtensions
         }
         else
         {
-            DateTime tmp1 = dateTime;
+            var tmp1 = dateTime;
             if (convertToUserTime)
             {
                 tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);

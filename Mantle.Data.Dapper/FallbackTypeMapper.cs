@@ -15,7 +15,7 @@ public class FallbackTypeMapper : SqlMapper.ITypeMap
         {
             try
             {
-                ConstructorInfo result = mapper.FindConstructor(names, types);
+                var result = mapper.FindConstructor(names, types);
                 if (result != null)
                 {
                     return result;
