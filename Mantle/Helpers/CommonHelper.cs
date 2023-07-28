@@ -1,51 +1,50 @@
-﻿namespace Mantle.Helpers
+﻿namespace Mantle.Helpers;
+
+public static class CommonHelper
 {
-    public static class CommonHelper
+    public static string BaseDirectory { get; set; }
+
+    public static string MapPath(string path, string basePath = null)
     {
-        public static string BaseDirectory { get; set; }
-
-        public static string MapPath(string path, string basePath = null)
+        if (string.IsNullOrEmpty(basePath))
         {
-            if (string.IsNullOrEmpty(basePath))
-            {
-                basePath = BaseDirectory ?? string.Empty;
-            }
-
-            path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
-            return Path.Combine(basePath, path);
+            basePath = BaseDirectory ?? string.Empty;
         }
 
-        /// <summary>
-        ///  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
-        /// </summary>
-        /// <param name="path">Directory path</param>
-        public static void DeleteDirectory(string path)
+        path = path.Replace("~/", string.Empty).TrimStart('/').Replace('/', '\\');
+        return Path.Combine(basePath, path);
+    }
+
+    /// <summary>
+    ///  Depth-first recursive delete, with handling for descendant directories open in Windows Explorer.
+    /// </summary>
+    /// <param name="path">Directory path</param>
+    public static void DeleteDirectory(string path)
+    {
+        if (string.IsNullOrEmpty(path))
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException(path);
-            }
+            throw new ArgumentNullException(path);
+        }
 
-            //find more info about directory deletion
-            //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
+        //find more info about directory deletion
+        //and why we use this approach at https://stackoverflow.com/questions/329355/cannot-delete-directory-with-directory-deletepath-true
 
-            foreach (var directory in Directory.GetDirectories(path))
-            {
-                DeleteDirectory(directory);
-            }
+        foreach (var directory in Directory.GetDirectories(path))
+        {
+            DeleteDirectory(directory);
+        }
 
-            try
-            {
-                Directory.Delete(path, true);
-            }
-            catch (IOException)
-            {
-                Directory.Delete(path, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Directory.Delete(path, true);
-            }
+        try
+        {
+            Directory.Delete(path, true);
+        }
+        catch (IOException)
+        {
+            Directory.Delete(path, true);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Directory.Delete(path, true);
         }
     }
 }

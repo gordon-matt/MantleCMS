@@ -1,7 +1,6 @@
-﻿namespace Mantle.Infrastructure.Configuration
+﻿namespace Mantle.Infrastructure.Configuration;
+
+public class MantleInfrastructureOptions
 {
-    public class MantleInfrastructureOptions
-    {
-        public bool IgnoreStartupTasks { get; set; }
-    }
+    public bool IgnoreStartupTasks { get; set; }
 }

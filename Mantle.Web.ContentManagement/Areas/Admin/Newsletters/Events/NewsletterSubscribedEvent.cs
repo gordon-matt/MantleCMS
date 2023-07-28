@@ -1,14 +1,11 @@
-﻿using Mantle.Security.Membership;
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Events;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Events
+public class NewsletterSubscribedEvent
 {
-    public class NewsletterSubscribedEvent
+    public NewsletterSubscribedEvent(MantleUser user)
     {
-        public NewsletterSubscribedEvent(MantleUser user)
-        {
-            this.User = user;
-        }
-
-        public MantleUser User { get; private set; }
+        this.User = user;
     }
+
+    public MantleUser User { get; private set; }
 }

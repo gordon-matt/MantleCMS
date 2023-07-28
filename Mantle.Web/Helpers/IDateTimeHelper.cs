@@ -1,32 +1,30 @@
-﻿using Mantle.Security.Membership;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
-namespace Mantle.Web.Helpers
+namespace Mantle.Web.Helpers;
+
+public interface IDateTimeHelper
 {
-    public interface IDateTimeHelper
-    {
-        TimeZoneInfo FindTimeZoneById(string id);
+    TimeZoneInfo FindTimeZoneById(string id);
 
-        ReadOnlyCollection<TimeZoneInfo> GetSystemTimeZones();
+    ReadOnlyCollection<TimeZoneInfo> GetSystemTimeZones();
 
-        DateTime ConvertToUserTime(DateTime dateTime);
+    DateTime ConvertToUserTime(DateTime dateTime);
 
-        DateTime ConvertToUserTime(DateTime dateTime, DateTimeKind sourceDateTimeKind);
+    DateTime ConvertToUserTime(DateTime dateTime, DateTimeKind sourceDateTimeKind);
 
-        DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone);
+    DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone);
 
-        DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone);
+    DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone);
 
-        DateTime ConvertToUtcTime(DateTime dateTime);
+    DateTime ConvertToUtcTime(DateTime dateTime);
 
-        DateTime ConvertToUtcTime(DateTime dateTime, DateTimeKind sourceDateTimeKind);
+    DateTime ConvertToUtcTime(DateTime dateTime, DateTimeKind sourceDateTimeKind);
 
-        DateTime ConvertToUtcTime(DateTime dateTime, TimeZoneInfo sourceTimeZone);
+    DateTime ConvertToUtcTime(DateTime dateTime, TimeZoneInfo sourceTimeZone);
 
-        TimeZoneInfo GetUserTimeZone(MantleUser user);
+    TimeZoneInfo GetUserTimeZone(MantleUser user);
 
-        TimeZoneInfo DefaultTenantTimeZone { get; set; }
+    TimeZoneInfo DefaultTenantTimeZone { get; set; }
 
-        TimeZoneInfo CurrentTimeZone { get; set; }
-    }
+    TimeZoneInfo CurrentTimeZone { get; set; }
 }

@@ -1,32 +1,31 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using System.Collections;
 
-namespace Mantle.Web.Mvc.EmbeddedResources
+namespace Mantle.Web.Mvc.EmbeddedResources;
+
+internal class EnumerableDirectoryContents : IDirectoryContents
 {
-    internal class EnumerableDirectoryContents : IDirectoryContents
+    private readonly IEnumerable<IFileInfo> entries;
+
+    public EnumerableDirectoryContents(IEnumerable<IFileInfo> entries)
     {
-        private readonly IEnumerable<IFileInfo> entries;
-
-        public EnumerableDirectoryContents(IEnumerable<IFileInfo> entries)
+        if (entries == null)
         {
-            if (entries == null)
-            {
-                throw new ArgumentNullException(nameof(entries));
-            }
-
-            this.entries = entries;
+            throw new ArgumentNullException(nameof(entries));
         }
 
-        public bool Exists => true;
+        this.entries = entries;
+    }
 
-        public IEnumerator<IFileInfo> GetEnumerator()
-        {
-            return entries.GetEnumerator();
-        }
+    public bool Exists => true;
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return entries.GetEnumerator();
-        }
+    public IEnumerator<IFileInfo> GetEnumerator()
+    {
+        return entries.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return entries.GetEnumerator();
     }
 }

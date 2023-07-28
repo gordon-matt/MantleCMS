@@ -1,11 +1,10 @@
-namespace Mantle.Web.Mvc.EmbeddedResources
+namespace Mantle.Web.Mvc.EmbeddedResources;
+
+public interface IEmbeddedResourceResolver
 {
-    public interface IEmbeddedResourceResolver
-    {
-        EmbeddedResourceTable Scripts { get; }
+    EmbeddedResourceTable Scripts { get; }
 
-        EmbeddedResourceTable Content { get; }
+    EmbeddedResourceTable Content { get; }
 
-        EmbeddedResourceTable Views { get; }
-    }
+    EmbeddedResourceTable Views { get; }
 }

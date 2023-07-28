@@ -1,56 +1,50 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Messaging.Data.Domain;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.OData;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
+﻿using Mantle.Messaging.Data.Domain;
 
-namespace Mantle.Web.Messaging.Controllers.Api
+namespace Mantle.Web.Messaging.Controllers.Api;
+
+public class MessageTemplateApiController : GenericTenantODataController<MessageTemplate, int>
 {
-    public class MessageTemplateApiController : GenericTenantODataController<MessageTemplate, int>
+    private readonly Lazy<IEnumerable<IMessageTemplateTokensProvider>> tokensProviders;
+
+    public MessageTemplateApiController(
+        IRepository<MessageTemplate> repository,
+        Lazy<IEnumerable<IMessageTemplateTokensProvider>> tokensProviders)
+        : base(repository)
     {
-        private readonly Lazy<IEnumerable<IMessageTemplateTokensProvider>> tokensProviders;
+        this.tokensProviders = tokensProviders;
+    }
 
-        public MessageTemplateApiController(
-            IRepository<MessageTemplate> repository,
-            Lazy<IEnumerable<IMessageTemplateTokensProvider>> tokensProviders)
-            : base(repository)
+    protected override int GetId(MessageTemplate entity)
+    {
+        return entity.Id;
+    }
+
+    protected override void SetNewId(MessageTemplate entity)
+    {
+    }
+
+    [HttpGet]
+    public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
+    {
+        if (!CheckPermission(ReadPermission))
         {
-            this.tokensProviders = tokensProviders;
+            return Enumerable.Empty<string>();
         }
 
-        protected override int GetId(MessageTemplate entity)
-        {
-            return entity.Id;
-        }
+        return tokensProviders.Value
+            .SelectMany(x => x.GetTokens(templateName))
+            .Distinct()
+            .OrderBy(x => x)
+            .ToList();
+    }
 
-        protected override void SetNewId(MessageTemplate entity)
-        {
-        }
+    protected override Permission ReadPermission
+    {
+        get { return MessagingPermissions.MessageTemplatesRead; }
+    }
 
-        [HttpGet]
-        public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
-        {
-            if (!CheckPermission(ReadPermission))
-            {
-                return Enumerable.Empty<string>();
-            }
-
-            return tokensProviders.Value
-                .SelectMany(x => x.GetTokens(templateName))
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
-        }
-
-        protected override Permission ReadPermission
-        {
-            get { return MessagingPermissions.MessageTemplatesRead; }
-        }
-
-        protected override Permission WritePermission
-        {
-            get { return MessagingPermissions.MessageTemplatesWrite; }
-        }
+    protected override Permission WritePermission
+    {
+        get { return MessagingPermissions.MessageTemplatesWrite; }
     }
 }

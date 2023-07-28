@@ -1,39 +1,37 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
+namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+
+public interface IContentBlockProvider
 {
-    public interface IContentBlockProvider
+    IEnumerable<IContentBlock> GetContentBlocks(string zoneName);
+}
+
+public class DefaultContentBlockProvider : IContentBlockProvider
+{
+    private readonly IContentBlockService contentBlockService;
+
+    public DefaultContentBlockProvider(IContentBlockService contentBlockService)
     {
-        IEnumerable<IContentBlock> GetContentBlocks(string zoneName);
+        this.contentBlockService = contentBlockService;
     }
 
-    public class DefaultContentBlockProvider : IContentBlockProvider
+    public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName)
     {
-        private readonly IContentBlockService contentBlockService;
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        Guid? pageId = workContext.GetState<Guid?>("CurrentPageId");
 
-        public DefaultContentBlockProvider(IContentBlockService contentBlockService)
+        var contentBlocks = contentBlockService.GetContentBlocks(zoneName, workContext.CurrentCultureCode, pageId: pageId);
+        return contentBlocks.Where(x => IsVisible(x)).ToList();
+    }
+
+    protected bool IsVisible(IContentBlock contentBlock)
+    {
+        if (contentBlock == null || !contentBlock.Enabled)
         {
-            this.contentBlockService = contentBlockService;
+            return false;
         }
 
-        public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName)
-        {
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            Guid? pageId = workContext.GetState<Guid?>("CurrentPageId");
-
-            var contentBlocks = contentBlockService.GetContentBlocks(zoneName, workContext.CurrentCultureCode, pageId: pageId);
-            return contentBlocks.Where(x => IsVisible(x)).ToList();
-        }
-
-        protected bool IsVisible(IContentBlock contentBlock)
-        {
-            if (contentBlock == null || !contentBlock.Enabled)
-            {
-                return false;
-            }
-
-            return true;
-        }
+        return true;
     }
 }

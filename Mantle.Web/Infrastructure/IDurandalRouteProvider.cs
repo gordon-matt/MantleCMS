@@ -1,7 +1,4 @@
-﻿using Mantle.Infrastructure;
-using Microsoft.Extensions.Localization;
-
-namespace Mantle.Web.Infrastructure;
+﻿namespace Mantle.Web.Infrastructure;
 
 // TODO: Consider exchanging this for a DurandalRouteAttribute instead. Need to test performance though,
 //  as it would mean using reflection...

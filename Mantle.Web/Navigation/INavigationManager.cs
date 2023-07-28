@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿namespace Mantle.Web.Navigation;
 
-namespace Mantle.Web.Navigation
+public interface INavigationManager
 {
-    public interface INavigationManager
-    {
-        IEnumerable<MenuItem> BuildMenu(string menuName);
+    IEnumerable<MenuItem> BuildMenu(string menuName);
 
-        string GetUrl(string menuItemUrl, RouteValueDictionary routeValueDictionary);
-    }
+    string GetUrl(string menuItemUrl, RouteValueDictionary routeValueDictionary);
 }

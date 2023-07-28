@@ -1,9 +1,8 @@
-﻿namespace Mantle.Web.Navigation
-{
-    public interface INavigationProvider
-    {
-        string MenuName { get; }
+﻿namespace Mantle.Web.Navigation;
 
-        void GetNavigation(NavigationBuilder builder);
-    }
+public interface INavigationProvider
+{
+    string MenuName { get; }
+
+    void GetNavigation(NavigationBuilder builder);
 }

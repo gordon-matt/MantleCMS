@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿namespace Mantle.Web.Mvc.Controls;
 
-namespace Mantle.Web.Mvc.Controls
+public class ExtendedSelectListItem : SelectListItem
 {
-    public class ExtendedSelectListItem : SelectListItem
-    {
-        public object HtmlAttributes { get; set; }
+    public object HtmlAttributes { get; set; }
 
-        public string Category { get; set; }
-    }
+    public string Category { get; set; }
 }

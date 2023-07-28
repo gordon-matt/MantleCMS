@@ -3,18 +3,17 @@
 
 using System.Drawing;
 
-namespace Mantle.Web.Mvc.Controls
+namespace Mantle.Web.Mvc.Controls;
+
+public class CircleHotSpot : ImageMapHotSpot
 {
-    public class CircleHotSpot : ImageMapHotSpot
+    public Point Center { get; set; }
+
+    public int Radius { get; set; }
+
+    public override string ToString()
     {
-        public Point Center { get; set; }
-
-        public int Radius { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format(@"<area shape=""circle"" coords=""{0},{1},{2}"" href=""{3}"" alt=""{4}"" />",
-                Center.X, Center.Y, Radius, Url, Title);
-        }
+        return string.Format(@"<area shape=""circle"" coords=""{0},{1},{2}"" href=""{3}"" alt=""{4}"" />",
+            Center.X, Center.Y, Radius, Url, Title);
     }
 }

@@ -1,37 +1,34 @@
-﻿using Mantle.Infrastructure;
-using Microsoft.Extensions.Localization;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace Mantle.Localization.ComponentModel
+namespace Mantle.Localization.ComponentModel;
+
+//TODO: Implement this with a custom DataAnnotationsModelMetadataProvider?
+public class LocalizedDisplayNameAttribute : DisplayNameAttribute
 {
-    //TODO: Implement this with a custom DataAnnotationsModelMetadataProvider?
-    public class LocalizedDisplayNameAttribute : DisplayNameAttribute
+    private static IStringLocalizer localizer;
+
+    private static IStringLocalizer T
     {
-        private static IStringLocalizer localizer;
-
-        private static IStringLocalizer T
+        get
         {
-            get
+            if (localizer == null)
             {
-                if (localizer == null)
-                {
-                    localizer = EngineContext.Current.Resolve<IStringLocalizer>();
-                }
-                return localizer;
+                localizer = EngineContext.Current.Resolve<IStringLocalizer>();
             }
+            return localizer;
         }
+    }
 
-        public LocalizedDisplayNameAttribute(string resourceKey)
-            : base(resourceKey)
-        {
-            ResourceKey = resourceKey;
-        }
+    public LocalizedDisplayNameAttribute(string resourceKey)
+        : base(resourceKey)
+    {
+        ResourceKey = resourceKey;
+    }
 
-        public string ResourceKey { get; set; }
+    public string ResourceKey { get; set; }
 
-        public override string DisplayName
-        {
-            get { return T[ResourceKey]; }
-        }
+    public override string DisplayName
+    {
+        get { return T[ResourceKey]; }
     }
 }

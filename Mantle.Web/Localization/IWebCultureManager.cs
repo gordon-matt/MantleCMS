@@ -1,48 +1,46 @@
 ﻿using Mantle.Localization;
 using Mantle.Web.Localization.Services;
-using Microsoft.AspNetCore.Http;
 
-namespace Mantle.Web.Localization
+namespace Mantle.Web.Localization;
+
+public interface IWebCultureManager : ICultureManager
 {
-    public interface IWebCultureManager : ICultureManager
+    string GetCurrentCulture(HttpContext httpContext);
+}
+
+public class WebCultureManager : DefaultCultureManager, IWebCultureManager
+{
+    private readonly IEnumerable<ICultureSelector> cultureSelectors;
+
+    public WebCultureManager(IEnumerable<ICultureSelector> cultureSelectors)
     {
-        string GetCurrentCulture(HttpContext httpContext);
+        this.cultureSelectors = cultureSelectors;
     }
 
-    public class WebCultureManager : DefaultCultureManager, IWebCultureManager
+    #region IWebCultureManager Members
+
+    public virtual string GetCurrentCulture(HttpContext httpContext)
     {
-        private readonly IEnumerable<ICultureSelector> cultureSelectors;
+        var requestedCultures = cultureSelectors
+            .Select(x => x.GetCulture(httpContext))
+            .ToList()
+            .Where(x => x != null)
+            .OrderByDescending(x => x.Priority);
 
-        public WebCultureManager(IEnumerable<ICultureSelector> cultureSelectors)
+        string cultureCode = null;
+
+        if (requestedCultures.Any())
         {
-            this.cultureSelectors = cultureSelectors;
+            cultureCode = requestedCultures.First().CultureCode;
         }
 
-        #region IWebCultureManager Members
-
-        public virtual string GetCurrentCulture(HttpContext httpContext)
+        if (cultureCode == string.Empty)
         {
-            var requestedCultures = cultureSelectors
-                .Select(x => x.GetCulture(httpContext))
-                .ToList()
-                .Where(x => x != null)
-                .OrderByDescending(x => x.Priority);
-
-            string cultureCode = null;
-
-            if (requestedCultures.Any())
-            {
-                cultureCode = requestedCultures.First().CultureCode;
-            }
-
-            if (cultureCode == string.Empty)
-            {
-                cultureCode = null;
-            }
-
-            return cultureCode;
+            cultureCode = null;
         }
 
-        #endregion IWebCultureManager Members
+        return cultureCode;
     }
+
+    #endregion IWebCultureManager Members
 }

@@ -1,32 +1,29 @@
-﻿using Mantle.Web.Mvc.MantleUI.Providers;
+﻿namespace Mantle.Web.Mvc.MantleUI;
 
-namespace Mantle.Web.Mvc.MantleUI
+public enum PanelSectionType : byte
 {
-    public enum PanelSectionType : byte
+    Heading,
+    Body,
+    Footer
+}
+
+public class PanelSection : IDisposable
+{
+    private readonly TextWriter textWriter;
+    private readonly IMantleUIProvider provider;
+
+    public PanelSectionType SectionType { get; private set; }
+
+    internal PanelSection(IMantleUIProvider provider, PanelSectionType sectionType, TextWriter writer, string title = null)
     {
-        Heading,
-        Body,
-        Footer
+        this.provider = provider;
+        this.SectionType = sectionType;
+        this.textWriter = writer;
+        provider.PanelProvider.BeginPanelSection(this.SectionType, this.textWriter, title);
     }
 
-    public class PanelSection : IDisposable
+    public void Dispose()
     {
-        private readonly TextWriter textWriter;
-        private readonly IMantleUIProvider provider;
-
-        public PanelSectionType SectionType { get; private set; }
-
-        internal PanelSection(IMantleUIProvider provider, PanelSectionType sectionType, TextWriter writer, string title = null)
-        {
-            this.provider = provider;
-            this.SectionType = sectionType;
-            this.textWriter = writer;
-            provider.PanelProvider.BeginPanelSection(this.SectionType, this.textWriter, title);
-        }
-
-        public void Dispose()
-        {
-            provider.PanelProvider.EndPanelSection(this.SectionType, this.textWriter);
-        }
+        provider.PanelProvider.EndPanelSection(this.SectionType, this.textWriter);
     }
 }

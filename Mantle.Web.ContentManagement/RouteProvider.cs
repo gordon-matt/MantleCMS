@@ -1,40 +1,37 @@
 ﻿using Mantle.Web.Mvc.Routing;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 
-namespace Mantle.Web.ContentManagement
+namespace Mantle.Web.ContentManagement;
+
+public class RouteProvider : IRouteProvider
 {
-    public class RouteProvider : IRouteProvider
+    public void RegisterRoutes(IEndpointRouteBuilder endpoints)
     {
-        public void RegisterRoutes(IEndpointRouteBuilder endpoints)
-        {
-            // register CMS pages route
-            //endpoints.MapRoute(
-            //    name: "CmsRoute",
-            //    template: "{*slug}",
-            //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
-            //    //constraints: new { slug = new CmsRouteConstraint() }
-            //);
-        }
+        // register CMS pages route
+        //endpoints.MapRoute(
+        //    name: "CmsRoute",
+        //    template: "{*slug}",
+        //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
+        //    //constraints: new { slug = new CmsRouteConstraint() }
+        //);
+    }
 
-        public void RegisterEndpoints(IEndpointRouteBuilder endpoints)
-        {
-            // register CMS pages route
-            //endpoints.MapControllerRoute(
-            //    name: "CmsRoute",
-            //    pattern: "{*slug}",
-            //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
-            //    //constraints: new { slug = new CmsRouteConstraint() }
-            //);
-        }
+    public void RegisterEndpoints(IEndpointRouteBuilder endpoints)
+    {
+        // register CMS pages route
+        //endpoints.MapControllerRoute(
+        //    name: "CmsRoute",
+        //    pattern: "{*slug}",
+        //    defaults: new { controller = "PageContent", action = "Index", area = CmsConstants.Areas.Pages, slug = string.Empty }
+        //    //constraints: new { slug = new CmsRouteConstraint() }
+        //);
+    }
 
-        public int Priority
+    public int Priority
+    {
+        get
         {
-            get
-            {
-                // make sure CMS pages route gets done last
-                return int.MaxValue;
-            }
+            // make sure CMS pages route gets done last
+            return int.MaxValue;
         }
     }
 }

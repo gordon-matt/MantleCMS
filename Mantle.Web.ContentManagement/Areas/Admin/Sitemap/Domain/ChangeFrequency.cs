@@ -1,28 +1,27 @@
 ﻿using System.Xml.Serialization;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
+namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
+
+public enum ChangeFrequency : byte
 {
-    public enum ChangeFrequency : byte
-    {
-        [XmlEnum("always")]
-        Always = 0,
+    [XmlEnum("always")]
+    Always = 0,
 
-        [XmlEnum("hourly")]
-        Hourly = 1,
+    [XmlEnum("hourly")]
+    Hourly = 1,
 
-        [XmlEnum("daily")]
-        Daily = 2,
+    [XmlEnum("daily")]
+    Daily = 2,
 
-        [XmlEnum("weekly")]
-        Weekly = 3,
+    [XmlEnum("weekly")]
+    Weekly = 3,
 
-        [XmlEnum("monthly")]
-        Monthly = 4,
+    [XmlEnum("monthly")]
+    Monthly = 4,
 
-        [XmlEnum("yearly")]
-        Yearly = 5,
+    [XmlEnum("yearly")]
+    Yearly = 5,
 
-        [XmlEnum("never")]
-        Never = 6
-    }
+    [XmlEnum("never")]
+    Never = 6
 }

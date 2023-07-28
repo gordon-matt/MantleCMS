@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿namespace Mantle.Web.Mvc.Routing;
 
-namespace Mantle.Web.Mvc.Routing
+public interface IRouteProvider
 {
-    public interface IRouteProvider
-    {
-        void RegisterRoutes(IEndpointRouteBuilder endpoints);
+    void RegisterRoutes(IEndpointRouteBuilder endpoints);
 
-        void RegisterEndpoints(IEndpointRouteBuilder endpoints);
+    void RegisterEndpoints(IEndpointRouteBuilder endpoints);
 
-        int Priority { get; }
-    }
+    int Priority { get; }
 }

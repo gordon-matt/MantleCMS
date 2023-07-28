@@ -1,11 +1,10 @@
-﻿namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models
+﻿namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models;
+
+public class SaveResultModel
 {
-    public class SaveResultModel
-    {
-        public bool Success { get; set; }
+    public bool Success { get; set; }
 
-        public string Message { get; set; }
+    public string Message { get; set; }
 
-        public string RedirectUrl { get; set; }
-    }
+    public string RedirectUrl { get; set; }
 }

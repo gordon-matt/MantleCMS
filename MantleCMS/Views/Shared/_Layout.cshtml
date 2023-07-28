@@ -10,6 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @SiteSettings.SiteName</title>
+    @MantleHtml.GenerateHeadCustom()
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,6 +27,11 @@
     @Script.Render(ResourceLocation.Head)
 
     @Html.Raw(JavaScriptSnippet.FullScript)
+
+    @MantleHtml.GenerateCssFiles()
+    @MantleHtml.GenerateCanonicalUrls()
+    @MantleHtml.GenerateScripts(ResourceLocation.Head)
+    @MantleHtml.GenerateInlineScripts(ResourceLocation.Head)
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -89,5 +95,8 @@
     @RenderSection("Scripts", required: false)
 
     @Style.Render(ResourceLocation.Foot)
+
+    @MantleHtml.GenerateScripts(ResourceLocation.Foot)
+    @MantleHtml.GenerateInlineScripts(ResourceLocation.Foot)
 </body>
 </html>

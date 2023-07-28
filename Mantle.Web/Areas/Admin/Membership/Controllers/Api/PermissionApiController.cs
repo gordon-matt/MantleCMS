@@ -1,216 +1,204 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Security.Membership;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Threading;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api
+namespace Mantle.Web.Areas.Admin.Membership.Controllers.Api;
+
+public class PermissionApiController : ODataController
 {
-    public class PermissionApiController : ODataController
+    private readonly ILogger logger;
+    private readonly IWorkContext workContext;
+
+    protected IMembershipService Service { get; private set; }
+
+    public PermissionApiController(
+        IMembershipService service,
+        ILoggerFactory loggerFactory,
+        IWorkContext workContext)
     {
-        private readonly ILogger logger;
-        private readonly IWorkContext workContext;
+        this.Service = service;
+        this.logger = loggerFactory.CreateLogger<PermissionApiController>();
+        this.workContext = workContext;
+    }
 
-        protected IMembershipService Service { get; private set; }
-
-        public PermissionApiController(
-            IMembershipService service,
-            ILoggerFactory loggerFactory,
-            IWorkContext workContext)
+    public virtual async Task<IActionResult> Get(ODataQueryOptions<MantlePermission> options)
+    {
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
         {
-            this.Service = service;
-            this.logger = loggerFactory.CreateLogger<PermissionApiController>();
-            this.workContext = workContext;
+            return Unauthorized();
         }
 
-        public virtual async Task<IActionResult> Get(ODataQueryOptions<MantlePermission> options)
+        var results = options.ApplyTo(
+            (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
+
+        var response = await Task.FromResult((results as IQueryable<MantlePermission>).ToHashSet());
+        return Ok(response);
+    }
+
+    [EnableQuery]
+    public virtual async Task<SingleResult<MantlePermission>> Get([FromODataUri] string key)
+    {
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
         {
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
-            {
-                return Unauthorized();
-            }
+            return SingleResult.Create(Enumerable.Empty<MantlePermission>().AsQueryable());
+        }
+        var entity = await Service.GetPermissionById(key);
+        return SingleResult.Create(new[] { entity }.AsQueryable());
+    }
 
-            var results = options.ApplyTo(
-                (await Service.GetAllPermissions(workContext.CurrentTenant.Id)).AsQueryable());
-
-            var response = await Task.FromResult((results as IQueryable<MantlePermission>).ToHashSet());
-            return Ok(response);
+    public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantlePermission entity)
+    {
+        if (entity == null)
+        {
+            return BadRequest();
         }
 
-        [EnableQuery]
-        public virtual async Task<SingleResult<MantlePermission>> Get([FromODataUri] string key)
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
         {
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
-            {
-                return SingleResult.Create(Enumerable.Empty<MantlePermission>().AsQueryable());
-            }
-            var entity = await Service.GetPermissionById(key);
-            return SingleResult.Create(new[] { entity }.AsQueryable());
+            return Unauthorized();
         }
 
-        public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantlePermission entity)
+        if (!ModelState.IsValid)
         {
-            if (entity == null)
-            {
-                return BadRequest();
-            }
-
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
-            {
-                return Unauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!key.Equals(entity.Id))
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                await Service.UpdatePermission(entity);
-            }
-            catch (DbUpdateConcurrencyException x)
-            {
-                logger.LogError(new EventId(), x.Message, x);
-
-                if (!EntityExists(key))
-                {
-                    return NotFound();
-                }
-                else { throw; }
-            }
-
-            return Updated(entity);
+            return BadRequest(ModelState);
         }
 
-        public virtual async Task<IActionResult> Post([FromBody] MantlePermission entity)
+        if (!key.Equals(entity.Id))
         {
-            if (entity == null)
-            {
-                return BadRequest();
-            }
-
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
-            {
-                return Unauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            entity.TenantId = workContext.CurrentTenant.Id;
-            await Service.InsertPermission(entity);
-
-            return Created(entity);
+            return BadRequest();
         }
 
-        [AcceptVerbs("PATCH", "MERGE")]
-        public virtual async Task<IActionResult> Patch([FromODataUri] string key, Delta<MantlePermission> patch)
+        try
         {
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
-            {
-                return Unauthorized();
-            }
+            await Service.UpdatePermission(entity);
+        }
+        catch (DbUpdateConcurrencyException x)
+        {
+            logger.LogError(new EventId(), x.Message, x);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            MantlePermission entity = await Service.GetPermissionById(key);
-            if (entity == null)
+            if (!EntityExists(key))
             {
                 return NotFound();
             }
-
-            patch.Patch(entity);
-
-            try
-            {
-                await Service.UpdatePermission(entity);
-            }
-            catch (DbUpdateConcurrencyException x)
-            {
-                logger.LogError(new EventId(), x.Message, x);
-
-                if (!EntityExists(key))
-                {
-                    return NotFound();
-                }
-                else { throw; }
-            }
-
-            return Updated(entity);
+            else { throw; }
         }
 
-        public virtual async Task<IActionResult> Delete([FromODataUri] string key)
-        {
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
-            {
-                return Unauthorized();
-            }
+        return Updated(entity);
+    }
 
-            MantlePermission entity = await Service.GetPermissionById(key);
-            if (entity == null)
+    public virtual async Task<IActionResult> Post([FromBody] MantlePermission entity)
+    {
+        if (entity == null)
+        {
+            return BadRequest();
+        }
+
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
+        {
+            return Unauthorized();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        entity.TenantId = workContext.CurrentTenant.Id;
+        await Service.InsertPermission(entity);
+
+        return Created(entity);
+    }
+
+    [AcceptVerbs("PATCH", "MERGE")]
+    public virtual async Task<IActionResult> Patch([FromODataUri] string key, Delta<MantlePermission> patch)
+    {
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
+        {
+            return Unauthorized();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        MantlePermission entity = await Service.GetPermissionById(key);
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        patch.Patch(entity);
+
+        try
+        {
+            await Service.UpdatePermission(entity);
+        }
+        catch (DbUpdateConcurrencyException x)
+        {
+            logger.LogError(new EventId(), x.Message, x);
+
+            if (!EntityExists(key))
             {
                 return NotFound();
             }
-
-            await Service.DeletePermission(key);
-
-            return NoContent();
+            else { throw; }
         }
 
-        [HttpGet]
-        public virtual async Task<IActionResult> GetPermissionsForRole([FromODataUri] string roleId)
-        {
-            if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
-            {
-                return Unauthorized();
-            }
-
-            var role = await Service.GetRoleById(roleId);
-            var results = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
-            {
-                Id = x.Id,
-                Name = x.Name
-            });
-
-            var response = await Task.FromResult(results);
-            return Ok(response);
-        }
-
-        protected virtual bool EntityExists(string key)
-        {
-            return AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
-        }
-
-        protected static bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-        }
+        return Updated(entity);
     }
 
-    public struct EdmMantlePermission
+    public virtual async Task<IActionResult> Delete([FromODataUri] string key)
     {
-        public string Id { get; set; }
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsWrite))
+        {
+            return Unauthorized();
+        }
 
-        public string Name { get; set; }
+        MantlePermission entity = await Service.GetPermissionById(key);
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        await Service.DeletePermission(key);
+
+        return NoContent();
     }
+
+    [HttpGet]
+    public virtual async Task<IActionResult> GetPermissionsForRole([FromODataUri] string roleId)
+    {
+        if (!CheckPermission(MantleWebPermissions.MembershipPermissionsRead))
+        {
+            return Unauthorized();
+        }
+
+        var role = await Service.GetRoleById(roleId);
+        var results = (await Service.GetPermissionsForRole(workContext.CurrentTenant.Id, role.Name)).Select(x => new EdmMantlePermission
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+
+        var response = await Task.FromResult(results);
+        return Ok(response);
+    }
+
+    protected virtual bool EntityExists(string key)
+    {
+        return AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
+    }
+
+    protected static bool CheckPermission(Permission permission)
+    {
+        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
+    }
+}
+
+public struct EdmMantlePermission
+{
+    public string Id { get; set; }
+
+    public string Name { get; set; }
 }

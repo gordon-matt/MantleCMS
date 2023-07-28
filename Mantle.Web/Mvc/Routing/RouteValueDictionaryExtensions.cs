@@ -1,48 +1,46 @@
-﻿using Microsoft.AspNetCore.Routing;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 
-namespace Mantle.Web.Mvc.Routing
+namespace Mantle.Web.Mvc.Routing;
+
+public static class RouteValueDictionaryExtensions
 {
-    public static class RouteValueDictionaryExtensions
+    public static RouteValueDictionary Merge(this RouteValueDictionary obj, object values, params string[] removeKeys)
     {
-        public static RouteValueDictionary Merge(this RouteValueDictionary obj, object values, params string[] removeKeys)
+        var mergeValues = new RouteValueDictionary(values);
+
+        var result = new RouteValueDictionary(obj);
+        foreach (var value in mergeValues)
         {
-            var mergeValues = new RouteValueDictionary(values);
-
-            var result = new RouteValueDictionary(obj);
-            foreach (var value in mergeValues)
-            {
-                result[value.Key.Replace("_", "-")] = value.Value;
-            }
-
-            if (removeKeys != null && removeKeys.Length > 0)
-            {
-                foreach (var key in removeKeys.Where(result.ContainsKey))
-                {
-                    result.Remove(key);
-                }
-            }
-
-            return result;
+            result[value.Key.Replace("_", "-")] = value.Value;
         }
 
-        public static RouteValueDictionary Merge(this RouteValueDictionary obj, NameValueCollection values, params string[] removeKeys)
+        if (removeKeys != null && removeKeys.Length > 0)
         {
-            var result = new RouteValueDictionary(obj);
-            foreach (var key in values.AllKeys)
+            foreach (var key in removeKeys.Where(result.ContainsKey))
             {
-                result[key] = values[key];
+                result.Remove(key);
             }
-
-            if (removeKeys != null && removeKeys.Length > 0)
-            {
-                foreach (var key in removeKeys.Where(result.ContainsKey))
-                {
-                    result.Remove(key);
-                }
-            }
-
-            return result;
         }
+
+        return result;
+    }
+
+    public static RouteValueDictionary Merge(this RouteValueDictionary obj, NameValueCollection values, params string[] removeKeys)
+    {
+        var result = new RouteValueDictionary(obj);
+        foreach (var key in values.AllKeys)
+        {
+            result[key] = values[key];
+        }
+
+        if (removeKeys != null && removeKeys.Length > 0)
+        {
+            foreach (var key in removeKeys.Where(result.ContainsKey))
+            {
+                result.Remove(key);
+            }
+        }
+
+        return result;
     }
 }

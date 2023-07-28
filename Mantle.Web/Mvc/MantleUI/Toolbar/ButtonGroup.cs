@@ -1,27 +1,24 @@
-﻿using Mantle.Web.Mvc.MantleUI.Providers;
+﻿namespace Mantle.Web.Mvc.MantleUI;
 
-namespace Mantle.Web.Mvc.MantleUI
+public class ButtonGroup : IDisposable
 {
-    public class ButtonGroup : IDisposable
+    private readonly TextWriter textWriter;
+    private readonly IMantleUIProvider provider;
+
+    internal ButtonGroup(IMantleUIProvider provider, TextWriter writer)
     {
-        private readonly TextWriter textWriter;
-        private readonly IMantleUIProvider provider;
+        this.provider = provider;
+        this.textWriter = writer;
+        provider.ToolbarProvider.BeginButtonGroup(this.textWriter);
+    }
 
-        internal ButtonGroup(IMantleUIProvider provider, TextWriter writer)
-        {
-            this.provider = provider;
-            this.textWriter = writer;
-            provider.ToolbarProvider.BeginButtonGroup(this.textWriter);
-        }
+    public void Button(string text, State state, string onClick = null, object htmlAttributes = null)
+    {
+        provider.ToolbarProvider.AddButton(this.textWriter, text, state, onClick, htmlAttributes);
+    }
 
-        public void Button(string text, State state, string onClick = null, object htmlAttributes = null)
-        {
-            provider.ToolbarProvider.AddButton(this.textWriter, text, state, onClick, htmlAttributes);
-        }
-
-        public void Dispose()
-        {
-            provider.ToolbarProvider.EndButtonGroup(this.textWriter);
-        }
+    public void Dispose()
+    {
+        provider.ToolbarProvider.EndButtonGroup(this.textWriter);
     }
 }

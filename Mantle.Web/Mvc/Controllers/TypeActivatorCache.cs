@@ -4,33 +4,32 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 
-namespace Mantle.Web.Mvc.Controllers
+namespace Mantle.Web.Mvc.Controllers;
+
+internal class TypeActivatorCache : ITypeActivatorCache
 {
-    internal class TypeActivatorCache : ITypeActivatorCache
+    private readonly Func<Type, ObjectFactory> _createFactory =
+        (type) => ActivatorUtilities.CreateFactory(type, Type.EmptyTypes);
+
+    private readonly ConcurrentDictionary<Type, ObjectFactory> _typeActivatorCache =
+           new ConcurrentDictionary<Type, ObjectFactory>();
+
+    /// <inheritdoc/>
+    public TInstance CreateInstance<TInstance>(
+        IServiceProvider serviceProvider,
+        Type implementationType)
     {
-        private readonly Func<Type, ObjectFactory> _createFactory =
-            (type) => ActivatorUtilities.CreateFactory(type, Type.EmptyTypes);
-
-        private readonly ConcurrentDictionary<Type, ObjectFactory> _typeActivatorCache =
-               new ConcurrentDictionary<Type, ObjectFactory>();
-
-        /// <inheritdoc/>
-        public TInstance CreateInstance<TInstance>(
-            IServiceProvider serviceProvider,
-            Type implementationType)
+        if (serviceProvider == null)
         {
-            if (serviceProvider == null)
-            {
-                throw new ArgumentNullException(nameof(serviceProvider));
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            var createFactory = _typeActivatorCache.GetOrAdd(implementationType, _createFactory);
-            return (TInstance)createFactory(serviceProvider, arguments: null);
+            throw new ArgumentNullException(nameof(serviceProvider));
         }
+
+        if (implementationType == null)
+        {
+            throw new ArgumentNullException(nameof(implementationType));
+        }
+
+        var createFactory = _typeActivatorCache.GetOrAdd(implementationType, _createFactory);
+        return (TInstance)createFactory(serviceProvider, arguments: null);
     }
 }

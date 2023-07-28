@@ -1,7 +1,6 @@
-﻿namespace Mantle.Web.Messaging
+﻿namespace Mantle.Web.Messaging;
+
+public static class MantleWebMessagingConstants
 {
-    public static class MantleWebMessagingConstants
-    {
-        public const string RouteArea = "Admin/Messaging";
-    }
+    public const string RouteArea = "Admin/Messaging";
 }

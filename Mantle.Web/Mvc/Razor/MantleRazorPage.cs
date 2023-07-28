@@ -1,48 +1,43 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Configuration;
-using Mantle.Web.Navigation;
+﻿using Mantle.Web.Navigation;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.Internal;
-using Microsoft.Extensions.Localization;
 using System.Globalization;
 
-namespace Mantle.Web.Mvc.Razor
+namespace Mantle.Web.Mvc.Razor;
+
+public abstract class MantleRazorPage<TModel> : RazorPage<TModel>
 {
-    public abstract class MantleRazorPage<TModel> : RazorPage<TModel>
+    public IEnumerable<MenuItem> GetMenu(string menuName)
     {
-        public IEnumerable<MenuItem> GetMenu(string menuName)
-        {
-            return EngineContext.Current.Resolve<INavigationManager>().BuildMenu(menuName);
-        }
-
-        [RazorInject]
-        public SiteSettings SiteSettings { get; set; }
-
-        [RazorInject]
-        public IStringLocalizer T { get; set; }
-
-        [RazorInject]
-        public IWorkContext WorkContext { get; set; }
-
-        public bool IsRightToLeft
-        {
-            get { return CultureInfo.CurrentCulture.TextInfo.IsRightToLeft; }
-        }
-
-        public bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            if (authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser))
-            {
-                return true;
-            }
-
-            return false;
-        }
+        return EngineContext.Current.Resolve<INavigationManager>().BuildMenu(menuName);
     }
 
-    public abstract class MantleRazorPage : MantleRazorPage<dynamic>
+    [RazorInject]
+    public SiteSettings SiteSettings { get; set; }
+
+    [RazorInject]
+    public IStringLocalizer T { get; set; }
+
+    [RazorInject]
+    public IWorkContext WorkContext { get; set; }
+
+    public bool IsRightToLeft
     {
+        get { return CultureInfo.CurrentCulture.TextInfo.IsRightToLeft; }
     }
+
+    public bool CheckPermission(Permission permission)
+    {
+        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        if (authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser))
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+public abstract class MantleRazorPage : MantleRazorPage<dynamic>
+{
 }

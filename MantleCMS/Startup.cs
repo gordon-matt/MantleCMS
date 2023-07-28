@@ -261,6 +261,8 @@ namespace MantleCMS
             });
 
             #endregion Mantle Framework Config
+
+            services.AddMantleWebOptimizer(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -359,6 +361,8 @@ namespace MantleCMS
             app.UseAuthorization();
 
             app.UseMultitenancy<Tenant>();
+
+            app.UseWebOptimizer();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

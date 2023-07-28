@@ -1,12 +1,8 @@
-﻿using Mantle.Messaging.Data.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿namespace Mantle.Messaging.Data;
 
-namespace Mantle.Messaging.Data
+public interface IMantleMessagingDbContext
 {
-    public interface IMantleMessagingDbContext
-    {
-        DbSet<MessageTemplate> MessageTemplates { get; set; }
+    DbSet<MessageTemplate> MessageTemplates { get; set; }
 
-        DbSet<QueuedEmail> QueuedEmails { get; set; }
-    }
+    DbSet<QueuedEmail> QueuedEmails { get; set; }
 }

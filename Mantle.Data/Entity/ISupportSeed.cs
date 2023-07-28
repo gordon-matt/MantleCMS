@@ -1,7 +1,6 @@
-﻿namespace Mantle.Data.Entity
+﻿namespace Mantle.Data.Entity;
+
+public interface ISupportSeed
 {
-    public interface ISupportSeed
-    {
-        void Seed();
-    }
+    void Seed();
 }

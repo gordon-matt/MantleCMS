@@ -1,30 +1,27 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.Infrastructure;
-using Microsoft.Extensions.Localization;
+﻿using Mantle.Web.Infrastructure;
 
-namespace Mantle.Web.Common.Infrastructure
+namespace Mantle.Web.Common.Infrastructure;
+
+public class DurandalRouteProvider : IDurandalRouteProvider
 {
-    public class DurandalRouteProvider : IDurandalRouteProvider
+    public IEnumerable<DurandalRoute> Routes
     {
-        public IEnumerable<DurandalRoute> Routes
+        get
         {
-            get
+            var T = EngineContext.Current.Resolve<IStringLocalizer>();
+
+            var routes = new List<DurandalRoute>
             {
-                var T = EngineContext.Current.Resolve<IStringLocalizer>();
-
-                var routes = new List<DurandalRoute>
+                new DurandalRoute
                 {
-                    new DurandalRoute
-                    {
-                        ModuleId = "viewmodels/admin/regions",
-                        Route = "regions",
-                        JsPath = "/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index",
-                        Title = T[LocalizableStrings.Regions.Title]
-                    }
-                };
+                    ModuleId = "viewmodels/admin/regions",
+                    Route = "regions",
+                    JsPath = "/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index",
+                    Title = T[LocalizableStrings.Regions.Title]
+                }
+            };
 
-                return routes;
-            }
+            return routes;
         }
     }
 }

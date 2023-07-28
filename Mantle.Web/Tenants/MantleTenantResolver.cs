@@ -1,101 +1,95 @@
-﻿using Extenso.Collections;
-using Mantle.Infrastructure;
-using Mantle.Tenants;
+﻿using Mantle.Tenants;
 using Mantle.Tenants.Domain;
-using Mantle.Tenants.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using SaasKit.Multitenancy;
 
-namespace Mantle.Web.Tenants
+namespace Mantle.Web.Tenants;
+
+public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
 {
-    public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
+    private readonly ITenantService tenantService;
+    private IEnumerable<Tenant> tenants;
+
+    public MantleTenantResolver(
+        IMemoryCache cache,
+        ILoggerFactory loggerFactory,
+        ITenantService tenantService)
+        : base(cache, loggerFactory)
     {
-        private readonly ITenantService tenantService;
-        private IEnumerable<Tenant> tenants;
+        this.tenantService = tenantService;
+        tenants = tenantService.Find();
+    }
 
-        public MantleTenantResolver(
-            IMemoryCache cache,
-            ILoggerFactory loggerFactory,
-            ITenantService tenantService)
-            : base(cache, loggerFactory)
+    protected override string GetContextIdentifier(HttpContext context)
+    {
+        return context.Request.Host.Value.ToLower();
+    }
+
+    protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context)
+    {
+        return context.Tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    protected override Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
+    {
+        TenantContext<Tenant> tenantContext = null;
+
+        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger(this.GetType());
+
+        try
         {
-            this.tenantService = tenantService;
-            tenants = tenantService.Find();
-        }
+            string host = context.Request.Host.Value.ToLower();
 
-        protected override string GetContextIdentifier(HttpContext context)
-        {
-            return context.Request.Host.Value.ToLower();
-        }
-
-        protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context)
-        {
-            return context.Tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        protected override Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
-        {
-            TenantContext<Tenant> tenantContext = null;
-
-            var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
-            var logger = loggerFactory.CreateLogger(this.GetType());
-
-            try
+            if (string.IsNullOrEmpty(host))
             {
-                string host = context.Request.Host.Value.ToLower();
-
-                if (string.IsNullOrEmpty(host))
-                {
-                    host = "unknown-host";
-                }
-
-                logger.LogInformation("[Host]: " + host);
-
-                Tenant tenant;
-
-                if (tenants.IsNullOrEmpty())
-                {
-                    tenants = tenantService.Find();
-                }
-
-                if (tenants.IsNullOrEmpty())
-                {
-                    logger.LogError("No tenants found! Inserting a new one...");
-                    tenant = new Tenant
-                    {
-                        Name = "Default Tenant",
-                        Hosts = host,
-                        Url = host
-                    };
-                    tenantService.Insert(tenant);
-                }
-                else
-                {
-                    tenant = tenants.FirstOrDefault(s => s.ContainsHostValue(host));
-                }
-
-                if (tenant == null)
-                {
-                    tenant = tenants.First();
-                }
-
-                logger.LogInformation("[Tenant]: ID: {0}, Name: {1}, Hosts: {2}", tenant.Id, tenant.Name, tenant.Hosts);
-                tenantContext = new TenantContext<Tenant>(tenant);
-            }
-            catch (Exception x)
-            {
-                logger.LogError(new EventId(), x, x.GetBaseException().Message);
+                host = "unknown-host";
             }
 
-            return Task.FromResult(tenantContext);
+            logger.LogInformation("[Host]: " + host);
+
+            Tenant tenant;
+
+            if (tenants.IsNullOrEmpty())
+            {
+                tenants = tenantService.Find();
+            }
+
+            if (tenants.IsNullOrEmpty())
+            {
+                logger.LogError("No tenants found! Inserting a new one...");
+                tenant = new Tenant
+                {
+                    Name = "Default Tenant",
+                    Hosts = host,
+                    Url = host
+                };
+                tenantService.Insert(tenant);
+            }
+            else
+            {
+                tenant = tenants.FirstOrDefault(s => s.ContainsHostValue(host));
+            }
+
+            if (tenant == null)
+            {
+                tenant = tenants.First();
+            }
+
+            logger.LogInformation("[Tenant]: ID: {0}, Name: {1}, Hosts: {2}", tenant.Id, tenant.Name, tenant.Hosts);
+            tenantContext = new TenantContext<Tenant>(tenant);
+        }
+        catch (Exception x)
+        {
+            logger.LogError(new EventId(), x, x.GetBaseException().Message);
         }
 
-        protected override MemoryCacheEntryOptions CreateCacheEntryOptions()
-        {
-            return new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(new TimeSpan(24, 0, 0)); // Cache for 24 hours
-        }
+        return Task.FromResult(tenantContext);
+    }
+
+    protected override MemoryCacheEntryOptions CreateCacheEntryOptions()
+    {
+        return new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(new TimeSpan(24, 0, 0)); // Cache for 24 hours
     }
 }

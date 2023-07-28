@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿namespace Mantle.Web.Localization.Services;
 
-namespace Mantle.Web.Localization.Services
+public interface ICultureSelector
 {
-    public interface ICultureSelector
-    {
-        CultureSelectorResult GetCulture(HttpContext context);
-    }
+    CultureSelectorResult GetCulture(HttpContext context);
 }

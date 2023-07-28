@@ -1,13 +1,12 @@
 ﻿using Mantle.Web.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 
-namespace Mantle.Web.CommonResources.Infrastructure
+namespace Mantle.Web.CommonResources.Infrastructure;
+
+public class EmbeddedFileProviderRegistrar : IEmbeddedFileProviderRegistrar
 {
-    public class EmbeddedFileProviderRegistrar : IEmbeddedFileProviderRegistrar
+    public IEnumerable<EmbeddedFileProvider> EmbeddedFileProviders => new List<EmbeddedFileProvider>
     {
-        public IEnumerable<EmbeddedFileProvider> EmbeddedFileProviders => new List<EmbeddedFileProvider>
-        {
-            new EmbeddedFileProvider(GetType().Assembly, "Mantle.Web.CommonResources")
-        };
-    }
+        new EmbeddedFileProvider(GetType().Assembly, "Mantle.Web.CommonResources")
+    };
 }

@@ -1,69 +1,66 @@
-﻿using Mantle.Infrastructure;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
+﻿using Microsoft.Extensions.FileProviders;
 
-namespace Mantle.Web.Mvc.EmbeddedResources
+namespace Mantle.Web.Mvc.EmbeddedResources;
+
+public class EmbeddedResourceFileInfo : IFileInfo
 {
-    public class EmbeddedResourceFileInfo : IFileInfo
+    private readonly EmbeddedResourceMetadata metadata;
+    private readonly Assembly assembly;
+    private long? length;
+
+    public EmbeddedResourceFileInfo(EmbeddedResourceMetadata metadata)
     {
-        private readonly EmbeddedResourceMetadata metadata;
-        private readonly Assembly assembly;
-        private long? length;
-
-        public EmbeddedResourceFileInfo(EmbeddedResourceMetadata metadata)
+        if (metadata == null)
         {
-            if (metadata == null)
-            {
-                throw new ArgumentNullException(nameof(metadata));
-            }
-
-            this.metadata = metadata;
-            assembly = GetResourceAssembly();
-            Name = metadata.ResourceName;
-            LastModified = DateTimeOffset.UtcNow;
+            throw new ArgumentNullException(nameof(metadata));
         }
 
-        public bool Exists => true;
+        this.metadata = metadata;
+        assembly = GetResourceAssembly();
+        Name = metadata.ResourceName;
+        LastModified = DateTimeOffset.UtcNow;
+    }
 
-        public bool IsDirectory => false;
+    public bool Exists => true;
 
-        public DateTimeOffset LastModified { get; }
+    public bool IsDirectory => false;
 
-        public long Length
+    public DateTimeOffset LastModified { get; }
+
+    public long Length
+    {
+        get
         {
-            get
-            {
-                if (!length.HasValue)
-                {
-                    using (var stream = assembly.GetManifestResourceStream(metadata.ResourceName))
-                    {
-                        length = stream.Length;
-                    }
-                }
-                return length.Value;
-            }
-        }
-
-        public string Name { get; }
-
-        public string PhysicalPath => null;
-
-        public Stream CreateReadStream()
-        {
-            var stream = assembly.GetManifestResourceStream(metadata.ResourceName);
             if (!length.HasValue)
             {
-                length = stream.Length;
+                using (var stream = assembly.GetManifestResourceStream(metadata.ResourceName))
+                {
+                    length = stream.Length;
+                }
             }
-            return stream;
+            return length.Value;
         }
+    }
 
-        protected virtual Assembly GetResourceAssembly()
+    public string Name { get; }
+
+    public string PhysicalPath => null;
+
+    public Stream CreateReadStream()
+    {
+        var stream = assembly.GetManifestResourceStream(metadata.ResourceName);
+        if (!length.HasValue)
         {
-            var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
-
-            return typeFinder.GetAssemblies().FirstOrDefault(assembly =>
-                string.Equals(assembly.FullName, metadata.AssemblyFullName, StringComparison.OrdinalIgnoreCase));
+            length = stream.Length;
         }
+        return stream;
+    }
+
+    protected virtual Assembly GetResourceAssembly()
+    {
+        var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
+
+        return typeFinder.GetAssemblies().FirstOrDefault(assembly =>
+            string.Equals(assembly.FullName, metadata.AssemblyFullName, StringComparison.OrdinalIgnoreCase));
     }
 }

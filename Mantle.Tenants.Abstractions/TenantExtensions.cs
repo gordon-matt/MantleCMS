@@ -1,44 +1,43 @@
 ﻿using Mantle.Tenants.Domain;
 
-namespace Mantle.Tenants
-{
-    public static class TenantExtensions
-    {
-        public static IEnumerable<string> ParseHostValues(this Tenant tenant)
-        {
-            if (tenant == null)
-            {
-                throw new ArgumentNullException(nameof(tenant));
-            }
+namespace Mantle.Tenants;
 
-            var parsedValues = new List<string>();
-            if (!string.IsNullOrEmpty(tenant.Hosts))
+public static class TenantExtensions
+{
+    public static IEnumerable<string> ParseHostValues(this Tenant tenant)
+    {
+        if (tenant == null)
+        {
+            throw new ArgumentNullException(nameof(tenant));
+        }
+
+        var parsedValues = new List<string>();
+        if (!string.IsNullOrEmpty(tenant.Hosts))
+        {
+            string[] hosts = tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string host in hosts)
             {
-                string[] hosts = tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string host in hosts)
+                var tmp = host.Trim();
+                if (!string.IsNullOrEmpty(tmp))
                 {
-                    var tmp = host.Trim();
-                    if (!string.IsNullOrEmpty(tmp))
-                    {
-                        parsedValues.Add(tmp);
-                    }
+                    parsedValues.Add(tmp);
                 }
             }
-            return parsedValues;
         }
+        return parsedValues;
+    }
 
-        public static bool ContainsHostValue(this Tenant tenant, string host)
+    public static bool ContainsHostValue(this Tenant tenant, string host)
+    {
+        if (tenant == null)
         {
-            if (tenant == null)
-            {
-                throw new ArgumentNullException(nameof(tenant));
-            }
-            if (string.IsNullOrEmpty(host))
-            {
-                return false;
-            }
-
-            return tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
+            throw new ArgumentNullException(nameof(tenant));
         }
+        if (string.IsNullOrEmpty(host))
+        {
+            return false;
+        }
+
+        return tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
     }
 }

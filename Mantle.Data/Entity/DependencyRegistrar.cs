@@ -1,40 +1,38 @@
 ﻿using Autofac;
-using Mantle.Infrastructure;
 using System.Reflection;
 
-namespace Mantle.Data.Entity
+namespace Mantle.Data.Entity;
+
+public class DependencyRegistrar : IDependencyRegistrar
 {
-    public class DependencyRegistrar : IDependencyRegistrar
+    #region IDependencyRegistrar Members
+
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
     {
-        #region IDependencyRegistrar Members
+        var entityTypeConfigurations = typeFinder
+            .FindClassesOfType(typeof(IMantleEntityTypeConfiguration))
+            .ToHashSet();
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        foreach (var configuration in entityTypeConfigurations)
         {
-            var entityTypeConfigurations = typeFinder
-                .FindClassesOfType(typeof(IMantleEntityTypeConfiguration))
-                .ToHashSet();
-
-            foreach (var configuration in entityTypeConfigurations)
+            if (configuration.GetTypeInfo().IsGenericType)
             {
-                if (configuration.GetTypeInfo().IsGenericType)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                var isEnabled = (Activator.CreateInstance(configuration) as IMantleEntityTypeConfiguration).IsEnabled;
+            var isEnabled = (Activator.CreateInstance(configuration) as IMantleEntityTypeConfiguration).IsEnabled;
 
-                if (isEnabled)
-                {
-                    builder.RegisterType(configuration).As(typeof(IMantleEntityTypeConfiguration)).InstancePerLifetimeScope();
-                }
+            if (isEnabled)
+            {
+                builder.RegisterType(configuration).As(typeof(IMantleEntityTypeConfiguration)).InstancePerLifetimeScope();
             }
         }
-
-        public int Order
-        {
-            get { return 0; }
-        }
-
-        #endregion IDependencyRegistrar Members
     }
+
+    public int Order
+    {
+        get { return 0; }
+    }
+
+    #endregion IDependencyRegistrar Members
 }

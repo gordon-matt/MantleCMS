@@ -1,120 +1,113 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Query.Validator;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api
+namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers.Api;
+
+public class PageTreeApiController : ODataController
 {
-    public class PageTreeApiController : ODataController
+    private readonly IPageService service;
+    private readonly IWorkContext workContext;
+
+    public PageTreeApiController(IPageService service, IWorkContext workContext)
     {
-        private readonly IPageService service;
-        private readonly IWorkContext workContext;
+        this.service = service;
+        this.workContext = workContext;
+    }
 
-        public PageTreeApiController(IPageService service, IWorkContext workContext)
+    public async Task<IEnumerable<PageTreeItem>> Get(ODataQueryOptions<PageTreeItem> options)
+    {
+        if (!CheckPermission(CmsPermissions.PagesRead))
         {
-            this.service = service;
-            this.workContext = workContext;
+            return Enumerable.Empty<PageTreeItem>();
         }
 
-        public async Task<IEnumerable<PageTreeItem>> Get(ODataQueryOptions<PageTreeItem> options)
-        {
-            if (!CheckPermission(CmsPermissions.PagesRead))
-            {
-                return Enumerable.Empty<PageTreeItem>();
-            }
+        int tenantId = GetTenantId();
+        var pages = await service.FindAsync(x => x.TenantId == tenantId);
 
-            int tenantId = GetTenantId();
-            var pages = await service.FindAsync(x => x.TenantId == tenantId);
-
-            var hierarchy = pages
-                .Where(x => x.ParentId == null)
-                .OrderBy(x => x.Order)
-                .ThenBy(x => x.Name)
-                .Select(x => new PageTreeItem
-                {
-                    Id = x.Id,
-                    Title = x.Name,
-                    IsEnabled = x.IsEnabled,
-                    SubPages = GetSubPages(pages, x.Id).ToList()
-                });
-
-            var settings = new ODataValidationSettings
-            {
-                AllowedQueryOptions = AllowedQueryOptions.All,
-                MaxExpansionDepth = 10
-            };
-            options.Validate(settings);
-
-            var results = options.ApplyTo(hierarchy.AsQueryable());
-            return (results as IQueryable<PageTreeItem>).ToHashSet();
-        }
-
-        [EnableQuery]
-        public virtual async Task<SingleResult<PageTreeItem>> Get([FromODataUri] Guid key)
-        {
-            if (!CheckPermission(CmsPermissions.PagesRead))
-            {
-                return SingleResult.Create(Enumerable.Empty<PageTreeItem>().AsQueryable());
-            }
-
-            int tenantId = GetTenantId();
-            var pages = await service.FindAsync(x => x.TenantId == tenantId);
-            var entity = pages.FirstOrDefault(x => x.Id == key);
-
-            return SingleResult.Create(new[] { entity }.Select(x => new PageTreeItem
+        var hierarchy = pages
+            .Where(x => x.ParentId == null)
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.Name)
+            .Select(x => new PageTreeItem
             {
                 Id = x.Id,
                 Title = x.Name,
                 IsEnabled = x.IsEnabled,
                 SubPages = GetSubPages(pages, x.Id).ToList()
-            }).AsQueryable());
-        }
+            });
 
-        private static IEnumerable<PageTreeItem> GetSubPages(IEnumerable<Page> pages, Guid parentId)
+        var settings = new ODataValidationSettings
         {
-            return pages
-                .Where(x => x.ParentId == parentId)
-                .OrderBy(x => x.Order)
-                .ThenBy(x => x.Name)
-                .Select(x => new PageTreeItem
-                {
-                    Id = x.Id,
-                    Title = x.Name,
-                    IsEnabled = x.IsEnabled,
-                    SubPages = GetSubPages(pages, x.Id).ToList()
-                });
-        }
+            AllowedQueryOptions = AllowedQueryOptions.All,
+            MaxExpansionDepth = 10
+        };
+        options.Validate(settings);
 
-        protected virtual bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-        }
-
-        protected virtual int GetTenantId()
-        {
-            return workContext.CurrentTenant.Id;
-        }
+        var results = options.ApplyTo(hierarchy.AsQueryable());
+        return (results as IQueryable<PageTreeItem>).ToHashSet();
     }
 
-    public class PageTreeItem
+    [EnableQuery]
+    public virtual async Task<SingleResult<PageTreeItem>> Get([FromODataUri] Guid key)
     {
-        public PageTreeItem()
+        if (!CheckPermission(CmsPermissions.PagesRead))
         {
-            SubPages = new List<PageTreeItem>();
+            return SingleResult.Create(Enumerable.Empty<PageTreeItem>().AsQueryable());
         }
 
-        public Guid Id { get; set; }
+        int tenantId = GetTenantId();
+        var pages = await service.FindAsync(x => x.TenantId == tenantId);
+        var entity = pages.FirstOrDefault(x => x.Id == key);
 
-        public string Title { get; set; }
-
-        public bool IsEnabled { get; set; }
-
-        public List<PageTreeItem> SubPages { get; set; }
+        return SingleResult.Create(new[] { entity }.Select(x => new PageTreeItem
+        {
+            Id = x.Id,
+            Title = x.Name,
+            IsEnabled = x.IsEnabled,
+            SubPages = GetSubPages(pages, x.Id).ToList()
+        }).AsQueryable());
     }
+
+    private static IEnumerable<PageTreeItem> GetSubPages(IEnumerable<Page> pages, Guid parentId)
+    {
+        return pages
+            .Where(x => x.ParentId == parentId)
+            .OrderBy(x => x.Order)
+            .ThenBy(x => x.Name)
+            .Select(x => new PageTreeItem
+            {
+                Id = x.Id,
+                Title = x.Name,
+                IsEnabled = x.IsEnabled,
+                SubPages = GetSubPages(pages, x.Id).ToList()
+            });
+    }
+
+    protected virtual bool CheckPermission(Permission permission)
+    {
+        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
+    }
+
+    protected virtual int GetTenantId()
+    {
+        return workContext.CurrentTenant.Id;
+    }
+}
+
+public class PageTreeItem
+{
+    public PageTreeItem()
+    {
+        SubPages = new List<PageTreeItem>();
+    }
+
+    public Guid Id { get; set; }
+
+    public string Title { get; set; }
+
+    public bool IsEnabled { get; set; }
+
+    public List<PageTreeItem> SubPages { get; set; }
 }

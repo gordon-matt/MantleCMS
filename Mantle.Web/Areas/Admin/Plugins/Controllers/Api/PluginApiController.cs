@@ -1,102 +1,89 @@
-﻿using Extenso.Collections;
-using Mantle.Infrastructure;
-using Mantle.Plugins;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Areas.Admin.Plugins.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.Extensions.Logging;
+﻿namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api;
 
-namespace Mantle.Web.Areas.Admin.Plugins.Controllers.Api
+public class PluginApiController : ODataController
 {
-    public class PluginApiController : ODataController
+    private readonly IPluginFinder pluginFinder;
+    private readonly ILogger logger;
+
+    public PluginApiController(
+        IPluginFinder pluginFinder,
+        ILoggerFactory loggerFactory)
     {
-        private readonly IPluginFinder pluginFinder;
-        private readonly ILogger logger;
+        this.pluginFinder = pluginFinder;
+        this.logger = loggerFactory.CreateLogger<PluginApiController>();
+    }
 
-        public PluginApiController(
-            IPluginFinder pluginFinder,
-            ILoggerFactory loggerFactory)
+    public virtual IEnumerable<EdmPluginDescriptor> Get(ODataQueryOptions<EdmPluginDescriptor> options)
+    {
+        if (!CheckPermission(StandardPermissions.FullAccess))
         {
-            this.pluginFinder = pluginFinder;
-            this.logger = loggerFactory.CreateLogger<PluginApiController>();
+            return Enumerable.Empty<EdmPluginDescriptor>().AsQueryable();
         }
 
-        public virtual IEnumerable<EdmPluginDescriptor> Get(ODataQueryOptions<EdmPluginDescriptor> options)
-        {
-            if (!CheckPermission(StandardPermissions.FullAccess))
-            {
-                return Enumerable.Empty<EdmPluginDescriptor>().AsQueryable();
-            }
+        var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
+        var results = options.ApplyTo(query);
+        return (results as IQueryable<EdmPluginDescriptor>).ToHashSet();
+    }
 
-            var query = pluginFinder.GetPluginDescriptors(LoadPluginsMode.All).Select(x => (EdmPluginDescriptor)x).AsQueryable();
-            var results = options.ApplyTo(query);
-            return (results as IQueryable<EdmPluginDescriptor>).ToHashSet();
+    [EnableQuery]
+    public virtual SingleResult<EdmPluginDescriptor> Get([FromODataUri] string key)
+    {
+        if (!CheckPermission(StandardPermissions.FullAccess))
+        {
+            return SingleResult.Create(Enumerable.Empty<EdmPluginDescriptor>().AsQueryable());
         }
 
-        [EnableQuery]
-        public virtual SingleResult<EdmPluginDescriptor> Get([FromODataUri] string key)
-        {
-            if (!CheckPermission(StandardPermissions.FullAccess))
-            {
-                return SingleResult.Create(Enumerable.Empty<EdmPluginDescriptor>().AsQueryable());
-            }
+        string systemName = key.Replace('-', '.');
+        var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
+        EdmPluginDescriptor entity = pluginDescriptor;
+        return SingleResult.Create(new[] { entity }.AsQueryable());
+    }
 
+    public virtual IActionResult Put([FromODataUri] string key, EdmPluginDescriptor entity)
+    {
+        if (!CheckPermission(StandardPermissions.FullAccess))
+        {
+            return Unauthorized();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
             string systemName = key.Replace('-', '.');
             var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
-            EdmPluginDescriptor entity = pluginDescriptor;
-            return SingleResult.Create(new[] { entity }.AsQueryable());
-        }
 
-        public virtual IActionResult Put([FromODataUri] string key, EdmPluginDescriptor entity)
+            if (pluginDescriptor == null)
+            {
+                return NotFound();
+            }
+
+            pluginDescriptor.FriendlyName = entity.FriendlyName;
+            pluginDescriptor.DisplayOrder = entity.DisplayOrder;
+            pluginDescriptor.LimitedToTenants.Clear();
+
+            if (!entity.LimitedToTenants.IsNullOrEmpty())
+            {
+                pluginDescriptor.LimitedToTenants = entity.LimitedToTenants.ToList();
+            }
+
+            PluginManager.SavePluginDescriptor(pluginDescriptor);
+        }
+        catch (Exception x)
         {
-            if (!CheckPermission(StandardPermissions.FullAccess))
-            {
-                return Unauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                string systemName = key.Replace('-', '.');
-                var pluginDescriptor = pluginFinder.GetPluginDescriptorBySystemName(systemName, LoadPluginsMode.All);
-
-                if (pluginDescriptor == null)
-                {
-                    return NotFound();
-                }
-
-                pluginDescriptor.FriendlyName = entity.FriendlyName;
-                pluginDescriptor.DisplayOrder = entity.DisplayOrder;
-                pluginDescriptor.LimitedToTenants.Clear();
-
-                if (!entity.LimitedToTenants.IsNullOrEmpty())
-                {
-                    pluginDescriptor.LimitedToTenants = entity.LimitedToTenants.ToList();
-                }
-
-                PluginManager.SavePluginDescriptor(pluginDescriptor);
-            }
-            catch (Exception x)
-            {
-                logger.LogError(new EventId(), x.Message, x);
-            }
-
-            return Updated(entity);
+            logger.LogError(new EventId(), x.Message, x);
         }
 
-        protected static bool CheckPermission(Permission permission)
-        {
-            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-            return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-        }
+        return Updated(entity);
+    }
+
+    protected static bool CheckPermission(Permission permission)
+    {
+        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
     }
 }

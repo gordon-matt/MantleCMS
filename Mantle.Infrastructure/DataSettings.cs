@@ -1,96 +1,94 @@
 ﻿using Extenso;
-using Mantle.Helpers;
 
-namespace Mantle.Infrastructure
+namespace Mantle.Infrastructure;
+
+public class DataSettings
 {
-    public class DataSettings
+    public string ProviderName { get; set; }
+
+    public string ConnectionString { get; set; }
+
+    public string AdminEmail { get; set; }
+
+    public string AdminPassword { get; set; }
+
+    public bool CreateSampleData { get; set; }
+
+    public string DefaultLanguage { get; set; }
+
+    public string Theme { get; set; }
+
+    public bool IsValid()
     {
-        public string ProviderName { get; set; }
+        return !string.IsNullOrEmpty(ProviderName) && !string.IsNullOrEmpty(ConnectionString);
+    }
+}
 
-        public string ConnectionString { get; set; }
+public static class DataSettingsManager
+{
+    private const string virtualPath = "~/App_Data/MantleSettings.xml";
 
-        public string AdminEmail { get; set; }
+    /// <summary>
+    /// Load settings
+    /// </summary>
+    /// <param name="filePath">File path; pass null to use default settings file path</param>
+    /// <returns></returns>
+    public static DataSettings LoadSettings()
+    {
+        string filePath = CommonHelper.MapPath(virtualPath);
 
-        public string AdminPassword { get; set; }
-
-        public bool CreateSampleData { get; set; }
-
-        public string DefaultLanguage { get; set; }
-
-        public string Theme { get; set; }
-
-        public bool IsValid()
+        if (File.Exists(filePath))
         {
-            return !string.IsNullOrEmpty(ProviderName) && !string.IsNullOrEmpty(ConnectionString);
+            string text = File.ReadAllText(filePath);
+            return text.XmlDeserialize<DataSettings>();
+        }
+        else
+        {
+            return new DataSettings();
         }
     }
 
-    public static class DataSettingsManager
+    public static void SaveSettings(DataSettings settings)
     {
-        private const string virtualPath = "~/App_Data/MantleSettings.xml";
-
-        /// <summary>
-        /// Load settings
-        /// </summary>
-        /// <param name="filePath">File path; pass null to use default settings file path</param>
-        /// <returns></returns>
-        public static DataSettings LoadSettings()
+        if (settings == null)
         {
-            string filePath = CommonHelper.MapPath(virtualPath);
+            throw new ArgumentNullException("settings");
+        }
 
-            if (File.Exists(filePath))
+        //use webHelper.MapPath instead of HostingEnvironment.MapPath which is not available in unit tests
+        string filePath = CommonHelper.MapPath(virtualPath);
+        if (!File.Exists(filePath))
+        {
+            using (File.Create(filePath))
             {
-                string text = File.ReadAllText(filePath);
-                return text.XmlDeserialize<DataSettings>();
-            }
-            else
-            {
-                return new DataSettings();
+                //we use 'using' to close the file after it's created
             }
         }
 
-        public static void SaveSettings(DataSettings settings)
+        string xml = settings.XmlSerialize();
+        File.WriteAllText(filePath, xml);
+    }
+}
+
+public static class DataSettingsHelper
+{
+    private static bool? isDatabaseInstalled;
+
+    public static bool IsDatabaseInstalled
+    {
+        get
         {
-            if (settings == null)
+            if (!isDatabaseInstalled.HasValue)
             {
-                throw new ArgumentNullException("settings");
+                var settings = DataSettingsManager.LoadSettings();
+                isDatabaseInstalled = settings != null && !string.IsNullOrEmpty(settings.ConnectionString);
             }
-
-            //use webHelper.MapPath instead of HostingEnvironment.MapPath which is not available in unit tests
-            string filePath = CommonHelper.MapPath(virtualPath);
-            if (!File.Exists(filePath))
-            {
-                using (File.Create(filePath))
-                {
-                    //we use 'using' to close the file after it's created
-                }
-            }
-
-            string xml = settings.XmlSerialize();
-            File.WriteAllText(filePath, xml);
+            return isDatabaseInstalled.Value;
         }
     }
 
-    public static class DataSettingsHelper
+    public static void ResetCache()
     {
-        private static bool? isDatabaseInstalled;
-
-        public static bool IsDatabaseInstalled
-        {
-            get
-            {
-                if (!isDatabaseInstalled.HasValue)
-                {
-                    var settings = DataSettingsManager.LoadSettings();
-                    isDatabaseInstalled = settings != null && !string.IsNullOrEmpty(settings.ConnectionString);
-                }
-                return isDatabaseInstalled.Value;
-            }
-        }
-
-        public static void ResetCache()
-        {
-            isDatabaseInstalled = null;
-        }
+        isDatabaseInstalled = null;
     }
 }

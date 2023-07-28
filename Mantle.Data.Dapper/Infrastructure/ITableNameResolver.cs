@@ -1,7 +1,6 @@
-﻿namespace Mantle.Data.Dapper.Infrastructure
+﻿namespace Mantle.Data.Dapper.Infrastructure;
+
+public interface ITableNameResolver
 {
-    public interface ITableNameResolver
-    {
-        string GetTableName(Type entityType);
-    }
+    string GetTableName(Type entityType);
 }

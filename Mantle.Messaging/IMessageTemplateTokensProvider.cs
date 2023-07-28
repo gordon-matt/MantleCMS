@@ -1,7 +1,6 @@
-﻿namespace Mantle.Web.Messaging
+﻿namespace Mantle.Web.Messaging;
+
+public interface IMessageTemplateTokensProvider
 {
-    public interface IMessageTemplateTokensProvider
-    {
-        IEnumerable<string> GetTokens(string templateName);
-    }
+    IEnumerable<string> GetTokens(string templateName);
 }

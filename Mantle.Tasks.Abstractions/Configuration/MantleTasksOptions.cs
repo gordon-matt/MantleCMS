@@ -1,7 +1,6 @@
-﻿namespace Mantle.Tasks.Configuration
+﻿namespace Mantle.Tasks.Configuration;
+
+public class MantleTasksOptions
 {
-    public class MantleTasksOptions
-    {
-        public bool ScheduledTasksEnabled { get; set; }
-    }
+    public bool ScheduledTasksEnabled { get; set; }
 }

@@ -1,28 +1,26 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 
-namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks
+namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+
+public interface IEntityTypeContentBlockProvider
 {
-    public interface IEntityTypeContentBlockProvider
+    IEnumerable<IContentBlock> GetContentBlocks(string zoneName, string entityType, string entityId);
+}
+
+public class DefaultEntityTypeContentBlockProvider : IEntityTypeContentBlockProvider
+{
+    private readonly IEntityTypeContentBlockService entityTypeContentBlockService;
+
+    public DefaultEntityTypeContentBlockProvider(IEntityTypeContentBlockService entityTypeContentBlockService)
     {
-        IEnumerable<IContentBlock> GetContentBlocks(string zoneName, string entityType, string entityId);
+        this.entityTypeContentBlockService = entityTypeContentBlockService;
     }
 
-    public class DefaultEntityTypeContentBlockProvider : IEntityTypeContentBlockProvider
+    public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName, string entityType, string entityId)
     {
-        private readonly IEntityTypeContentBlockService entityTypeContentBlockService;
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
 
-        public DefaultEntityTypeContentBlockProvider(IEntityTypeContentBlockService entityTypeContentBlockService)
-        {
-            this.entityTypeContentBlockService = entityTypeContentBlockService;
-        }
-
-        public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName, string entityType, string entityId)
-        {
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-
-            var contentBlocks = entityTypeContentBlockService.GetContentBlocks(entityType, entityId, zoneName, workContext.CurrentCultureCode);
-            return contentBlocks.ToList();
-        }
+        var contentBlocks = entityTypeContentBlockService.GetContentBlocks(entityType, entityId, zoneName, workContext.CurrentCultureCode);
+        return contentBlocks.ToList();
     }
 }
