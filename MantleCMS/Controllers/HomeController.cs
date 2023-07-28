@@ -1,9 +1,4 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.Configuration;
-using Mantle.Web.Mvc;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MantleCMS.Controllers
+﻿namespace MantleCMS.Controllers
 {
     //[Authorize]
     public class HomeController : MantleController

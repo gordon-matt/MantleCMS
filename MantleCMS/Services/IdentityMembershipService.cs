@@ -1,14 +1,11 @@
-﻿using Extenso.Collections;
-using Extenso.Data.Entity;
+﻿using System.Linq.Expressions;
 using Mantle.Exceptions;
 using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Web;
 using Mantle.Web.Security.Membership;
-using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace MantleCMS.Services
 {

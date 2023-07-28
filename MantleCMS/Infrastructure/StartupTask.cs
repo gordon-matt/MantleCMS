@@ -1,7 +1,4 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Data.Services;
-using Mantle.Infrastructure;
-using MantleCMS.Data;
+﻿using Mantle.Data.Services;
 
 namespace MantleCMS.Infrastructure;
 

@@ -1,6 +1,4 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MantleCMS.Data
 {

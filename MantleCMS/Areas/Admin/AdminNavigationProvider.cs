@@ -1,5 +1,4 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web;
+﻿using Mantle.Web;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Localization;
 

@@ -1,8 +1,6 @@
 ﻿using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Infrastructure;
-using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MantleCMS.Areas.Admin.Controllers;
 

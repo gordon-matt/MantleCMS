@@ -3,10 +3,8 @@ using Mantle.Identity.Models.AccountViewModels;
 using Mantle.Identity.Services;
 using Mantle.Security.Membership;
 using Mantle.Web.Security.Membership;
-using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MantleCMS.Controllers
 {

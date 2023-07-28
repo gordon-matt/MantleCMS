@@ -1,6 +1,4 @@
 ﻿using Mantle.Identity;
-using MantleCMS.Data;
-using MantleCMS.Data.Domain;
 using Microsoft.AspNetCore.Identity;
 
 namespace MantleCMS.Identity

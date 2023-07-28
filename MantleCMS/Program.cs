@@ -1,5 +1,4 @@
-﻿using Mantle.Infrastructure;
-using NLog.Web;
+﻿using NLog.Web;
 
 namespace MantleCMS
 {
