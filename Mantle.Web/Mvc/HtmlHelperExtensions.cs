@@ -166,21 +166,6 @@ public static class HtmlHelperExtensions
         return new Mantle<TModel>(html);
     }
 
-    public static MantleUI<TModel> MantleUI<TModel>(this IHtmlHelper<TModel> htmlHelper, IMantleUIProvider provider = null)
-    {
-        if (provider != null)
-        {
-            return new MantleUI<TModel>(htmlHelper, provider);
-        }
-
-        string areaName = (string)htmlHelper.ViewContext.RouteData.DataTokens["area"];
-        if (!string.IsNullOrEmpty(areaName) && MantleUISettings.AreaUIProviders.ContainsKey(areaName))
-        {
-            return new MantleUI<TModel>(htmlHelper, MantleUISettings.AreaUIProviders[areaName]);
-        }
-        return new MantleUI<TModel>(htmlHelper);
-    }
-
     ///// <summary>
     ///// Create an HTML tree from a recursive collection of items
     ///// </summary>

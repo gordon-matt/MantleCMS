@@ -1,4 +1,6 @@
 using Autofac;
+using Extenso.AspNetCore.Mvc.ExtensoUI;
+using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
 using Mantle.Tenants.Domain;
 using Mantle.Web;
@@ -226,7 +228,6 @@ public class Startup
         #region Mantle Framework Config
 
         services.ConfigureMantleOptions(Configuration);
-        //MantleUISettings.DefaultAdminProvider = new SmartAdminUIProvider();
 
         // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
         //  NPM PACKAGES: grapesjs, grapesjs-aviary and grapesjs-mjml
@@ -363,6 +364,8 @@ public class Startup
         app.UseMultitenancy<Tenant>();
 
         app.UseWebOptimizer();
+
+        app.UseExtensoUI<Bootstrap3UIProvider>();
 
         // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

@@ -1,7 +1,7 @@
-﻿@using Mantle.Web
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Web
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
@@ -43,7 +43,7 @@
 
 <div id="create-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -101,7 +101,7 @@
 
 <div id="edit-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -197,7 +197,7 @@
 
 <div id="zones-edit-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())

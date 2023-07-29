@@ -22,8 +22,6 @@ global using Mantle.Web.Configuration;
 global using Mantle.Web.Configuration.Domain;
 global using Mantle.Web.Mvc;
 global using Mantle.Web.Mvc.Controls;
-global using Mantle.Web.Mvc.MantleUI;
-global using Mantle.Web.Mvc.MantleUI.Providers;
 global using Mantle.Web.Mvc.Themes;
 global using Mantle.Web.OData;
 global using Microsoft.AspNetCore.Authorization;

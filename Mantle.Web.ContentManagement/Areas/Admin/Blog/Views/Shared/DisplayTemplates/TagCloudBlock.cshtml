@@ -1,10 +1,10 @@
-﻿@using Mantle.Infrastructure
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Infrastructure
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 @model TagCloudBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
@@ -48,7 +48,7 @@
             }
     </style>*@
 
-@using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+@using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
 {
     using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
     using (var body = panel.BeginBody())
