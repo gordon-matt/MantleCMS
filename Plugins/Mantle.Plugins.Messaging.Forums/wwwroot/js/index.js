@@ -61,8 +61,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: forumModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: forumModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        GridHelper.actionButton("forumModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("forumModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -186,9 +186,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: showForums.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.forums + '</a>' +
-                        '<a data-bind="click: forumGroupModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: forumGroupModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        GridHelper.actionButton("showForums", self.parent.translations.forums) +
+                        GridHelper.actionButton("forumGroupModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("forumGroupModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

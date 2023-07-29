@@ -95,10 +95,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: blockModel.edit.bind($data,\'#=Id#\', null)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: blockModel.localize.bind($data,\'#=Id#\')" class="btn btn-success btn-xs">' + self.parent.translations.localize + '</a>' +
-                        '<a data-bind="click: blockModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: blockModel.toggleEnabled.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-default btn-xs">' + self.parent.translations.toggle + '</a>' +
+                        GridHelper.actionButton("blockModel.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("blockModel.localize", self.parent.translations.localize, 'success') +
+                        GridHelper.actionButton("blockModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionButton("blockModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\', #=IsEnabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -342,8 +342,10 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: zoneModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: zoneModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a></div>',
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("zoneModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("zoneModel.remove", self.parent.translations.delete, 'danger') +
+                        '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120

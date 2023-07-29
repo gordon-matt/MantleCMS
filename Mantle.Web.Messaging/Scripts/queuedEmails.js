@@ -65,8 +65,8 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group"><a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
+                    template: '<div class="btn-group">' +
+                        GridHelper.actionButton("remove", self.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
