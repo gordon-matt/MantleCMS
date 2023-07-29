@@ -1,14 +1,14 @@
-﻿@using Mantle.Plugins.Widgets.JQueryFormBuilder
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Plugins.Widgets.JQueryFormBuilder
 @using Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 @model JQueryFormBuilderBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="block-content">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel()))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel()))
         {
             using (var header = panel.BeginHeader("Form Builder"))
             {

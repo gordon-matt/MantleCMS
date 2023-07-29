@@ -1,14 +1,14 @@
-﻿@using Mantle.Plugins.Widgets.FullCalendar
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Plugins.Widgets.FullCalendar
 @using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model FullCalendarBlock
 
 <div id="block-content">
-    @using (var tabs = Html.MantleUI().Begin(new Tabs()))
+    @using (var tabs = Html.ExtensoUI().Begin(new Tabs()))
     {
         tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.General], "General");
         tabs.Tab(T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EditorTabs.AgendaOptions], "AgendaOptions");

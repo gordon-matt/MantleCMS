@@ -20,7 +20,7 @@
 
 <div id="forum-group-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -75,7 +75,7 @@
 
 <div id="forum-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())

@@ -1,10 +1,10 @@
-﻿@using Mantle.Infrastructure
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Infrastructure
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 @model CategoriesBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
@@ -31,7 +31,7 @@
     }
 }
 
-@using (var panel = Html.MantleUI(MantleUISettings.DefaultFrontendProvider).Begin(new Panel(state: State.Primary)))
+@using (var panel = Html.ExtensoUI(ExtensoUISettings.DefaultFrontendProvider).Begin(new Panel(state: State.Primary)))
 {
     using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Categories])) { }
     using (var body = panel.BeginBody())

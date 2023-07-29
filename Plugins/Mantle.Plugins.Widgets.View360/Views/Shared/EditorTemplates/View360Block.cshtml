@@ -1,6 +1,6 @@
-﻿@using Mantle.Plugins.Widgets.View360
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Plugins.Widgets.View360
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 
 @model View360Block
 
@@ -8,7 +8,7 @@
 @inject Mantle.Web.IWorkContext WorkContext
 
 <div id="block-content">
-    @using (var tabs = Html.MantleUI().Begin(new Tabs()))
+    @using (var tabs = Html.ExtensoUI().Begin(new Tabs()))
     {
         tabs.Tab(T[LocalizableStrings.EditorTabs.General], "tab-general");
         tabs.Tab(T[LocalizableStrings.EditorTabs.MainConfiguration], "tab-main");

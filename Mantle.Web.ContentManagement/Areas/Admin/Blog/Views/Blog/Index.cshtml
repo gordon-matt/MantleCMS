@@ -1,7 +1,7 @@
-﻿@using Mantle.Web
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Web
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 
 @{
     string rtlClass = string.Empty;
@@ -57,7 +57,7 @@
 
 <div id="post-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Posts])) { }
             using (var body = panel.BeginBody())
@@ -206,7 +206,7 @@
 
 <div id="category-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Categories])) { }
             using (var body = panel.BeginBody())
@@ -265,7 +265,7 @@
 
 <div id="tag-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
             using (var body = panel.BeginBody())

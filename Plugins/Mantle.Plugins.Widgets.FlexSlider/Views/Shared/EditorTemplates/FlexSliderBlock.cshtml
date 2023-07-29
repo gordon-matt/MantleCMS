@@ -1,7 +1,7 @@
-﻿@using Mantle.Plugins.Widgets.FlexSlider
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Plugins.Widgets.FlexSlider
 @using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 
 @model FlexSliderBlock
 
@@ -9,7 +9,7 @@
 @inject Mantle.Web.IWorkContext WorkContext
 
 <div id="block-content">
-    @using (var tabs = Html.MantleUI().Begin(new Tabs()))
+    @using (var tabs = Html.ExtensoUI().Begin(new Tabs()))
     {
         tabs.Tab(T[LocalizableStrings.FlexSliderBlock.EditorTabs.General], "tab-general");
         tabs.Tab(T[LocalizableStrings.FlexSliderBlock.EditorTabs.Animation], "tab-animation");

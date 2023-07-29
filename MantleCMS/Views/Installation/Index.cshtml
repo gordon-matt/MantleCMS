@@ -42,7 +42,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(string.Empty, new { @class = "text-danger" })
 
-                    using (var panel = Html.MantleUI().Begin(new Panel()))
+                    using (var panel = Html.ExtensoUI().Begin(new Panel()))
                     {
                         using (var header = panel.BeginHeader("Admin Login Details"))
                         {
@@ -78,7 +78,7 @@
                             </div>
                         }
                     }
-                    @*using (var panel = Html.MantleUI().Begin(new Panel()))
+                    @*using (var panel = Html.ExtensoUI().Begin(new Panel()))
                     {
                         using (var header = panel.BeginHeader("Default Settings"))
                         {
@@ -107,7 +107,7 @@
                             </div>
                         }
                     }*@
-                    using (var panel = Html.MantleUI().Begin(new Panel()))
+                    using (var panel = Html.ExtensoUI().Begin(new Panel()))
                     {
                         using (var header = panel.BeginHeader("Database"))
                         {

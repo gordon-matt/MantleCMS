@@ -31,7 +31,7 @@
 
 <div id="users-edit-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -83,7 +83,7 @@
 
 <div id="user-roles-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.UpdateUserRoles])) { }
             using (var body = panel.BeginBody())
@@ -112,7 +112,7 @@
 
 <div id="change-password-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.ChangePassword])) { }
             using (var body = panel.BeginBody())
@@ -173,7 +173,7 @@
 
 <div id="roles-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -207,7 +207,7 @@
 
 <div id="role-permissions-form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.EditRolePermissions])) { }
             using (var body = panel.BeginBody())

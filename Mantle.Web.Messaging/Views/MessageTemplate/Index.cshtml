@@ -1,8 +1,8 @@
-﻿@using Mantle.Messaging.Data.Domain
+﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
+@using Mantle.Messaging.Data.Domain
 @using Mantle.Web
 @using Mantle.Web.Messaging
 @using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.MantleUI
 @using Mantle.Web.Mvc.Razor
 @using Mantle.Infrastructure
 
@@ -63,7 +63,7 @@
 
 <div id="form-section" class="row" style="display:none">
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -100,7 +100,7 @@
                 </form>
             }
         }
-        @using (var panel = Html.MantleUI().Begin(new Panel(state: State.Primary, htmlAttributes: new { data_bind = "visible: templateModel.inEditMode()" })))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary, htmlAttributes: new { data_bind = "visible: templateModel.inEditMode()" })))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
@@ -146,7 +146,7 @@
     </article>
 </div>
 
-@using (var modal = Html.MantleUI().Begin(new Modal("cultureModal")))
+@using (var modal = Html.ExtensoUI().Begin(new Modal("cultureModal")))
 {
     using (var header = modal.BeginHeader("Select Language")) { }
     using (var body = modal.BeginBody())
