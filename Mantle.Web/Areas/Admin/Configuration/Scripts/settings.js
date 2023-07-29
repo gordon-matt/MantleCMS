@@ -88,9 +88,9 @@
                     const oldScripts = $('script[data-settings-script="true"]');
 
                     if (oldScripts.length > 0) {
-                        $.each(oldScripts, function () {
-                            $(this).remove();
-                        });
+                        for (const oldScript of oldScripts) {
+                            $(oldScript).remove();
+                        }
                     }
 
                     const elementToBind = $("#form-section")[0];
@@ -106,11 +106,10 @@
                     // Add new Scripts
                     const scripts = result.filter('script');
 
-                    $.each(scripts, function () {
-                        const script = $(this);
+                    for (const script of scripts) {
                         script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
                         script.appendTo('body');
-                    });
+                    }
 
                     // Update Bindings
                     // Ensure the function exists before calling it...

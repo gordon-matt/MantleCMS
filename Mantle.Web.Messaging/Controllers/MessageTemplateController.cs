@@ -56,4 +56,10 @@ public class MessageTemplateController : MantleController
             }
         });
     }
+
+    [Route("get-available-editors")]
+    public JsonResult GetAvailableEditors()
+    {
+        return Json(messageTemplateEditors);
+    }
 }

@@ -147,66 +147,56 @@
             //---------------------------------------------------------------------------------------
             // Get Template
             //---------------------------------------------------------------------------------------
-            await fetch(`${templateApiUrl}(${id})`)
-                .then(response => response.json())
-                .then((template) => {
-                    if (template.Editor != "[Default]") {
-                        const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == template.Editor; })[0];
-                        const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
+            const template = await ODataHelper.getOData(`${templateApiUrl}(${id})`);
 
-                        if (editor.openInNewWindow) {
-                            window.open(url);
-                        }
-                        else {
-                            window.location.replace(url);
-                        }
-                        return;
-                    }
+            if (template.Editor != "[Default]") {
+                const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == template.Editor; })[0];
+                const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
 
-                    self.id(template.Id);
-                    self.name(template.Name);
-                    self.editor(template.Editor);
-                    self.ownerId(template.OwnerId);
-                    self.enabled(template.Enabled);
+                if (editor.openInNewWindow) {
+                    window.open(url);
+                }
+                else {
+                    window.location.replace(url);
+                }
+                return;
+            }
 
-                    //---------------------------------------------------------------------------------------
-                    // Get Template Version
-                    //---------------------------------------------------------------------------------------
-                    let getCurrentVersionUrl = "";
-                    if (self.parent.currentCulture) {
-                        getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
-                    }
-                    else {
-                        getCurrentVersionUrl = templateVersionApiUrl + "/Default.GetCurrentVersion(templateId=" + self.id() + ",cultureCode=null)";
-                    }
+            self.id(template.Id);
+            self.name(template.Name);
+            self.editor(template.Editor);
+            self.ownerId(template.OwnerId);
+            self.enabled(template.Enabled);
 
-                    const version = await ODataHelper.getOData(getCurrentVersionUrl);
-                    self.setupVersionEditSection(version);
+            //---------------------------------------------------------------------------------------
+            // Get Template Version
+            //---------------------------------------------------------------------------------------
+            let getCurrentVersionUrl = "";
+            if (self.parent.currentCulture) {
+                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${self.id()},cultureCode='${self.parent.currentCulture}')`;
+            }
+            else {
+                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${self.id()},cultureCode=null)`;
+            }
 
-                    $("#tokens-list").html("");
+            const version = await ODataHelper.getOData(getCurrentVersionUrl);
+            self.setupVersionEditSection(version);
 
-                    const tokens = await ODataHelper.getOData(`${templateApiUrl}/Default.GetTokens(templateName='${self.name()}')`);
-                    if (tokens.value && tokens.value.length > 0) {
-                        let s = '';
-                        $.each(tokens.value, function () {
-                            s += '<li>' + this + '</li>';
-                        });
-                        $("#tokens-list").html(s);
-                    }
+            $("#tokens-list").html("");
 
-                    self.inEditMode(true);
-                    self.validator.resetForm();
-                    switchSection($("#form-section"));
-                    $("#form-section-legend").html(self.parent.translations.edit);
+            const tokens = await ODataHelper.getOData(`${templateApiUrl}/Default.GetTokens(templateName='${self.name()}')`);
+            if (tokens.value && tokens.value.length > 0) {
+                let s = '';
+                for (const token of tokens.value) {
+                    s += `<li>${token}</li>`;
+                }
+                $("#tokens-list").html(s);
+            }
 
-                    //---------------------------------------------------------------------------------------
-                    // END: Get Template Version
-                    //---------------------------------------------------------------------------------------
-                })
-                .catch(error => {
-                    $.notify(self.parent.translations.getRecordError, "error");
-                    console.error('Error: ', error);
-                });
+            self.inEditMode(true);
+            self.validator.resetForm();
+            switchSection($("#form-section"));
+            $("#form-section-legend").html(self.parent.translations.edit);
             //---------------------------------------------------------------------------------------
             // END: Get Template
             //---------------------------------------------------------------------------------------
