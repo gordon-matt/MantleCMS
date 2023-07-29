@@ -52,9 +52,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: roleModel.editPermissions.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.permissions + '</a>' +
-                        '<a data-bind="click: roleModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: roleModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        GridHelper.actionButton("roleModel.editPermissions", self.parent.translations.permissions) +
+                        GridHelper.actionButton("roleModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("roleModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -252,10 +252,11 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: userModel.editRoles.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.roles + '</a>' +
-                        '<a data-bind="click: userModel.changePassword.bind($data,\'#=Id#\',\'#=UserName#\')" class="btn btn-default btn-xs">' + self.parent.translations.password + '</a>' +
-                        '<a data-bind="click: userModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: userModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("userModel.editRoles", self.parent.translations.roles) +
+                        GridHelper.actionButton("userModel.changePassword", self.parent.translations.password) +
+                        GridHelper.actionButton("userModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("userModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

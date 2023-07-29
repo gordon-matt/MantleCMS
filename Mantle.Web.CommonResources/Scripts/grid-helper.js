@@ -1,4 +1,21 @@
 ﻿class GridHelper {
+    static actionButtonSize = "xs";
+    static actionIconButtonSize = "sm";
+
+    static odataParameterMap = function (options, operation) {
+        let paramMap = kendo.data.transports.odata.parameterMap(options);
+        if (paramMap.$inlinecount) {
+            if (paramMap.$inlinecount == "allpages") {
+                paramMap.$count = true;
+            }
+            delete paramMap.$inlinecount;
+        }
+        if (paramMap.$filter) {
+            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
+        }
+        return paramMap;
+    };
+
     static initKendoGrid(gridId, odataUrl, schemaModel, columns, pageSize, sort) {
         $(`#${gridId}`).kendoGrid({
             data: null,
@@ -9,19 +26,7 @@
                         url: odataUrl,
                         dataType: "json"
                     },
-                    parameterMap: function (options, operation) {
-                        let paramMap = kendo.data.transports.odata.parameterMap(options);
-                        if (paramMap.$inlinecount) {
-                            if (paramMap.$inlinecount == "allpages") {
-                                paramMap.$count = true;
-                            }
-                            delete paramMap.$inlinecount;
-                        }
-                        if (paramMap.$filter) {
-                            paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                        }
-                        return paramMap;
-                    }
+                    parameterMap: GridHelper.odataParameterMap
                 },
                 schema: {
                     data: function (data) {
@@ -63,12 +68,24 @@
             title: columnTitle ?? " ",
             template:
                 '<div class="btn-group">' +
-                `<a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">${editText ?? 'Edit'}</a>` +
-                `<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">${deleteText ?? 'Delete'}</a>` +
+                GridHelper.actionButton("edit", editText ?? 'Edit') +
+                GridHelper.actionButton("remove", deleteText ?? 'Delete', 'danger') +
                 '</div>',
             attributes: { "class": "text-center" },
             filterable: false,
             width: 120
         };
+    };
+
+    static actionButton(funcName, text, state, clickParams) {
+        state ??= 'default';
+        clickParams ??= `'#=Id#'`;
+        return `<button type="button" data-bind="click: ${funcName}.bind($data,${clickParams})" class="btn btn-${state} btn-${GridHelper.actionButtonSize}">${text}</button>`;
+    };
+
+    static actionIconButton(funcName, icon, text, state, clickParams) {
+        state ??= 'default';
+        clickParams ??= `'#=Id#'`;
+        return `<button type="button" data-bind="click: ${funcName}.bind($data,${clickParams})" class="btn btn-${state} btn-${GridHelper.actionIconButtonSize}" title="${text}"><i class="${icon}"></i></a></button>`;
     };
 }

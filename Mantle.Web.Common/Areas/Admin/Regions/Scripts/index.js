@@ -32,7 +32,6 @@
         self.fields = ko.observable('');
 
         self.init = function () {
-
             GridHelper.initKendoGrid(
                 "SettingsGrid",
                 settingsApiUrl,
@@ -47,7 +46,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group"><a data-bind="click: settings.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a></div>',
+                    template: '<div class="btn-group">' + GridHelper.actionButton("settings.edit", self.parent.translations.edit) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120
@@ -187,10 +186,11 @@
                         '<div class="btn-group">' +
                         '# if(HasStates) {# <a data-bind="click: country.showStates.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.states + '</a> #} ' +
                         'else {# <a data-bind="click: country.showCities.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.cities + '</a> #} # ' +
-                        '<a data-bind="click: country.edit.bind($data,\'#=Id#\', null)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: country.localize.bind($data,\'#=Id#\')" class="btn btn-success btn-xs">' + self.parent.translations.localize + '</a>' +
-                        '<a data-bind="click: country.removeItem.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: showSettings.bind($data,#=Id#)" class="btn btn-info btn-xs">' + self.parent.translations.settings + '</a>' +
+
+                        GridHelper.actionButton("country.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("country.localize", self.parent.translations.localize, 'success') +
+                        GridHelper.actionButton("country.removeItem", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -372,11 +372,11 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: state.showCities.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.cities + '</a>' +
-                        '<a data-bind="click: state.edit.bind($data,\'#=Id#\', null)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: state.localize.bind($data,\'#=Id#\')" class="btn btn-success btn-xs">' + self.parent.translations.localize + '</a>' +
-                        '<a data-bind="click: state.removeItem.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: showSettings.bind($data,#=Id#)" class="btn btn-info btn-xs">' + self.parent.translations.settings + '</a>' +
+                        GridHelper.actionButton("state.showCities", self.parent.translations.cities) +
+                        GridHelper.actionButton("state.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("state.localize", self.parent.translations.localize, 'success') +
+                        GridHelper.actionButton("state.removeItem", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -540,10 +540,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: city.edit.bind($data,\'#=Id#\', null)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: city.localize.bind($data,\'#=Id#\')" class="btn btn-success btn-xs">' + self.parent.translations.localize + '</a>' +
-                        '<a data-bind="click: city.removeItem.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: showSettings.bind($data,#=Id#)" class="btn btn-info btn-xs">' + self.parent.translations.settings + '</a>' +
+                        GridHelper.actionButton("city.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("city.localize", self.parent.translations.localize, 'success') +
+                        GridHelper.actionButton("city.removeItem", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

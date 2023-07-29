@@ -95,8 +95,9 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: postModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: postModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("postModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("postModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -235,8 +236,9 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: categoryModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: categoryModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("categoryModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("categoryModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -339,8 +341,9 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: tagModel.edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: tagModel.remove.bind($data,#=Id#)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("tagModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("tagModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

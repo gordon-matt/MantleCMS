@@ -106,9 +106,10 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a>' +
-                        '<a data-bind="click: remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.translations.delete + '</a>' +
-                        '<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">' + self.translations.localize + '</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("edit", self.translations.edit) +
+                        GridHelper.actionButton("remove", self.translations.delete, 'danger') +
+                        `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${self.translations.localize}</a>` +
                         '</div>',
                     //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-default btn-xs">Set Default</a></div>',
                     attributes: { "class": "text-center" },

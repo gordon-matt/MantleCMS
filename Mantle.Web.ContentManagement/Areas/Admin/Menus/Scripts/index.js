@@ -138,10 +138,12 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\', null)" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.newItem + '</a>' +
-                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.toggle + '</a></div>',
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 220
@@ -346,10 +348,12 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuItemModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: menuItemModel.remove.bind($data,\'#=Id#\',\'#=ParentId#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: menuItemModel.create.bind($data,\'#=MenuId#\', \'#=Id#\')" class="btn btn-primary btn-xs">' + self.parent.translations.newItem + '</a>' +
-                        '<a data-bind="click: menuItemModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\', #=Enabled#)" class="btn btn-default btn-xs">' + self.parent.translations.toggle + '</a></div>',
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
+                        GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 220
@@ -398,9 +402,10 @@
                     field: "Id",
                     title: " ",
                     template:
-                        '<div class="btn-group"><a data-bind="click: menuModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: menuModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
-                        '<a data-bind="click: menuModel.items.bind($data,\'#=Id#\')" class="btn btn-primary btn-xs">Items</a>' +
+                        '<div class="btn-group">' +
+                        GridHelper.actionButton("menuModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("menuModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionButton("menuModel.items", "Items", 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

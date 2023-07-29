@@ -63,8 +63,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: eventModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: eventModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        GridHelper.actionButton("eventModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("eventModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -163,64 +163,15 @@
                     Name: { required: true, maxlength: 255 }
                 }
             });
-            $("#Grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: calendarApiUrl,
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            fields: {
-                                Name: { type: "string" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Name", dir: "asc" }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+
+            GridHelper.initKendoGrid(
+                "Grid",
+                odataBaseUrl,
+                {
+                    fields: {
+                        Name: { type: "string" }
                     }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                }, [{
                     field: "Name",
                     title: self.parent.translations.columns.calendar.name
                 }, {
@@ -228,15 +179,16 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: showEvents.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.events + '</a>' +
-                        '<a data-bind="click: calendarModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.edit + '</a>' +
-                        '<a data-bind="click: calendarModel.remove.bind($data,\'#=Id#\')" class="btn btn-danger btn-xs">' + self.parent.translations.delete + '</a>' +
+                        GridHelper.actionButton("showEvents", self.parent.translations.events) +
+                        GridHelper.actionButton("calendarModel.edit", self.parent.translations.edit) +
+                        GridHelper.actionButton("calendarModel.remove", self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 180
-                }]
-            });
+                }],
+                self.gridPageSize,
+                { field: "Name", dir: "asc" });
         };
         self.create = function () {
             self.id(0);

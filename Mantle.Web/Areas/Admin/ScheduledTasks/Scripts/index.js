@@ -112,8 +112,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<button type="button" data-bind="click: runNow.bind($data,#=Id#)" class="btn btn-primary btn-xs">' + self.translations.runNow + '</button>' +
-                        '<button type="button" data-bind="click: edit.bind($data,#=Id#)" class="btn btn-default btn-xs">' + self.translations.edit + '</button>' +
+                        GridHelper.actionButton("runNow", self.translations.runNow, 'primary') +
+                        GridHelper.actionButton("edit", self.translations.edit) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

@@ -59,7 +59,9 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group"><a data-bind="click: edit.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.translations.edit + '</a></div>',
+                    template: '<div class="btn-group">' +
+                        GridHelper.actionButton("edit", self.translations.edit) +
+                        '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120

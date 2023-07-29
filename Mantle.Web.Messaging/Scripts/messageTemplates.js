@@ -97,17 +97,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: templateModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
-                        '<i class="fa fa-edit"></i></a>' +
-
-                        '<a data-bind="click: templateModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
-                        '<i class="fa fa-trash"></i></a>' +
-
-                        '<a data-bind="click: templateModel.toggleEnabled.bind($data,\'#=Id#\',#=Enabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
-                        '<i class="fa fa-toggle-on"></i></a>' +
-
-                        '<a data-bind="click: templateModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
-                        '<i class="fa fa-globe"></i></a>' +
+                        GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("templateModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',#=Enabled#`) +
+                        GridHelper.actionIconButton("templateModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

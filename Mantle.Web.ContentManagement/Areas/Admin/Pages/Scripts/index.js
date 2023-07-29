@@ -57,8 +57,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<a data-bind="click: pageTypeModel.edit.bind($data,\'#=Id#\')" class="btn btn-default btn-sm">' + self.parent.translations.edit + '</a>',
+                    template: '<div class="btn-group">' + GridHelper.actionButton("pageTypeModel.edit", self.parent.translations.edit) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -170,8 +169,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '<a data-bind="click: pageVersionModel.restore.bind($data,\'#=Id#\')" class="btn btn-warning btn-sm">' + self.parent.translations.restore + '</a>' +
-                        '<a data-bind="click: pageVersionModel.preview.bind($data,\'#=Id#\')" class="btn btn-default btn-sm">' + self.parent.translations.preview + '</a>' +
+                        GridHelper.actionButton("pageVersionModel.restore", self.parent.translations.restore, 'warning') +
+                        GridHelper.actionButton("pageVersionModel.preview", self.parent.translations.preview) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -341,32 +340,18 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
-                            '<i class="fa fa-edit"></i></a>' +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
+                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
 
-                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
-                            '<i class="fa fa-trash"></i></a>' +
+                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
+                        '<i class="fa fa-cubes"></i></a>' +
 
-                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.create + '">' +
-                            '<i class="fa fa-plus"></i></a>' +
-
-                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-sm" title="' + self.parent.translations.pageHistory + '">' +
-                            '<i class="fa fa-clock-o"></i></a>' +
-
-                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
-                            '<i class="fa fa-cubes"></i></a>' +
-
-                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
-                            '<i class="fa fa-toggle-on"></i></a>' +
-
-                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
-                            '<i class="fa fa-globe"></i></a>' +
-
-                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-sm" title="' + self.parent.translations.preview + '">' +
-                            '<i class="fa fa-search"></i></a>' +
-
-                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-sm" title="' + self.parent.translations.move + '">' +
-                            '<i class="fa fa-caret-square-o-right"></i></a>' +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
+                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'default') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -790,32 +775,18 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                            '<a data-bind="click: pageModel.edit.bind($data,\'#=Id#\',null)" class="btn btn-default btn-sm" title="' + self.parent.translations.edit + '">' +
-                            '<i class="fa fa-edit"></i></a>' +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
+                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
 
-                            '<a data-bind="click: pageModel.remove.bind($data,\'#=Id#\',null)" class="btn btn-danger btn-sm" title="' + self.parent.translations.delete + '">' +
-                            '<i class="fa fa-trash"></i></a>' +
+                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
+                        '<i class="fa fa-cubes"></i></a>' +
 
-                            '<a data-bind="click: pageModel.create.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.create + '">' +
-                            '<i class="fa fa-plus"></i></a>' +
-
-                            '<a data-bind="click: pageModel.showPageHistory.bind($data,\'#=Id#\')" class="btn btn-warning btn-sm" title="' + self.parent.translations.pageHistory + '">' +
-                            '<i class="fa fa-clock-o"></i></a>' +
-
-                            '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
-                            '<i class="fa fa-cubes"></i></a>' +
-
-                            '<a data-bind="click: pageModel.toggleEnabled.bind($data,\'#=Id#\',\'#=ParentId#\',#=IsEnabled#)" class="btn btn-default btn-sm" title="' + self.parent.translations.toggle + '">' +
-                            '<i class="fa fa-toggle-on"></i></a>' +
-
-                            '<a data-bind="click: pageModel.localize.bind($data,\'#=Id#\')" class="btn btn-primary btn-sm" title="' + self.parent.translations.localize + '">' +
-                            '<i class="fa fa-globe"></i></a>' +
-
-                            '<a data-bind="click: pageModel.preview.bind($data,\'#=Id#\')" class="btn btn-success btn-sm" title="' + self.parent.translations.preview + '">' +
-                            '<i class="fa fa-search"></i></a>' +
-
-                            '<a data-bind="click: pageModel.move.bind($data,\'#=Id#\')" class="btn btn-default btn-sm" title="' + self.parent.translations.move + '">' +
-                            '<i class="fa fa-caret-square-o-right"></i></a>' +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
+                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'default') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
