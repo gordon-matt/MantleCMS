@@ -45,27 +45,10 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("CultureCode", T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-globe"></i>
-                                    </span>
-                                    @*@Html.CulturesDropDownList("CultureCode", null, new { @class = "form-control", data_bind = "value: cultureCode, event: { change: onCultureCodeChanged }" }, string.Empty)*@
-                                    @Html.TextBox("CultureCode", null, new { @class = "form-control", data_bind = "value: cultureCode" })
-                                </div>
-                            </div>
+                            <mantle-input asp-for="CultureCode" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode]" asp-icon="fa fa-globe" />
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.Localization.LanguageModel.Name], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: name" })
-                                </div>
-                            </div>
+                            <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.Name]" asp-icon="fa fa-file" />
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <mantle-input asp-for="SortOrder" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder]" />

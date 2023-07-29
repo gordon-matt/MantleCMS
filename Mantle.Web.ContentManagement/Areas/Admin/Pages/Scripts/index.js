@@ -404,9 +404,9 @@
             const oldScripts = $('script[data-fields-script="true"]');
 
             if (oldScripts.length > 0) {
-                $.each(oldScripts, function () {
-                    $(this).remove();
-                });
+                for (const oldScript of oldScripts) {
+                    $(oldScript).remove();
+                }
             }
 
             const elementToBind = $("#fields-definition")[0];
@@ -492,9 +492,9 @@
                     const oldScripts = $('script[data-fields-script="true"]');
 
                     if (oldScripts.length > 0) {
-                        $.each(oldScripts, function () {
-                            $(this).remove();
-                        });
+                        for (const oldScript of oldScripts) {
+                            $(oldScript).remove();
+                        }
                     }
 
                     const elementToBind = $("#fields-definition")[0];
@@ -510,11 +510,10 @@
                     // Add new Scripts
                     const scripts = result.filter('script');
 
-                    $.each(scripts, function () {
-                        const script = $(this);
+                    for (const script of scripts) {
                         script.attr("data-fields-script", "true");//for some reason, .data("fields-script", "true") doesn't work here
                         script.appendTo('body');
-                    });
+                    };
 
                     // Update Bindings
                     // Ensure the function exists before calling it...
@@ -628,9 +627,9 @@
             const oldScripts = $('script[data-fields-script="true"]');
 
             if (oldScripts.length > 0) {
-                $.each(oldScripts, function () {
-                    $(this).remove();
-                });
+                for (const oldScript of oldScripts) {
+                    $(oldScript).remove();
+                }
             }
 
             const elementToBind = $("#fields-definition")[0];
@@ -817,13 +816,13 @@
                 value: '',
                 text: '[Root]'
             }));
-            $.each(data.value, function () {
-                const item = this;
+
+            for (const item of data.value) {
                 $('#ParentId').append($('<option>', {
                     value: item.Id,
                     text: item.Name
                 }));
-            });
+            };
 
             const elementToBind = $("#ParentId")[0];
             ko.cleanNode(elementToBind);

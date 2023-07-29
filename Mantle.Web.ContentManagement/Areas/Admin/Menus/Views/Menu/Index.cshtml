@@ -1,4 +1,5 @@
 ﻿@using Mantle.Web
+@using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
 @using Mantle.Web.Mvc
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.Mvc.MantleUI
@@ -6,6 +7,7 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 
+@model Menu
 @{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
@@ -39,26 +41,10 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleCmsLocalizableStrings.Menus.MenuModel.Name], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: menuModel.name" })
-                                </div>
-                            </div>
+                            <mantle-input asp-for="Name" asp-label="@T[MantleCmsLocalizableStrings.Menus.MenuModel.Name]" asp-icon="fa fa-file" ko-bind="menuModel.name" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("UrlFilter", T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter], new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-filter"></i>
-                                    </span>
-                                    @Html.TextBox("UrlFilter", null, new { @class = "form-control", data_bind = "value: menuModel.urlFilter" })
-                                </div>
-                            </div>
+                            <mantle-input asp-for="UrlFilter" asp-label="@T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter]" asp-icon="fa fa-filter" ko-bind="menuModel.urlFilter" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">

@@ -9,10 +9,10 @@ namespace Mantle.Web.Mvc.Razor.TagHelpers;
 [HtmlTargetElement("mantle-input", Attributes = FOR_ATTRIBUTE_NAME)]
 public class MantleInputTagHelper : InputTagHelper
 {
-    protected const string FOR_ATTRIBUTE_NAME = "asp-for";
-    protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
     protected const string BIND_ATTRIBUTE_NAME = "ko-bind";
-
+    protected const string FOR_ATTRIBUTE_NAME = "asp-for";
+    protected const string ICON_ATTRIBUTE_NAME = "asp-icon";
+    protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
     private readonly IHtmlHelper htmlHelper;
 
     public MantleInputTagHelper(IHtmlGenerator generator, IHtmlHelper htmlHelper)
@@ -23,6 +23,9 @@ public class MantleInputTagHelper : InputTagHelper
 
     [HtmlAttributeName(BIND_ATTRIBUTE_NAME)]
     public string Bind { set; get; }
+
+    [HtmlAttributeName(ICON_ATTRIBUTE_NAME)]
+    public string Icon { set; get; }
 
     [HtmlAttributeName(LABEL_ATTRIBUTE_NAME)]
     public string Label { set; get; }
@@ -48,6 +51,12 @@ public class MantleInputTagHelper : InputTagHelper
             output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
             preContent = $@"<div class=""form-group"">{htmlHelper.Label(For.Name, Label, new { @class = "control-label" }).GetString()}";
             postContent = "</div>";
+
+            if (!string.IsNullOrWhiteSpace(Icon))
+            {
+                preContent += $@"<div class=""input-group""><span class=""input-group-addon""><i class=""{Icon}""></i></span>";
+                postContent += "</div>";
+            }
         }
 
         output.PreElement.SetHtmlContent(preContent);

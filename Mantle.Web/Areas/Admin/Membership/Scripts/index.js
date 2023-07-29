@@ -132,9 +132,9 @@
 
             const data = await ODataHelper.getOData(`${permissionsApiUrl}/Default.GetPermissionsForRole(roleId='${id}')`);
             if (data.value && data.value.length > 0) {
-                $.each(data.value, function () {
-                    self.permissions.push(this.Id);
-                });
+                for (const item of data.value) {
+                    self.permissions.push(item.Id);
+                }
             }
 
             switchSection($("#role-permissions-form-section"));
@@ -347,9 +347,9 @@
 
             const data = await ODataHelper.getOData(`${usersApiUrl}/Default.GetRolesForUser(userId='${id}')`);
             if (data.value && data.value.length > 0) {
-                $.each(data.value, function () {
-                    self.roles.push(this.Id);
-                });
+                for (const item of data.value) {
+                    self.roles.push(item.Id);
+                }
             }
 
             switchSection($("#user-roles-form-section"));
@@ -414,29 +414,29 @@
                     if (params.sort) {
                         queryString += "&$orderby=";
                         let isFirst = true;
-                        $.each(params.sort, function () {
+                        for (const param of params.sort) {
                             if (!isFirst) {
                                 queryString += ",";
                             }
                             else {
                                 isFirst = false;
                             }
-                            queryString += this.field + " " + this.dir;
-                        });
+                            queryString += param.field + " " + param.dir;
+                        }
                     }
 
                     if (params.filter) {
                         queryString += "&$filter=";
                         let isFirst = true;
-                        $.each(params.filter, function () {
+                        for (const param of params.filter) {
                             if (!isFirst) {
                                 queryString += " and ";
                             }
                             else {
                                 isFirst = false;
                             }
-                            queryString += `${this.field} ${this.operator} '${this.value}'`;
-                        });
+                            queryString += `${param.field} ${param.operator} '${param.value}'`;
+                        }
                     }
                     return `${usersApiUrl}/Default.GetUsersInRole(roleId=${self.filterRoleId()})?${queryString}`;
                 };
