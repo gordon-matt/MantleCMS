@@ -187,7 +187,7 @@ public class FormBlockController : MantleController
                 {
                     Success = false,
                     Message = x.GetBaseException().Message,
-                    RedirectUrl = urlReferer != null ? urlReferer : Url.Content("~/")
+                    RedirectUrl = urlReferer ?? Url.Content("~/")
                 };
 
                 if (Request.IsAjaxRequest())

@@ -33,7 +33,7 @@ public class EdmPluginDescriptor
             Author = other.Author,
             DisplayOrder = other.DisplayOrder,
             Installed = other.Installed,
-            LimitedToTenants = other.LimitedToTenants == null ? Enumerable.Empty<int>() : other.LimitedToTenants
+            LimitedToTenants = other.LimitedToTenants ?? Enumerable.Empty<int>()
         };
     }
 }

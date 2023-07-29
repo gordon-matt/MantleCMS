@@ -32,7 +32,7 @@ namespace Mantle.Plugins.Messaging.Forums.ViewComponents
                 }
             }
 
-            var forum = await forumService.GetForumById(topic != null ? topic.ForumId : (forumId.HasValue ? forumId.Value : 0));
+            var forum = await forumService.GetForumById(topic != null ? topic.ForumId : (forumId ?? 0));
             if (forum != null)
             {
                 model.ForumId = forum.Id;
@@ -40,7 +40,7 @@ namespace Mantle.Plugins.Messaging.Forums.ViewComponents
                 model.ForumSeName = forum.GetSeName();
             }
 
-            var forumGroup = await forumService.GetForumGroupById(forum != null ? forum.ForumGroupId : (forumGroupId.HasValue ? forumGroupId.Value : 0));
+            var forumGroup = await forumService.GetForumGroupById(forum != null ? forum.ForumGroupId : (forumGroupId ?? 0));
             if (forumGroup != null)
             {
                 model.ForumGroupId = forumGroup.Id;

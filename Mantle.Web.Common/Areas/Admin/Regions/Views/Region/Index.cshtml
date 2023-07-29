@@ -5,20 +5,22 @@
 @using Mantle.Web
 @using Mantle.Web.Common
 @using Mantle.Web.Common.Areas.Admin.Regions
+@using Mantle.Web.Common.Areas.Admin.Regions.Domain
 @using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 @using Mantle.Web.Mvc.Razor
 @using Microsoft.AspNetCore.Identity
-@using LocalizableStrings = Mantle.Web.Common.LocalizableStrings;
+@using LocalizableStrings = Mantle.Web.Common.LocalizableStrings
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Mantle.Web
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 
+@model Region
 @{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
     var assembly = typeof(Constants).GetTypeInfo().Assembly;
-
     var regionSettings = (IEnumerable<IRegionSettings>)ViewBag.RegionSettings;
 }
 
@@ -75,30 +77,19 @@
                     <fieldset>
                         <legend id="country-form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <mantle-input asp-for="Name" asp-label="@T[LocalizableStrings.Regions.Model.Name]" ko-bind="country.name" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" data-bind="visible: !country.cultureCode()">
+                            <mantle-input asp-for="CountryCode" asp-label="@T[LocalizableStrings.Regions.Model.CountryCode]" ko-bind="country.countryCode" />
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" data-bind="visible: !country.cultureCode()">
                             <div class="form-group">
-                                @Html.Label("Name", T[LocalizableStrings.Regions.Model.Name], new { @class = "control-label" })
-                                @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: country.name" })
+                                <mantle-input asp-for="Order" asp-label="@T[LocalizableStrings.Regions.Model.Order]" ko-bind="country.order" />
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" data-bind="visible: !country.cultureCode()">
                             <div class="form-group">
-                                @Html.Label("CountryCode", T[LocalizableStrings.Regions.Model.CountryCode], new { @class = "control-label" })
-                                @Html.TextBox("CountryCode", null, new { @class = "form-control", data_bind = "value: country.countryCode" })
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" data-bind="visible: !country.cultureCode()">
-                            <div class="form-group">
-                                @Html.Label("Order", T[LocalizableStrings.Regions.Model.Order], new { @class = "control-label" })
-                                @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: country.order" })
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" data-bind="visible: !country.cultureCode()">
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        @Html.CheckBox("HasStates", new { data_bind = "checked: country.hasStates" }) @T[LocalizableStrings.Regions.Model.HasStates]
-                                    </label>
-                                </div>
+                                <mantle-input asp-for="HasStates" asp-label="@T[LocalizableStrings.Regions.Model.HasStates]" ko-bind="country.hasStates" />
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

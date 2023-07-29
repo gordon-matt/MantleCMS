@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Tenant
+@{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
@@ -29,36 +30,16 @@
                 <form id="form-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                        @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: name" })
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.General.Name]" />
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Url", T[MantleWebLocalizableStrings.Tenants.Model.Url], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                        @Html.TextBox("Url", null, new { @class = "form-control", data_bind = "value: url" })
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <mantle-input asp-for="Url" asp-label="@T[MantleWebLocalizableStrings.Tenants.Model.Url]" />
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-group">
-                                    @Html.Label("Hosts", T[MantleWebLocalizableStrings.Tenants.Model.Hosts], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                        @Html.TextBox("Hosts", null, new { @class = "form-control", data_bind = "value: hosts" })
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <mantle-input asp-for="Hosts" asp-label="@T[MantleWebLocalizableStrings.Tenants.Model.Hosts]" />
                         </div>
+
                         <div class="form-group pull-right">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>

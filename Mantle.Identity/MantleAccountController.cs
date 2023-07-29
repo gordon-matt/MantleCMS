@@ -84,13 +84,7 @@ public abstract class MantleAccountController<TUser> : MantleController
     public virtual async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load two-factor authentication user.");
-        }
-
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
         var model = new LoginWith2faViewModel { RememberMe = rememberMe };
         ViewData["ReturnUrl"] = returnUrl;
 
@@ -107,12 +101,7 @@ public abstract class MantleAccountController<TUser> : MantleController
             return View(model);
         }
 
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        }
-
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         string authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
 
         var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, model.RememberMachine);
@@ -140,12 +129,7 @@ public abstract class MantleAccountController<TUser> : MantleController
     public virtual async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load two-factor authentication user.");
-        }
-
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
         ViewData["ReturnUrl"] = returnUrl;
 
         return View();
@@ -161,12 +145,7 @@ public abstract class MantleAccountController<TUser> : MantleController
             return View(model);
         }
 
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load two-factor authentication user.");
-        }
-
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
         string recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
 
         var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
@@ -297,11 +276,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         if (ModelState.IsValid)
         {
             // Get the information about the user from the external login provider
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                throw new ApplicationException("Error loading external login information during confirmation.");
-            }
+            var info = await _signInManager.GetExternalLoginInfoAsync() ?? throw new ApplicationException("Error loading external login information during confirmation.");
             var user = new TUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
@@ -329,11 +304,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         {
             return RedirectToAction("Index", "Home");
         }
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-        }
+        var user = await _userManager.FindByIdAsync(userId) ?? throw new ApplicationException($"Unable to load user with ID '{userId}'.");
         var result = await _userManager.ConfirmEmailAsync(user, code);
         return View(result.Succeeded ? "ConfirmEmail" : "Error");
     }

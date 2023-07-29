@@ -8,6 +8,8 @@
     require('notify');
     require('grid-helper');
     require('odata-helpers');
+
+    require('mantle-common');
     require('mantle-section-switching');
     require('mantle-jqueryval');
     

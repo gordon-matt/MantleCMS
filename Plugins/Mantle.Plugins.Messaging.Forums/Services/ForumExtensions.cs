@@ -55,7 +55,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
                     int index = subject.IndexOf(" ", strippedTopicMaxLength);
                     if (index > 0)
                     {
-                        subject = subject.Substring(0, index);
+                        subject = subject[..index];
                         subject += "...";
                     }
                 }
@@ -93,7 +93,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forum == null)
             {
-                throw new ArgumentNullException("forum");
+                throw new ArgumentNullException(nameof(forum));
             }
 
             return AsyncHelper.RunSync(() => forumService.GetTopicById(forum.LastTopicId));
@@ -103,7 +103,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forum == null)
             {
-                throw new ArgumentNullException("forum");
+                throw new ArgumentNullException(nameof(forum));
             }
 
             return AsyncHelper.RunSync(() => forumService.GetPostById(forum.LastPostId));
@@ -113,7 +113,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forum == null)
             {
-                throw new ArgumentNullException("forum");
+                throw new ArgumentNullException(nameof(forum));
             }
 
             return AsyncHelper.RunSync(() => membershipService.GetUserById(forum.LastPostUserId));
@@ -123,7 +123,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forumTopic == null)
             {
-                throw new ArgumentNullException("forumTopic");
+                throw new ArgumentNullException(nameof(forumTopic));
             }
 
             var forumPosts = AsyncHelper.RunSync(() => forumService.GetAllPosts(forumTopic.Id, null, string.Empty, 0, 1));
@@ -139,7 +139,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forumTopic == null)
             {
-                throw new ArgumentNullException("forumTopic");
+                throw new ArgumentNullException(nameof(forumTopic));
             }
 
             return AsyncHelper.RunSync(() => forumService.GetPostById(forumTopic.LastPostId));
@@ -149,7 +149,7 @@ namespace Mantle.Plugins.Messaging.Forums.Services
         {
             if (forumTopic == null)
             {
-                throw new ArgumentNullException("forumTopic");
+                throw new ArgumentNullException(nameof(forumTopic));
             }
 
             return AsyncHelper.RunSync(() => membershipService.GetUserById(forumTopic.LastPostUserId));
