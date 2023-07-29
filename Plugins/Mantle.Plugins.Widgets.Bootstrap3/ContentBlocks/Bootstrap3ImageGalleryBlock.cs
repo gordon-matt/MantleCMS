@@ -65,14 +65,12 @@ namespace Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
                 case Bootstrap3ImageGalleryBlock.ImagesPerRow.Six: return string.Concat("col-", size, "-2");
                 default:
                     {
-                        switch (size)
+                        return size switch
                         {
-                            case "xs": return "col-xs-6";
-                            case "lg": return "col-lg-3";
-                            case "sm":
-                            case "md":
-                            default: return "col-md-4";
-                        }
+                            "xs" => "col-xs-6",
+                            "lg" => "col-lg-3",
+                            _ => "col-md-4",
+                        };
                     }
             }
         }

@@ -1,13 +1,16 @@
 ﻿@using Mantle.Web
+@using Mantle.Web.Areas.Admin.Plugins.Models
 @using Mantle.Web.Mvc
 @using Mantle.Web.Mvc.MantleUI
 @using Mantle.Web.Mvc.Razor
 @using WebEnumExtensions = Mantle.Web.EnumExtensions
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Mantle.Web
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 
+@model EdmPluginDescriptor
 @{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
@@ -31,16 +34,10 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("FriendlyName", T[MantleWebLocalizableStrings.Plugins.Model.FriendlyName], new { @class = "control-label" })
-                                @Html.TextBox("FriendlyName", null, new { @class = "form-control", data_bind = "value: friendlyName" })
-                            </div>
+                            <mantle-input asp-for="FriendlyName" asp-label="@T[MantleWebLocalizableStrings.Plugins.Model.FriendlyName]" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-group">
-                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.Plugins.Model.DisplayOrder], new { @class = "control-label" })
-                                @Html.TextBox("DisplayOrder", null, new { type = "number", @class = "form-control", data_bind = "value: displayOrder" })
-                            </div>
+                            <mantle-input asp-for="DisplayOrder" asp-label="@T[MantleWebLocalizableStrings.Plugins.Model.DisplayOrder]" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">

@@ -29,9 +29,16 @@
   <ItemGroup>
     <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blog.js" />
     <EmbeddedResource Include="Areas\Admin\Blog\Scripts\blogContent.js" />
+    <EmbeddedResource Include="Areas\Admin\Blog\Views\_ViewImports.cshtml" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\content-blocks-index.js" />
     <EmbeddedResource Include="Areas\Admin\ContentBlocks\Scripts\entity-type-content-blocks-index.js" />
+    <EmbeddedResource Include="Areas\Admin\ContentBlocks\Views\_ViewImports.cshtml" />
+    <EmbeddedResource Include="Areas\Admin\Localization\Views\_ViewImports.cshtml" />
     <EmbeddedResource Include="Areas\Admin\Menus\Scripts\index.js" />
+    <EmbeddedResource Include="Areas\Admin\Menus\Views\_ViewImports.cshtml" />
+    <EmbeddedResource Include="Areas\Admin\Newsletters\Views\_ViewImports.cshtml" />
+    <EmbeddedResource Include="Areas\Admin\Pages\Views\_ViewImports.cshtml" />
+    <EmbeddedResource Include="Areas\Admin\Sitemap\Views\_ViewImports.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoBreadcrumbs\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoMenu\Default.cshtml" />
     <EmbeddedResource Include="Views\Shared\Components\AutoSubMenu\Default.cshtml" />

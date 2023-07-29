@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Language
+@{
     string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
 }
 
@@ -67,22 +68,11 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                @Html.Label("SortOrder", T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder], new { @class = "control-label" })
-                                @Html.TextBox("SortOrder", null, new { @class = "form-control", data_bind = "value: sortOrder" })
-                            </div>
+                            <mantle-input asp-for="SortOrder" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder]" />
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("IsRTL", new { data_bind = "checked: isRTL" }) @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("IsEnabled", new { data_bind = "checked: isEnabled" }) @T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]
-                                </label>
-                            </div>
+                            <mantle-input asp-for="IsRTL" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]" />
+                            <mantle-input asp-for="IsEnabled" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]" />
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">

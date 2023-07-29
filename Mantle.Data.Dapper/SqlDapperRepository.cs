@@ -21,7 +21,7 @@ public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey
     {
         if (queryBuilder is not SqlServerSelectQueryBuilder)
         {
-            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", "queryBuilder");
+            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder));
         }
         return base.Find(queryBuilder);
     }
@@ -30,7 +30,7 @@ public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey
     {
         if (queryBuilder is not SqlServerSelectQueryBuilder)
         {
-            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", "queryBuilder");
+            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder));
         }
         return base.Count(queryBuilder);
     }

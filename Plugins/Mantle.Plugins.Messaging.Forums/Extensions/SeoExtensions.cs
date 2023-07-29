@@ -9,7 +9,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
         {
             if (forumGroup == null)
             {
-                throw new ArgumentNullException("forumGroup");
+                throw new ArgumentNullException(nameof(forumGroup));
             }
             string seName = GetSeName(forumGroup.Name);
             return seName;
@@ -19,7 +19,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
         {
             if (forum == null)
             {
-                throw new ArgumentNullException("forum");
+                throw new ArgumentNullException(nameof(forum));
             }
             string seName = GetSeName(forum.Name);
             return seName;
@@ -29,7 +29,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
         {
             if (forumTopic == null)
             {
-                throw new ArgumentNullException("forumTopic");
+                throw new ArgumentNullException(nameof(forumTopic));
             }
             string seName = GetSeName(forumTopic.Subject);
 
@@ -37,7 +37,7 @@ namespace Mantle.Plugins.Messaging.Forums.Extensions
             var maxLength = 100;
             if (seName.Length > maxLength)
             {
-                seName = seName.Substring(0, maxLength);
+                seName = seName[..maxLength];
             }
 
             return seName;

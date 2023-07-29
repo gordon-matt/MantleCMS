@@ -35,10 +35,7 @@ namespace Mantle.Plugins.Caching.Redis
         {
             get
             {
-                if (connection == null)
-                {
-                    connection = GetConnection();
-                }
+                connection ??= GetConnection();
                 return connection.GetDatabase();
             }
         }
@@ -55,7 +52,7 @@ namespace Mantle.Plugins.Caching.Redis
                 {
                     return (T)Convert.ChangeType(result, typeof(T));
                 }
-                return default(T);
+                return default;
             }
             else if (typeofT.IsCollection())
             {
@@ -65,7 +62,7 @@ namespace Mantle.Plugins.Caching.Redis
                     string json = result;
                     return json.JsonDeserialize<T>();
                 }
-                return default(T);
+                return default;
             }
             else
             {

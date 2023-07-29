@@ -236,7 +236,7 @@ public abstract class IdentityMembershipService : IMembershipService
     {
         // Check for spaces in UserName above, because of this:
         // http://stackoverflow.com/questions/30078332/bug-in-asp-net-identitys-usermanager
-        string userName = (user.UserName.Contains(" ") ? user.UserName.Replace(" ", "_") : user.UserName);
+        string userName = user.UserName.Contains(' ') ? user.UserName.Replace(" ", "_") : user.UserName;
 
         var appUser = new ApplicationUser
         {
@@ -733,9 +733,9 @@ public abstract class IdentityMembershipService : IMembershipService
     {
         string rId = roleId.ToString();
 
-        if (roleId is Array)
+        if (roleId is Array array)
         {
-            rId = ((Array)roleId).GetValue(0).ToString();
+            rId = array.GetValue(0).ToString();
         }
 
         var pIds = permissionIds.ToListOf<int>();

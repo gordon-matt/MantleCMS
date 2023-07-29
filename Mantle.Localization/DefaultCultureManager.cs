@@ -1,6 +1,6 @@
 ﻿namespace Mantle.Localization;
 
-public class DefaultCultureManager : ICultureManager
+public partial class DefaultCultureManager : ICultureManager
 {
     #region ICultureManager Members
 
@@ -11,13 +11,16 @@ public class DefaultCultureManager : ICultureManager
 
     public bool IsValidCulture(string cultureName)
     {
-        var cultureRegex = new Regex(@"\w{2}(-\w{2,})*");
+        var cultureRegex = CultureRegex();
         if (cultureRegex.IsMatch(cultureName))
         {
             return true;
         }
         return false;
     }
+
+    [GeneratedRegex("\\w{2}(-\\w{2,})*")]
+    private static partial Regex CultureRegex();
 
     #endregion ICultureManager Members
 }

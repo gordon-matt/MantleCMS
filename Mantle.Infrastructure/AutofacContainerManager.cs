@@ -73,11 +73,7 @@ public class AutofacContainerManager : IDisposable
                 var parameters = constructor.GetParameters().Select(parameter =>
                 {
                     object service = Resolve(parameter.ParameterType);
-                    if (service == null)
-                    {
-                        throw new MantleException("Unknown dependency");
-                    }
-                    return service;
+                    return service ?? throw new MantleException("Unknown dependency");
                 });
 
                 //all is ok, so create instance

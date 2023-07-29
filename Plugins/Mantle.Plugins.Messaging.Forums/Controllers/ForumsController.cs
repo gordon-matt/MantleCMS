@@ -29,14 +29,8 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
         private readonly IForumService forumService;
 
-        //private readonly IPictureService _pictureService;
-        private readonly IRegionService regionService;
-
         private readonly IWebHelper webHelper;
         private readonly ForumSettings forumSettings;
-
-        //private readonly UserSettings _customerSettings;
-        //private readonly MediaSettings _mediaSettings;
         private readonly IDateTimeHelper dateTimeHelper;
 
         private readonly IMembershipService membershipService;
@@ -48,23 +42,15 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
         public ForumsController(
             IForumService forumService,
-            //IPictureService pictureService,
-            IRegionService regionService,
             IWebHelper webHelper,
             ForumSettings forumSettings,
-            //UserSettings customerSettings,
-            //MediaSettings mediaSettings,
             IDateTimeHelper dateTimeHelper,
             IMembershipService membershipService,
             SiteSettings siteSettings)
         {
             this.forumService = forumService;
-            //this._pictureService = pictureService;
-            this.regionService = regionService;
             this.webHelper = webHelper;
             this.forumSettings = forumSettings;
-            //this._customerSettings = customerSettings;
-            //this._mediaSettings = mediaSettings;
             this.dateTimeHelper = dateTimeHelper;
             this.membershipService = membershipService;
             this.siteSettings = siteSettings;
@@ -138,25 +124,26 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
         [NonAction]
         protected virtual IEnumerable<SelectListItem> ForumTopicTypesList()
         {
-            var list = new List<SelectListItem>();
-
-            list.Add(new SelectListItem
+            var list = new List<SelectListItem>
             {
-                Text = T[LocalizableStrings.TopicTypes.Normal],
-                Value = ((int)ForumTopicType.Normal).ToString()
-            });
+                new SelectListItem
+                {
+                    Text = T[LocalizableStrings.TopicTypes.Normal],
+                    Value = ((int)ForumTopicType.Normal).ToString()
+                },
 
-            list.Add(new SelectListItem
-            {
-                Text = T[LocalizableStrings.TopicTypes.Sticky],
-                Value = ((int)ForumTopicType.Sticky).ToString()
-            });
+                new SelectListItem
+                {
+                    Text = T[LocalizableStrings.TopicTypes.Sticky],
+                    Value = ((int)ForumTopicType.Sticky).ToString()
+                },
 
-            list.Add(new SelectListItem
-            {
-                Text = T[LocalizableStrings.TopicTypes.Announcement],
-                Value = ((int)ForumTopicType.Announcement).ToString()
-            });
+                new SelectListItem
+                {
+                    Text = T[LocalizableStrings.TopicTypes.Announcement],
+                    Value = ((int)ForumTopicType.Announcement).ToString()
+                }
+            };
 
             return list;
         }
@@ -835,7 +822,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
                     if (maxSubjectLength > 0 && subject.Length > maxSubjectLength)
                     {
-                        subject = subject.Substring(0, maxSubjectLength);
+                        subject = subject[..maxSubjectLength];
                     }
 
                     string text = model.Text;
@@ -843,7 +830,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
                     if (maxPostLength > 0 && text.Length > maxPostLength)
                     {
-                        text = text.Substring(0, maxPostLength);
+                        text = text[..maxPostLength];
                     }
 
                     var topicType = ForumTopicType.Normal;
@@ -1020,7 +1007,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
                     if (maxSubjectLength > 0 && subject.Length > maxSubjectLength)
                     {
-                        subject = subject.Substring(0, maxSubjectLength);
+                        subject = subject[..maxSubjectLength];
                     }
 
                     string text = model.Text;
@@ -1028,7 +1015,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
                     if (maxPostLength > 0 && text.Length > maxPostLength)
                     {
-                        text = text.Substring(0, maxPostLength);
+                        text = text[..maxPostLength];
                     }
 
                     var topicType = ForumTopicType.Normal;
@@ -1286,7 +1273,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
 
                     if (maxPostLength > 0 && text.Length > maxPostLength)
                     {
-                        text = text.Substring(0, maxPostLength);
+                        text = text[..maxPostLength];
                     }
 
                     string ipAddress = webHelper.GetRemoteIpAddress();
@@ -1475,7 +1462,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
                     var maxPostLength = forumSettings.PostMaxLength;
                     if (maxPostLength > 0 && text.Length > maxPostLength)
                     {
-                        text = text.Substring(0, maxPostLength);
+                        text = text[..maxPostLength];
                     }
 
                     post.UpdatedOnUtc = nowUtc;
@@ -1624,15 +1611,15 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
             model.LimitList = limitList;
 
             // Create the values for the "Search in forum" select list
-            var forumsSelectList = new List<SelectListItem>();
-
-            forumsSelectList.Add(
+            var forumsSelectList = new List<SelectListItem>
+            {
                 new SelectListItem
                 {
                     Text = T[LocalizableStrings.Models.Search.SearchInForum.All],
                     Value = "0",
                     Selected = true,
-                });
+                }
+            };
 
             string separator = "--";
 
@@ -1675,16 +1662,13 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
             };
             model.WithinList = withinList;
 
-            int forumIdSelected;
-            int.TryParse(forumId, out forumIdSelected);
+            _ = int.TryParse(forumId, out int forumIdSelected);
             model.ForumIdSelected = forumIdSelected;
 
-            int withinSelected;
-            int.TryParse(within, out withinSelected);
+            _ = int.TryParse(within, out int withinSelected);
             model.WithinSelected = withinSelected;
 
-            int limitDaysSelected;
-            int.TryParse(limitDays, out limitDaysSelected);
+            _ = int.TryParse(limitDays, out int limitDaysSelected);
             model.LimitDaysSelected = limitDaysSelected;
 
             int searchTermMinimumLength = forumSettings.ForumSearchTermMinimumLength;
@@ -1919,8 +1903,7 @@ namespace Mantle.Plugins.Messaging.Forums.Controllers
                 if (value.Equals("on") && key.StartsWith("fs", StringComparison.OrdinalIgnoreCase))
                 {
                     string id = key.Replace("fs", string.Empty).Trim();
-                    int subscriptionId;
-                    if (int.TryParse(id, out subscriptionId))
+                    if (int.TryParse(id, out int subscriptionId))
                     {
                         var subscription = await forumService.GetSubscriptionById(subscriptionId);
                         if (subscription != null && subscription.UserId == WorkContext.CurrentUser.Id)

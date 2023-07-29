@@ -48,7 +48,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: odataBaseUrl + "/Default.GetConfig",
+                            url: odataBaseUrl + "/Default.GetConfig()",
                             dataType: "json"
                         },
                         update: {
