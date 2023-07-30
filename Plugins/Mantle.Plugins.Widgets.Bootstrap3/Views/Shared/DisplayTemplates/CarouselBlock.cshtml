@@ -1,17 +1,27 @@
 ﻿@using Extenso
 @using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.Bootstrap3
 @using Mantle.Web
+@using Mantle.Web.Configuration
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
+@addTagHelper *, Mantle.Web
 
 @model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 @inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
+@inject Bootstrap3PluginSettings Settings
 
 @{
-    Style.IncludeBundle("bootstrap");
-    Script.IncludeBundle("bootstrap");
+    foreach (var script in Settings.GetResources(ResourceType.Script, "Bootstrap"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "Bootstrap"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
 
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);
@@ -73,35 +83,32 @@
     </a>
 </div>
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        var carouselName = '@carouselName';
-        var interval = @Model.Interval;
-        var pause = "hover";
-        var wrap = @Model.Wrap.ToString().ToLowerInvariant();
-        var keyboard = @Model.Keyboard.ToString().ToLowerInvariant();
+<script asp-location="Foot" type="text/javascript">
+    var carouselName = '@carouselName';
+    var interval = @Model.Interval;
+    var pause = "hover";
+    var wrap = @Model.Wrap.ToString().ToLowerInvariant();
+    var keyboard = @Model.Keyboard.ToString().ToLowerInvariant();
 
-        @{
-            if (!Model.PauseOnHover)
-            {
-                @:pause = false;
-            }
+    @{
+        if (!Model.PauseOnHover)
+        {
+            @:pause = false;
         }
+    }
 
-        $(document).ready(function () {
-            $('#' + carouselName).carousel({
-                interval: interval,
-                pause: pause,
-                wrap: wrap,
-                keyboard: keyboard
-            });
-            $('#' + carouselName).on('slide.bs.carousel', function () {
-                @Html.Raw(Model.OnSlideEvent)
-            });
-            $('#' + carouselName).on('slid.bs.carousel', function () {
-                @Html.Raw(Model.OnSlidEvent)
-            });
+    $(document).ready(function () {
+        $('#' + carouselName).carousel({
+            interval: interval,
+            pause: pause,
+            wrap: wrap,
+            keyboard: keyboard
         });
-    </script>
-}
+        $('#' + carouselName).on('slide.bs.carousel', function () {
+            @Html.Raw(Model.OnSlideEvent)
+        });
+        $('#' + carouselName).on('slid.bs.carousel', function () {
+            @Html.Raw(Model.OnSlidEvent)
+        });
+    });
+</script>
