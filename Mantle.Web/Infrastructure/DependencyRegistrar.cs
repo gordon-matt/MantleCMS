@@ -48,6 +48,7 @@ public class DependencyRegistrar : IDependencyRegistrar
         // Configuration
         builder.RegisterModule<ConfigurationModule>();
         builder.RegisterType<DefaultSettingService>().As<ISettingService>();
+        builder.RegisterType<DateTimeSettings>().As<ISettings>().InstancePerLifetimeScope();
         builder.RegisterType<SiteSettings>().As<ISettings>().InstancePerLifetimeScope();
         builder.RegisterType<MembershipSettings>().As<ISettings>().InstancePerLifetimeScope();
 
@@ -79,7 +80,7 @@ public class DependencyRegistrar : IDependencyRegistrar
         builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
 
         // Rendering
-        builder.RegisterType<RazorViewRenderService>().As<IRazorViewRenderService>().SingleInstance();
+        builder.RegisterType<MantleRazorViewRenderService>().As<IRazorViewRenderService>().InstancePerDependency();
 
         builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
 
