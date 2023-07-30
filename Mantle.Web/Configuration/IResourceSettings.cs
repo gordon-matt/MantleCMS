@@ -18,9 +18,9 @@ public abstract class BaseResourceSettings : IResourceSettings
 
     public abstract string Name { get; }
 
-    public abstract bool IsTenantRestricted { get; }
-
     public abstract string EditorTemplatePath { get; }
+
+    public virtual bool IsTenantRestricted => false;
 
     public abstract ICollection<RequiredResourceCollection> Resources { get; set; }
 

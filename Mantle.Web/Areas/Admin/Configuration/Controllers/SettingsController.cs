@@ -6,11 +6,15 @@
 public class SettingsController : MantleController
 {
     private readonly Lazy<IEnumerable<ISettings>> settings;
+    private readonly Lazy<IRazorViewRenderService> razorViewRenderService;
 
-    public SettingsController(Lazy<IEnumerable<ISettings>> settings)
+    public SettingsController(
+        Lazy<IEnumerable<ISettings>> settings,
+        Lazy<IRazorViewRenderService> razorViewRenderService)
         : base()
     {
         this.settings = settings;
+        this.razorViewRenderService = razorViewRenderService;
     }
 
     [Route("")]
@@ -57,8 +61,7 @@ public class SettingsController : MantleController
             return NotFound();
         }
 
-        var razorViewRenderService = EngineContext.Current.Resolve<IRazorViewRenderService>();
-        string content = await razorViewRenderService.RenderToStringAsync(model.EditorTemplatePath, model);
+        string content = await razorViewRenderService.Value.RenderToStringAsync(model.EditorTemplatePath, model);
         return Json(new { Content = content });
     }
 }

@@ -201,8 +201,8 @@
                     const scripts = result.filter('script');
 
                     for (const script of scripts) {
-                        script.attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                        script.appendTo('body');
+                        $(script).attr("data-block-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        $(script).appendTo('body');
                     };
 
                     // Update Bindings

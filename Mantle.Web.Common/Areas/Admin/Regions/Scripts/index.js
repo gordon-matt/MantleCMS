@@ -96,11 +96,10 @@
                     // Add new Scripts
                     const scripts = result.filter('script');
 
-                    $.each(scripts, function () {
-                        const script = $(this);
-                        script.attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
-                        script.appendTo('body');
-                    });
+                    for (const script of scripts) {
+                        $(script).attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        $(script).appendTo('body');
+                    }
 
                     // Update Bindings
                     // Ensure the function exists before calling it...

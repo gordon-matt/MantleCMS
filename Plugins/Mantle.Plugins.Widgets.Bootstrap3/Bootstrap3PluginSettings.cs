@@ -8,14 +8,14 @@ public class Bootstrap3PluginSettings : BaseResourceSettings
 
     public override string Name => "Plugin: Bootsrap 3 Widgets";
 
-    public override bool IsTenantRestricted => false;
-
     public override string EditorTemplatePath => "/Plugins/Widgets.Bootstrap3/Views/Shared/EditorTemplates/Settings.cshtml";
 
     #endregion ISettings Members
 
     public override ICollection<RequiredResourceCollection> Resources { get; set; }
 
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
     {
         new RequiredResourceCollection

@@ -1,0 +1,77 @@
+﻿@using Mantle.Plugins.Widgets.Bootstrap3
+
+@model Bootstrap3PluginSettings
+
+<div id="settings-content">
+    <div data-bind="foreach: resources">
+        <h3 data-bind="text: Name"></h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Order</th>
+                    <th>Path</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: Resources">
+                <tr>
+                    <td data-bind="text: Type"></td>
+                    <td data-bind="text: Order"></td>
+                    <td><input type="text" class="form-control" data-bind="value: Path" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+</div>
+
+<script type="text/javascript">
+    const RequiredResourceModel = function (model) {
+        const self = this;
+
+        self.Type = model.Type;
+        self.Order = model.Order;
+        self.Path = ko.observable(model.Path);
+    };
+
+    const RequiredResourceCollectionModel = function () {
+        const self = this;
+
+        self.Name = null;
+        self.Resources = ko.observableArray([]);
+
+        self.init = function (resource) {
+            self.Name = resource.Name;
+
+            for (const model of resource.Resources) {
+                self.Resources.push(new RequiredResourceModel(model));
+            };
+        };
+    };
+
+    function updateModel(viewModel, data) {
+        viewModel.resources = ko.observableArray([]);
+
+        if (data) {
+            if (data.Resources) {
+                for (const resource of data.Resources) {
+                    const item = new RequiredResourceCollectionModel();
+                    item.init(resource);
+                    viewModel.resources.push(item);
+                }
+            }
+        }
+    };
+
+    function cleanUp(viewModel) {
+        delete viewModel.resources;
+    }
+
+    function onBeforeSave(viewModel) {
+        const data = {
+            Resources: viewModel.resources()
+        };
+
+        viewModel.value(ko.mapping.toJSON(data));
+    };
+</script>
