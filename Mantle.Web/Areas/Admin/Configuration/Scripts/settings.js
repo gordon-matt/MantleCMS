@@ -143,8 +143,49 @@
         self.cancel = function () {
             switchSection($("#grid-section"));
         };
+
+        self.setResources = function (resources) {
+            if (!self.resources) {
+                console.error('Could not find an observable array named "resources".');
+                return;
+            }
+
+            if (!resources || !Array.isArray(resources)) {
+                console.warn('No resources available.');
+                return;
+            }
+
+            for (const resource of resources) {
+                const item = new RequiredResourceCollectionModel();
+                item.init(resource);
+                viewModel.resources.push(item);
+            }
+        };
     };
 
     const viewModel = new ViewModel();
     return viewModel;
 });
+
+const RequiredResourceModel = function (model) {
+    const self = this;
+
+    self.Type = model.Type;
+    self.Order = model.Order;
+    self.Path = ko.observable(model.Path);
+};
+
+const RequiredResourceCollectionModel = function () {
+    const self = this;
+
+    self.Name = null;
+    self.Resources = ko.observableArray([]);
+
+    self.init = function (resource) {
+        self.Name = resource.Name;
+
+        for (const model of resource.Resources) {
+            self.Resources.push(new RequiredResourceModel(model));
+        };
+    };
+};

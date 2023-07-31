@@ -1,19 +1,27 @@
 ﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
 @using Mantle.Infrastructure
 @using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
 @using Mantle.Web.Mvc
-@model TagCloudBlock
+@addTagHelper *, Mantle.Web
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
-@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
+@inject BlogSettings Settings
+
+@model TagCloudBlock
 
 @{
-    Style.IncludeBundle("third-party/jQCloud");
-    Script.IncludeBundle("third-party/jQCloud");
+    foreach (var script in Settings.GetResources(ResourceType.Script, "jQCloud"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "jQCloud"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
 
     var postTagService = EngineContext.Current.Resolve<IBlogPostTagService>();
     var tagService = EngineContext.Current.Resolve<IBlogTagService>();
@@ -57,15 +65,12 @@
     }
 }
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        var words = [
-            @foreach (var item in data)
-            {
-                @:{ text: '@tags[item.Key].Name', weight: @item.Value, link: '/blog/tag/@tags[item.Key].UrlSlug' },
-            }
-        ];
-        $('#@controlId').jQCloud(words, @Html.Raw(options));
-    </script>
-}
+<script asp-location="Foot" type="text/javascript">
+    var words = [
+        @foreach (var item in data)
+        {
+            @:{ text: '@tags[item.Key].Name', weight: @item.Value, link: '/blog/tag/@tags[item.Key].UrlSlug' },
+        }
+    ];
+    $('#@controlId').jQCloud(words, @Html.Raw(options));
+</script>

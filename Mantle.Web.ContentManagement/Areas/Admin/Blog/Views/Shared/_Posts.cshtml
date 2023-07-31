@@ -4,19 +4,20 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.Mvc
-@model IEnumerable<BlogPost>
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
+@inject BlogSettings Settings
 
+@model IEnumerable<BlogPost>
 @{
-    var settings = EngineContext.Current.Resolve<BlogSettings>();
-
     Layout = null;
 
-    Script.IncludeBundle("third-party/bootpag");
+    foreach (var script in Settings.GetResources(ResourceType.Script, "Bootpag"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
 
-    ViewBag.Title = settings.PageTitle;
+    ViewBag.Title = Settings.PageTitle;
 
     var userNames = (IDictionary<string, string>)ViewBag.UserNames;
     var tags = (IDictionary<int, string>)ViewBag.Tags;
@@ -95,17 +96,14 @@
     </div>
 </div>
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        $('#pager').bootpag({
-            total: @pageCount,
-            page: @pageIndex,
-            maxVisible: 5,
-            leaps: true,
-            firstLastUse: true,
-        }).on("page", function (event, num) {
-            window.location.href = '@Url.Action("Index", "BlogContent", new { area = string.Empty })' + '?pageIndex=' + num;
-        });
-    </script>
-}
+<script asp-location="Foot" type="text/javascript">
+    $('#pager').bootpag({
+        total: @pageCount,
+        page: @pageIndex,
+        maxVisible: 5,
+        leaps: true,
+        firstLastUse: true,
+    }).on("page", function (event, num) {
+        window.location.href = '@Url.Action("Index", "BlogContent", new { area = string.Empty })' + '?pageIndex=' + num;
+    });
+</script>

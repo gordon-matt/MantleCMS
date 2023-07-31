@@ -60,12 +60,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Areas\Admin\Membership\Scripts\index.js" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
     <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
+    <EmbeddedResource Include="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

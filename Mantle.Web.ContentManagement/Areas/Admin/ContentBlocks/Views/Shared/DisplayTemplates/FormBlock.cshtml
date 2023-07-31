@@ -4,7 +4,6 @@
 @model FormBlock
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
 
 @{
     //var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
@@ -61,43 +60,40 @@
         </div>
     </div>
 
-    @using (Script.AtFoot(Html))
-    {
-        <script type="text/javascript">
-            $("#@formId").submit(function (e) {
-                $.ajax({
-                    url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
-                    type: "POST",
-                    data: $('#@formId').serialize()
-                })
-                .done(function (json) {
-                    $('#modal-message').html(json.Message);
+    <script asp-location="Foot" type="text/javascript">
+        $("#@formId").submit(function (e) {
+            $.ajax({
+                url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",
+                type: "POST",
+                data: $('#@formId').serialize()
+            })
+            .done(function (json) {
+                $('#modal-message').html(json.Message);
 
-                    if (json.Success) {
-                        $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Success]');
-                    }
-                    else {
-                        $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error]');
-                    }
+                if (json.Success) {
+                    $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Success]');
+                }
+                else {
+                    $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error]');
+                }
 
-                    $('#myModal').modal('show');
+                $('#myModal').modal('show');
 
-                    // Wait 2 seconds before redirect
-                    if (json.Success) {
-                        setTimeout(function () {
-                            window.location = json.RedirectUrl;
-                        }, 4000);
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error] - ' + errorThrown);
-                    $('#modal-message').html(jqXHR.responseText || textStatus + ': ' + errorThrown);
-                    $('#myModal').modal('show');
-                    //alert(jqXHR.responseText || textStatus + ': ' + errorThrown);
-                });
-
-                return false;
+                // Wait 2 seconds before redirect
+                if (json.Success) {
+                    setTimeout(function () {
+                        window.location = json.RedirectUrl;
+                    }, 4000);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modal-title').html('@T[MantleWebLocalizableStrings.General.Error] - ' + errorThrown);
+                $('#modal-message').html(jqXHR.responseText || textStatus + ': ' + errorThrown);
+                $('#myModal').modal('show');
+                //alert(jqXHR.responseText || textStatus + ': ' + errorThrown);
             });
-        </script>
-    }
+
+            return false;
+        });
+    </script>
 }

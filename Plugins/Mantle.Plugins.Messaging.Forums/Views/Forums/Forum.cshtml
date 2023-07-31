@@ -41,27 +41,24 @@
                     @Model.WatchForumText
                 </a>
 
-                using (Script.AtFoot(Html))
-                {
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#watch-forum').click(function () {
-                                $.ajax({
-                                    cache: false,
-                                    type: 'POST',
-                                    url: '@Url.Action("ForumWatch", new { id = Model.Id })',
-                                    dataType: 'json',
-                                    success: function (data) {
-                                        $('#watch-forum').text(data.Text);
-                                    },
-                                    error: function (xhr, ajaxOptions, thrownError) {
-                                        alert('Failed to watch');
-                                    }
-                                });
+                <script asp-location="Foot" type="text/javascript">
+                    $(function () {
+                        $('#watch-forum').click(function () {
+                            $.ajax({
+                                cache: false,
+                                type: 'POST',
+                                url: '@Url.Action("ForumWatch", new { id = Model.Id })',
+                                dataType: 'json',
+                                success: function (data) {
+                                    $('#watch-forum').text(data.Text);
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    alert('Failed to watch');
+                                }
                             });
                         });
-                    </script>
-                }
+                    });
+                </script>
             }
         </div>
         @{

@@ -37,11 +37,6 @@ public class DependencyRegistrar : IDependencyRegistrar
         builder.RegisterType<EmbeddedResourceResolver>().As<IEmbeddedResourceResolver>().SingleInstance();
         builder.RegisterType<RoutePublisher>().As<IRoutePublisher>().SingleInstance();
 
-        // Resources (JS and CSS)
-        builder.RegisterType<ScriptRegistrar>().AsSelf().InstancePerLifetimeScope();
-        builder.RegisterType<StyleRegistrar>().AsSelf().InstancePerLifetimeScope();
-        //builder.RegisterType<ResourcesManager>().As<IResourcesManager>().InstancePerLifetimeScope();
-
         // Security
         builder.RegisterType<RolesBasedAuthorizationService>().As<IMantleAuthorizationService>().SingleInstance();
 

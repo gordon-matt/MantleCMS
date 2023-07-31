@@ -23,9 +23,6 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 
-    @Style.Render(ResourceLocation.Head)
-    @Script.Render(ResourceLocation.Head)
-
     @Html.Raw(JavaScriptSnippet.FullScript)
 
     @MantleHtml.GenerateCssFiles()
@@ -91,10 +88,7 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @Script.Render(ResourceLocation.Foot)
     @RenderSection("Scripts", required: false)
-
-    @Style.Render(ResourceLocation.Foot)
 
     @MantleHtml.GenerateScripts(ResourceLocation.Foot)
     @MantleHtml.GenerateInlineScripts(ResourceLocation.Foot)
