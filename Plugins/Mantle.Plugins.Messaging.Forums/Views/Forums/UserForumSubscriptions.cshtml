@@ -20,23 +20,20 @@
                 @T[LocalizableStrings.Account.ForumSubscriptions_Description]
             </div>
 
-            @using (Script.AtFoot(Html))
-            {
-                <script type="text/javascript">
-                    $(document).ready(function () {
+            <script asp-location="Foot" type="text/javascript">
+                $(document).ready(function () {
 
-                        $('#selectall').click(function () {
-                            $('.subscription-list .rowcheckbox').attr('checked', $(this).is(':checked')).change();
-                        });
-
-                        $('.subscription-list .rowcheckbox').on('change', function (e) {
-                            var numChkBoxes = $('.subscription-list .rowcheckbox').length;
-                            var numChkBoxesChecked = $('.subscription-list .rowcheckbox:checked').length;
-                            $('#selectall').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
-                        });
+                    $('#selectall').click(function () {
+                        $('.subscription-list .rowcheckbox').attr('checked', $(this).is(':checked')).change();
                     });
-                </script>
-            }
+
+                    $('.subscription-list .rowcheckbox').on('change', function (e) {
+                        var numChkBoxes = $('.subscription-list .rowcheckbox').length;
+                        var numChkBoxesChecked = $('.subscription-list .rowcheckbox:checked').length;
+                        $('#selectall').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+                    });
+                });
+            </script>
             
             using (Html.BeginForm("UserForumSubscriptions", "Forums", FormMethod.Post))
             {

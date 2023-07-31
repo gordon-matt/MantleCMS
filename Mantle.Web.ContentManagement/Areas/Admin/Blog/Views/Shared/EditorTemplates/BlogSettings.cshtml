@@ -50,6 +50,9 @@
         @Html.TextBoxFor(m => m.LayoutPathOverride, new { @class = "form-control", data_bind = "value: layoutPathOverride" })
         @Html.ValidationMessageFor(m => m.LayoutPathOverride)
     </div>
+
+    <hr />
+    @await Html.Mantle().EmbeddedPartialAsync(EmbeddedPartialType.ResourceSettings)
 </div>
 
 <script type="text/javascript">
@@ -64,6 +67,8 @@
 
         viewModel.accessRestrictions = null;
         viewModel.roles = ko.observableArray([]);
+
+        viewModel.resources = ko.observableArray([]);
 
         if (data) {
             if (data.PageTitle) {
@@ -95,6 +100,10 @@
             if (data.LayoutPathOverride) {
                 viewModel.layoutPathOverride(data.LayoutPathOverride);
             }
+
+            if (data.Resources) {
+                viewModel.setResources(data.Resources);
+            }
         }
     };
 
@@ -108,6 +117,7 @@
         delete viewModel.accessRestrictions;
         delete viewModel.roles;
         delete viewModel.layoutPathOverride;
+        delete viewModel.resources;
     }
 
     function onBeforeSave(viewModel) {
@@ -121,7 +131,8 @@
             AccessRestrictions: JSON.stringify({
                 Roles: viewModel.roles().join()
             }),
-            LayoutPathOverride: viewModel.layoutPathOverride()
+            LayoutPathOverride: viewModel.layoutPathOverride(),
+            Resources: viewModel.resources()
         };
 
         viewModel.value(ko.mapping.toJSON(data));

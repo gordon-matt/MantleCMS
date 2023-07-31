@@ -438,6 +438,18 @@ public class Mantle<TModel>
     //            emptyText);
     //}
 
+    public async Task<IHtmlContent> EmbeddedPartialAsync(EmbeddedPartialType type, string viewName = null, object model = null)
+    {
+        var razorViewRenderService = EngineContext.Current.Resolve<IRazorViewRenderService>();
+
+        return type switch
+        {
+            EmbeddedPartialType.ResourceSettings => new HtmlString(await razorViewRenderService.RenderToStringAsync("Mantle.Web.Views.Shared.EditorTemplates._ResourceSettings.cshtml")),
+            EmbeddedPartialType.Custom => new HtmlString(await razorViewRenderService.RenderToStringAsync(viewName, model)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        };
+    }
+
     private class PermissionComparer : IComparer<string>
     {
         private readonly IComparer<string> baseComparer;
@@ -469,4 +481,10 @@ public class Mantle<TModel>
             return value;
         }
     }
+}
+
+public enum EmbeddedPartialType : byte
+{
+    Custom = 0,
+    ResourceSettings = 1
 }

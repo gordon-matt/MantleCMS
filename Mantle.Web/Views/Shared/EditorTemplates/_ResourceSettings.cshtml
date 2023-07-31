@@ -1,0 +1,20 @@
+﻿<div data-bind="foreach: resources">
+    <h3 data-bind="text: Name"></h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Order</th>
+                <th>Path</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: Resources">
+            <tr>
+                <td data-bind="text: Type"></td>
+                <td data-bind="text: Order"></td>
+                <td><input type="text" class="form-control" data-bind="value: Path" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+</div>

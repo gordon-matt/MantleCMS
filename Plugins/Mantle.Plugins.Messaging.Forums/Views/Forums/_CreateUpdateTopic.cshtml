@@ -1,8 +1,8 @@
 ﻿@model EditForumTopicModel
 
 @{
-    Style.IncludeBundle("third-party/bootstrap-fileinput");
-    Script.IncludeBundle("third-party/bootstrap-fileinput");
+    //Style.IncludeBundle("third-party/bootstrap-fileinput"); // TODO
+    //Script.IncludeBundle("third-party/bootstrap-fileinput"); // TODO
 }
 
 @await Component.ForumBreadcrumbsAsync(forumId: Model.ForumId, forumTopicId: Model.Id)

@@ -17,11 +17,10 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 @inject Mantle.Web.IWorkContext WorkContext
-@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
-<link rel="stylesheet" type="text/css" href="@Style.GetBundleUrl("chosen")" />
+@*<link rel="stylesheet" type="text/css" href="@Style.GetBundleUrl("chosen")" /> //TODO *@
 
 <style type="text/css">
     .modal-dialog {

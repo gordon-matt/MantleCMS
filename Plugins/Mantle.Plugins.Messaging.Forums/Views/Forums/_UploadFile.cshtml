@@ -14,21 +14,18 @@
     </div>
 </div>
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        $("#Upload").fileinput({
-            uploadUrl: '/forums/upload-file',
-            uploadAsync: false,
-            maxFileCount: 1,
-            showPreview: false,
-            showRemove: false,
-            allowedFileExtensions: ['jpg','png','gif','xls','xlsx','doc','docx','pdf','ppt','pptx']
-        });
-        $('#Upload').on('filebatchuploadsuccess', function (event, data, previewId, index) {
-            var response = data.response;
-            console.log("File uploaded to: " + response.Url);
-            uploadFileDone(response.Url, response.FileName);
-        });
-    </script>
-}
+<script asp-location="Foot" type="text/javascript">
+    $("#Upload").fileinput({
+        uploadUrl: '/forums/upload-file',
+        uploadAsync: false,
+        maxFileCount: 1,
+        showPreview: false,
+        showRemove: false,
+        allowedFileExtensions: ['jpg','png','gif','xls','xlsx','doc','docx','pdf','ppt','pptx']
+    });
+    $('#Upload').on('filebatchuploadsuccess', function (event, data, previewId, index) {
+        var response = data.response;
+        console.log("File uploaded to: " + response.Url);
+        uploadFileDone(response.Url, response.FileName);
+    });
+</script>

@@ -1,6 +1,6 @@
 ﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Blog;
 
-public class BlogSettings : ISettings
+public class BlogSettings : BaseResourceSettings
 {
     public BlogSettings()
     {
@@ -34,11 +34,34 @@ public class BlogSettings : ISettings
 
     #region ISettings Members
 
-    public string Name => "CMS: Blog Settings";
+    public override string Name => "CMS: Blog Settings";
 
-    public bool IsTenantRestricted => false;
-
-    public string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.BlogSettings.cshtml";
+    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.BlogSettings.cshtml";
 
     #endregion ISettings Members
+
+    public override ICollection<RequiredResourceCollection> Resources { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
+    {
+        new RequiredResourceCollection
+        {
+            Name = "Bootpag",
+            Resources = new List<RequiredResource>
+            {
+                new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootpag@1.0.7/lib/jquery.bootpag.min.js" }
+            }
+        },
+        new RequiredResourceCollection
+        {
+            Name = "jQCloud",
+            Resources = new List<RequiredResource>
+            {
+                new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/jqcloud2@2.0.3/dist/jqcloud.min.js" },
+                new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/jqcloud2@2.0.3/dist/jqcloud.min.css" }
+            }
+        }
+    };
 }

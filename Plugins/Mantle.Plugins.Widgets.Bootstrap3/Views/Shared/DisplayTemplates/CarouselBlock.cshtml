@@ -6,12 +6,10 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
 @addTagHelper *, Mantle.Web
 
-@model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
-
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
-@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
 @inject Bootstrap3PluginSettings Settings
+
+@model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
 @{
     foreach (var script in Settings.GetResources(ResourceType.Script, "Bootstrap"))

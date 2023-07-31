@@ -1,15 +1,25 @@
-﻿@using Mantle.Infrastructure
+﻿@using Extenso
+@using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.Bootstrap3
 @using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
+@using Mantle.Web.Configuration
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
+@addTagHelper *, Mantle.Web
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+@inject Bootstrap3PluginSettings Settings
 
 @model Bootstrap3ImageGalleryBlock
 
-@inject Mantle.Web.Mvc.Resources.ScriptRegistrar Script
-@inject Mantle.Web.Mvc.Resources.StyleRegistrar Style
-
 @{
-    Style.IncludeBundle("bootstrap");
-    Script.IncludeBundle("bootstrap");
+    foreach (var script in Settings.GetResources(ResourceType.Script, "Bootstrap"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "Bootstrap"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
     
     var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);

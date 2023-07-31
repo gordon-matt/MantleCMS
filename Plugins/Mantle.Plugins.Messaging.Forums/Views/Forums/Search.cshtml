@@ -4,26 +4,6 @@
     ViewBag.Title = T[LocalizableStrings.PageTitle.Search];
 }
 
-@using (Script.AtFoot(Html))
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-            toggleAdvancedSearch();
-            $('#adv').click(function () {
-                    toggleAdvancedSearch();
-                });
-            });
-            function toggleAdvancedSearch() {
-                if ($('#adv').is(':checked')) {
-                $('#advanced-search').show();
-            }
-            else {
-                $('#advanced-search').hide();
-            }
-        }
-    </script>
-}
-
 @await Component.ForumBreadcrumbsAsync()
 <div class="page forum-search-page">
     <div class="page-title">
@@ -234,3 +214,20 @@ string forumId = null;
         </div>
     </div>
 </div>
+
+<script asp-location="Foot" type="text/javascript">
+    $(document).ready(function () {
+        toggleAdvancedSearch();
+        $('#adv').click(function () {
+            toggleAdvancedSearch();
+        });
+    });
+    function toggleAdvancedSearch() {
+        if ($('#adv').is(':checked')) {
+            $('#advanced-search').show();
+        }
+        else {
+            $('#advanced-search').hide();
+        }
+    }
+</script>
