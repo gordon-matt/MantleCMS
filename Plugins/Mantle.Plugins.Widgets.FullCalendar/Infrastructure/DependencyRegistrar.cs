@@ -5,6 +5,7 @@ using Mantle.Localization;
 using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
 using Mantle.Security.Membership.Permissions;
+using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
@@ -36,6 +37,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 
             builder.RegisterType<CalendarService>().As<ICalendarService>().InstancePerDependency();
             builder.RegisterType<CalendarEventService>().As<ICalendarEventService>().InstancePerDependency();
+            builder.RegisterType<FullCalendarPluginSettings>().As<ISettings>().InstancePerLifetimeScope();
         }
 
         public int Order

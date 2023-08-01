@@ -61,6 +61,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
+    <Content Remove="Views\_ViewImports.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +72,7 @@
     <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
     <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
     <EmbeddedResource Include="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
+    <EmbeddedResource Include="Views\_ViewImports.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

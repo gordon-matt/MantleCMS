@@ -1,61 +1,30 @@
 ﻿@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog
 @using Mantle.Web.Mvc
+@addTagHelper *, Mantle.Web
 
 @model BlogSettings
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="settings-content">
-    <div class="form-group">
-        @Html.LabelFor(m => m.PageTitle, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PageTitle, new { @class = "form-control", data_bind = "value: pageTitle" })
-        @Html.ValidationMessageFor(m => m.PageTitle)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DateFormat, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.DateFormat, new { @class = "form-control", data_bind = "value: dateFormat" })
-        @Html.ValidationMessageFor(m => m.DateFormat)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ItemsPerPage, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ItemsPerPage, new { type = "number", @class = "form-control", data_bind = "value: itemsPerPage" })
-        @Html.ValidationMessageFor(m => m.ItemsPerPage)
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.MenuPosition, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.MenuPosition, new { type = "number", @class = "form-control", data_bind = "value: menuPosition" })
-        @Html.ValidationMessageFor(m => m.MenuPosition)
-    </div>
-    @*<div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: useAjax" }) @T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]
-            </label>
-        </div>
-    </div>*@
+    <mantle-input asp-for="PageTitle" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.PageTitle]" asp-validation-msg="true" />
+    <mantle-input asp-for="DateFormat" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.DateFormat]" asp-validation-msg="true" />
+    <mantle-input asp-for="ItemsPerPage" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.ItemsPerPage]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="ShowOnMenus" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]" />
+    <mantle-input asp-for="MenuPosition" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.MenuPosition]" asp-validation-msg="true" type="number" />
+    @*<mantle-input asp-for="UseAjax" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]" />*@
     <div class="form-group">
         @Html.Label("Roles", "Roles", new { @class = "control-label" })
         @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: roles" })
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LayoutPathOverride, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LayoutPathOverride, new { @class = "form-control", data_bind = "value: layoutPathOverride" })
-        @Html.ValidationMessageFor(m => m.LayoutPathOverride)
-    </div>
+    <mantle-input asp-for="LayoutPathOverride" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.LayoutPathOverride]" asp-validation-msg="true" />
 
     <hr />
     @await Html.Mantle().EmbeddedPartialAsync(EmbeddedPartialType.ResourceSettings)
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function updateModel(viewModel, data) {
         viewModel.pageTitle = ko.observable("Blog");
         viewModel.dateFormat = ko.observable("YYYY-MM-DD HH:mm:ss");
@@ -121,7 +90,7 @@
     }
 
     function onBeforeSave(viewModel) {
-        var data = {
+        const data = {
             PageTitle: viewModel.pageTitle(),
             DateFormat: viewModel.dateFormat(),
             ItemsPerPage: viewModel.itemsPerPage(),

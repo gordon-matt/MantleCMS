@@ -1,10 +1,15 @@
 ﻿@using Extenso
 @using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.FullCalendar
 @using Mantle.Plugins.Widgets.FullCalendar.Services
 @using Mantle.Web
+@using Mantle.Web.Configuration
+@using Mantle.Web.Mvc
 @model Mantle.Plugins.Widgets.FullCalendar.ContentBlocks.FullCalendarBlock
+@addTagHelper *, Mantle.Web
 
 @inject Mantle.Web.IWorkContext WorkContext
+@inject FullCalendarPluginSettings Settings
 
 @{
     string lang = WorkContext.CurrentCultureCode.LeftOf('-');
@@ -18,22 +23,26 @@
         end = x.EndDateTime
     }).JsonSerialize();
     string blockId = "calendar-" + Guid.NewGuid();
-}
 
-<link href="/Plugins/Widgets.FullCalendar/wwwroot/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
-<link href="/Plugins/Widgets.FullCalendar/wwwroot/css/fullcalendar.print.css" rel="stylesheet" type="text/css" media="print" />
+    foreach (var script in Settings.GetResources(ResourceType.Script, "FullCalendar"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+
+    //if (!string.IsNullOrEmpty(lang) && lang != "en") // TODO: How to properly handle these conditional ones??
+    //{
+    //    <script asp-location="Foot" type="text/javascript" src="/Plugins/Widgets.FullCalendar/wwwroot/js/fullcalendar-2.3.1/lang/@(lang).js"></script>
+    //}
+
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "FullCalendar"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
+}
 
 <div id="@blockId"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-<script type="text/javascript" src="/Plugins/Widgets.FullCalendar/wwwroot/js/fullcalendar-2.3.1/fullcalendar.min.js"></script>
-
-@if (!string.IsNullOrEmpty(lang) && lang != "en")
-{
-    <script type="text/javascript" src="/Plugins/Widgets.FullCalendar/wwwroot/js/fullcalendar-2.3.1/lang/@(lang).js"></script>
-}
-
-<script type="text/javascript">
+<script asp-location="Foot" type="text/javascript">
     $('#@blockId').fullCalendar({
         header: {
             left: 'prev,next today',

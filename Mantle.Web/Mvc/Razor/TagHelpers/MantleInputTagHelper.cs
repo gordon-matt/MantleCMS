@@ -13,6 +13,8 @@ public class MantleInputTagHelper : InputTagHelper
     protected const string FOR_ATTRIBUTE_NAME = "asp-for";
     protected const string ICON_ATTRIBUTE_NAME = "asp-icon";
     protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
+    protected const string VALIDATION_MSG_ATTRIBUTE_NAME = "asp-validation-msg";
+
     private readonly IHtmlHelper htmlHelper;
 
     public MantleInputTagHelper(IHtmlGenerator generator, IHtmlHelper htmlHelper)
@@ -30,13 +32,16 @@ public class MantleInputTagHelper : InputTagHelper
     [HtmlAttributeName(LABEL_ATTRIBUTE_NAME)]
     public string Label { set; get; }
 
+    [HtmlAttributeName(VALIDATION_MSG_ATTRIBUTE_NAME)]
+    public bool ValidationMessage { set; get; }
+
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         var viewContextAware = htmlHelper as IViewContextAware;
         viewContextAware?.Contextualize(ViewContext);
 
-        string preContent;
-        string postContent;
+        string preContent = string.Empty;
+        string postContent = string.Empty;
 
         output.TagName = "input";
         if (For.ModelExplorer.ModelType == typeof(bool))
@@ -50,7 +55,13 @@ public class MantleInputTagHelper : InputTagHelper
             output.AddClass("form-control", HtmlEncoder.Default);
             output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
             preContent = $@"<div class=""form-group"">{htmlHelper.Label(For.Name, Label, new { @class = "control-label" }).GetString()}";
-            postContent = "</div>";
+
+            if (ValidationMessage)
+            {
+                postContent += htmlHelper.ValidationMessage(For.Name).GetString();
+            }
+
+            postContent += "</div>";
 
             if (!string.IsNullOrWhiteSpace(Icon))
             {

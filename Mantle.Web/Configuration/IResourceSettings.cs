@@ -4,8 +4,6 @@ public interface IResourceSettings : ISettings
 {
     ICollection<RequiredResourceCollection> Resources { get; set; }
 
-    ICollection<RequiredResourceCollection> DefaultResources { get; }
-
     IEnumerable<RequiredResource> GetResources(ResourceType type, string name);
 }
 

@@ -1,29 +1,18 @@
 ﻿@using Mantle.Web
 @using Mantle.Web.Security.Membership
+@addTagHelper *, Mantle.Web
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model MembershipSettings
 
 <div id="settings-content">
     <p>Generated Passwords</p>
-    <div class="form-group">
-        @Html.LabelFor(m => m.GeneratedPasswordLength)
-        @Html.TextBoxFor(m => m.GeneratedPasswordLength, new { type = "number", @class = "form-control", data_bind = "value: generatedPasswordLength" })
-        @Html.ValidationMessageFor(m => m.GeneratedPasswordLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars)
-        @Html.TextBoxFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars, new { type = "number", @class = "form-control", data_bind = "value: generatedPasswordNumberOfNonAlphanumericChars" })
-        @Html.ValidationMessageFor(m => m.GeneratedPasswordNumberOfNonAlphanumericChars)
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m => m.DisallowUnconfirmedUserLogin) @T[MantleWebLocalizableStrings.Settings.Membership.DisallowUnconfirmedUserLogin]
-        </label>
-    </div>
+    <mantle-input asp-for="GeneratedPasswordLength" asp-label="@T[MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="GeneratedPasswordNumberOfNonAlphanumericChars" asp-label="@T[MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordNumberOfNonAlphanumericChars]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="DisallowUnconfirmedUserLogin" asp-label="@T[MantleWebLocalizableStrings.Settings.Membership.DisallowUnconfirmedUserLogin]" />
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function updateModel(viewModel, data) {
         viewModel.disallowUnconfirmedUserLogin = ko.observable(false);
         viewModel.generatedPasswordLength = ko.observable(7);

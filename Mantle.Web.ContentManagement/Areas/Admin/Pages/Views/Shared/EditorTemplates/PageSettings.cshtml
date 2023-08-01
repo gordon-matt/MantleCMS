@@ -1,16 +1,16 @@
-﻿@using Mantle.Web.ContentManagement.Areas.Admin.Pages
+﻿@using Mantle.Web.ContentManagement
+@using Mantle.Web.ContentManagement.Areas.Admin.Pages
+@addTagHelper *, Mantle.Web
+
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model PageSettings
 
 <div id="settings-content">
-    <div class="form-group">
-        @Html.LabelFor(m => m.NumberOfPageVersionsToKeep)
-        @Html.TextBox("NumberOfPageVersionsToKeep", null, new { @class = "form-control", data_bind = "value: numberOfPageVersionsToKeep" })
-        @Html.ValidationMessageFor(m => m.NumberOfPageVersionsToKeep)
-    </div>
+    <mantle-input asp-for="NumberOfPageVersionsToKeep" asp-label="@T[MantleCmsLocalizableStrings.Settings.Pages.NumberOfPageVersionsToKeep]" asp-validation-msg="true" type="number" />
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function updateModel(viewModel, data) {
         viewModel.numberOfPageVersionsToKeep = ko.observable("");
 

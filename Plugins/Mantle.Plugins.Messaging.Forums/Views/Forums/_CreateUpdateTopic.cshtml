@@ -1,8 +1,20 @@
-﻿@model EditForumTopicModel
+﻿@using Mantle.Web.Configuration;
+@using Mantle.Plugins.Messaging.Forums
+@using Mantle.Web.Mvc
+
+@model EditForumTopicModel
+
+@inject ForumSettings Settings
 
 @{
-    //Style.IncludeBundle("third-party/bootstrap-fileinput"); // TODO
-    //Script.IncludeBundle("third-party/bootstrap-fileinput"); // TODO
+    foreach (var script in Settings.GetResources(ResourceType.Script, "Bootstrap-FileInput"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "Bootstrap-FileInput"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
 }
 
 @await Component.ForumBreadcrumbsAsync(forumId: Model.ForumId, forumTopicId: Model.Id)
