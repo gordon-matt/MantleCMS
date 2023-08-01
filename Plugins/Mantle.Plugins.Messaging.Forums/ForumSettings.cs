@@ -4,7 +4,7 @@ using Mantle.Web.Configuration;
 
 namespace Mantle.Plugins.Messaging.Forums
 {
-    public class ForumSettings : ISettings
+    public class ForumSettings : BaseResourceSettings
     {
         public ForumSettings()
         {
@@ -50,13 +50,32 @@ namespace Mantle.Plugins.Messaging.Forums
 
         #region ISettings Members
 
-        public string Name => "Forum Settings";
+        public override string Name => "Forum Settings";
 
-        public bool IsTenantRestricted => false;
-
-        public string EditorTemplatePath => "/Plugins/Messaging.Forums/Views/Shared/EditorTemplates/ForumSettings.cshtml";
+        public override string EditorTemplatePath => "/Plugins/Messaging.Forums/Views/Shared/EditorTemplates/ForumSettings.cshtml";
 
         #endregion ISettings Members
+
+        #region IResourceSettings Members
+
+        public override ICollection<RequiredResourceCollection> Resources { get; set; }
+
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
+        {
+            new RequiredResourceCollection
+            {
+                Name = "Bootstrap-FileInput",
+                Resources = new List<RequiredResource>
+                {
+                    new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@4.5.3/js/fileinput.min.js" },
+                    new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@4.5.3/js/fileinput.min.js" }
+                }
+            }
+        };
+
+        #endregion IResourceSettings Members
 
         [LocalizedDisplayName(LocalizableStrings.Settings.ForumsEnabled)]
         [LocalizedHelpText(LocalizableStrings.Settings.HelpText.ForumsEnabled)]

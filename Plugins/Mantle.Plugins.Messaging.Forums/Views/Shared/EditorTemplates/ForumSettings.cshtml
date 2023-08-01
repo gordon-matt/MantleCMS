@@ -5,78 +5,23 @@
 
 <div id="settings-content">
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ForumsEnabled, new { data_bind = "checked: forumsEnabled" }) @T[LocalizableStrings.Settings.ForumsEnabled]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.RelativeDateTimeFormattingEnabled, new { data_bind = "checked: relativeDateTimeFormattingEnabled" }) @T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToEditPosts, new { data_bind = "checked: allowUsersToEditPosts" }) @T[LocalizableStrings.Settings.AllowUsersToEditPosts]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToManageSubscriptions, new { data_bind = "checked: allowUsersToManageSubscriptions" }) @T[LocalizableStrings.Settings.AllowUsersToManageSubscriptions]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.AllowUsersToDeletePosts, new { data_bind = "checked: allowUsersToDeletePosts" }) @T[LocalizableStrings.Settings.AllowUsersToDeletePosts]
-            </label>
-        </div>
+        <mantle-input asp-for="ForumsEnabled" asp-label="@T[LocalizableStrings.Settings.ForumsEnabled]" />
+        <mantle-input asp-for="RelativeDateTimeFormattingEnabled" asp-label="@T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]" />
+        <mantle-input asp-for="AllowUsersToEditPosts" asp-label="@T[LocalizableStrings.Settings.AllowUsersToEditPosts]" />
+        <mantle-input asp-for="AllowUsersToManageSubscriptions" asp-label="@T[LocalizableStrings.Settings.AllowUsersToManageSubscriptions]" />
+        <mantle-input asp-for="AllowUsersToDeletePosts" asp-label="@T[LocalizableStrings.Settings.AllowUsersToDeletePosts]" />
     </div>
+    <mantle-input asp-for="TopicSubjectMaxLength" asp-label="@T[LocalizableStrings.Settings.TopicSubjectMaxLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="StrippedTopicMaxLength" asp-label="@T[LocalizableStrings.Settings.StrippedTopicMaxLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="PostMaxLength" asp-label="@T[LocalizableStrings.Settings.PostMaxLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="TopicsPageSize" asp-label="@T[LocalizableStrings.Settings.TopicsPageSize]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="PostsPageSize" asp-label="@T[LocalizableStrings.Settings.PostsPageSize]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="SearchResultsPageSize" asp-label="@T[LocalizableStrings.Settings.SearchResultsPageSize]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="ActiveDiscussionsPageSize" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsPageSize]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="LatestUserPostsPageSize" asp-label="@T[LocalizableStrings.Settings.LatestUserPostsPageSize]" asp-validation-msg="true" type="number" />
+
     <div class="form-group">
-        @Html.LabelFor(m => m.TopicSubjectMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TopicSubjectMaxLength, new { type = "number", @class = "form-control", data_bind = "value: topicSubjectMaxLength" })
-        @Html.ValidationMessageFor(m => m.TopicSubjectMaxLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.StrippedTopicMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.StrippedTopicMaxLength, new { type = "number", @class = "form-control", data_bind = "value: strippedTopicMaxLength" })
-        @Html.ValidationMessageFor(m => m.StrippedTopicMaxLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PostMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PostMaxLength, new { type = "number", @class = "form-control", data_bind = "value: postMaxLength" })
-        @Html.ValidationMessageFor(m => m.PostMaxLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.TopicsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TopicsPageSize, new { type = "number", @class = "form-control", data_bind = "value: topicsPageSize" })
-        @Html.ValidationMessageFor(m => m.TopicsPageSize)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PostsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PostsPageSize, new { type = "number", @class = "form-control", data_bind = "value: postsPageSize" })
-        @Html.ValidationMessageFor(m => m.PostsPageSize)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.SearchResultsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.SearchResultsPageSize, new { type = "number", @class = "form-control", data_bind = "value: searchResultsPageSize" })
-        @Html.ValidationMessageFor(m => m.SearchResultsPageSize)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ActiveDiscussionsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ActiveDiscussionsPageSize, new { type = "number", @class = "form-control", data_bind = "value: activeDiscussionsPageSize" })
-        @Html.ValidationMessageFor(m => m.ActiveDiscussionsPageSize)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LatestUserPostsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LatestUserPostsPageSize, new { type = "number", @class = "form-control", data_bind = "value: latestUserPostsPageSize" })
-        @Html.ValidationMessageFor(m => m.LatestUserPostsPageSize)
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ShowUsersPostCount, new { data_bind = "checked: showUsersPostCount" }) @T[LocalizableStrings.Settings.ShowUsersPostCount]
-            </label>
-        </div>
+        <mantle-input asp-for="ShowUsersPostCount" asp-label="@T[LocalizableStrings.Settings.ShowUsersPostCount]" />
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ForumEditor, new { @class = "control-label" })
@@ -84,106 +29,36 @@
         @Html.ValidationMessageFor(m => m.ForumEditor)
     </div>
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.SignaturesEnabled, new { data_bind = "checked: signaturesEnabled" }) @T[LocalizableStrings.Settings.SignaturesEnabled]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.AllowPrivateMessages, new { data_bind = "checked: allowPrivateMessages" }) @T[LocalizableStrings.Settings.AllowPrivateMessages]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ShowAlertForPM, new { data_bind = "checked: showAlertForPM" }) @T[LocalizableStrings.Settings.ShowAlertForPM]
-            </label>
-        </div>
+        <mantle-input asp-for="SignaturesEnabled" asp-label="@T[LocalizableStrings.Settings.SignaturesEnabled]" />
+        <mantle-input asp-for="AllowPrivateMessages" asp-label="@T[LocalizableStrings.Settings.AllowPrivateMessages]" />
+        <mantle-input asp-for="ShowAlertForPM" asp-label="@T[LocalizableStrings.Settings.ShowAlertForPM]" />
     </div>
+    <mantle-input asp-for="PrivateMessagesPageSize" asp-label="@T[LocalizableStrings.Settings.PrivateMessagesPageSize]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="ForumSubscriptionsPageSize" asp-label="@T[LocalizableStrings.Settings.ForumSubscriptionsPageSize]" asp-validation-msg="true" type="number" />
     <div class="form-group">
-        @Html.LabelFor(m => m.PrivateMessagesPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PrivateMessagesPageSize, new { type = "number", @class = "form-control", data_bind = "value: privateMessagesPageSize" })
-        @Html.ValidationMessageFor(m => m.PrivateMessagesPageSize)
+        <mantle-input asp-for="NotifyAboutPrivateMessages" asp-label="@T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]" />
     </div>
+    <mantle-input asp-for="PMSubjectMaxLength" asp-label="@T[LocalizableStrings.Settings.PMSubjectMaxLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="PMTextMaxLength" asp-label="@T[LocalizableStrings.Settings.PMTextMaxLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="HomePageActiveDiscussionsTopicCount" asp-label="@T[LocalizableStrings.Settings.HomePageActiveDiscussionsTopicCount]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="ActiveDiscussionsFeedCount" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsFeedCount]" asp-validation-msg="true" type="number" />
     <div class="form-group">
-        @Html.LabelFor(m => m.ForumSubscriptionsPageSize, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumSubscriptionsPageSize, new { type = "number", @class = "form-control", data_bind = "value: forumSubscriptionsPageSize" })
-        @Html.ValidationMessageFor(m => m.ForumSubscriptionsPageSize)
+        <mantle-input asp-for="ActiveDiscussionsFeedEnabled" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]" />
+        <mantle-input asp-for="ForumFeedsEnabled" asp-label="@T[LocalizableStrings.Settings.ForumFeedsEnabled]" />
     </div>
+    <mantle-input asp-for="ForumFeedCount" asp-label="@T[LocalizableStrings.Settings.ForumFeedCount]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="ForumSearchTermMinimumLength" asp-label="@T[LocalizableStrings.Settings.ForumSearchTermMinimumLength]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="PageTitle" asp-label="@T[LocalizableStrings.Settings.PageTitle]" asp-validation-msg="true" />
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.NotifyAboutPrivateMessages, new { data_bind = "checked: notifyAboutPrivateMessages" }) @T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]
-            </label>
-        </div>
+        <mantle-input asp-for="ShowOnMenus" asp-label="@T[LocalizableStrings.Settings.ShowOnMenus]" />
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PMSubjectMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PMSubjectMaxLength, new { type = "number", @class = "form-control", data_bind = "value: pmSubjectMaxLength" })
-        @Html.ValidationMessageFor(m => m.PMSubjectMaxLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PMTextMaxLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PMTextMaxLength, new { type = "number", @class = "form-control", data_bind = "value: pmTextMaxLength" })
-        @Html.ValidationMessageFor(m => m.PMTextMaxLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.HomePageActiveDiscussionsTopicCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.HomePageActiveDiscussionsTopicCount, new { type = "number", @class = "form-control", data_bind = "value: homePageActiveDiscussionsTopicCount" })
-        @Html.ValidationMessageFor(m => m.HomePageActiveDiscussionsTopicCount)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ActiveDiscussionsFeedCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ActiveDiscussionsFeedCount, new { type = "number", @class = "form-control", data_bind = "value: activeDiscussionsFeedCount" })
-        @Html.ValidationMessageFor(m => m.ActiveDiscussionsFeedCount)
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ActiveDiscussionsFeedEnabled, new { data_bind = "checked: activeDiscussionsFeedEnabled" }) @T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ForumFeedsEnabled, new { data_bind = "checked: forumFeedsEnabled" }) @T[LocalizableStrings.Settings.ForumFeedsEnabled]
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ForumFeedCount, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumFeedCount, new { type = "number", @class = "form-control", data_bind = "value: forumFeedCount" })
-        @Html.ValidationMessageFor(m => m.ForumFeedCount)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ForumSearchTermMinimumLength, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.ForumSearchTermMinimumLength, new { type = "number", @class = "form-control", data_bind = "value: forumSearchTermMinimumLength" })
-        @Html.ValidationMessageFor(m => m.ForumSearchTermMinimumLength)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PageTitle, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.PageTitle, new { @class = "form-control", data_bind = "value: pageTitle" })
-        @Html.ValidationMessageFor(m => m.PageTitle)
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                @Html.CheckBoxFor(m => m.ShowOnMenus, new { data_bind = "checked: showOnMenus" }) @T[LocalizableStrings.Settings.ShowOnMenus]
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.MenuPosition, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.MenuPosition, new { type = "number", @class = "form-control", data_bind = "value: menuPosition" })
-        @Html.ValidationMessageFor(m => m.MenuPosition)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LayoutPathOverride, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.LayoutPathOverride, new { @class = "form-control", data_bind = "value: layoutPathOverride" })
-        @Html.ValidationMessageFor(m => m.LayoutPathOverride)
-    </div>
+    <mantle-input asp-for="MenuPosition" asp-label="@T[LocalizableStrings.Settings.MenuPosition]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="LayoutPathOverride" asp-label="@T[LocalizableStrings.Settings.LayoutPathOverride]" asp-validation-msg="true" />
+
+    @await Html.Mantle().EmbeddedPartialAsync(EmbeddedPartialType.ResourceSettings)
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function updateModel(viewModel, data) {
         viewModel.forumsEnabled = ko.observable(true);
         viewModel.relativeDateTimeFormattingEnabled = ko.observable(true);
@@ -206,8 +81,8 @@
         viewModel.privateMessagesPageSize = ko.observable(10);
         viewModel.forumSubscriptionsPageSize = ko.observable(10);
         viewModel.notifyAboutPrivateMessages = ko.observable(true);
-        viewModel.pmSubjectMaxLength = ko.observable(128);
-        viewModel.pmTextMaxLength = ko.observable(1024);
+        viewModel.pMSubjectMaxLength = ko.observable(128);
+        viewModel.pMTextMaxLength = ko.observable(1024);
         viewModel.homePageActiveDiscussionsTopicCount = ko.observable(10);
         viewModel.forumFeedsEnabled = ko.observable(true);
         viewModel.forumFeedCount = ko.observable(10);
@@ -218,6 +93,8 @@
         viewModel.showOnMenus = ko.observable(true);
         viewModel.menuPosition = ko.observable(0);
         viewModel.layoutPathOverride = ko.observable('');
+
+        viewModel.resources = ko.observableArray([]);
 
         if (data) {
             if (data.ForumsEnabled && typeof data.ForumsEnabled === 'boolean') { viewModel.forumsEnabled(data.ForumsEnabled); }
@@ -241,8 +118,8 @@
             if (data.PrivateMessagesPageSize) { viewModel.privateMessagesPageSize(data.PrivateMessagesPageSize); }
             if (data.ForumSubscriptionsPageSize) { viewModel.forumSubscriptionsPageSize(data.ForumSubscriptionsPageSize); }
             if (data.NotifyAboutPrivateMessages && typeof data.NotifyAboutPrivateMessages === 'boolean') { viewModel.notifyAboutPrivateMessages(data.NotifyAboutPrivateMessages); }
-            if (data.PMSubjectMaxLength) { viewModel.pmSubjectMaxLength(data.PMSubjectMaxLength); }
-            if (data.PMTextMaxLength) { viewModel.pmTextMaxLength(data.PMTextMaxLength); }
+            if (data.PMSubjectMaxLength) { viewModel.pMSubjectMaxLength(data.PMSubjectMaxLength); }
+            if (data.PMTextMaxLength) { viewModel.pMTextMaxLength(data.PMTextMaxLength); }
             if (data.HomePageActiveDiscussionsTopicCount) { viewModel.homePageActiveDiscussionsTopicCount(data.HomePageActiveDiscussionsTopicCount); }
             if (data.ActiveDiscussionsFeedCount) { viewModel.activeDiscussionsFeedCount(data.ActiveDiscussionsFeedCount); }
             if (data.ActiveDiscussionsFeedEnabled && typeof data.ActiveDiscussionsFeedEnabled === 'boolean') { viewModel.activeDiscussionsFeedEnabled(data.ActiveDiscussionsFeedEnabled); }
@@ -253,6 +130,10 @@
             if (data.ShowOnMenus && typeof data.ShowOnMenus === 'boolean') { viewModel.showOnMenus(data.ShowOnMenus); }
             if (data.MenuPosition) { viewModel.menuPosition(data.MenuPosition); }
             if (data.LayoutPathOverride) { viewModel.layoutPathOverride(data.LayoutPathOverride); }
+
+            if (data.Resources) {
+                viewModel.setResources(data.Resources);
+            }
         }
     };
 
@@ -278,8 +159,8 @@
         delete viewModel.privateMessagesPageSize;
         delete viewModel.forumSubscriptionsPageSize;
         delete viewModel.notifyAboutPrivateMessages;
-        delete viewModel.pmSubjectMaxLength;
-        delete viewModel.pmTextMaxLength;
+        delete viewModel.pMSubjectMaxLength;
+        delete viewModel.pMTextMaxLength;
         delete viewModel.homePageActiveDiscussionsTopicCount;
         delete viewModel.activeDiscussionsFeedCount;
         delete viewModel.activeDiscussionsFeedEnabled;
@@ -290,10 +171,11 @@
         delete viewModel.showOnMenus;
         delete viewModel.menuPosition;
         delete viewModel.layoutPathOverride;
+        delete viewModel.resources;
     }
 
     function onBeforeSave(viewModel) {
-        var data = {
+        const data = {
             ForumsEnabled: viewModel.forumsEnabled(),
             RelativeDateTimeFormattingEnabled: viewModel.relativeDateTimeFormattingEnabled(),
             AllowUsersToEditPosts: viewModel.allowUsersToEditPosts(),
@@ -315,8 +197,8 @@
             PrivateMessagesPageSize: viewModel.privateMessagesPageSize(),
             ForumSubscriptionsPageSize: viewModel.forumSubscriptionsPageSize(),
             NotifyAboutPrivateMessages: viewModel.notifyAboutPrivateMessages(),
-            PMSubjectMaxLength: viewModel.pmSubjectMaxLength(),
-            PMTextMaxLength: viewModel.pmTextMaxLength(),
+            PMSubjectMaxLength: viewModel.pMSubjectMaxLength(),
+            PMTextMaxLength: viewModel.pMTextMaxLength(),
             HomePageActiveDiscussionsTopicCount: viewModel.homePageActiveDiscussionsTopicCount(),
             ActiveDiscussionsFeedCount: viewModel.activeDiscussionsFeedCount(),
             ActiveDiscussionsFeedEnabled: viewModel.activeDiscussionsFeedEnabled(),
@@ -327,6 +209,7 @@
             ShowOnMenus: viewModel.showOnMenus(),
             MenuPosition: viewModel.menuPosition(),
             LayoutPathOverride: viewModel.layoutPathOverride(),
+            Resources: viewModel.resources()
         };
 
         viewModel.value(ko.mapping.toJSON(data));

@@ -1,14 +1,25 @@
 ﻿@using Extenso.AspNetCore.Mvc.Rendering
 @using Mantle.Infrastructure
+@using Mantle.Plugins.Widgets.FlexSlider
 @using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
+@using Mantle.Web
+@using Mantle.Web.Configuration
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.Services
+@addTagHelper *, Mantle.Web
+
+@inject FlexSliderPluginSettings Settings
 
 @model FlexSliderBlock
 
 @{
-    //Style.IncludePluginStyle("FlexSlider/flexslider.css", order: 99999); //TODO
-    //Script.IncludeBundle("jquery");
-    //Script.IncludePluginScript("jquery.flexslider-min.js", order: 99999); //TODO
+    foreach (var script in Settings.GetResources(ResourceType.Script, "FlexSlider"))
+    {
+        <script asp-location="Foot" src="@script.Path"></script>
+    }
+    foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "FlexSlider"))
+    {
+        <link rel="stylesheet" href="@style.Path" />
+    }
 
     // TODO
     var mediaService = EngineContext.Current.Resolve<IMediaService>();

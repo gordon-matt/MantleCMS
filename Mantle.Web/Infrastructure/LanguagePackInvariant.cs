@@ -181,6 +181,9 @@ public class LanguagePackInvariant : ILanguagePack
         { MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError, "Stop On Error" },
         { MantleWebLocalizableStrings.ScheduledTasks.Title, "Scheduled Tasks" },
 
+        { MantleWebLocalizableStrings.Settings.DateTime.DefaultTimeZoneId, "Default Time Zone" },
+        { MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone, "Allow Users To Set Time Zone" },
+
         { MantleWebLocalizableStrings.Settings.Membership.DisallowUnconfirmedUserLogin, "Disallow Unconfirmed User Login" },
         { MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordLength, "Length" },
         { MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordNumberOfNonAlphanumericChars, "# Non-Alphanumeric Characters" },

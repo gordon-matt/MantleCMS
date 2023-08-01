@@ -1,23 +1,16 @@
 ﻿@using Mantle.Web
 @using Mantle.Web.Configuration
+@addTagHelper *, Mantle.Web
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 @model DateTimeSettings
 
 <div id="settings-content">
-    <div class="form-group">
-        @Html.LabelFor(m => m.DefaultTimeZoneId)
-        @Html.TextBoxFor(m => m.DefaultTimeZoneId, new { @class = "form-control", data_bind = "value: defaultTimeZoneId" })
-        @Html.ValidationMessageFor(m => m.DefaultTimeZoneId)
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m => m.AllowUsersToSetTimeZone, new { data_bind = "checked: allowUsersToSetTimeZone" }) @T[MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone]
-        </label>
-    </div>
+    <mantle-input asp-for="DefaultTimeZoneId" asp-label="@T[MantleWebLocalizableStrings.Settings.DateTime.DefaultTimeZoneId]" asp-validation-msg="true" />
+    <mantle-input asp-for="AllowUsersToSetTimeZone" asp-label="@T[MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone]" />
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function updateModel(viewModel, data) {
         viewModel.defaultTimeZoneId = ko.observable("");
         viewModel.allowUsersToSetTimeZone = ko.observable(false);

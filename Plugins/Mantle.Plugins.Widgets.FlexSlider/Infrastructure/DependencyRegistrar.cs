@@ -2,6 +2,7 @@
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks;
+using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Mvc.Themes;
 
@@ -22,6 +23,7 @@ namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
             builder.RegisterType<FlexSliderBlock>().As<IContentBlock>().InstancePerDependency();
 
             builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
+            builder.RegisterType<FlexSliderPluginSettings>().As<ISettings>().InstancePerLifetimeScope();
         }
 
         public int Order
