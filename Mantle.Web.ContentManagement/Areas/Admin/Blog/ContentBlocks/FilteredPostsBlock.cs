@@ -4,12 +4,15 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks;
 
 public class FilteredPostsBlock : ContentBlockBase
 {
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId)]
     public int? CategoryId { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId)]
     public int? TagId { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType)]
     public FilterType FilterType { get; set; }
 

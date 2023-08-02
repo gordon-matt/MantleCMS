@@ -343,7 +343,7 @@
 </div>
 
 <script type="text/javascript">
-    var modalDismissed = false;
+    let modalDismissed = false;
 
     function dismissModal(modalId) {
         modalDismissed = true;
@@ -353,8 +353,8 @@
     $(document).ready(function () {
         $('#imagesDirectoryModal').on('hidden.bs.modal', function () {
             if (!modalDismissed) {
-                var url = $('#ImagesDirectory').val();
-                var idx = url.indexOf("Uploads");
+                let url = $('#ImagesDirectory').val();
+                const idx = url.indexOf("Uploads");
                 url = url.substring(idx);
                 //blockModel.imagesDirectory(url);
                 $('#ImagesDirectory').val(url);
@@ -363,8 +363,8 @@
         });
         $('#fullSizeImagesDirectoryModal').on('hidden.bs.modal', function () {
             if (!modalDismissed) {
-                var url = $('#FullSizeImagesDirectory').val();
-                var idx = url.indexOf("Uploads");
+                let url = $('#FullSizeImagesDirectory').val();
+                const idx = url.indexOf("Uploads");
                 url = url.substring(idx);
                 //blockModel.fullSizeImagesDirectory(url);
                 $('#FullSizeImagesDirectory').val(url);
@@ -373,8 +373,8 @@
         });
     });
 
-    var contentBlockModel = (function () {
-        var f = {};
+    const contentBlockModel = (function () {
+        const f = {};
         f.internalModel = false;
         f.updateModel = function (blockModel) {
             internalModel = blockModel;
@@ -418,7 +418,7 @@
             blockModel.loaderCircleLineColor = "#555";
             blockModel.loaderCircleBackgroundColor = "#FFF";
 
-            var data = JSON.parse(blockModel.blockValues);
+            const data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.Mode == undefined) {
@@ -512,7 +512,7 @@
             delete blockModel.loaderCircleBackgroundColor;
         };
         f.onBeforeSave = function (blockModel) {
-            var data = {
+            const data = {
                 Mode: blockModel.mode,
                 ImagesPattern: blockModel.imagesPattern,
                 ImagesDirectory: $('#ImagesDirectory').val(),
