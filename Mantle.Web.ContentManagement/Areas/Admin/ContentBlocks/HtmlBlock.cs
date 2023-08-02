@@ -12,10 +12,12 @@ public class HtmlBlock : ContentBlockBase
 
     #endregion IContentBlock Members
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.BodyContent)]
     [LocalizedHelpText(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.HelpText.BodyContent)]
     public string BodyContent { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.Script)]
     [LocalizedHelpText(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.HelpText.Script)]
     public string Script { get; set; }

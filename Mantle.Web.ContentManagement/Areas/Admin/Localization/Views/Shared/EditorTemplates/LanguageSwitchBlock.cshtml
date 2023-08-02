@@ -35,41 +35,5 @@
 </div>
 
 <script type="text/javascript">
-    var contentBlockModel = (function () {
-        var f = {};
-        f.updateModel = function (blockModel) {
-            blockModel.style = ko.observable("");
-            blockModel.includeInvariant = ko.observable(false);
-            blockModel.invariantText = ko.observable("[ Invariant ]");
-
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
-
-            if (data) {
-                if (data.Style) {
-                    blockModel.style(data.Style());
-                }
-                if (data.IncludeInvariant) {
-                    blockModel.includeInvariant(data.IncludeInvariant());
-                }
-                if (data.InvariantText) {
-                    blockModel.invariantText(data.InvariantText());
-                }
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            delete blockModel.style;
-            delete blockModel.includeInvariant;
-            delete blockModel.invariantText;
-        };
-        f.onBeforeSave = function (blockModel) {
-            var data = {
-                Style: blockModel.style(),
-                IncludeInvariant: blockModel.includeInvariant(),
-                InvariantText: blockModel.invariantText()
-            };
-
-            blockModel.blockValues(ko.mapping.toJSON(data));
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

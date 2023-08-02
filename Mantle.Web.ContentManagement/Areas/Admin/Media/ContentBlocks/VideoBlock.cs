@@ -11,21 +11,27 @@ public class VideoBlock : ContentBlockBase
         Silverlight = 2
     }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ControlId)]
     public string ControlId { get; set; }
 
+    [BlockProperty(VideoType.Normal)]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Type)]
     public VideoType Type { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Source)]
     public string Source { get; set; }
 
+    [BlockProperty(true)]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls)]
     public bool ShowControls { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.AutoPlay)]
     public bool AutoPlay { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Loop)]
     public bool Loop { get; set; }
 

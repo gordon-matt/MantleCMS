@@ -38,7 +38,7 @@
     }
 
     function onBeforeSave(viewModel) {
-        var data = {
+        const data = {
             DisallowUnconfirmedUserLogin: viewModel.disallowUnconfirmedUserLogin(),
             GeneratedPasswordLength: viewModel.generatedPasswordLength(),
             GeneratedPasswordNumberOfNonAlphanumericChars: viewModel.generatedPasswordNumberOfNonAlphanumericChars()

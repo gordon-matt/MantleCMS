@@ -31,15 +31,15 @@
 </div>
 
 <script type="text/javascript">
-    var pageModel = (function () {
-        var f = {};
+    const pageModel = (function () {
+        const f = {};
         f.updateModel = function (pageVersionModel) {
             pageVersionModel.metaTitle = ko.observable("");
             pageVersionModel.metaKeywords = ko.observable("");
             pageVersionModel.metaDescription = ko.observable("");
             pageVersionModel.bodyContent = ko.observable("");
 
-            var data = ko.mapping.fromJSON(pageVersionModel.fields());
+            const data = ko.mapping.fromJSON(pageVersionModel.fields());
 
             if (data) {
                 if (data.MetaTitle) {
@@ -66,7 +66,7 @@
             delete pageVersionModel.tinyMCE_bodyContent;
         };
         f.onBeforeSave = function (pageVersionModel) {
-            var data = {
+            const data = {
                 MetaTitle: pageVersionModel.metaTitle(),
                 MetaKeywords: pageVersionModel.metaKeywords(),
                 MetaDescription: pageVersionModel.metaDescription(),

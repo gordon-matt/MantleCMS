@@ -62,8 +62,8 @@
         return $("<div/>").html(html).text();
     };
 
-    var contentBlockModel = (function () {
-        var f = {};
+    const contentBlockModel = (function () {
+        const f = {};
         f.updateModel = function (blockModel) {
             blockModel.metadata = ko.observable("");
             blockModel.thankYouMessage = ko.observable("");
@@ -71,32 +71,24 @@
             blockModel.emailAddress = ko.observable("");
             blockModel.useAjax = ko.observable(false);
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            const data = ko.mapping.fromJSON(blockModel.blockValues());
 
-            var fbEditor = document.getElementById('build-wrap');
+            const fbEditor = document.getElementById('build-wrap');
             blockModel.formBuilder = $(fbEditor).formBuilder({ showActionButtons: false });
 
             if (data) {
                 if (data.Metadata) {
-                    var metadata = data.Metadata();
+                    const metadata = data.Metadata();
                     blockModel.metadata(metadata);
 
                     blockModel.formBuilder.promise.then(function (fb) {
                         fb.actions.setData(metadata);
                     });
                 }
-                if (data.ThankYouMessage) {
-                    blockModel.thankYouMessage(data.ThankYouMessage());
-                }
-                if (data.RedirectUrl) {
-                    blockModel.redirectUrl(data.RedirectUrl());
-                }
-                if (data.EmailAddress) {
-                    blockModel.emailAddress(data.EmailAddress());
-                }
-                if (data.UseAjax) {
-                    blockModel.useAjax(data.UseAjax());
-                }
+                if (data.ThankYouMessage) { blockModel.thankYouMessage(data.ThankYouMessage()); }
+                if (data.RedirectUrl) { blockModel.redirectUrl(data.RedirectUrl()); }
+                if (data.EmailAddress) { blockModel.emailAddress(data.EmailAddress()); }
+                if (data.UseAjax) { blockModel.useAjax(data.UseAjax()); }
             }
 
             blockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;
@@ -112,18 +104,18 @@
             delete blockModel.formBuilder;
         };
         f.onBeforeSave = function (blockModel) {
-            var fbEditor = document.getElementById('build-wrap');
-            var fbMetadata = blockModel.formBuilder.actions.getData('json', true);
+            const fbEditor = document.getElementById('build-wrap');
+            const fbMetadata = blockModel.formBuilder.actions.getData('json', true);
 
-            console.log('source: ' + fbMetadata);
+            //console.log('source: ' + fbMetadata);
             blockModel.metadata(fbMetadata);
 
-            var thankYouMessage = blockModel.thankYouMessage();
+            let thankYouMessage = blockModel.thankYouMessage();
             if (blockModel.useAjax()) {
                 thankYouMessage = stripHTML(thankYouMessage);
             }
 
-            var data = {
+            const data = {
                 Metadata: blockModel.metadata(),
                 ThankYouMessage: thankYouMessage,
                 RedirectUrl: blockModel.redirectUrl(),
