@@ -24,12 +24,7 @@
                         @Html.DropDownListFor(m => m.Mode, Html.GetEnumSelectList<Mode>(), new { @class = "form-control", data_bind = "value: blockModel.mode" })
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ImagesPattern, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ImagesPattern, new { @class = "form-control", data_bind = "value: blockModel.imagesPattern" })
-                    </div>
-                </div>
+                <mantle-input asp-for="ImagesPattern" asp-label="@T[LocalizableStrings.ImagesPattern]" ko-bind="blockModel.imagesPattern" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
@@ -68,26 +63,10 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.AutoRotate, new { data_bind = "checked: blockModel.autoRotate" }) @T[LocalizableStrings.AutoRotate]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.AutoRotateStopOnMove, new { data_bind = "checked: blockModel.autoRotateStopOnMove" }) @T[LocalizableStrings.AutoRotateStopOnMove]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.LoadFullSizeImagesOnZoom, new { data_bind = "checked: blockModel.loadFullSizeImagesOnZoom" }) @T[LocalizableStrings.LoadFullSizeImagesOnZoom]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.LoadFullSizeImagesOnFullscreen, new { data_bind = "checked: blockModel.loadFullSizeImagesOnFullscreen" }) @T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="AutoRotate" asp-label="@T[LocalizableStrings.AutoRotate]" ko-bind="blockModel.autoRotate" />
+                        <mantle-input asp-for="AutoRotateStopOnMove" asp-label="@T[LocalizableStrings.AutoRotateStopOnMove]" ko-bind="blockModel.autoRotateStopOnMove" />
+                        <mantle-input asp-for="LoadFullSizeImagesOnZoom" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnZoom]" ko-bind="blockModel.loadFullSizeImagesOnZoom" />
+                        <mantle-input asp-for="LoadFullSizeImagesOnFullscreen" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]" ko-bind="blockModel.loadFullSizeImagesOnFullscreen" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -96,126 +75,37 @@
                         @Html.DropDownListFor(m => m.AutoRotateDirection, Html.GetEnumSelectList<AutoRotateDirection>(), new { @class = "form-control", data_bind = "value: blockModel.autoRotateDirection" })
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.AutoRotateSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.AutoRotateSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.autoRotateSpeed" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Width, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Width, new { type = "number", @class = "form-control", data_bind = "value: blockModel.width" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Height, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Height, new { type = "number", @class = "form-control", data_bind = "value: blockModel.height" })
-                    </div>
-                </div>
+                <mantle-input asp-for="AutoRotateSpeed" asp-label="@T[LocalizableStrings.AutoRotateSpeed]" ko-bind="blockModel.autoRotateSpeed" type="number" />
+                <mantle-input asp-for="Width" asp-label="@T[LocalizableStrings.Width]" ko-bind="blockModel.width" type="number" />
+                <mantle-input asp-for="Height" asp-label="@T[LocalizableStrings.Height]" ko-bind="blockModel.height" type="number" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Rows, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Rows, new { type = "number", @class = "form-control", data_bind = "value: blockModel.rows" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Columns, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Columns, new { type = "number", @class = "form-control", data_bind = "value: blockModel.columns" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.XAxisSensitivity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.XAxisSensitivity, new { type = "number", @class = "form-control", data_bind = "value: blockModel.xAxisSensitivity" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.YAxisSensitivity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.YAxisSensitivity, new { type = "number", @class = "form-control", data_bind = "value: blockModel.yAxisSensitivity" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.InertiaConstant, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.InertiaConstant, new { type = "number", @class = "form-control", data_bind = "value: blockModel.inertiaConstant" })
-                    </div>
-                </div>
-
+                <mantle-input asp-for="Rows" asp-label="@T[LocalizableStrings.Rows]" ko-bind="blockModel.rows" type="number" />
+                <mantle-input asp-for="Columns" asp-label="@T[LocalizableStrings.Columns]" ko-bind="blockModel.columns" type="number" />
+                <mantle-input asp-for="XAxisSensitivity" asp-label="@T[LocalizableStrings.XAxisSensitivity]" ko-bind="blockModel.xAxisSensitivity" type="number" />
+                <mantle-input asp-for="YAxisSensitivity" asp-label="@T[LocalizableStrings.YAxisSensitivity]" ko-bind="blockModel.yAxisSensitivity" type="number" />
+                <mantle-input asp-for="InertiaConstant" asp-label="@T[LocalizableStrings.InertiaConstant]" ko-bind="blockModel.inertiaConstant" type="number" />
             </div>
         }
         using (var tab = tabs.BeginPanel())
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ButtonWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ButtonWidth, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonWidth" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ButtonHeight, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ButtonHeight, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonHeight" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ButtonMargin, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ButtonMargin, new { type = "number", @class = "form-control", data_bind = "value: blockModel.buttonMargin" })
-                    </div>
-                </div>
+                <mantle-input asp-for="ButtonWidth" asp-label="@T[LocalizableStrings.ButtonWidth]" ko-bind="blockModel.buttonWidth" type="number" />
+                <mantle-input asp-for="ButtonHeight" asp-label="@T[LocalizableStrings.ButtonHeight]" ko-bind="blockModel.buttonHeight" type="number" />
+                <mantle-input asp-for="ButtonMargin" asp-label="@T[LocalizableStrings.ButtonMargin]" ko-bind="blockModel.buttonMargin" type="number" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.TurnSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.TurnSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.turnSpeed" })
-                    </div>
-                </div>
+                <mantle-input asp-for="TurnSpeed" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.turnSpeed" type="number" />
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowButtons, new { data_bind = "checked: blockModel.showButtons" }) @T[LocalizableStrings.ShowButtons]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowTool, new { data_bind = "checked: blockModel.showTool" }) @T[LocalizableStrings.ShowTool]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowPlay, new { data_bind = "checked: blockModel.showPlay" }) @T[LocalizableStrings.ShowPlay]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowPause, new { data_bind = "checked: blockModel.showPause" }) @T[LocalizableStrings.ShowPause]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowZoom, new { data_bind = "checked: blockModel.showZoom" }) @T[LocalizableStrings.ShowZoom]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowTurn, new { data_bind = "checked: blockModel.showTurn" }) @T[LocalizableStrings.ShowTurn]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.ShowFullscreen, new { data_bind = "checked: blockModel.showFullscreen" }) @T[LocalizableStrings.ShowFullscreen]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="ShowButtons" asp-label="@T[LocalizableStrings.ShowButtons]" ko-bind="blockModel.showButtons" />
+                        <mantle-input asp-for="ShowTool" asp-label="@T[LocalizableStrings.ShowTool]" ko-bind="blockModel.showTool" />
+                        <mantle-input asp-for="ShowPlay" asp-label="@T[LocalizableStrings.ShowPlay]" ko-bind="blockModel.showPlay" />
+                        <mantle-input asp-for="ShowPause" asp-label="@T[LocalizableStrings.ShowPause]" ko-bind="blockModel.showPause" />
+                        <mantle-input asp-for="ShowZoom" asp-label="@T[LocalizableStrings.ShowZoom]" ko-bind="blockModel.showZoom" />
+                        <mantle-input asp-for="ShowTurn" asp-label="@T[LocalizableStrings.ShowTurn]" ko-bind="blockModel.showTurn" />
+                        <mantle-input asp-for="ShowFullscreen" asp-label="@T[LocalizableStrings.ShowFullscreen]" ko-bind="blockModel.showFullscreen" />
                     </div>
                 </div>
             </div>
@@ -226,83 +116,21 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.DisplayLoader, new { data_bind = "checked: blockModel.displayLoader" }) @T[LocalizableStrings.DisplayLoader]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="DisplayLoader" asp-label="@T[LocalizableStrings.DisplayLoader]" ko-bind="blockModel.displayLoader" />
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderHolderClassName, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderHolderClassName, new { @class = "form-control", data_bind = "value: blockModel.loaderHolderClassName" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoadingTitle, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoadingTitle, new { @class = "form-control", data_bind = "value: blockModel.loadingTitle" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoadingSubtitle, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoadingSubtitle, new { @class = "form-control", data_bind = "value: blockModel.loadingSubtitle" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoadingMessage, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoadingMessage, new { @class = "form-control", data_bind = "value: blockModel.loadingMessage" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderModalBackground, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderModalBackground, new { @class = "form-control", data_bind = "value: blockModel.loaderModalBackground" })
-                    </div>
-                </div>
+                <mantle-input asp-for="LoaderHolderClassName" asp-label="@T[LocalizableStrings.LoaderHolderClassName]" ko-bind="blockModel.loaderHolderClassName" />
+                <mantle-input asp-for="LoadingTitle" asp-label="@T[LocalizableStrings.LoadingTitle]" ko-bind="blockModel.loadingTitle" />
+                <mantle-input asp-for="LoadingSubtitle" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.loadingSubtitle" />
+                <mantle-input asp-for="LoadingMessage" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.loadingMessage" />
+                <mantle-input asp-for="LoaderModalBackground" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.loaderModalBackground" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderModalOpacity, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderModalOpacity, new { @class = "form-control", data_bind = "value: blockModel.loaderModalOpacity" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderCircleWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderCircleWidth, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleWidth" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderCircleLineWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderCircleLineWidth, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleLineWidth" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderCircleLineColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderCircleLineColor, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleLineColor" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.LoaderCircleBackgroundColor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.LoaderCircleBackgroundColor, new { @class = "form-control", data_bind = "value: blockModel.loaderCircleBackgroundColor" })
-                    </div>
-                </div>
+                <mantle-input asp-for="LoaderModalOpacity" asp-label="@T[LocalizableStrings.LoaderModalOpacity]" ko-bind="blockModel.loaderModalOpacity" />
+                <mantle-input asp-for="LoaderCircleWidth" asp-label="@T[LocalizableStrings.LoaderCircleWidth]" ko-bind="blockModel.loaderCircleWidth" />
+                <mantle-input asp-for="LoaderCircleLineWidth" asp-label="@T[LocalizableStrings.LoaderCircleLineWidth]" ko-bind="blockModel.loaderCircleLineWidth" />
+                <mantle-input asp-for="LoaderCircleLineColor" asp-label="@T[LocalizableStrings.LoaderCircleLineColor]" ko-bind="blockModel.loaderCircleLineColor" />
+                <mantle-input asp-for="LoaderCircleBackgroundColor" asp-label="@T[LocalizableStrings.LoaderCircleBackgroundColor]" ko-bind="blockModel.loaderCircleBackgroundColor" />
             </div>
         }
     }

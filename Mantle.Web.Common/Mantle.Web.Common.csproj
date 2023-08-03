@@ -37,19 +37,4 @@
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Areas\Admin\Regions\Scripts\index.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Areas\Admin\Regions\Scripts\jquery.imagemapster-mod.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Areas\Admin\Regions\Scripts\jquery.maphilight.min.js">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
