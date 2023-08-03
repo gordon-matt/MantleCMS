@@ -68,8 +68,8 @@
         return $("<div/>").html(html).text();
     };
 
-    var contentBlockModel = (function () {
-        var f = {};
+    const contentBlockModel = (function () {
+        const f = {};
         f.updateModel = function (blockModel) {
             blockModel.htmlTemplate = ko.observable("");
             blockModel.thankYouMessage = ko.observable("");
@@ -78,7 +78,7 @@
             blockModel.formUrl = ko.observable(null);
             blockModel.useAjax = ko.observable(false);
 
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
+            const data = ko.mapping.fromJSON(blockModel.blockValues());
 
             if (data) {
                 if (data.HtmlTemplate) {
@@ -114,12 +114,12 @@
         };
         f.onBeforeSave = function (blockModel) {
 
-            var thankYouMessage = blockModel.thankYouMessage();
+            let thankYouMessage = blockModel.thankYouMessage();
             if (blockModel.useAjax()) {
                 thankYouMessage = stripHTML(thankYouMessage);
             }
 
-            var data = {
+            const data = {
                 HtmlTemplate: blockModel.htmlTemplate(),
                 ThankYouMessage: thankYouMessage,
                 RedirectUrl: blockModel.redirectUrl(),

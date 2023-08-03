@@ -4,6 +4,7 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks;
 
 public class LastNPostsBlock : ContentBlockBase
 {
+    [BlockProperty(5)]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.LastNPostsBlock.NumberOfEntries)]
     public byte NumberOfEntries { get; set; }
 

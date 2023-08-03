@@ -13,27 +13,5 @@
 </div>
 
 <script type="text/javascript">
-    var contentBlockModel = (function () {
-        var f = {};
-        f.updateModel = function (blockModel) {
-            blockModel.numberOfCategories = ko.observable(5);
-
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
-
-            if (data && data.NumberOfCategories) {
-                blockModel.numberOfCategories(data.NumberOfCategories());
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            delete blockModel.numberOfCategories;
-        };
-        f.onBeforeSave = function (blockModel) {
-            var data = {
-                NumberOfCategories: blockModel.numberOfCategories()
-            };
-
-            blockModel.blockValues(ko.mapping.toJSON(data));
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>
