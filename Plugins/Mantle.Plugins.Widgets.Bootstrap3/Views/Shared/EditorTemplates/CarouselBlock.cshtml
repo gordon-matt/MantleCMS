@@ -21,52 +21,20 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Interval, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.Interval, new { type = "number", @class = "form-control", data_bind = "value: blockModel.interval" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.StartIndex, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.StartIndex, new { type = "number", @class = "form-control", data_bind = "value: blockModel.startIndex" })
-            </div>
-        </div>
+        <mantle-input asp-for="Interval" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.Interval]" ko-bind="blockModel.interval" type="number" />
+        <mantle-input asp-for="StartIndex" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.StartIndex]" ko-bind="blockModel.startIndex" type="number" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBox("Keyboard", new { data_bind = "checked: blockModel.keyboard" }) @T[LocalizableStrings.ContentBlocks.CarouselBlock.Keyboard]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBox("PauseOnHover", new { data_bind = "checked: blockModel.pauseOnHover" }) @T[LocalizableStrings.ContentBlocks.CarouselBlock.PauseOnHover]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBox("Wrap", new { data_bind = "checked: blockModel.wrap" }) @T[LocalizableStrings.ContentBlocks.CarouselBlock.Wrap]
-                    </label>
-                </div>
+                <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.Keyboard]" ko-bind="blockModel.keyboard" />
+                <mantle-input asp-for="PauseOnHover" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.PauseOnHover]" ko-bind="blockModel.pauseOnHover" />
+                <mantle-input asp-for="Wrap" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.Wrap]" ko-bind="blockModel.wrap" />
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.OnSlideEvent, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.OnSlideEvent, new { @class = "form-control", data_bind = "value: blockModel.onSlideEvent" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.OnSlidEvent, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.OnSlidEvent, new { @class = "form-control", data_bind = "value: blockModel.onSlidEvent" })
-            </div>
-        </div>
+        <mantle-input asp-for="OnSlideEvent" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.OnSlideEvent]" ko-bind="blockModel.onSlideEvent" />
+        <mantle-input asp-for="OnSlidEvent" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.OnSlidEvent]" ko-bind="blockModel.onSlidEvent" />
     </div>
 
     <style type="text/css">
@@ -83,7 +51,7 @@
                     <h4 class="modal-title">Select Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=MediaFolder&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("MediaFolder", WorkContext.CurrentTenant.Id, FileFilterMode.Folder)
                 </div>
             </div>
         </div>
@@ -111,61 +79,5 @@
         });
     });
 
-    const contentBlockModel = (function () {
-        const f = {};
-        f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = '';
-            blockModel.interval = 0;
-            blockModel.startIndex = 0;
-            blockModel.keyboard = true;
-            blockModel.pauseOnHover = true;
-            blockModel.wrap = true;
-            blockModel.onSlideEvent = '';
-            blockModel.onSlidEvent = '';
-
-            const data = JSON.parse(blockModel.blockValues);
-
-            if ((isFunction(data) && data()) || data) {
-                if (data.MediaFolder == undefined) {
-                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
-                    return;
-                }
-                $('#MediaFolder').val(data.MediaFolder);
-                //blockModel.mediaFolder = data.MediaFolder;
-                blockModel.interval = data.Interval;
-                blockModel.startIndex = data.StartIndex;
-                blockModel.keyboard = data.Keyboard;
-                blockModel.pauseOnHover = data.PauseOnHover;
-                blockModel.wrap = data.Wrap;
-                blockModel.onSlideEvent = data.OnSlideEvent;
-                blockModel.onSlidEvent = data.OnSlidEvent;
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            //delete blockModel.mediaFolder;
-            delete blockModel.interval;
-            delete blockModel.startIndex;
-            delete blockModel.keyboard;
-            delete blockModel.pauseOnHover;
-            delete blockModel.wrap;
-            delete blockModel.onSlideEvent;
-            delete blockModel.onSlidEvent;
-        };
-        f.onBeforeSave = function (blockModel) {
-            const data = {
-                MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder,
-                Interval: blockModel.interval,
-                StartIndex: blockModel.startIndex,
-                Keyboard: blockModel.keyboard,
-                PauseOnHover: blockModel.pauseOnHover,
-                Wrap: blockModel.wrap,
-                OnSlideEvent: blockModel.onSlideEvent,
-                OnSlidEvent: blockModel.onSlidEvent
-            };
-
-            blockModel.blockValues = JSON.stringify(data);
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

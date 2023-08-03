@@ -15,6 +15,7 @@ public class MantleInputTagHelper : InputTagHelper
     protected const string ICON_ATTRIBUTE_NAME = "asp-icon";
     protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
     protected const string VALIDATION_MSG_ATTRIBUTE_NAME = "asp-validation-msg";
+    protected const string HELP_ATTRIBUTE_NAME = "asp-help";
 
     private readonly IHtmlHelper htmlHelper;
 
@@ -35,6 +36,9 @@ public class MantleInputTagHelper : InputTagHelper
 
     [HtmlAttributeName(VALIDATION_MSG_ATTRIBUTE_NAME)]
     public bool ValidationMessage { set; get; }
+
+    [HtmlAttributeName(HELP_ATTRIBUTE_NAME)]
+    public string HelpText { set; get; }
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -76,6 +80,11 @@ public class MantleInputTagHelper : InputTagHelper
             if (ValidationMessage)
             {
                 postContent += htmlHelper.ValidationMessage(For.Name).GetString();
+            }
+
+            if (!string.IsNullOrWhiteSpace(HelpText))
+            {
+                postContent += htmlHelper.HelpText(For.Name).GetString();
             }
 
             postContent += "</div>";

@@ -83,6 +83,38 @@ namespace Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
             get { return "/Plugins/Widgets.Bootstrap3/Views/Shared/EditorTemplates/CarouselBlock.cshtml"; }
         }
 
+        protected override string RenderObservableDeclaration(BlockPropertyInfo property)
+        {
+            if (property.Name == nameof(MediaFolder))
+            {
+                return null;
+            }
+            return base.RenderObservableDeclaration(property);
+        }
+
+        protected override string RenderObservableAssignment(BlockPropertyInfo property)
+        {
+            if (property.Name == nameof(MediaFolder))
+            {
+                // If MediaFolder is not set, it means the contentBlock is new and we have nothing in blockValues
+                return
+$@"		if (data.{property.Name} == undefined) {{ return; }}
+		$('#{property.Name}').val(data.{property.Name});";
+            }
+
+            return base.RenderObservableAssignment(property);
+        }
+
+        protected override string RenderSaveValue(BlockPropertyInfo property, bool isLast)
+        {
+            if (property.Name == nameof(MediaFolder))
+            {
+                return $"\t\t\t{property.Name}: $('#{property.Name}').val(),";
+            }
+
+            return base.RenderSaveValue(property, isLast);
+        }
+
         #endregion ContentBlockBase Overrides
     }
 }

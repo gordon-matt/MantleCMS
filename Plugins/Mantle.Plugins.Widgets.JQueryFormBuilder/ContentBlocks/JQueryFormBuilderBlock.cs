@@ -5,17 +5,22 @@ namespace Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks
 {
     public class JQueryFormBuilderBlock : ContentBlockBase
     {
+        [BlockProperty]
         public string Metadata { get; set; }
 
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.FormBuilderBlock.ThankYouMessage)]
         public string ThankYouMessage { get; set; }
 
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl)]
         public string RedirectUrl { get; set; }
 
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.FormBuilderBlock.EmailAddress)]
         public string EmailAddress { get; set; }
 
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax)]
         public bool UseAjax { get; set; }
 

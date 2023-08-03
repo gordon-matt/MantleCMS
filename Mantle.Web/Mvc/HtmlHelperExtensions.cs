@@ -450,6 +450,32 @@ public class Mantle<TModel>
         };
     }
 
+    public IHtmlContent FileManager(string fieldId, int tenantId, FileFilterMode filterMode)
+    {
+        byte filterModeValue;
+        string extensions = null;
+        if (filterMode == FileFilterMode.Folder)
+        {
+            filterModeValue = 2;
+            extensions = "&extensions=[&quot;&quot;]";
+        }
+        else
+        {
+            filterModeValue = (byte)filterMode;
+        }
+
+        string src = $@"/filemanager/dialog.php?field_id={fieldId}&rootFolder=Tenant_{tenantId}&type={filterModeValue}{extensions}&relative_url=1&fldr=&ignore_last_position=1";
+
+        var tagBuilder = new FluentTagBuilder("iframe")
+            .MergeAttribute("src", src)
+            .MergeAttribute("frameborder", 0)
+            .MergeAttribute("height", "100%")
+            .MergeAttribute("width", "100%")
+            .MergeAttribute("style", "overflow:hidden;min-height:600px; height:100%;width:100%");
+
+        return new HtmlString(tagBuilder.ToString());
+    }
+
     private class PermissionComparer : IComparer<string>
     {
         private readonly IComparer<string> baseComparer;
@@ -487,4 +513,13 @@ public enum EmbeddedPartialType : byte
 {
     Custom = 0,
     ResourceSettings = 1
+}
+
+public enum FileFilterMode : byte
+{
+    None = 0,
+    Image = 1,
+    File = 2,
+    Video = 3,
+    Folder = 4
 }

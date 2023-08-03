@@ -38,79 +38,68 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
 
     public virtual IHtmlContent RenderKOScript()
     {
-        var blockProperties = GetType().GetProperties()
-            .Select(x => new
-            {
-                Name = x.Name,
-                KOName = x.Name.Camelize(),
-                Type = x.PropertyType,
-                Attribute = x.GetCustomAttribute<BlockPropertyAttribute>(),
-            })
-            .Where(x => x.Attribute != null);
+        var blockProperties = GetBlockProperties();
 
         var sb = new StringBuilder(1024);
 
         sb.AppendLine("const contentBlockModel = (function () {");
         sb.AppendLine("\tconst f = {};");
+
+        sb.AppendLine(RenderKOUpdateModelFunction(blockProperties));
+        sb.AppendLine(RenderKOCleanUpFunction(blockProperties));
+        sb.AppendLine(RenderKOOnBeforeSaveFunction(blockProperties));
+
+        sb.AppendLine("\treturn f;");
+        sb.Append("})();");
+
+        return new HtmlString(sb.ToString());
+    }
+
+    public IEnumerable<BlockPropertyInfo> GetBlockProperties() =>
+        GetType().GetProperties()
+        .Select(x => new BlockPropertyInfo(x.Name, x.Name.Camelize(), x.PropertyType, x.GetCustomAttribute<BlockPropertyAttribute>()))
+        .Where(x => x.Attribute != null);
+
+    public virtual string RenderKOUpdateModelFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        var sb = new StringBuilder(1024);
+
         sb.AppendLine("\tf.updateModel = function (blockModel) {");
 
         foreach (var property in blockProperties)
         {
-            if (property.Type == typeof(string) || property.Type.IsEnum)
-            {
-                sb.AppendLine($"\t\tblockModel.{property.KOName} = ko.observable(\"{property.Attribute.DefaultValue ?? string.Empty}\");");
-            }
-            else
-            {
-                string value;
-                if (property.Attribute.DefaultValue is not null)
-                {
-                    value = property.Attribute.DefaultValue.ToString();
-                }
-                else if (property.Type.GetDefaultValue() is not null)
-                {
-                    var val = property.Type.GetDefaultValue();
-                    if (val is bool)
-                    {
-                        value = val.ToString().ToLowerInvariant();
-                    }
-                    else
-                    {
-                        value = val.ToString();
-                    }
-                }
-                else
-                {
-                    value = "null";
-                }
-
-                //string value = property.Attribute.DefaultValue ?? property.Type.GetDefaultValue() ?? "null";
-                sb.AppendLine($"\t\tblockModel.{property.KOName} = ko.observable({value});");
-            }
+            sb.AppendLine(RenderObservableDeclaration(property));
         }
 
         sb.AppendLine($"\t\tconst data = ko.mapping.fromJSON(blockModel.blockValues());");
         sb.AppendLine("\t\tif (data) {");
         foreach (var property in blockProperties)
         {
-            if (property.Type == typeof(bool))
-            {
-                sb.AppendLine($"\t\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ blockModel.{property.KOName}(data.{property.Name}()); }}");
-            }
-            else
-            {
-                sb.AppendLine($"\t\t\tif (data.{property.Name}) {{ blockModel.{property.KOName}(data.{property.Name}()); }}");
-            }
+            sb.AppendLine(RenderObservableAssignment(property));
         }
         sb.AppendLine("\t\t}");
-        sb.AppendLine("\t};");
+        sb.Append("\t};");
+
+        return sb.ToString();
+    }
+
+    public virtual string RenderKOCleanUpFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        var sb = new StringBuilder(512);
 
         sb.AppendLine("\tf.cleanUp = function (blockModel) {");
         foreach (var property in blockProperties)
         {
             sb.AppendLine($"\t\tdelete blockModel.{property.KOName};");
         }
-        sb.AppendLine("\t};");
+        sb.Append("\t};");
+
+        return sb.ToString();
+    }
+
+    public virtual string RenderKOOnBeforeSaveFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        var sb = new StringBuilder(512);
 
         sb.AppendLine("\tf.onBeforeSave = function (blockModel) {");
         sb.AppendLine("\t\tconst data = {");
@@ -120,15 +109,64 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
         {
             var property = blockProperties.ElementAt(i);
             bool isLast = (i == propertyCount - 1);
-            sb.AppendLine($"\t\t\t{property.Name}: blockModel.{property.KOName}(){(isLast ? string.Empty : ",")}");
+            sb.AppendLine(RenderSaveValue(property, isLast));
         }
 
         sb.AppendLine("\t\t};");
         sb.AppendLine("\t\tblockModel.blockValues(ko.mapping.toJSON(data));");
-        sb.AppendLine("\t};");
-        sb.AppendLine("\treturn f;");
-        sb.Append("})();");
+        sb.Append("\t};");
 
-        return new HtmlString(sb.ToString());
+        return sb.ToString();
     }
+
+    protected virtual string RenderObservableDeclaration(BlockPropertyInfo property)
+    {
+        if (property.Type == typeof(string) || property.Type.IsEnum)
+        {
+            return $"\t\tblockModel.{property.KOName} = ko.observable(\"{property.Attribute.DefaultValue ?? string.Empty}\");";
+        }
+        else
+        {
+            string value;
+            if (property.Attribute.DefaultValue is not null)
+            {
+                value = property.Attribute.DefaultValue.ToString();
+            }
+            else if (property.Type.GetDefaultValue() is not null)
+            {
+                var val = property.Type.GetDefaultValue();
+                if (val is bool)
+                {
+                    value = val.ToString().ToLowerInvariant();
+                }
+                else
+                {
+                    value = val.ToString();
+                }
+            }
+            else
+            {
+                value = "null";
+            }
+
+            return $"\t\tblockModel.{property.KOName} = ko.observable({value});";
+        }
+    }
+
+    protected virtual string RenderObservableAssignment(BlockPropertyInfo property)
+    {
+        if (property.Type == typeof(bool))
+        {
+            return $"\t\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ blockModel.{property.KOName}(data.{property.Name}()); }}";
+        }
+        else
+        {
+            return $"\t\t\tif (data.{property.Name}) {{ blockModel.{property.KOName}(data.{property.Name}()); }}";
+        }
+    }
+
+    protected virtual string RenderSaveValue(BlockPropertyInfo property, bool isLast) =>
+        $"\t\t\t{property.Name}: blockModel.{property.KOName}(){(isLast ? string.Empty : ",")}";
+
+    public record BlockPropertyInfo(string Name, string KOName, Type Type, BlockPropertyAttribute Attribute);
 }
