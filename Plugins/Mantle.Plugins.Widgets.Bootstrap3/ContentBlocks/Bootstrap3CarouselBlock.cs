@@ -13,48 +13,56 @@ namespace Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
             Wrap = true;
         }
 
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.MediaFolder)]
         public string MediaFolder { get; set; }
 
         /// <summary>
         /// The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.
         /// </summary>
+        [BlockProperty(5000)]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.Interval)]
         public int Interval { get; set; }
 
         /// <summary>
         /// Pass a raw slide index to the carousel
         /// </summary>
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.StartIndex)]
         public byte StartIndex { get; set; }
 
         /// <summary>
         /// Whether the carousel should react to keyboard events.
         /// </summary>
+        [BlockProperty(true)]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.Keyboard)]
         public bool Keyboard { get; set; }
 
         /// <summary>
         /// Pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave.
         /// </summary>
+        [BlockProperty(true)]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.PauseOnHover)]
         public bool PauseOnHover { get; set; }
 
         /// <summary>
         /// Whether the carousel should cycle continuously or have hard stops.
         /// </summary>
+        [BlockProperty(true)]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.Wrap)]
         public bool Wrap { get; set; }
 
         /// <summary>
         /// This event fires immediately when the slide instance method is invoked.
         /// </summary>
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.OnSlideEvent)]
         public string OnSlideEvent { get; set; }
 
         /// <summary>
         /// This event is fired when the carousel has completed its slide transition.
         /// </summary>
+        [BlockProperty]
         [LocalizedDisplayName(LocalizableStrings.ContentBlocks.CarouselBlock.OnSlidEvent)]
         public string OnSlidEvent { get; set; }
 

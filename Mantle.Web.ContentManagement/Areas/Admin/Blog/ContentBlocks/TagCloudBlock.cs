@@ -53,24 +53,28 @@ public class TagCloudBlock : ContentBlockBase
     /// <summary>
     /// If the container has dynamic dimensions, set this option to true to update the cloud when the window is resized.
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize)]
     public bool AutoResize { get; set; }
 
     /// <summary>
     /// Number of "steps" to map the words on, depending on their weight (see Colors & sizes section).
     /// </summary>
+    [BlockProperty(10)]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Steps)]
     public byte Steps { get; set; }
 
     /// <summary>
     /// Pattern used to generate the CSS class added to each word. {n} is replaced by the weight of the word (from 1 to steps).
     /// </summary>
+    [BlockProperty("w{n}")]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.ClassPattern)]
     public string ClassPattern { get; set; }
 
     /// <summary>
     /// Function called after the whole cloud is fully rendered. this is the container jQuery object.
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AfterCloudRender)]
     public string AfterCloudRender { get; set; }
 
@@ -78,39 +82,46 @@ public class TagCloudBlock : ContentBlockBase
     /// <para>Number of milliseconds to wait between each word draw. Defaults to 10 if there are 50 words or more to avoid</para>
     /// <para>browser freezing during rendering. Can also be used for neat display animation!</para>
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Delay)]
     public byte? Delay { get; set; }
 
     /// <summary>
     /// Cloud shape
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Shape)]
     public CloudShape Shape { get; set; }
 
     /// <summary>
     /// Don't render words which would overflow the container.
     /// </summary>
+    [BlockProperty(true)]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing)]
     public bool RemoveOverflowing { get; set; }
 
     /// <summary>
     /// Encode special characters in words link.
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.EncodeURI)]
     public bool EncodeURI { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Colors)]
     public string Colors { get; set; }
 
     /// <summary>
     /// Expressed in fraction of container width
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeFrom)]
     public float? FontSizeFrom { get; set; }
 
     /// <summary>
     /// Expressed in fraction of container width
     /// </summary>
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeTo)]
     public float? FontSizeTo { get; set; }
 

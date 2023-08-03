@@ -84,7 +84,7 @@
 </div>
 
 <script type="text/javascript">
-    var modalDismissed = false;
+    let modalDismissed = false;
 
     function dismissModal() {
         modalDismissed = true;
@@ -93,65 +93,11 @@
 
     $('#myModal').on('hidden.bs.modal', function () {
         if (!modalDismissed) {
-            var url = $('#Source').val();
+            const url = $('#Source').val();
             //url = "/Media/Uploads/" + url;
             blockModel.source(url);
         }
         modalDismissed = false;
     });
-    var contentBlockModel = (function () {
-        var f = {};
-        f.updateModel = function (blockModel) {
-            blockModel.controlId = ko.observable(null);
-            blockModel.type = ko.observable(0);
-            blockModel.source = ko.observable(null);
-            blockModel.showControls = ko.observable(true);
-            blockModel.autoPlay = ko.observable(false);
-            blockModel.loop = ko.observable(false);
-
-            var data = ko.mapping.fromJSON(blockModel.blockValues());
-
-            if (data) {
-                if (data.ControlId) {
-                    blockModel.controlId(data.ControlId());
-                }
-                if (data.Type) {
-                    blockModel.type(data.Type());
-                }
-                if (data.Source) {
-                    blockModel.source(data.Source());
-                }
-                if (data.ShowControls && typeof data.ShowControls() === 'boolean') {
-                    blockModel.showControls(data.ShowControls());
-                }
-                if (data.AutoPlay && typeof data.AutoPlay() === 'boolean') {
-                    blockModel.autoPlay(data.AutoPlay());
-                }
-                if (data.Loop && typeof data.Loop() === 'boolean') {
-                    blockModel.loop(data.Loop());
-                }
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            delete blockModel.controlId;
-            delete blockModel.type;
-            delete blockModel.source;
-            delete blockModel.showControls;
-            delete blockModel.autoPlay;
-            delete blockModel.loop;
-        };
-        f.onBeforeSave = function (blockModel) {
-            var data = {
-                ControlId: blockModel.controlId(),
-                Type: blockModel.type(),
-                Source: blockModel.source(),
-                ShowControls: blockModel.showControls(),
-                AutoPlay: blockModel.autoPlay(),
-                Loop: blockModel.loop()
-            };
-
-            blockModel.blockValues(ko.mapping.toJSON(data));
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

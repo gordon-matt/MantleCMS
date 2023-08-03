@@ -11,15 +11,19 @@ public class LanguageSwitchBlock : ContentBlockBase
         List = 2
     }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.Style)]
     public LanguageSwitchStyle Style { get; set; }
 
+    //[BlockProperty]
     //[LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.UseUrlPrefix)]
     //public bool UseUrlPrefix { get; set; }
 
+    [BlockProperty]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.IncludeInvariant)]
     public bool IncludeInvariant { get; set; }
 
+    [BlockProperty("[ Invariant ]")]
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.InvariantText)]
     public string InvariantText { get; set; }
 

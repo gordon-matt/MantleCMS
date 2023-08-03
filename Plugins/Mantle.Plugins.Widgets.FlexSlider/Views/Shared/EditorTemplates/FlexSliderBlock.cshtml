@@ -366,7 +366,7 @@
 </div>
 
 <script type="text/javascript">
-    var modalDismissed = false;
+    let modalDismissed = false;
 
     function dismissModal() {
         modalDismissed = true;
@@ -376,8 +376,8 @@
     $(document).ready(function () {
         $('#myModal').on('hidden.bs.modal', function () {
             if (!modalDismissed) {
-                var url = $('#MediaFolder').val();
-                var idx = url.indexOf("Uploads");
+                let url = $('#MediaFolder').val();
+                const idx = url.indexOf("Uploads");
                 url = url.substring(idx);
                 $('#MediaFolder').val(url);
                 //blockModel.mediaFolder(url);
@@ -386,8 +386,8 @@
         });
     });
 
-    var contentBlockModel = (function () {
-        var f = {};
+    const contentBlockModel = (function () {
+        const f = {};
         f.updateModel = function (blockModel) {
             //blockModel.mediaFolder = '';
             blockModel.controlId = "slider";
@@ -436,7 +436,7 @@
             blockModel.onAdded = null;
             blockModel.onRemoved = null;
 
-            var data = JSON.parse(blockModel.blockValues);
+            const data = JSON.parse(blockModel.blockValues);
 
             if ((isFunction(data) && data()) || data) {
                 if (data.MediaFolder == undefined) {
@@ -541,7 +541,7 @@
             delete blockModel.onRemoved;
         };
         f.onBeforeSave = function (blockModel) {
-            var data = {
+            const data = {
                 MediaFolder: $('#MediaFolder').val(),
                 //MediaFolder: blockModel.mediaFolder,
                 ControlId: blockModel.controlId,
