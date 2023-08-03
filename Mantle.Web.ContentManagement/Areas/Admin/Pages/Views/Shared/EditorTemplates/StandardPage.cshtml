@@ -5,22 +5,13 @@
 
 <div id="fields-content">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="form-group">
-            @Html.Label("MetaTitle", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaTitle], new { @class = "control-label" })
-            @Html.TextBox("MetaTitle", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaTitle" })
-        </div>
+        <mantle-input asp-for="MetaTitle" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaTitle]" ko-bind="pageVersionModel.metaTitle" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="form-group">
-            @Html.Label("MetaKeywords", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaKeywords], new { @class = "control-label" })
-            @Html.TextBox("MetaKeywords", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaKeywords" })
-        </div>
+        <mantle-input asp-for="MetaKeywords" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaKeywords]" ko-bind="pageVersionModel.metaKeywords" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="form-group">
-            @Html.Label("MetaDescription", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription], new { @class = "control-label" })
-            @Html.TextBox("MetaDescription", null, new { @class = "form-control", data_bind = "value: pageVersionModel.metaDescription" })
-        </div>
+        <mantle-input asp-for="MetaDescription" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription]" ko-bind="pageVersionModel.metaDescription" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group">

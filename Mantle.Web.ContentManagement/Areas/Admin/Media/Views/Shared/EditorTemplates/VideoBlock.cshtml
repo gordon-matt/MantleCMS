@@ -1,6 +1,7 @@
 ﻿@using Mantle.Web.ContentManagement
 @using Mantle.Web.ContentManagement.Areas.Admin.Media.ContentBlocks
 @model Mantle.Web.ContentManagement.Areas.Admin.Media.ContentBlocks.VideoBlock
+@addTagHelper *, Mantle.Web
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
@@ -18,12 +19,7 @@
                 @Html.DropDownListFor(m => m.Type, Html.GetEnumSelectList<VideoBlock.VideoType>(), new { @class = "form-control", data_bind = "value: blockModel.type" })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ControlId, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.ControlId, new { @class = "form-control", data_bind = "value: blockModel.controlId" })
-            </div>
-        </div>
+        <mantle-input asp-for="ControlId" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ControlId]" ko-bind="blockModel.controlId" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
@@ -42,21 +38,9 @@
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.ShowControls, new { data_bind = "checked: blockModel.showControls" }) @T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.AutoPlay, new { data_bind = "checked: blockModel.autoPlay" }) @T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.AutoPlay]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.Loop, new { data_bind = "checked: blockModel.loop" }) @T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Loop]
-                    </label>
-                </div>
+                <mantle-input asp-for="ShowControls" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls]" ko-bind="blockModel.showControls" />
+                <mantle-input asp-for="AutoPlay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.AutoPlay]" ko-bind="blockModel.autoPlay" />
+                <mantle-input asp-for="Loop" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Loop]" ko-bind="blockModel.loop" />
             </div>
         </div>
     </div>
@@ -75,7 +59,7 @@
                     <h4 class="modal-title">Select Video</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=3&relative_url=1&fldr=&field_id=Source&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("Source", WorkContext.CurrentTenant.Id, FileFilterMode.Video)
                 </div>
             </div>
         </div>

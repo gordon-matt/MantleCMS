@@ -61,7 +61,7 @@
                     <h4 class="modal-title">Select Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=MediaFolder&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("MediaFolder", WorkContext.CurrentTenant.Id, FileFilterMode.Folder)
                 </div>
             </div>
         </div>
@@ -89,51 +89,5 @@
         });
     });
 
-    const contentBlockModel = (function () {
-        const f = {};
-        f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = '';
-            blockModel.imagesPerRowXS = 2;
-            blockModel.imagesPerRowS = 3;
-            blockModel.imagesPerRowM = 3;
-            blockModel.imagesPerRowL = 4;
-
-            const data = JSON.parse(blockModel.blockValues);
-
-            if ((isFunction(data) && data()) || data) {
-                if (data.MediaFolder == undefined) {
-                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
-                    return;
-                }
-                if (isFunction(data.MediaFolder)) {
-                    $('#MediaFolder').val(data.MediaFolder);
-                    //blockModel.mediaFolder = data.MediaFolder;
-                }
-                if (isFunction(data.ImagesPerRowXS)) { blockModel.imagesPerRowXS = data.ImagesPerRowXS; }
-                if (isFunction(data.ImagesPerRowS)) { blockModel.imagesPerRowS = data.ImagesPerRowS; }
-                if (isFunction(data.ImagesPerRowM)) { blockModel.imagesPerRowM = data.ImagesPerRowM; }
-                if (isFunction(data.ImagesPerRowL)) { blockModel.imagesPerRowL = data.ImagesPerRowL; }
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            //delete blockModel.mediaFolder;
-            delete blockModel.imagesPerRowXS;
-            delete blockModel.imagesPerRowS;
-            delete blockModel.imagesPerRowM;
-            delete blockModel.imagesPerRowL;
-        };
-        f.onBeforeSave = function (blockModel) {
-            const data = {
-                MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder,
-                ImagesPerRowXS: blockModel.imagesPerRowXS,
-                ImagesPerRowS: blockModel.imagesPerRowS,
-                ImagesPerRowM: blockModel.imagesPerRowM,
-                ImagesPerRowL: blockModel.imagesPerRowL
-            };
-
-            blockModel.blockValues = JSON.stringify(data);
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

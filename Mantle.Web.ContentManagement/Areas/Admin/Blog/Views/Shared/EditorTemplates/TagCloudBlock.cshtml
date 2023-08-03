@@ -9,73 +9,26 @@
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.AutoResize, new { data_bind = "checked: blockModel.autoResize" }) @T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.RemoveOverflowing, new { data_bind = "checked: blockModel.removeOverflowing" }) @T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing]
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.EncodeURI, new { data_bind = "checked: blockModel.encodeURI" }) @T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.EncodeURI]
-                    </label>
-                </div>
+                <mantle-input asp-for="AutoResize" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize]" ko-bind="blockModel.autoResize" />
+                <mantle-input asp-for="RemoveOverflowing" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing]" ko-bind="blockModel.removeOverflowing" />
+                <mantle-input asp-for="EncodeURI" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.EncodeURI]" ko-bind="blockModel.encodeURI" />
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Steps, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.Steps, new { type = "number", @class = "form-control", data_bind = "value: blockModel.steps" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ClassPattern, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.ClassPattern, new { @class = "form-control", data_bind = "value: blockModel.classPattern" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.AfterCloudRender, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextAreaFor(m => m.AfterCloudRender, new { @class = "form-control", data_bind = "value: blockModel.afterCloudRender" })
-            </div>
-        </div>
+        <mantle-input asp-for="Steps" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Steps]" ko-bind="blockModel.steps" type="number" />
+        <mantle-input asp-for="ClassPattern" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.ClassPattern]" ko-bind="blockModel.classPattern" />
+        <mantle-input asp-for="AfterCloudRender" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AfterCloudRender]" ko-bind="blockModel.afterCloudRender" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-            @Html.LabelFor(m => m.Delay, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.Delay, new { @class = "form-control", data_bind = "value: blockModel.delay" })
-            </div>
-        </div>
+        <mantle-input asp-for="Delay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Delay]" ko-bind="blockModel.delay" />
         <div class="form-group">
             @Html.LabelFor(m => m.Shape, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 @Html.DropDownListFor(m => m.Shape, Html.GetEnumSelectList<CloudShape>(), new { @class = "form-control", data_bind = "value: blockModel.shape" })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Colors, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.Colors, new { @class = "form-control", data_bind = "value: blockModel.colors" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.FontSizeFrom, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.FontSizeFrom, new { @class = "form-control", data_bind = "value: blockModel.fontSizeFrom" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.FontSizeTo, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.FontSizeTo, new { @class = "form-control", data_bind = "value: blockModel.fontSizeTo" })
-            </div>
-        </div>
+        <mantle-input asp-for="Colors" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Colors]" ko-bind="blockModel.colors" />
+        <mantle-input asp-for="FontSizeFrom" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeFrom]" ko-bind="blockModel.fontSizeFrom" />
+        <mantle-input asp-for="FontSizeTo" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeTo]" ko-bind="blockModel.fontSizeTo" />
     </div>
 </div>
 

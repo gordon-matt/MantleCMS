@@ -38,5 +38,66 @@ public class FormBlock : ContentBlockBase
 
     public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.FormBlock.cshtml";
 
+    public override string RenderKOUpdateModelFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        var sb = new StringBuilder(1024);
+
+        sb.AppendLine("\tf.updateModel = function (blockModel) {");
+
+        foreach (var property in blockProperties)
+        {
+            sb.AppendLine(RenderObservableDeclaration(property));
+        }
+
+        sb.AppendLine($"\t\tconst data = ko.mapping.fromJSON(blockModel.blockValues());");
+        sb.AppendLine("\t\tif (data) {");
+        foreach (var property in blockProperties)
+        {
+            sb.AppendLine(RenderObservableAssignment(property));
+        }
+        sb.AppendLine("\t\t}");
+        sb.AppendLine("blockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;");
+        sb.Append("\t};");
+
+        return sb.ToString();
+    }
+
+    public override string RenderKOOnBeforeSaveFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        var sb = new StringBuilder(512);
+
+        sb.AppendLine("\tf.onBeforeSave = function (blockModel) {");
+
+        sb.AppendLine(
+@"		let thankYouMessage = blockModel.thankYouMessage();
+if (blockModel.useAjax()) {
+	thankYouMessage = stripHTML(thankYouMessage);
+}");
+
+        sb.AppendLine("\t\tconst data = {");
+
+        int propertyCount = blockProperties.Count();
+        for (int i = 0; i < propertyCount; i++)
+        {
+            var property = blockProperties.ElementAt(i);
+            bool isLast = (i == propertyCount - 1);
+
+            if (property.Name == "ThankYouMessage")
+            {
+                sb.AppendLine($"\t\t\tThankYouMessage: thankYouMessage{(isLast ? string.Empty : ",")}");
+            }
+            else
+            {
+                sb.AppendLine(RenderSaveValue(property, isLast));
+            }
+        }
+
+        sb.AppendLine("\t\t};");
+        sb.AppendLine("\t\tblockModel.blockValues(ko.mapping.toJSON(data));");
+        sb.Append("\t};");
+
+        return sb.ToString();
+    }
+
     #endregion ContentBlockBase Overrides
 }

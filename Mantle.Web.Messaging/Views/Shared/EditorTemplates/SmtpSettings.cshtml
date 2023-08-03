@@ -10,51 +10,15 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="settings-content">
-    <div class="form-group">
-        @Html.LabelFor(m => m.DisplayName)
-        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", data_bind = "value: displayName" })
-        @Html.ValidationMessageFor(m => m.DisplayName)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Host)
-        @Html.TextBoxFor(m => m.Host, new { @class = "form-control", data_bind = "value: host" })
-        @Html.ValidationMessageFor(m => m.Host)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Port)
-        @Html.TextBoxFor(m => m.Host, new { @class = "form-control", data_bind = "value: port" })
-        @Html.ValidationMessageFor(m => m.Port)
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m => m.EnableSsl, new { data_bind = "checked: enableSsl" }) @T[LocalizableStrings.Settings.Smtp.EnableSsl]
-        </label>
-    </div>
-    <div class="checkbox">
-        <label>
-            @Html.CheckBoxFor(m => m.UseDefaultCredentials, new { data_bind = "checked: useDefaultCredentials" }) @T[LocalizableStrings.Settings.Smtp.UseDefaultCredentials]
-        </label>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Username)
-        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", data_bind = "value: username", data_val_requiredif = "UseDefaultCredentials:unchecked" })
-        @Html.ValidationMessageFor(m => m.Username)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control", data_bind = "value: password", data_val_requiredif = "UseDefaultCredentials:unchecked" })
-        @Html.ValidationMessageFor(m => m.Password)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.MaxTries)
-        @Html.TextBoxFor(m => m.MaxTries, new { type = "number", @class = "form-control", data_bind = "value: maxTries" })
-        @Html.ValidationMessageFor(m => m.MaxTries)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.MessagesPerBatch)
-        @Html.TextBoxFor(m => m.MessagesPerBatch, new { type = "number", @class = "form-control", data_bind = "value: messagesPerBatch" })
-        @Html.ValidationMessageFor(m => m.MessagesPerBatch)
-    </div>
+    <mantle-input asp-for="DisplayName" asp-label="@T[LocalizableStrings.Settings.Smtp.DisplayName]" asp-validation-msg="true" />
+    <mantle-input asp-for="Host" asp-label="@T[LocalizableStrings.Settings.Smtp.Host]" asp-validation-msg="true" />
+    <mantle-input asp-for="Port" asp-label="@T[LocalizableStrings.Settings.Smtp.Port]" asp-validation-msg="true" />
+    <mantle-input asp-for="EnableSsl" asp-label="@T[LocalizableStrings.Settings.Smtp.EnableSsl]" />
+    <mantle-input asp-for="UseDefaultCredentials" asp-label="@T[LocalizableStrings.Settings.Smtp.UseDefaultCredentials]" />
+    <mantle-input asp-for="Username" asp-label="@T[LocalizableStrings.Settings.Smtp.Username]" asp-validation-msg="true" />
+    <mantle-input asp-for="Password" asp-label="@T[LocalizableStrings.Settings.Smtp.Password]" asp-validation-msg="true" />
+    <mantle-input asp-for="MaxTries" asp-label="@T[LocalizableStrings.Settings.Smtp.MaxTries]" asp-validation-msg="true" type="number" />
+    <mantle-input asp-for="MessagesPerBatch" asp-label="@T[LocalizableStrings.Settings.Smtp.MessagesPerBatch]" asp-validation-msg="true" type="number" />
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">

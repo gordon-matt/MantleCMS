@@ -1,12 +1,4 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Plugins.Widgets.FlexSlider
-@using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
-@using Mantle.Web.Mvc
-
-@model FlexSliderBlock
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.IWorkContext WorkContext
+﻿@model FlexSliderBlock
 
 <div id="block-content">
     @using (var tabs = Html.ExtensoUI().Begin(new Tabs()))
@@ -33,115 +25,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ControlId, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ControlId, new { @class = "form-control", data_bind = "value: blockModel.controlId" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Namespace, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Namespace, new { @class = "form-control", data_bind = "value: blockModel.namespace" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Selector, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Selector, new { @class = "form-control", data_bind = "value: blockModel.selector" })
-                    </div>
-                </div>
+                <mantle-input asp-for="ControlId" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlId]" ko-bind="blockModel.controlId" />
+                <mantle-input asp-for="Namespace" asp-label="@T[LocalizableStrings.FlexSliderBlock.Namespace]" ko-bind="blockModel.namespace" />
+                <mantle-input asp-for="Selector" asp-label="@T[LocalizableStrings.FlexSliderBlock.Selector]" ko-bind="blockModel.selector" />
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Randomize", new { data_bind = "checked: blockModel.randomize" }) @T[LocalizableStrings.FlexSliderBlock.Randomize]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("PauseOnAction", new { data_bind = "checked: blockModel.pauseOnAction" }) @T[LocalizableStrings.FlexSliderBlock.PauseOnAction]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("PauseOnHover", new { data_bind = "checked: blockModel.pauseOnHover" }) @T[LocalizableStrings.FlexSliderBlock.PauseOnHover]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Touch", new { data_bind = "checked: blockModel.touch" }) @T[LocalizableStrings.FlexSliderBlock.Touch]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Video", new { data_bind = "checked: blockModel.video" }) @T[LocalizableStrings.FlexSliderBlock.Video]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Slideshow", new { data_bind = "checked: blockModel.slideshow" }) @T[LocalizableStrings.FlexSliderBlock.Slideshow]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
+                        <mantle-input asp-for="PauseOnAction" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnAction]" ko-bind="blockModel.pauseOnAction" />
+                        <mantle-input asp-for="PauseOnHover" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnHover]" ko-bind="blockModel.pauseOnHover" />
+                        <mantle-input asp-for="Touch" asp-label="@T[LocalizableStrings.FlexSliderBlock.Touch]" ko-bind="blockModel.touch" />
+                        <mantle-input asp-for="Video" asp-label="@T[LocalizableStrings.FlexSliderBlock.Video]" ko-bind="blockModel.video" />
+                        <mantle-input asp-for="Slideshow" asp-label="@T[LocalizableStrings.FlexSliderBlock.Slideshow]" ko-bind="blockModel.slideshow" />
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SlideshowSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.SlideshowSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.slideshowSpeed" })
-                    </div>
-                </div>
+                <mantle-input asp-for="SlideshowSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.SlideshowSpeed]" ko-bind="blockModel.slideshowSpeed" type="number" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.StartAt, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.StartAt, new { type = "number", @class = "form-control", data_bind = "value: blockModel.startAt" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.InitDelay, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.InitDelay, new { type = "number", @class = "form-control", data_bind = "value: blockModel.initDelay" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Sync, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Sync, new { @class = "form-control", data_bind = "value: blockModel.sync" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.AsNavFor, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.AsNavFor, new { @class = "form-control", data_bind = "value: blockModel.asNavFor" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ItemWidth, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ItemWidth, new { type = "number", @class = "form-control", data_bind = "value: blockModel.itemWidth" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ItemMargin, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ItemMargin, new { type = "number", @class = "form-control", data_bind = "value: blockModel.itemMargin" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.MinItems, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.MinItems, new { type = "number", @class = "form-control", data_bind = "value: blockModel.minItems" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.MaxItems, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.MaxItems, new { type = "number", @class = "form-control", data_bind = "value: blockModel.maxItems" })
-                    </div>
-                </div>
+                <mantle-input asp-for="StartAt" asp-label="@T[LocalizableStrings.FlexSliderBlock.StartAt]" ko-bind="blockModel.startAt" type="number" />
+                <mantle-input asp-for="InitDelay" asp-label="@T[LocalizableStrings.FlexSliderBlock.InitDelay]" ko-bind="blockModel.initDelay" type="number" />
+                <mantle-input asp-for="Sync" asp-label="@T[LocalizableStrings.FlexSliderBlock.Sync]" ko-bind="blockModel.sync" />
+                <mantle-input asp-for="AsNavFor" asp-label="@T[LocalizableStrings.FlexSliderBlock.AsNavFor]" ko-bind="blockModel.asNavFor" />
+                <mantle-input asp-for="ItemWidth" asp-label="@T[LocalizableStrings.FlexSliderBlock.ItemWidth]" ko-bind="blockModel.itemWidth" type="number" />
+                <mantle-input asp-for="ItemMargin" asp-label="@T[LocalizableStrings.FlexSliderBlock.ItemMargin]" ko-bind="blockModel.itemMargin" type="number" />
+                <mantle-input asp-for="MinItems" asp-label="@T[LocalizableStrings.FlexSliderBlock.MinItems]" ko-bind="blockModel.minItems" type="number" />
+                <mantle-input asp-for="MaxItems" asp-label="@T[LocalizableStrings.FlexSliderBlock.MaxItems]" ko-bind="blockModel.maxItems" type="number" />
             </div>
         }
         using (var tab = tabs.BeginPanel())
@@ -159,18 +67,8 @@
                         @Html.DropDownListFor(m => m.Easing, Html.GetEnumSelectList<EasingMethod>(), new { @class = "form-control", data_bind = "value: blockModel.easing" })
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.AnimationSpeed, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.AnimationSpeed, new { type = "number", @class = "form-control", data_bind = "value: blockModel.animationSpeed" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Move, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.Move, new { type = "number", @class = "form-control", data_bind = "value: blockModel.move" })
-                    </div>
-                </div>
+                <mantle-input asp-for="AnimationSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationSpeed]" ko-bind="blockModel.animationSpeed" type="number" />
+                <mantle-input asp-for="Move" asp-label="@T[LocalizableStrings.FlexSliderBlock.Move]" ko-bind="blockModel.move" type="number" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
@@ -182,26 +80,10 @@
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Reverse", new { data_bind = "checked: blockModel.reverse" }) @T[LocalizableStrings.FlexSliderBlock.Reverse]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("AnimationLoop", new { data_bind = "checked: blockModel.animationLoop" }) @T[LocalizableStrings.FlexSliderBlock.AnimationLoop]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("SmoothHeight", new { data_bind = "checked: blockModel.smoothHeight" }) @T[LocalizableStrings.FlexSliderBlock.SmoothHeight]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("UseCSS", new { data_bind = "checked: blockModel.useCSS" }) @T[LocalizableStrings.FlexSliderBlock.UseCSS]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
+                        <mantle-input asp-for="AnimationLoop" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationLoop]" ko-bind="blockModel.animationLoop" />
+                        <mantle-input asp-for="SmoothHeight" asp-label="@T[LocalizableStrings.FlexSliderBlock.SmoothHeight]" ko-bind="blockModel.smoothHeight" />
+                        <mantle-input asp-for="UseCSS" asp-label="@T[LocalizableStrings.FlexSliderBlock.UseCSS]" ko-bind="blockModel.useCSS" />
                     </div>
                 </div>
             </div>
@@ -213,25 +95,11 @@
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("DirectionNav", new { data_bind = "checked: blockModel.directionNav" }) @T[LocalizableStrings.FlexSliderBlock.DirectionNav]
-                                </label>
-                            </div>
+                            <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PrevText, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            @Html.TextBoxFor(m => m.PrevText, new { @class = "form-control", data_bind = "value: blockModel.prevText" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.NextText, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            @Html.TextBoxFor(m => m.NextText, new { @class = "form-control", data_bind = "value: blockModel.nextText" })
-                        </div>
-                    </div>
+                    <mantle-input asp-for="PrevText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PrevText]" ko-bind="blockModel.prevText" />
+                    <mantle-input asp-for="NextText" asp-label="@T[LocalizableStrings.FlexSliderBlock.NextText]" ko-bind="blockModel.nextText" />
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.ControlNav, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
@@ -239,62 +107,26 @@
                         @Html.DropDownListFor(m => m.ControlNav, Html.GetEnumSelectList<ControlNavOption>(), new { @class = "form-control", data_bind = "value: blockModel.controlNav" })
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ControlsContainer, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ControlsContainer, new { @class = "form-control", data_bind = "value: blockModel.controlsContainer" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ManualControls, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextBoxFor(m => m.ManualControls, new { @class = "form-control", data_bind = "value: blockModel.manualControls" })
-                    </div>
-                </div>
+                <mantle-input asp-for="ControlsContainer" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlsContainer]" ko-bind="blockModel.controlsContainer" />
+                <mantle-input asp-for="ManualControls" asp-label="@T[LocalizableStrings.FlexSliderBlock.ManualControls]" ko-bind="blockModel.manualControls" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="well">
                     <div class="form-group">
                         <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("PausePlay", new { data_bind = "checked: blockModel.pausePlay" }) @T[LocalizableStrings.FlexSliderBlock.PausePlay]
-                                </label>
-                            </div>
+                            <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PauseText, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            @Html.TextBoxFor(m => m.PauseText, new { @class = "form-control", data_bind = "value: blockModel.pauseText" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PlayText, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            @Html.TextBoxFor(m => m.PlayText, new { @class = "form-control", data_bind = "value: blockModel.playText" })
-                        </div>
-                    </div>
+                    <mantle-input asp-for="PauseText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseText]" ko-bind="blockModel.pauseText" />
+                    <mantle-input asp-for="PlayText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PlayText]" ko-bind="blockModel.playText" />
                 </div>
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Keyboard", new { data_bind = "checked: blockModel.keyboard" }) @T[LocalizableStrings.FlexSliderBlock.Keyboard]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("MultipleKeyboard", new { data_bind = "checked: blockModel.multipleKeyboard" }) @T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBox("Mousewheel", new { data_bind = "checked: blockModel.mousewheel" }) @T[LocalizableStrings.FlexSliderBlock.Mousewheel]
-                            </label>
-                        </div>
+                        <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />
+                        <mantle-input asp-for="MultipleKeyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]" ko-bind="blockModel.multipleKeyboard" />
+                        <mantle-input asp-for="Mousewheel" asp-label="@T[LocalizableStrings.FlexSliderBlock.Mousewheel]" ko-bind="blockModel.mousewheel" />
                     </div>
                 </div>
             </div>
@@ -358,7 +190,7 @@
                     <h4 class="modal-title">Select Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&fldr=&relative_url=1&field_id=MediaFolder&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("MediaFolder", WorkContext.CurrentTenant.Id, FileFilterMode.Folder)
                 </div>
             </div>
         </div>
@@ -386,212 +218,5 @@
         });
     });
 
-    const contentBlockModel = (function () {
-        const f = {};
-        f.updateModel = function (blockModel) {
-            //blockModel.mediaFolder = '';
-            blockModel.controlId = "slider";
-            blockModel.namespace = null;
-            blockModel.selector = null;
-            blockModel.startAt = 0;
-            blockModel.slideshow = true;
-            blockModel.slideshowSpeed = 7000;
-            blockModel.initDelay = 0;
-            blockModel.randomize = false;
-            blockModel.pauseOnAction = true;
-            blockModel.pauseOnHover = false;
-            blockModel.touch = true;
-            blockModel.video = false;
-            blockModel.sync = '';
-            blockModel.asNavFor = '';
-            blockModel.itemWidth = 0;
-            blockModel.itemMargin = 0;
-            blockModel.minItems = 0;
-            blockModel.maxItems = 0;
-            blockModel.animation = 0;
-            blockModel.animationSpeed = 600;
-            blockModel.direction = 0;
-            blockModel.reverse = false;
-            blockModel.move = 0;
-            blockModel.animationLoop = true;
-            blockModel.smoothHeight = false;
-            blockModel.easing = 1;
-            blockModel.useCSS = true;
-            blockModel.controlNav = 1;
-            blockModel.directionNav = true;
-            blockModel.prevText = "Previous";
-            blockModel.nextText = "Next";
-            blockModel.pausePlay = false;
-            blockModel.pauseText = "Pause";
-            blockModel.playText = "Play";
-            blockModel.controlsContainer = '';
-            blockModel.manualControls = '';
-            blockModel.keyboard = true;
-            blockModel.multipleKeyboard = false;
-            blockModel.mousewheel = false;
-            blockModel.onStart = null;
-            blockModel.onEnd = null;
-            blockModel.onBefore = null;
-            blockModel.onAfter = null;
-            blockModel.onAdded = null;
-            blockModel.onRemoved = null;
-
-            const data = JSON.parse(blockModel.blockValues);
-
-            if ((isFunction(data) && data()) || data) {
-                if (data.MediaFolder == undefined) {
-                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
-                    return;
-                }
-                $('#MediaFolder').val(data.MediaFolder);
-                //blockModel.mediaFolder = data.MediaFolder;
-                blockModel.controlId = data.ControlId;
-                blockModel.namespace = data.Namespace;
-                blockModel.selector = data.Selector;
-                blockModel.startAt = data.StartAt;
-                blockModel.slideshow = data.Slideshow;
-                blockModel.slideshowSpeed = data.SlideshowSpeed;
-                blockModel.initDelay = data.InitDelay;
-                blockModel.randomize = data.Randomize;
-                blockModel.pauseOnAction = data.PauseOnAction;
-                blockModel.pauseOnHover = data.PauseOnHover;
-                blockModel.touch = data.Touch;
-                blockModel.video = data.Video;
-                blockModel.sync = data.Sync;
-                blockModel.asNavFor = data.AsNavFor;
-                blockModel.itemWidth = data.ItemWidth;
-                blockModel.itemMargin = data.ItemMargin;
-                blockModel.minItems = data.MinItems;
-                blockModel.maxItems = data.MaxItems;
-                blockModel.animation = data.Animation;
-                blockModel.animationSpeed = data.AnimationSpeed;
-                blockModel.direction = data.Direction;
-                blockModel.reverse = data.Reverse;
-                blockModel.move = data.Move;
-                blockModel.animationLoop = data.AnimationLoop;
-                blockModel.smoothHeight = data.SmoothHeight;
-                blockModel.easing = data.Easing;
-                blockModel.useCSS = data.UseCSS;
-                blockModel.controlNav = data.ControlNav;
-                blockModel.directionNav = data.DirectionNav;
-                blockModel.prevText = data.PrevText;
-                blockModel.nextText = data.NextText;
-                blockModel.pausePlay = data.PausePlay;
-                blockModel.pauseText = data.PauseText;
-                blockModel.playText = data.PlayText;
-                blockModel.controlsContainer = data.ControlsContainer;
-                blockModel.manualControls = data.ManualControls;
-                blockModel.keyboard = data.Keyboard;
-                blockModel.multipleKeyboard = data.MultipleKeyboard;
-                blockModel.mousewheel = data.Mousewheel;
-                blockModel.onStart = data.OnStart;
-                blockModel.onEnd = data.OnEnd;
-                blockModel.onBefore = data.OnBefore;
-                blockModel.onAfter = data.OnAfter;
-                blockModel.onAdded = data.OnAdded;
-                blockModel.onRemoved = data.OnRemoved;
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            //delete blockModel.mediaFolder;
-            delete blockModel.controlId;
-            delete blockModel.namespace;
-            delete blockModel.selector;
-            delete blockModel.startAt;
-            delete blockModel.slideshow;
-            delete blockModel.slideshowSpeed;
-            delete blockModel.initDelay;
-            delete blockModel.randomize;
-            delete blockModel.pauseOnAction;
-            delete blockModel.pauseOnHover;
-            delete blockModel.touch;
-            delete blockModel.video;
-            delete blockModel.sync;
-            delete blockModel.asNavFor;
-            delete blockModel.itemWidth;
-            delete blockModel.itemMargin;
-            delete blockModel.minItems;
-            delete blockModel.maxItems;
-            delete blockModel.animation;
-            delete blockModel.animationSpeed;
-            delete blockModel.direction;
-            delete blockModel.reverse;
-            delete blockModel.move;
-            delete blockModel.animationLoop;
-            delete blockModel.smoothHeight;
-            delete blockModel.easing;
-            delete blockModel.useCSS;
-            delete blockModel.controlNav;
-            delete blockModel.directionNav;
-            delete blockModel.prevText;
-            delete blockModel.nextText;
-            delete blockModel.pausePlay;
-            delete blockModel.pauseText;
-            delete blockModel.playText;
-            delete blockModel.controlsContainer;
-            delete blockModel.manualControls;
-            delete blockModel.keyboard;
-            delete blockModel.multipleKeyboard;
-            delete blockModel.mousewheel;
-            delete blockModel.onStart;
-            delete blockModel.onEnd;
-            delete blockModel.onBefore;
-            delete blockModel.onAfter;
-            delete blockModel.onAdded;
-            delete blockModel.onRemoved;
-        };
-        f.onBeforeSave = function (blockModel) {
-            const data = {
-                MediaFolder: $('#MediaFolder').val(),
-                //MediaFolder: blockModel.mediaFolder,
-                ControlId: blockModel.controlId,
-                Namespace: blockModel.namespace,
-                Selector: blockModel.selector,
-                StartAt: blockModel.startAt,
-                Slideshow: blockModel.slideshow,
-                SlideshowSpeed: blockModel.slideshowSpeed,
-                InitDelay: blockModel.initDelay,
-                Randomize: blockModel.randomize,
-                PauseOnAction: blockModel.pauseOnAction,
-                PauseOnHover: blockModel.pauseOnHover,
-                Touch: blockModel.touch,
-                Video: blockModel.video,
-                Sync: blockModel.sync,
-                AsNavFor: blockModel.asNavFor,
-                ItemWidth: blockModel.itemWidth,
-                ItemMargin: blockModel.itemMargin,
-                MinItems: blockModel.minItems,
-                MaxItems: blockModel.maxItems,
-                Animation: blockModel.animation,
-                AnimationSpeed: blockModel.animationSpeed,
-                Direction: blockModel.direction,
-                Reverse: blockModel.reverse,
-                Move: blockModel.move,
-                AnimationLoop: blockModel.animationLoop,
-                SmoothHeight: blockModel.smoothHeight,
-                Easing: blockModel.easing,
-                UseCSS: blockModel.useCSS,
-                ControlNav: blockModel.controlNav,
-                DirectionNav: blockModel.directionNav,
-                PrevText: blockModel.prevText,
-                NextText: blockModel.nextText,
-                PausePlay: blockModel.pausePlay,
-                PauseText: blockModel.pauseText,
-                PlayText: blockModel.playText,
-                ControlsContainer: blockModel.controlsContainer,
-                ManualControls: blockModel.manualControls,
-                Keyboard: blockModel.keyboard,
-                MultipleKeyboard: blockModel.multipleKeyboard,
-                Mousewheel: blockModel.mousewheel,
-                OnStart: blockModel.onStart,
-                OnEnd: blockModel.onEnd,
-                OnBefore: blockModel.onBefore,
-                OnAfter: blockModel.onAfter,
-                OnAdded: blockModel.onAdded,
-                OnRemoved: blockModel.onRemoved
-            };
-            blockModel.blockValues = JSON.stringify(data);
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

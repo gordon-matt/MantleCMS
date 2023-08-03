@@ -149,7 +149,7 @@
                     <h4 class="modal-title">Select Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=ImagesDirectory&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("ImagesDirectory", WorkContext.CurrentTenant.Id, FileFilterMode.Folder)
                 </div>
             </div>
         </div>
@@ -163,7 +163,7 @@
                     <h4 class="modal-title">Select Folder</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=2&extensions=[&quot;&quot;]&relative_url=1&fldr=&field_id=FullSizeImagesDirectory&ignore_last_position=1" frameborder="0" style="overflow:hidden;min-height:600px; height:100%;width:100%" height="100%" width="100%"></iframe>
+                    @Html.Mantle().FileManager("FullSizeImagesDirectory", WorkContext.CurrentTenant.Id, FileFilterMode.Folder)
                 </div>
             </div>
         </div>
@@ -201,191 +201,5 @@
         });
     });
 
-    const contentBlockModel = (function () {
-        const f = {};
-        f.internalModel = false;
-        f.updateModel = function (blockModel) {
-            internalModel = blockModel;
-            blockModel.mode = 0;
-            blockModel.imagesPattern = "image-%COL-%ROW.jpg";
-            //blockModel.imagesDirectory = '';
-            //blockModel.fullSizeImagesDirectory = '';
-            blockModel.autoRotate = false;
-            blockModel.autoRotateDirection = 1;
-            blockModel.autoRotateSpeed = 50;
-            blockModel.autoRotateStopOnMove = true;
-            blockModel.loadFullSizeImagesOnZoom = true;
-            blockModel.loadFullSizeImagesOnFullscreen = true;
-            blockModel.width = 620;
-            blockModel.height = 350;
-            blockModel.rows = 1;
-            blockModel.columns = 36;
-            blockModel.xAxisSensitivity = 10;
-            blockModel.yAxisSensitivity = 40;
-            blockModel.inertiaConstant = 10;
-            blockModel.buttonWidth = 40;
-            blockModel.buttonHeight = 40;
-            blockModel.buttonMargin = 5;
-            blockModel.turnSpeed = 40;
-            blockModel.showButtons = true;
-            blockModel.showTool = true;
-            blockModel.showPlay = true;
-            blockModel.showPause = true;
-            blockModel.showZoom = true;
-            blockModel.showTurn = true;
-            blockModel.showFullscreen = true;
-            blockModel.displayLoader = true;
-            blockModel.loaderHolderClassName = '';
-            blockModel.loadingTitle = '';
-            blockModel.loadingSubtitle = '';
-            blockModel.loadingMessage = '';
-            blockModel.loaderModalBackground = "#FFF";
-            blockModel.loaderModalOpacity = 0.5;
-            blockModel.loaderCircleWidth = 70;
-            blockModel.loaderCircleLineWidth = 10;
-            blockModel.loaderCircleLineColor = "#555";
-            blockModel.loaderCircleBackgroundColor = "#FFF";
-
-            const data = JSON.parse(blockModel.blockValues);
-
-            if ((isFunction(data) && data()) || data) {
-                if (data.Mode == undefined) {
-                    // If this is not set, it means the contentBlock is new and we have nothing in blockValues
-                    return;
-                }
-                blockModel.mode = data.Mode;
-                blockModel.imagesPattern = data.ImagesPattern;
-
-                $('#ImagesDirectory').val(data.ImagesDirectory);
-                $('#FullSizeImagesDirectory').val(data.FullSizeImagesDirectory);
-
-                //blockModel.imagesDirectory = data.ImagesDirectory;
-                //blockModel.fullSizeImagesDirectory = data.FullSizeImagesDirectory;
-                blockModel.autoRotate = data.AutoRotate;
-                blockModel.autoRotateDirection = data.AutoRotateDirection;
-                blockModel.autoRotateSpeed = data.AutoRotateSpeed;
-                blockModel.autoRotateStopOnMove = data.AutoRotateStopOnMove;
-                blockModel.loadFullSizeImagesOnZoom = data.LoadFullSizeImagesOnZoom;
-                blockModel.loadFullSizeImagesOnFullscreen = data.LoadFullSizeImagesOnFullscreen;
-                blockModel.width = data.Width;
-                blockModel.height = data.Height;
-                blockModel.rows = data.Rows;
-                blockModel.columns = data.Columns;
-                blockModel.xAxisSensitivity = data.XAxisSensitivity;
-                blockModel.yAxisSensitivity = data.YAxisSensitivity;
-                blockModel.inertiaConstant = data.InertiaConstant;
-                blockModel.buttonWidth = data.ButtonWidth;
-                blockModel.buttonHeight = data.ButtonHeight;
-                blockModel.buttonMargin = data.ButtonMargin;
-                blockModel.turnSpeed = data.TurnSpeed;
-                blockModel.showButtons = data.ShowButtons;
-                blockModel.showTool = data.ShowTool;
-                blockModel.showPlay = data.ShowPlay;
-                blockModel.showPause = data.ShowPause;
-                blockModel.showZoom = data.ShowZoom;
-                blockModel.showTurn = data.ShowTurn;
-                blockModel.showFullscreen = data.ShowFullscreen;
-                blockModel.displayLoader = data.DisplayLoader;
-                blockModel.loaderHolderClassName = data.LoaderHolderClassName;
-                blockModel.loadingTitle = data.LoadingTitle;
-                blockModel.loadingSubtitle = data.LoadingSubtitle;
-                blockModel.loadingMessage = data.LoadingMessage;
-                blockModel.loaderModalBackground = data.LoaderModalBackground;
-                blockModel.loaderModalOpacity = data.LoaderModalOpacity;
-                blockModel.loaderCircleWidth = data.LoaderCircleWidth;
-                blockModel.loaderCircleLineWidth = data.LoaderCircleLineWidth;
-                blockModel.loaderCircleLineColor = data.LoaderCircleLineColor;
-                blockModel.loaderCircleBackgroundColor = data.LoaderCircleBackgroundColor;
-            }
-        };
-        f.cleanUp = function (blockModel) {
-            delete blockModel.mode;
-            delete blockModel.imagesPattern;
-            //delete blockModel.imagesDirectory;
-            //delete blockModel.fullSizeImagesDirectory;
-            delete blockModel.autoRotate;
-            delete blockModel.autoRotateDirection;
-            delete blockModel.autoRotateSpeed;
-            delete blockModel.autoRotateStopOnMove;
-            delete blockModel.loadFullSizeImagesOnZoom;
-            delete blockModel.loadFullSizeImagesOnFullscreen;
-            delete blockModel.width;
-            delete blockModel.height;
-            delete blockModel.rows;
-            delete blockModel.columns;
-            delete blockModel.xAxisSensitivity;
-            delete blockModel.yAxisSensitivity;
-            delete blockModel.inertiaConstant;
-            delete blockModel.buttonWidth;
-            delete blockModel.buttonHeight;
-            delete blockModel.buttonMargin;
-            delete blockModel.turnSpeed;
-            delete blockModel.showButtons;
-            delete blockModel.showTool;
-            delete blockModel.showPlay;
-            delete blockModel.showPause;
-            delete blockModel.showZoom;
-            delete blockModel.showTurn;
-            delete blockModel.showFullscreen;
-            delete blockModel.displayLoader;
-            delete blockModel.loaderHolderClassName;
-            delete blockModel.loadingTitle;
-            delete blockModel.loadingSubtitle;
-            delete blockModel.loadingMessage;
-            delete blockModel.loaderModalBackground;
-            delete blockModel.loaderModalOpacity;
-            delete blockModel.loaderCircleWidth;
-            delete blockModel.loaderCircleLineWidth;
-            delete blockModel.loaderCircleLineColor;
-            delete blockModel.loaderCircleBackgroundColor;
-        };
-        f.onBeforeSave = function (blockModel) {
-            const data = {
-                Mode: blockModel.mode,
-                ImagesPattern: blockModel.imagesPattern,
-                ImagesDirectory: $('#ImagesDirectory').val(),
-                FullSizeImagesDirectory: $('#FullSizeImagesDirectory').val(),
-                //ImagesDirectory: blockModel.imagesDirectory,
-                //FullSizeImagesDirectory: blockModel.fullSizeImagesDirectory,
-                AutoRotate: blockModel.autoRotate,
-                AutoRotateDirection: blockModel.autoRotateDirection,
-                AutoRotateSpeed: blockModel.autoRotateSpeed,
-                AutoRotateStopOnMove: blockModel.autoRotateStopOnMove,
-                LoadFullSizeImagesOnZoom: blockModel.loadFullSizeImagesOnZoom,
-                LoadFullSizeImagesOnFullscreen: blockModel.loadFullSizeImagesOnFullscreen,
-                Width: blockModel.width,
-                Height: blockModel.height,
-                Rows: blockModel.rows,
-                Columns: blockModel.columns,
-                XAxisSensitivity: blockModel.xAxisSensitivity,
-                YAxisSensitivity: blockModel.yAxisSensitivity,
-                InertiaConstant: blockModel.inertiaConstant,
-                ButtonWidth: blockModel.buttonWidth,
-                ButtonHeight: blockModel.buttonHeight,
-                ButtonMargin: blockModel.buttonMargin,
-                TurnSpeed: blockModel.turnSpeed,
-                ShowButtons: blockModel.showButtons,
-                ShowTool: blockModel.showTool,
-                ShowPlay: blockModel.showPlay,
-                ShowPause: blockModel.showPause,
-                ShowZoom: blockModel.showZoom,
-                ShowTurn: blockModel.showTurn,
-                ShowFullscreen: blockModel.showFullscreen,
-                DisplayLoader: blockModel.displayLoader,
-                LoaderHolderClassName: blockModel.loaderHolderClassName,
-                LoadingTitle: blockModel.loadingTitle,
-                LoadingSubtitle: blockModel.loadingSubtitle,
-                LoadingMessage: blockModel.loadingMessage,
-                LoaderModalBackground: blockModel.loaderModalBackground,
-                LoaderModalOpacity: blockModel.loaderModalOpacity,
-                LoaderCircleWidth: blockModel.loaderCircleWidth,
-                LoaderCircleLineWidth: blockModel.loaderCircleLineWidth,
-                LoaderCircleLineColor: blockModel.loaderCircleLineColor,
-                LoaderCircleBackgroundColor: blockModel.loaderCircleBackgroundColor
-            };
-
-            blockModel.blockValues = JSON.stringify(data);
-        };
-        return f;
-    })();
+    @Model.RenderKOScript()
 </script>

@@ -29,30 +29,16 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-            @Html.LabelFor(m => m.RedirectUrl, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.RedirectUrl, new { @class = "form-control", data_bind = "value: blockModel.redirectUrl" })
-            </div>
-        </div>
+        <mantle-input asp-for="RedirectUrl" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl]" ko-bind="blockModel.redirectUrl" />
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.UseAjax, new { data_bind = "checked: blockModel.useAjax" }) @T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]
-                    </label>
-                </div>
+                <mantle-input asp-for="UseAjax" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]" ko-bind="blockModel.useAjax" />
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-            @Html.LabelFor(m => m.EmailAddress, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", data_bind = "value: blockModel.emailAddress" })
-            </div>
-        </div>
+        <mantle-input asp-for="EmailAddress" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.EmailAddress]" ko-bind="blockModel.emailAddress" />
     </div>
 </div>
 
@@ -92,22 +78,12 @@
             }
 
             blockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;
-
         };
-        f.cleanUp = function (blockModel) {
-            delete blockModel.metadata;
-            delete blockModel.thankYouMessage;
-            delete blockModel.redirectUrl;
-            delete blockModel.emailAddress;
-            delete blockModel.useAjax;
-            delete blockModel.tinyMCEConfig;
-            delete blockModel.formBuilder;
-        };
+        @Model.RenderKOCleanUpFunction(Model.GetBlockProperties())
         f.onBeforeSave = function (blockModel) {
             const fbEditor = document.getElementById('build-wrap');
             const fbMetadata = blockModel.formBuilder.actions.getData('json', true);
 
-            //console.log('source: ' + fbMetadata);
             blockModel.metadata(fbMetadata);
 
             let thankYouMessage = blockModel.thankYouMessage();
