@@ -45,7 +45,7 @@
                         <legend>@T[MantleWebLocalizableStrings.General.Create]</legend>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.Label("Create_BlockType", T[MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Create_BlockType", T[MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     @Html.MantleCMS().ContentBlockTypesDropDownList("Create_BlockType", null, null, new { @class = "form-control", data_bind = "value: blockModel.blockType" })
                                 </div>
@@ -64,13 +64,13 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     @Html.TextBox("Create_Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.Label("Create_ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Create_ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                     @Html.MantleCMS().ZonesDropDownList("Create_ZoneId", null, null, new { @class = "form-control", data_bind = "value: blockModel.zoneId" })
                                 </div>
@@ -103,7 +103,7 @@
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
                                 </div>
@@ -122,7 +122,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                             <div class="form-group">
-                                @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="input-group">
                                         <span class="input-group-addon">
@@ -133,13 +133,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.Label("ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     @Html.MantleCMS().ZonesDropDownList("ZoneId", null, null, new { @class = "form-control", data_bind = "value: blockModel.zoneId" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                                <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="checkbox">
                                         <label>
@@ -199,7 +199,7 @@
                         <legend id="zone-edit-section-legend"></legend>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group">
-                                @Html.Label("Zone_Name", T[MantleCmsLocalizableStrings.ContentBlocks.ZoneModel.Name], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                                @Html.Label("Zone_Name", T[MantleCmsLocalizableStrings.ContentBlocks.ZoneModel.Name], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-file"></i>

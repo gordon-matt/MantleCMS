@@ -5,14 +5,7 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
-<script>
-    if (!window.jQuery) {
-        document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"><\/script>');
-    }
-</script>
-
 @Html.Raw(Model.Message)
-
 
 <div style="text-align:center;margin-top:140px;">
     <p>
@@ -21,11 +14,11 @@
     </p>
 
 </div>
+
 <script type="text/javascript">
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {
             window.location.replace('@Model.RedirectUrl');
         }, 5000);
-    });
+    }, false);
 </script>
-

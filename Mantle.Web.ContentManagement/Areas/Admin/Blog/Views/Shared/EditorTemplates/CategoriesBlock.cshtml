@@ -2,6 +2,8 @@
 @using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
 @model CategoriesBlock
 
+@inject Microsoft.Extensions.Localization.IStringLocalizer T
+
 <div id="block-content">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <mantle-input asp-for="NumberOfCategories" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.CategoriesBlock.NumberOfCategories]" ko-bind="blockModel.numberOfCategories" />

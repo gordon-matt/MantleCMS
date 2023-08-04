@@ -25,6 +25,7 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
     }
 
     //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+    [HttpGet]
     public virtual async Task<IActionResult> GetComparitiveTable(
         [FromODataUri] string cultureCode,
         ODataQueryOptions<ComparitiveLocalizableString> options)

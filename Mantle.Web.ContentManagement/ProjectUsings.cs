@@ -14,7 +14,6 @@ global using Mantle.Security.Membership.Permissions;
 global using Mantle.Tenants.Domain;
 global using Mantle.Threading;
 global using Mantle.Web.Collections;
-global using Mantle.Web.Configuration;
 global using Mantle.Web.Mvc;
 global using Mantle.Web.Mvc.Themes;
 global using Mantle.Web.OData;

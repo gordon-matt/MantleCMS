@@ -19,10 +19,11 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet"
-              href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+            asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+            integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE="
+            crossorigin="anonymous">
     </environment>
 
     @if (isRTL)
@@ -39,12 +40,12 @@
 
     <!-- Durandal -->
     <link rel="stylesheet" type="text/css" href="~/css/durandal/ie10mobile.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/durandal/durandal.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/durandal/css/durandal.css" />
     <link rel="stylesheet" type="text/css" href="~/css/durandal/starterkit.css" />
 
     <!-- TinyMCE -->
-    <link rel="stylesheet" type="text/css" href="/jspm_packages/npm/tinymce@5.0.4/skins/ui/oxide/skin.min.css" />
-    <link rel="stylesheet" type="text/css" href="/jspm_packages/npm/tinymce@5.0.4/skins/ui/oxide/content.min.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/skin.min.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/content.min.css" />
 
     @RenderSection("styles", required: false)
 </head>
@@ -103,19 +104,28 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-migrate/dist/jquery-migrate.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.1/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery-migrate@3.4.1/dist/jquery-migrate.min.js"
+            integrity="sha256-FIp0sJIa14Ah1xboAy7eHNr37XJ5zv19KsvpBq3RKmg="
+            crossorigin="anonymous"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4="
+            crossorigin="anonymous">
         </script>
+
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 

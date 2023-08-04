@@ -22,14 +22,14 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="form-group">
-                            @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name], new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                            @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                 <p class="form-control-static" data-bind="text: name"></p>
                             </div>
                         </div>
                         <mantle-input asp-for="Seconds" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds]" asp-icon="fa fa-clock-o" />
                         <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                 <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled]" />
                                 <mantle-input asp-for="StopOnError" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError]" />
