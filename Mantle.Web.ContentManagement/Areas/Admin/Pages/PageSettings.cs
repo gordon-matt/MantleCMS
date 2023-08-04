@@ -1,4 +1,6 @@
-﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Pages;
+﻿using Mantle.Web.Configuration;
+
+namespace Mantle.Web.ContentManagement.Areas.Admin.Pages;
 
 public class PageSettings : ISettings
 {

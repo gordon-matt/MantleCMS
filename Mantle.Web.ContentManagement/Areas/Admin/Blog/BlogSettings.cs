@@ -1,4 +1,6 @@
-﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Blog;
+﻿using Mantle.Web.Configuration;
+
+namespace Mantle.Web.ContentManagement.Areas.Admin.Blog;
 
 public class BlogSettings : BaseResourceSettings
 {

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Extenso.AspNetCore.OData;
 using Mantle.Localization;
+using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;

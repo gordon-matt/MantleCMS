@@ -5,6 +5,7 @@ using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.Configuration;
+using Mantle.Web.ContentManagement.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
@@ -35,14 +36,11 @@ namespace Mantle.Plugins.Messaging.Forums.Infrastructure
             builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
             builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
 
-            //builder.RegisterType<AutoMenuProvider>().As<IAutoMenuProvider>().SingleInstance();
+            builder.RegisterType<AutoMenuProvider>().As<IAutoMenuProvider>().SingleInstance();
             builder.RegisterType<ForumService>().As<IForumService>().InstancePerDependency();
         }
 
-        public int Order
-        {
-            get { return 9999; }
-        }
+        public int Order => 9999;
 
         #endregion IDependencyRegistrar Members
     }

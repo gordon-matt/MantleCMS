@@ -12,6 +12,7 @@
     require('tinymce');
     require('tinymce-jquery');
     require('tinymce-knockout');
+    require('momentjs');
 
     require('mantle-common');
     require('mantle-section-switching');

@@ -19,7 +19,7 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Mode, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.Mode, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.Mode, Html.GetEnumSelectList<Mode>(), new { @class = "form-control", data_bind = "value: blockModel.mode" })
                     </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.ImagesDirectory, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.ImagesDirectory, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control" })
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.FullSizeImagesDirectory, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.FullSizeImagesDirectory, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control" })
@@ -61,7 +61,7 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="AutoRotate" asp-label="@T[LocalizableStrings.AutoRotate]" ko-bind="blockModel.autoRotate" />
                         <mantle-input asp-for="AutoRotateStopOnMove" asp-label="@T[LocalizableStrings.AutoRotateStopOnMove]" ko-bind="blockModel.autoRotateStopOnMove" />
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.AutoRotateDirection, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.AutoRotateDirection, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.AutoRotateDirection, Html.GetEnumSelectList<AutoRotateDirection>(), new { @class = "form-control", data_bind = "value: blockModel.autoRotateDirection" })
                     </div>
@@ -97,7 +97,7 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <mantle-input asp-for="TurnSpeed" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.turnSpeed" type="number" />
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="ShowButtons" asp-label="@T[LocalizableStrings.ShowButtons]" ko-bind="blockModel.showButtons" />
                         <mantle-input asp-for="ShowTool" asp-label="@T[LocalizableStrings.ShowTool]" ko-bind="blockModel.showTool" />
@@ -114,7 +114,7 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="DisplayLoader" asp-label="@T[LocalizableStrings.DisplayLoader]" ko-bind="blockModel.displayLoader" />
                     </div>

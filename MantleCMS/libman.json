@@ -82,6 +82,10 @@
     {
       "library": "grapesjs-mjml@1.0.5",
       "destination": "wwwroot/lib/grapesjs-mjml/"
+    },
+    {
+      "library": "jquery-migrate@3.4.1",
+      "destination": "wwwroot/lib/jquery-migrate/"
     }
   ]
 }

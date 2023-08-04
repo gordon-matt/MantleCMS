@@ -50,6 +50,7 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
         return Ok(response);
     }
 
+    [HttpGet]
     public virtual async Task<IEnumerable<ContentBlock>> GetByPageId(
         [FromODataUri] Guid pageId,
         ODataQueryOptions<ContentBlock> options)

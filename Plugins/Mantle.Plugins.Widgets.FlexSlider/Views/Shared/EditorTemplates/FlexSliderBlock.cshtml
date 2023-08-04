@@ -12,7 +12,7 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.MediaFolder, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.MediaFolder, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
@@ -29,7 +29,7 @@
                 <mantle-input asp-for="Namespace" asp-label="@T[LocalizableStrings.FlexSliderBlock.Namespace]" ko-bind="blockModel.namespace" />
                 <mantle-input asp-for="Selector" asp-label="@T[LocalizableStrings.FlexSliderBlock.Selector]" ko-bind="blockModel.selector" />
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
                         <mantle-input asp-for="PauseOnAction" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnAction]" ko-bind="blockModel.pauseOnAction" />
@@ -56,13 +56,13 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Animation, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.Animation, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.Animation, Html.GetEnumSelectList<AnimationType>(), new { @class = "form-control", data_bind = "value: blockModel.animation" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Easing, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.Easing, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.Easing, Html.GetEnumSelectList<EasingMethod>(), new { @class = "form-control", data_bind = "value: blockModel.easing" })
                     </div>
@@ -72,13 +72,13 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Direction, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.Direction, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.Direction, Html.GetEnumSelectList<SlideDirection>(), new { @class = "form-control", data_bind = "value: blockModel.direction" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
                         <mantle-input asp-for="AnimationLoop" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationLoop]" ko-bind="blockModel.animationLoop" />
@@ -93,7 +93,7 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="well">
                     <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
                         </div>
@@ -102,7 +102,7 @@
                     <mantle-input asp-for="NextText" asp-label="@T[LocalizableStrings.FlexSliderBlock.NextText]" ko-bind="blockModel.nextText" />
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.ControlNav, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.ControlNav, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.DropDownListFor(m => m.ControlNav, Html.GetEnumSelectList<ControlNavOption>(), new { @class = "form-control", data_bind = "value: blockModel.controlNav" })
                     </div>
@@ -113,7 +113,7 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="well">
                     <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
                         </div>
@@ -122,7 +122,7 @@
                     <mantle-input asp-for="PlayText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PlayText]" ko-bind="blockModel.playText" />
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />
                         <mantle-input asp-for="MultipleKeyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]" ko-bind="blockModel.multipleKeyboard" />
@@ -135,19 +135,19 @@
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnStart, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnStart, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnStart, new { @class = "form-control", data_bind = "value: blockModel.onStart" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnEnd, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnEnd, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnEnd, new { @class = "form-control", data_bind = "value: blockModel.onEnd" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnBefore, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnBefore, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnBefore, new { @class = "form-control", data_bind = "value: blockModel.onBefore" })
                     </div>
@@ -155,19 +155,19 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnAfter, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnAfter, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnAfter, new { @class = "form-control", data_bind = "value: blockModel.onAfter" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnAdded, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnAdded, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnAdded, new { @class = "form-control", data_bind = "value: blockModel.onAdded" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnRemoved, new { @class = "control-label col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnRemoved, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnRemoved, new { @class = "form-control", data_bind = "value: blockModel.onRemoved" })
                     </div>

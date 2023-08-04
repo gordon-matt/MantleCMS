@@ -6,6 +6,7 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
+@addTagHelper *, Mantle.Web
 
 @model Menu
 @{
@@ -164,7 +165,7 @@
     </article>
 </div>
 
-<script type="text/x-kendo-template" id="items-template">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/x-kendo-template" id="items-template">
     <div class="tabstrip">
         <ul>
             <li class="k-state-active">

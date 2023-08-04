@@ -19,9 +19,6 @@
 <script type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/wwwroot/js/form-render.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        @*if (!window.jQuery) {
-            document.write('<script type="text/javascript" src="@Script.GetBundleUrl("jquery")"><\/script>');
-        }*@
         $('#render-wrap').formRender({
             formData: @Html.Raw(Model.Metadata)
         });

@@ -187,6 +187,7 @@ public class UserApiController : ODataController
         return user != null;
     }
 
+    [HttpGet]
     public virtual async Task<IActionResult> GetUsersInRole(
         [FromODataUri] string roleId,
         ODataQueryOptions<MantleUser> options)

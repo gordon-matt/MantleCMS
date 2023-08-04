@@ -641,6 +641,11 @@
         self.toggleEnabled = async function (id, parentId, isEnabled) {
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, {
                 Enabled: !isEnabled
+            }, () => {
+                if (parentId) {
+                    self.refreshGrid(parentId);
+                }
+                $.notify(self.parent.translations.updateRecordSuccess, "success");
             });
         };
         self.showPageHistory = function (id) {
