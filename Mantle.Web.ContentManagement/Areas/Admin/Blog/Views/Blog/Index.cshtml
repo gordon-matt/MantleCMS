@@ -1,8 +1,4 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Web
-@using Mantle.Web.ContentManagement
-@using Mantle.Web.Mvc
-@addTagHelper *, Mantle.Web
+﻿@inject Mantle.Web.IWorkContext WorkContext
 
 @{
     string chosenRtlClass = string.Empty;
@@ -13,9 +9,6 @@
     }
 }
 
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
-@inject Mantle.Web.IWorkContext WorkContext
 
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 

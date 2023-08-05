@@ -1,12 +1,4 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Web
-@using Mantle.Web.ContentManagement
-@using Mantle.Web.Mvc
-@addTagHelper *, Mantle.Web
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
-@inject Mantle.Web.IWorkContext WorkContext
+﻿@inject Mantle.Web.IWorkContext WorkContext
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)

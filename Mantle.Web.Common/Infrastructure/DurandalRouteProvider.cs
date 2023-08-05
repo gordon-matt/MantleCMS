@@ -16,7 +16,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/regions",
                     Route = "regions",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Common.Areas.Admin.Regions.Scripts.index",
+                    JsPath = "/_content/Mantle.Web.Common/js/index",
                     Title = T[LocalizableStrings.Regions.Title]
                 }
             };

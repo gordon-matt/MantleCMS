@@ -14,10 +14,9 @@
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 @inject Mantle.Web.IWorkContext WorkContext
 
+@inject IEnumerable<IMessageTemplateEditor> messageTemplateEditors
+
 @model MessageTemplate
-@{
-    var messageTemplateEditors = EngineContext.Current.ResolveAll<IMessageTemplateEditor>();
-}
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)

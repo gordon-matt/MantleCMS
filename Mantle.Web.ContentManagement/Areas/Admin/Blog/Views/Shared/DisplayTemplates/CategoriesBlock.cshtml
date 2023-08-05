@@ -1,16 +1,10 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Infrastructure
-@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
-@using Mantle.Web.Mvc
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+
+@inject IBlogCategoryService categoryService
+
 @model CategoriesBlock
 
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-
 @{
-    var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
     List<BlogCategory> entries = null;
 
     using (var connection = categoryService.OpenConnection())
