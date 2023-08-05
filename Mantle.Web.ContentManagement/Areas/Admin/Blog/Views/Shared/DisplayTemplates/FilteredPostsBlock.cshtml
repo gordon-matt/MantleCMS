@@ -1,13 +1,13 @@
-﻿@using Mantle.Infrastructure
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
+
+@inject IBlogCategoryService categoryService
+@inject IBlogTagService tagService
+
 @model FilteredPostsBlock
 
 @if (Model.FilterType == FilterType.Category && Model.CategoryId.HasValue)
 {
     int id = Model.CategoryId.Value;
-    var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
     var category = categoryService.FindOne(id);
 
     @await Component.BlogPostsByCategoryAsync(category.UrlSlug)
@@ -15,7 +15,6 @@
 else if (Model.FilterType == FilterType.Tag && Model.TagId.HasValue)
 {
     int id = Model.TagId.Value;
-    var tagService = EngineContext.Current.Resolve<IBlogTagService>();
     var tag = tagService.FindOne(id);
 
     @await Component.BlogPostsByTagAsync(tag.UrlSlug)

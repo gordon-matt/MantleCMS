@@ -1,10 +1,9 @@
 ﻿@using Mantle.Infrastructure
 @using Mantle.Plugins.Messaging.Forums
 @using Mantle.Web
+@inject ForumSettings settings
 
 @{
-    var settings = EngineContext.Current.Resolve<ForumSettings>();
-
     if (!string.IsNullOrEmpty(settings.LayoutPathOverride))
     {
         Layout = settings.LayoutPathOverride;

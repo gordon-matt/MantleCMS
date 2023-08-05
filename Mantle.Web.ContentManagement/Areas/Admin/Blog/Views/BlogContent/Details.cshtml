@@ -1,15 +1,8 @@
-﻿@using Mantle.Infrastructure
-@using Mantle.Web
-@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
+﻿@inject BlogSettings settings
+
 @model BlogPost
 
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-
 @{
-    var settings = EngineContext.Current.Resolve<BlogSettings>();
-
     if (!string.IsNullOrEmpty(settings.LayoutPathOverride))
     {
         Layout = settings.LayoutPathOverride;

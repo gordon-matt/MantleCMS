@@ -1,14 +1,4 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Web
-@using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain
-@using Mantle.Web.Mvc
-@using Mantle.Web.ContentManagement
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
-@addTagHelper *, Mantle.Web
-
-@model Menu
+﻿@model Menu
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 

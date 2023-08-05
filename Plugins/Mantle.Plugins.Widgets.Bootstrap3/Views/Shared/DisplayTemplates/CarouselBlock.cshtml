@@ -8,6 +8,7 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Bootstrap3PluginSettings Settings
+@inject IMediaService mediaService
 
 @model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
@@ -21,7 +22,6 @@
         <link rel="stylesheet" href="@style.Path" />
     }
 
-    var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);
 
     string carouselName = Model.Title.ToSlugUrl();

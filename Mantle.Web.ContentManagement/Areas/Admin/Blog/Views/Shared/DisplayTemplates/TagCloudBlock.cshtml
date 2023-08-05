@@ -1,16 +1,8 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Infrastructure
-@using Mantle.Web.Configuration;
-@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.ContentBlocks
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
-@using Mantle.Web.Mvc
-@addTagHelper *, Mantle.Web
+﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services
 
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject BlogSettings Settings
+@inject IBlogPostTagService postTagService
+@inject IBlogTagService tagService
 
 @model TagCloudBlock
 
@@ -24,8 +16,6 @@
         <link rel="stylesheet" href="@style.Path" />
     }
 
-    var postTagService = EngineContext.Current.Resolve<IBlogPostTagService>();
-    var tagService = EngineContext.Current.Resolve<IBlogTagService>();
     Dictionary<int, int> data = null;
     Dictionary<int, BlogTag> tags = null;
 

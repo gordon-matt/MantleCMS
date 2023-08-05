@@ -1,8 +1,5 @@
 ﻿@using Mantle.Web.Helpers
-
-@{
-    var dateTimeHelper = EngineContext.Current.Resolve<IDateTimeHelper>();
-}
+@inject IDateTimeHelper dateTimeHelper
 
 <div class="well forums-header">
     <div class="row">

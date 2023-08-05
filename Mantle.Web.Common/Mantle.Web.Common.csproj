@@ -19,14 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Areas\Admin\Regions\Content\Images\WorldMap.jpg" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Scripts\jquery.imagemapster.min.js" />
-    <EmbeddedResource Include="Areas\Admin\Regions\Views\Region\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
   </ItemGroup>
 
@@ -35,6 +27,11 @@
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\WorldMap.jpg" />
+    <None Include="wwwroot\js\jquery.imagemapster.min.js" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,4 @@
-﻿@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain
-@model IEnumerable<SitemapConfig>
-@addTagHelper *, Mantle.Web
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
+﻿@model IEnumerable<SitemapConfig>
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 

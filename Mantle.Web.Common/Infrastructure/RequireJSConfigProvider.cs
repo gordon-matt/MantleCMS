@@ -12,7 +12,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
         {
             var paths = new Dictionary<string, string>
             {
-                { "jquery-image-mapster", "/Mantle.Web.Common.Areas.Admin.Regions.Scripts.jquery.imagemapster" }
+                { "jquery-image-mapster", "/_content/Mantle.Web.Common/js/jquery.imagemapster" }
             };
 
             return paths;

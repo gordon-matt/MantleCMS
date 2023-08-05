@@ -1,11 +1,4 @@
-﻿@using Mantle.Web.ContentManagement
-@using Mantle.Web.ContentManagement.Areas.Admin.Blog
-@using Mantle.Web.Mvc
-@addTagHelper *, Mantle.Web
-
-@model BlogSettings
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
+﻿@model BlogSettings
 
 <div id="settings-content">
     <mantle-input asp-for="PageTitle" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.PageTitle]" asp-validation-msg="true" />

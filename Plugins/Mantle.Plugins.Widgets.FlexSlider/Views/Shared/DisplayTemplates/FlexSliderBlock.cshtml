@@ -8,6 +8,7 @@
 @addTagHelper *, Mantle.Web
 
 @inject FlexSliderPluginSettings Settings
+@inject IMediaService mediaService
 
 @model FlexSliderBlock
 
@@ -22,7 +23,6 @@
     }
 
     // TODO
-    var mediaService = EngineContext.Current.Resolve<IMediaService>();
     var images = mediaService.GetFiles(Model.MediaFolder);
 
     var html = Model.ToHtmlString();

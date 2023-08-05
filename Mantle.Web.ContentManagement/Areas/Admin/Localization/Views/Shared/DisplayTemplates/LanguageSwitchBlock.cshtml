@@ -1,13 +1,12 @@
-﻿@using Mantle.Infrastructure
-@using Mantle.Localization.Domain
-@using Mantle.Localization.Services
-@using Mantle.Web.ContentManagement.Areas.Admin.Localization
+﻿@using Mantle.Localization.Domain
+@inject IWorkContext WorkContext
+@inject ILanguageService languageService
+
+
 @model LanguageSwitchBlock
 
-@inject Mantle.Web.IWorkContext WorkContext
-
 @{
-    var languages = EngineContext.Current.Resolve<ILanguageService>().GetActiveLanguages(WorkContext.CurrentTenant.Id).ToList();
+    var languages = languageService.GetActiveLanguages(WorkContext.CurrentTenant.Id).ToList();
 
     if (Model.IncludeInvariant)
     {

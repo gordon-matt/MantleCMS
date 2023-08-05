@@ -10,11 +10,11 @@
 
 @inject Mantle.Web.IWorkContext WorkContext
 @inject FullCalendarPluginSettings Settings
+@inject ICalendarEventService eventService
 
 @{
     string lang = WorkContext.CurrentCultureCode.LeftOf('-');
     
-    var eventService = EngineContext.Current.Resolve<ICalendarEventService>();
     var events = eventService.Find(x => x.CalendarId == Model.CalendarId);
     string json = events.Select(x => new
     {

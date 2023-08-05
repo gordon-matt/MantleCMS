@@ -37,7 +37,7 @@ public class RegionController : MantleController
         ViewBag.RegionSettings = regionSettings.Value;
 
         //var model = regionService.Value.GetContinents(true).Select(x => (RegionModel)x);
-        return PartialView("Mantle.Web.Common.Areas.Admin.Regions.Views.Region.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

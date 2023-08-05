@@ -1,8 +1,6 @@
 ﻿@using Mantle.Infrastructure
 @using Mantle.Web
-@{
-    var workContext = EngineContext.Current.Resolve<IWorkContext>();
-}
+@inject Mantle.Web.IWorkContext workContext
 
 <ul class="breadcrumb">
     <li>
