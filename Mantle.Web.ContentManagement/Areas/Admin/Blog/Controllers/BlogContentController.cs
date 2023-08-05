@@ -175,7 +175,7 @@ public class BlogContentController : MantleController
         }
 
         // Else use default template
-        return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.Index", model);
+        return View("/Areas/Admin/Blog/Views/BlogContent/Index.cshtml", model);
     }
 
     [Route("{slug}")]
@@ -248,6 +248,6 @@ public class BlogContentController : MantleController
         }
 
         // Else use default template
-        return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.Details", model);
+        return View("/Areas/Admin/Blog/Views/BlogContent/Details.cshtml", model);
     }
 }

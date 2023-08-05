@@ -19,7 +19,7 @@ public class BlogController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.Blog.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Blog.ManageBlog].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Blog.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

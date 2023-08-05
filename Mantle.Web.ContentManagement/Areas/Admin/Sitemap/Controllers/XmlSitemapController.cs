@@ -19,7 +19,7 @@ public class XmlSitemapController : MantleController
 
         ViewBag.Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Views.XmlSitemap.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

@@ -19,6 +19,6 @@ public class MediaController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.Media.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Media.ManageMedia].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Media.Index");
+        return PartialView();
     }
 }

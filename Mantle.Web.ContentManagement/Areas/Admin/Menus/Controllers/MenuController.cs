@@ -19,7 +19,7 @@ public class MenuController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.Menus.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Menus.ManageMenus].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Menus.Views.Menu.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

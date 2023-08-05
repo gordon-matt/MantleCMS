@@ -15,7 +15,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/blog",
                     Route = "blog",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Blog.Scripts.blog",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/blog",
                     Title = T[MantleCmsLocalizableStrings.Blog.Title].Value
                 },
 
@@ -23,7 +23,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/blocks/content-blocks",
                     Route = "blocks/content-blocks(/:pageId)",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.content-blocks-index",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 },
 
@@ -31,7 +31,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/blocks/entity-type-content-blocks",
                     Route = "blocks/entity-type-content-blocks/:entityType/:entityId",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.entity-type-content-blocks-index",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/entity-type-content-blocks",
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 },
 
@@ -39,7 +39,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/media",
                     Route = "media",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Media.Scripts.media",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/media",
                     Title = T[MantleCmsLocalizableStrings.Media.Title].Value
                 },
 
@@ -47,7 +47,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/menus",
                     Route = "menus",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Menus.Scripts.index",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/menus",
                     Title = T[MantleCmsLocalizableStrings.Menus.Title].Value
                 },
 
@@ -55,7 +55,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/newsletters/subscribers",
                     Route = "newsletters/subscribers",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Scripts.subscribers",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/subscribers",
                     Title = T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value
                 },
 
@@ -63,7 +63,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/pages",
                     Route = "pages",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Pages.Scripts.index",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/pages",
                     Title = T[MantleCmsLocalizableStrings.Pages.Title].Value
                 },
 
@@ -71,22 +71,10 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/sitemap/xml-sitemap",
                     Route = "sitemap/xml-sitemap",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Scripts.xml-sitemap-index",
+                    JsPath = "/_content/Mantle.Web.ContentManagement/js/app/xml-sitemap",
                     Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value
                 }
             };
-
-            #region Content Blocks
-
-            //routes.Add(new DurandalRoute
-            //{
-            //    ModuleId = "/durandal-app/embedded/Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Scripts.Blocks.html-block",
-            //    Route = "blocks/content-block-types/default/html-block/edit/:id",
-            //    Name = "mantle-cms/blocks/content-block-types/default/html-block",
-            //    Title = "HTML Block"
-            //});
-
-            #endregion Content Blocks
 
             return routes;
         }

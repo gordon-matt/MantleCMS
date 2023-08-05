@@ -50,7 +50,7 @@ public class PageController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.Pages.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Pages.ManagePages].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Page.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

@@ -640,7 +640,7 @@
         };
         self.toggleEnabled = async function (id, parentId, isEnabled) {
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, {
-                Enabled: !isEnabled
+                IsEnabled: !isEnabled
             }, () => {
                 if (parentId) {
                     self.refreshGrid(parentId);
