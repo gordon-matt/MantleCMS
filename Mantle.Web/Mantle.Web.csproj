@@ -16,56 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Areas\Admin\Configuration\Views\_ViewImports.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Log\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Scripts\index.js" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\DateTimeSettings.cshtml" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\MembershipSettings.cshtml" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\SiteSettings.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Configuration\Views\Settings\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Configuration\Views\Theme\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\Language\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Views\LocalizableString\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Membership\Views\Membership\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Plugins\Views\Plugin\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\ScheduledTasks\Views\ScheduledTask\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Tenants\Views\Tenant\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Admin\Configuration\Scripts\settings.js" />
-    <EmbeddedResource Include="Areas\Admin\Configuration\Scripts\themes.js" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Localization\Scripts\localizable-strings.js" />
-    <EmbeddedResource Include="Areas\Admin\Plugins\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\ScheduledTasks\Scripts\index.js" />
-    <EmbeddedResource Include="Areas\Admin\Tenants\Scripts\index.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Areas\Admin\Log\**" />
     <Compile Remove="Indexing\**" />
-    <Content Remove="Areas\Admin\Log\**" />
     <Content Remove="Indexing\**" />
-    <EmbeddedResource Remove="Areas\Admin\Log\**" />
     <EmbeddedResource Remove="Indexing\**" />
-    <None Remove="Areas\Admin\Log\**" />
     <None Remove="Indexing\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Areas\Admin\Membership\Scripts\index.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Content\Images\logo-GrapesJS.png" />
-    <EmbeddedResource Include="Content\Images\logo-TinyMCE.png" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\_ResourceSettings.cshtml" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

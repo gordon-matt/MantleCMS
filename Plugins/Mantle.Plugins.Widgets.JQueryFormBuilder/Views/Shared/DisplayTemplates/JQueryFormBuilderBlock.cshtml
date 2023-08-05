@@ -17,7 +17,7 @@
 </form>
 
 <script type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/wwwroot/js/form-render.min.js"></script>
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     $(document).ready(function () {
         $('#render-wrap').formRender({
             formData: @Html.Raw(Model.Metadata)
@@ -26,7 +26,7 @@
 </script>
 @if (Model.UseAjax)
 {
-    <script type="text/javascript">
+    <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
         $("#@formId").submit(function (e) {
             $.ajax({
                 url: "@Url.Action("Save", "FormBlock", new { area = string.Empty })",

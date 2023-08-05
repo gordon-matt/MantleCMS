@@ -38,7 +38,7 @@ public class BlogSettings : BaseResourceSettings
 
     public override string Name => "CMS: Blog Settings";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.BlogSettings.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Blog/Views/Shared/EditorTemplates/BlogSettings.cshtml";
 
     #endregion ISettings Members
 

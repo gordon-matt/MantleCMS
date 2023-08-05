@@ -69,7 +69,7 @@ public class FormBlockController : MantleController
         else
         {
             body = await razorViewRenderService.RenderToStringAsync(
-                "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.FormBlock.MessageTemplate",
+                "/Areas/Admin/ContentBlocks/Views/FormBlock/MessageTemplate.cshtml",
                 values);
         }
 

@@ -20,7 +20,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/localization/languages",
                     Route = "localization/languages",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.index",
+                    JsPath = "/_content/Mantle.Web/js/app/languages",
                     Title = T[MantleWebLocalizableStrings.Localization.Languages]
                 },
 
@@ -28,23 +28,23 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/localization/localizable-strings",
                     Route = "localization/localizable-strings/:cultureCode",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Localization.Scripts.localizable-strings",
+                    JsPath = "/_content/Mantle.Web/js/app/localizable-strings",
                     Title = T[MantleWebLocalizableStrings.Localization.LocalizableStrings]
                 },
 
-                new DurandalRoute
-                {
-                    ModuleId = "viewmodels/admin/log",
-                    Route = "log",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Log.Scripts.index",
-                    Title = T[MantleWebLocalizableStrings.Log.Title]
-                },
+                //new DurandalRoute
+                //{
+                //    ModuleId = "viewmodels/admin/log",
+                //    Route = "log",
+                //    JsPath = "/_content/Mantle.Web/js/app/log",
+                //    Title = T[MantleWebLocalizableStrings.Log.Title]
+                //},
 
                 new DurandalRoute
                 {
                     ModuleId = "viewmodels/admin/membership",
                     Route = "membership",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Membership.Scripts.index",
+                    JsPath = "/_content/Mantle.Web/js/app/membership",
                     Title = T[MantleWebLocalizableStrings.Membership.Title]
                 },
 
@@ -52,7 +52,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/plugins",
                     Route = "plugins",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Plugins.Scripts.index",
+                    JsPath = "/_content/Mantle.Web/js/app/plugins",
                     Title = T[MantleWebLocalizableStrings.Plugins.Title]
                 },
 
@@ -60,7 +60,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/scheduled-tasks",
                     Route = "scheduled-tasks",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.ScheduledTasks.Scripts.index",
+                    JsPath = "/_content/Mantle.Web/js/app/scheduled-tasks",
                     Title = T[MantleWebLocalizableStrings.ScheduledTasks.Title]
                 },
 
@@ -68,7 +68,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/tenants",
                     Route = "tenants",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Tenants.Scripts.index",
+                    JsPath = "/_content/Mantle.Web/js/app/tenants",
                     Title = T[MantleWebLocalizableStrings.Tenants.Title]
                 },
 
@@ -76,7 +76,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/configuration/settings",
                     Route = "configuration/settings",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Configuration.Scripts.settings",
+                    JsPath = "/_content/Mantle.Web/js/app/settings",
                     Title = T[MantleWebLocalizableStrings.General.Settings]
                 },
 
@@ -84,7 +84,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/configuration/themes",
                     Route = "configuration/themes",
-                    JsPath = "/durandal-app/embedded/Mantle.Web.Areas.Admin.Configuration.Scripts.themes",
+                    JsPath = "/_content/Mantle.Web/js/app/themes",
                     Title = T[MantleWebLocalizableStrings.General.Themes]
                 }
             };

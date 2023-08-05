@@ -21,12 +21,12 @@ public class NewsletterUserProfileProvider : IUserProfileProvider
 
     public string DisplayTemplatePath
     {
-        get { return "Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Shared.DisplayTemplates.NewsletterUserProfileProvider"; }
+        get { return "/Areas/Admin/Newsletters/Views/Shared/DisplayTemplates/NewsletterUserProfileProvider.cshtml"; }
     }
 
     public string EditorTemplatePath
     {
-        get { return "Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Shared.EditorTemplates.NewsletterUserProfileProvider"; }
+        get { return "/Areas/Admin/Newsletters/Views/Shared/EditorTemplates/NewsletterUserProfileProvider.cshtml"; }
     }
 
     public int Order

@@ -27,12 +27,12 @@ public class AccountUserProfileProvider : IUserProfileProvider
 
     public string DisplayTemplatePath
     {
-        get { return "Mantle.Web.Views.Shared.DisplayTemplates.AccountUserProfileProvider"; }
+        get { return "/Views/Shared/DisplayTemplates/AccountUserProfileProvider.cshtml"; }
     }
 
     public string EditorTemplatePath
     {
-        get { return "Mantle.Web.Views.Shared.EditorTemplates.AccountUserProfileProvider"; }
+        get { return "/Views/Shared/EditorTemplates/AccountUserProfileProvider.cshtml"; }
     }
 
     public int Order

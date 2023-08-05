@@ -205,7 +205,7 @@ public class PageController : MantleController
             var contentBlocksByZone = contentBlocks.Where(x => x.ZoneId == zone.Id);
 
             string html = AsyncHelper.RunSync(() => razorViewRenderService.Value.RenderToStringAsync(
-                "Mantle.Web.ContentManagement.Views.Shared.Components.ContentBlocksByZone.Default.cshtml",
+                "/Views/Shared/Components/ContentBlocksByZone/Default.cshtml",
                 contentBlocksByZone));
 
             content = content.Replace(match.Value, html);

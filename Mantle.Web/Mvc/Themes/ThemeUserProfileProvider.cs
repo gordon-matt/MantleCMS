@@ -21,12 +21,12 @@ public class ThemeUserProfileProvider : IUserProfileProvider
 
     public string DisplayTemplatePath
     {
-        get { return "Mantle.Web.Views.Shared.DisplayTemplates.ThemeUserProfileProvider"; }
+        get { return "/Views/Shared/DisplayTemplates/ThemeUserProfileProvider.cshtml"; }
     }
 
     public string EditorTemplatePath
     {
-        get { return "Mantle.Web.Views.Shared.EditorTemplates.ThemeUserProfileProvider"; }
+        get { return "/Views/Shared/EditorTemplates/ThemeUserProfileProvider.cshtml"; }
     }
 
     public int Order

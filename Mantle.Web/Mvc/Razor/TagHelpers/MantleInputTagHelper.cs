@@ -2,7 +2,6 @@
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.ComponentModel;
 using System.Text.Encodings.Web;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
@@ -12,10 +11,10 @@ public class MantleInputTagHelper : InputTagHelper
 {
     protected const string BIND_ATTRIBUTE_NAME = "ko-bind";
     protected const string FOR_ATTRIBUTE_NAME = "asp-for";
+    protected const string HELP_ATTRIBUTE_NAME = "asp-help";
     protected const string ICON_ATTRIBUTE_NAME = "asp-icon";
     protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
     protected const string VALIDATION_MSG_ATTRIBUTE_NAME = "asp-validation-msg";
-    protected const string HELP_ATTRIBUTE_NAME = "asp-help";
 
     private readonly IHtmlHelper htmlHelper;
 
@@ -28,6 +27,9 @@ public class MantleInputTagHelper : InputTagHelper
     [HtmlAttributeName(BIND_ATTRIBUTE_NAME)]
     public string Bind { set; get; }
 
+    [HtmlAttributeName(HELP_ATTRIBUTE_NAME)]
+    public string HelpText { set; get; }
+
     [HtmlAttributeName(ICON_ATTRIBUTE_NAME)]
     public string Icon { set; get; }
 
@@ -37,9 +39,6 @@ public class MantleInputTagHelper : InputTagHelper
     [HtmlAttributeName(VALIDATION_MSG_ATTRIBUTE_NAME)]
     public bool ValidationMessage { set; get; }
 
-    [HtmlAttributeName(HELP_ATTRIBUTE_NAME)]
-    public string HelpText { set; get; }
-
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         var viewContextAware = htmlHelper as IViewContextAware;
@@ -47,7 +46,7 @@ public class MantleInputTagHelper : InputTagHelper
 
         string preContent = string.Empty;
         string postContent = string.Empty;
-        
+
         output.TagName = "input";
         if (For.ModelExplorer.ModelType == typeof(bool))
         {

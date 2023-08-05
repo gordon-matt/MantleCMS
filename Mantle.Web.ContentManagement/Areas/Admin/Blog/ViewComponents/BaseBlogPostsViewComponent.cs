@@ -40,6 +40,6 @@ public abstract class BaseBlogPostsViewComponent : ViewComponent
         ViewBag.Tags = tags.ToDictionary(k => k.Id, v => v.Name);
         ViewBag.TagUrls = tags.ToDictionary(k => k.Id, v => v.UrlSlug);
 
-        return View("Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.BlogContent.Index", model);
+        return View("/Areas/Admin/Blog/Views/BlogContent/Index.cshtml", model);
     }
 }

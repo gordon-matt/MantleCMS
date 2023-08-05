@@ -23,7 +23,7 @@ public class MembershipSettings : ISettings
 
     public bool IsTenantRestricted => false;
 
-    public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.MembershipSettings.cshtml";
+    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/MembershipSettings.cshtml";
 
     #endregion ISettings Members
 }
