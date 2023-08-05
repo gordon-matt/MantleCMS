@@ -37,7 +37,7 @@ public class SubscriberController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.Newsletters.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Subscriber.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

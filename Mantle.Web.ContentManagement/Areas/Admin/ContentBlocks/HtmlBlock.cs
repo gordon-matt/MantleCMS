@@ -6,9 +6,9 @@ public class HtmlBlock : ContentBlockBase
 
     public override string Name => "Html Content Block";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.HtmlBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/ContentBlocks/Views/Shared/DisplayTemplates/HtmlBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.HtmlBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/ContentBlocks/Views/Shared/EditorTemplates/HtmlBlock.cshtml";
 
     #endregion IContentBlock Members
 

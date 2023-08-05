@@ -39,7 +39,7 @@ public class ContentBlockController : MantleController
 
         //ViewBag.PageId = pageId;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.ContentBlock.Index");
+        return PartialView("/Areas/Admin/ContentBlocks/Views/ContentBlock/Index.cshtml");
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

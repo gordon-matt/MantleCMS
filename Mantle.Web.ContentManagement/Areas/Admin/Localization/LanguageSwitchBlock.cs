@@ -31,9 +31,9 @@ public class LanguageSwitchBlock : ContentBlockBase
 
     public override string Name => "Language Switch";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.DisplayTemplates.LanguageSwitchBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Localization/Views/Shared/DisplayTemplates/LanguageSwitchBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Localization.Views.Shared.EditorTemplates.LanguageSwitchBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Localization/Views/Shared/EditorTemplates/LanguageSwitchBlock.cshtml";
 
     #endregion ContentBlockBase Overrides
 }

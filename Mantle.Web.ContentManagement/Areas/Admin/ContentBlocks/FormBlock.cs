@@ -34,9 +34,9 @@ public class FormBlock : ContentBlockBase
 
     public override string Name => "Form Content Block";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.DisplayTemplates.FormBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/ContentBlocks/Views/Shared/DisplayTemplates/FormBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.Shared.EditorTemplates.FormBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/ContentBlocks/Views/Shared/EditorTemplates/FormBlock.cshtml";
 
     public override string RenderKOUpdateModelFunction(IEnumerable<BlockPropertyInfo> blockProperties)
     {

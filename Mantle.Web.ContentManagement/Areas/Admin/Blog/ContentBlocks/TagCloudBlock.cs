@@ -129,9 +129,9 @@ public class TagCloudBlock : ContentBlockBase
 
     public override string Name => "Blog: Tag Cloud";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.TagCloudBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Blog/Views/Shared/DisplayTemplates/TagCloudBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.TagCloudBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Blog/Views/Shared/EditorTemplates/TagCloudBlock.cshtml";
 
     #endregion ContentBlockBase Overrides
 

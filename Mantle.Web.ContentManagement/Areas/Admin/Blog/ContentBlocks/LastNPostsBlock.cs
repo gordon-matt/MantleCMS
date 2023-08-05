@@ -12,9 +12,9 @@ public class LastNPostsBlock : ContentBlockBase
 
     public override string Name => "Blog: Last (N) Posts";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.LastNPostsBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Blog/Views/Shared/DisplayTemplates/LastNPostsBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.LastNPostsBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Blog/Views/Shared/EditorTemplates/LastNPostsBlock.cshtml";
 
     #endregion ContentBlockBase Overrides
 }

@@ -8,7 +8,7 @@ public class NewsletterSubscriptionBlock : ContentBlockBase
 
     public override string Name => "Newsletter Subscription Block";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Newsletters.Views.Shared.DisplayTemplates.NewsletterSubscriptionBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Newsletters/Views/Shared/DisplayTemplates.NewsletterSubscriptionBlock.cshtml";
 
     public override string EditorTemplatePath
     {

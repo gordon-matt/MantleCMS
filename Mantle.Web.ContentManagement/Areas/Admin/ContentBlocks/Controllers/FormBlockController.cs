@@ -77,7 +77,7 @@ public class FormBlockController : MantleController
 
         #region Create Mail Message
 
-        var mailMessage = new MailMessage
+        using var mailMessage = new MailMessage
         {
             Subject = subject,
             SubjectEncoding = Encoding.UTF8,
@@ -148,7 +148,7 @@ public class FormBlockController : MantleController
                 return Json(result);
             }
 
-            return View("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.FormBlock.SaveResult", result);
+            return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
 
             #endregion Custom Form URL
         }
@@ -175,7 +175,7 @@ public class FormBlockController : MantleController
                     return Json(result);
                 }
 
-                return View("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.FormBlock.SaveResult", result);
+                return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
             }
             catch (Exception x)
             {
@@ -195,7 +195,7 @@ public class FormBlockController : MantleController
                     return Json(result);
                 }
 
-                return View("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.FormBlock.SaveResult", result);
+                return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
             }
 
             #endregion Default Behaviour (Email)

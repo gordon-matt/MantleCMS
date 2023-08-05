@@ -20,9 +20,9 @@ public class FilteredPostsBlock : ContentBlockBase
 
     public override string Name => "Blog: Filtered Posts";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.FilteredPostsBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Blog/Views/Shared/DisplayTemplates/FilteredPostsBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.FilteredPostsBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Blog/Views/Shared/EditorTemplates/FilteredPostsBlock.cshtml";
 
     #endregion ContentBlockBase Overrides
 }

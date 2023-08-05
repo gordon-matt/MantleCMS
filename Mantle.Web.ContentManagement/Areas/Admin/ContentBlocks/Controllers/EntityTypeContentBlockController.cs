@@ -32,7 +32,7 @@ public class EntityTypeContentBlockController : MantleController
         ViewBag.Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value;
         ViewBag.SubTitle = T[MantleCmsLocalizableStrings.ContentBlocks.ManageContentBlocks].Value;
 
-        return PartialView("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Views.EntityTypeContentBlock.Index");
+        return PartialView("/Areas/Admin/ContentBlocks/Views/EntityTypeContentBlock/Index.cshtml");
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

@@ -12,9 +12,9 @@ public class CategoriesBlock : ContentBlockBase
 
     public override string Name => "Blog: Categories";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.DisplayTemplates.CategoriesBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Blog/Views/Shared/DisplayTemplates/CategoriesBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Blog.Views.Shared.EditorTemplates.CategoriesBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Blog/Views/Shared/EditorTemplates/CategoriesBlock.cshtml";
 
     #endregion ContentBlockBase Overrides
 }

@@ -39,9 +39,9 @@ public class VideoBlock : ContentBlockBase
 
     public override string Name => "Video Block";
 
-    public override string DisplayTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.DisplayTemplates.VideoBlock.cshtml";
+    public override string DisplayTemplatePath => "/Areas/Admin/Media/Views/Shared/DisplayTemplates/VideoBlock.cshtml";
 
-    public override string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Media.Views.Shared.EditorTemplates.VideoBlock.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Media/Views/Shared/EditorTemplates/VideoBlock.cshtml";
 
     #endregion IContentBlock Members
 }
