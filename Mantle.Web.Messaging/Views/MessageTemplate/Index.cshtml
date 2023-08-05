@@ -1,19 +1,4 @@
-﻿@using Extenso.AspNetCore.Mvc.ExtensoUI
-@using Mantle.Messaging.Data.Domain
-@using Mantle.Web
-@using Mantle.Web.Messaging
-@using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.Razor
-@using Mantle.Infrastructure
-
-@using WebEnumExtensions = Mantle.Web.EnumExtensions
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *, Mantle.Web
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
-@inject Mantle.Web.IWorkContext WorkContext
-
+﻿@inject Mantle.Web.IWorkContext WorkContext
 @inject IEnumerable<IMessageTemplateEditor> messageTemplateEditors
 
 @model MessageTemplate

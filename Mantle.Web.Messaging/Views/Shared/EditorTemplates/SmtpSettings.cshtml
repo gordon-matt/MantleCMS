@@ -1,13 +1,4 @@
-﻿@using Mantle.Web.Messaging
-@using Mantle.Web.Messaging.Configuration
-@using Mantle.Web.Mvc
-@using Mantle.Web.Mvc.Razor
-@using Mantle.Infrastructure
-@addTagHelper *, Mantle.Web
-
-@model SmtpSettings
-
-@inject Microsoft.Extensions.Localization.IStringLocalizer T
+﻿@model SmtpSettings
 
 <div id="settings-content">
     <mantle-input asp-for="DisplayName" asp-label="@T[LocalizableStrings.Settings.Smtp.DisplayName]" asp-validation-msg="true" />
