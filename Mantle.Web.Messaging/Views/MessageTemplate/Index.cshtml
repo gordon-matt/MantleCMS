@@ -16,7 +16,6 @@
 
 @model MessageTemplate
 @{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
     var messageTemplateEditors = EngineContext.Current.ResolveAll<IMessageTemplateEditor>();
 }
 
@@ -47,18 +46,9 @@
 
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: templateModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="templateModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
+    <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
@@ -139,8 +129,8 @@
         }
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="form-group pull-right">
-                <button type="button" class="btn btn-default" data-bind="click: templateModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                <button type="button" class="btn btn-primary" data-bind="click: templateModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                <mantle-ko-button state="Default" ko-click="templateModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                <mantle-ko-button state="Primary" ko-click="templateModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
             </div>
         </div>
     </article>
@@ -161,6 +151,6 @@
     using (var footer = modal.BeginFooter())
     {
         <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-        <button type="button" class="btn btn-primary" data-bind="click: templateModel.onCultureSelected">@T[MantleWebLocalizableStrings.General.OK]</button>
+        <mantle-ko-button state="Primary" ko-click="templateModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
     }
 }

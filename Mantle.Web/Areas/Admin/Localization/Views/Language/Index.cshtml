@@ -1,7 +1,4 @@
 ﻿@model Language
-@{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
-}
 
 @foreach (var asset in MantleWebAssets.Instance.BootstrapFileInput.Styles.OrderBy(x => x.Order))
 {
@@ -12,26 +9,11 @@
 
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: clear" class="btn btn-warning">
-            <i class="fa fa-warning"></i>
-            @T[MantleWebLocalizableStrings.General.Clear]
-        </a>
-        <a data-bind="click: importLanguagePack" class="btn btn-success">
-            <i class="fa fa-upload"></i>
-            @T[MantleWebLocalizableStrings.General.Import]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Warning" ko-click="clear" icon="fa fa-warning" text="@T[MantleWebLocalizableStrings.General.Clear]" />
+        <mantle-ko-button state="Success" ko-click="importLanguagePack" icon="fa fa-upload" text="@T[MantleWebLocalizableStrings.General.Import]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
+    <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
@@ -59,8 +41,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -87,7 +69,7 @@
                         </div>
                         <div class="form-group pull-right">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <button type="button" class="btn btn-default" data-bind="click: cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
+                                <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                             </div>
                         </div>
                     </fieldset>

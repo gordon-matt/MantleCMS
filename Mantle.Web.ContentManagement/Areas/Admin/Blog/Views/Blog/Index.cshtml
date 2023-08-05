@@ -2,14 +2,13 @@
 @using Mantle.Web
 @using Mantle.Web.ContentManagement
 @using Mantle.Web.Mvc
+@addTagHelper *, Mantle.Web
 
 @{
-    string rtlClass = string.Empty;
     string chosenRtlClass = string.Empty;
 
     if (System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft)
     {
-        rtlClass = "k-rtl";
         chosenRtlClass = "chosen-rtl";
     }
 }
@@ -32,26 +31,11 @@
 
 <div id="post-grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: postModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: showCategories" class="btn btn-info">
-            <i class="fa fa-folder"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Categories]
-        </a>
-        <a data-bind="click: showTags" class="btn btn-success">
-            <i class="fa fa-tags"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Tags]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="postModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Info" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
+        <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="PostGrid"></div>
-    </div>
+    <mantle-grid id="PostGrid" />
 </div>
 
 <div id="post-form-section" class="row" style="display:none">
@@ -168,8 +152,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: postModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: postModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="postModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="postModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -181,26 +165,11 @@
 
 <div id="category-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: categoryModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: showPosts" class="btn btn-info">
-            <i class="fa fa-edit"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Posts]
-        </a>
-        <a data-bind="click: showTags" class="btn btn-success">
-            <i class="fa fa-tags"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Tags]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
+        <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="CategoryGrid"></div>
-    </div>
+    <mantle-grid id="CategoryGrid" />
 </div>
 
 <div id="category-form-section" class="row" style="display:none">
@@ -227,8 +196,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: categoryModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: categoryModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="categoryModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="categoryModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -240,26 +209,11 @@
 
 <div id="tag-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: tagModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: showPosts" class="btn btn-info">
-            <i class="fa fa-edit"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Posts]
-        </a>
-        <a data-bind="click: showCategories" class="btn btn-success">
-            <i class="fa fa-folder"></i>
-            @T[MantleCmsLocalizableStrings.Blog.Categories]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
+        <mantle-ko-button state="Success" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="TagGrid"></div>
-    </div>
+    <mantle-grid id="TagGrid" />
 </div>
 
 <div id="tag-form-section" class="row" style="display:none">
@@ -286,8 +240,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: tagModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: tagModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="tagModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="tagModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>

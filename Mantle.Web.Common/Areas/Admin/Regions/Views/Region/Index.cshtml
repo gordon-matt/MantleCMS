@@ -19,7 +19,6 @@
 
 @model Region
 @{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
     var assembly = typeof(Constants).GetTypeInfo().Assembly;
     var regionSettings = (IEnumerable<IRegionSettings>)ViewBag.RegionSettings;
 }
@@ -48,22 +47,10 @@
 
 <div id="country-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: country.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: country.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="country.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Default" ko-click="country.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="CountryGrid"></div>
-    </div>
+    <mantle-grid id="CountryGrid" />
 </div>
 
 <div id="country-form-section" class="row" style="display:none">
@@ -94,8 +81,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: country.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: country.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="country.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="country.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -107,22 +94,10 @@
 
 <div id="state-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: state.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: state.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="state.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Default" ko-click="state.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="StateGrid"></div>
-    </div>
+    <mantle-grid id="StateGrid" />
 </div>
 
 <div id="state-form-section" class="row" style="display:none">
@@ -155,8 +130,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: state.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: state.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="state.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="state.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -168,22 +143,10 @@
 
 <div id="city-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: city.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: city.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="city.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Default" ko-click="city.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="CityGrid"></div>
-    </div>
+    <mantle-grid id="CityGrid" />
 </div>
 
 <div id="city-form-section" class="row" style="display:none">
@@ -210,8 +173,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: city.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: city.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="city.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="city.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -223,18 +186,9 @@
 
 <div id="settings-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: settings.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Default" ko-click="settings.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="SettingsGrid"></div>
-    </div>
+    <mantle-grid id="SettingsGrid" />
 </div>
 
 <div id="settings-form-section" class="row" style="display:none">
@@ -249,8 +203,8 @@
                         <div id="settings-details">@*HTML injected here*@</div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: settings.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: settings.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="settings.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="settings.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -278,7 +232,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                <button type="button" class="btn btn-primary" data-bind="click: onCultureSelected">@T[MantleWebLocalizableStrings.General.OK]</button>
+                <mantle-ko-button state="Primary" ko-click="onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
             </div>
         </div>
     </div>

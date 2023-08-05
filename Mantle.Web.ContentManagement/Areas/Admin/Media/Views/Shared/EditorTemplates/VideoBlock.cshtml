@@ -7,10 +7,6 @@
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 @inject Mantle.Web.IWorkContext WorkContext
 
-@{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
-}
-
 <div id="block-content">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
