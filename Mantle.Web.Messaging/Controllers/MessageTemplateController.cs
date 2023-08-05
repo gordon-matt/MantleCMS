@@ -26,7 +26,7 @@ public class MessageTemplateController : MantleController
         ViewBag.Title = T[LocalizableStrings.Messaging].Value;
         ViewBag.SubTitle = T[LocalizableStrings.MessageTemplates].Value;
 
-        return PartialView("Mantle.Web.Messaging.Views.MessageTemplate.Index");
+        return PartialView("/Views/MessageTemplate/Index.cshtml");
     }
 
     [Route("get-translations")]

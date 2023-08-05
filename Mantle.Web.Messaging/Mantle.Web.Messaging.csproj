@@ -20,15 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\messageTemplates.js" />
-    <EmbeddedResource Include="Scripts\queuedEmails.js" />
-    <EmbeddedResource Include="Views\GrapesJsMessageTemplate\Edit.cshtml" />
-    <EmbeddedResource Include="Views\MessageTemplate\Index.cshtml" />
-    <EmbeddedResource Include="Views\QueuedEmail\Index.cshtml" />
-    <EmbeddedResource Include="Views\Shared\EditorTemplates\SmtpSettings.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="7.0.1" />
   </ItemGroup>
 
@@ -36,6 +27,16 @@
     <ProjectReference Include="..\Mantle.Messaging\Mantle.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\_ViewStart.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

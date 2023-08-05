@@ -60,7 +60,7 @@ public class GrapesJsMessageTemplateController : MantleController
             { "LastName", "Last Name" },
         };
 
-        return View("Mantle.Web.Messaging.Views.GrapesJsMessageTemplate.Edit", model);
+        return View("/Views/GrapesJsMessageTemplate/Edit.cshtml", model);
     }
 
     [HttpDelete]

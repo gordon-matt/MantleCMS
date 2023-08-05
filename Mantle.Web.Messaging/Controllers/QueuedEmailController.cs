@@ -20,7 +20,7 @@ public class QueuedEmailController : MantleController
         WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Messaging].Value);
         ViewBag.SubTitle = T[LocalizableStrings.QueuedEmails].Value;
 
-        return PartialView("Mantle.Web.Messaging.Views.QueuedEmail.Index");
+        return PartialView("/Views/QueuedEmail/Index.cshtml");
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

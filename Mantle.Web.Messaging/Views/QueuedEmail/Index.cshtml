@@ -1,8 +1,4 @@
-﻿@addTagHelper *, Mantle.Web
-
-@inject Mantle.Web.Configuration.SiteSettings SiteSettings
-
-@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+﻿@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
     <mantle-grid />
