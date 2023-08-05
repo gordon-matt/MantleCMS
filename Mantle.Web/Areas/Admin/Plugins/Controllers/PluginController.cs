@@ -28,7 +28,7 @@ public class PluginController : MantleController
         ViewBag.Title = T[MantleWebLocalizableStrings.Plugins.Title];
         ViewBag.SubTitle = T[MantleWebLocalizableStrings.Plugins.ManagePlugins];
 
-        return PartialView("Mantle.Web.Areas.Admin.Plugins.Views.Plugin.Index");
+        return PartialView();
     }
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]

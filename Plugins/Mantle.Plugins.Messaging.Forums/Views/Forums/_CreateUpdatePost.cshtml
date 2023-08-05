@@ -56,8 +56,8 @@
                     <div class="form-group inputs">
                         @if (Model.ForumEditor == EditorType.BBCodeEditor)
                         {
-                            <script type="text/javascript" src="/Plugins/Messaging.Forums/wwwroot/js/BBEditor/ed.js"></script>
-                            <script type="text/javascript">
+                            <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Messaging.Forums/wwwroot/js/BBEditor/ed.js"></script>
+                            <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
                                 edToolbar('Text', '/Plugins/Messaging.Forums/Scripts/', true);
                             </script>
                         }

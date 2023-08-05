@@ -17,7 +17,7 @@ public class DateTimeSettings : ISettings
 
     public bool IsTenantRestricted => false;
 
-    public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.DateTimeSettings.cshtml";
+    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/DateTimeSettings.cshtml";
 
     #endregion ISettings Members
 }

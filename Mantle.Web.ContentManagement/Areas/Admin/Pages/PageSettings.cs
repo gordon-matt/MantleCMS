@@ -15,7 +15,7 @@ public class PageSettings : ISettings
 
     public bool IsTenantRestricted => false;
 
-    public string EditorTemplatePath => "Mantle.Web.ContentManagement.Areas.Admin.Pages.Views.Shared.EditorTemplates.PageSettings.cshtml";
+    public string EditorTemplatePath => "/Areas/Admin/Pages/Views/Shared/EditorTemplates/PageSettings.cshtml";
 
     #endregion ISettings Members
 

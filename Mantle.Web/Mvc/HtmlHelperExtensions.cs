@@ -444,7 +444,7 @@ public class Mantle<TModel>
 
         return type switch
         {
-            EmbeddedPartialType.ResourceSettings => new HtmlString(await razorViewRenderService.RenderToStringAsync("Mantle.Web.Views.Shared.EditorTemplates._ResourceSettings.cshtml")),
+            EmbeddedPartialType.ResourceSettings => new HtmlString(await razorViewRenderService.RenderToStringAsync("/Views/Shared/EditorTemplates/_ResourceSettings.cshtml")),
             EmbeddedPartialType.Custom => new HtmlString(await razorViewRenderService.RenderToStringAsync(viewName, model)),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };

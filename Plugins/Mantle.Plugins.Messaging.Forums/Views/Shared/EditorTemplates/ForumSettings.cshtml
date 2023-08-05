@@ -23,11 +23,7 @@
     <div class="form-group">
         <mantle-input asp-for="ShowUsersPostCount" asp-label="@T[LocalizableStrings.Settings.ShowUsersPostCount]" />
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ForumEditor, new { @class = "control-label" })
-        @Html.DropDownListFor(m => m.ForumEditor, Html.GetEnumSelectList<EditorType>(), new { @class = "form-control", data_bind = "value: forumEditor" })
-        @Html.ValidationMessageFor(m => m.ForumEditor)
-    </div>
+    <mantle-select asp-for="ForumEditor" asp-items="Html.GetEnumSelectList<EditorType>()" asp-label="@T[LocalizableStrings.Settings.ForumEditor]" asp-validation-msg="true" />
     <div class="form-group">
         <mantle-input asp-for="SignaturesEnabled" asp-label="@T[LocalizableStrings.Settings.SignaturesEnabled]" />
         <mantle-input asp-for="AllowPrivateMessages" asp-label="@T[LocalizableStrings.Settings.AllowPrivateMessages]" />

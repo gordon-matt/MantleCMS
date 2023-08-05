@@ -16,18 +16,13 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <mantle-input asp-for="Delay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Delay]" ko-bind="blockModel.delay" />
-        <div class="form-group">
-            @Html.LabelFor(m => m.Shape, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.Shape, Html.GetEnumSelectList<CloudShape>(), new { @class = "form-control", data_bind = "value: blockModel.shape" })
-            </div>
-        </div>
+        <mantle-select asp-for="Shape" asp-items="Html.GetEnumSelectList<CloudShape>()" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Shape]" ko-bind="blockModel.shape" />
         <mantle-input asp-for="Colors" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Colors]" ko-bind="blockModel.colors" />
         <mantle-input asp-for="FontSizeFrom" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeFrom]" ko-bind="blockModel.fontSizeFrom" />
         <mantle-input asp-for="FontSizeTo" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.FontSizeTo]" ko-bind="blockModel.fontSizeTo" />
     </div>
 </div>
 
-<script type="text/javascript">
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     @Model.RenderKOScript()
 </script>

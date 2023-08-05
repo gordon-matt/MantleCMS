@@ -193,7 +193,7 @@ public class PageContentController : MantleController
             contentBlocksByZone.AddRange(contentBlocksByZoneForAllPages);
 
             string html = AsyncHelper.RunSync(() => razorViewRenderService.RenderToStringAsync(
-                "Mantle.Web.ContentManagement.Views.Shared.Components.ContentBlocksByZone.Default.cshtml",
+                "/Views/Shared/Components/ContentBlocksByZone/Default.cshtml",
                 contentBlocksByZone));
 
             content = content.Replace(match.Value, html);

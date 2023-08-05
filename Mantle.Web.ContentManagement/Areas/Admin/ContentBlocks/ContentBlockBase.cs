@@ -1,6 +1,7 @@
 ﻿using Extenso.Reflection;
 using Humanizer;
 using System.Reflection;
+using Z.Expressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
@@ -130,7 +131,14 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
             string value;
             if (property.Attribute.DefaultValue is not null)
             {
-                value = property.Attribute.DefaultValue.ToString();
+                if (property.Attribute.DefaultValue is bool)
+                {
+                    value = property.Attribute.DefaultValue.ToString().ToLowerInvariant();
+                }
+                else
+                {
+                    value = property.Attribute.DefaultValue.ToString();
+                }
             }
             else if (property.Type.GetDefaultValue() is not null)
             {

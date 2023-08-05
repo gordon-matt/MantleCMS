@@ -18,7 +18,7 @@ public class SiteSettings : ISettings
 
     public bool IsTenantRestricted => false;
 
-    public string EditorTemplatePath => "Mantle.Web.Views.Shared.EditorTemplates.SiteSettings.cshtml";
+    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/SiteSettings.cshtml";
 
     #endregion ISettings Members
 
