@@ -9,26 +9,14 @@
 @addTagHelper *, Mantle.Web
 
 @model Menu
-@{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
-}
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: menuModel.create" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="menuModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
+    <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
@@ -49,8 +37,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="menuModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="menuModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -62,22 +50,10 @@
 
 <div id="items-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: menuItemModel.create.bind($data,menuModel.id(), null)" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: menuItemModel.goBack" class="btn btn-default">
-            <i class="fa fa-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="menuItemModel.create.bind($data,menuModel.id(), null)" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Default" ko-click="menuItemModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="ItemsGrid"></div>
-    </div>
+    <mantle-grid id="ItemsGrid" />
 </div>
 
 <div id="items-edit-section" class="row" style="display:none">
@@ -154,8 +130,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: menuItemModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: menuItemModel.save"><i class="fa fa-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="menuItemModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="menuItemModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>

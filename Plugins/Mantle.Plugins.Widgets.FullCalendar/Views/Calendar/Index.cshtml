@@ -5,24 +5,11 @@
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
-@{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
-}
-
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: calendarModel.create" class="btn btn-primary">
-            <i class="Mantle-icon Mantle-icon-add"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="calendarModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
+    <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
@@ -43,8 +30,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: calendarModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: calendarModel.save"><i class="Mantle-icon Mantle-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="calendarModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="calendarModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>
@@ -56,22 +43,10 @@
 
 <div id="events-grid-section" class="row" style="display:none">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: eventModel.create" class="btn btn-primary">
-            <i class="Mantle-icon Mantle-icon-add"></i>
-            @T[MantleWebLocalizableStrings.General.Create]
-        </a>
-        <a data-bind="click: eventModel.goBack" class="btn btn-default">
-            <i class="Mantle-icon Mantle-icon-arrow-left"></i>
-            @T[MantleWebLocalizableStrings.General.Back]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="eventModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+        <mantle-ko-button state="Default" ko-click="eventModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="EventGrid"></div>
-    </div>
+    <mantle-grid id="EventGrid" />
 </div>
 
 <div id="events-form-section" class="row" style="display:none">
@@ -104,8 +79,8 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="form-group pull-right">
-                                <button type="button" class="btn btn-default" data-bind="click: eventModel.cancel">@T[MantleWebLocalizableStrings.General.Cancel]</button>
-                                <button type="button" class="btn btn-primary" data-bind="click: eventModel.save"><i class="Mantle-icon Mantle-icon-save"></i> @T[MantleWebLocalizableStrings.General.Save]</button>
+                                <mantle-ko-button state="Default" ko-click="eventModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="eventModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>

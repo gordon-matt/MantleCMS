@@ -1,27 +1,15 @@
 ﻿@using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain
 @using Mantle.Web.ContentManagement
+@addTagHelper *, Mantle.Web
 
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 @inject Mantle.Web.Configuration.SiteSettings SiteSettings
 
-@{
-    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
-}
-
 <div id="grid-section" class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <a data-bind="click: downloadCsv" class="btn btn-primary">
-            <i class="fa fa-save"></i>
-            @T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]
-        </a>
+        <mantle-ko-button state="Primary" ko-click="downloadCsv" icon="fa fa-save" text="@T[MantleCmsLocalizableStrings.Newsletters.ExportToCSV]" />
     </div>
-
-    <div class="clearfix"></div>
-    <br />
-
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
-        <div id="Grid"></div>
-    </div>
+    <mantle-grid />
 </div>
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
