@@ -55,28 +55,22 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Animation, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.Animation, Html.GetEnumSelectList<AnimationType>(), new { @class = "form-control", data_bind = "value: blockModel.animation" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Easing, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.Easing, Html.GetEnumSelectList<EasingMethod>(), new { @class = "form-control", data_bind = "value: blockModel.easing" })
-                    </div>
-                </div>
+                <mantle-select asp-for="Animation"
+                               asp-items="Html.GetEnumSelectList<AnimationType>()"
+                               asp-label="@T[LocalizableStrings.FlexSliderBlock.Animation]"
+                               ko-bind="blockModel.animation" />
+                <mantle-select asp-for="Easing"
+                               asp-items="Html.GetEnumSelectList<EasingMethod>()"
+                               asp-label="@T[LocalizableStrings.FlexSliderBlock.Easing]"
+                               ko-bind="blockModel.easing" />
                 <mantle-input asp-for="AnimationSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationSpeed]" ko-bind="blockModel.animationSpeed" type="number" />
                 <mantle-input asp-for="Move" asp-label="@T[LocalizableStrings.FlexSliderBlock.Move]" ko-bind="blockModel.move" type="number" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Direction, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.Direction, Html.GetEnumSelectList<SlideDirection>(), new { @class = "form-control", data_bind = "value: blockModel.direction" })
-                    </div>
-                </div>
+                <mantle-select asp-for="Direction"
+                               asp-items="Html.GetEnumSelectList<SlideDirection>()"
+                               asp-label="@T[LocalizableStrings.FlexSliderBlock.Direction]"
+                               ko-bind="blockModel.direction" />
                 <div class="form-group">
                     <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
@@ -101,12 +95,10 @@
                     <mantle-input asp-for="PrevText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PrevText]" ko-bind="blockModel.prevText" />
                     <mantle-input asp-for="NextText" asp-label="@T[LocalizableStrings.FlexSliderBlock.NextText]" ko-bind="blockModel.nextText" />
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ControlNav, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.ControlNav, Html.GetEnumSelectList<ControlNavOption>(), new { @class = "form-control", data_bind = "value: blockModel.controlNav" })
-                    </div>
-                </div>
+                <mantle-select asp-for="ControlNav"
+                               asp-items="Html.GetEnumSelectList<ControlNavOption>()"
+                               asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlNav]"
+                               ko-bind="blockModel.controlNav" />
                 <mantle-input asp-for="ControlsContainer" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlsContainer]" ko-bind="blockModel.controlsContainer" />
                 <mantle-input asp-for="ManualControls" asp-label="@T[LocalizableStrings.FlexSliderBlock.ManualControls]" ko-bind="blockModel.manualControls" />
             </div>

@@ -5,10 +5,10 @@
         <div class="form-group">
             @Html.Label("FilterType", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownList(
-                     "FilterType",
-                     WebEnumExtensions.ToSelectList<FilterType>(),
-                     new { @class = "form-control", data_bind = "value: blockModel.filterType" })
+                <mantle-select asp-for="FilterType"
+                               asp-items="WebEnumExtensions.ToSelectList<FilterType>()"
+                               asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType]"
+                               ko-bind="blockModel.filterType" />
             </div>
         </div>
     </div>

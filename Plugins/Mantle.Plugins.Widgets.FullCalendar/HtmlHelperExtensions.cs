@@ -41,7 +41,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar
             return html.DropDownListFor(expression, selectList, htmlAttributes);
         }
 
-        private static IEnumerable<SelectListItem> GetCalendarSelectList(int? selectedValue = null, string emptyText = null)
+        public IEnumerable<SelectListItem> GetCalendarSelectList(int? selectedValue = null, string emptyText = null)
         {
             var repository = EngineContext.Current.Resolve<IRepository<Calendar>>();
 

@@ -123,7 +123,7 @@ public class MantleCMS<TModel>
         return html.DropDownListFor(expression, selectList, htmlAttributes);
     }
 
-    private static IEnumerable<SelectListItem> GetBlogCategorySelectList(int? selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetBlogCategorySelectList(int? selectedValue = null, string emptyText = null)
     {
         var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
 
@@ -135,7 +135,7 @@ public class MantleCMS<TModel>
                 emptyText);
     }
 
-    private static IEnumerable<SelectListItem> GetBlogTagSelectList(int? selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetBlogTagSelectList(int? selectedValue = null, string emptyText = null)
     {
         var tagService = EngineContext.Current.Resolve<IBlogTagService>();
 
@@ -147,7 +147,7 @@ public class MantleCMS<TModel>
                 emptyText);
     }
 
-    private static IEnumerable<SelectListItem> GetContentBlockTypesSelectList(string selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetContentBlockTypesSelectList(string selectedValue = null, string emptyText = null)
     {
         var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
 
@@ -167,7 +167,7 @@ public class MantleCMS<TModel>
             emptyText);
     }
 
-    private static IEnumerable<SelectListItem> GetPageTypesSelectList(string selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetPageTypesSelectList(string selectedValue = null, string emptyText = null)
     {
         var repository = EngineContext.Current.Resolve<IRepository<PageType>>();
 
@@ -182,7 +182,7 @@ public class MantleCMS<TModel>
                 emptyText);
     }
 
-    private static IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
     {
         var pageService = EngineContext.Current.Resolve<IPageService>();
         var workContext = EngineContext.Current.Resolve<IWorkContext>();
@@ -197,7 +197,7 @@ public class MantleCMS<TModel>
                 emptyText);
     }
 
-    private static IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
+    public IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
     {
         var zoneService = EngineContext.Current.Resolve<IZoneService>();
 
