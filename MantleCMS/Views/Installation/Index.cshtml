@@ -51,7 +51,7 @@
                         {
                             <div class="form-group">
                                 @Html.LabelFor(m => m.AdminEmail, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                         @Html.TextBoxFor(m => m.AdminEmail, new { @class = "form-control" })
@@ -60,7 +60,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.AdminPassword, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                         @Html.PasswordFor(m => m.AdminPassword, new { @class = "form-control" })
@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                         @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
@@ -87,7 +87,7 @@
                         {
                             <div class="form-group">
                                 @Html.LabelFor(m => m.DefaultLanguage, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-globe"></i></span>
                                         @Html.CulturesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control" })
@@ -96,7 +96,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Theme, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-tint"></i></span>
                                         @Html.Mantle().ThemesDropDownListFor(m => m.Theme, new { @class = "form-control", onchange = "onThemeChange(this);" })
@@ -124,7 +124,7 @@
                             </div>
                             <div id="connection-string-group" class="form-group" style="display:none">
                                 @Html.LabelFor(m => m.ConnectionString, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-plug"></i></span>
                                         @Html.TextBoxFor(m => m.ConnectionString, new { @class = "form-control" })
@@ -133,7 +133,7 @@
                             </div>
                             <div id="database-server-group" class="form-group">
                                 @Html.LabelFor(m => m.DatabaseServer, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-database"></i></span>
                                         @Html.TextBoxFor(m => m.DatabaseServer, new { @class = "form-control" })
@@ -142,7 +142,7 @@
                             </div>
                             <div id="database-name-group" class="form-group">
                                 @Html.LabelFor(m => m.DatabaseName, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-database"></i></span>
                                         @Html.TextBoxFor(m => m.DatabaseName, new { @class = "form-control" })
@@ -159,7 +159,7 @@
                             </div>
                             <div id="database-username-group" class="form-group">
                                 @Html.LabelFor(m => m.DatabaseUsername, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                         @Html.TextBoxFor(m => m.DatabaseUsername, new { @class = "form-control" })
@@ -168,7 +168,7 @@
                             </div>
                             <div id="database-password-group" class="form-group">
                                 @Html.LabelFor(m => m.DatabasePassword, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-10">
+                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                         @Html.TextBoxFor(m => m.DatabasePassword, new { @class = "form-control" })

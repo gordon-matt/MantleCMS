@@ -9,7 +9,6 @@
     }
 }
 
-
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
 @*<link rel="stylesheet" type="text/css" href="@Style.GetBundleUrl("chosen")" /> //TODO *@
@@ -23,7 +22,7 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="post-grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="postModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
         <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
@@ -32,7 +31,7 @@
 </div>
 
 <div id="post-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Posts])) { }
@@ -41,7 +40,7 @@
                 <form id="post-form-section-form" role="form">
                     <fieldset>
                         <legend id="post-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.Blog.PostModel.CategoryId], new { @class = "control-label" })
                                 <div class="input-group">
@@ -52,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Headline", T[MantleCmsLocalizableStrings.Blog.PostModel.Headline], new { @class = "control-label" })
                                 <div class="input-group">
@@ -63,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Slug", T[MantleCmsLocalizableStrings.Blog.PostModel.Slug], new { @class = "control-label" })
                                 @Html.TextBox("Slug", null, new { @class = "form-control", data_bind = "value: postModel.slug" })
@@ -92,13 +91,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("ShortDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.ShortDescription], new { @class = "control-label" })
                                 @Html.TextArea("ShortDescription", null, new { @class = "form-control", data_bind = "value: postModel.shortDescription" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 <div class="checkbox">
                                     <label>
@@ -107,20 +106,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-bind="visible: postModel.useExternalLink() == true">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full" data-bind="visible: postModel.useExternalLink() == true">
                             <div class="form-group">
                                 @Html.Label("ExternalLink", T[MantleCmsLocalizableStrings.Blog.PostModel.ExternalLink], new { @class = "control-label" })
                                 @Html.TextBox("ExternalLink", null, new { @class = "form-control", data_bind = "value: postModel.externalLink" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-bind="visible: postModel.useExternalLink() == false">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full" data-bind="visible: postModel.useExternalLink() == false">
                             <div class="form-group">
                                 @Html.Label("FullDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.FullDescription], new { @class = "control-label" })
                                 @Html.TextArea("FullDescription", null, new { @class = "form-control", data_bind = "wysiwyg: postModel.fullDescription, wysiwygConfig: tinyMCE_fullDescription" })
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Tags", T[MantleCmsLocalizableStrings.Blog.Tags], new { @class = "control-label" })
                                 <select id="Tags"
@@ -131,19 +130,19 @@
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("MetaKeywords", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaKeywords], new { @class = "control-label" })
                                 @Html.TextBox("MetaKeywords", null, new { @class = "form-control", data_bind = "value: postModel.metaKeywords" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("MetaDescription", T[MantleCmsLocalizableStrings.Blog.PostModel.MetaDescription], new { @class = "control-label" })
                                 @Html.TextBox("MetaDescription", null, new { @class = "form-control", data_bind = "value: postModel.metaDescription" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="postModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="postModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -157,7 +156,7 @@
 </div>
 
 <div id="category-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
         <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
@@ -166,7 +165,7 @@
 </div>
 
 <div id="category-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Categories])) { }
@@ -175,19 +174,19 @@
                 <form id="category-form-section-form" role="form">
                     <fieldset>
                         <legend id="category-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Category_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
                                 @Html.TextBox("Category_Name", null, new { @class = "form-control", data_bind = "value: categoryModel.name" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Category_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
                                 @Html.TextBox("Category_UrlSlug", null, new { @class = "form-control", data_bind = "value: categoryModel.urlSlug" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="categoryModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="categoryModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -201,7 +200,7 @@
 </div>
 
 <div id="tag-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
         <mantle-ko-button state="Success" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
@@ -210,7 +209,7 @@
 </div>
 
 <div id="tag-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Blog.Tags])) { }
@@ -219,19 +218,19 @@
                 <form id="tag-form-section-form" role="form">
                     <fieldset>
                         <legend id="tag-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Tag_Name", T[MantleCmsLocalizableStrings.Blog.CategoryModel.Name], new { @class = "control-label" })
                                 @Html.TextBox("Tag_Name", null, new { @class = "form-control", data_bind = "value: tagModel.name" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Tag_UrlSlug", T[MantleCmsLocalizableStrings.Blog.CategoryModel.UrlSlug], new { @class = "control-label" })
                                 @Html.TextBox("Tag_UrlSlug", null, new { @class = "form-control", data_bind = "value: tagModel.urlSlug" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="tagModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="tagModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

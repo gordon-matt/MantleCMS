@@ -8,7 +8,7 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Warning" ko-click="clear" icon="fa fa-warning" text="@T[MantleWebLocalizableStrings.General.Clear]" />
         <mantle-ko-button state="Success" ko-click="importLanguagePack" icon="fa fa-upload" text="@T[MantleWebLocalizableStrings.General.Import]" />
@@ -17,7 +17,7 @@
 </div>
 
 <div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -26,20 +26,20 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <mantle-input asp-for="CultureCode" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode]" asp-icon="fa fa-globe" />
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.Name]" asp-icon="fa fa-file" />
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <mantle-input asp-for="SortOrder" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder]" />
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <mantle-input asp-for="IsRTL" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]" />
                             <mantle-input asp-for="IsEnabled" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -53,7 +53,7 @@
 </div>
 
 <div id="upload-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Import])) { }
@@ -62,13 +62,13 @@
                 <form id="upload-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
-                            @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload], new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                            @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload])
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                 @Html.FileUpload("Upload")
                             </div>
                         </div>
                         <div class="form-group pull-right">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                             </div>
                         </div>

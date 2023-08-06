@@ -3,14 +3,14 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="menuModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
     <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -19,13 +19,13 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <mantle-input asp-for="Name" asp-label="@T[MantleCmsLocalizableStrings.Menus.MenuModel.Name]" asp-icon="fa fa-file" ko-bind="menuModel.name" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <mantle-input asp-for="UrlFilter" asp-label="@T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter]" asp-icon="fa fa-filter" ko-bind="menuModel.urlFilter" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="menuModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="menuModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -39,7 +39,7 @@
 </div>
 
 <div id="items-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="menuItemModel.create.bind($data,menuModel.id(), null)" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="menuItemModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
@@ -47,7 +47,7 @@
 </div>
 
 <div id="items-edit-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -56,7 +56,7 @@
                 <form id="item-edit-section-form" role="form">
                     <fieldset>
                         <legend id="item-edit-section-legend"></legend>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "control-label" })
                                 <div class="input-group">
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "control-label" })
                                 <div class="input-group">
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "control-label" })
                                 <div class="input-group">
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "control-label" })
                                 <div class="input-group">
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "control-label" })
                                 <div class="input-group">
@@ -111,14 +111,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="@MantleWebConstants.AdminCss.Columns.QuarterStrict">
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="menuItemModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="menuItemModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

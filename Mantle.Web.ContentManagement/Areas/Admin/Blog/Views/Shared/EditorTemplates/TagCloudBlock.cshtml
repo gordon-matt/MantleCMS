@@ -1,9 +1,9 @@
 ﻿@model TagCloudBlock
 
 <div id="block-content">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="form-group">
-            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+            <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="AutoResize" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize]" ko-bind="blockModel.autoResize" />
                 <mantle-input asp-for="RemoveOverflowing" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing]" ko-bind="blockModel.removeOverflowing" />
@@ -14,7 +14,7 @@
         <mantle-input asp-for="ClassPattern" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.ClassPattern]" ko-bind="blockModel.classPattern" />
         <mantle-input asp-for="AfterCloudRender" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AfterCloudRender]" ko-bind="blockModel.afterCloudRender" />
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-input asp-for="Delay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Delay]" ko-bind="blockModel.delay" />
         <mantle-select asp-for="Shape" asp-items="Html.GetEnumSelectList<CloudShape>()" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Shape]" ko-bind="blockModel.shape" />
         <mantle-input asp-for="Colors" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Colors]" ko-bind="blockModel.colors" />

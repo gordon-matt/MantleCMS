@@ -1,5 +1,7 @@
 ﻿using Extenso.AspNetCore.Mvc.Html;
+using Humanizer;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
 
@@ -82,10 +84,6 @@ public class MantleSelectTagHelper : TagHelper
         string preContent = string.Empty;
         string postContent = string.Empty;
 
-        //output.TagName = "select";
-        //output.AddClass("form-control", HtmlEncoder.Default);
-        //output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
-
         preContent = $@"<div class=""form-group"">{htmlHelper.Label(tagName, Label, new { @class = "control-label" }).GetString()}";
 
         if (ValidationMessage)
@@ -114,11 +112,13 @@ public class MantleSelectTagHelper : TagHelper
         var attributes = context.AllAttributes;
         foreach (var attribute in attributes)
         {
-            if (!attribute.Name.In(FOR_ATTRIBUTE_NAME, NAME_ATTRIBUTE_NAME, ITEMS_ATTRIBUTE_NAME, REQUIRED_ATTRIBUTE_NAME))
+            if (!attribute.Name.In(FOR_ATTRIBUTE_NAME, NAME_ATTRIBUTE_NAME, ITEMS_ATTRIBUTE_NAME, REQUIRED_ATTRIBUTE_NAME, BIND_ATTRIBUTE_NAME))
             {
                 htmlAttributes.Add(attribute.Name, attribute.Value);
             }
         }
+
+        htmlAttributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
 
         // Generate editor
         if (!string.IsNullOrEmpty(tagName))

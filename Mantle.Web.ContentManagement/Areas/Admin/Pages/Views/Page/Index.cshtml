@@ -7,7 +7,7 @@
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
 <div id="page-grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="pageModel.create.bind($data,null)" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="pageModel.showPageTypes" icon="fa fa-crop" text="@T[MantleCmsLocalizableStrings.Pages.PageTypes.Title]" />
     </div>
@@ -15,7 +15,7 @@
 </div>
 
 <div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleCmsLocalizableStrings.Pages.Page])) { }
@@ -24,7 +24,7 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @*<div id="drilldown-wrapper">
                         <a id="drilldown" tabindex="0" href="#drilldown-items" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all">
@@ -36,7 +36,7 @@
                         </div>*@
                             </div>
                         </div>
-                        <div id="form-section-pageTypeId" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="form-section-pageTypeId" class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("PageTypeId", T[MantleCmsLocalizableStrings.Pages.PageModel.PageTypeId], new { @class = "control-label" })
                                 <div class="input-group">
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Name", T[MantleCmsLocalizableStrings.Pages.PageModel.Name], new { @class = "control-label" })
                                 <div class="input-group">
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Order", T[MantleCmsLocalizableStrings.Pages.PageModel.Order], new { @class = "control-label" })
                                 <div class="input-group">
@@ -69,20 +69,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Roles", T[MantleCmsLocalizableStrings.Pages.PageModel.Roles], new { @class = "control-label" })
                                 @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: pageModel.roles" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Third">
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("IsEnabled", new { data_bind = "checked: pageModel.isEnabled" }) @T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled]
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Third">
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("ShowOnMenus", new { data_bind = "checked: pageModel.showOnMenus" }) @T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus]
@@ -100,7 +100,7 @@
             {
                 <form id="form-section-version-form">
                     <fieldset>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Version_Title", T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Title], new { @class = "control-label" })
                                 <div class="input-group">
@@ -111,14 +111,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Version_Slug", T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug], new { @class = "control-label" })
                                 @Html.TextBox("Version_Slug", null, new { @class = "form-control", data_bind = "value: pageVersionModel.slug" })
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 <div class="checkbox">
                                     <label>
@@ -133,7 +133,7 @@
                 </form>
             }
         }
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="@MantleWebConstants.AdminCss.Columns.Full">
             <div class="form-group pull-right">
                 <mantle-ko-button state="Default" ko-click="pageModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                 <mantle-ko-button state="Primary" ko-click="pageModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -143,14 +143,14 @@
 </div>
 
 <div id="version-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Default" ko-click="pageVersionModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
     <mantle-grid id="PageVersionGrid" />
 </div>
 
 <div id="version-details-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -178,14 +178,14 @@
 </div>
 
 <div id="page-type-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Default" ko-click="pageTypeModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
     <mantle-grid id="PageTypesGrid" />
 </div>
 
 <div id="page-type-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -194,20 +194,20 @@
                 <form id="page-type-form-section-form" role="form">
                     <fieldset>
                         <legend id="page-type-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Third">
                             <div class="form-group">
                                 @Html.Label("PageType_Name", T[MantleCmsLocalizableStrings.Pages.PageTypeModel.Name], new { @class = "control-label" })
                                 <p class="form-control-static" data-bind="text: pageTypeModel.name"></p>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("PageType_LayoutPath", T[MantleCmsLocalizableStrings.Pages.PageTypeModel.LayoutPath], new { @class = "control-label" })
                                 @Html.TextBox("PageType_LayoutPath", null, new { @class = "form-control", data_bind = "value: pageTypeModel.layoutPath" })
                             </div>
                         </div>
                     </fieldset>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="@MantleWebConstants.AdminCss.Columns.Full">
                         <div class="form-group pull-right">
                             <mantle-ko-button state="Default" ko-click="pageTypeModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                             <mantle-ko-button state="Primary" ko-click="pageTypeModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

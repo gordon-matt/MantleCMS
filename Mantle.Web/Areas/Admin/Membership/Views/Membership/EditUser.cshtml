@@ -1,5 +1,5 @@
 ﻿<div id="users-edit-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -8,7 +8,7 @@
                 <form id="users-edit-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
                                 <div class="input-group">
@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
                                 <div class="input-group">
@@ -30,14 +30,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="@MantleWebConstants.AdminCss.Columns.QuarterStrict">
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("IsLockedOut", new { data_bind = "checked: userModel.isLockedOut" }) @T[MantleWebLocalizableStrings.Membership.UserModel.IsLockedOut]
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="userModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

@@ -1,16 +1,16 @@
 ﻿@model StandardPage
 
 <div id="fields-content">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-input asp-for="MetaTitle" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaTitle]" ko-bind="pageVersionModel.metaTitle" />
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-input asp-for="MetaKeywords" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaKeywords]" ko-bind="pageVersionModel.metaKeywords" />
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-input asp-for="MetaDescription" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription]" ko-bind="pageVersionModel.metaDescription" />
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <div class="form-group">
             @Html.Label("BodyContent", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent], new { @class = "control-label" })
             @Html.TextArea("BodyContent", null, new { @class = "form-control", data_bind = "wysiwyg: pageVersionModel.bodyContent, wysiwygConfig: pageVersionModel.tinyMCE_bodyContent" })
