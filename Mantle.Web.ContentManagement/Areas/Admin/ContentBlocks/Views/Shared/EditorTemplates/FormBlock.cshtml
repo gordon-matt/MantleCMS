@@ -6,16 +6,18 @@
 
 <div id="block-content">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="form-group">
-            @Html.LabelFor(m => m.HtmlTemplate, new { @class = "control-label" })
-            @Html.TextAreaFor(m => m.HtmlTemplate, new { @class = "form-control", data_bind = "wysiwyg: blockModel.htmlTemplate, wysiwygConfig: blockModel.tinyMCEConfig" })
-        </div>
+        <mantle-textarea asp-for="HtmlTemplate"
+                         asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.HtmlTemplate]"
+                         asp-richtext="true"
+                         ko-bind="blockModel.htmlTemplate"
+                         ko-richtext-config="blockModel.tinyMCEConfig" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="form-group">
-            @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
-            @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
-        </div>
+        <mantle-textarea asp-for="ThankYouMessage"
+                         asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.ThankYouMessage]"
+                         asp-richtext="true"
+                         ko-bind="blockModel.thankYouMessage"
+                         ko-richtext-config="blockModel.tinyMCEConfig" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-input asp-for="FormUrl" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.FormUrl]" ko-bind="blockModel.formUrl" asp-help="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.HelpText.FormUrl]" />

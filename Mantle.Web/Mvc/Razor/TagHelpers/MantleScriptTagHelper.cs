@@ -124,7 +124,10 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
             asset = _assetPipeline.AddJavaScriptBundle(sourceFile, sourceFile);
         }
 
-        output.Attributes.SetAttribute(SRC_ATTRIBUTE_NAME, $"{Src}?v={asset.GenerateCacheKey(ViewContext.HttpContext, webOptimizerOptions)}");
+        if (!sourceFile.Value.StartsWith("/Plugins/"))
+        {
+            output.Attributes.SetAttribute(SRC_ATTRIBUTE_NAME, $"{Src}?v={asset.GenerateCacheKey(ViewContext.HttpContext, webOptimizerOptions)}");
+        }
     }
 
     #endregion Utilities
