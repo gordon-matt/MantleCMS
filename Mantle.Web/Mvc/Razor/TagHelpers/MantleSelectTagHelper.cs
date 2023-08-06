@@ -74,6 +74,8 @@ public class MantleSelectTagHelper : TagHelper
         //clear the output
         output.SuppressOutput();
 
+        string tagName = For != null ? For.Name : Name;
+
         var viewContextAware = htmlHelper as IViewContextAware;
         viewContextAware?.Contextualize(ViewContext);
 
@@ -84,16 +86,16 @@ public class MantleSelectTagHelper : TagHelper
         //output.AddClass("form-control", HtmlEncoder.Default);
         //output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
 
-        preContent = $@"<div class=""form-group"">{htmlHelper.Label(For.Name, Label, new { @class = "control-label" }).GetString()}";
+        preContent = $@"<div class=""form-group"">{htmlHelper.Label(tagName, Label, new { @class = "control-label" }).GetString()}";
 
         if (ValidationMessage)
         {
-            postContent += htmlHelper.ValidationMessage(For.Name).GetString();
+            postContent += htmlHelper.ValidationMessage(tagName).GetString();
         }
 
         if (!string.IsNullOrWhiteSpace(HelpText))
         {
-            postContent += htmlHelper.HelpText(For.Name).GetString();
+            postContent += htmlHelper.HelpText(tagName).GetString();
         }
 
         postContent += "</div>";
@@ -119,7 +121,6 @@ public class MantleSelectTagHelper : TagHelper
         }
 
         // Generate editor
-        string tagName = For != null ? For.Name : Name;
         if (!string.IsNullOrEmpty(tagName))
         {
             if (htmlAttributes.ContainsKey("class"))

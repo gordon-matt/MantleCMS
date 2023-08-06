@@ -18,12 +18,10 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Mode, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.Mode, Html.GetEnumSelectList<Mode>(), new { @class = "form-control", data_bind = "value: blockModel.mode" })
-                    </div>
-                </div>
+                <mantle-select asp-for="Mode"
+                               asp-items="Html.GetEnumSelectList<Mode>()"
+                               asp-label="@T[LocalizableStrings.Mode]"
+                               ko-bind="blockModel.mode" />
                 <mantle-input asp-for="ImagesPattern" asp-label="@T[LocalizableStrings.ImagesPattern]" ko-bind="blockModel.imagesPattern" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -69,12 +67,10 @@
                         <mantle-input asp-for="LoadFullSizeImagesOnFullscreen" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]" ko-bind="blockModel.loadFullSizeImagesOnFullscreen" />
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.AutoRotateDirection, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.AutoRotateDirection, Html.GetEnumSelectList<AutoRotateDirection>(), new { @class = "form-control", data_bind = "value: blockModel.autoRotateDirection" })
-                    </div>
-                </div>
+                <mantle-select asp-for="AutoRotateDirection"
+                               asp-items="Html.GetEnumSelectList<AutoRotateDirection>()"
+                               asp-label="@T[LocalizableStrings.AutoRotateDirection]"
+                               ko-bind="blockModel.autoRotateDirection" />
                 <mantle-input asp-for="AutoRotateSpeed" asp-label="@T[LocalizableStrings.AutoRotateSpeed]" ko-bind="blockModel.autoRotateSpeed" type="number" />
                 <mantle-input asp-for="Width" asp-label="@T[LocalizableStrings.Width]" ko-bind="blockModel.width" type="number" />
                 <mantle-input asp-for="Height" asp-label="@T[LocalizableStrings.Height]" ko-bind="blockModel.height" type="number" />

@@ -1,5 +1,4 @@
-﻿@using Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks
-@model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3ImageGalleryBlock
+﻿@model Bootstrap3ImageGalleryBlock
 
 @inject Mantle.Web.IWorkContext WorkContext
 
@@ -19,32 +18,24 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ImagesPerRowXS, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.ImagesPerRowXS, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowXS" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ImagesPerRowS, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.ImagesPerRowS, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowS" })
-            </div>
-        </div>
+        <mantle-select asp-for="ImagesPerRowXS"
+                       asp-items="Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>()"
+                       asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowXS]"
+                       ko-bind="blockModel.imagesPerRowXS" />
+        <mantle-select asp-for="ImagesPerRowS"
+                       asp-items="Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>()"
+                       asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowS]"
+                       ko-bind="blockModel.imagesPerRowS" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-            @Html.LabelFor(m => m.ImagesPerRowM, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.ImagesPerRowM, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowM" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ImagesPerRowL, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.ImagesPerRowL, Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>(), new { @class = "form-control", data_bind = "value: blockModel.imagesPerRowL" })
-            </div>
-        </div>
+        <mantle-select asp-for="ImagesPerRowM"
+                       asp-items="Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>()"
+                       asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowM]"
+                       ko-bind="blockModel.imagesPerRowM" />
+        <mantle-select asp-for="ImagesPerRowL"
+                       asp-items="Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>()"
+                       asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowL]"
+                       ko-bind="blockModel.imagesPerRowL" />
     </div>
 
     <style type="text/css">

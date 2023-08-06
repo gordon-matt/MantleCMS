@@ -2,12 +2,11 @@
 
 <div id="block-content">
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="form-group">
-            @Html.LabelFor(m => m.Type, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                @Html.DropDownListFor(m => m.Type, Html.GetEnumSelectList<VideoBlock.VideoType>(), new { @class = "form-control", data_bind = "value: blockModel.type" })
-            </div>
-        </div>
+        <mantle-select asp-for="Type"
+            asp-items="Html.GetEnumSelectList<VideoBlock.VideoType>()"
+            asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ControlId]"
+            ko-bind="blockModel.controlId" />
+
         <mantle-input asp-for="ControlId" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ControlId]" ko-bind="blockModel.controlId" />
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

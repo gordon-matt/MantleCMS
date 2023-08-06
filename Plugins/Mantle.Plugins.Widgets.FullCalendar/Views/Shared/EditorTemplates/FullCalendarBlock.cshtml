@@ -18,18 +18,14 @@
         using (var panel = tabs.BeginPanel())
         {
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.CalendarId, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.FullCalendar().CalendarDropDownListFor(m => m.CalendarId, new { @class = "form-control", data_bind = "value: blockModel.calendarId" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.FirstDay, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.DropDownListFor(m => m.FirstDay, Html.GetEnumSelectList<DayOfWeek>(), new { @class = "form-control", data_bind = "value: blockModel.firstDay" })
-                    </div>
-                </div>
+                <mantle-select asp-for="CalendarId"
+                               asp-items="Html.FullCalendar().GetCalendarSelectList()"
+                               asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.CalendarId]"
+                               ko-bind="blockModel.calendarId" />
+                <mantle-select asp-for="FirstDay"
+                               asp-items="Html.GetEnumSelectList<DayOfWeek>()"
+                               asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.FirstDay]"
+                               ko-bind="blockModel.firstDay" />
                 <mantle-input asp-for="AspectRatio" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AspectRatio]" ko-bind="blockModel.aspectRatio" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
