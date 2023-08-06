@@ -21,10 +21,11 @@
     </div>
 
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="form-group">
-            @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
-            @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
-        </div>
+        <mantle-textarea asp-for="ThankYouMessage"
+                         asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.ThankYouMessage]"
+                         asp-richtext="true"
+                         ko-bind="blockModel.thankYouMessage"
+                         ko-richtext-config="blockModel.tinyMCEConfig" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-input asp-for="RedirectUrl" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl]" ko-bind="blockModel.redirectUrl" />
@@ -40,7 +41,12 @@
     </div>
 </div>
 
-<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/Scripts/form-builder.min.js"></script>
+@* Currently broken... *@
+
+@*<script asp-location="None" asp-exclude-from-bundle="true" src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+<script asp-location="None" asp-exclude-from-bundle="true" src="https://cdn.jsdelivr.net/npm/jquery-ui-sortable@1.0.0/jquery-ui.min.js" integrity="sha256-OL+GlU8f2jyU8dw1jdx0me415Jjs6KHVi0QM0VawPlo=" crossorigin="anonymous"></script>
+<script asp-location="None" asp-exclude-from-bundle="true" src="https://cdn.jsdelivr.net/npm/formBuilder@3.8.3/dist/form-builder.min.js" integrity="sha256-lsMOgE9I+PBVYWOPvGt6lKgLstuB/gIIfDk/Eqs7GVY=" crossorigin="anonymous"></script>*@
+@*<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Widgets.JQueryFormBuilder/wwwroot/js/form-builder.min.js"></script>*@
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
     function stripHTML(html) {
         return $("<div/>").html(html).text();
@@ -77,7 +83,7 @@
 
             blockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;
         };
-        @Model.RenderKOCleanUpFunction(Model.GetBlockProperties())
+        @Html.Raw(Model.RenderKOCleanUpFunction(Model.GetBlockProperties()))
         f.onBeforeSave = function (blockModel) {
             const fbEditor = document.getElementById('build-wrap');
             const fbMetadata = blockModel.formBuilder.actions.getData('json', true);

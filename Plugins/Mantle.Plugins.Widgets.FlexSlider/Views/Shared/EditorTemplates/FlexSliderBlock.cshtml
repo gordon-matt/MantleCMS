@@ -126,44 +126,14 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnStart)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnStart, new { @class = "form-control", data_bind = "value: blockModel.onStart" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnEnd)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnEnd, new { @class = "form-control", data_bind = "value: blockModel.onEnd" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnBefore)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnBefore, new { @class = "form-control", data_bind = "value: blockModel.onBefore" })
-                    </div>
-                </div>
+                <mantle-textarea asp-for="OnStart" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnStart]" ko-bind="blockModel.onStart" />
+                <mantle-textarea asp-for="OnEnd" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnEnd]" ko-bind="blockModel.onEnd" />
+                <mantle-textarea asp-for="OnBefore" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnBefore]" ko-bind="blockModel.onBefore" />
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnAfter)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnAfter, new { @class = "form-control", data_bind = "value: blockModel.onAfter" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnAdded)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnAdded, new { @class = "form-control", data_bind = "value: blockModel.onAdded" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.OnRemoved)
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        @Html.TextAreaFor(m => m.OnRemoved, new { @class = "form-control", data_bind = "value: blockModel.onRemoved" })
-                    </div>
-                </div>
+                <mantle-textarea asp-for="OnAfter" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnAfter]" ko-bind="blockModel.onAfter" />
+                <mantle-textarea asp-for="OnAdded" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnAdded]" ko-bind="blockModel.onAdded" />
+                <mantle-textarea asp-for="OnRemoved" asp-label="@T[LocalizableStrings.FlexSliderBlock.OnRemoved]" ko-bind="blockModel.onRemoved" />
             </div>
         }
     }
