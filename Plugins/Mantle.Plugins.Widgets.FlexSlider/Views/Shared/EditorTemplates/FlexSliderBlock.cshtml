@@ -10,9 +10,9 @@
 
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.MediaFolder, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.MediaFolder)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
@@ -29,7 +29,7 @@
                 <mantle-input asp-for="Namespace" asp-label="@T[LocalizableStrings.FlexSliderBlock.Namespace]" ko-bind="blockModel.namespace" />
                 <mantle-input asp-for="Selector" asp-label="@T[LocalizableStrings.FlexSliderBlock.Selector]" ko-bind="blockModel.selector" />
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
                         <mantle-input asp-for="PauseOnAction" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnAction]" ko-bind="blockModel.pauseOnAction" />
@@ -41,7 +41,7 @@
                 </div>
                 <mantle-input asp-for="SlideshowSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.SlideshowSpeed]" ko-bind="blockModel.slideshowSpeed" type="number" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="StartAt" asp-label="@T[LocalizableStrings.FlexSliderBlock.StartAt]" ko-bind="blockModel.startAt" type="number" />
                 <mantle-input asp-for="InitDelay" asp-label="@T[LocalizableStrings.FlexSliderBlock.InitDelay]" ko-bind="blockModel.initDelay" type="number" />
                 <mantle-input asp-for="Sync" asp-label="@T[LocalizableStrings.FlexSliderBlock.Sync]" ko-bind="blockModel.sync" />
@@ -54,7 +54,7 @@
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-select asp-for="Animation"
                                asp-items="Html.GetEnumSelectList<AnimationType>()"
                                asp-label="@T[LocalizableStrings.FlexSliderBlock.Animation]"
@@ -66,13 +66,13 @@
                 <mantle-input asp-for="AnimationSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationSpeed]" ko-bind="blockModel.animationSpeed" type="number" />
                 <mantle-input asp-for="Move" asp-label="@T[LocalizableStrings.FlexSliderBlock.Move]" ko-bind="blockModel.move" type="number" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-select asp-for="Direction"
                                asp-items="Html.GetEnumSelectList<SlideDirection>()"
                                asp-label="@T[LocalizableStrings.FlexSliderBlock.Direction]"
                                ko-bind="blockModel.direction" />
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
                         <mantle-input asp-for="AnimationLoop" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationLoop]" ko-bind="blockModel.animationLoop" />
@@ -84,10 +84,10 @@
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="well">
                     <div class="form-group">
-                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                        <label></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
                         </div>
@@ -102,10 +102,10 @@
                 <mantle-input asp-for="ControlsContainer" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlsContainer]" ko-bind="blockModel.controlsContainer" />
                 <mantle-input asp-for="ManualControls" asp-label="@T[LocalizableStrings.FlexSliderBlock.ManualControls]" ko-bind="blockModel.manualControls" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="well">
                     <div class="form-group">
-                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                        <label></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
                         </div>
@@ -114,7 +114,7 @@
                     <mantle-input asp-for="PlayText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PlayText]" ko-bind="blockModel.playText" />
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />
                         <mantle-input asp-for="MultipleKeyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]" ko-bind="blockModel.multipleKeyboard" />
@@ -125,41 +125,41 @@
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnStart, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnStart)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnStart, new { @class = "form-control", data_bind = "value: blockModel.onStart" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnEnd, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnEnd)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnEnd, new { @class = "form-control", data_bind = "value: blockModel.onEnd" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnBefore, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnBefore)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnBefore, new { @class = "form-control", data_bind = "value: blockModel.onBefore" })
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnAfter, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnAfter)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnAfter, new { @class = "form-control", data_bind = "value: blockModel.onAfter" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnAdded, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnAdded)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnAdded, new { @class = "form-control", data_bind = "value: blockModel.onAdded" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.OnRemoved, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+                    @Html.LabelFor(m => m.OnRemoved)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         @Html.TextAreaFor(m => m.OnRemoved, new { @class = "form-control", data_bind = "value: blockModel.onRemoved" })
                     </div>

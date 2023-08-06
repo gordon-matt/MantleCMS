@@ -17,14 +17,14 @@
                     <div class="form-horizontal form-fields">
                         <div class="basic-search">
                             <div class="form-group inputs">
-                                <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchKeyword]</label>
-                                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                <label class="@MantleWebConstants.AdminCss.Columns.Quarter">@T[LocalizableStrings.Search_SearchKeyword]</label>
+                                <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
                                     @Html.TextBox("searchterms", null, new { @class = "form-control forum-search-text" })
                                 </div>
                             </div>
                             <div class="form-group inputs reversed">
-                                <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3"></label>
-                                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                <label class="@MantleWebConstants.AdminCss.Columns.Quarter"></label>
+                                <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
                                     <div class="checkbox">
                                         <label>
                                             @Html.CheckBox("adv", Model.ShowAdvancedSearch) @T[LocalizableStrings.Search_AdvancedSearch]
@@ -35,20 +35,20 @@
                         </div>
                         <div class="advanced-search" id="advanced-search" style="display: none;">
                             <div class="form-group inputs">
-                                <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchInForum]</label>
-                                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                <label class="@MantleWebConstants.AdminCss.Columns.Quarter">@T[LocalizableStrings.Search_SearchInForum]</label>
+                                <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
                                     @Html.DropDownList("forumId", new SelectList(Model.ForumList, "Value", "Text", Model.ForumIdSelected), new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group inputs">
-                                <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_SearchWithin]</label>
-                                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                <label class="@MantleWebConstants.AdminCss.Columns.Quarter">@T[LocalizableStrings.Search_SearchWithin]</label>
+                                <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
                                     @Html.DropDownList("within", new SelectList(Model.WithinList, "Value", "Text", Model.WithinSelected), new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group inputs">
-                                <label class="col-xs-12 col-sm-3 col-md-3 col-lg-3">@T[LocalizableStrings.Search_LimitResultsToPrevious]</label>
-                                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                                <label class="@MantleWebConstants.AdminCss.Columns.Quarter">@T[LocalizableStrings.Search_LimitResultsToPrevious]</label>
+                                <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
                                     @Html.DropDownList("limitDays", new SelectList(Model.LimitList, "Value", "Text", Model.LimitDaysSelected), new { @class = "form-control" })
                                 </div>
                             </div>

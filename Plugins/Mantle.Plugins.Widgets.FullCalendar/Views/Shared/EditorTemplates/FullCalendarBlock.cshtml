@@ -17,7 +17,7 @@
 
         using (var panel = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-select asp-for="CalendarId"
                                asp-items="Html.FullCalendar().GetCalendarSelectList()"
                                asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.CalendarId]"
@@ -28,9 +28,9 @@
                                ko-bind="blockModel.firstDay" />
                 <mantle-input asp-for="AspectRatio" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AspectRatio]" ko-bind="blockModel.aspectRatio" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Theme" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Theme]" ko-bind="blockModel.theme" />
                         <mantle-input asp-for="Weekends" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Weekends]" ko-bind="blockModel.weekends" />
@@ -43,9 +43,9 @@
         }
         using (var panel = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="SlotEventOverlap" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.SlotEventOverlap]" ko-bind="blockModel.slotEventOverlap" />
                         <mantle-input asp-for="AllDaySlot" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AllDaySlot]" ko-bind="blockModel.allDaySlot" />
@@ -54,7 +54,7 @@
                 <mantle-input asp-for="AllDayText" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AllDayText]" ko-bind="blockModel.allDayText" />
                 <mantle-input asp-for="SlotDuration" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.SlotDuration]" ko-bind="blockModel.slotDuration" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="ScrollTime" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.ScrollTime]" ko-bind="blockModel.scrollTime" />
                 <mantle-input asp-for="MinTime" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.MinTime]" ko-bind="blockModel.minTime" />
                 <mantle-input asp-for="MaxTime" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.MaxTime]" ko-bind="blockModel.maxTime" />
@@ -62,9 +62,9 @@
         }
         using (var panel = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+                    <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Selectable" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Selectable]" ko-bind="blockModel.selectable" />
                         <mantle-input asp-for="UnselectAuto" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.UnselectAuto]" ko-bind="blockModel.unselectAuto" />
@@ -75,12 +75,12 @@
         }
         using (var panel = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="EventColor" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EventColor]" ko-bind="blockModel.eventColor" />
                 <mantle-input asp-for="EventBackgroundColor" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EventBackgroundColor]" ko-bind="blockModel.eventBackgroundColor" />
                 <mantle-input asp-for="EventBorderColor" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EventBorderColor]" ko-bind="blockModel.eventBorderColor" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="EventTextColor" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.EventTextColor]" ko-bind="blockModel.eventTextColor" />
                 <mantle-input asp-for="NextDayThreshold" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.NextDayThreshold]" ko-bind="blockModel.nextDayThreshold" />
             </div>

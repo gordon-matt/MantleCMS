@@ -10,7 +10,7 @@
     <hr class="clearfix" />
 
     <div class="row forum-info">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="@MantleWebConstants.AdminCss.Columns.Full">
             <div class="forum-name">
                 @if (Model.ForumFeedsEnabled)
                 {
@@ -28,7 +28,7 @@
     </div>
 
     <div class="row forum-actions">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 actions">
+        <div class="@MantleWebConstants.AdminCss.Columns.Full actions">
             <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 @T[LocalizableStrings.NewTopic]
@@ -82,7 +82,7 @@
     </div>
 
     <div class="row forums-table-section topic-group">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="@MantleWebConstants.AdminCss.Columns.Full">
             @if (Model.ForumTopics.Count > 0)
             {
                 <div class="table-wrapper">
@@ -186,7 +186,7 @@
     @if (!string.IsNullOrEmpty(pager))
     {
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="@MantleWebConstants.AdminCss.Columns.Full">
                 <div class="pager lower">
                     @Html.Raw(pager)
                 </div>

@@ -17,55 +17,49 @@
 
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-select asp-for="Mode"
                                asp-items="Html.GetEnumSelectList<Mode>()"
                                asp-label="@T[LocalizableStrings.Mode]"
                                ko-bind="blockModel.mode" />
                 <mantle-input asp-for="ImagesPattern" asp-label="@T[LocalizableStrings.ImagesPattern]" ko-bind="blockModel.imagesPattern" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.ImagesDirectory, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control" })
-                            @*@Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.imagesDirectory" })*@
-                            <span class="input-group-addon">
-                                <a data-toggle="modal" href="javascript:void(0);" data-target="#imagesDirectoryModal">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </span>
-                        </div>
+                    @Html.LabelFor(m => m.ImagesDirectory)
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.imagesDirectory" })*@
+                        <span class="input-group-addon">
+                            <a data-toggle="modal" href="javascript:void(0);" data-target="#imagesDirectoryModal">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.FullSizeImagesDirectory, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <div class="input-group">
-                            @Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control" })
-                            @*@Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.fullSizeImagesDirectory" })*@
-                            <span class="input-group-addon">
-                                <a data-toggle="modal" href="javascript:void(0);" data-target="#fullSizeImagesDirectoryModal">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </span>
-                        </div>
+                    @Html.LabelFor(m => m.FullSizeImagesDirectory)
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control" })
+                        @*@Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.fullSizeImagesDirectory" })*@
+                        <span class="input-group-addon">
+                            <a data-toggle="modal" href="javascript:void(0);" data-target="#fullSizeImagesDirectoryModal">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <mantle-input asp-for="AutoRotate" asp-label="@T[LocalizableStrings.AutoRotate]" ko-bind="blockModel.autoRotate" />
-                        <mantle-input asp-for="AutoRotateStopOnMove" asp-label="@T[LocalizableStrings.AutoRotateStopOnMove]" ko-bind="blockModel.autoRotateStopOnMove" />
-                        <mantle-input asp-for="LoadFullSizeImagesOnZoom" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnZoom]" ko-bind="blockModel.loadFullSizeImagesOnZoom" />
-                        <mantle-input asp-for="LoadFullSizeImagesOnFullscreen" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]" ko-bind="blockModel.loadFullSizeImagesOnFullscreen" />
-                    </div>
+                    <label></label>
+                    <mantle-input asp-for="AutoRotate" asp-label="@T[LocalizableStrings.AutoRotate]" ko-bind="blockModel.autoRotate" />
+                    <mantle-input asp-for="AutoRotateStopOnMove" asp-label="@T[LocalizableStrings.AutoRotateStopOnMove]" ko-bind="blockModel.autoRotateStopOnMove" />
+                    <mantle-input asp-for="LoadFullSizeImagesOnZoom" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnZoom]" ko-bind="blockModel.loadFullSizeImagesOnZoom" />
+                    <mantle-input asp-for="LoadFullSizeImagesOnFullscreen" asp-label="@T[LocalizableStrings.LoadFullSizeImagesOnFullscreen]" ko-bind="blockModel.loadFullSizeImagesOnFullscreen" />
                 </div>
                 <mantle-select asp-for="AutoRotateDirection"
                                asp-items="Html.GetEnumSelectList<AutoRotateDirection>()"
@@ -75,7 +69,7 @@
                 <mantle-input asp-for="Width" asp-label="@T[LocalizableStrings.Width]" ko-bind="blockModel.width" type="number" />
                 <mantle-input asp-for="Height" asp-label="@T[LocalizableStrings.Height]" ko-bind="blockModel.height" type="number" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="Rows" asp-label="@T[LocalizableStrings.Rows]" ko-bind="blockModel.rows" type="number" />
                 <mantle-input asp-for="Columns" asp-label="@T[LocalizableStrings.Columns]" ko-bind="blockModel.columns" type="number" />
                 <mantle-input asp-for="XAxisSensitivity" asp-label="@T[LocalizableStrings.XAxisSensitivity]" ko-bind="blockModel.xAxisSensitivity" type="number" />
@@ -85,35 +79,31 @@
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="ButtonWidth" asp-label="@T[LocalizableStrings.ButtonWidth]" ko-bind="blockModel.buttonWidth" type="number" />
                 <mantle-input asp-for="ButtonHeight" asp-label="@T[LocalizableStrings.ButtonHeight]" ko-bind="blockModel.buttonHeight" type="number" />
                 <mantle-input asp-for="ButtonMargin" asp-label="@T[LocalizableStrings.ButtonMargin]" ko-bind="blockModel.buttonMargin" type="number" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="TurnSpeed" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.turnSpeed" type="number" />
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <mantle-input asp-for="ShowButtons" asp-label="@T[LocalizableStrings.ShowButtons]" ko-bind="blockModel.showButtons" />
-                        <mantle-input asp-for="ShowTool" asp-label="@T[LocalizableStrings.ShowTool]" ko-bind="blockModel.showTool" />
-                        <mantle-input asp-for="ShowPlay" asp-label="@T[LocalizableStrings.ShowPlay]" ko-bind="blockModel.showPlay" />
-                        <mantle-input asp-for="ShowPause" asp-label="@T[LocalizableStrings.ShowPause]" ko-bind="blockModel.showPause" />
-                        <mantle-input asp-for="ShowZoom" asp-label="@T[LocalizableStrings.ShowZoom]" ko-bind="blockModel.showZoom" />
-                        <mantle-input asp-for="ShowTurn" asp-label="@T[LocalizableStrings.ShowTurn]" ko-bind="blockModel.showTurn" />
-                        <mantle-input asp-for="ShowFullscreen" asp-label="@T[LocalizableStrings.ShowFullscreen]" ko-bind="blockModel.showFullscreen" />
-                    </div>
+                    <label></label>
+                    <mantle-input asp-for="ShowButtons" asp-label="@T[LocalizableStrings.ShowButtons]" ko-bind="blockModel.showButtons" />
+                    <mantle-input asp-for="ShowTool" asp-label="@T[LocalizableStrings.ShowTool]" ko-bind="blockModel.showTool" />
+                    <mantle-input asp-for="ShowPlay" asp-label="@T[LocalizableStrings.ShowPlay]" ko-bind="blockModel.showPlay" />
+                    <mantle-input asp-for="ShowPause" asp-label="@T[LocalizableStrings.ShowPause]" ko-bind="blockModel.showPause" />
+                    <mantle-input asp-for="ShowZoom" asp-label="@T[LocalizableStrings.ShowZoom]" ko-bind="blockModel.showZoom" />
+                    <mantle-input asp-for="ShowTurn" asp-label="@T[LocalizableStrings.ShowTurn]" ko-bind="blockModel.showTurn" />
+                    <mantle-input asp-for="ShowFullscreen" asp-label="@T[LocalizableStrings.ShowFullscreen]" ko-bind="blockModel.showFullscreen" />
                 </div>
             </div>
         }
         using (var tab = tabs.BeginPanel())
         {
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="form-group">
-                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
-                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                        <mantle-input asp-for="DisplayLoader" asp-label="@T[LocalizableStrings.DisplayLoader]" ko-bind="blockModel.displayLoader" />
-                    </div>
+                    <label></label>
+                    <mantle-input asp-for="DisplayLoader" asp-label="@T[LocalizableStrings.DisplayLoader]" ko-bind="blockModel.displayLoader" />
                 </div>
                 <mantle-input asp-for="LoaderHolderClassName" asp-label="@T[LocalizableStrings.LoaderHolderClassName]" ko-bind="blockModel.loaderHolderClassName" />
                 <mantle-input asp-for="LoadingTitle" asp-label="@T[LocalizableStrings.LoadingTitle]" ko-bind="blockModel.loadingTitle" />
@@ -121,7 +111,7 @@
                 <mantle-input asp-for="LoadingMessage" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.loadingMessage" />
                 <mantle-input asp-for="LoaderModalBackground" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.loaderModalBackground" />
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="LoaderModalOpacity" asp-label="@T[LocalizableStrings.LoaderModalOpacity]" ko-bind="blockModel.loaderModalOpacity" />
                 <mantle-input asp-for="LoaderCircleWidth" asp-label="@T[LocalizableStrings.LoaderCircleWidth]" ko-bind="blockModel.loaderCircleWidth" />
                 <mantle-input asp-for="LoaderCircleLineWidth" asp-label="@T[LocalizableStrings.LoaderCircleLineWidth]" ko-bind="blockModel.loaderCircleLineWidth" />

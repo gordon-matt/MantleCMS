@@ -1,12 +1,12 @@
 ﻿<div id="forum-group-grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="forumGroupModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
     <mantle-grid id="ForumGroupGrid" />
 </div>
 
 <div id="forum-group-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -15,19 +15,19 @@
                 <form id="forum-group-form-section-form" role="form">
                     <fieldset>
                         <legend id="forum-group-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumGroupModel.name" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumGroupModel.displayOrder" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="forumGroupModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="forumGroupModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -41,7 +41,7 @@
 </div>
 
 <div id="forum-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="forumModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="forumModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
@@ -49,7 +49,7 @@
 </div>
 
 <div id="forum-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -58,25 +58,25 @@
                 <form id="forum-form-section-form" role="form">
                     <fieldset>
                         <legend id="forum-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumModel.name" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Description", T[MantleWebLocalizableStrings.General.Description], new { @class = "control-label" })
                                 @Html.TextArea("Description", null, new { @class = "form-control", data_bind = "value: forumModel.description" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumModel.displayOrder" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="forumModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="forumModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

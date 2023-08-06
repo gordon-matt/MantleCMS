@@ -1,7 +1,7 @@
 ﻿@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="users-grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <div class="pull-left">
             <mantle-ko-button state="Primary" ko-click="userModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
             <mantle-ko-button state="Default" ko-click="viewRoles" icon="fa fa-users" text="@T[MantleWebLocalizableStrings.Membership.Roles]" />
@@ -14,7 +14,7 @@
 </div>
 
 <div id="users-edit-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -23,7 +23,7 @@
                 <form id="users-edit-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
                                 <div class="input-group">
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
                                 <div class="input-group">
@@ -45,14 +45,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="@MantleWebConstants.AdminCss.Columns.QuarterStrict">
                             <div class="checkbox">
                                 <label>
                                     @Html.CheckBox("IsLockedOut", new { data_bind = "checked: userModel.isLockedOut" }) @T[MantleWebLocalizableStrings.Membership.UserModel.IsLockedOut]
                                 </label>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="userModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -66,7 +66,7 @@
 </div>
 
 <div id="user-roles-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.UpdateUserRoles])) { }
@@ -75,13 +75,13 @@
                 <form id="user-roles-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
                                 @Html.Mantle().RolesCheckBoxList("UserRoles", null, new { @class = "checkbox" }, new { data_bind = "checked: userModel.roles" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="userModel.editRoles_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.editRoles_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -95,7 +95,7 @@
 </div>
 
 <div id="change-password-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.ChangePassword])) { }
@@ -104,25 +104,25 @@
                 <form id="change-password-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.ChangePassword]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 <label class="control-label">@T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.UserName]</label>
                                 <input type="text" class="form-control" readonly="readonly" data-bind="value: changePasswordModel.userName" />
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Change_Password", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.Password], new { @class = "control-label" })
                                 @Html.Password("Change_Password", null, new { @class = "form-control", data_bind = "value: changePasswordModel.password" })
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
                             <div class="form-group">
                                 @Html.Label("Change_ConfirmPassword", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.ConfirmPassword], new { @class = "control-label" })
                                 @Html.Password("Change_ConfirmPassword", null, new { @class = "form-control", data_bind = "value: changePasswordModel.confirmPassword" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="changePasswordModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="changePasswordModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -136,7 +136,7 @@
 </div>
 
 <div id="roles-grid-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="roleModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="viewUsers" icon="fa fa-user" text="@T[MantleWebLocalizableStrings.Membership.Users]" />
     </div>
@@ -144,7 +144,7 @@
 </div>
 
 <div id="roles-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -153,7 +153,7 @@
                 <form id="roles-form-section-form" role="form">
                     <fieldset>
                         <legend id="roles-form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
                                 <div class="input-group">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="roleModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
@@ -178,7 +178,7 @@
 </div>
 
 <div id="role-permissions-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.EditRolePermissions])) { }
@@ -187,13 +187,13 @@
                 <form id="role-permissions-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
                                 @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="roleModel.editPermissions_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.editPermissions_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

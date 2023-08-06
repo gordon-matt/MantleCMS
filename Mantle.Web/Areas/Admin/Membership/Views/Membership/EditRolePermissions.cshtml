@@ -1,5 +1,5 @@
 ﻿<div id="role-permissions-form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.Membership.EditRolePermissions])) { }
@@ -8,13 +8,13 @@
                 <form id="role-permissions-form-section-form" role="form">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group">
                                 @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
                                 @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="form-group pull-right">
                                 <mantle-ko-button state="Default" ko-click="roleModel.editPermissions_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.editPermissions_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />

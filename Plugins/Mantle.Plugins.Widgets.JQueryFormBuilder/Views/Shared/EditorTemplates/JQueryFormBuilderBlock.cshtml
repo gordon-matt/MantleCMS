@@ -7,7 +7,7 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="block-content">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel()))
         {
             using (var header = panel.BeginHeader("Form Builder"))
@@ -20,24 +20,22 @@
         }
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <div class="form-group">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
-                @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
-            </div>
+            @Html.LabelFor(m => m.ThankYouMessage, new { @class = "control-label" })
+            @Html.TextAreaFor(m => m.ThankYouMessage, new { @class = "form-control", data_bind = "wysiwyg: blockModel.thankYouMessage, wysiwygConfig: blockModel.tinyMCEConfig" })
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-input asp-for="RedirectUrl" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl]" ko-bind="blockModel.redirectUrl" />
         <div class="form-group">
-            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+            <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="UseAjax" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]" ko-bind="blockModel.useAjax" />
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-input asp-for="EmailAddress" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.EmailAddress]" ko-bind="blockModel.emailAddress" />
     </div>
 </div>

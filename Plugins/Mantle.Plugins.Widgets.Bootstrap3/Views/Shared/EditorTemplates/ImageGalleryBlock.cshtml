@@ -3,9 +3,9 @@
 @inject Mantle.Web.IWorkContext WorkContext
 
 <div id="block-content">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="form-group">
-            @Html.LabelFor(m => m.MediaFolder, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.LabelFor(m => m.MediaFolder)
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
                     @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
@@ -27,7 +27,7 @@
                        asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowS]"
                        ko-bind="blockModel.imagesPerRowS" />
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-select asp-for="ImagesPerRowM"
                        asp-items="Html.GetEnumSelectList<Bootstrap3ImageGalleryBlock.ImagesPerRow>()"
                        asp-label="@T[LocalizableStrings.ContentBlocks.ImageGalleryBlock.ImagesPerRowM]"

@@ -3,14 +3,14 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Primary" ko-click="create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
     <mantle-grid />
 </div>
 
 <div id="form-section" class="row" style="display:none">
-    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <article class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
@@ -19,18 +19,18 @@
                 <form id="form-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.General.Name]" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <mantle-input asp-for="Url" asp-label="@T[MantleWebLocalizableStrings.Tenants.Model.Url]" />
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <mantle-input asp-for="Hosts" asp-label="@T[MantleWebLocalizableStrings.Tenants.Model.Hosts]" />
                         </div>
 
                         <div class="form-group pull-right">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

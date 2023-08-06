@@ -1,21 +1,21 @@
 ﻿@model LanguageSwitchBlock
 
 <div id="block-content">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-select asp-for="Style"
             asp-items="Html.GetEnumSelectList<LanguageSwitchBlock.LanguageSwitchStyle>()"
             asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.Style]"
             ko-bind="blockModel.style" />
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="form-group">
-            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+            <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="IncludeInvariant" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.LanguageSwitchBlock.IncludeInvariant]" ko-bind="blockModel.includeInvariant" />
             </div>
         </div>
         <div class="form-group" data-bind="visible: blockModel.includeInvariant() == true">
-            @Html.LabelFor(m => m.InvariantText, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.LabelFor(m => m.InvariantText)
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 @Html.TextBoxFor(m => m.InvariantText, new { @class = "form-control", data_bind = "value: blockModel.invariantText" })
             </div>

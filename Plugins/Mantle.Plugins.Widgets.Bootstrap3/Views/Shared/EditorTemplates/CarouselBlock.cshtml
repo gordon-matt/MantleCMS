@@ -6,9 +6,9 @@
 @model Mantle.Plugins.Widgets.Bootstrap3.ContentBlocks.Bootstrap3CarouselBlock
 
 <div id="block-content">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="form-group">
-            @Html.LabelFor(m => m.MediaFolder, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3" })
+            @Html.LabelFor(m => m.MediaFolder)
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
                     @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
@@ -24,9 +24,9 @@
         <mantle-input asp-for="Interval" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.Interval]" ko-bind="blockModel.interval" type="number" />
         <mantle-input asp-for="StartIndex" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.StartIndex]" ko-bind="blockModel.startIndex" type="number" />
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="form-group">
-            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-3"></label>
+            <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.Keyboard]" ko-bind="blockModel.keyboard" />
                 <mantle-input asp-for="PauseOnHover" asp-label="@T[LocalizableStrings.ContentBlocks.CarouselBlock.PauseOnHover]" ko-bind="blockModel.pauseOnHover" />

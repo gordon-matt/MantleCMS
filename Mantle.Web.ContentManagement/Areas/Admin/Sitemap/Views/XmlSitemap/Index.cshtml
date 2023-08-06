@@ -3,7 +3,7 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         <mantle-ko-button state="Success" ko-click="generateFile" icon="fa fa-save" text="@T[MantleCmsLocalizableStrings.Sitemap.GenerateFile]" />
     </div>
     <mantle-grid />
