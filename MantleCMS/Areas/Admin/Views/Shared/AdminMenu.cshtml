@@ -8,13 +8,13 @@
     Func<MenuItem, IHtmlContent> DisplayMenuItems = null;
     DisplayMenuItems = (menuItem) => new Func<MenuItem, IHtmlContent>(
         @<text>
-        <li class="@(menuItem.Items.Any() ? "dropdown" : "") @(menuItem.Selected ? "active" : "")">
+        <li class="nav-item @(menuItem.Items.Any() ? "dropdown" : string.Empty)">
             @{
                 int iconCount = menuItem.Icons.Count();
             }
             @if (menuItem.Items.Any())
             {
-                <a href="@menuItem.Href" style="cursor: pointer;" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle @(menuItem.Selected ? "active" : string.Empty)" href="@menuItem.Href" role="button" data-bs-toggle="dropdown">
                     @if (iconCount == 1)
                     {
                         <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
@@ -42,7 +42,7 @@
             {
                 if (!string.IsNullOrEmpty(menuItem.Href))
                 {
-                    <a href="@menuItem.Href" style="cursor: pointer;">
+                    <a class="nav-link" href="@menuItem.Href">
                         @if (iconCount == 1)
                         {
                             <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
@@ -65,7 +65,7 @@
         </text>)(null);
 }
 
-<ul class="nav navbar-nav" id="primary-nav">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
     @foreach (var menuItem in menuItems)
     {
         @DisplayMenuItems(menuItem)

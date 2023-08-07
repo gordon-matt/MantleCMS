@@ -38,13 +38,10 @@ MantleCMS/App_Data
 MantleCMS/Plugins/
 MantleCMS/wwwroot/App_Data/
 MantleCMS/wwwroot/css/bundles/
-MantleCMS/wwwroot/dist/
 MantleCMS/wwwroot/js/bundles/
-MantleCMS/wwwroot/jspm_packages/
 MantleCMS/wwwroot/lib/
 MantleCMS/wwwroot/Media/
 MantleCMS/wwwroot/Plugins/
-Plugins/Mantle.Plugins.XXX.YYY
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

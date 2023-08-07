@@ -26,7 +26,7 @@
 <div class="blog-container">
     <div id="details-section" class="row blog-section">
         <article class="@MantleWebConstants.AdminCss.Columns.Full">
-            <div class="pull-right">
+            <div class="float-end">
                 @Html.ActionLink(T[MantleWebLocalizableStrings.General.Back], "Index", "BlogContent", new { area = string.Empty }, new { @class = "btn btn-default" })
             </div>
             <h1 class="blog-headline">
@@ -39,13 +39,13 @@
 
             @if (!string.IsNullOrEmpty(previousSlug))
             {
-                <div class="pull-left">
+                <div class="float-start">
                     @Html.ActionLink(T[MantleWebLocalizableStrings.General.Previous], "Details", "BlogContent", new { area = string.Empty, slug = previousSlug }, new { @class = "btn btn-default" })
                 </div>
             }
             @if (!string.IsNullOrEmpty(nextSlug))
             {
-                <div class="pull-right">
+                <div class="float-end">
                     @Html.ActionLink(T[MantleWebLocalizableStrings.General.Next], "Details", "BlogContent", new { area = string.Empty, slug = nextSlug }, new { @class = "btn btn-default" })
                 </div>
             }
