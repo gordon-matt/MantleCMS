@@ -2,27 +2,29 @@
 @using Mantle.Web
 @inject Mantle.Web.IWorkContext workContext
 
-<ul class="breadcrumb">
-    <li>
-        <a href="/" title="@T[MantleWebLocalizableStrings.General.Home]">
-            <i class="fa fa-home"></i> @T[MantleWebLocalizableStrings.General.Home]
-        </a>
-        <span class="divider"></span>
-    </li>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/" title="@T[MantleWebLocalizableStrings.General.Home]">
+                <i class="fa fa-home"></i> @T[MantleWebLocalizableStrings.General.Home]
+            </a>
+            <span class="divider"></span>
+        </li>
 
-    @foreach (var item in workContext.Breadcrumbs)
-    {
-        if (!string.IsNullOrEmpty(item.Url))
+        @foreach (var item in workContext.Breadcrumbs)
         {
-            <li><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a><span class="divider"></span></li>
+            if (!string.IsNullOrEmpty(item.Url))
+            {
+                <li class="breadcrumb-item"><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a></li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><i class="@item.Icon"></i>@item.Text</li>
+            }
         }
-        else
-        {
-            <li><i class="@item.Icon"></i>@item.Text<span class="divider"></span></li>
+        @{
+            // Empty the list for next page
+            workContext.Breadcrumbs.Clear();
         }
-    }
-    @{
-        // Empty the list for next page
-        workContext.Breadcrumbs.Clear();
-    }
-</ul>
+    </ol>
+</nav>

@@ -5,7 +5,7 @@
     <div class="row">
         @await Html.PartialAsync("_SearchBox")
         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-            <div class="pull-right">
+            <div class="float-end">
                 @dateTimeHelper.ConvertToUserTime(DateTime.UtcNow).ToString("F")
             </div>
         </div>

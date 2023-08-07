@@ -26,7 +26,7 @@
                             <mantle-input asp-for="UrlFilter" asp-label="@T[MantleCmsLocalizableStrings.Menus.MenuModel.UrlFilter]" asp-icon="fa fa-filter" ko-bind="menuModel.urlFilter" />
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="menuModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="menuModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="menuItemModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="menuItemModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

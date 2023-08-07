@@ -2,11 +2,11 @@
 
 <div id="users-grid-section" class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="pull-left">
+        <div class="float-start">
             <mantle-ko-button state="Primary" ko-click="userModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
             <mantle-ko-button state="Default" ko-click="viewRoles" icon="fa fa-users" text="@T[MantleWebLocalizableStrings.Membership.Roles]" />
         </div>
-        <div class="pull-right">
+        <div class="float-end">
             @Html.Mantle().RolesDropDownList("RoleFilter", null, new { @class = "form-control", data_bind = "value: userModel.filterRoleId, event: { change: userModel.filterRole }" }, string.Empty)
         </div>
     </div>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.editRoles_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.editRoles_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="changePasswordModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="changePasswordModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -194,7 +194,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="form-group float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.editPermissions_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.editPermissions_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

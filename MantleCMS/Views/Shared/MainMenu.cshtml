@@ -7,7 +7,7 @@
     Guid menuId = ViewBag.MenuId;
 }
 
-<ul id="mantle-menu-@menuId" class="nav navbar-nav">
+<ul id="mantle-menu-@menuId" class="navbar-nav me-auto mb-2 mb-lg-0">
     @{
         string currentUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}";
 
