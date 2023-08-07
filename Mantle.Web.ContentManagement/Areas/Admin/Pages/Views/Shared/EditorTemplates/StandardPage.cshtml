@@ -11,8 +11,8 @@
         <mantle-input asp-for="MetaDescription" asp-label="@T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.MetaDescription]" ko-bind="pageVersionModel.metaDescription" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="form-group">
-            @Html.Label("BodyContent", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent], new { @class = "control-label" })
+        <div class="mb-3">
+            @Html.Label("BodyContent", T[MantleCmsLocalizableStrings.Pages.PageTypes.StandardPage.BodyContent], new { @class = "form-label" })
             @Html.TextArea("BodyContent", null, new { @class = "form-control", data_bind = "wysiwyg: pageVersionModel.bodyContent, wysiwygConfig: pageVersionModel.tinyMCE_bodyContent" })
         </div>
     </div>

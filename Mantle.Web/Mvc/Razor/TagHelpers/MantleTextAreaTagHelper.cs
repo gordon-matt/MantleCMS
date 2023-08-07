@@ -79,7 +79,7 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
             output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
         }
 
-        preContent = $@"<div class=""form-group"">{htmlHelper.Label(For.Name, Label, new { @class = "control-label" }).GetString()}";
+        preContent = $@"<div class=""mb-3"">{htmlHelper.Label(For.Name, Label, new { @class = "form-label" }).GetString()}";
 
         if (ValidationMessage)
         {

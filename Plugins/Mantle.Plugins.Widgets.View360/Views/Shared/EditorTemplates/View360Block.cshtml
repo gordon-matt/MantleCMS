@@ -25,24 +25,24 @@
                 <mantle-input asp-for="ImagesPattern" asp-label="@T[LocalizableStrings.ImagesPattern]" ko-bind="blockModel.imagesPattern" />
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.ImagesDirectory)
                     <div class="input-group">
                         @Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control" })
                         @*@Html.TextBoxFor(m => m.ImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.imagesDirectory" })*@
-                        <span class="input-group-addon">
+                        <span class="input-group-text">
                             <a data-toggle="modal" href="javascript:void(0);" data-target="#imagesDirectoryModal">
                                 <i class="fa fa-search"></i>
                             </a>
                         </span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.FullSizeImagesDirectory)
                     <div class="input-group">
                         @Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control" })
                         @*@Html.TextBoxFor(m => m.FullSizeImagesDirectory, new { @class = "form-control", data_bind = "value: blockModel.fullSizeImagesDirectory" })*@
-                        <span class="input-group-addon">
+                        <span class="input-group-text">
                             <a data-toggle="modal" href="javascript:void(0);" data-target="#fullSizeImagesDirectoryModal">
                                 <i class="fa fa-search"></i>
                             </a>
@@ -54,7 +54,7 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <mantle-input asp-for="AutoRotate" asp-label="@T[LocalizableStrings.AutoRotate]" ko-bind="blockModel.autoRotate" />
                     <mantle-input asp-for="AutoRotateStopOnMove" asp-label="@T[LocalizableStrings.AutoRotateStopOnMove]" ko-bind="blockModel.autoRotateStopOnMove" />
@@ -86,7 +86,7 @@
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <mantle-input asp-for="TurnSpeed" asp-label="@T[LocalizableStrings.TurnSpeed]" ko-bind="blockModel.turnSpeed" type="number" />
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <mantle-input asp-for="ShowButtons" asp-label="@T[LocalizableStrings.ShowButtons]" ko-bind="blockModel.showButtons" />
                     <mantle-input asp-for="ShowTool" asp-label="@T[LocalizableStrings.ShowTool]" ko-bind="blockModel.showTool" />
@@ -101,7 +101,7 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <mantle-input asp-for="DisplayLoader" asp-label="@T[LocalizableStrings.DisplayLoader]" ko-bind="blockModel.displayLoader" />
                 </div>

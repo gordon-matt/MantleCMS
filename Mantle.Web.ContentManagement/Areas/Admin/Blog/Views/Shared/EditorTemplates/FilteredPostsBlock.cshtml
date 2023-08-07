@@ -2,7 +2,7 @@
 
 <div id="block-content">
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
-        <div class="form-group">
+        <div class="mb-3">
             @Html.Label("FilterType", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType])
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-select asp-for="FilterType"
@@ -13,11 +13,11 @@
         </div>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
-        <div class="form-group" data-bind="visible: filterType() == 1">
+        <div class="mb-3" data-bind="visible: filterType() == 1">
             @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId])
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
-                    <span class="input-group-addon">
+                    <span class="input-group-text">
                         <i class="fa fa-folder"></i>
                     </span>
                     @Html.MantleCMS().BlogCategoryDropDownList(
@@ -27,11 +27,11 @@
                 </div>
             </div>
         </div>
-        <div class="form-group" data-bind="visible: filterType() == 2">
+        <div class="mb-3" data-bind="visible: filterType() == 2">
             @Html.Label("TagId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId])
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
-                    <span class="input-group-addon">
+                    <span class="input-group-text">
                         <i class="fa fa-tags"></i>
                     </span>
                     @Html.MantleCMS().BlogTagDropDownList(

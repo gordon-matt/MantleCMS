@@ -9,10 +9,10 @@
                     <fieldset>
                         <legend id="roles-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-users"></i>
                                     </span>
                                     @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: roleModel.name" })
@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

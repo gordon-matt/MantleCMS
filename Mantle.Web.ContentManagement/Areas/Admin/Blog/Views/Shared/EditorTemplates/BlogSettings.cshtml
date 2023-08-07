@@ -7,8 +7,8 @@
     <mantle-input asp-for="ShowOnMenus" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus]" />
     <mantle-input asp-for="MenuPosition" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.MenuPosition]" asp-validation-msg="true" type="number" />
     @*<mantle-input asp-for="UseAjax" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]" />*@
-    <div class="form-group">
-        @Html.Label("Roles", "Roles", new { @class = "control-label" })
+    <div class="mb-3">
+        @Html.Label("Roles", "Roles", new { @class = "form-label" })
         @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: roles" })
     </div>
     <mantle-input asp-for="LayoutPathOverride" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.LayoutPathOverride]" asp-validation-msg="true" />

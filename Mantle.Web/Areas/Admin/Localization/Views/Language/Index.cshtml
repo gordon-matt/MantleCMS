@@ -40,7 +40,7 @@
                             <mantle-input asp-for="IsEnabled" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]" />
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -61,13 +61,13 @@
             {
                 <form id="upload-section-form" role="form" class="form-horizontal">
                     <fieldset>
-                        <div class="form-group">
+                        <div class="mb-3">
                             @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload])
                             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                                 @Html.FileUpload("Upload")
                             </div>
                         </div>
-                        <div class="form-group float-end">
+                        <div class="mb-3 float-end">
                             <div class="@MantleWebConstants.AdminCss.Columns.Full">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                             </div>

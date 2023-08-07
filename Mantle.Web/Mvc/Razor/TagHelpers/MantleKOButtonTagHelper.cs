@@ -53,13 +53,13 @@ public class MantleKOButtonTagHelper : TagHelper
         return state switch
         {
             State.Danger => "btn btn-danger",
-            State.Default => "btn btn-default",
+            State.Default => "btn btn-secondary",
             State.Info => "btn btn-info",
             State.Inverse => "btn btn-inverse",
             State.Primary => "btn btn-primary",
             State.Success => "btn btn-success",
             State.Warning => "btn btn-warning",
-            _ => "btn btn-default",
+            _ => "btn btn-secondary",
         };
     }
 }

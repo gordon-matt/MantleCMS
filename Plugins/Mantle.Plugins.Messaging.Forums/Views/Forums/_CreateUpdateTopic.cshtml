@@ -43,16 +43,16 @@
             @Html.HiddenFor(x => x.IsEdit)
             <div class="fieldset">
                 <div class="form-fields">
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         <label class="label label-default">@T[LocalizableStrings.ForumName]</label>
                         <strong>@Model.ForumName</strong>
                     </div>
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         <label class="label label-default">@T[LocalizableStrings.TopicTitle]</label>
                         @Html.TextBoxFor(x => x.Subject, new { @class = "form-control forum-topic-title-text" })
                         @Html.ValidationMessageFor(x => x.Subject)
                     </div>
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         @if (Model.ForumEditor == EditorType.BBCodeEditor)
                         {
                             <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Messaging.Forums/wwwroot/js/BBEditor/ed.js"></script>
@@ -66,14 +66,14 @@
                     </div>
                     @if (Model.IsUserAllowedToSetTopicPriority)
                     {
-                        <div class="form-group inputs">
+                        <div class="mb-3 inputs">
                             <label>@T[LocalizableStrings.Priority]</label>
                             @Html.DropDownList("TopicTypeId", new SelectList(Model.TopicPriorities, "Value", "Text", Model.TopicType))
                         </div>
                     }
                     @if (Model.IsUserAllowedToSubscribe)
                     {
-                        <div class="form-group inputs">
+                        <div class="mb-3 inputs">
                             @Html.EditorFor(x => x.Subscribed)
                             <label>@T[LocalizableStrings.NotifyWhenSomeonePostsInThisTopic]</label>
                         </div>
@@ -82,7 +82,7 @@
             </div>
             <div class="buttons">
                 <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-primary submit-topic-button" />
-                @Html.ActionLink(T[MantleWebLocalizableStrings.General.Cancel], "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-default cancel-topic-button" })
+                @Html.ActionLink(T[MantleWebLocalizableStrings.General.Cancel], "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-secondary cancel-topic-button" })
             </div>
         }
     </div>

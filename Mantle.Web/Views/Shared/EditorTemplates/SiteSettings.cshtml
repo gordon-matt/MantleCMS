@@ -30,7 +30,7 @@
                 <mantle-input asp-for="DefaultGridPageSize" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultGridPageSize]" asp-validation-msg="true" />
             </div>
             <div role="tabpanel" class="tab-pane" id="Themes">
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.DefaultTheme)
                     @Html.Mantle().ThemesDropDownListFor(m => m.DefaultTheme, new { @class = "form-control", data_bind = "value: defaultTheme" })
                     @Html.ValidationMessageFor(m => m.DefaultTheme)
@@ -38,7 +38,7 @@
                 <mantle-input asp-for="AllowUserToSelectTheme" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.AllowUserToSelectTheme]" />
             </div>
             <div role="tabpanel" class="tab-pane" id="Localization">
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.DefaultLanguage)
                     @Html.Mantle().LanguagesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control", data_bind = "value: defaultLanguage" })
                     @Html.ValidationMessageFor(m => m.DefaultLanguage)

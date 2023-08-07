@@ -14,7 +14,7 @@
         <div class="actions">
             @if (Model.IsUserAllowedToEditTopic)
             {
-                <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-default edit-topic-button">
+                <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-secondary edit-topic-button">
                     <i class="fa fa-edit"></i>
                     @T[LocalizableStrings.EditTopic]
                 </a>
