@@ -23,13 +23,13 @@
         <mantle-input asp-for="FormUrl" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.FormUrl]" ko-bind="blockModel.formUrl" asp-help="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.HelpText.FormUrl]" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(m => m.RedirectUrl, new { @class = "col-xs-12 col-sm-4 col-md-3 col-lg-3", style = "text-align:" + textAlign + ";" })
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 @Html.TextBoxFor(m => m.RedirectUrl, new { @class = "form-control", data_bind = "value: blockModel.redirectUrl" })
             </div>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="UseAjax" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.FormBlock.UseAjax]" ko-bind="blockModel.useAjax" />

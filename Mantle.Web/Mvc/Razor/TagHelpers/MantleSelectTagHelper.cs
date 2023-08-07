@@ -84,7 +84,7 @@ public class MantleSelectTagHelper : TagHelper
         string preContent = string.Empty;
         string postContent = string.Empty;
 
-        preContent = $@"<div class=""form-group"">{htmlHelper.Label(tagName, Label, new { @class = "control-label" }).GetString()}";
+        preContent = $@"<div class=""mb-3"">{htmlHelper.Label(tagName, Label, new { @class = "form-label" }).GetString()}";
 
         if (ValidationMessage)
         {

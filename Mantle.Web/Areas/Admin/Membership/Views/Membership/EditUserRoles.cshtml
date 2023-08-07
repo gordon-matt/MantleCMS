@@ -9,13 +9,13 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "form-label" })
                                 @Html.Mantle().RolesCheckBoxList("UserRoles", null, new { @class = "checkbox" }, new { data_bind = "checked: userModel.roles" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.editRoles_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.editRoles_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

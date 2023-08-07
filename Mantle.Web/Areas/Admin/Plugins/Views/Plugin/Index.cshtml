@@ -35,13 +35,13 @@
                             <mantle-input asp-for="DisplayOrder" asp-label="@T[MantleWebLocalizableStrings.Plugins.Model.DisplayOrder]" />
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("LimitedToTenants", T[MantleWebLocalizableStrings.Plugins.Model.LimitedToTenants], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("LimitedToTenants", T[MantleWebLocalizableStrings.Plugins.Model.LimitedToTenants], new { @class = "form-label" })
                                 @Html.Mantle().TenantsCheckBoxList("LimitedToTenants", null, new { @class = "checkbox" }, new { data_bind = "checked: limitedToTenants" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

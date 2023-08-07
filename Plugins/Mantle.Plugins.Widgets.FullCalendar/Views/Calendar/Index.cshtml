@@ -23,13 +23,13 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[LocalizableStrings.CalendarModel.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[LocalizableStrings.CalendarModel.Name], new { @class = "form-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: calendarModel.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="calendarModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="calendarModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -60,25 +60,25 @@
                     <fieldset>
                         <legend id="events-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Event_Name", T[LocalizableStrings.CalendarEventModel.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Event_Name", T[LocalizableStrings.CalendarEventModel.Name], new { @class = "form-label" })
                                 @Html.TextBox("Event_Name", null, new { @class = "form-control", data_bind = "value: eventModel.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Event_StartDateTime", T[LocalizableStrings.CalendarEventModel.StartDateTime], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Event_StartDateTime", T[LocalizableStrings.CalendarEventModel.StartDateTime], new { @class = "form-label" })
                                 @Html.TextBox("Event_StartDateTime", null, new { data_bind = "value: eventModel.startDateTime" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Event_EndDateTime", T[LocalizableStrings.CalendarEventModel.EndDateTime], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Event_EndDateTime", T[LocalizableStrings.CalendarEventModel.EndDateTime], new { @class = "form-label" })
                                 @Html.TextBox("Event_EndDateTime", null, new { data_bind = "value: eventModel.endDateTime" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="eventModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="eventModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

@@ -59,7 +59,7 @@
         @Html.AntiForgeryToken()
     </form>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow fixed-top">
             <div class="container-fluid">
                @Html.ImageLink(
                     Url,
@@ -104,12 +104,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted sticky-bottom">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @SiteSettings.Name - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

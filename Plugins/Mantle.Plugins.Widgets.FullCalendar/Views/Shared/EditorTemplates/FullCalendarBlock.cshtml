@@ -29,7 +29,7 @@
                 <mantle-input asp-for="AspectRatio" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.AspectRatio]" ko-bind="blockModel.aspectRatio" />
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Theme" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Theme]" ko-bind="blockModel.theme" />
@@ -44,7 +44,7 @@
         using (var panel = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="SlotEventOverlap" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.SlotEventOverlap]" ko-bind="blockModel.slotEventOverlap" />
@@ -63,7 +63,7 @@
         using (var panel = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Selectable" asp-label="@T[LocalizableStrings.ContentBlocks.FullCalendarBlock.Selectable]" ko-bind="blockModel.selectable" />

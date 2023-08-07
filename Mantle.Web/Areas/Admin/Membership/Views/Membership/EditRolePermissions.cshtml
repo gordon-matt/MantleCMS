@@ -9,13 +9,13 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
+                            <div class="mb-3">
+                                @*@Html.Label("RolePermissions", "Permissions", new { @class = "form-label" })*@
                                 @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group float-end">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.editPermissions_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.editPermissions_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

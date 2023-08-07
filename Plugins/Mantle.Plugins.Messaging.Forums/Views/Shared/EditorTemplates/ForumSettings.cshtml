@@ -4,7 +4,7 @@
 @model ForumSettings
 
 <div id="settings-content">
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="ForumsEnabled" asp-label="@T[LocalizableStrings.Settings.ForumsEnabled]" />
         <mantle-input asp-for="RelativeDateTimeFormattingEnabled" asp-label="@T[LocalizableStrings.Settings.RelativeDateTimeFormattingEnabled]" />
         <mantle-input asp-for="AllowUsersToEditPosts" asp-label="@T[LocalizableStrings.Settings.AllowUsersToEditPosts]" />
@@ -21,13 +21,13 @@
     <mantle-input asp-for="ActiveDiscussionsPageSize" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsPageSize]" asp-validation-msg="true" type="number" />
     <mantle-input asp-for="LatestUserPostsPageSize" asp-label="@T[LocalizableStrings.Settings.LatestUserPostsPageSize]" asp-validation-msg="true" type="number" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="ShowUsersPostCount" asp-label="@T[LocalizableStrings.Settings.ShowUsersPostCount]" />
     </div>
 
     <mantle-select asp-for="ForumEditor" asp-items="Html.GetEnumSelectList<EditorType>()" asp-label="@T[LocalizableStrings.Settings.ForumEditor]" asp-validation-msg="true" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="SignaturesEnabled" asp-label="@T[LocalizableStrings.Settings.SignaturesEnabled]" />
         <mantle-input asp-for="AllowPrivateMessages" asp-label="@T[LocalizableStrings.Settings.AllowPrivateMessages]" />
         <mantle-input asp-for="ShowAlertForPM" asp-label="@T[LocalizableStrings.Settings.ShowAlertForPM]" />
@@ -36,7 +36,7 @@
     <mantle-input asp-for="PrivateMessagesPageSize" asp-label="@T[LocalizableStrings.Settings.PrivateMessagesPageSize]" asp-validation-msg="true" type="number" />
     <mantle-input asp-for="ForumSubscriptionsPageSize" asp-label="@T[LocalizableStrings.Settings.ForumSubscriptionsPageSize]" asp-validation-msg="true" type="number" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="NotifyAboutPrivateMessages" asp-label="@T[LocalizableStrings.Settings.NotifyAboutPrivateMessages]" />
     </div>
 
@@ -45,7 +45,7 @@
     <mantle-input asp-for="HomePageActiveDiscussionsTopicCount" asp-label="@T[LocalizableStrings.Settings.HomePageActiveDiscussionsTopicCount]" asp-validation-msg="true" type="number" />
     <mantle-input asp-for="ActiveDiscussionsFeedCount" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsFeedCount]" asp-validation-msg="true" type="number" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="ActiveDiscussionsFeedEnabled" asp-label="@T[LocalizableStrings.Settings.ActiveDiscussionsFeedEnabled]" />
         <mantle-input asp-for="ForumFeedsEnabled" asp-label="@T[LocalizableStrings.Settings.ForumFeedsEnabled]" />
     </div>
@@ -54,7 +54,7 @@
     <mantle-input asp-for="ForumSearchTermMinimumLength" asp-label="@T[LocalizableStrings.Settings.ForumSearchTermMinimumLength]" asp-validation-msg="true" type="number" />
     <mantle-input asp-for="PageTitle" asp-label="@T[LocalizableStrings.Settings.PageTitle]" asp-validation-msg="true" />
 
-    <div class="form-group">
+    <div class="mb-3">
         <mantle-input asp-for="ShowOnMenus" asp-label="@T[LocalizableStrings.Settings.ShowOnMenus]" />
     </div>
 
