@@ -98,9 +98,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("templateModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',#=Enabled#`) +
+                        GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',#=Enabled#`) +
                         GridHelper.actionIconButton("templateModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },

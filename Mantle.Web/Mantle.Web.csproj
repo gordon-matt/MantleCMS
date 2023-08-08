@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
-    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="7.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.1" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="7.1.0" />
     <PackageReference Include="Extenso.AspNetCore.OData" Version="7.0.1" />
     <PackageReference Include="Extenso.Core" Version="7.1.1" />
     <PackageReference Include="Extenso.Data" Version="7.1.2" />

@@ -16,19 +16,19 @@
                     <fieldset>
                         <legend id="forum-group-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "form-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumGroupModel.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "form-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumGroupModel.displayOrder" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="forumGroupModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="forumGroupModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -59,25 +59,25 @@
                     <fieldset>
                         <legend id="forum-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.General.Name], new { @class = "form-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: forumModel.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Description", T[MantleWebLocalizableStrings.General.Description], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Description", T[MantleWebLocalizableStrings.General.Description], new { @class = "form-label" })
                                 @Html.TextArea("Description", null, new { @class = "form-control", data_bind = "value: forumModel.description" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("DisplayOrder", T[MantleWebLocalizableStrings.General.Order], new { @class = "form-label" })
                                 @Html.TextBox("DisplayOrder", null, new { @class = "form-control", data_bind = "value: forumModel.displayOrder" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="forumModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="forumModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

@@ -5,26 +5,28 @@
     Layout = null;
 }
 
-<ul class="breadcrumb">
-    <li>
-        <a href="@Url.Action("Index", "Home", new { area = string.Empty })" title="Go to Home">
-            <i class="fa fa-home"></i> @T[MantleWebLocalizableStrings.General.Home]
-        </a>
-        <span class="divider"></span>
-    </li>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Home", new { area = string.Empty })" title="Go to Home">
+                <i class="fa fa-home"></i> @T[MantleWebLocalizableStrings.General.Home]
+            </a>
+            <span class="divider"></span>
+        </li>
 
-    @if (!Model.IsNullOrEmpty())
-    {
-        foreach (var item in Model)
+        @if (!Model.IsNullOrEmpty())
         {
-            if (!string.IsNullOrEmpty(item.Url))
+            foreach (var item in Model)
             {
-                <li><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a><span class="divider"></span></li>
-            }
-            else
-            {
-                <li><i class="@item.Icon"></i>@item.Text<span class="divider"></span></li>
+                if (!string.IsNullOrEmpty(item.Url))
+                {
+                    <li class="breadcrumb-item"><a href="@item.Url"><i class="@item.Icon"></i>@item.Text</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><i class="@item.Icon"></i>@item.Text</li>
+                }
             }
         }
-    }
-</ul>
+    </ol>
+</nav>

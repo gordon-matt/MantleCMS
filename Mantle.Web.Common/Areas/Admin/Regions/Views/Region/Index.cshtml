@@ -54,17 +54,17 @@
                             <mantle-input asp-for="CountryCode" asp-label="@T[LocalizableStrings.Regions.Model.CountryCode]" ko-bind="country.countryCode" />
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half" data-bind="visible: !country.cultureCode()">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <mantle-input asp-for="Order" asp-label="@T[LocalizableStrings.Regions.Model.Order]" ko-bind="country.order" />
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half" data-bind="visible: !country.cultureCode()">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <mantle-input asp-for="HasStates" asp-label="@T[LocalizableStrings.Regions.Model.HasStates]" ko-bind="country.hasStates" />
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="country.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="country.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -95,25 +95,25 @@
                     <fieldset>
                         <legend id="state-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[LocalizableStrings.Regions.Model.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[LocalizableStrings.Regions.Model.Name], new { @class = "form-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: state.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half" data-bind="visible: !state.cultureCode()">
-                            <div class="form-group">
-                                @Html.Label("StateCode", T[LocalizableStrings.Regions.Model.StateCode], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("StateCode", T[LocalizableStrings.Regions.Model.StateCode], new { @class = "form-label" })
                                 @Html.TextBox("StateCode", null, new { @class = "form-control", data_bind = "value: state.stateCode" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half" data-bind="visible: !state.cultureCode()">
-                            <div class="form-group">
-                                @Html.Label("Order", T[LocalizableStrings.Regions.Model.Order], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Order", T[LocalizableStrings.Regions.Model.Order], new { @class = "form-label" })
                                 @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: state.order" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="state.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="state.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -144,19 +144,19 @@
                     <fieldset>
                         <legend id="city-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[LocalizableStrings.Regions.Model.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[LocalizableStrings.Regions.Model.Name], new { @class = "form-label" })
                                 @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: city.name" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half" data-bind="visible: !city.cultureCode()">
-                            <div class="form-group">
-                                @Html.Label("Order", T[LocalizableStrings.Regions.Model.Order], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Order", T[LocalizableStrings.Regions.Model.Order], new { @class = "form-label" })
                                 @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: city.order" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="city.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="city.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -186,7 +186,7 @@
                     <fieldset>
                         <div id="settings-details">@*HTML injected here*@</div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="settings.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="settings.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -207,7 +207,7 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="mb-3">
                         @Html.Hidden("RegionType")
                         @Html.Hidden("SelectedId")
                         @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
@@ -215,7 +215,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
                 <mantle-ko-button state="Primary" ko-click="onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
             </div>
         </div>

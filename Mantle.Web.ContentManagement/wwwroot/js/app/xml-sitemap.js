@@ -121,18 +121,18 @@
                     }
 
                     $(".k-grid-edit").html("Edit");
-                    $(".k-grid-edit").addClass("btn btn-default btn-sm");
+                    $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
                 },
                 edit: function (e) {
                     $(".k-grid-update").html("Update");
                     $(".k-grid-cancel").html("Cancel");
                     $(".k-grid-update").addClass("btn btn-success btn-sm");
-                    $(".k-grid-cancel").addClass("btn btn-default btn-sm");
+                    $(".k-grid-cancel").addClass("btn btn-secondary btn-sm");
                 },
                 cancel: function (e) {
                     setTimeout(function () {
                         $(".k-grid-edit").html("Edit");
-                        $(".k-grid-edit").addClass("btn btn-default btn-sm");
+                        $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
                     }, 0);
                 },
                 filterable: true,

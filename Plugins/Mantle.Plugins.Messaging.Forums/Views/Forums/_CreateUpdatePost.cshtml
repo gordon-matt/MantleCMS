@@ -45,15 +45,15 @@
             @Html.HiddenFor(x => x.IsEdit)
             <div class="fieldset">
                 <div class="form-fields">
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         <label class="label label-default">@T[LocalizableStrings.ForumName]</label>
                         <strong class="forum-subject">@Model.ForumName</strong>
                     </div>
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         <label class="label label-default">@T[LocalizableStrings.TopicTitle]</label>
                         <strong class="topic-subject">@Model.ForumTopicSubject</strong>
                     </div>
-                    <div class="form-group inputs">
+                    <div class="mb-3 inputs">
                         @if (Model.ForumEditor == EditorType.BBCodeEditor)
                         {
                             <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Messaging.Forums/wwwroot/js/BBEditor/ed.js"></script>
@@ -67,7 +67,7 @@
                     </div>
                     @if (Model.IsUserAllowedToSubscribe)
                     {
-                        <div class="form-group inputs">
+                        <div class="mb-3 inputs">
                             @Html.EditorFor(x => x.Subscribed)
                             <label>@T[LocalizableStrings.NotifyWhenSomeonePostsInThisTopic]</label>
                         </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="buttons">
                 <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-primary submit-post-button" />
-                <input type="button" class="btn btn-default cancel-post-button" value="@T[MantleWebLocalizableStrings.General.Cancel]" onclick="setLocation('@Url.Action("Topic", new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName })')" />
+                <input type="button" class="btn btn-secondary cancel-post-button" value="@T[MantleWebLocalizableStrings.General.Cancel]" onclick="setLocation('@Url.Action("Topic", new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName })')" />
             </div>
         }
     </div>

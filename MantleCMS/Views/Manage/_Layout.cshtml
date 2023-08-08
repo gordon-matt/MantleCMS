@@ -2,14 +2,14 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage your account</h2>
+<h1>Manage your account</h1>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h2>Change your account settings</h2>
     <hr />
     <div class="row">
         <div class="@MantleWebConstants.AdminCss.Columns.Quarter">
-            @await Html.PartialAsync("_ManageNav")
+            <partial name="_ManageNav" />
         </div>
         <div class="@MantleWebConstants.AdminCss.Columns.ThreeQuarters">
             @RenderBody()

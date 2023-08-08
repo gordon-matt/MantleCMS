@@ -10,12 +10,12 @@
         <mantle-input asp-for="ControlId" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ControlId]" ko-bind="blockModel.controlId" />
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
-        <div class="form-group">
+        <div class="mb-3">
             @Html.LabelFor(m => m.Source)
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <div class="input-group">
                     @Html.TextBoxFor(m => m.Source, new { @class = "form-control", data_bind = "value: blockModel.source" })
-                    <span class="input-group-addon">
+                    <span class="input-group-text">
                         <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
                             <i class="fa fa-search"></i>
                         </a>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
             <label></label>
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 <mantle-input asp-for="ShowControls" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls]" ko-bind="blockModel.showControls" />

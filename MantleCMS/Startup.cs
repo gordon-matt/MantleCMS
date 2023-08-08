@@ -365,7 +365,7 @@ public class Startup
 
         app.UseWebOptimizer();
 
-        app.UseExtensoUI<Bootstrap3UIProvider>();
+        app.UseExtensoUI<Bootstrap5UIProvider>();
 
         // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

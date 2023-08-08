@@ -11,13 +11,13 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.MediaFolder)
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <div class="input-group">
                             @Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control" })
                             @*@Html.TextBoxFor(m => m.MediaFolder, new { @class = "form-control", data_bind = "value: blockModel.mediaFolder" })*@
-                            <span class="input-group-addon">
+                            <span class="input-group-text">
                                 <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
                                     <i class="fa fa-search"></i>
                                 </a>
@@ -28,7 +28,7 @@
                 <mantle-input asp-for="ControlId" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlId]" ko-bind="blockModel.controlId" />
                 <mantle-input asp-for="Namespace" asp-label="@T[LocalizableStrings.FlexSliderBlock.Namespace]" ko-bind="blockModel.namespace" />
                 <mantle-input asp-for="Selector" asp-label="@T[LocalizableStrings.FlexSliderBlock.Selector]" ko-bind="blockModel.selector" />
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
@@ -71,7 +71,7 @@
                                asp-items="Html.GetEnumSelectList<SlideDirection>()"
                                asp-label="@T[LocalizableStrings.FlexSliderBlock.Direction]"
                                ko-bind="blockModel.direction" />
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
@@ -86,7 +86,7 @@
         {
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="well">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
@@ -104,7 +104,7 @@
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="well">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label></label>
                         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                             <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
@@ -113,7 +113,7 @@
                     <mantle-input asp-for="PauseText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseText]" ko-bind="blockModel.pauseText" />
                     <mantle-input asp-for="PlayText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PlayText]" ko-bind="blockModel.playText" />
                 </div>
-                <div class="form-group">
+                <div class="mb-3">
                     <label></label>
                     <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                         <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />

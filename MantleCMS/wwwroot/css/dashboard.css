@@ -2,10 +2,6 @@
     width: 98% !important;
 }
 
-body {
-    padding-top: 90px;
-}
-
 .fa-sub {
     position: relative;
     left: 1em;
@@ -29,10 +25,6 @@ div.tile > i {
     #primary-nav > li > a > span {
         display: block;
     }
-
-.navbar-brand {
-    margin-top: 15px;
-}
 
 .k-detail-cell > .tabstrip {
     border-style: dashed;
@@ -61,18 +53,6 @@ label.checkbox-list-group-label {
         margin-left: 20px;
     }
 
-#block-content .tab-pane {
-    margin-bottom: 15px;
-}
-
-/* Fix field width. More info here:
-  http://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content */
-@-moz-document url-prefix() {
-    fieldset {
-        display: table-cell;
-    }
-}
-
 .detail-grid {
     border-style: dashed;
     border-width: 1px;
@@ -99,3 +79,6 @@ label.checkbox-list-group-label {
         font-size: 5em;
         margin-top: 50px;
     }
+body {
+    padding-top: 70px;
+}

@@ -72,13 +72,13 @@
                         '<br />SystemName: #:SystemName#' +
                         '<br />DisplayOrder: #:DisplayOrder#' +
                         '<br />Installed: <i class="fa #=Installed ? \'fa-ok-circle fa-2x text-success\' : \'ffa-no-circle fa-2x text-danger\'#"></i>' +
-                        '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-default btn-sm">' + self.translations.edit + '</a>',
+                        '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + self.translations.edit + '</a>',
                     filterable: false
                 }, {
                     field: "Installed",
                     title: " ",
                     template:
-                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-default btn-sm">' + self.translations.uninstall + '</a> #} ' +
+                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + self.translations.uninstall + '</a> #} ' +
                         'else {# <a data-bind="click: install.bind($data,\'#=SystemName#\')" class="btn btn-success btn-sm">' + self.translations.install + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,

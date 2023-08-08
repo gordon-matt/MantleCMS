@@ -35,7 +35,7 @@ public partial class MantleJsMinifier : Processor
 
             if (result.HasErrors)
             {
-                EngineContext.Current.Resolve<ILogger>()
+                EngineContext.Current.Resolve<ILogger<MantleJsMinifier>>()
                     .LogWarning(new Exception(string.Join(Environment.NewLine, result.Errors)), $"JavaScript minification: {key}");
             }
 

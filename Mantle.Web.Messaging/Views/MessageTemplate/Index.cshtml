@@ -50,13 +50,13 @@
                         </div>
 
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <label class="control-label">&nbsp;</label>
+                            <label class="form-label">&nbsp;</label>
                             <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.General.Enabled]" asp-icon="fa fa-file" ko-bind="templateModel.enabled" />
                         </div>
 
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "form-label" })
                                 <ul class="list-unstyled">
                                     @foreach (var editor in messageTemplateEditors)
                                     {
@@ -83,10 +83,10 @@
                     <fieldset>
                         <legend id="form-section-version-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-file"></i>
                                     </span>
                                     @Html.TextBox("Subject", null, new { @class = "form-control", data_bind = "value: templateVersionModel.subject" })
@@ -94,8 +94,8 @@
                             </div>
                         </div>
                         <div class="col-sm-10 col-md-10">
-                            <div class="form-group">
-                                @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "form-label" })
                                 @Html.TextArea("Data", null, new { @class = "form-control", data_bind = "wysiwyg: templateVersionModel.data, wysiwygConfig: templateVersionModel.tinyMCEConfig" })
                             </div>
                         </div>
@@ -112,7 +112,7 @@
             }
         }
         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-            <div class="form-group pull-right">
+            <div class="mb-3 float-end">
                 <mantle-ko-button state="Default" ko-click="templateModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                 <mantle-ko-button state="Primary" ko-click="templateModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
             </div>
@@ -126,7 +126,7 @@
     using (var body = modal.BeginBody())
     {
         <form>
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.Hidden("TemplateIdToLocalize")
                 @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
             </div>
@@ -134,7 +134,7 @@
     }
     using (var footer = modal.BeginFooter())
     {
-        <button type="button" class="btn btn-default" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
         <mantle-ko-button state="Primary" ko-click="templateModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
     }
 }
