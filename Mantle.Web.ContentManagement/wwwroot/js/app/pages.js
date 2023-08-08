@@ -340,7 +340,7 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
                         GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
@@ -348,10 +348,10 @@
                         '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
                         '<i class="fa fa-cubes"></i></a>' +
 
-                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
                         GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
                         GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
-                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'default') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'secondary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -779,7 +779,7 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'default', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
                         GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
@@ -787,10 +787,10 @@
                         '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
                         '<i class="fa fa-cubes"></i></a>' +
 
-                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
                         GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
                         GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
-                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'default') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'secondary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

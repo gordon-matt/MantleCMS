@@ -36,7 +36,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
                 { "mantle-knockout-chosen", new[] { "chosen", "knockout" } },
                 { "mantle-jqueryval", new[] { "jqueryval" } },
                 { "mantle-tinymce", new[] { "tinymce" } },
-                { "bootstrap-fileinput", new[] { "jquery", "bootstrap" } },
+                //{ "bootstrap-fileinput", new[] { "jquery", "bootstrap" } },
                 { "bootstrap-slider", new[] { "jquery", "bootstrap" } },
                 { "bootstrap-slider-knockout", new[] { "jquery", "bootstrap", "knockout" } }
             };

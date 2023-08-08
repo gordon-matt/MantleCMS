@@ -64,7 +64,7 @@
                     title: self.translations.columns.isDefaultTheme,
                     template:
                         '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
-                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-default btn-sm">' + self.translations.set + '</a> #} #',
+                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-secondary btn-sm">' + self.translations.set + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130

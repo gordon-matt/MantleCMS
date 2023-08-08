@@ -2,11 +2,33 @@
 @using MenuItem = Mantle.Web.Navigation.MenuItem
 @inject Mantle.Web.Navigation.INavigationManager navigationManager
 
+<style type="text/css">
+    .dropdown-menu li {
+        position: relative;
+    }
+
+    .dropdown-menu .dropdown-submenu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: -7px;
+    }
+
+    .dropdown-menu .dropdown-submenu-left {
+        right: 100%;
+        left: auto;
+    }
+
+    .dropdown-menu > li:hover > .dropdown-submenu {
+        display: block;
+    }
+</style>
+
 @{
     var menuItems = navigationManager.BuildMenu("Admin");
 
-    Func<MenuItem, IHtmlContent> DisplayMenuItems = null;
-    DisplayMenuItems = (menuItem) => new Func<MenuItem, IHtmlContent>(
+    Func<MenuItem, int, IHtmlContent> DisplayMenuItems = null;
+    DisplayMenuItems = (menuItem, level) => new Func<MenuItem, IHtmlContent>(
         @<text>
         <li class="nav-item @(menuItem.Items.Any() ? "dropdown" : string.Empty)">
             @{
@@ -31,10 +53,10 @@
                     }
                     <span>@menuItem.Text</span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu@(level > 0 ? " dropdown-submenu" : string.Empty)">
                     @foreach (var childMenuItem in menuItem.Items)
                     {
-                        @DisplayMenuItems(childMenuItem)
+                        @DisplayMenuItems(childMenuItem, level + 1)
                     }
                 </ul>
             }
@@ -42,7 +64,9 @@
             {
                 if (!string.IsNullOrEmpty(menuItem.Href))
                 {
-                    <a class="nav-link" href="@menuItem.Href">
+                    string cssClass = level == 0 ? "nav-link" : "dropdown-item";
+
+                    <a class="@cssClass" href="@menuItem.Href">
                         @if (iconCount == 1)
                         {
                             <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
@@ -68,6 +92,6 @@
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     @foreach (var menuItem in menuItems)
     {
-        @DisplayMenuItems(menuItem)
+        @DisplayMenuItems(menuItem, 0)
     }
 </ul>

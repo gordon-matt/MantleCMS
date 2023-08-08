@@ -95,10 +95,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("blockModel.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("blockModel.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionButton("blockModel.localize", self.parent.translations.localize, 'success') +
                         GridHelper.actionButton("blockModel.remove", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("blockModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\', #=IsEnabled#`) +
+                        GridHelper.actionButton("blockModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\', #=IsEnabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

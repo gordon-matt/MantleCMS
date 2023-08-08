@@ -142,7 +142,7 @@
                         GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
                         GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -352,7 +352,7 @@
                         GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
                         GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
                         GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'default', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

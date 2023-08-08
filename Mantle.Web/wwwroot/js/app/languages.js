@@ -13,7 +13,7 @@
     require('mantle-common');
     require('mantle-section-switching');
     require('mantle-jqueryval');
-    require('bootstrap-fileinput');
+    /*require('bootstrap-fileinput');*/
 
     const apiUrl = "/odata/mantle/web/LanguageApi";
 
@@ -111,7 +111,7 @@
                         GridHelper.actionButton("remove", self.translations.delete, 'danger') +
                         `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${self.translations.localize}</a>` +
                         '</div>',
-                    //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-default btn-xs">Set Default</a></div>',
+                    //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-secondary btn-xs">Set Default</a></div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 170
