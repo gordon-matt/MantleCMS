@@ -79,3 +79,6 @@ label.checkbox-list-group-label {
         font-size: 5em;
         margin-top: 50px;
     }
+body {
+    padding-top: 70px;
+}

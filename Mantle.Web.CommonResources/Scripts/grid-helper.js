@@ -78,13 +78,13 @@
     };
 
     static actionButton(funcName, text, state, clickParams) {
-        state ??= 'default';
+        state ??= 'secondary';
         clickParams ??= `'#=Id#'`;
         return `<button type="button" data-bind="click: ${funcName}.bind($data,${clickParams})" class="btn btn-${state} btn-${GridHelper.actionButtonSize}">${text}</button>`;
     };
 
     static actionIconButton(funcName, icon, text, state, clickParams) {
-        state ??= 'default';
+        state ??= 'secondary';
         clickParams ??= `'#=Id#'`;
         return `<button type="button" data-bind="click: ${funcName}.bind($data,${clickParams})" class="btn btn-${state} btn-${GridHelper.actionIconButtonSize}" title="${text}"><i class="${icon}"></i></a></button>`;
     };

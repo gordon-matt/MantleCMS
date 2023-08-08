@@ -14,9 +14,9 @@
     'notify': '../../../lib/notifyjs-browser/dist/notify.min',
     'tinymce': '../../../lib/tinymce/tinymce.min',
     'tinymce-jquery': '../../../lib/tinymce/jquery.tinymce.min',
-    'tinymce-knockout': '../../../lib/tinymce-knockout-binding/src/wysiwyg.min',
+    'tinymce-knockout': '../../../lib/tinymce-knockout-binding/src/wysiwyg.min'//,
 
-    'bootstrap-fileinput': '../../../lib/bootstrap-fileinput/js/fileinput'
+    //'bootstrap-fileinput': '../../../lib/bootstrap-fileinput/js/fileinput'
 };
 
 const shim = {
@@ -28,7 +28,7 @@ const shim = {
     'tinymce-jquery': ['jquery', 'tinymce'],
     'tinymce-knockout': ['knockout', 'tinymce', 'tinymce-jquery'],
 
-    'bootstrap-fileinput': ['jquery', 'bootstrap'],
+    //'bootstrap-fileinput': ['jquery', 'bootstrap'],
 };
 
 $.ajax({

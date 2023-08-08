@@ -45,6 +45,11 @@
     <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/skin.min.css" />
     <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/content.min.css" />
 
+    <!-- TODO: Move out of layour.. into where it's needed -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/css/fileinput.min.css"
+          integrity="sha256-96fNEX74O/HsXlnQoCSIn+Ay8zMEUVzw2sEvqdyl6I8="
+          crossorigin="anonymous" />
+
     <style type="text/css">
         .admin-column {
             box-sizing: border-box;
@@ -108,6 +113,10 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jquery-migrate/dist/jquery-migrate.js"></script>
+
+        <!-- TODO: Move out of layour.. into where it's needed -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.js" integrity="sha256-vR+CUENSptgqpaxyoOXkQ+5JH1nGpGhssph4gBNPu/I=" crossorigin="anonymous"></script>
+
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
     <environment names="Staging,Production">
@@ -122,6 +131,9 @@
                 integrity="sha256-FIp0sJIa14Ah1xboAy7eHNr37XJ5zv19KsvpBq3RKmg="
                 crossorigin="anonymous">
         </script>
+
+        <!-- TODO: Move out of layour.. into where it's needed -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.js" integrity="sha256-vR+CUENSptgqpaxyoOXkQ+5JH1nGpGhssph4gBNPu/I=" crossorigin="anonymous"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
