@@ -183,10 +183,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '# if(HasStates) {# <a data-bind="click: country.showStates.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.states + '</a> #} ' +
-                        'else {# <a data-bind="click: country.showCities.bind($data,\'#=Id#\')" class="btn btn-default btn-xs">' + self.parent.translations.cities + '</a> #} # ' +
+                        '# if(HasStates) {# <a data-bind="click: country.showStates.bind($data,\'#=Id#\')" class="btn btn-secondary btn-xs">' + self.parent.translations.states + '</a> #} ' +
+                        'else {# <a data-bind="click: country.showCities.bind($data,\'#=Id#\')" class="btn btn-secondary btn-xs">' + self.parent.translations.cities + '</a> #} # ' +
 
-                        GridHelper.actionButton("country.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("country.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionButton("country.localize", self.parent.translations.localize, 'success') +
                         GridHelper.actionButton("country.removeItem", self.parent.translations.delete, 'danger') +
                         GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
@@ -372,7 +372,7 @@
                     template:
                         '<div class="btn-group">' +
                         GridHelper.actionButton("state.showCities", self.parent.translations.cities) +
-                        GridHelper.actionButton("state.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("state.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionButton("state.localize", self.parent.translations.localize, 'success') +
                         GridHelper.actionButton("state.removeItem", self.parent.translations.delete, 'danger') +
                         GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
@@ -539,7 +539,7 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("city.edit", self.parent.translations.edit, 'default', `\'#=Id#\', null`) +
+                        GridHelper.actionButton("city.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionButton("city.localize", self.parent.translations.localize, 'success') +
                         GridHelper.actionButton("city.removeItem", self.parent.translations.delete, 'danger') +
                         GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +

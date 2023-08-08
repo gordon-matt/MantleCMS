@@ -2,11 +2,11 @@
 
 <div id="users-grid-section" class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="pull-left">
+        <div class="float-start">
             <mantle-ko-button state="Primary" ko-click="userModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
             <mantle-ko-button state="Default" ko-click="viewRoles" icon="fa fa-users" text="@T[MantleWebLocalizableStrings.Membership.Roles]" />
         </div>
-        <div class="pull-right">
+        <div class="float-end">
             @Html.Mantle().RolesDropDownList("RoleFilter", null, new { @class = "form-control", data_bind = "value: userModel.filterRoleId, event: { change: userModel.filterRole }" }, string.Empty)
         </div>
     </div>
@@ -24,10 +24,10 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-user"></i>
                                     </span>
                                     @Html.TextBox("UserName", null, new { @class = "form-control", data_bind = "value: userModel.userName" })
@@ -35,10 +35,10 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-envelope-o"></i>
                                     </span>
                                     @Html.TextBox("Email", null, new { @class = "form-control", data_bind = "value: userModel.email" })
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -76,13 +76,13 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.UpdateUserRoles]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("UserRoles", T[MantleWebLocalizableStrings.Membership.UserModel.Roles], new { @class = "form-label" })
                                 @Html.Mantle().RolesCheckBoxList("UserRoles", null, new { @class = "checkbox" }, new { data_bind = "checked: userModel.roles" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.editRoles_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.editRoles_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -105,25 +105,25 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.ChangePassword]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                <label class="control-label">@T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.UserName]</label>
+                            <div class="mb-3">
+                                <label class="form-label">@T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.UserName]</label>
                                 <input type="text" class="form-control" readonly="readonly" data-bind="value: changePasswordModel.userName" />
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("Change_Password", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.Password], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Change_Password", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.Password], new { @class = "form-label" })
                                 @Html.Password("Change_Password", null, new { @class = "form-control", data_bind = "value: changePasswordModel.password" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("Change_ConfirmPassword", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.ConfirmPassword], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Change_ConfirmPassword", T[MantleWebLocalizableStrings.Membership.ChangePasswordModel.ConfirmPassword], new { @class = "form-label" })
                                 @Html.Password("Change_ConfirmPassword", null, new { @class = "form-control", data_bind = "value: changePasswordModel.confirmPassword" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="changePasswordModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="changePasswordModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -154,10 +154,10 @@
                     <fieldset>
                         <legend id="roles-form-section-legend"></legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Name", T[MantleWebLocalizableStrings.Membership.RoleModel.Name], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-users"></i>
                                     </span>
                                     @Html.TextBox("Name", null, new { @class = "form-control", data_bind = "value: roleModel.name" })
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
@@ -188,13 +188,13 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group">
-                                @*@Html.Label("RolePermissions", "Permissions", new { @class = "control-label" })*@
+                            <div class="mb-3">
+                                @*@Html.Label("RolePermissions", "Permissions", new { @class = "form-label" })*@
                                 @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="roleModel.editPermissions_cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="roleModel.editPermissions_save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>

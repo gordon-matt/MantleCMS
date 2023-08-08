@@ -34,7 +34,7 @@ public class DemoApp<TModel>
         var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
 
         string url = menuItem.IsExternalUrl ? menuItem.Url : urlHelper.Content(menuItem.Url);
-        string cssClass = (menuItem.CssClass + (isCurrent ? " active" : string.Empty)).Trim();
+        string cssClass = "nav-item " + menuItem.CssClass?.Trim();
 
         var tagBuiler = new FluentTagBuilder("li")
             .AddCssClass(cssClass);
@@ -44,7 +44,7 @@ public class DemoApp<TModel>
             tagBuiler = tagBuiler
                 .AddCssClass("dropdown")
                 .StartTag("a")
-                    .AddCssClass("dropdown-toggle")
+                    .AddCssClass($"nav-link{(isCurrent ? " active" : string.Empty)} dropdown-toggle")
                     .MergeAttributes(new { aria_expanded = true, role = "button", data_toggle = "dropdown", href = "#" })
                     .SetInnerHtml(menuItem.Text)
                     .StartTag("span")
@@ -60,6 +60,7 @@ public class DemoApp<TModel>
                     .StartTag("li")
                         .AddCssClass(cssClass)
                         .StartTag("a")
+                            .AddCssClass($"nav-link{(isCurrent ? " active" : string.Empty)}")
                             .MergeAttribute("href", url)
                             .SetInnerHtml(menuItem.Text)
                         .EndTag() // </a>
@@ -82,13 +83,14 @@ public class DemoApp<TModel>
                 .StartTag("li")
                     .AddCssClass(cssClass)
                     .StartTag("a")
+                        .AddCssClass($"nav-link{(isCurrent ? " active" : string.Empty)}")
                         .MergeAttribute("href", url)
                         .SetInnerHtml(menuItem.Text)
                     .EndTag() // </a>
                 .EndTag(); // </li>
         }
 
-        return new Microsoft.AspNetCore.Html.HtmlString(tagBuiler.ToString());
+        return new HtmlString(tagBuiler.ToString());
     }
 
     public IHtmlContent BuildSubMenuItems(MenuItem menuItem, string currentUrl)
@@ -108,6 +110,6 @@ public class DemoApp<TModel>
             .MergeAttribute("href", url)
             .SetInnerHtml(menuItem.Text);
 
-        return new Microsoft.AspNetCore.Html.HtmlString(tagBuiler.ToString());
+        return new HtmlString(tagBuiler.ToString());
     }
 }

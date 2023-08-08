@@ -7,23 +7,23 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">
                     @T[MantleIdentityLocalizableStrings.LogOut]
                 </button>
-            </li>
-        </ul>
-    </form>
+            </form>
+        </li>
+    </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">@T[MantleIdentityLocalizableStrings.Login]</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">@T[MantleIdentityLocalizableStrings.Register]</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">@T[MantleIdentityLocalizableStrings.Login]</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">@T[MantleIdentityLocalizableStrings.Register]</a></li>
     </ul>
 }

@@ -69,8 +69,8 @@ namespace Mantle.Plugins.Messaging.Forums
                 Name = "Bootstrap-FileInput",
                 Resources = new List<RequiredResource>
                 {
-                    new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@4.5.3/js/fileinput.min.js" },
-                    new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@4.5.3/js/fileinput.min.js" }
+                    new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.min.js" },
+                    new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/css/fileinput.min.css" }
                 }
             }
         };

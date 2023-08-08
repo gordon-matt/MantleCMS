@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>

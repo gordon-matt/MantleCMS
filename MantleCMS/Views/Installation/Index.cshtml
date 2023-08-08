@@ -12,18 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootswatch@3.4.1/united/bootstrap.min.css"
-          integrity="sha256-ltLC53c+9nQc0ELY92pXXop0iDkRo4LeF9/FQ/JnXH0="
-          crossorigin="anonymous" />
+    <link rel="stylesheet" asp-exclude-from-bundle="true" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/united/bootstrap.min.css" />
+    <link rel="stylesheet" asp-exclude-from-bundle="true" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
-          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
-          crossorigin="anonymous" />
+    @MantleHtml.GenerateCssFiles()
 
     <style type="text/css">
         body {
-            background: url("/Media/installation-background.jpg") repeat-y;
+            background: url("/img/installation-background.jpg") repeat-y;
             background-size: 100%;
         }
     </style>
@@ -31,8 +27,7 @@
 <body>
     <div class="container body-content">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-
+            <div class="col-12">
                 <div class="text-center" style="background-color:white">
                     <img src="~/img/logo.png" alt="Mantle CMS" />
                 </div>
@@ -49,31 +44,25 @@
                         }
                         using (var body = panel.BeginBody())
                         {
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.AdminEmail, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                        @Html.TextBoxFor(m => m.AdminEmail, new { @class = "form-control" })
-                                    </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.AdminEmail, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    @Html.TextBoxFor(m => m.AdminEmail, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.AdminPassword, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                        @Html.PasswordFor(m => m.AdminPassword, new { @class = "form-control" })
-                                    </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.AdminPassword, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    @Html.PasswordFor(m => m.AdminPassword, new { @class = "form-control" })
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                                    </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                                 </div>
                             </div>
                         }
@@ -85,20 +74,20 @@
                         }
                         using (var body = panel.BeginBody())
                         {
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.DefaultLanguage, new { @class = "col-md-2 control-label" })
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.DefaultLanguage, new { @class = "col-md-2 form-label" })
                                 <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-globe"></i></span>
                                         @Html.CulturesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.Theme, new { @class = "col-md-2 control-label" })
+                            <div class="mb-3">
+                                @Html.LabelFor(m => m.Theme, new { @class = "col-md-2 form-label" })
                                 <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-tint"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-tint"></i></span>
                                         @Html.Mantle().ThemesDropDownListFor(m => m.Theme, new { @class = "form-control", onchange = "onThemeChange(this);" })
                                     </div>
                                     <br />
@@ -114,78 +103,62 @@
                         }
                         using (var body = panel.BeginBody())
                         {
-                            <div class="form-group">
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.EnterConnectionString, new { @class = "form-check-input", onclick = "onEnterConnectionStringClick(this);" })
+                                    @Html.LabelFor(m => m.EnterConnectionString, new{ @class = "form-check-label" })
+                                </div>
+                            </div>
+                            <div id="connection-string-group" class="mb-3" style="display:none">
+                                @Html.LabelFor(m => m.ConnectionString, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-plug"></i></span>
+                                    @Html.TextBoxFor(m => m.ConnectionString, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="database-server-group" class="mb-3">
+                                @Html.LabelFor(m => m.DatabaseServer, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-database"></i></span>
+                                    @Html.TextBoxFor(m => m.DatabaseServer, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="database-name-group" class="mb-3">
+                                @Html.LabelFor(m => m.DatabaseName, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-database"></i></span>
+                                    @Html.TextBoxFor(m => m.DatabaseName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.UseWindowsAuthentication, new { @class = "form-check-input", onclick = "onUseWindowsAuthenticationClick(this);" })
+                                    @Html.LabelFor(m => m.UseWindowsAuthentication, new{ @class = "form-check-label" })
+                                </div>
+                            </div>
+                            <div id="database-username-group" class="mb-3">
+                                @Html.LabelFor(m => m.DatabaseUsername, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                    @Html.TextBoxFor(m => m.DatabaseUsername, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div id="database-password-group" class="mb-3">
+                                @Html.LabelFor(m => m.DatabasePassword, new { @class = "col-md-2 form-label" })
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                    @Html.TextBoxFor(m => m.DatabasePassword, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.CreateSampleData, new { @class = "form-check-input" })
+                                    @Html.LabelFor(m => m.CreateSampleData, new{ @class = "form-check-label" })
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <div class="checkbox">
-                                        @Html.CheckBoxFor(m => m.EnterConnectionString, new { onclick = "onEnterConnectionStringClick(this);" })
-                                        @Html.LabelFor(m => m.EnterConnectionString)
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="connection-string-group" class="form-group" style="display:none">
-                                @Html.LabelFor(m => m.ConnectionString, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-plug"></i></span>
-                                        @Html.TextBoxFor(m => m.ConnectionString, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="database-server-group" class="form-group">
-                                @Html.LabelFor(m => m.DatabaseServer, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-database"></i></span>
-                                        @Html.TextBoxFor(m => m.DatabaseServer, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="database-name-group" class="form-group">
-                                @Html.LabelFor(m => m.DatabaseName, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-database"></i></span>
-                                        @Html.TextBoxFor(m => m.DatabaseName, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div class="checkbox">
-                                        @Html.CheckBoxFor(m => m.UseWindowsAuthentication, new { onclick = "onUseWindowsAuthenticationClick(this);" })
-                                        @Html.LabelFor(m => m.UseWindowsAuthentication)
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="database-username-group" class="form-group">
-                                @Html.LabelFor(m => m.DatabaseUsername, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        @Html.TextBoxFor(m => m.DatabaseUsername, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="database-password-group" class="form-group">
-                                @Html.LabelFor(m => m.DatabasePassword, new { @class = "col-md-2 control-label" })
-                                <div class="@MantleWebConstants.AdminCss.Columns.FiveSixths">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                                        @Html.TextBoxFor(m => m.DatabasePassword, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div class="checkbox">
-                                        @Html.CheckBoxFor(m => m.CreateSampleData)
-                                        @Html.LabelFor(m => m.CreateSampleData)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" class="btn btn-default" value="Install Now" />
+                                    <input type="submit" class="btn btn-secondary" value="Install Now" />
                                 </div>
                             </div>
                         }
@@ -195,10 +168,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-    </script>
+    <script asp-location="None" asp-exclude-from-bundle="true" src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script asp-location="None" asp-exclude-from-bundle="true" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
 
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
@@ -230,5 +201,8 @@
             $('#theme-preview').attr('src', '/Themes/' + themeName + '/thumbnail.png');
         }
     </script>
+
+    @MantleHtml.GenerateScripts(ResourceLocation.Foot)
+    @MantleHtml.GenerateInlineScripts(ResourceLocation.Foot)
 </body>
 </html>

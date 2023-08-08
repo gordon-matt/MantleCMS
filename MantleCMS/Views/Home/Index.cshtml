@@ -2,84 +2,77 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-        <li data-target="#myCarousel" data-slide-to="4"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/img/banner0.jpg" alt="Mantle CMS" class="img-responsive" />
-            <div class="carousel-caption" role="option">
+<div id="carouselExampleAutoplaying" class="carousel slide mb-3" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/img/banner0.jpg" class="d-block w-100" alt="Mantle CMS" />
+            <div class="carousel-caption d-none d-md-block">
                 <p>
                     Quickly get your site up and running with a powerful backend to create pages, content blocks, forms and more..
-                    <a class="btn btn-default" href="#">
+                    <a class="btn btn-secondary" href="#">
                         Learn More
                     </a>
                 </p>
             </div>
         </div>
-        <div class="item">
-            <img src="~/img/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
+        <div class="carousel-item">
+            <img src="~/img/banner1.svg" class="d-block w-100" alt="ASP.NET" />
+            <div class="carousel-caption d-none d-md-block">
                 <p>
                     Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
+                    <a class="btn btn-secondary" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
                         Learn More
                     </a>
                 </p>
             </div>
         </div>
-        <div class="item">
-            <img src="~/img/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
+        <div class="carousel-item">
+            <img src="~/img/banner2.svg" class="d-block w-100" alt="Visual Studio" />
+            <div class="carousel-caption d-none d-md-block">
                 <p>
                     There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
+                    <a class="btn btn-secondary" href="http://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
                         Learn More
                     </a>
                 </p>
             </div>
         </div>
-        <div class="item">
-            <img src="~/img/banner3.svg" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption" role="option">
+        <div class="carousel-item">
+            <img src="~/img/banner3.svg" class="d-block w-100" alt="Package Management" />
+            <div class="carousel-caption d-none d-md-block">
                 <p>
                     Bring in libraries from NuGet, Bower, and npm, and automate tasks using Grunt or Gulp.
-                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
+                    <a class="btn btn-secondary" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409">
                         Learn More
                     </a>
                 </p>
             </div>
         </div>
-        <div class="item">
-            <img src="~/img/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
+        <div class="carousel-item">
+            <img src="~/img/banner4.svg" class="d-block w-100" alt="Microsoft Azure" />
+            <div class="carousel-caption d-none d-md-block">
                 <p>
                     Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
+                    <a class="btn btn-secondary" href="http://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
                         Learn More
                     </a>
                 </p>
             </div>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 
 <div class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Quarter">
-        <h2>Application uses</h2>
+        <h3>Application uses</h3>
         <ul>
             <li>Sample pages using ASP.NET Core MVC</li>
             <li><a href="http://go.microsoft.com/fwlink/?LinkId=518004">Bower</a> for managing client-side libraries</li>
@@ -87,7 +80,7 @@
         </ul>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Quarter">
-        <h2>How to</h2>
+        <h3>How to</h3>
         <ul>
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=699562">Add an appsetting in config and access it in app.</a></li>
@@ -99,7 +92,7 @@
         </ul>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Quarter">
-        <h2>Overview</h2>
+        <h3>Overview</h3>
         <ul>
             <li><a href="http://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
             <li><a href="http://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
@@ -111,7 +104,7 @@
         </ul>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Quarter">
-        <h2>Run & Deploy</h2>
+        <h3>Run & Deploy</h3>
         <ul>
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
             <li><a href="http://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>

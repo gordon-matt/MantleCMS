@@ -9,10 +9,10 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("UserName", T[MantleWebLocalizableStrings.Membership.UserModel.UserName], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-user"></i>
                                     </span>
                                     @Html.TextBox("UserName", null, new { @class = "form-control", data_bind = "value: userModel.userName" })
@@ -20,10 +20,10 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="form-group">
-                                @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "control-label" })
+                            <div class="mb-3">
+                                @Html.Label("Email", T[MantleWebLocalizableStrings.Membership.UserModel.Email], new { @class = "form-label" })
                                 <div class="input-group">
-                                    <span class="input-group-addon">
+                                    <span class="input-group-text">
                                         <i class="fa fa-envelope-o"></i>
                                     </span>
                                     @Html.TextBox("Email", null, new { @class = "form-control", data_bind = "value: userModel.email" })
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="form-group pull-right">
+                            <div class="mb-3 float-end">
                                 <mantle-ko-button state="Default" ko-click="userModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="userModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
