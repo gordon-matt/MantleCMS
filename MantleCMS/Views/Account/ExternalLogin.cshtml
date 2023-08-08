@@ -16,10 +16,10 @@
 <div class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Third">
         <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
             <div class="mb-3">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Email" class="form-label"></label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-secondary">Register</button>
@@ -28,5 +28,5 @@
 </div>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <partial name="_ValidationScriptsPartial" />
 }
