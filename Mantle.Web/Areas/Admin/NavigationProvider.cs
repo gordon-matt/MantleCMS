@@ -24,7 +24,7 @@ public class NavigationProvider : INavigationProvider
         builder.Add(T[MantleWebLocalizableStrings.Membership.Title], "1", BuildMembershipMenu);
         builder.Add(T[MantleWebLocalizableStrings.General.Configuration], "3", BuildConfigurationMenu);
         builder.Add(T[MantleWebLocalizableStrings.Maintenance.Title], "4", BuildMaintenanceMenu);
-        //builder.Add(T[MantleWebLocalizableStrings.Plugins.Title], "99999", BuildPluginsMenu);
+        builder.Add(T[MantleWebLocalizableStrings.Plugins.Title], "99999", BuildPluginsMenu);
     }
 
     #endregion INavigationProvider Members
@@ -103,8 +103,8 @@ public class NavigationProvider : INavigationProvider
             .Permission(MantleWebPermissions.ScheduledTasksRead));
     }
 
-    //private void BuildPluginsMenu(NavigationItemBuilder builder)
-    //{
-    //    builder.Icons("fa fa-puzzle-piece");
-    //}
+    private void BuildPluginsMenu(NavigationItemBuilder builder)
+    {
+        builder.Icons("fa fa-puzzle-piece");
+    }
 }
