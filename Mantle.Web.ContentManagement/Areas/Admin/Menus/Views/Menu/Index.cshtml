@@ -56,72 +56,76 @@
                 <form id="item-edit-section-form" role="form">
                     <fieldset>
                         <legend id="item-edit-section-legend"></legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Text", null, new { @class = "form-control", data_bind = "value: menuItemModel.text" })
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Item_Text", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Text], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Text", null, new { @class = "form-control", data_bind = "value: menuItemModel.text" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-globe"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Url", null, new { @class = "form-control", data_bind = "value: menuItemModel.url" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3">
+                                    @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Description", null, new { @class = "form-control", data_bind = "value: menuItemModel.description" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-font"></i>
+                                        </span>
+                                        @Html.TextBox("Item_CssClass", null, new { @class = "form-control", data_bind = "value: menuItemModel.cssClass" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-sort-numeric-asc"></i>
+                                        </span>
+                                        @Html.TextBox("Item_Position", null, new { @class = "form-control", data_bind = "value: menuItemModel.position" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.QuarterStrict">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
+                                    </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Item_Url", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Url], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-globe"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Url", null, new { @class = "form-control", data_bind = "value: menuItemModel.url" })
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3 float-end">
+                                    <mantle-ko-button state="Default" ko-click="menuItemModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                    <mantle-ko-button state="Primary" ko-click="menuItemModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                                 </div>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3">
-                                @Html.Label("Item_Description", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Description], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Description", null, new { @class = "form-control", data_bind = "value: menuItemModel.description" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Item_CssClass", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.CssClass], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-font"></i>
-                                    </span>
-                                    @Html.TextBox("Item_CssClass", null, new { @class = "form-control", data_bind = "value: menuItemModel.cssClass" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Item_Position", T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Position], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-sort-numeric-asc"></i>
-                                    </span>
-                                    @Html.TextBox("Item_Position", null, new { @class = "form-control", data_bind = "value: menuItemModel.position" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.QuarterStrict">
-                            <div class="checkbox">
-                                <label>
-                                    @Html.CheckBox("Item_Enabled", new { data_bind = "checked: menuItemModel.enabled" }) @T[MantleCmsLocalizableStrings.Menus.MenuItemModel.Enabled]
-                                </label>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3 float-end">
-                                <mantle-ko-button state="Default" ko-click="menuItemModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
-                                <mantle-ko-button state="Primary" ko-click="menuItemModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>
                     </fieldset>

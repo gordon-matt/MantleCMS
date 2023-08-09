@@ -87,62 +87,68 @@
                 <form id="edit-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-file"></i>
-                                        </span>
-                                        @Html.TextBox("Title", null, new { @class = "form-control", data_bind = "value: blockModel.title" })
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-file"></i>
+                                            </span>
+                                            @Html.TextBox("Title", null, new { @class = "form-control", data_bind = "value: blockModel.title" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath])
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                        @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                    @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-sort-numeric-asc"></i>
-                                        </span>
-                                        @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-sort-numeric-asc"></i>
+                                            </span>
+                                            @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                @Html.Label("ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                    @Html.MantleCMS().ZonesDropDownList("ZoneId", null, null, new { @class = "form-control", data_bind = "value: blockModel.zoneId" })
+                                <div class="mb-3">
+                                    @Html.Label("ZoneId", T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId])
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                        @Html.MantleCMS().ZonesDropDownList("ZoneId", null, null, new { @class = "form-control", data_bind = "value: blockModel.zoneId" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label></label>
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                    <div class="checkbox">
-                                        <label>
-                                            @Html.CheckBox("IsEnabled", new { data_bind = "checked: blockModel.isEnabled" }) @T[MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled]
-                                        </label>
+                                <div class="mb-3">
+                                    <label></label>
+                                    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                        <div class="checkbox">
+                                            <label>
+                                                @Html.CheckBox("IsEnabled", new { data_bind = "checked: blockModel.isEnabled" }) @T[MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled]
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
 
-                    <fieldset id="block-details"></fieldset>
-
-                    <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                        <div class="mb-3 float-end">
-                            <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
-                            <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                    <div class="row">
+                        <fieldset id="block-details"></fieldset>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                            <div class="mb-3 float-end">
+                                <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                            </div>
                         </div>
                     </div>
                 </form>

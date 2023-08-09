@@ -17,7 +17,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
     require('mantle-knockout-chosen');
     require('mantle-tinymce');
 

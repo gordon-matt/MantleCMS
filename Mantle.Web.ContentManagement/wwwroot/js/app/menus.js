@@ -12,7 +12,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
 
     const MenuItemModel = function (parent) {
         const self = this;

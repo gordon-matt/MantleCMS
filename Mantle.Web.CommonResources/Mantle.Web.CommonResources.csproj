@@ -18,34 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\bootstrap-slider-knockout-binding.js" />
-    <EmbeddedResource Include="Scripts\bootstrap-slider.min.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput.min.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_cz.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_de.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_el.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_es.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_fr.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_hu.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_it.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_LANG.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_nl.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_pl.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_pt-BR.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_pt.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_ro.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_ru.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_sk.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_sr.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_th.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_tr.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_uk.js" />
-    <EmbeddedResource Include="Scripts\bootstrapFileInput\fileinput_locale_zh.js" />
-    <EmbeddedResource Include="Scripts\jquery.bootpag.min.js" />
     <EmbeddedResource Include="Scripts\mantle-common.js" />
     <EmbeddedResource Include="Scripts\mantle-knockout-chosen.js" />
-    <EmbeddedResource Include="Scripts\mantle-utils.js" />
     <EmbeddedResource Include="Scripts\mantle-jqval.js" />
     <EmbeddedResource Include="Scripts\moment-with-locales.min.js" />
     <EmbeddedResource Include="Scripts\odata-helpers.js" />
@@ -60,32 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Scripts\bootstrap-slider-knockout-binding.js" />
-    <None Remove="Scripts\bootstrap-slider.min.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput.min.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_cz.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_de.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_el.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_es.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_fr.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_hu.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_it.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_LANG.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_nl.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_pl.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_pt-BR.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_pt.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_ro.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_ru.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_sk.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_sr.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_th.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_tr.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_uk.js" />
-    <None Remove="Scripts\bootstrapFileInput\fileinput_locale_zh.js" />
     <None Remove="Scripts\grid-helper.js" />
-    <None Remove="Scripts\jquery.bootpag.min.js" />
     <None Remove="Scripts\mantle-common.js" />
     <None Remove="Scripts\mantle-knockout-chosen.js" />
     <None Remove="Scripts\mantle-section-switching.js" />

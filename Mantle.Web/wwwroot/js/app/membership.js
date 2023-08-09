@@ -12,7 +12,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
 
     const permissionsApiUrl = "/odata/mantle/web/PermissionApi";
     const rolesApiUrl = "/odata/mantle/web/RoleApi";

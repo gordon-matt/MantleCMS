@@ -21,10 +21,10 @@
                 <form id="create-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Create]</legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="fa fa-file"></i>
@@ -32,28 +32,28 @@
                                         @Html.TextBox("Create_Title", null, new { @class = "form-control", data_bind = "value: blockModel.title" })
                                     </div>
                                 </div>
+                                <mantle-select asp-for-name="Create_BlockType"
+                                               asp-items="Html.MantleCMS().GetContentBlockTypesSelectList()"
+                                               asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType]"
+                                               ko-bind="blockModel.blockType" />
                             </div>
-                            <mantle-select asp-for-name="Create_BlockType"
-                                           asp-items="Html.MantleCMS().GetContentBlockTypesSelectList()"
-                                           asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType]"
-                                           ko-bind="blockModel.blockType" />
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
                                     @Html.TextBox("Create_Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
                                 </div>
+                                <mantle-select asp-for-name="Create_ZoneId"
+                                               asp-items="Html.MantleCMS().GetZonesSelectList()"
+                                               asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId]"
+                                               ko-bind="blockModel.zoneId" />
                             </div>
-                            <mantle-select asp-for-name="Create_ZoneId"
-                                           asp-items="Html.MantleCMS().GetZonesSelectList()"
-                                           asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId]"
-                                           ko-bind="blockModel.zoneId" />
                         </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3 float-end">
-                                <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
-                                <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3 float-end">
+                                    <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                    <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -73,52 +73,58 @@
                 <form id="edit-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.General.Edit]</legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Title", null, new { @class = "form-control", data_bind = "value: blockModel.title" })
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Title", null, new { @class = "form-control", data_bind = "value: blockModel.title" })
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath])
+                                    @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath])
-                                @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
-                            </div>
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <div class="mb-3">
-                                @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-sort-numeric-asc"></i>
-                                    </span>
-                                    @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3">
+                                    @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-sort-numeric-asc"></i>
+                                        </span>
+                                        @Html.TextBox("Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
+                                    </div>
                                 </div>
-                            </div>
-                            <mantle-select asp-for-name="ZoneId"
-                                           asp-items="Html.MantleCMS().GetZonesSelectList()"
-                                           asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId]"
-                                           ko-bind="blockModel.zoneId" />
-                            <div class="mb-3">
-                                <label></label>
-                                <div class="checkbox">
-                                    <label>
-                                        @Html.CheckBox("IsEnabled", new { data_bind = "checked: blockModel.isEnabled" }) @T[MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled]
-                                    </label>
+                                <mantle-select asp-for-name="ZoneId"
+                                               asp-items="Html.MantleCMS().GetZonesSelectList()"
+                                               asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.Model.ZoneId]"
+                                               ko-bind="blockModel.zoneId" />
+                                <div class="mb-3">
+                                    <label></label>
+                                    <div class="checkbox">
+                                        <label>
+                                            @Html.CheckBox("IsEnabled", new { data_bind = "checked: blockModel.isEnabled" }) @T[MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled]
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </fieldset>
 
-                    <fieldset id="block-details"></fieldset>
+                    <div class="row">
+                        <fieldset id="block-details"></fieldset>
+                    </div>
 
-                    <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                        <div class="mb-3 float-end">
-                            <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
-                            <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                    <div class="row">
+                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                            <div class="mb-3 float-end">
+                                <mantle-ko-button state="Default" ko-click="blockModel.cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Primary" ko-click="blockModel.save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                            </div>
                         </div>
                     </div>
                 </form>

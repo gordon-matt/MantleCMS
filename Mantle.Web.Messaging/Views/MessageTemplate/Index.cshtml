@@ -45,29 +45,31 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <mantle-input asp-for="Name" asp-label="@T[LocalizableStrings.MessageTemplate.Name]" asp-icon="fa fa-file" ko-bind="templateModel.name" />
-                        </div>
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="Name" asp-label="@T[LocalizableStrings.MessageTemplate.Name]" asp-icon="fa fa-file" ko-bind="templateModel.name" />
+                            </div>
 
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <label class="form-label">&nbsp;</label>
-                            <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.General.Enabled]" asp-icon="fa fa-file" ko-bind="templateModel.enabled" />
-                        </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <label class="form-label">&nbsp;</label>
+                                <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.General.Enabled]" asp-icon="fa fa-file" ko-bind="templateModel.enabled" />
+                            </div>
 
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3">
-                                @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "form-label" })
-                                <ul class="list-unstyled">
-                                    @foreach (var editor in messageTemplateEditors)
-                                    {
-                                        <li>
-                                            <label class="radio-img">
-                                                @Html.RadioButton("Editor", editor.Name, htmlAttributes: new { data_bind = "checked: templateModel.editor" })
-                                                <img src="@editor.LogoUrl" alt="@editor.Name" class="img-thumbnail" />
-                                            </label>
-                                        </li>
-                                    }
-                                </ul>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3">
+                                    @Html.Label("Editor", T[LocalizableStrings.MessageTemplate.Editor], new { @class = "form-label" })
+                                    <ul class="list-unstyled">
+                                        @foreach (var editor in messageTemplateEditors)
+                                        {
+                                            <li>
+                                                <label class="radio-img">
+                                                    @Html.RadioButton("Editor", editor.Name, htmlAttributes: new { data_bind = "checked: templateModel.editor" })
+                                                    <img src="@editor.LogoUrl" alt="@editor.Name" class="img-thumbnail" />
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -82,28 +84,30 @@
                 <form id="form-section-version-form" role="form">
                     <fieldset>
                         <legend id="form-section-version-legend"></legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3">
-                                @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "form-label" })
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    @Html.TextBox("Subject", null, new { @class = "form-control", data_bind = "value: templateVersionModel.subject" })
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3">
+                                    @Html.Label("Subject", T[LocalizableStrings.MessageTemplateVersion.Subject], new { @class = "form-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-file"></i>
+                                        </span>
+                                        @Html.TextBox("Subject", null, new { @class = "form-control", data_bind = "value: templateVersionModel.subject" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-10 col-md-10">
-                            <div class="mb-3">
-                                @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "form-label" })
-                                @Html.TextArea("Data", null, new { @class = "form-control", data_bind = "wysiwyg: templateVersionModel.data, wysiwygConfig: templateVersionModel.tinyMCEConfig" })
+                            <div class="col-sm-10 col-md-10">
+                                <div class="mb-3">
+                                    @Html.Label("Data", T[LocalizableStrings.MessageTemplateVersion.Data], new { @class = "form-label" })
+                                    @Html.TextArea("Data", null, new { @class = "form-control", data_bind = "wysiwyg: templateVersionModel.data, wysiwygConfig: templateVersionModel.tinyMCEConfig" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2 col-md-2">
-                            <div class="panel panel-default" style="margin-top:23px">
-                                <div class="panel-heading">@T[LocalizableStrings.MessageTemplate.Tokens]</div>
-                                <div class="panel-body">
-                                    <ul id="tokens-list" class="list-unstyled"></ul>
+                            <div class="col-sm-2 col-md-2">
+                                <div class="panel panel-default" style="margin-top:23px">
+                                    <div class="panel-heading">@T[LocalizableStrings.MessageTemplate.Tokens]</div>
+                                    <div class="panel-body">
+                                        <ul id="tokens-list" class="list-unstyled"></ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -11,7 +11,6 @@
     require('odata-helpers');
 
     require('mantle-section-switching');
-    require('mantle-jqueryval');
 
     const odataBaseUrl = "/odata/mantle/web/TenantApi";
 

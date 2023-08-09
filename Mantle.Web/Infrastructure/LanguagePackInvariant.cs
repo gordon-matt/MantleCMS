@@ -203,6 +203,7 @@ public class LanguagePackInvariant : ILanguagePack
         { MantleWebLocalizableStrings.Settings.Site.Tabs.General, "General" },
         { MantleWebLocalizableStrings.Settings.Site.Tabs.Localization, "Localization" },
         { MantleWebLocalizableStrings.Settings.Site.Tabs.SEO, "SEO" },
+        { MantleWebLocalizableStrings.Settings.Site.Tabs.StaticAssets, "Static Assets" },
         { MantleWebLocalizableStrings.Settings.Site.Tabs.Themes, "Themes" },
 
         { MantleWebLocalizableStrings.Tenants.ManageTenants, "Manage Tenants" },

@@ -145,6 +145,11 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+    <script type="text/javascript">
+        $.migrateMute = true;
+        $.migrateTrace = false;
+    </script>
+
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

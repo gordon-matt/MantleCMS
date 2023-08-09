@@ -225,44 +225,7 @@ public class Startup
         services.AddHttpContextAccessor();
         services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-        #region Mantle Framework Config
-
         services.ConfigureMantleOptions(Configuration);
-
-        // TODO: Use NPM for this: https://www.npmjs.com/search?q=grapesjs
-        //  NPM PACKAGES: grapesjs, grapesjs-aviary and grapesjs-mjml
-        MantleMessagingAssets.Init(new MantleMessagingAssets
-        {
-            GrapesJs = new AssetCollection
-            {
-                Scripts = new List<Asset> { new Asset { Path = "/lib/grapesjs/dist/grapes.min.js" } },
-                Styles = new List<Asset> { new Asset { Path = "/lib/grapesjs/dist/css/grapes.min.css" } }
-            },
-            GrapesJsAviary = new AssetCollection
-            {
-                Scripts = new List<Asset>
-                {
-                    new Asset { Path = "http://feather.aviary.com/imaging/v3/editor.js" },
-                    new Asset { Path = "/lib/grapesjs-aviary/dist/grapesjs-aviary.min.js" }
-                },
-            },
-            GrapesJsMjml = new AssetCollection
-            {
-                Scripts = new List<Asset> { new Asset { Path = "/lib/grapesjs-mjml/dist/index.min.js" } },
-            }
-        });
-
-        MantleWebAssets.Init(new MantleWebAssets
-        {
-            BootstrapFileInput = new AssetCollection
-            {
-                Scripts = new List<Asset> { new Asset { Path = "/lib/bootstrap-fileinput/js/fileinput.js" } },
-                Styles = new List<Asset> { new Asset { Path = "/lib/bootstrap-fileinput/css/fileinput.css" } }
-            }
-        });
-
-        #endregion Mantle Framework Config
-
         services.AddMantleWebOptimizer(Configuration);
     }
 

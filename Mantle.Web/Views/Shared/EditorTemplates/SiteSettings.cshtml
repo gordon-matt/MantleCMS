@@ -7,50 +7,49 @@
 @model SiteSettings
 
 <div id="settings-content">
-    <div role="tabpanel">
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#General" aria-controls="General" role="tab" data-toggle="tab">@T[MantleWebLocalizableStrings.Settings.Site.Tabs.General]</a>
-            </li>
-            <li role="presentation">
-                <a href="#Themes" aria-controls="Themes" role="tab" data-toggle="tab">@T[MantleWebLocalizableStrings.Settings.Site.Tabs.Themes]</a>
-            </li>
-            <li role="presentation">
-                <a href="#Localization" aria-controls="Localization" role="tab" data-toggle="tab">@T[MantleWebLocalizableStrings.Settings.Site.Tabs.Localization]</a>
-            </li>
-            <li role="presentation">
-                <a href="#SEO" aria-controls="SEO" role="tab" data-toggle="tab">@T[MantleWebLocalizableStrings.Settings.Site.Tabs.SEO]</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="General">
-                <mantle-input asp-for="SiteName" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.SiteName]" asp-validation-msg="true" />
-                <mantle-input asp-for="DefaultFrontendLayoutPath" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultFrontendLayoutPath]" asp-validation-msg="true" />
-                <mantle-input asp-for="AdminLayoutPath" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.AdminLayoutPath]" asp-validation-msg="true" />
-                <mantle-input asp-for="DefaultGridPageSize" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultGridPageSize]" asp-validation-msg="true" />
+    @using (var tabs = Html.ExtensoUI().Begin(new Tabs()))
+    {
+        tabs.Tab(T[MantleWebLocalizableStrings.Settings.Site.Tabs.General], "tab-general");
+        tabs.Tab(T[MantleWebLocalizableStrings.Settings.Site.Tabs.Themes], "tab-themes");
+        tabs.Tab(T[MantleWebLocalizableStrings.Settings.Site.Tabs.Localization], "tab-localization");
+        tabs.Tab(T[MantleWebLocalizableStrings.Settings.Site.Tabs.SEO], "tab-seo");
+        tabs.Tab(T[MantleWebLocalizableStrings.Settings.Site.Tabs.StaticAssets], "tab-static-assets");
+
+        using (var tab = tabs.BeginPanel())
+        {
+            <mantle-input asp-for="SiteName" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.SiteName]" asp-validation-msg="true" />
+            <mantle-input asp-for="DefaultFrontendLayoutPath" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultFrontendLayoutPath]" asp-validation-msg="true" />
+            <mantle-input asp-for="AdminLayoutPath" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.AdminLayoutPath]" asp-validation-msg="true" />
+            <mantle-input asp-for="DefaultGridPageSize" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultGridPageSize]" asp-validation-msg="true" />
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="mb-3">
+                @Html.LabelFor(m => m.DefaultTheme)
+                @Html.Mantle().ThemesDropDownListFor(m => m.DefaultTheme, new { @class = "form-control", data_bind = "value: defaultTheme" })
+                @Html.ValidationMessageFor(m => m.DefaultTheme)
             </div>
-            <div role="tabpanel" class="tab-pane" id="Themes">
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.DefaultTheme)
-                    @Html.Mantle().ThemesDropDownListFor(m => m.DefaultTheme, new { @class = "form-control", data_bind = "value: defaultTheme" })
-                    @Html.ValidationMessageFor(m => m.DefaultTheme)
-                </div>
-                <mantle-input asp-for="AllowUserToSelectTheme" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.AllowUserToSelectTheme]" />
+            <mantle-input asp-for="AllowUserToSelectTheme" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.AllowUserToSelectTheme]" />
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <div class="mb-3">
+                @Html.LabelFor(m => m.DefaultLanguage)
+                @Html.Mantle().LanguagesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control", data_bind = "value: defaultLanguage" })
+                @Html.ValidationMessageFor(m => m.DefaultLanguage)
             </div>
-            <div role="tabpanel" class="tab-pane" id="Localization">
-                <div class="mb-3">
-                    @Html.LabelFor(m => m.DefaultLanguage)
-                    @Html.Mantle().LanguagesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control", data_bind = "value: defaultLanguage" })
-                    @Html.ValidationMessageFor(m => m.DefaultLanguage)
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="SEO">
-                <mantle-input asp-for="DefaultMetaKeywords" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultMetaKeywords]" asp-validation-msg="true" />
-                <mantle-input asp-for="DefaultMetaDescription" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultMetaDescription]" asp-validation-msg="true" />
-                <mantle-input asp-for="HomePageTitle" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.HomePageTitle]" asp-validation-msg="true" />
-            </div>
-        </div>
-    </div>
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            <mantle-input asp-for="DefaultMetaKeywords" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultMetaKeywords]" asp-validation-msg="true" />
+            <mantle-input asp-for="DefaultMetaDescription" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.DefaultMetaDescription]" asp-validation-msg="true" />
+            <mantle-input asp-for="HomePageTitle" asp-label="@T[MantleWebLocalizableStrings.Settings.Site.HomePageTitle]" asp-validation-msg="true" />
+        }
+        using (var tab = tabs.BeginPanel())
+        {
+            @await Html.Mantle().EmbeddedPartialAsync(EmbeddedPartialType.ResourceSettings)
+        }
+    }
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
@@ -66,6 +65,8 @@
         viewModel.defaultMetaDescription = ko.observable("");
         viewModel.homePageTitle = ko.observable("");
 
+        viewModel.resources = ko.observableArray([]);
+
         if (data) {
             if (data.SiteName) { viewModel.siteName(data.SiteName); }
             if (data.DefaultFrontendLayoutPath) { viewModel.defaultFrontendLayoutPath(data.DefaultFrontendLayoutPath); }
@@ -77,6 +78,10 @@
             if (data.DefaultMetaKeywords) { viewModel.defaultMetaKeywords(data.DefaultMetaKeywords); }
             if (data.DefaultMetaDescription) { viewModel.defaultMetaDescription(data.DefaultMetaDescription); }
             if (data.HomePageTitle) { viewModel.homePageTitle(data.HomePageTitle); }
+
+            if (data.Resources) {
+                viewModel.setResources(data.Resources);
+            }
         }
     };
 
@@ -91,6 +96,7 @@
         delete viewModel.defaultMetaKeywords;
         delete viewModel.defaultMetaDescription;
         delete viewModel.homePageTitle;
+        delete viewModel.resources;
     }
 
     function onBeforeSave(viewModel) {
@@ -104,7 +110,8 @@
             DefaultLanguage: viewModel.defaultLanguage(),
             DefaultMetaKeywords: viewModel.defaultMetaKeywords(),
             DefaultMetaDescription: viewModel.defaultMetaDescription(),
-            HomePageTitle: viewModel.homePageTitle()
+            HomePageTitle: viewModel.homePageTitle(),
+            Resources: viewModel.resources()
         };
 
         viewModel.value(ko.mapping.toJSON(data));

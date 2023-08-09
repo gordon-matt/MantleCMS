@@ -25,7 +25,7 @@ public class DefaultMessageTemplateEditor : IMessageTemplateEditor
 
     public bool OpenInNewWindow => false;
 
-    public string LogoUrl => "/Mantle.Web.Content.Images.logo-TinyMCE.png";
+    public string LogoUrl => "/_content/Mantle.Web.Messaging/img/logo-TinyMCE.png";
 }
 
 // TODO: Create a separate GrapesJS editor for MJML and one for plain HTML
@@ -37,5 +37,5 @@ public class GrapesJsMessageTemplateEditor : IMessageTemplateEditor
 
     public bool OpenInNewWindow => true;
 
-    public string LogoUrl => "/Mantle.Web.Content.Images.logo-GrapesJS.png";
+    public string LogoUrl => "/_content/Mantle.Web.Messaging/img/logo-GrapesJS.png";
 }
