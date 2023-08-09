@@ -9,7 +9,6 @@
     require('notify');
 
     require('mantle-section-switching');
-    require('mantle-jqueryval');
 
     const forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
     const forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";

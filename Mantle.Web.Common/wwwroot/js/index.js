@@ -13,7 +13,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
 
     //require('jquery-maphilight');
     require('jquery-image-mapster');

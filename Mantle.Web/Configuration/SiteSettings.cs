@@ -1,6 +1,6 @@
 ﻿namespace Mantle.Web.Configuration;
 
-public class SiteSettings : ISettings
+public class SiteSettings : BaseResourceSettings
 {
     public SiteSettings()
     {
@@ -14,13 +14,34 @@ public class SiteSettings : ISettings
 
     #region ISettings Members
 
-    public string Name => "Site Settings";
+    public override string Name => "Site Settings";
 
-    public bool IsTenantRestricted => false;
+    public override bool IsTenantRestricted => false;
 
-    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/SiteSettings.cshtml";
+    public override string EditorTemplatePath => "/Views/Shared/EditorTemplates/SiteSettings.cshtml";
 
     #endregion ISettings Members
+
+    #region IResourceSettings Members
+
+    public override ICollection<RequiredResourceCollection> Resources { get; set; }
+
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
+    {
+        new RequiredResourceCollection
+        {
+            Name = "Bootstrap-FileInput",
+            Resources = new List<RequiredResource>
+            {
+                new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.min.js" },
+                new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/css/fileinput.min.css" }
+            }
+        }
+    };
+
+    #endregion IResourceSettings Members
 
     #region General
 

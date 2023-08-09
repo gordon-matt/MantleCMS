@@ -262,6 +262,7 @@ public static class MantleWebLocalizableStrings
                 public const string General = "Mantle.Web/Settings.Site.Tabs.General";
                 public const string Localization = "Mantle.Web/Settings.Site.Tabs.Localization";
                 public const string SEO = "Mantle.Web/Settings.Site.Tabs.SEO";
+                public const string StaticAssets = "Mantle.Web/Settings.Site.Tabs.StaticAssets";
                 public const string Themes = "Mantle.Web/Settings.Site.Tabs.Themes";
             }
 

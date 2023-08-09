@@ -12,7 +12,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
     /*require('bootstrap-fileinput');*/
 
     const apiUrl = "/odata/mantle/web/LanguageApi";

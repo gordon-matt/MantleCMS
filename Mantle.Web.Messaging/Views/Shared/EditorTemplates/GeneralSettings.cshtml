@@ -1,0 +1,31 @@
+﻿@using Mantle.Web.Mvc
+
+@model GeneralSettings
+
+<div id="settings-content">
+    @await Html.Mantle().EmbeddedPartialAsync(EmbeddedPartialType.ResourceSettings)
+</div>
+
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
+    function updateModel(viewModel, data) {
+        viewModel.resources = ko.observableArray([]);
+
+        if (data) {
+            if (data.Resources) {
+                viewModel.setResources(data.Resources);
+            }
+        }
+    };
+
+    function cleanUp(viewModel) {
+        delete viewModel.resources;
+    }
+
+    function onBeforeSave(viewModel) {
+        const data = {
+            Resources: viewModel.resources()
+        };
+
+        viewModel.value(ko.mapping.toJSON(data));
+    };
+</script>

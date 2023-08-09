@@ -11,7 +11,6 @@
 
     require('mantle-common');
     require('mantle-section-switching');
-    require('mantle-jqueryval');
     
     const apiUrl = "/odata/mantle/web/PluginApi";
 

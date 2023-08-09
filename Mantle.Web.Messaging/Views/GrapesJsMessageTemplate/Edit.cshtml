@@ -1,6 +1,7 @@
 ﻿@* TODO: Use MJML as optional, allow regular HTML as well *@
 @model MessageTemplateVersion
 @inject IWorkContext workContext
+@inject GeneralSettings Settings
 
 @{
     Layout = null;
@@ -23,9 +24,9 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJs.Styles.OrderBy(x => x.Order))
+    @foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "GrapesJs"))
     {
-        <link type="text/css" rel="stylesheet" href="@asset.Path" />
+        <link rel="stylesheet" href="@style.Path" asp-exclude-from-bundle="true" />
     }
 </head>
 <body>
@@ -61,17 +62,19 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJs.Scripts.OrderBy(x => x.Order))
+    @foreach (var script in Settings.GetResources(ResourceType.Script, "GrapesJs"))
     {
-        <script type="text/javascript" src="@asset.Path"></script>
+        <script asp-location="None" asp-exclude-from-bundle="true" src="@script.Path"></script>
     }
-    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJsMjml.Scripts.OrderBy(x => x.Order))
+
+    @foreach (var script in Settings.GetResources(ResourceType.Script, "GrapesJs-Mjml"))
     {
-        <script type="text/javascript" src="@asset.Path"></script>
+        <script asp-location="None" asp-exclude-from-bundle="true" src="@script.Path"></script>
     }
-    @foreach (var asset in MantleMessagingAssets.Instance.GrapesJsAviary.Scripts.OrderBy(x => x.Order))
+
+    @foreach (var script in Settings.GetResources(ResourceType.Script, "GrapesJs-Aviary"))
     {
-        <script type="text/javascript" src="@asset.Path"></script>
+        <script asp-location="None" asp-exclude-from-bundle="true" src="@script.Path"></script>
     }
 
     <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">

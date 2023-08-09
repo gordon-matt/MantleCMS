@@ -1,8 +1,14 @@
 ﻿@model Language
 
-@foreach (var asset in MantleWebAssets.Instance.BootstrapFileInput.Styles.OrderBy(x => x.Order))
-{
-    <link type="text/css" rel="stylesheet" href="@asset.Path" />
+@{
+    foreach (var script in SiteSettings.GetResources(ResourceType.Script, "Bootstrap-FileInput"))
+    {
+        <script asp-location="None" asp-exclude-from-bundle="true" src="@script.Path"></script>
+    }
+    foreach (var style in SiteSettings.GetResources(ResourceType.Stylesheet, "Bootstrap-FileInput"))
+    {
+        <link rel="stylesheet" asp-exclude-from-bundle="true" href="@style.Path" />
+    }
 }
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
@@ -26,23 +32,25 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <mantle-input asp-for="CultureCode" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode]" asp-icon="fa fa-globe" />
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.Name]" asp-icon="fa fa-file" />
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <mantle-input asp-for="SortOrder" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder]" />
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Half">
-                            <mantle-input asp-for="IsRTL" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]" />
-                            <mantle-input asp-for="IsEnabled" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]" />
-                        </div>
-                        <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3 float-end">
-                                <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
-                                <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="CultureCode" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode]" asp-icon="fa fa-globe" />
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="Name" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.Name]" asp-icon="fa fa-file" />
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="SortOrder" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder]" />
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="IsRTL" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsRTL]" />
+                                <mantle-input asp-for="IsEnabled" asp-label="@T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled]" />
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3 float-end">
+                                    <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                    <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
+                                </div>
                             </div>
                         </div>
                     </fieldset>

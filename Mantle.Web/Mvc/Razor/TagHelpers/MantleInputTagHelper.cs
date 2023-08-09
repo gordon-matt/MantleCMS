@@ -90,7 +90,7 @@ public class MantleInputTagHelper : InputTagHelper
 
             if (!string.IsNullOrWhiteSpace(Icon))
             {
-                preContent += $@"<div class=""input-group""><span class=""input-group-addon""><i class=""{Icon}""></i></span>";
+                preContent += $@"<div class=""input-group""><span class=""input-group-text""><i class=""{Icon}""></i></span>";
                 postContent += "</div>";
             }
         }

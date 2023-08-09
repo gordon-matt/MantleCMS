@@ -12,12 +12,10 @@ public class SmtpSettings : ISettings
 
     #region ISettings Members
 
-    public string Name => "SMTP Settings";
+    public string Name => "Messaging: SMTP Settings";
 
     public bool IsTenantRestricted => false;
 
-    // Using an Embedded View in this case, since this assembly is not a plugin or the main app
-    //TODO: Need to find a way to separate this: since it relies on the CMS project
     public string EditorTemplatePath => "/Views/Shared/EditorTemplates/SmtpSettings.cshtml";
 
     #endregion ISettings Members

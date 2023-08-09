@@ -11,8 +11,7 @@
     require('grid-helper');
     require('odata-helpers');
 
-    require('Mantle-section-switching');
-    require('Mantle-jqueryval');
+    require('mantle-section-switching');
 
     const calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
     const eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
