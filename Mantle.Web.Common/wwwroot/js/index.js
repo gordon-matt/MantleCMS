@@ -46,7 +46,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group">' + GridHelper.actionButton("settings.edit", self.parent.translations.edit) + '</div>',
+                    template: '<div class="btn-group">' + GridHelper.actionIconButton("settings.edit", 'fa fa-edit', self.parent.translations.edit) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120
@@ -183,13 +183,13 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        '# if(HasStates) {# <a data-bind="click: country.showStates.bind($data,\'#=Id#\')" class="btn btn-secondary btn-xs">' + self.parent.translations.states + '</a> #} ' +
-                        'else {# <a data-bind="click: country.showCities.bind($data,\'#=Id#\')" class="btn btn-secondary btn-xs">' + self.parent.translations.cities + '</a> #} # ' +
+                        `# if(HasStates) {# ${GridHelper.actionIconButton('country.showStates', 'fa fa-globe', self.parent.translations.states, 'primary')} #} ` +
+                        `else {# ${GridHelper.actionIconButton('country.showCities', 'fa fa-globe', self.parent.translations.cities, 'primary')} #} # ` +
 
-                        GridHelper.actionButton("country.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionButton("country.localize", self.parent.translations.localize, 'success') +
-                        GridHelper.actionButton("country.removeItem", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("country.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("country.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
+                        GridHelper.actionIconButton("country.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -371,11 +371,11 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("state.showCities", self.parent.translations.cities) +
-                        GridHelper.actionButton("state.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionButton("state.localize", self.parent.translations.localize, 'success') +
-                        GridHelper.actionButton("state.removeItem", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("state.showCities", 'fa fa-globe', self.parent.translations.cities) +
+                        GridHelper.actionIconButton("state.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("state.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
+                        GridHelper.actionIconButton("state.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -539,10 +539,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("city.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionButton("city.localize", self.parent.translations.localize, 'success') +
-                        GridHelper.actionButton("city.removeItem", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("showSettings", self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("city.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("city.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
+                        GridHelper.actionIconButton("city.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

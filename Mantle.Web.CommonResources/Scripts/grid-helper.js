@@ -1,5 +1,5 @@
 ﻿class GridHelper {
-    static actionButtonSize = "xs";
+    static actionButtonSize = "sm";
     static actionIconButtonSize = "sm";
 
     static odataParameterMap = function (options, operation) {
@@ -68,8 +68,8 @@
             title: columnTitle ?? " ",
             template:
                 '<div class="btn-group">' +
-                GridHelper.actionButton("edit", editText ?? 'Edit') +
-                GridHelper.actionButton("remove", deleteText ?? 'Delete', 'danger') +
+                GridHelper.actionIconButton("edit", 'fa fa-edit', editText ?? 'Edit') +
+                GridHelper.actionIconButton("remove", 'fa fa-times', deleteText ?? 'Delete', 'danger') +
                 '</div>',
             attributes: { "class": "text-center" },
             filterable: false,
