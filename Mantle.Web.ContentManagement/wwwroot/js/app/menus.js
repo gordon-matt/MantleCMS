@@ -138,10 +138,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -348,10 +348,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("menuItemModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("menuItemModel.remove", self.parent.translations.delete, 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
-                        GridHelper.actionButton("menuItemModel.create", self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionButton("menuItemModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -402,9 +402,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("menuModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("menuModel.remove", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("menuModel.items", "Items", 'primary') +
+                        GridHelper.actionIconButton("menuModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("menuModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("menuModel.items", 'fa fa-bars', "Items", 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

@@ -59,7 +59,7 @@
                     field: "Id",
                     title: " ",
                     template: '<div class="btn-group">' +
-                        GridHelper.actionButton("edit", self.translations.edit) +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

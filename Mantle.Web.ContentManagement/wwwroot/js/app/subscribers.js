@@ -49,7 +49,7 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("remove", self.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("remove", 'fa fa-times', self.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

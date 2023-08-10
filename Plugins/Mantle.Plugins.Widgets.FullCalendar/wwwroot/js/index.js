@@ -62,8 +62,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("eventModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("eventModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("eventModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("eventModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -178,9 +178,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("showEvents", self.parent.translations.events) +
-                        GridHelper.actionButton("calendarModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("calendarModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showEvents", 'fa fa-calendar', self.parent.translations.events) +
+                        GridHelper.actionIconButton("calendarModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("calendarModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

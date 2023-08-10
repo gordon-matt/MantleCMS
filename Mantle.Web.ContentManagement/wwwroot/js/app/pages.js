@@ -56,7 +56,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group">' + GridHelper.actionButton("pageTypeModel.edit", self.parent.translations.edit) + '</div>',
+                    template: '<div class="btn-group">' + GridHelper.actionIconButton("pageTypeModel.edit", 'fa fa-edit', self.parent.translations.edit) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -168,8 +168,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("pageVersionModel.restore", self.parent.translations.restore, 'warning') +
-                        GridHelper.actionButton("pageVersionModel.preview", self.parent.translations.preview) +
+                        GridHelper.actionIconButton("pageVersionModel.restore", 'fa fa-undo', self.parent.translations.restore, 'warning') +
+                        GridHelper.actionIconButton("pageVersionModel.preview", 'fa fa-search', self.parent.translations.preview) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
