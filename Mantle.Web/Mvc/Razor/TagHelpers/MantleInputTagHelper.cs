@@ -25,7 +25,7 @@ public class MantleInputTagHelper : InputTagHelper
     }
 
     [HtmlAttributeName(BIND_ATTRIBUTE_NAME)]
-    public string Bind { set; get; }
+    public string KnockoutBinding { set; get; }
 
     [HtmlAttributeName(HELP_ATTRIBUTE_NAME)]
     public string HelpText { set; get; }
@@ -50,14 +50,14 @@ public class MantleInputTagHelper : InputTagHelper
         output.TagName = "input";
         if (For.ModelExplorer.ModelType == typeof(bool))
         {
-            output.Attributes.Add("data-bind", $"checked: {Bind ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"checked: {KnockoutBinding ?? For.Name.Camelize()}");
             preContent = @"<div class=""checkbox""><label>";
             postContent = $@"&nbsp;{Label}</label></div>";
         }
         else
         {
             output.AddClass("form-control", HtmlEncoder.Default);
-            output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
 
             //string labelText;
             //if (!string.IsNullOrEmpty(Label))

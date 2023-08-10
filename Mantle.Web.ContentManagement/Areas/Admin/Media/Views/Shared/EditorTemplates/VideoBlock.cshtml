@@ -1,4 +1,7 @@
 ﻿@model VideoBlock
+@{
+    var fileManagerModal = @Html.Mantle().ModalFileManager("Source", FileFilterMode.Video, "Select Video", knockoutBinding: "blockModel.source");
+}
 
 <div id="block-content">
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
@@ -12,16 +15,7 @@
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="mb-3">
             @Html.LabelFor(m => m.Source)
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="input-group">
-                    @Html.TextBoxFor(m => m.Source, new { @class = "form-control", data_bind = "value: blockModel.source" })
-                    <span class="input-group-text">
-                        <a data-bs-toggle="modal" href="javascript:void(0);" data-bs-target="#myModal">
-                            <i class="fa fa-search"></i>
-                        </a>
-                    </span>
-                </div>
-            </div>
+            @fileManagerModal.RenderFormField()
         </div>
         <div class="mb-3">
             <label></label>
@@ -33,43 +27,11 @@
         </div>
     </div>
 
-    <style type="text/css">
-        .modal-dialog {
-            width: 80% !important;
-        }
-    </style>
-
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" onclick="dismissModal();" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Select Video</h4>
-                </div>
-                <div class="modal-body">
-                    @Html.Mantle().FileManager("Source", WorkContext.CurrentTenant.Id, FileFilterMode.Video)
-                </div>
-            </div>
-        </div>
-    </div>
+    @fileManagerModal.RenderModal()
 
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    let modalDismissed = false;
-
-    function dismissModal() {
-        modalDismissed = true;
-        $('#myModal').modal('hide');
-    };
-
-    $('#myModal').on('hidden.bs.modal', function () {
-        if (!modalDismissed) {
-            const url = $('#Source').val();
-            //url = "/Media/Uploads/" + url;
-            blockModel.source(url);
-        }
-        modalDismissed = false;
-    });
+    @fileManagerModal.RenderScript()
     @Model.RenderKOScript()
 </script>

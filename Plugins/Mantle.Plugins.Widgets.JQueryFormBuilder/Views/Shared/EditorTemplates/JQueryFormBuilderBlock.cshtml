@@ -52,7 +52,7 @@
         return $("<div/>").html(html).text();
     };
 
-    const contentBlockModel = (function () {
+    contentBlockModel = (function () {
         const f = {};
         f.updateModel = function (blockModel) {
             blockModel.metadata = ko.observable("");

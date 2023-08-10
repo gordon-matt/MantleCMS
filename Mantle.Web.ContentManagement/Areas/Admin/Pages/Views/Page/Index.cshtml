@@ -227,7 +227,6 @@
     </article>
 </div>
 
-
 @using (var modal = Html.ExtensoUI().Begin(new Modal("parentPageModal")))
 {
     using (var header = modal.BeginHeader("Select Parent Page")) { }
@@ -245,7 +244,7 @@
     }
     using (var footer = modal.BeginFooter())
     {
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        footer.ModalCloseButton("parentPageModal", T[MantleWebLocalizableStrings.General.Close]);
         <mantle-ko-button state="Primary" ko-click="pageModel.onParentSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
     }
 }
@@ -264,7 +263,7 @@
     }
     using (var footer = modal.BeginFooter())
     {
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        footer.ModalCloseButton("cultureModal", T[MantleWebLocalizableStrings.General.Close]);
         <mantle-ko-button state="Primary" ko-click="pageModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
     }
 }

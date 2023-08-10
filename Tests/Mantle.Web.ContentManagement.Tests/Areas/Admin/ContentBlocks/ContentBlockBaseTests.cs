@@ -11,7 +11,7 @@ public class ContentBlockBaseTests
         var block = new LanguageSwitchBlock();
 
         string expected =
-@"const contentBlockModel = (function () {
+@"let contentBlockModel = (function () {
 	const f = {};
 	f.updateModel = function (blockModel) {
 		blockModel.style = ko.observable("""");

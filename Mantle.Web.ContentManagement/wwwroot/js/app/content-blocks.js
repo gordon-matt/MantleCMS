@@ -1,4 +1,6 @@
-﻿define(function (require) {
+﻿let contentBlockModel = null;
+
+define(function (require) {
     'use strict'
 
     const $ = require('jquery');
@@ -121,6 +123,7 @@
             self.cultureCode(null);
 
             // Clean up from previously injected html/scripts
+            contentBlockModel = null;
             if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
                 self.contentBlockModelStub.cleanUp(self);
             }
@@ -169,6 +172,7 @@
                 .then(response => response.json())
                 .then((data) => {
                     // Clean up from previously injected html/scripts
+                    contentBlockModel = null;
                     if (self.contentBlockModelStub != null && typeof self.contentBlockModelStub.cleanUp === 'function') {
                         self.contentBlockModelStub.cleanUp(self);
                     }

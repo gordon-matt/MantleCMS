@@ -1,7 +1,6 @@
 ﻿using Extenso.Reflection;
 using Humanizer;
 using System.Reflection;
-using Z.Expressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
@@ -43,7 +42,7 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
 
         var sb = new StringBuilder(1024);
 
-        sb.AppendLine("const contentBlockModel = (function () {");
+        sb.AppendLine("contentBlockModel = (function () {");
         sb.AppendLine("\tconst f = {};");
 
         sb.AppendLine(RenderKOUpdateModelFunction(blockProperties));

@@ -13,12 +13,6 @@
 
 @*<link rel="stylesheet" type="text/css" href="@Style.GetBundleUrl("chosen")" /> //TODO *@
 
-<style type="text/css">
-    .modal-dialog {
-        width: 80% !important;
-    }
-</style>
-
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="post-grid-section" class="row">
@@ -243,7 +237,7 @@
     </article>
 </div>
 
-<div class="modal fade" id="myModal">
+<div class="modal mantle-file-manager-modal fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -251,7 +245,7 @@
                 <h4 class="modal-title">Select Image</h4>
             </div>
             <div class="modal-body">
-                @Html.Mantle().FileManager("TeaserImageUrl", WorkContext.CurrentTenant.Id, FileFilterMode.Image)
+                @Html.Mantle().FileManager("TeaserImageUrl", FileFilterMode.Image)
             </div>
         </div>
     </div>

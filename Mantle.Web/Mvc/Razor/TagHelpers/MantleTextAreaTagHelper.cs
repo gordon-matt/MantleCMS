@@ -26,7 +26,7 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
     }
 
     [HtmlAttributeName(BIND_ATTRIBUTE_NAME)]
-    public string Bind { set; get; }
+    public string KnockoutBinding { set; get; }
 
     [HtmlAttributeName(IS_RTE)]
     public bool IsRichTextEditor { set; get; }
@@ -72,11 +72,11 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
 
         if (IsRichTextEditor)
         {
-            output.Attributes.Add("data-bind", $"wysiwyg: {Bind ?? For.Name.Camelize()}, wysiwygConfig: {BindRichTextConfig}");
+            output.Attributes.Add("data-bind", $"wysiwyg: {KnockoutBinding ?? For.Name.Camelize()}, wysiwygConfig: {BindRichTextConfig}");
         }
         else
         {
-            output.Attributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
         }
 
         preContent = $@"<div class=""mb-3"">{htmlHelper.Label(For.Name, Label, new { @class = "form-label" }).GetString()}";

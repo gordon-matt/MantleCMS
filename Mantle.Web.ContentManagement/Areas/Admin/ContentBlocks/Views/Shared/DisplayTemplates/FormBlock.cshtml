@@ -5,12 +5,6 @@
     string formId = "form-block-" + Model.Id;
 }
 
-<style type="text/css">
-    .modal-dialog {
-        width: 80% !important;
-    }
-</style>
-
 <form id="@formId" method="post" action="@Url.Action("Save", "FormBlock", new { area = string.Empty })" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
@@ -41,7 +35,7 @@
 
 @if (Model.UseAjax)
 {
-    <div class="modal fade" id="myModal">
+    <div class="modal mantle-file-manager-modal fade" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

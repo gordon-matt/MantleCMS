@@ -138,7 +138,7 @@
     }
     using (var footer = modal.BeginFooter())
     {
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        footer.ModalCloseButton("cultureModal", T[MantleWebLocalizableStrings.General.Close]);
         <mantle-ko-button state="Primary" ko-click="templateModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
     }
 }

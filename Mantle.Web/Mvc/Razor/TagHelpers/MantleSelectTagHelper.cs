@@ -44,7 +44,7 @@ public class MantleSelectTagHelper : TagHelper
     public IEnumerable<SelectListItem> Items { set; get; } = Enumerable.Empty<SelectListItem>();
 
     [HtmlAttributeName(BIND_ATTRIBUTE_NAME)]
-    public string Bind { set; get; }
+    public string KnockoutBinding { set; get; }
 
     [HtmlAttributeName(HELP_ATTRIBUTE_NAME)]
     public string HelpText { set; get; }
@@ -118,7 +118,7 @@ public class MantleSelectTagHelper : TagHelper
             }
         }
 
-        htmlAttributes.Add("data-bind", $"value: {Bind ?? For.Name.Camelize()}");
+        htmlAttributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
 
         // Generate editor
         if (!string.IsNullOrEmpty(tagName))
