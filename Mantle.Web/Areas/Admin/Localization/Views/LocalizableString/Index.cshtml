@@ -6,7 +6,7 @@
 @Html.Hidden("CultureCode", cultureCode)
 
 <div id="grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Success" ko-click="exportFile" icon="fa fa-download" text="@T[MantleWebLocalizableStrings.General.Export]" />
     </div>
     <mantle-grid />

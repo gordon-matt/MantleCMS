@@ -6,7 +6,7 @@
 @inject Microsoft.Extensions.Localization.IStringLocalizer T
 
 <div id="grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="calendarModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
     </div>
     <mantle-grid />
@@ -42,7 +42,7 @@
 </div>
 
 <div id="events-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="eventModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="eventModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>

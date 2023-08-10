@@ -37,8 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper", "Mantl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Data.Dapper.PostgreSql", "Mantle.Data.Dapper.PostgreSql\Mantle.Data.Dapper.PostgreSql.csproj", "{349A5E6B-5A6B-4C96-A683-45771B36BD3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.Bootstrap3", "Plugins\Mantle.Plugins.Widgets.Bootstrap3\Mantle.Plugins.Widgets.Bootstrap3.csproj", "{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.JQueryFormBuilder", "Plugins\Mantle.Plugins.Widgets.JQueryFormBuilder\Mantle.Plugins.Widgets.JQueryFormBuilder.csproj", "{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Plugins.Widgets.FullCalendar", "Plugins\Mantle.Plugins.Widgets.FullCalendar\Mantle.Plugins.Widgets.FullCalendar.csproj", "{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86}"
@@ -83,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Security", "Mantle.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{88BA2701-302D-4BB5-ADAC-92CE9AB20D6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mantle.Web.ContentManagement.Tests", "Tests\Mantle.Web.ContentManagement.Tests\Mantle.Web.ContentManagement.Tests.csproj", "{D980D6A4-8FD4-42BA-A6CC-35D0E1FDB1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mantle.Web.ContentManagement.Tests", "Tests\Mantle.Web.ContentManagement.Tests\Mantle.Web.ContentManagement.Tests.csproj", "{D980D6A4-8FD4-42BA-A6CC-35D0E1FDB1F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,10 +141,6 @@ Global
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349A5E6B-5A6B-4C96-A683-45771B36BD3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -242,7 +236,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E564A2F6-FFCB-48DE-AF24-06609F74E953} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{8DE26F62-C0CE-4F70-88DE-3DDAABB8A888} = {79878135-6B83-45F2-897B-D20570D203A7}
-		{5C1DBDE0-CBDE-4416-8586-C6593309DFDB} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{DB917BEC-B7AA-4D18-ABB2-EA3BAF9E633A} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{705933EC-A3A3-4D85-BCE9-97B4B0EE8E86} = {79878135-6B83-45F2-897B-D20570D203A7}
 		{ED84E3EB-073F-4A12-A69A-99B408AF9CBB} = {79878135-6B83-45F2-897B-D20570D203A7}

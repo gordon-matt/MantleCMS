@@ -14,7 +14,7 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Warning" ko-click="clear" icon="fa fa-warning" text="@T[MantleWebLocalizableStrings.General.Clear]" />
         <mantle-ko-button state="Success" ko-click="importLanguagePack" icon="fa fa-upload" text="@T[MantleWebLocalizableStrings.General.Import]" />

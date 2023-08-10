@@ -1,7 +1,7 @@
 ﻿@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="users-grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <div class="float-start">
             <mantle-ko-button state="Primary" ko-click="userModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
             <mantle-ko-button state="Default" ko-click="viewRoles" icon="fa fa-users" text="@T[MantleWebLocalizableStrings.Membership.Roles]" />
@@ -140,7 +140,7 @@
 </div>
 
 <div id="roles-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="roleModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="viewUsers" icon="fa fa-user" text="@T[MantleWebLocalizableStrings.Membership.Users]" />
     </div>

@@ -4,7 +4,7 @@
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
 <div id="grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="blockModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="showZones" text="@T[MantleCmsLocalizableStrings.ContentBlocks.Zones]" />
     </div>
@@ -134,7 +134,7 @@
 </div>
 
 <div id="zones-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="zoneModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Default" ko-click="showBlocks" icon="fa fa-th-large" text="@T[MantleCmsLocalizableStrings.ContentBlocks.Title]" />
     </div>
@@ -173,25 +173,21 @@
     </article>
 </div>
 
-<div class="modal fade" id="cultureModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Language</h4>
+@using (var modal = Html.ExtensoUI().Begin(new Modal("cultureModal")))
+{
+    using (var header = modal.BeginHeader("Select Language")) { }
+    using (var body = modal.BeginBody())
+    {
+        <form>
+            <div class="mb-3">
+                @Html.Hidden("SelectedId")
+                @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        @Html.Hidden("SelectedId")
-                        @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                <mantle-ko-button state="Primary" ko-click="blockModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
-            </div>
-        </div>
-    </div>
-</div>
+        </form>
+    }
+    using (var footer = modal.BeginFooter())
+    {
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        <mantle-ko-button state="Primary" ko-click="blockModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
+    }
+}

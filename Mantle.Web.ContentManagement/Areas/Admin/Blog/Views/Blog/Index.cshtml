@@ -22,7 +22,7 @@
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
 <div id="post-grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="postModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
         <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
@@ -84,7 +84,7 @@
                                 <div class="input-group">
                                     @Html.TextBox("TeaserImageUrl", null, new { @class = "form-control", data_bind = "value: postModel.teaserImageUrl" })
                                     <span class="input-group-text">
-                                        <a data-toggle="modal" href="javascript:void(0);" data-target="#myModal">
+                                        <a data-bs-toggle="modal" href="javascript:void(0);" data-bs-target="#myModal">
                                             <i class="fa fa-search"></i>
                                         </a>
                                     </span>
@@ -156,7 +156,7 @@
 </div>
 
 <div id="category-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
         <mantle-ko-button state="Success" ko-click="showTags" icon="fa fa-tags" text="@T[MantleCmsLocalizableStrings.Blog.Tags]" />
@@ -200,8 +200,8 @@
 </div>
 
 <div id="tag-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <mantle-ko-button state="Primary" ko-click="categoryModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
+        <mantle-ko-button state="Primary" ko-click="tagModel.create" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="showPosts" icon="fa fa-edit" text="@T[MantleCmsLocalizableStrings.Blog.Posts]" />
         <mantle-ko-button state="Success" ko-click="showCategories" icon="fa fa-folder" text="@T[MantleCmsLocalizableStrings.Blog.Categories]" />
     </div>
