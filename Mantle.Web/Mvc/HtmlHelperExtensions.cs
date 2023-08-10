@@ -1,4 +1,7 @@
-﻿namespace Mantle.Web.Mvc;
+﻿using Extenso.AspNetCore.Mvc.Html;
+using Humanizer;
+
+namespace Mantle.Web.Mvc;
 
 public enum PageTarget : byte
 {
@@ -450,7 +453,7 @@ public class Mantle<TModel>
         };
     }
 
-    public IHtmlContent FileManager(string fieldId, int tenantId, FileFilterMode filterMode)
+    public IHtmlContent FileManager(string fieldId, FileFilterMode filterMode, int? tenantId = null)
     {
         byte filterModeValue;
         string extensions = null;
@@ -464,7 +467,13 @@ public class Mantle<TModel>
             filterModeValue = (byte)filterMode;
         }
 
-        string src = $@"/filemanager/dialog.php?field_id={fieldId}&rootFolder=Tenant_{tenantId}&type={filterModeValue}{extensions}&relative_url=1&fldr=&ignore_last_position=1";
+        if (!tenantId.HasValue)
+        {
+            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            tenantId = workContext.CurrentTenant.Id;
+        }
+
+        string src = $@"/filemanager/dialog.php?field_id={fieldId}&rootFolder=Tenant_{tenantId.Value}&type={filterModeValue}{extensions}&relative_url=1&fldr=&ignore_last_position=1";
 
         var tagBuilder = new FluentTagBuilder("iframe")
             .MergeAttribute("src", src)
@@ -474,6 +483,17 @@ public class Mantle<TModel>
             .MergeAttribute("style", "overflow:hidden;min-height:600px; height:100%;width:100%");
 
         return new HtmlString(tagBuilder.ToString());
+    }
+
+    public ModalFileManager<TModel> ModalFileManager(string fieldId, FileFilterMode filterMode, string modalTitle, string knockoutBinding = null)
+    {
+        return new ModalFileManager<TModel>(html)
+        {
+            FieldId = fieldId,
+            FilterMode = filterMode,
+            ModalTitle = modalTitle,
+            KnockoutBinding = knockoutBinding
+        };
     }
 
     private class PermissionComparer : IComparer<string>
@@ -522,4 +542,87 @@ public enum FileFilterMode : byte
     File = 2,
     Video = 3,
     Folder = 4
+}
+
+public class ModalFileManager<TModel>
+    where TModel : class
+{
+    private readonly IHtmlHelper<TModel> htmlHelper;
+
+    internal ModalFileManager(IHtmlHelper<TModel> htmlHelper)
+    {
+        this.htmlHelper = htmlHelper;
+    }
+
+    public string FieldId { get; set; }
+
+    public FileFilterMode FilterMode { get; set; }
+
+    public string ModalTitle { get; set; }
+
+    public string KnockoutBinding { get; set; }
+
+    public string ModalId => $"{FieldId}FileManagerModal";
+
+    public IHtmlContent RenderModal()
+    {
+        string html =
+$@"<div class=""modal mantle-file-manager-modal"" tabindex=""-1"" id=""{ModalId}"">
+    <div class=""modal-dialog modal-xl"">
+        <div class=""modal-content"">
+            <div class=""modal-header"">
+                <h5 class=""modal-title"">{ModalTitle}</h5>
+                <button type=""button"" class=""btn-close"" onclick=""dismiss{ModalId}();"" aria-label=""Close""></button>
+            </div>
+            <div class=""modal-body"">
+                {htmlHelper.Mantle().FileManager(FieldId, FilterMode).GetString()}
+            </div>
+        </div>
+    </div>
+</div>";
+
+        return new HtmlString(html);
+    }
+
+    public IHtmlContent RenderScript()
+    {
+        string variableName = $"{ModalId.Camelize()}Dismissed";
+        string knockoutBinding = KnockoutBinding ?? FieldId.Camelize();
+
+        string js =
+$@"var {variableName} = false;
+
+function dismiss{ModalId}() {{
+    {variableName} = true;
+    $('#{ModalId}').modal('hide');
+}};
+
+$('#{ModalId}').on('hidden.bs.modal', function () {{
+    if (!{variableName}) {{
+        const url = $('#{FieldId}').val();
+        {knockoutBinding}(url);
+    }}
+    {variableName} = false;
+}});";
+
+        return new HtmlString(js);
+    }
+
+    public IHtmlContent RenderFormField()
+    {
+        string knockoutBinding = KnockoutBinding ?? FieldId.Camelize();
+        string input = htmlHelper.TextBox(FieldId, null, new { @class = "form-control", data_bind = $"value: {knockoutBinding}" }).GetString();
+
+        string html =
+$@"<div class=""input-group"">
+    {input}
+    <span class=""input-group-text"">
+        <a data-bs-toggle=""modal"" href=""javascript:void(0);"" data-bs-target=""#{ModalId}"">
+            <i class=""fa fa-search""></i>
+        </a>
+    </span>
+</div>";
+
+        return new HtmlString(html);
+    }
 }
