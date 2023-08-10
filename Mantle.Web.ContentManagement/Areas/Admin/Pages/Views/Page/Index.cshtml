@@ -7,7 +7,7 @@
 @Html.Hidden("TinyMCE_RootFolder", "Tenant_" + WorkContext.CurrentTenant.Id)
 
 <div id="page-grid-section" class="row">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Primary" ko-click="pageModel.create.bind($data,null)" icon="fa fa-plus" text="@T[MantleWebLocalizableStrings.General.Create]" />
         <mantle-ko-button state="Info" ko-click="pageModel.showPageTypes" icon="fa fa-crop" text="@T[MantleCmsLocalizableStrings.Pages.PageTypes.Title]" />
     </div>
@@ -147,7 +147,7 @@
 </div>
 
 <div id="version-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Default" ko-click="pageVersionModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
     <mantle-grid id="PageVersionGrid" />
@@ -182,7 +182,7 @@
 </div>
 
 <div id="page-type-grid-section" class="row" style="display:none">
-    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
         <mantle-ko-button state="Default" ko-click="pageTypeModel.goBack" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Back]" />
     </div>
     <mantle-grid id="PageTypesGrid" />
@@ -227,54 +227,47 @@
     </article>
 </div>
 
-<div class="modal fade" id="parentPageModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Parent Page</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        @Html.Hidden("PageIdToMove")
-                        @Html.Label("ParentId", "Parent", new { @class = "form-label" })
-                        <select id="ParentId" class="form-control">
-                            <option value="" selected="selected">[Root]</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                <mantle-ko-button state="Primary" ko-click="pageModel.onParentSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="cultureModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Select Language</h4>
+@using (var modal = Html.ExtensoUI().Begin(new Modal("parentPageModal")))
+{
+    using (var header = modal.BeginHeader("Select Parent Page")) { }
+    using (var body = modal.BeginBody())
+    {
+        <form>
+            <div class="mb-3">
+                @Html.Hidden("PageIdToMove")
+                @Html.Label("ParentId", "Parent", new { @class = "form-label" })
+                <select id="ParentId" class="form-control">
+                    <option value="" selected="selected">[Root]</option>
+                </select>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        @Html.Hidden("PageIdToLocalize")
-                        @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </form>
+        </form>
+    }
+    using (var footer = modal.BeginFooter())
+    {
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        <mantle-ko-button state="Primary" ko-click="pageModel.onParentSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
+    }
+}
+
+@using (var modal = Html.ExtensoUI().Begin(new Modal("cultureModal")))
+{
+    using (var header = modal.BeginHeader("Select Language")) { }
+    using (var body = modal.BeginBody())
+    {
+        <form>
+            <div class="mb-3">
+                @Html.Hidden("PageIdToLocalize")
+                @Html.Mantle().LanguagesDropDownList("CultureCode", includeInvariant: true, htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
-                <mantle-ko-button state="Primary" ko-click="pageModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
-            </div>
-        </div>
-    </div>
-</div>
+        </form>
+    }
+    using (var footer = modal.BeginFooter())
+    {
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@T[MantleWebLocalizableStrings.General.Close]</button>
+        <mantle-ko-button state="Primary" ko-click="pageModel.onCultureSelected" text="@T[MantleWebLocalizableStrings.General.OK]" />
+    }
+}
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/x-kendo-template" id="pages-template">
     <div class="detail-grid" id="page-grid-#=Id#"></div>
