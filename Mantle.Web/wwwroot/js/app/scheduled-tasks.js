@@ -111,8 +111,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("runNow", self.translations.runNow, 'primary') +
-                        GridHelper.actionButton("edit", self.translations.edit) +
+                        GridHelper.actionIconButton("runNow", 'fa fa-play', self.translations.runNow, 'primary') +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

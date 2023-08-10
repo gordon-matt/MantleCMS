@@ -94,10 +94,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("blockModel.edit", self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionButton("blockModel.localize", self.parent.translations.localize, 'success') +
-                        GridHelper.actionButton("blockModel.remove", self.parent.translations.delete, 'danger') +
-                        GridHelper.actionButton("blockModel.toggleEnabled", self.parent.translations.toggle, 'secondary', `\'#=Id#\', #=IsEnabled#`) +
+                        GridHelper.actionIconButton("blockModel.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("blockModel.localize", 'fa fa-globe', self.parent.translations.localize, 'success') +
+                        GridHelper.actionIconButton("blockModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("blockModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\', #=IsEnabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -344,8 +344,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("zoneModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("zoneModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("zoneModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("zoneModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

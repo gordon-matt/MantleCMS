@@ -51,9 +51,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("roleModel.editPermissions", self.parent.translations.permissions) +
-                        GridHelper.actionButton("roleModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("roleModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("roleModel.editPermissions", 'fa fa-check-square-o', self.parent.translations.permissions) +
+                        GridHelper.actionIconButton("roleModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("roleModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -252,10 +252,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("userModel.editRoles", self.parent.translations.roles) +
-                        GridHelper.actionButton("userModel.changePassword", self.parent.translations.password) +
-                        GridHelper.actionButton("userModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("userModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("userModel.editRoles", 'fa fa-users', self.parent.translations.roles) +
+                        GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', self.parent.translations.password) +
+                        GridHelper.actionIconButton("userModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("userModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

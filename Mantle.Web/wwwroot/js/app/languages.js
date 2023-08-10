@@ -106,8 +106,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("edit", self.translations.edit) +
-                        GridHelper.actionButton("remove", self.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
+                        GridHelper.actionIconButton("remove", 'fa fa-times', self.translations.delete, 'danger') +
                         `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${self.translations.localize}</a>` +
                         '</div>',
                     //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-secondary btn-xs">Set Default</a></div>',

@@ -95,8 +95,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("postModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("postModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("postModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("postModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -236,8 +236,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("categoryModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("categoryModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("categoryModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("categoryModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -341,8 +341,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("tagModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("tagModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("tagModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("tagModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

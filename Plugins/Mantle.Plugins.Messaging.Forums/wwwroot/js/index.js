@@ -60,8 +60,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("forumModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("forumModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("forumModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("forumModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -185,9 +185,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionButton("showForums", self.parent.translations.forums) +
-                        GridHelper.actionButton("forumGroupModel.edit", self.parent.translations.edit) +
-                        GridHelper.actionButton("forumGroupModel.remove", self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showForums", 'fa fa-comments', self.parent.translations.forums) +
+                        GridHelper.actionIconButton("forumGroupModel.edit", 'fa fa-edit', self.parent.translations.edit) +
+                        GridHelper.actionIconButton("forumGroupModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
