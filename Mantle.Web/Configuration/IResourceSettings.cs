@@ -7,18 +7,14 @@ public interface IResourceSettings : ISettings
     IEnumerable<RequiredResource> GetResources(ResourceType type, string name);
 }
 
-public abstract class BaseResourceSettings : IResourceSettings
+public abstract class BaseResourceSettings : BaseSettings, IResourceSettings
 {
     public BaseResourceSettings()
     {
         Resources = DefaultResources;
     }
 
-    public abstract string Name { get; }
-
-    public abstract string EditorTemplatePath { get; }
-
-    public virtual bool IsTenantRestricted => false;
+    public override bool IsTenantRestricted => false;
 
     public abstract ICollection<RequiredResourceCollection> Resources { get; set; }
 

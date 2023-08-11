@@ -16,8 +16,6 @@ public class SiteSettings : BaseResourceSettings
 
     public override string Name => "Site Settings";
 
-    public override bool IsTenantRestricted => false;
-
     public override string EditorTemplatePath => "/Views/Shared/EditorTemplates/SiteSettings.cshtml";
 
     #endregion ISettings Members
@@ -46,15 +44,19 @@ public class SiteSettings : BaseResourceSettings
     #region General
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.SiteName)]
+    [SettingsProperty("My Site")]
     public string SiteName { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultFrontendLayoutPath)]
+    [SettingsProperty("~/Views/Shared/_Layout.cshtml")]
     public string DefaultFrontendLayoutPath { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.AdminLayoutPath)]
+    [SettingsProperty("~/Areas/Admin/Views/Shared/_Layout.cshtml")]
     public string AdminLayoutPath { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultGridPageSize)]
+    [SettingsProperty(10)]
     public int DefaultGridPageSize { get; set; }
 
     #endregion General
@@ -62,9 +64,11 @@ public class SiteSettings : BaseResourceSettings
     #region Themes
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultTheme)]
+    [SettingsProperty("Default")]
     public string DefaultTheme { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.AllowUserToSelectTheme)]
+    [SettingsProperty]
     public bool AllowUserToSelectTheme { get; set; }
 
     #endregion Themes
@@ -72,6 +76,7 @@ public class SiteSettings : BaseResourceSettings
     #region Localization
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultLanguage)]
+    [SettingsProperty]
     public string DefaultLanguage { get; set; }
 
     #endregion Localization
@@ -79,12 +84,15 @@ public class SiteSettings : BaseResourceSettings
     #region SEO
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultMetaKeywords)]
+    [SettingsProperty]
     public string DefaultMetaKeywords { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.DefaultMetaDescription)]
+    [SettingsProperty]
     public string DefaultMetaDescription { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Site.HomePageTitle)]
+    [SettingsProperty("Home Page")]
     public string HomePageTitle { get; set; }
 
     #endregion SEO

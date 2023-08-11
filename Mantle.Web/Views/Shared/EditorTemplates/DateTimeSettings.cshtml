@@ -11,31 +11,5 @@
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    function updateModel(viewModel, data) {
-        viewModel.defaultTimeZoneId = ko.observable("");
-        viewModel.allowUsersToSetTimeZone = ko.observable(false);
-
-        if (data) {
-            if (data.DefaultTimeZoneId) {
-                viewModel.defaultTimeZoneId(data.DefaultTimeZoneId);
-            }
-            if (data.AllowUsersToSetTimeZone) {
-                viewModel.allowUsersToSetTimeZone(data.AllowUsersToSetTimeZone);
-            }
-        }
-    };
-
-    function cleanUp(viewModel) {
-        delete viewModel.defaultTimeZoneId;
-        delete viewModel.allowUsersToSetTimeZone;
-    }
-
-    function onBeforeSave(viewModel) {
-        const data = {
-            DefaultTimeZoneId: viewModel.defaultTimeZoneId(),
-            AllowUsersToSetTimeZone: viewModel.allowUsersToSetTimeZone()
-        };
-
-        viewModel.value(ko.mapping.toJSON(data));
-    };
+    @Model.RenderKOScript()
 </script>

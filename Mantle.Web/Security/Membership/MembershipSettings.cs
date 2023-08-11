@@ -1,6 +1,6 @@
 ﻿namespace Mantle.Web.Security.Membership;
 
-public class MembershipSettings : ISettings
+public class MembershipSettings : BaseSettings
 {
     public MembershipSettings()
     {
@@ -9,21 +9,22 @@ public class MembershipSettings : ISettings
     }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordLength)]
+    [SettingsProperty(7)]
     public byte GeneratedPasswordLength { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Membership.GeneratedPasswordNumberOfNonAlphanumericChars)]
+    [SettingsProperty(3)]
     public byte GeneratedPasswordNumberOfNonAlphanumericChars { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.Membership.DisallowUnconfirmedUserLogin)]
+    [SettingsProperty]
     public bool DisallowUnconfirmedUserLogin { get; set; }
 
     #region ISettings Members
 
-    public string Name => "Membership Settings";
+    public override string Name => "Membership Settings";
 
-    public bool IsTenantRestricted => false;
-
-    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/MembershipSettings.cshtml";
+    public override string EditorTemplatePath => "/Views/Shared/EditorTemplates/MembershipSettings.cshtml";
 
     #endregion ISettings Members
 }

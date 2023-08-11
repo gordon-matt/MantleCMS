@@ -8,6 +8,7 @@ namespace Mantle.Plugins.Caching.Redis
     {
         [Required]
         [LocalizedDisplayName(LocalizableStrings.Settings.ConnectionString)]
+        [SettingsProperty]
         public string ConnectionString { get; set; }
 
         #region ISettings Members
@@ -16,7 +17,7 @@ namespace Mantle.Plugins.Caching.Redis
 
         public bool IsTenantRestricted => false;
 
-        public string EditorTemplatePath => "Mantle.Plugins.Caching.Redis.Views.Shared.EditorTemplates.RedisCacheSettings.cshtml";
+        public string EditorTemplatePath => "Mantle.Plugins.Caching.Redis.Views.Shared.EditorTemplates.RedisCacheSettings.cshtml"; // TODO...
 
         #endregion ISettings Members
     }

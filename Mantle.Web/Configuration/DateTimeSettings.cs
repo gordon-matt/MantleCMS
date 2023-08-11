@@ -2,22 +2,22 @@
 
 namespace Mantle.Web.Configuration;
 
-public class DateTimeSettings : ISettings
+public class DateTimeSettings : BaseSettings
 {
     [Required]
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.DateTime.DefaultTimeZoneId)]
+    [SettingsProperty]
     public string DefaultTimeZoneId { get; set; }
 
     [LocalizedDisplayName(MantleWebLocalizableStrings.Settings.DateTime.AllowUsersToSetTimeZone)]
+    [SettingsProperty]
     public bool AllowUsersToSetTimeZone { get; set; }
 
     #region ISettings Members
 
-    public string Name => "Date/Time Settings";
+    public override string Name => "Date/Time Settings";
 
-    public bool IsTenantRestricted => false;
-
-    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/DateTimeSettings.cshtml";
+    public override string EditorTemplatePath => "/Views/Shared/EditorTemplates/DateTimeSettings.cshtml";
 
     #endregion ISettings Members
 }

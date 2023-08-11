@@ -5,23 +5,5 @@
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    function updateModel(viewModel, data) {
-        viewModel.numberOfPageVersionsToKeep = ko.observable("");
-
-        if (data && data.NumberOfPageVersionsToKeep) {
-            viewModel.numberOfPageVersionsToKeep(data.NumberOfPageVersionsToKeep);
-        }
-    };
-
-    function cleanUp(viewModel) {
-        delete viewModel.numberOfPageVersionsToKeep;
-    }
-
-    function onBeforeSave(viewModel) {
-        const data = {
-            NumberOfPageVersionsToKeep: viewModel.numberOfPageVersionsToKeep()
-        };
-
-        viewModel.value(ko.mapping.toJSON(data));
-    };
+    @Model.RenderKOScript()
 </script>
