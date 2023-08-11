@@ -7,25 +7,5 @@
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    function updateModel(viewModel, data) {
-        viewModel.resources = ko.observableArray([]);
-
-        if (data) {
-            if (data.Resources) {
-                viewModel.setResources(data.Resources);
-            }
-        }
-    };
-
-    function cleanUp(viewModel) {
-        delete viewModel.resources;
-    }
-
-    function onBeforeSave(viewModel) {
-        const data = {
-            Resources: viewModel.resources()
-        };
-
-        viewModel.value(ko.mapping.toJSON(data));
-    };
+    @Model.RenderKOScript()
 </script>

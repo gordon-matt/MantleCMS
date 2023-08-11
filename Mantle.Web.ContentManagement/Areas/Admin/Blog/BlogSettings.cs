@@ -14,24 +14,42 @@ public class BlogSettings : BaseResourceSettings
     }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.PageTitle)]
+    [SettingsProperty("Blog")]
     public string PageTitle { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.DateFormat)]
+    [SettingsProperty("YYYY-MM-DD HH:mm:ss")]
     public string DateFormat { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.ItemsPerPage)]
+    [SettingsProperty(5)]
     public byte ItemsPerPage { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.ShowOnMenus)]
+    [SettingsProperty(true)]
     public bool ShowOnMenus { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.MenuPosition)]
+    [SettingsProperty(0)]
     public byte MenuPosition { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.AccessRestrictions)]
+    [SettingsProperty(
+        Declaration = "viewModel.accessRestrictions = null; viewModel.roles = ko.observableArray([]);",
+        Assignment =
+@"if (data.AccessRestrictions) {
+	viewModel.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
+	if (viewModel.accessRestrictions.Roles != null) {
+		var split = viewModel.accessRestrictions.Roles().split(',');
+		viewModel.roles(split);
+	}
+}",
+        CleanUp = "delete viewModel.accessRestrictions; delete viewModel.roles;",
+        Save = "AccessRestrictions: JSON.stringify({ Roles: viewModel.roles().join() })")]
     public string AccessRestrictions { get; set; }
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Blog.LayoutPathOverride)]
+    [SettingsProperty]
     public string LayoutPathOverride { get; set; }
 
     #region ISettings Members

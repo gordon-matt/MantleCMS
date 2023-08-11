@@ -13,37 +13,5 @@
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    function updateModel(viewModel, data) {
-        viewModel.disallowUnconfirmedUserLogin = ko.observable(false);
-        viewModel.generatedPasswordLength = ko.observable(7);
-        viewModel.generatedPasswordNumberOfNonAlphanumericChars = ko.observable(3);
-
-        if (data) {
-            if (data.DisallowUnconfirmedUserLogin && (typeof data.DisallowUnconfirmedUserLogin === 'boolean')) {
-                viewModel.disallowUnconfirmedUserLogin(data.DisallowUnconfirmedUserLogin);
-            }
-            if (data.GeneratedPasswordLength) {
-                viewModel.generatedPasswordLength(data.GeneratedPasswordLength);
-            }
-            if (data.GeneratedPasswordNumberOfNonAlphanumericChars) {
-                viewModel.generatedPasswordNumberOfNonAlphanumericChars(data.GeneratedPasswordNumberOfNonAlphanumericChars);
-            }
-        }
-    };
-
-    function cleanUp(viewModel) {
-        delete viewModel.disallowUnconfirmedUserLogin;
-        delete viewModel.generatedPasswordLength;
-        delete viewModel.generatedPasswordNumberOfNonAlphanumericChars;
-    }
-
-    function onBeforeSave(viewModel) {
-        const data = {
-            DisallowUnconfirmedUserLogin: viewModel.disallowUnconfirmedUserLogin(),
-            GeneratedPasswordLength: viewModel.generatedPasswordLength(),
-            GeneratedPasswordNumberOfNonAlphanumericChars: viewModel.generatedPasswordNumberOfNonAlphanumericChars()
-        };
-
-        viewModel.value(ko.mapping.toJSON(data));
-    };
+    @Model.RenderKOScript()
 </script>

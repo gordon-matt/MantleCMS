@@ -2,7 +2,7 @@
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages;
 
-public class PageSettings : ISettings
+public class PageSettings : BaseSettings
 {
     public PageSettings()
     {
@@ -11,14 +11,13 @@ public class PageSettings : ISettings
 
     #region ISettings Members
 
-    public string Name => "CMS: Page Settings";
+    public override string Name => "CMS: Page Settings";
 
-    public bool IsTenantRestricted => false;
-
-    public string EditorTemplatePath => "/Areas/Admin/Pages/Views/Shared/EditorTemplates/PageSettings.cshtml";
+    public override string EditorTemplatePath => "/Areas/Admin/Pages/Views/Shared/EditorTemplates/PageSettings.cshtml";
 
     #endregion ISettings Members
 
     [LocalizedDisplayName(MantleCmsLocalizableStrings.Settings.Pages.NumberOfPageVersionsToKeep)]
+    [SettingsProperty(5)]
     public short NumberOfPageVersionsToKeep { get; set; }
 }
