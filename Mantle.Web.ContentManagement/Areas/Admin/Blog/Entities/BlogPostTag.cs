@@ -27,7 +27,7 @@ public class PostTagMap : IEntityTypeConfiguration<BlogPostTag>, IMantleEntityTy
 {
     public void Configure(EntityTypeBuilder<BlogPostTag> builder)
     {
-        builder.ToTable(CmsConstants.Tables.BlogPostTags);
+        builder.ToTable(CmsConstants.Tables.BlogPostTags, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => new { x.PostId, x.TagId });
 
         builder.HasOne(x => x.Post).WithMany(x => x.Tags).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);

@@ -11,7 +11,7 @@ public class PageTypeMap : IEntityTypeConfiguration<PageType>, IMantleEntityType
 {
     public void Configure(EntityTypeBuilder<PageType> builder)
     {
-        builder.ToTable(CmsConstants.Tables.PageTypes);
+        builder.ToTable(CmsConstants.Tables.PageTypes, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.LayoutPath).HasMaxLength(255).IsUnicode(true);

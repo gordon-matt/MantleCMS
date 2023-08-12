@@ -33,7 +33,7 @@ public class RegionMap : IEntityTypeConfiguration<Region>, IMantleEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<Region> builder)
     {
-        builder.ToTable(Constants.Tables.Regions);
+        builder.ToTable(Constants.Tables.Regions, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(m => m.Id);
         builder.Property(m => m.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(m => m.RegionType).IsRequired();

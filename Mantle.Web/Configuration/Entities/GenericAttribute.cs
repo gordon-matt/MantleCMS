@@ -19,7 +19,7 @@ public class GenericAttributeMap : IEntityTypeConfiguration<GenericAttribute>, I
 {
     public void Configure(EntityTypeBuilder<GenericAttribute> builder)
     {
-        builder.ToTable("Mantle_GenericAttributes");
+        builder.ToTable("GenericAttributes", MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(m => m.Id);
         builder.Property(x => x.EntityType).IsRequired().HasMaxLength(512).IsUnicode(false);
         builder.Property(x => x.EntityId).IsRequired().HasMaxLength(50).IsUnicode(false);

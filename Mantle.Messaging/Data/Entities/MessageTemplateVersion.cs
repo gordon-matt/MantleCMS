@@ -21,7 +21,7 @@ public class MessageTemplateVersionMap : IEntityTypeConfiguration<MessageTemplat
 {
     public void Configure(EntityTypeBuilder<MessageTemplateVersion> builder)
     {
-        builder.ToTable("Mantle_MessageTemplateVersions");
+        builder.ToTable("MessageTemplateVersions", "mantle");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.MessageTemplateId).IsRequired();
         builder.Property(x => x.CultureCode).HasMaxLength(10).IsUnicode(false);

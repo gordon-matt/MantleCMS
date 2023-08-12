@@ -25,7 +25,7 @@ public class ForumGroupMap : IEntityTypeConfiguration<ForumGroup>, IMantleEntity
 {
     public void Configure(EntityTypeBuilder<ForumGroup> builder)
     {
-        builder.ToTable(Constants.Tables.Groups);
+        builder.ToTable(Constants.Tables.Groups, MantleWebConstants.DatabaseSchemas.Plugins);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.DisplayOrder).IsRequired();

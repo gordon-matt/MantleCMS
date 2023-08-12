@@ -8,7 +8,7 @@ public class TenantMap : IEntityTypeConfiguration<Tenant>, IMantleEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<Tenant> builder)
     {
-        builder.ToTable("Mantle_Tenants");
+        builder.ToTable("Tenants", "mantle");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.Url).IsRequired().HasMaxLength(255).IsUnicode(true);

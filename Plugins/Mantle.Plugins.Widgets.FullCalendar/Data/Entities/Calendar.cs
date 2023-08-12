@@ -1,5 +1,6 @@
 ﻿using Mantle.Data.Entity;
 using Mantle.Tenants.Entities;
+using Mantle.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,7 +23,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Data.Entities
     {
         public void Configure(EntityTypeBuilder<Calendar> builder)
         {
-            builder.ToTable(Constants.Tables.Calendars);
+            builder.ToTable(Constants.Tables.Calendars, MantleWebConstants.DatabaseSchemas.Plugins);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         }

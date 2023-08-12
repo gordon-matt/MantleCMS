@@ -12,11 +12,11 @@ public static class Constants
 
     public static class Tables
     {
-        public const string Groups = "Mantle_Plugins_Forums_Groups";
-        public const string Forums = "Mantle_Plugins_Forums_Forums";
-        public const string Posts = "Mantle_Plugins_Forums_Posts";
-        public const string Subscriptions = "Mantle_Plugins_Forums_Subscriptions";
-        public const string Topics = "Mantle_Plugins_Forums_Topics";
-        public const string PrivateMessages = "Mantle_Plugins_Forums_PrivateMessages";
+        public const string Groups = "Forums_Groups";
+        public const string Forums = "Forums_Forums";
+        public const string Posts = "Forums_Posts";
+        public const string Subscriptions = "Forums_Subscriptions";
+        public const string Topics = "Forums_Topics";
+        public const string PrivateMessages = "Forums_PrivateMessages";
     }
 }

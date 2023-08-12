@@ -27,7 +27,7 @@ public class EntityTypeContentBlockMap : IEntityTypeConfiguration<EntityTypeCont
 {
     public void Configure(EntityTypeBuilder<EntityTypeContentBlock> builder)
     {
-        builder.ToTable(CmsConstants.Tables.EntityTypeContentBlocks);
+        builder.ToTable(CmsConstants.Tables.EntityTypeContentBlocks, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.EntityType).IsRequired().HasMaxLength(512).IsUnicode(false);
         builder.Property(x => x.EntityId).IsRequired().HasMaxLength(50).IsUnicode(false);

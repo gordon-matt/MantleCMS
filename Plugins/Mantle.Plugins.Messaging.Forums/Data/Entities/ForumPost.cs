@@ -23,7 +23,7 @@ public class ForumPostMap : IEntityTypeConfiguration<ForumPost>, IMantleEntityTy
 {
     public void Configure(EntityTypeBuilder<ForumPost> builder)
     {
-        builder.ToTable(Constants.Tables.Posts);
+        builder.ToTable(Constants.Tables.Posts, MantleWebConstants.DatabaseSchemas.Plugins);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.TopicId).IsRequired();
         builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(true);

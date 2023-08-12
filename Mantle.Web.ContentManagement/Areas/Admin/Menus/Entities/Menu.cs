@@ -11,7 +11,7 @@ public class MenuMap : IEntityTypeConfiguration<Menu>, IMantleEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<Menu> builder)
     {
-        builder.ToTable(CmsConstants.Tables.Menus);
+        builder.ToTable(CmsConstants.Tables.Menus, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.UrlFilter).HasMaxLength(255).IsUnicode(true);

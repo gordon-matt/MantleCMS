@@ -1,5 +1,6 @@
 using Extenso.Data.Entity;
 using Mantle.Data.Entity;
+using Mantle.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,7 +23,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Data.Entities
     {
         public void Configure(EntityTypeBuilder<CalendarEvent> builder)
         {
-            builder.ToTable(Constants.Tables.Events);
+            builder.ToTable(Constants.Tables.Events, MantleWebConstants.DatabaseSchemas.Plugins);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.CalendarId).IsRequired();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

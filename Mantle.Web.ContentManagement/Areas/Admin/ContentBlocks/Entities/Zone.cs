@@ -9,7 +9,7 @@ public class ZoneMap : IEntityTypeConfiguration<Zone>, IMantleEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<Zone> builder)
     {
-        builder.ToTable(CmsConstants.Tables.Zones);
+        builder.ToTable(CmsConstants.Tables.Zones, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
     }

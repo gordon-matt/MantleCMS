@@ -37,6 +37,13 @@ public class MantleWebConstants
         }
     }
 
+    public static class DatabaseSchemas
+    {
+        public const string Dbo = "dbo";
+        public const string Mantle = "mantle";
+        public const string Plugins = "plugins";
+    }
+
     public static class Areas
     {
         public const string Admin = "Admin";

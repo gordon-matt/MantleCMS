@@ -15,7 +15,7 @@ public class MessageTemplateMap : IEntityTypeConfiguration<MessageTemplate>, IMa
 {
     public void Configure(EntityTypeBuilder<MessageTemplate> builder)
     {
-        builder.ToTable("Mantle_MessageTemplates");
+        builder.ToTable("MessageTemplates", "mantle");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.Editor).IsRequired().HasMaxLength(255).IsUnicode(true);

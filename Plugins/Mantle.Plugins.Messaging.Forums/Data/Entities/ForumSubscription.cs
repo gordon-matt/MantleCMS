@@ -17,7 +17,7 @@ public class ForumSubscriptionMap : IEntityTypeConfiguration<ForumSubscription>,
 {
     public void Configure(EntityTypeBuilder<ForumSubscription> builder)
     {
-        builder.ToTable(Constants.Tables.Subscriptions);
+        builder.ToTable(Constants.Tables.Subscriptions, MantleWebConstants.DatabaseSchemas.Plugins);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(true);
         builder.Property(x => x.ForumId).IsRequired();

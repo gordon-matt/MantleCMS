@@ -19,7 +19,7 @@ public class RegionSettingsMap : IEntityTypeConfiguration<RegionSettings>, IMant
 
     public void Configure(EntityTypeBuilder<RegionSettings> builder)
     {
-        builder.ToTable(Constants.Tables.RegionSettings);
+        builder.ToTable(Constants.Tables.RegionSettings, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(m => m.Id);
         builder.Property(m => m.RegionId).IsRequired();
         builder.Property(m => m.SettingsId).IsRequired().HasMaxLength(255).IsUnicode(false);
