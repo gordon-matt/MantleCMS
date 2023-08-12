@@ -578,7 +578,7 @@ function dismiss{ModalId}() {{
 
 $('#{ModalId}').on('hidden.bs.modal', function () {{
     if (!{variableName}) {{
-        const url = $('#{FieldId}').val();
+        const url = `/Media/Uploads/${{$('#{FieldId}').val()}}`;
         {knockoutBinding}(url);
     }}
     {variableName} = false;

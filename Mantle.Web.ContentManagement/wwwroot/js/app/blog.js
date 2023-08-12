@@ -451,8 +451,7 @@
 
             $('#myModal').on('hidden.bs.modal', function () {
                 if (!self.modalDismissed) {
-                    const url = $('#TeaserImageUrl').val();
-                    //url = "/Media/Uploads/" + url;
+                    const url = `/Media/Uploads/${$('#TeaserImageUrl').val()}`;
                     self.postModel.teaserImageUrl(url);
                 }
                 self.modalDismissed = false;
