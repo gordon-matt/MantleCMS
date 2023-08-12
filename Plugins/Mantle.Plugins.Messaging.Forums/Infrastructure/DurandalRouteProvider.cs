@@ -1,29 +1,26 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.Infrastructure;
-using Microsoft.Extensions.Localization;
+﻿using Mantle.Web.Infrastructure;
 
-namespace Mantle.Plugins.Messaging.Forums.Infrastructure
+namespace Mantle.Plugins.Messaging.Forums.Infrastructure;
+
+public class DurandalRouteProvider : IDurandalRouteProvider
 {
-    public class DurandalRouteProvider : IDurandalRouteProvider
+    public IEnumerable<DurandalRoute> Routes
     {
-        public IEnumerable<DurandalRoute> Routes
+        get
         {
-            get
+            var T = EngineContext.Current.Resolve<IStringLocalizer>();
+            var routes = new List<DurandalRoute>
             {
-                var T = EngineContext.Current.Resolve<IStringLocalizer>();
-                var routes = new List<DurandalRoute>
+                new DurandalRoute
                 {
-                    new DurandalRoute
-                    {
-                        ModuleId = "viewmodels/plugins/messaging/forums",
-                        Route = "plugins/messaging/forums",
-                        JsPath = "/durandal-app/embedded/Mantle.Plugins.Messaging.Forums.wwwroot.js.index",
-                        Title = T[LocalizableStrings.Forums]
-                    }
-                };
+                    ModuleId = "viewmodels/plugins/messaging/forums",
+                    Route = "plugins/messaging/forums",
+                    JsPath = "/_content/Mantle.Plugins.Messaging.Forums/js/index",
+                    Title = T[LocalizableStrings.Forums]
+                }
+            };
 
-                return routes;
-            }
+            return routes;
         }
     }
 }

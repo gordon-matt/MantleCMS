@@ -69,11 +69,11 @@
         </div>
         <div class="search-results">
             @{
-                var searchterms = Model.SearchTerms;
-string adv = null;
-string within = null;
-string limitDays = null;
-string forumId = null;
+                string searchterms = Model.SearchTerms;
+                string adv = null;
+                string within = null;
+                string limitDays = null;
+                string forumId = null;
 
                 if (Model.ShowAdvancedSearch)
                 {
@@ -135,26 +135,26 @@ string forumId = null;
                             </thead>
                             <tbody>
                                 @foreach (var topic in Model.ForumTopics)
-{
-    var topicType = "post";
-    var topicText = string.Empty;
-    switch (topic.TopicType)
-    {
-        case ForumTopicType.Normal:
-            topicType = "post";
-            break;
-        case ForumTopicType.Sticky:
-            topicType = "sticky";
-            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
-            break;
-        case ForumTopicType.Announcement:
-            topicType = "announcement";
-            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
-            break;
-        default:
-            topicType = "post";
-            break;
-    }
+                                {
+                                    var topicType = "post";
+                                    var topicText = string.Empty;
+                                    switch (topic.TopicType)
+                                    {
+                                        case ForumTopicType.Normal:
+                                            topicType = "post";
+                                            break;
+                                        case ForumTopicType.Sticky:
+                                            topicType = "sticky";
+                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Sticky]);
+                                            break;
+                                        case ForumTopicType.Announcement:
+                                            topicType = "announcement";
+                                            topicText = string.Format("[{0}]", T[LocalizableStrings.TopicTypes.Announcement]);
+                                            break;
+                                        default:
+                                            topicType = "post";
+                                            break;
+                                    }
                                     <tr>
                                         <td class="image">
                                             <div class="@topicType"></div>

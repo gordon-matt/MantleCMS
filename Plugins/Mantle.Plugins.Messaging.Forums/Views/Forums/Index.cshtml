@@ -6,11 +6,13 @@
 
 @*<div class="page forums-main-page">*@
 @*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
-@await Html.PartialAsync("_ForumHeader")
+
+<partial name="_ForumHeader" />
+
 <hr class="clearfix" />
 @foreach (var forumGroup in Model.ForumGroups)
 {
-    await Html.RenderPartialAsync("_ForumGroup", forumGroup);
+    <partial name="_ForumGroup" model="forumGroup" />
 }
 
 @await Component.ActiveDiscussionsSmallAsync()

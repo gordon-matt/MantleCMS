@@ -3,7 +3,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html;
+namespace Mantle.Plugins.Messaging.Forums.Html;
 
 /// <summary>
 /// Represents a ResolveLinks helper
@@ -111,7 +111,7 @@ public partial class ResolveLinksHelper
     /// <returns>Formatted text</returns>
     public static string FormatText(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }

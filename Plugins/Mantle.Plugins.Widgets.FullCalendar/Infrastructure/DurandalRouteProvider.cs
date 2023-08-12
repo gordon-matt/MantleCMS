@@ -17,7 +17,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
                     {
                         ModuleId = "viewmodels/plugins/widgets/fullcalendar",
                         Route = "plugins/widgets/fullcalendar",
-                        JsPath = "/durandal-app/embedded/Mantle.Plugins.Widgets.FullCalendar.wwwroot.js.index",
+                        JsPath = "/_content/Mantle.Plugins.Widgets.FullCalendar/js/index",
                         Title = T[LocalizableStrings.FullCalendar]
                     }
                 };

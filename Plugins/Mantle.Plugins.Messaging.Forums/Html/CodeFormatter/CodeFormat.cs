@@ -24,7 +24,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Provides a base class for formatting most programming languages.

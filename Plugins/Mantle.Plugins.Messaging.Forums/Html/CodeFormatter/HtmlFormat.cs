@@ -24,7 +24,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Generates color-coded HTML 4.01 from HTML/XML/ASPX source code.
@@ -140,7 +140,7 @@ public partial class HtmlFormat : SourceFormat
         if (match.Groups[7].Success) //attributes
         {
             return attribRegex.Replace(match.ToString(),
-                new MatchEvaluator(this.AttributeMatchEval));
+                new MatchEvaluator(AttributeMatchEval));
         }
         if (match.Groups[8].Success) //entity
         {

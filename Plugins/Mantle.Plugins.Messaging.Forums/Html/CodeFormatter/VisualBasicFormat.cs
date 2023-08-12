@@ -22,7 +22,7 @@
 
 #endregion Copyright © 2001-2003 Jean-Claude Manoli [jc@manoli.net]
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Generates color-coded HTML 4.01 from Visual Basic source code.

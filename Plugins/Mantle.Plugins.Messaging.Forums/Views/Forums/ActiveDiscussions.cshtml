@@ -5,7 +5,7 @@
 }
 <div class="page active-discussions-page">
     @await Component.ForumBreadcrumbsAsync()
-    @await Html.PartialAsync("_ForumHeader")
+    <partial name="_ForumHeader" />
     <hr class="clearfix" />
-    @await Html.PartialAsync("_ActiveTopics", Model)
+    <partial name="_ActiveTopics" model="Model" />
 </div>

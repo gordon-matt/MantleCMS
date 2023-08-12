@@ -1,6 +1,6 @@
 // Taken from nopCommerce v3.7
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Generates color-coded HTML 4.01 from MSH (code name Monad) source code.

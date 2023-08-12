@@ -44,7 +44,7 @@ public class Ad
     {
         Ad targetAd = null;
 
-        IList<Ad> matchedAds = ads
+        var matchedAds = ads
             .Where(ad => string.Compare(ad.Keyword, keywordFilter, StringComparison.OrdinalIgnoreCase) == 0)
             .OrderBy(ad => ad.Impressions)
             .ToList();
@@ -74,21 +74,21 @@ public class Ad
 
     private static string GenerateHtml(Ad ad)
     {
-        Action<TagBuilder, object> merge = (builder, values) =>
+        static void merge(TagBuilder builder, object values)
         {
             if (values != null)
             {
                 builder.MergeAttributes(new RouteValueDictionary(values));
             }
-        };
+        }
 
-        Action<TagBuilder, string, string> mergeIfNotBlank = (builder, name, value) =>
+        static void mergeIfNotBlank(TagBuilder builder, string name, string value)
         {
             if (!string.IsNullOrEmpty(value))
             {
                 builder.MergeAttribute(name, value, true);
             }
-        };
+        }
 
         var imageBuilder = new TagBuilder("img");
         imageBuilder.TagRenderMode = TagRenderMode.SelfClosing;

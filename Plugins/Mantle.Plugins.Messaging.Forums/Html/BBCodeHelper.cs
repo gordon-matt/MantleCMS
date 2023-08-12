@@ -1,9 +1,9 @@
 ﻿// Taken from nopCommerce v3.7
 
-using Mantle.Web.Html.CodeFormatter;
+using Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html;
+namespace Mantle.Plugins.Messaging.Forums.Html;
 
 /// <summary>
 /// Represents a BBCode helper
@@ -39,7 +39,7 @@ public partial class BBCodeHelper
     public static string FormatText(string text, bool replaceBold, bool replaceItalic,
         bool replaceUnderline, bool replaceUrl, bool replaceCode, bool replaceQuote, bool replaceImg)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -105,8 +105,8 @@ public partial class BBCodeHelper
     /// <returns>string</returns>
     public static string RemoveQuotes(string str)
     {
-        str = Regex.Replace(str, @"\[quote=(.+?)\]", String.Empty, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        str = Regex.Replace(str, @"\[/quote\]", String.Empty, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        str = Regex.Replace(str, @"\[quote=(.+?)\]", string.Empty, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        str = Regex.Replace(str, @"\[/quote\]", string.Empty, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         return str;
     }
 

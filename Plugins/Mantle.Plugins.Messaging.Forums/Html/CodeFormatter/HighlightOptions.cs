@@ -1,6 +1,6 @@
 // Taken from nopCommerce v3.7
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Handles all of the options for changing the rendered code.

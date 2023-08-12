@@ -5,7 +5,7 @@
 }
 <div class="page forum-page">
     @await Component.ForumBreadcrumbsAsync(forumId: Model.Id)
-    @await Html.PartialAsync("_ForumHeader")
+    <partial name="_ForumHeader" />
 
     <hr class="clearfix" />
 

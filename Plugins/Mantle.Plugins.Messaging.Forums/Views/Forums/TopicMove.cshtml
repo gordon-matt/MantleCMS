@@ -23,8 +23,8 @@
                 </div>
             </div>
             <div class="buttons">
-                <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="button-1 submit-forum-topic-button" />
-                <input type="button" class="button-2 cancel-forum-topic-button" value="@T[MantleWebLocalizableStrings.General.Cancel]" onclick="setLocation('@Url.Action("Topic", new { id = Model.Id, slug = Model.TopicSeName })')" />
+                <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-primary submit-forum-topic-button" />
+                <input type="button" class="btn btn-secondary cancel-forum-topic-button" value="@T[MantleWebLocalizableStrings.General.Cancel]" onclick="setLocation('@Url.Action("Topic", new { id = Model.Id, slug = Model.TopicSeName })')" />
             </div>
         }
     </div>

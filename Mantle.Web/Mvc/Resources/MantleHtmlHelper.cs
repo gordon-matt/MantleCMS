@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
@@ -595,8 +596,17 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
 
             var asset = GetOrCreateBundle(item.Src, CreateCssAsset);
 
-            result.AppendFormat("<link rel=\"stylesheet\" type=\"{0}\" href=\"{1}?v={2}\" />",
-                MimeTypes.TextCss, asset.Route, asset.GenerateCacheKey(httpContext, webOptimizerOptions));
+            if (asset.Route.StartsWithAny("/Plugins/", "~/Plugins/"))
+            {
+                result.AppendFormat("<link rel=\"stylesheet\" type=\"{0}\" href=\"{1}\" />",
+                    MimeTypes.TextCss, asset.Route);
+            }
+            else
+            {
+                result.AppendFormat("<link rel=\"stylesheet\" type=\"{0}\" href=\"{1}?v={2}\" />",
+                    MimeTypes.TextCss, asset.Route, asset.GenerateCacheKey(httpContext, webOptimizerOptions));
+            }
+
             result.AppendLine();
         }
 
