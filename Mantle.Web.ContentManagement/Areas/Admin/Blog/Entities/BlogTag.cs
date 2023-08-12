@@ -19,7 +19,7 @@ public class TagMap : IEntityTypeConfiguration<BlogTag>, IMantleEntityTypeConfig
 {
     public void Configure(EntityTypeBuilder<BlogTag> builder)
     {
-        builder.ToTable(CmsConstants.Tables.BlogTags);
+        builder.ToTable(CmsConstants.Tables.BlogTags, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);

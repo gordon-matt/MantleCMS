@@ -1,4 +1,5 @@
 ﻿using Mantle.Data.Entity;
+using Mantle.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Runtime.Serialization;
@@ -30,7 +31,7 @@ public class RolePermissionMap : IEntityTypeConfiguration<RolePermission>, IMant
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.ToTable(Constants.Tables.RolePermissions);
+        builder.ToTable(Constants.Tables.RolePermissions, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => new { x.PermissionId, x.RoleId });
         builder.Property(x => x.PermissionId).IsRequired();
         builder.Property(x => x.RoleId).IsRequired().HasMaxLength(450).IsUnicode(true);

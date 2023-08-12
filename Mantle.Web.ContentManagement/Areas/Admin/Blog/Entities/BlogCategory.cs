@@ -19,7 +19,7 @@ public class CategoryMap : IEntityTypeConfiguration<BlogCategory>, IMantleEntity
 {
     public void Configure(EntityTypeBuilder<BlogCategory> builder)
     {
-        builder.ToTable(CmsConstants.Tables.BlogCategories);
+        builder.ToTable(CmsConstants.Tables.BlogCategories, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);

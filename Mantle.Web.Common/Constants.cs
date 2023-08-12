@@ -9,7 +9,7 @@ public static class Constants
 
     public static class Tables
     {
-        public const string Regions = "Mantle_Common_Regions";
-        public const string RegionSettings = "Mantle_Common_RegionSettings";
+        public const string Regions = "Common_Regions";
+        public const string RegionSettings = "Common_RegionSettings";
     }
 }

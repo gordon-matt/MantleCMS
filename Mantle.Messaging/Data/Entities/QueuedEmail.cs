@@ -64,7 +64,7 @@ public class QueuedEmailMap : IEntityTypeConfiguration<QueuedEmail>, IMantleEnti
 {
     public void Configure(EntityTypeBuilder<QueuedEmail> builder)
     {
-        builder.ToTable("Mantle_QueuedEmails");
+        builder.ToTable("QueuedEmails", "mantle");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Priority).IsRequired();
         builder.Property(x => x.FromAddress).HasMaxLength(255).IsUnicode(true);

@@ -29,7 +29,7 @@ public class SettingMap : IEntityTypeConfiguration<Setting>, IMantleEntityTypeCo
 {
     public void Configure(EntityTypeBuilder<Setting> builder)
     {
-        builder.ToTable("Mantle_Settings");
+        builder.ToTable("Settings", MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(s => s.Type).IsRequired().HasMaxLength(255).IsUnicode(false);

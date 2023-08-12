@@ -27,7 +27,7 @@ public class PrivateMessageMap : IEntityTypeConfiguration<PrivateMessage>, IMant
 {
     public void Configure(EntityTypeBuilder<PrivateMessage> builder)
     {
-        builder.ToTable(Constants.Tables.PrivateMessages);
+        builder.ToTable(Constants.Tables.PrivateMessages, MantleWebConstants.DatabaseSchemas.Plugins);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.FromUserId).IsRequired().HasMaxLength(128).IsUnicode(true);
         builder.Property(x => x.ToUserId).IsRequired().HasMaxLength(128).IsUnicode(true);

@@ -38,7 +38,7 @@ public class ForumTopicMap : IEntityTypeConfiguration<ForumTopic>, IMantleEntity
 {
     public void Configure(EntityTypeBuilder<ForumTopic> builder)
     {
-        builder.ToTable(Constants.Tables.Topics);
+        builder.ToTable(Constants.Tables.Topics, MantleWebConstants.DatabaseSchemas.Plugins);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.ForumId).IsRequired();
         builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(true);

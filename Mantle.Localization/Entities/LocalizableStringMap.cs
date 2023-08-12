@@ -4,7 +4,7 @@ public class LocalizableStringMap : IEntityTypeConfiguration<LocalizableString>,
 {
     public void Configure(EntityTypeBuilder<LocalizableString> builder)
     {
-        builder.ToTable("Mantle_LocalizableStrings");
+        builder.ToTable("LocalizableStrings", "mantle");
         builder.HasKey(m => m.Id);
         builder.Property(m => m.CultureCode).HasMaxLength(10).IsUnicode(false);
         builder.Property(m => m.TextKey).IsRequired().IsUnicode(true);

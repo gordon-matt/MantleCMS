@@ -41,7 +41,7 @@ public class PostMap : IEntityTypeConfiguration<BlogPost>, IMantleEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<BlogPost> builder)
     {
-        builder.ToTable(CmsConstants.Tables.BlogPosts);
+        builder.ToTable(CmsConstants.Tables.BlogPosts, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.UserId).IsRequired().HasMaxLength(128).IsUnicode(true);
         builder.Property(x => x.DateCreatedUtc).IsRequired();

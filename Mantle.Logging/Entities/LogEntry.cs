@@ -32,7 +32,7 @@ public class LogEntryMap : IEntityTypeConfiguration<LogEntry>, IMantleEntityType
 {
     public void Configure(EntityTypeBuilder<LogEntry> builder)
     {
-        builder.ToTable("Mantle_Log");
+        builder.ToTable("Log", "mantle");
         builder.HasKey(m => m.Id);
         builder.Property(m => m.EventDateTime).IsRequired();
         builder.Property(m => m.EventLevel).IsRequired().HasMaxLength(5).IsUnicode(false);

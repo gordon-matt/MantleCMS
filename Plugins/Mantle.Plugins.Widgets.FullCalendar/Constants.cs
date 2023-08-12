@@ -7,8 +7,8 @@
 
         public static class Tables
         {
-            public const string Calendars = "Mantle_Plugins_FullCalendar_Calendars";
-            public const string Events = "Mantle_Plugins_FullCalendar_Events";
+            public const string Calendars = "FullCalendar_Calendars";
+            public const string Events = "FullCalendar_Events";
         }
     }
 }

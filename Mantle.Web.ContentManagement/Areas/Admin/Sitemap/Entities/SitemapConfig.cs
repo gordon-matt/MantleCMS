@@ -24,7 +24,7 @@ public class SitemapConfigMap : IEntityTypeConfiguration<SitemapConfig>, IMantle
 {
     public void Configure(EntityTypeBuilder<SitemapConfig> builder)
     {
-        builder.ToTable(CmsConstants.Tables.SitemapConfig);
+        builder.ToTable(CmsConstants.Tables.SitemapConfig, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.ChangeFrequency).IsRequired();
         builder.Property(x => x.Priority).IsRequired();

@@ -32,7 +32,7 @@ public class PageVersionMap : IEntityTypeConfiguration<PageVersion>, IMantleEnti
 {
     public void Configure(EntityTypeBuilder<PageVersion> builder)
     {
-        builder.ToTable(CmsConstants.Tables.PageVersions);
+        builder.ToTable(CmsConstants.Tables.PageVersions, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.PageId).IsRequired();
         builder.Property(x => x.CultureCode).HasMaxLength(10).IsUnicode(false);

@@ -4,7 +4,7 @@ public class LocalizablePropertyMap : IEntityTypeConfiguration<LocalizableProper
 {
     public void Configure(EntityTypeBuilder<LocalizableProperty> builder)
     {
-        builder.ToTable("Mantle_LocalizableProperties");
+        builder.ToTable("LocalizableProperties", "mantle");
         builder.HasKey(m => m.Id);
         builder.Property(m => m.CultureCode).HasMaxLength(10).IsUnicode(false);
         builder.Property(x => x.EntityType).IsRequired().HasMaxLength(512).IsUnicode(false);

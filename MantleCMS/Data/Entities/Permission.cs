@@ -1,5 +1,6 @@
 ﻿using Mantle.Data.Entity;
 using Mantle.Tenants.Entities;
+using Mantle.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +21,7 @@ public class PermissionMap : IEntityTypeConfiguration<Permission>, IMantleEntity
 {
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
-        builder.ToTable(Constants.Tables.Permissions);
+        builder.ToTable(Constants.Tables.Permissions, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(50).IsUnicode(true);
         builder.Property(x => x.Category).IsRequired().HasMaxLength(50).IsUnicode(true);

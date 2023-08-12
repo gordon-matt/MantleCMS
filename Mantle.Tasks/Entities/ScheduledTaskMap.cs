@@ -4,7 +4,7 @@ public class ScheduledTaskMap : IEntityTypeConfiguration<ScheduledTask>, IMantle
 {
     public void Configure(EntityTypeBuilder<ScheduledTask> builder)
     {
-        builder.ToTable("Mantle_ScheduledTasks");
+        builder.ToTable("ScheduledTasks", "mantle");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Name).IsRequired().HasMaxLength(255).IsUnicode(true);
         builder.Property(s => s.Type).IsRequired().HasMaxLength(255).IsUnicode(false);

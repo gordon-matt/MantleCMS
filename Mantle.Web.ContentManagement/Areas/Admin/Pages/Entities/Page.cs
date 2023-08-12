@@ -29,7 +29,7 @@ public class PageMap : IEntityTypeConfiguration<Page>, IMantleEntityTypeConfigur
 {
     public void Configure(EntityTypeBuilder<Page> builder)
     {
-        builder.ToTable(CmsConstants.Tables.Pages);
+        builder.ToTable(CmsConstants.Tables.Pages, MantleWebConstants.DatabaseSchemas.Mantle);
         builder.HasKey(x => x.Id);
         builder.Property(x => x.PageTypeId).IsRequired();
         builder.Property(x => x.Name).IsRequired().HasMaxLength(255).IsUnicode(true);

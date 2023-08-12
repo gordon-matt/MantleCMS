@@ -31,22 +31,22 @@ public static class CmsConstants
 
     internal static class Tables
     {
-        internal const string BlogPosts = "Mantle_BlogPosts";
-        internal const string BlogPostTags = "Mantle_BlogPostTags";
-        internal const string BlogCategories = "Mantle_BlogCategories";
-        internal const string BlogTags = "Mantle_BlogTags";
-        internal const string ContentBlocks = "Mantle_ContentBlocks";
-        internal const string EntityTypeContentBlocks = "Mantle_EntityTypeContentBlocks";
-        internal const string HistoricPages = "Mantle_HistoricPages";
-        internal const string MenuItems = "Mantle_MenuItems";
-        internal const string Menus = "Mantle_Menus";
-        internal const string MessageTemplates = "Mantle_MessageTemplates";
-        internal const string Pages = "Mantle_Pages";
-        internal const string PageVersions = "Mantle_PageVersions";
-        internal const string PageTypes = "Mantle_PageTypes";
-        internal const string SitemapConfig = "Mantle_SitemapConfig";
-        internal const string QueuedEmails = "Mantle_QueuedEmails";
-        internal const string QueuedSMS = "Mantle_QueuedSMS";
-        internal const string Zones = "Mantle_Zones";
+        internal const string BlogPosts = "BlogPosts";
+        internal const string BlogPostTags = "BlogPostTags";
+        internal const string BlogCategories = "BlogCategories";
+        internal const string BlogTags = "BlogTags";
+        internal const string ContentBlocks = "ContentBlocks";
+        internal const string EntityTypeContentBlocks = "EntityTypeContentBlocks";
+        internal const string HistoricPages = "HistoricPages";
+        internal const string MenuItems = "MenuItems";
+        internal const string Menus = "Menus";
+        internal const string MessageTemplates = "MessageTemplates";
+        internal const string Pages = "Pages";
+        internal const string PageVersions = "PageVersions";
+        internal const string PageTypes = "PageTypes";
+        internal const string SitemapConfig = "SitemapConfig";
+        internal const string QueuedEmails = "QueuedEmails";
+        internal const string QueuedSMS = "QueuedSMS";
+        internal const string Zones = "Zones";
     }
 }
