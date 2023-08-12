@@ -1,5 +1,5 @@
 ﻿using Mantle.Helpers;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 
 namespace Mantle.Web.Areas.Admin.Tenants.Controllers.Api;
 

@@ -40,7 +40,7 @@ public class BlogSettings : BaseResourceSettings
 @"if (data.AccessRestrictions) {
 	viewModel.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
 	if (viewModel.accessRestrictions.Roles != null) {
-		var split = viewModel.accessRestrictions.Roles().split(',');
+		const split = viewModel.accessRestrictions.Roles().split(',');
 		viewModel.roles(split);
 	}
 }",

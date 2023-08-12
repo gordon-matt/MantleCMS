@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 

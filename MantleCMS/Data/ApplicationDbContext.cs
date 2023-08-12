@@ -1,12 +1,12 @@
 ﻿using Mantle.Identity;
 using Mantle.Messaging.Data;
-using Mantle.Messaging.Data.Domain;
+using Mantle.Messaging.Data.Entities;
 using Mantle.Web.ContentManagement;
-using Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MantleCMS.Data;

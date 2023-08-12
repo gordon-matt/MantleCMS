@@ -1,0 +1,12 @@
+﻿@using Mantle.Plugins.Caching.Redis
+@using Mantle.Web.Mvc
+
+@model RedisCacheSettings
+
+<div id="settings-content">
+    <mantle-input asp-for="ConnectionString" asp-label="@T[LocalizableStrings.Settings.ConnectionString]" />
+</div>
+
+<script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
+    @Model.RenderKOScript()
+</script>

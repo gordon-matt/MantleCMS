@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Controllers.Api;

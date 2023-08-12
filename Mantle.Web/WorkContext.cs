@@ -1,5 +1,5 @@
 ﻿using Mantle.Tenants;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 using Mantle.Web.Navigation;
 using System.Collections.Concurrent;
 

@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 

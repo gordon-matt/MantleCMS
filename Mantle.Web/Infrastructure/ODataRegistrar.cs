@@ -1,7 +1,7 @@
 ﻿using Extenso.AspNetCore.OData;
-using Mantle.Localization.Domain;
-using Mantle.Logging.Domain;
-using Mantle.Tenants.Domain;
+using Mantle.Localization.Entities;
+using Mantle.Logging.Entities;
+using Mantle.Tenants.Entities;
 using Mantle.Web.Areas.Admin.Configuration.Models;
 using Mantle.Web.Areas.Admin.Membership.Controllers.Api;
 using Microsoft.AspNetCore.OData;

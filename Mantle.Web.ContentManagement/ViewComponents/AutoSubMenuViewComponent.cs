@@ -1,7 +1,7 @@
 ﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog;
-using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
-using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Infrastructure;
 

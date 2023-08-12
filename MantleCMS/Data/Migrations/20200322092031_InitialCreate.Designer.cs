@@ -21,7 +21,7 @@ namespace MantleCMS.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Mantle.Localization.Domain.Language", b =>
+            modelBuilder.Entity("Mantle.Localization.Entities.Language", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Languages");
                 });
 
-            modelBuilder.Entity("Mantle.Localization.Domain.LocalizableProperty", b =>
+            modelBuilder.Entity("Mantle.Localization.Entities.LocalizableProperty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_LocalizableProperties");
                 });
 
-            modelBuilder.Entity("Mantle.Localization.Domain.LocalizableString", b =>
+            modelBuilder.Entity("Mantle.Localization.Entities.LocalizableString", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_LocalizableStrings");
                 });
 
-            modelBuilder.Entity("Mantle.Logging.Domain.LogEntry", b =>
+            modelBuilder.Entity("Mantle.Logging.Entities.LogEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -188,7 +188,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Log");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Data.Domain.MessageTemplate", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,7 +221,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_MessageTemplates");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Data.Domain.MessageTemplateVersion", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplateVersion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -259,7 +259,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_MessageTemplateVersions");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Data.Domain.QueuedEmail", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Entities.QueuedEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +316,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_QueuedEmails");
                 });
 
-            modelBuilder.Entity("Mantle.Tasks.Domain.ScheduledTask", b =>
+            modelBuilder.Entity("Mantle.Tasks.Entities.ScheduledTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -358,7 +358,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_ScheduledTasks");
                 });
 
-            modelBuilder.Entity("Mantle.Tenants.Domain.Tenant", b =>
+            modelBuilder.Entity("Mantle.Tenants.Entities.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -387,7 +387,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Tenants");
                 });
 
-            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Domain.Region", b =>
+            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -432,7 +432,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Common_Regions");
                 });
 
-            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionSettings", b =>
+            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionSettings", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -458,7 +458,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Common_RegionSettings");
                 });
 
-            modelBuilder.Entity("Mantle.Web.Configuration.Domain.GenericAttribute", b =>
+            modelBuilder.Entity("Mantle.Web.Configuration.Entities.GenericAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -492,7 +492,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_GenericAttributes");
                 });
 
-            modelBuilder.Entity("Mantle.Web.Configuration.Domain.Setting", b =>
+            modelBuilder.Entity("Mantle.Web.Configuration.Entities.Setting", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -522,7 +522,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Settings");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogCategory", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -549,7 +549,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_BlogCategories");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogPost", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -621,7 +621,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_BlogPosts");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogPostTag", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPostTag", b =>
                 {
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
@@ -636,7 +636,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_BlogPostTags");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogTag", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -663,7 +663,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_BlogTags");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain.ContentBlock", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.ContentBlock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -713,7 +713,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_ContentBlocks");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain.EntityTypeContentBlock", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.EntityTypeContentBlock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -772,7 +772,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_EntityTypeContentBlocks");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain.Zone", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.Zone", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -792,7 +792,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Zones");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain.Menu", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities.Menu", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -817,7 +817,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Menus");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain.MenuItem", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities.MenuItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -868,7 +868,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_MenuItems");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.Page", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -908,7 +908,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_Pages");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.PageType", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -930,7 +930,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_PageTypes");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.PageVersion", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageVersion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -979,7 +979,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_PageVersions");
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain.SitemapConfig", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities.SitemapConfig", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1003,7 +1003,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Mantle_SitemapConfig");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.ApplicationRole", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -1033,7 +1033,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.ApplicationUser", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -1106,7 +1106,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.Permission", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1139,7 +1139,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("Permissions");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.RolePermission", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.RolePermission", b =>
                 {
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
@@ -1156,7 +1156,7 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("RolePermissions");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.UserProfileEntry", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.UserProfileEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1292,72 +1292,72 @@ namespace MantleCMS.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Mantle.Messaging.Data.Domain.MessageTemplateVersion", b =>
+            modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplateVersion", b =>
                 {
-                    b.HasOne("Mantle.Messaging.Data.Domain.MessageTemplate", "MessageTemplate")
+                    b.HasOne("Mantle.Messaging.Data.Entities.MessageTemplate", "MessageTemplate")
                         .WithMany()
                         .HasForeignKey("MessageTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Domain.Region", b =>
+            modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", b =>
                 {
-                    b.HasOne("Mantle.Web.Common.Areas.Admin.Regions.Domain.Region", "Parent")
+                    b.HasOne("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogPost", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", b =>
                 {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogCategory", "Category")
+                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogPostTag", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPostTag", b =>
                 {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogPost", "Post")
+                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", "Post")
                         .WithMany("Tags")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Domain.BlogTag", "Tag")
+                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", "Tag")
                         .WithMany("Posts")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.PageVersion", b =>
+            modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageVersion", b =>
                 {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain.Page", "Page")
+                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", "Page")
                         .WithMany("Versions")
                         .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.ApplicationUser", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationRole", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
                         .WithMany("Users")
                         .HasForeignKey("ApplicationRoleId");
                 });
 
-            modelBuilder.Entity("MantleCMS.Data.Domain.RolePermission", b =>
+            modelBuilder.Entity("MantleCMS.Data.Entities.RolePermission", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.Permission", "Permission")
+                    b.HasOne("MantleCMS.Data.Entities.Permission", "Permission")
                         .WithMany("RolesPermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationRole", "Role")
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", "Role")
                         .WithMany("RolesPermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1366,7 +1366,7 @@ namespace MantleCMS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationRole", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1375,7 +1375,7 @@ namespace MantleCMS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationUser", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1384,7 +1384,7 @@ namespace MantleCMS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationUser", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1393,13 +1393,13 @@ namespace MantleCMS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationRole", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationUser", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1408,7 +1408,7 @@ namespace MantleCMS.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("MantleCMS.Data.Domain.ApplicationUser", null)
+                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

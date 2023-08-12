@@ -1,4 +1,4 @@
-﻿using Mantle.Web.Common.Areas.Admin.Regions.Domain;
+﻿using Mantle.Web.Common.Areas.Admin.Regions.Entities;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Services;
 

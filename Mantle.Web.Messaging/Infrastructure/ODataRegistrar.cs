@@ -1,5 +1,5 @@
 ﻿using Extenso.AspNetCore.OData;
-using Mantle.Messaging.Data.Domain;
+using Mantle.Messaging.Data.Entities;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 

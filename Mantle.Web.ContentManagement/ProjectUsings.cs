@@ -11,7 +11,7 @@ global using Mantle.Localization.ComponentModel;
 global using Mantle.Localization.Services;
 global using Mantle.Security.Membership;
 global using Mantle.Security.Membership.Permissions;
-global using Mantle.Tenants.Domain;
+global using Mantle.Tenants.Entities;
 global using Mantle.Threading;
 global using Mantle.Web.Collections;
 global using Mantle.Web.Mvc;

@@ -1,6 +1,6 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 

@@ -1,5 +1,5 @@
 ﻿using Mantle.Localization;
-using Mantle.Localization.Domain;
+using Mantle.Localization.Entities;
 using System.Globalization;
 
 namespace Mantle.Web.Localization;

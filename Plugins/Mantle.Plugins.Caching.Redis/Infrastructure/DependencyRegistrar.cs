@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Mantle.Caching;
 using Mantle.Infrastructure;
+using Mantle.Localization;
 using Mantle.Web.Configuration;
 
 namespace Mantle.Plugins.Caching.Redis.Infrastructure
@@ -14,9 +15,10 @@ namespace Mantle.Plugins.Caching.Redis.Infrastructure
                 return;
             }
 
+            builder.RegisterType<RedisCacheSettings>().As<ISettings>().InstancePerLifetimeScope();
+            builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
             builder.RegisterType<RedisCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
             builder.RegisterType<RedisCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Per_Request").InstancePerLifetimeScope();
-            builder.RegisterType<RedisCacheSettings>().As<ISettings>().InstancePerLifetimeScope();
         }
 
         public int Order => 99999;

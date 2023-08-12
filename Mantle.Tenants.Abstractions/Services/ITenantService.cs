@@ -1,5 +1,5 @@
 ﻿using Mantle.Data.Services;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 
 namespace Mantle.Tenants.Services;
 

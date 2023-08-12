@@ -10,5 +10,5 @@ global using Mantle.Web.Installation;
 global using Mantle.Web.Models;
 global using Mantle.Web.Mvc;
 global using MantleCMS.Data;
-global using MantleCMS.Data.Domain;
+global using MantleCMS.Data.Entities;
 global using Microsoft.AspNetCore.Mvc;

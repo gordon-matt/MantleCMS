@@ -1,4 +1,4 @@
-﻿using Mantle.Messaging.Data.Domain;
+﻿using Mantle.Messaging.Data.Entities;
 using Mantle.Messaging.Services;
 using Mantle.Web.Messaging.Models;
 using Microsoft.AspNetCore.Hosting;

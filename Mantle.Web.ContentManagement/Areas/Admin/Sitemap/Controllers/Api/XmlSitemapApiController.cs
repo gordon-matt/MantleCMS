@@ -1,6 +1,6 @@
 ﻿using Mantle.Helpers;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Xml.Serialization;
