@@ -18,7 +18,7 @@ public static class HtmlHelperExtensions
     {
         if (model.TotalRecords == 0)
         {
-            return null;
+            return HtmlString.Empty;
         }
 
         var localizer = EngineContext.Current.Resolve<IStringLocalizer>();

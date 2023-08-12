@@ -10,40 +10,35 @@
     <div class="topic-name">
         <h1>@Model.Subject</h1>
     </div>
-    <div class="topic-actions upper">
+    <div class="topic-actions upper mb-3">
         <div class="actions">
             @if (Model.IsUserAllowedToEditTopic)
             {
-                <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-secondary edit-topic-button">
+                <a href="@Url.Action("TopicEdit", new { id = Model.Id })" class="btn btn-outline-secondary edit-topic-button" title="@T[LocalizableStrings.EditTopic]">
                     <i class="fa fa-edit"></i>
-                    @T[LocalizableStrings.EditTopic]
                 </a>
             }
             @if (Model.IsUserAllowedToDeleteTopic)
             {
-                <a href="@Url.Action("TopicDelete", new { id = Model.Id })" class="btn btn-danger delete-topic-button" onclick="return confirm('@T[MantleWebLocalizableStrings.General.AreYouSure]');">
+                <a href="@Url.Action("TopicDelete", new { id = Model.Id })" class="btn btn-outline-danger delete-topic-button" title="@T[LocalizableStrings.DeleteTopic]" onclick="return confirm('@T[MantleWebLocalizableStrings.General.AreYouSure]');">
                     <i class="fa fa-remove"></i>
-                    @T[LocalizableStrings.DeleteTopic]
                 </a>
             }
             @if (Model.IsUserAllowedToMoveTopic)
             {
-                <a href="@Url.Action("TopicMove", new { id = Model.Id })" class="btn btn-warning move-topic-button">
+                <a href="@Url.Action("TopicMove", new { id = Model.Id })" class="btn btn-outline-warning move-topic-button" title="@T[LocalizableStrings.MoveTopic]">
                     <i class="fa fa-arrow-right"></i>
-                    @T[LocalizableStrings.MoveTopic]
                 </a>
             }
 
-            <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
+            <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-outline-primary reply-topic-button" title="@T[LocalizableStrings.Reply]">
                 <i class="fa fa-mail-reply"></i>
-                @T[LocalizableStrings.Reply]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
-                <a class="btn btn-success watch-topic-button" href="#" id="watch-topic-top">
+                <a class="btn btn-success watch-topic-button" href="#" id="watch-topic-top" title="@Model.WatchTopicText">
                     <i class="fa fa-binoculars"></i>
-                    @Model.WatchTopicText
                 </a>
 
                 <script asp-location="Foot" type="text/javascript">
@@ -105,16 +100,14 @@
 
     <div class="topic-actions lower">
         <div class="actions">
-            <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-primary reply-topic-button">
+            <a href="@Url.Action("PostCreate", new { id = Model.Id })" class="btn btn-outline-primary reply-topic-button" title="@T[LocalizableStrings.Reply]">
                 <i class="fa fa-mail-reply"></i>
-                @T[LocalizableStrings.Reply]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
-                <a class="btn btn-success" href="#" id="watch-topic-bottom">
+                <a class="btn btn-outline-success" href="#" id="watch-topic-bottom" title="@Model.WatchTopicText">
                     <i class="fa fa-binoculars"></i>
-                    @Model.WatchTopicText
                 </a>
 
                 <script asp-location="Foot" type="text/javascript">
