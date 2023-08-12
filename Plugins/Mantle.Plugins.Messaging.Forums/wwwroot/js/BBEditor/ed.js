@@ -15,16 +15,16 @@ var content;
 
 function edToolbar(elementId, webRoot, allowUploads) {
     document.write("<div class=\"toolbar\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/bold.gif\" title=\"Bold\" name=\"btnBold\" onClick=\"doAddTags('[b]','[/b]','" + elementId + "')\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/italic.gif\" title=\"Italic\" name=\"btnItalic\" onClick=\"doAddTags('[i]','[/i]','" + elementId + "')\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/underline.gif\" title=\"Underline\" name=\"btnUnderline\" onClick=\"doAddTags('[u]','[/u]','" + elementId + "')\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/link.gif\" title=\"Link\" name=\"btnLink\" onClick=\"doURL('" + elementId + "')\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/picture.gif\" title=\"Picture\" name=\"btnLink\" onClick=\"doImg('" + elementId + "')\">");
-    document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/code.gif\" title=\"Code\" name=\"btnCode\" onClick=\"doAddTags('[code]','[/code]','" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/bold.gif\" title=\"Bold\" name=\"btnBold\" onClick=\"doAddTags('[b]','[/b]','" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/italic.gif\" title=\"Italic\" name=\"btnItalic\" onClick=\"doAddTags('[i]','[/i]','" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/underline.gif\" title=\"Underline\" name=\"btnUnderline\" onClick=\"doAddTags('[u]','[/u]','" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/link.gif\" title=\"Link\" name=\"btnLink\" onClick=\"doURL('" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/picture.gif\" title=\"Picture\" name=\"btnLink\" onClick=\"doImg('" + elementId + "')\">");
+    document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/code.gif\" title=\"Code\" name=\"btnCode\" onClick=\"doAddTags('[code]','[/code]','" + elementId + "')\">");
 
     if (allowUploads) {
-        document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/upload-img.gif\" title=\"Upload Image\" name=\"btnUploadImg\" onClick=\"uploadFile('" + elementId + "','img')\">");
-        document.write("<img class=\"btn btn-default markup-button\" src=\"" + webRoot + "BBEditor/images/upload-file.gif\" title=\"Upload File\" name=\"btnUploadFile\" onClick=\"uploadFile('" + elementId + "','file')\">");
+        document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/upload-img.gif\" title=\"Upload Image\" name=\"btnUploadImg\" onClick=\"uploadFile('" + elementId + "','img')\">");
+        document.write("<img class=\"btn btn-light markup-button\" src=\"" + webRoot + "BBEditor/images/upload-file.gif\" title=\"Upload File\" name=\"btnUploadFile\" onClick=\"uploadFile('" + elementId + "','file')\">");
     }
 
     document.write("</div>");

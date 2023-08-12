@@ -37,36 +37,36 @@
     <th class="post-id">
         @if (Model.CurrentTopicPage > 1)
         {
-            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName, page = Model.CurrentTopicPage }, new { @class = "btn btn-xs post-link-button", title = T[LocalizableStrings.PostLinkTitle] })
+            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName, page = Model.CurrentTopicPage }, new { @class = "btn btn-sm post-link-button", title = T[LocalizableStrings.PostLinkTitle] })
         }
         else
         {
-            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName }, new { @class = "btn btn-xs post-link-button", title = T[LocalizableStrings.PostLinkTitle] })
+            @Html.ActionLink(string.Concat("#", Model.Id), "Topic", "Forums", "http", string.Empty, Model.Id.ToString(), new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName }, new { @class = "btn btn-sm post-link-button", title = T[LocalizableStrings.PostLinkTitle] })
         }
     </th>
     <th class="post-actions">
-        <div class="manage-post">
+        <div class="manage-post float-end">
             @if (Model.IsCurrentUserAllowedToEditPost)
             {
-                <a href="@Url.Action("PostEdit", new { id = Model.Id })" class="btn btn-xs edit-post-button">
+                <a href="@Url.Action("PostEdit", new { id = Model.Id })" class="btn btn-sm edit-post-button">
                     <i class="fa fa-edit"></i>
                     @T[LocalizableStrings.EditPost]
                 </a>
             }
             @if (Model.IsCurrentUserAllowedToDeletePost)
             {
-                <a href="@Url.Action("PostDelete", new { id = Model.Id })" onclick="return confirm('@T[MantleWebLocalizableStrings.General.AreYouSure]');" class="btn btn-xs text-danger delete-post-button">
+                <a href="@Url.Action("PostDelete", new { id = Model.Id })" onclick="return confirm('@T[MantleWebLocalizableStrings.General.AreYouSure]');" class="btn btn-sm text-danger delete-post-button">
                     <i class="fa fa-remove"></i>
                     @T[LocalizableStrings.DeletePost]
                 </a>
             }
-            <a href="@Url.Action("PostCreate", new { Model.ForumTopicId, quote = Model.Id })" class="btn btn-xs quote-post-button">
+            <a href="@Url.Action("PostCreate", new { Model.ForumTopicId, quote = Model.Id })" class="btn btn-sm quote-post-button">
                 <i class="fa fa-quote-right"></i>
                 @T[LocalizableStrings.QuotePost]
             </a>
         </div>
         @*<div class="quote-post">
-                @Html.ActionLink(T[LocalizableStrings.QuotePost], "PostCreate", new { id = Model.ForumTopicId, quote = Model.Id }, new { @class = "btn btn-xs quote-post-button" })
+                @Html.ActionLink(T[LocalizableStrings.QuotePost], "PostCreate", new { id = Model.ForumTopicId, quote = Model.Id }, new { @class = "btn btn-sm quote-post-button" })
             </div>*@
     </th>
 </tr>
@@ -105,7 +105,7 @@
         @if (Model.AllowPrivateMessages)
         {
             <div class="send-pm">
-                <a href="@Url.Action("SendPM", "PrivateMessages", new { toUserId = Model.UserId })" class="btn btn-xs pm-button">
+                <a href="@Url.Action("SendPM", "PrivateMessages", new { toUserId = Model.UserId })" class="btn btn-sm pm-button">
                     <i class="fa fa-comment"></i>
                     @T[LocalizableStrings.PrivateMessages.PM]
                 </a>

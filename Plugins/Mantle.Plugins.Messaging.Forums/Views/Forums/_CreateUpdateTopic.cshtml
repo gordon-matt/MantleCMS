@@ -57,7 +57,7 @@
                         {
                             <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript" src="/Plugins/Messaging.Forums/wwwroot/js/BBEditor/ed.js"></script>
                             <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-                                edToolbar('Text', '/Plugins/Messaging.Forums/Scripts/', true);
+                                edToolbar('Text', '/Plugins/Messaging.Forums/wwwroot/js/', true);
                             </script>
                         }
                         <br />
@@ -81,8 +81,8 @@
                 </div>
             </div>
             <div class="buttons">
-                <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-primary submit-topic-button" />
-                @Html.ActionLink(T[MantleWebLocalizableStrings.General.Cancel], "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-secondary cancel-topic-button" })
+                <input type="submit" value="@T[MantleWebLocalizableStrings.General.Submit]" class="btn btn-outline-primary submit-topic-button" />
+                @Html.ActionLink(T[MantleWebLocalizableStrings.General.Cancel], "Forum", new { id = Model.ForumId, slug = Model.ForumSeName }, new { @class = "btn btn-outline-secondary cancel-topic-button" })
             </div>
         }
     </div>

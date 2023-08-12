@@ -2,32 +2,34 @@
 
 <div class="row forums-table-section topic-group active-discussions">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="panel panel-default active-discussions-panel">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    @if (Model.ActiveDiscussionsFeedEnabled)
-                    {
-                        <a href="@Url.Action("ActiveDiscussionsRSS")" class="btn btn-link btn-xs link-rss" title="@T[LocalizableStrings.ActiveDiscussionsRSSLinkTitle]">
-                            <i class="fa fa-rss"></i>
-                            @T[LocalizableStrings.RSS]
-                        </a>
-                    }
-                    @T[LocalizableStrings.ActiveDiscussions]
-                </h3>
-            </div>
-            <div class="panel-body row">
-                @{
-                    var pager = Html.Pager(new PagerModel
-                    {
-                        PageSize = Model.TopicPageSize,
-                        TotalRecords = Model.TopicTotalRecords,
-                        PageIndex = Model.TopicPageIndex,
-                        ShowTotalSummary = false,
-                        RouteActionName = "ActiveDiscussions",
-                        //UseRouteLinks = true,
-                        RouteValues = new ForumActiveDiscussionsRouteValues()
-                    }).ToString();
-                }
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Default, htmlAttributes: new { @class = "active-discussions-panel mb-3" })))
+        {
+            string title = null;
+            if (Model.ActiveDiscussionsFeedEnabled)
+            {
+                title = $@"<a href=""{Url.Action("ActiveDiscussionsRSS")}"" class=""btn btn-link btn-sm link-rss"" title=""{T[LocalizableStrings.ActiveDiscussionsRSSLinkTitle]}""><i class=""fa fa-rss""></i>{T[LocalizableStrings.RSS]}</a>";
+            }
+            else
+            {
+                title = T[LocalizableStrings.ActiveDiscussions];
+            }
+
+            using (var header = panel.BeginHeader(title))
+            {
+            }
+            using (var body = panel.BeginBody())
+            {
+                var pager = Html.Pager(new PagerModel
+                {
+                    PageSize = Model.TopicPageSize,
+                    TotalRecords = Model.TopicTotalRecords,
+                    PageIndex = Model.TopicPageIndex,
+                    ShowTotalSummary = false,
+                    RouteActionName = "ActiveDiscussions",
+                    //UseRouteLinks = true,
+                    RouteValues = new ForumActiveDiscussionsRouteValues()
+                }).ToString();
+
                 @if (!string.IsNullOrEmpty(pager))
                 {
                     <div class="@MantleWebConstants.AdminCss.Columns.Full">
@@ -48,18 +50,10 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th class="topic-details">
-                                        @T[LocalizableStrings.TopicTitle]
-                                    </th>
-                                    <th class="replies">
-                                        @T[LocalizableStrings.Replies]
-                                    </th>
-                                    <th class="views">
-                                        @T[LocalizableStrings.Views]
-                                    </th>
-                                    <th class="latest-post">
-                                        @T[LocalizableStrings.LatestPost]
-                                    </th>
+                                    <th class="topic-details">@T[LocalizableStrings.TopicTitle]</th>
+                                    <th class="replies">@T[LocalizableStrings.Replies]</th>
+                                    <th class="views">@T[LocalizableStrings.Views]</th>
+                                    <th class="latest-post">@T[LocalizableStrings.LatestPost]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,7 +117,7 @@
                         </div>
                     </div>
                 }
-            </div>
-        </div>
+            }
+        }
     </div>
 </div>

@@ -14,7 +14,7 @@
             <div class="forum-name">
                 @if (Model.ForumFeedsEnabled)
                 {
-                    <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-xs link-rss" title="@T[LocalizableStrings.ForumRSSLinkTitle]">
+                    <a href="@Url.Action("ForumRss", new { id = Model.Id })" class="btn btn-link btn-sm link-rss" title="@T[LocalizableStrings.ForumRSSLinkTitle]">
                         <i class="fa fa-rss"></i>
                         @T[LocalizableStrings.RSS]
                     </a>
@@ -28,17 +28,15 @@
     </div>
 
     <div class="row forum-actions">
-        <div class="@MantleWebConstants.AdminCss.Columns.Full actions">
-            <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-primary">
+        <div class="@MantleWebConstants.AdminCss.Columns.Full actions mb-3">
+            <a href="@Url.Action("TopicCreate", new { id = Model.Id })" class="btn btn-outline-primary" title="@T[LocalizableStrings.NewTopic]">
                 <i class="fa fa-plus"></i>
-                @T[LocalizableStrings.NewTopic]
             </a>
 
             @if (Model.IsUserAllowedToSubscribe)
             {
-                <a class="btn btn-success" href="#" id="watch-forum">
+                <a class="btn btn-outline-success" href="#" id="watch-forum" title="@Model.WatchForumText">
                     <i class="fa fa-binoculars"></i>
-                    @Model.WatchForumText
                 </a>
 
                 <script asp-location="Foot" type="text/javascript">
@@ -96,18 +94,10 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th class="topic-details" colspan="2">
-                                    @T[LocalizableStrings.TopicTitle]
-                                </th>
-                                <th class="replies">
-                                    @T[LocalizableStrings.Replies]
-                                </th>
-                                <th class="views">
-                                    @T[LocalizableStrings.Views]
-                                </th>
-                                <th class="latest-post">
-                                    @T[LocalizableStrings.LatestPost]
-                                </th>
+                                <th class="topic-details" colspan="2">@T[LocalizableStrings.TopicTitle]</th>
+                                <th class="replies">@T[LocalizableStrings.Replies]</th>
+                                <th class="views">@T[LocalizableStrings.Views]</th>
+                                <th class="latest-post">@T[LocalizableStrings.LatestPost]</th>
                             </tr>
                         </thead>
                         <tbody>

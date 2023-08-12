@@ -7,47 +7,50 @@
     //var breadcrumbDelimiter = EngineContext.Current.Resolve<CommonSettings>().BreadcrumbDelimiter; //TODO:
     string breadcrumbDelimiter = string.Empty;
 }
-<div class="forum-breadcrumb">
-    <ul class="breadcrumb">
-        <li>
-            <a href="@Url.Action("Index", "Home", new { area = string.Empty })" title="@T[MantleWebLocalizableStrings.General.Home]">@T[MantleWebLocalizableStrings.General.Home]</a>
+
+<nav class="forum-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="@Url.Action("Index", "Home", new { area = string.Empty })" title="@T[MantleWebLocalizableStrings.General.Home]">
+                @T[MantleWebLocalizableStrings.General.Home]
+            </a>
         </li>
-        <li>
+        <li class="breadcrumb-item">
             <span class="delimiter">@breadcrumbDelimiter</span>
-            @Html.ActionLink(T[LocalizableStrings.Forums], "Index", null, new { title = T[LocalizableStrings.Breadcrumb.ForumHomeTitle] })
+            @Html.ActionLink(T[LocalizableStrings.Forums], "Index", routeValues: null, htmlAttributes: new { title = T[LocalizableStrings.Breadcrumb.ForumHomeTitle] })
         </li>
         @if (Model.ForumGroupId > 0)
         {
-            <li>
+            <li class="breadcrumb-item">
                 <span class="delimiter">@breadcrumbDelimiter</span>
                 @Html.ActionLink(
                     Model.ForumGroupName,
                     "ForumGroup",
-                    new { id = Model.ForumGroupId, slug = Model.ForumGroupSeName },
-                    new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.ForumGroupTitle], Model.ForumGroupName) })
+                    routeValues: new { id = Model.ForumGroupId, slug = Model.ForumGroupSeName },
+                    htmlAttributes: new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.ForumGroupTitle], Model.ForumGroupName) })
             </li>
         }
         @if (Model.ForumId > 0)
         {
-            <li>
+            <li class="breadcrumb-item">
                 <span class="delimiter">@breadcrumbDelimiter</span>
                 @Html.ActionLink(
                     Model.ForumName,
                     "Forum",
-                    new { id = Model.ForumId, slug = Model.ForumSeName },
-                    new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.ForumTitle], Model.ForumName) })
+                    routeValues: new { id = Model.ForumId, slug = Model.ForumSeName },
+                    htmlAttributes: new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.ForumTitle], Model.ForumName) })
             </li>
         }
         @if (Model.ForumTopicId > 0)
         {
-            <li>
+            <li class="breadcrumb-item">
                 <span class="delimiter">@breadcrumbDelimiter</span>
                 @Html.ActionLink(
                     Model.ForumTopicSubject,
                     "Topic",
-                    new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName },
-                    new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.TopicTitle], Model.ForumTopicSubject) })
+                    routeValues: new { id = Model.ForumTopicId, slug = Model.ForumTopicSeName },
+                    htmlAttributes: new { title = string.Format("{0}: {1} ", T[LocalizableStrings.Breadcrumb.TopicTitle], Model.ForumTopicSubject) })
             </li>
         }
-    </ul>
-</div>
+    </ol>
+</nav>

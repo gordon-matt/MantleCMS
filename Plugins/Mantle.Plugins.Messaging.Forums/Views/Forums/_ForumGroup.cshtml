@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Default)))
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Default, htmlAttributes: new { @class = "forum-group-panel mb-3" })))
         {
             using (var header = panel.BeginHeader(Html.ActionLink(Model.Name, "ForumGroup", new { id = Model.Id, slug = Model.SeName }).GetString()))
             {
