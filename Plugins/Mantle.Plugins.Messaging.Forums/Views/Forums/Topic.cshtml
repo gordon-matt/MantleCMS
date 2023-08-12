@@ -5,7 +5,7 @@
 }
 <div class="page forum-topic-page">
     @await Component.ForumBreadcrumbsAsync(forumTopicId: Model.Id)
-    @await Html.PartialAsync("_ForumHeader")
+    <partial name="_ForumHeader" />
     <hr class="clearfix" />
     <div class="topic-name">
         <h1>@Model.Subject</h1>
@@ -91,7 +91,7 @@
         <table class="table table-bordered">
             @foreach (var post in Model.ForumPostModels)
             {
-                await Html.RenderPartialAsync("_ForumPost", post);
+                <partial name="_ForumPost" model="post" />
             }
         </table>
     </div>
@@ -99,7 +99,7 @@
     @*<div class="topic-posts">
         @foreach (var post in Model.ForumPostModels)
         {
-            await Html.RenderPartialAsync("_ForumPost", post);
+            <partial name="_ForumPost" model="post" />
         }
     </div>*@
 

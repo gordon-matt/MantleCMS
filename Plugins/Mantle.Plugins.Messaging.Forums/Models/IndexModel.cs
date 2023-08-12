@@ -1,12 +1,11 @@
-﻿namespace Mantle.Plugins.Messaging.Forums.Models
-{
-    public class IndexModel
-    {
-        public IndexModel()
-        {
-            this.ForumGroups = new List<ForumGroupModel>();
-        }
+﻿namespace Mantle.Plugins.Messaging.Forums.Models;
 
-        public IList<ForumGroupModel> ForumGroups { get; set; }
+public class IndexModel
+{
+    public IndexModel()
+    {
+        this.ForumGroups = new List<ForumGroupModel>();
     }
+
+    public IList<ForumGroupModel> ForumGroups { get; set; }
 }

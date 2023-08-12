@@ -1,11 +1,10 @@
-﻿namespace Mantle.Plugins.Messaging.Forums.Data.Domain
+﻿namespace Mantle.Plugins.Messaging.Forums.Data.Domain;
+
+public enum ForumSearchType : byte
 {
-    public enum ForumSearchType : byte
-    {
-        All = 0,
+    All = 0,
 
-        TopicTitlesOnly = 10,
+    TopicTitlesOnly = 10,
 
-        PostTextOnly = 20,
-    }
+    PostTextOnly = 20,
 }

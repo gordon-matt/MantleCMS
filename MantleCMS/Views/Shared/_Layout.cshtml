@@ -15,6 +15,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="~/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -26,8 +27,11 @@
               asp-fallback-test-value="absolute"
               integrity="sha256-2TnSHycBDAm2wpZmgdi0z81kykGPJAkiUY+Wf97RbvY="
               crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" media="screen" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+
+    @*<link rel="stylesheet" href="~/Plugins/Messaging.Forums/wwwroot/css/forums.css" asp-exclude-from-bundle="true" />*@
 
     @Html.Raw(JavaScriptSnippet.FullScript)
 

@@ -2,7 +2,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 /// Represents a code format helper
@@ -158,7 +158,7 @@ public partial class CodeFormatHelper
     /// <returns>Formatted text</returns>
     public static string FormatTextSimple(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }

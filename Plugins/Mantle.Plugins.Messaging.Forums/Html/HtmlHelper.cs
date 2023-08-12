@@ -2,7 +2,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html;
+namespace Mantle.Plugins.Messaging.Forums.Html;
 
 /// <summary>
 /// Represents a HTML helper
@@ -21,7 +21,7 @@ public partial class HtmlHelper
 
     private static string EnsureOnlyAllowedHtml(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -103,7 +103,7 @@ public partial class HtmlHelper
         bool convertPlainTextToHtml, bool allowHtml,
         bool allowBBCode, bool resolveLinks, bool addNoFollowTag)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -151,7 +151,7 @@ public partial class HtmlHelper
     /// <returns>Formatted text</returns>
     public static string StripTags(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -170,7 +170,7 @@ public partial class HtmlHelper
     /// <returns>Text</returns>
     public static string ReplaceAnchorTags(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -186,7 +186,7 @@ public partial class HtmlHelper
     /// <returns>Formatted text</returns>
     public static string ConvertPlainTextToHtml(string text)
     {
-        if (String.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return string.Empty;
         }
@@ -255,7 +255,7 @@ public partial class HtmlHelper
         var builder = new StringBuilder();
         foreach (string str in strArray)
         {
-            if ((str != null) && (str.Trim().Length > 0))
+            if (str != null && str.Trim().Length > 0)
             {
                 builder.AppendFormat("<p>{0}</p>\n", str);
             }

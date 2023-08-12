@@ -1,9 +1,8 @@
-﻿namespace Mantle.Plugins.Messaging.Forums.Data.Domain
-{
-    public enum EditorType : byte
-    {
-        SimpleTextBox = 10,
+﻿namespace Mantle.Plugins.Messaging.Forums.Data.Domain;
 
-        BBCodeEditor = 20
-    }
+public enum EditorType : byte
+{
+    SimpleTextBox = 10,
+
+    BBCodeEditor = 20
 }

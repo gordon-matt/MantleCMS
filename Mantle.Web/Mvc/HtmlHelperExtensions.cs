@@ -14,27 +14,6 @@ public enum PageTarget : byte
 
 public static class HtmlHelperExtensions
 {
-    #region Image Map
-
-    public static IHtmlContent Map(this IHtmlHelper helper, string name, ImageMapHotSpot[] hotSpots)
-    {
-        return helper.Map(name, name, hotSpots);
-    }
-
-    public static IHtmlContent Map(this IHtmlHelper helper, string name, string id, ImageMapHotSpot[] hotSpots)
-    {
-        var map = new ImageMap
-        {
-            ID = id,
-            Name = name,
-            HotSpots = hotSpots
-        };
-
-        return new HtmlString(map.ToString());
-    }
-
-    #endregion Image Map
-
     #region Html Link
 
     public static IHtmlContent EmailLink(this IHtmlHelper helper, string emailAddress)

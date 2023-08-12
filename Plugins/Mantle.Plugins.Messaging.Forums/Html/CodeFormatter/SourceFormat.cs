@@ -24,7 +24,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace Mantle.Web.Html.CodeFormatter;
+namespace Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 /// <summary>
 ///	Provides a base implementation for all code formatters.
@@ -165,7 +165,7 @@ public abstract partial class SourceFormat
         }
 
         //color the code
-        source = CodeRegex.Replace(sb.ToString(), new MatchEvaluator(this.MatchEval));
+        source = CodeRegex.Replace(sb.ToString(), new MatchEvaluator(MatchEval));
 
         sb = new StringBuilder();
 
@@ -190,7 +190,7 @@ public abstract partial class SourceFormat
                 while ((line = reader.ReadLine()) != null)
                 {
                     i++;
-                    if (alternate && ((i % 2) == 1))
+                    if (alternate && i % 2 == 1)
                     {
                         sb.Append("<pre class=\"alt\">");
                     }
