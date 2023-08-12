@@ -1,15 +1,17 @@
-﻿@model ForumGroupModel
+﻿@using Extenso.AspNetCore.Mvc.Html
 
-<div class="row forums-table-section forum-group">
+@model ForumGroupModel
+
+<div class="row">
     <div class="@MantleWebConstants.AdminCss.Columns.Full">
-        <div class="panel panel-primary forum-group-panel">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    @Html.ActionLink(Model.Name, "ForumGroup", new { id = Model.Id, slug = Model.SeName })
-                </h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-bordered">
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Default)))
+        {
+            using (var header = panel.BeginHeader(Html.ActionLink(Model.Name, "ForumGroup", new { id = Model.Id, slug = Model.SeName }).GetString()))
+            {
+            }
+            using (var body = panel.BeginBody())
+            {
+                <table class="table table-bordered forums-table">
                     <colgroup>
                         <col width="1" />
                         <col />
@@ -19,26 +21,18 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th class="forum-details" colspan="2">
-                                @T[LocalizableStrings.Forum]
-                            </th>
-                            <th class="topics">
-                                @T[LocalizableStrings.Topics]
-                            </th>
-                            <th class="posts">
-                                @T[LocalizableStrings.Posts]
-                            </th>
-                            <th class="latest-post">
-                                @T[LocalizableStrings.LatestPost]
-                            </th>
+                            <th class="forum-details" colspan="2">@T[LocalizableStrings.Forum]</th>
+                            <th class="topics">@T[LocalizableStrings.Topics]</th>
+                            <th class="posts">@T[LocalizableStrings.Posts]</th>
+                            <th class="latest-post">@T[LocalizableStrings.LatestPost]</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var forum in Model.Forums)
                         {
                             <tr>
-                                <td class="image">
-                                    <div class="post"></div>
+                                <td class="forums-icon">
+                                    <img src="/Plugins/Messaging.Forums/wwwroot/images/post.png" />
                                 </td>
                                 <td class="forum-details">
                                     <div class="forum-title">
@@ -57,7 +51,7 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
+            }
+        }
     </div>
 </div>

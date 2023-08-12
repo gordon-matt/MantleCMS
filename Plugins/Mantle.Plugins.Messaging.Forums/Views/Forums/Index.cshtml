@@ -4,16 +4,16 @@
     ViewBag.Title = T[LocalizableStrings.PageTitle.Default];
 }
 
-@*<div class="page forums-main-page">*@
-@*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
+<div class="page forums-main-page">
+    @*@Html.Action("TopicBlock", "Topic", new { systemName = "ForumWelcomeMessage" })*@
 
-<partial name="_ForumHeader" />
+    <partial name="_ForumHeader" />
 
-<hr class="clearfix" />
-@foreach (var forumGroup in Model.ForumGroups)
-{
-    <partial name="_ForumGroup" model="forumGroup" />
-}
+    <hr class="clearfix" />
+    @foreach (var forumGroup in Model.ForumGroups)
+    {
+        <partial name="_ForumGroup" model="forumGroup" />
+    }
 
-@await Component.ActiveDiscussionsSmallAsync()
-@*</div>*@
+    @await Component.ActiveDiscussionsSmallAsync()
+</div>
