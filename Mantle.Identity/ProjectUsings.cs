@@ -1,10 +1,10 @@
-﻿global using Mantle.Identity.Domain;
+﻿global using Mantle.Identity.Entities;
 global using Mantle.Identity.Models.AccountViewModels;
 global using Mantle.Identity.Services;
 global using Mantle.Infrastructure;
 global using Mantle.Security.Membership;
 global using Mantle.Security.Membership.Permissions;
-global using Mantle.Tenants.Domain;
+global using Mantle.Tenants.Entities;
 global using Mantle.Web;
 global using Mantle.Web.Mvc;
 global using Mantle.Web.Mvc.Routing;

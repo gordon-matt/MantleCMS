@@ -2,7 +2,7 @@ using Autofac;
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;

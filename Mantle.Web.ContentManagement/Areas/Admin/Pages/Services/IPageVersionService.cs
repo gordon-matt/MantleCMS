@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Pages.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 

@@ -1,6 +1,6 @@
 ﻿using Extenso.Data.Entity;
 using Mantle.Infrastructure;
-using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;
+using Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 using Mantle.Web.Collections;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;

@@ -3,7 +3,7 @@
 //using Mantle.Data.Services;
 //using Mantle.Infrastructure;
 //using Mantle.Security.Membership.Permissions;
-//using Mantle.Tenants.Domain;
+//using Mantle.Tenants.Entities;
 
 //namespace Mantle.Web.Mvc
 //{

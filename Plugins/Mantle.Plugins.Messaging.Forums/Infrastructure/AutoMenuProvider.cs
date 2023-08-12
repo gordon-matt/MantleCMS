@@ -1,5 +1,5 @@
 ﻿using Mantle.Plugins.Messaging.Forums.Extensions;
-using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
+using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Mantle.Web.ContentManagement.Infrastructure;
 using System.Security.Principal;
 

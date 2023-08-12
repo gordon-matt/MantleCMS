@@ -46,7 +46,7 @@ public class ForumSettings : BaseResourceSettings
 
     #region ISettings Members
 
-    public override string Name => "Forum Settings";
+    public override string Name => "Plugin: Forums";
 
     public override string EditorTemplatePath => "/Plugins/Messaging.Forums/Views/Shared/EditorTemplates/ForumSettings.cshtml";
 

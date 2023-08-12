@@ -168,7 +168,7 @@
 
             GridHelper.initKendoGrid(
                 "CountryGrid",
-                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country'",
+                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'Country'",
                 {
                     fields: {
                         Name: { type: "string" }
@@ -310,7 +310,7 @@
             self.parent.selectedStateId(0);
 
             const grid = $('#StateGrid').data('kendoGrid');
-            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State' and ParentId eq " + countryId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'State' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
@@ -323,7 +323,7 @@
             self.parent.selectedStateId(0);
 
             const grid = $('#CityGrid').data('kendoGrid');
-            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + countryId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'City' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
@@ -356,7 +356,7 @@
 
             GridHelper.initKendoGrid(
                 "StateGrid",
-                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'State'",
+                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'State'",
                 {
                     fields: {
                         Name: { type: "string" }
@@ -493,7 +493,7 @@
             self.parent.selectedStateId(stateId);
 
             const grid = $('#CityGrid').data('kendoGrid');
-            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City' and ParentId eq " + stateId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'City' and ParentId eq " + stateId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
@@ -524,7 +524,7 @@
 
             GridHelper.initKendoGrid(
                 "CityGrid",
-                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'City'",
+                apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'City'",
                 {
                     fields: {
                         Name: { type: "string" }
@@ -722,7 +722,7 @@
             self.selectedContinentId(continentId);
 
             const grid = $('#CountryGrid').data('kendoGrid');
-            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Domain.RegionType'Country' and ParentId eq " + continentId;
+            grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'Country' and ParentId eq " + continentId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();

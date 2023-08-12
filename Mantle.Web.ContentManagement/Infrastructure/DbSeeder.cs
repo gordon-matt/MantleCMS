@@ -1,6 +1,6 @@
 ﻿//using System;
 //using System.Linq;
-//using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
+//using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 //using Mantle.Web.ContentManagement.Areas.Admin.Localization;
 //using Microsoft.EntityFrameworkCore;
 

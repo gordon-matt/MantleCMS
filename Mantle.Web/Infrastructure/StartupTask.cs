@@ -1,5 +1,5 @@
 ﻿using Mantle.Security;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 
 namespace Mantle.Web.Infrastructure;
 

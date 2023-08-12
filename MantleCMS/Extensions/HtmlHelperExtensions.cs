@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;

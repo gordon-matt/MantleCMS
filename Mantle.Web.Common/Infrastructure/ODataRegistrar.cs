@@ -1,6 +1,6 @@
 ﻿using Extenso.AspNetCore.OData;
 using Mantle.Web.Common.Areas.Admin.Regions.Controllers.Api;
-using Mantle.Web.Common.Areas.Admin.Regions.Domain;
+using Mantle.Web.Common.Areas.Admin.Regions.Entities;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 

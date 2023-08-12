@@ -1,4 +1,4 @@
-﻿using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;
+﻿using Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
 using Mantle.Security.Membership.Permissions;
 using Mantle.Web.OData;

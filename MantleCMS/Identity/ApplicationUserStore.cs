@@ -1,5 +1,5 @@
 ﻿using Mantle.Identity;
-using Mantle.Identity.Domain;
+using Mantle.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace MantleCMS.Identity;

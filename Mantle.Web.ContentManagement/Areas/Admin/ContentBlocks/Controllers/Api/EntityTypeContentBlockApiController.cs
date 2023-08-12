@@ -1,5 +1,5 @@
-﻿using Mantle.Localization.Domain;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Domain;
+﻿using Mantle.Localization.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers.Api;

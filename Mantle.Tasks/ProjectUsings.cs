@@ -5,7 +5,7 @@ global using Extenso.Data.Entity;
 global using Mantle.Data.Entity;
 global using Mantle.Infrastructure;
 global using Mantle.Tasks.Configuration;
-global using Mantle.Tasks.Domain;
+global using Mantle.Tasks.Entities;
 global using Mantle.Tasks.Services;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

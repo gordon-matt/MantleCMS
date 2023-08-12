@@ -1,5 +1,5 @@
 ﻿using Mantle.Tenants;
-using Mantle.Tenants.Domain;
+using Mantle.Tenants.Entities;
 using Microsoft.Extensions.Caching.Memory;
 using SaasKit.Multitenancy;
 

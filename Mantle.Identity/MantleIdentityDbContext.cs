@@ -1,13 +1,13 @@
 ﻿using Mantle.Data.Entity;
 using Mantle.Helpers;
 using Mantle.Localization;
-using Mantle.Localization.Domain;
-using Mantle.Logging.Domain;
-using Mantle.Tasks.Domain;
-using Mantle.Web.Configuration.Domain;
+using Mantle.Localization.Entities;
+using Mantle.Logging.Entities;
+using Mantle.Tasks.Entities;
+using Mantle.Web.Configuration.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using LanguageEntity = Mantle.Localization.Domain.Language;
+using LanguageEntity = Mantle.Localization.Entities.Language;
 
 namespace Mantle.Identity;
 

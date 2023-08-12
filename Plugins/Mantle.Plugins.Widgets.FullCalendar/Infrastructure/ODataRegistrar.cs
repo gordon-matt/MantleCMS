@@ -1,5 +1,5 @@
 ﻿using Extenso.AspNetCore.OData;
-using Mantle.Plugins.Widgets.FullCalendar.Data.Domain;
+using Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 

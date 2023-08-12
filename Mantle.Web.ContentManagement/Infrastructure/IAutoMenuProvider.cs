@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using System.Security.Principal;
 
 namespace Mantle.Web.ContentManagement.Infrastructure;

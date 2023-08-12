@@ -1,6 +1,6 @@
 ﻿using Mantle.Localization;
-using Mantle.Localization.Domain;
-using LanguageEntity = Mantle.Localization.Domain.Language;
+using Mantle.Localization.Entities;
+using LanguageEntity = Mantle.Localization.Entities.Language;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api;
 

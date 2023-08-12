@@ -1,4 +1,4 @@
-﻿using LanguageEntity = Mantle.Localization.Domain.Language;
+﻿using LanguageEntity = Mantle.Localization.Entities.Language;
 
 namespace Mantle.Localization.Services;
 

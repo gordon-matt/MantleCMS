@@ -1,4 +1,4 @@
-﻿using Mantle.Localization.Domain;
+﻿using Mantle.Localization.Entities;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers.Api;
 

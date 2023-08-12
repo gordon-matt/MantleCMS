@@ -4,20 +4,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mantle.Plugins.Caching.Redis
 {
-    public class RedisCacheSettings : ISettings
+    public class RedisCacheSettings : BaseSettings
     {
         [Required]
         [LocalizedDisplayName(LocalizableStrings.Settings.ConnectionString)]
-        [SettingsProperty]
+        [SettingsProperty("localhost,allowAdmin=true")]
         public string ConnectionString { get; set; }
 
         #region ISettings Members
 
-        public string Name => "Redis Cache Settings";
+        public override string Name => "Plugin: Redis Cache Settings";
 
-        public bool IsTenantRestricted => false;
-
-        public string EditorTemplatePath => "Mantle.Plugins.Caching.Redis.Views.Shared.EditorTemplates.RedisCacheSettings.cshtml"; // TODO...
+        public override string EditorTemplatePath => "/Plugins/Caching.Redis/Views/Shared/EditorTemplates/RedisCacheSettings.cshtml";
 
         #endregion ISettings Members
     }

@@ -10,7 +10,7 @@ namespace Mantle.Plugins.Caching.Redis.Infrastructure
 
         public IDictionary<string, string> LocalizedStrings => new Dictionary<string, string>
         {
-            { LocalizableStrings.Settings.ConnectionString, "localhost,allowAdmin=true" },
+            { LocalizableStrings.Settings.ConnectionString, "Connection String" },
         };
 
         #endregion ILanguagePack Members

@@ -1,4 +1,4 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Domain;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 

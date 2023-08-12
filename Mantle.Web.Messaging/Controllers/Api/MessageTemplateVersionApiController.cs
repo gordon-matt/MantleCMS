@@ -1,4 +1,4 @@
-﻿using Mantle.Messaging.Data.Domain;
+﻿using Mantle.Messaging.Data.Entities;
 using Mantle.Messaging.Services;
 
 namespace Mantle.Web.Messaging.Controllers.Api;
