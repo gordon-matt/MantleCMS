@@ -9,7 +9,7 @@ public class DesignTimeApplicationDbContextFactory : IDesignTimeDbContextFactory
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MantleCMS_New;User=sa;Password=Admin@123;");
+        optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MantleCMS;User=sa;Password=Admin@123;TrustServerCertificate=True;");
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 }
