@@ -1,7 +1,6 @@
 ﻿using Extenso.AspNetCore.Mvc.Html;
 using Humanizer;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
 
@@ -14,7 +13,7 @@ public class MantleSelectTagHelper : TagHelper
     protected const string ICON_ATTRIBUTE_NAME = "asp-icon";
     protected const string ITEMS_ATTRIBUTE_NAME = "asp-items";
     protected const string LABEL_ATTRIBUTE_NAME = "asp-label";
-    protected const string NAME_ATTRIBUTE_NAME = "asp-for-name";
+    protected const string FORNAME_ATTRIBUTE_NAME = "asp-for-name";
     protected const string REQUIRED_ATTRIBUTE_NAME = "asp-required";
     protected const string VALIDATION_MSG_ATTRIBUTE_NAME = "asp-validation-msg";
 
@@ -34,7 +33,7 @@ public class MantleSelectTagHelper : TagHelper
     /// <summary>
     /// Name for a dropdown list
     /// </summary>
-    [HtmlAttributeName(NAME_ATTRIBUTE_NAME)]
+    [HtmlAttributeName(FORNAME_ATTRIBUTE_NAME)]
     public string Name { get; set; }
 
     /// <summary>
@@ -112,13 +111,27 @@ public class MantleSelectTagHelper : TagHelper
         var attributes = context.AllAttributes;
         foreach (var attribute in attributes)
         {
-            if (!attribute.Name.In(FOR_ATTRIBUTE_NAME, NAME_ATTRIBUTE_NAME, ITEMS_ATTRIBUTE_NAME, REQUIRED_ATTRIBUTE_NAME, BIND_ATTRIBUTE_NAME))
+            if (!attribute.Name.In(FOR_ATTRIBUTE_NAME, FORNAME_ATTRIBUTE_NAME, ITEMS_ATTRIBUTE_NAME, REQUIRED_ATTRIBUTE_NAME, BIND_ATTRIBUTE_NAME))
             {
                 htmlAttributes.Add(attribute.Name, attribute.Value);
             }
         }
 
-        htmlAttributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
+        string koBinding = KnockoutBinding;
+        if (koBinding is null)
+        {
+            if (For.Name.Contains('.'))
+            {
+                string[] parts = For.Name.Split('.');
+                koBinding = string.Join(".", parts.Select(x => x.Camelize()));
+            }
+            else
+            {
+                koBinding = For.Name.Camelize();
+            }
+        }
+
+        htmlAttributes.Add("data-bind", $"value: {koBinding}");
 
         // Generate editor
         if (!string.IsNullOrEmpty(tagName))

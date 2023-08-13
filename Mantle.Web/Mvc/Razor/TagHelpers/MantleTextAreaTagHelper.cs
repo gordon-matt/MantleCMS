@@ -70,13 +70,27 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
             : "form-control";
         output.Attributes.SetAttribute("class", @class);
 
+        string koBinding = KnockoutBinding;
+        if (koBinding is null)
+        {
+            if (For.Name.Contains('.'))
+            {
+                string[] parts = For.Name.Split('.');
+                koBinding = string.Join(".", parts.Select(x => x.Camelize()));
+            }
+            else
+            {
+                koBinding = For.Name.Camelize();
+            }
+        }
+
         if (IsRichTextEditor)
         {
-            output.Attributes.Add("data-bind", $"wysiwyg: {KnockoutBinding ?? For.Name.Camelize()}, wysiwygConfig: {BindRichTextConfig}");
+            output.Attributes.Add("data-bind", $"wysiwyg: {koBinding}, wysiwygConfig: {BindRichTextConfig}");
         }
         else
         {
-            output.Attributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"value: {koBinding}");
         }
 
         preContent = $@"<div class=""mb-3"">{htmlHelper.Label(For.Name, Label, new { @class = "form-label" }).GetString()}";

@@ -48,16 +48,31 @@ public class MantleInputTagHelper : InputTagHelper
         string postContent = string.Empty;
 
         output.TagName = "input";
+
+        string koBinding = KnockoutBinding;
+        if (koBinding is null)
+        {
+            if (For.Name.Contains('.'))
+            {
+                string[] parts = For.Name.Split('.');
+                koBinding = string.Join(".", parts.Select(x => x.Camelize()));
+            }
+            else
+            {
+                koBinding = For.Name.Camelize();
+            }
+        }
+
         if (For.ModelExplorer.ModelType == typeof(bool))
         {
-            output.Attributes.Add("data-bind", $"checked: {KnockoutBinding ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"checked: {koBinding}");
             preContent = @"<div class=""checkbox""><label>";
             postContent = $@"&nbsp;{Label}</label></div>";
         }
         else
         {
             output.AddClass("form-control", HtmlEncoder.Default);
-            output.Attributes.Add("data-bind", $"value: {KnockoutBinding ?? For.Name.Camelize()}");
+            output.Attributes.Add("data-bind", $"value: {koBinding}");
 
             //string labelText;
             //if (!string.IsNullOrEmpty(Label))
@@ -83,7 +98,7 @@ public class MantleInputTagHelper : InputTagHelper
 
             if (!string.IsNullOrWhiteSpace(HelpText))
             {
-                postContent += htmlHelper.HelpText(For.Name).GetString();
+                postContent += htmlHelper.HelpText(HelpText).GetString();
             }
 
             postContent += "</div>";
