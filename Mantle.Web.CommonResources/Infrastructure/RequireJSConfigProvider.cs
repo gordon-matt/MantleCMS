@@ -12,13 +12,13 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
         {
             return new Dictionary<string, string>
             {
-                { "mantle-common", "/Mantle.Web.CommonResources.Scripts.mantle-common" },
-                { "mantle-knockout-chosen", "/Mantle.Web.CommonResources.Scripts.mantle-knockout-chosen" },
-                { "mantle-section-switching", "/Mantle.Web.CommonResources.Scripts.mantle-section-switching" },
-                { "mantle-tinymce", "/Mantle.Web.CommonResources.Scripts.tinymce.mantle-tinymce" },
-                { "momentjs", "/Mantle.Web.CommonResources.Scripts.moment-with-locales.min" },
-                { "grid-helper", "/Mantle.Web.CommonResources.Scripts.grid-helper" },
-                { "odata-helpers", "/Mantle.Web.CommonResources.Scripts.odata-helpers" }
+                { "mantle-common", "/_content/Mantle.Web.CommonResources/js/mantle-common" },
+                { "mantle-knockout-chosen", "/_content/Mantle.Web.CommonResources/js/mantle-knockout-chosen" },
+                { "mantle-section-switching", "/_content/Mantle.Web.CommonResources/js/mantle-section-switching" },
+                { "mantle-tinymce", "/_content/Mantle.Web.CommonResources/js/tinymce/mantle-tinymce" },
+                { "momentjs", "/_content/Mantle.Web.CommonResources/js/moment-with-locales.min" },
+                { "grid-helper", "/_content/Mantle.Web.CommonResources/js/grid-helper" },
+                { "odata-helpers", "/_content/Mantle.Web.CommonResources/js/odata-helpers" }
             };
         }
     }

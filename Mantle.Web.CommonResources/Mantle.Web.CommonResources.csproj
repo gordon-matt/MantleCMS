@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -9,47 +9,14 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
+	<OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
+	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Description>Mantle - Common Resources: Includes embedded JavaScript used by many of the framework's projects.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\mantle-common.js" />
-    <EmbeddedResource Include="Scripts\mantle-knockout-chosen.js" />
-    <EmbeddedResource Include="Scripts\mantle-jqval.js" />
-    <EmbeddedResource Include="Scripts\moment-with-locales.min.js" />
-    <EmbeddedResource Include="Scripts\odata-helpers.js" />
-    <EmbeddedResource Include="Scripts\tinymce\mantle-tinymce.js" />
-    <EmbeddedResource Include="Scripts\mantle-section-switching.js" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\mantle_contentzone\img\mantle_contentzone.png" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\mantle_contentzone\plugin.js" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\mantle_contentzone\plugin.min.js" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\responsivefilemanager\img\insertfile.gif" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\responsivefilemanager\plugin.js" />
-    <EmbeddedResource Include="Scripts\tinymce\plugins\responsivefilemanager\plugin.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Scripts\grid-helper.js" />
-    <None Remove="Scripts\mantle-common.js" />
-    <None Remove="Scripts\mantle-knockout-chosen.js" />
-    <None Remove="Scripts\mantle-section-switching.js" />
-    <None Remove="Scripts\moment-with-locales.min.js" />
-    <None Remove="Scripts\odata-helpers.js" />
-    <None Remove="Scripts\tinymce\plugins\mantle_contentzone\img\mantle_contentzone.png" />
-    <None Remove="Scripts\tinymce\plugins\mantle_contentzone\plugin.js" />
-    <None Remove="Scripts\tinymce\plugins\mantle_contentzone\plugin.min.js" />
-    <None Remove="Scripts\tinymce\plugins\responsivefilemanager\img\insertfile.gif" />
-    <None Remove="Scripts\tinymce\plugins\responsivefilemanager\plugin.js" />
-    <None Remove="Scripts\tinymce\plugins\responsivefilemanager\plugin.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\grid-helper.js" />
   </ItemGroup>
 
   <ItemGroup>
