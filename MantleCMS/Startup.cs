@@ -3,6 +3,7 @@ using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
 using Mantle.Tenants.Entities;
+using Mantle.Web.CommonResources.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
@@ -223,6 +224,7 @@ public class Startup
         services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
         services.ConfigureMantleOptions(Configuration);
+        services.ConfigureMantleCommonResourceOptions(Configuration);
         services.AddMantleWebOptimizer(Configuration);
     }
 

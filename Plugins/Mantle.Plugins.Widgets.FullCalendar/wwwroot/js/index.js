@@ -102,7 +102,7 @@
             await ODataHelper.deleteOData(`${eventApiUrl}(${id})`, () => {
                 $('#EventGrid').data('kendoGrid').dataSource.read();
                 $('#EventGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success((self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -128,7 +128,7 @@
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
                     switchSection($("#events-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -136,7 +136,7 @@
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
                     switchSection($("#events-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };

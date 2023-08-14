@@ -5,6 +5,7 @@ using Mantle.Plugins.Widgets.FlexSlider.ContentBlocks;
 using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Mvc.Themes;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
 {
@@ -12,7 +13,7 @@ namespace Mantle.Plugins.Widgets.FlexSlider.Infrastructure
     {
         #region IDependencyRegistrar Members
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

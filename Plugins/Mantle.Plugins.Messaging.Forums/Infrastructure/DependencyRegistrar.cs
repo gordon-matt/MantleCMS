@@ -5,6 +5,7 @@ using Mantle.Plugins.Messaging.Forums.Services;
 using Mantle.Web.ContentManagement.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure;
 
@@ -12,7 +13,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {

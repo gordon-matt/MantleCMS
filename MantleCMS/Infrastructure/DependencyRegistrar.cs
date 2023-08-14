@@ -3,9 +3,11 @@ using Mantle.Data.Entity;
 using Mantle.Data.Services;
 using Mantle.Localization;
 using Mantle.Security.Membership;
+using Mantle.Web.CommonResources.ScriptBuilder.Toasts;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
 using MantleCMS.Areas.Admin;
+using MantleCMS.Infrastructure.ScriptBuilder;
 using MantleCMS.Services;
 
 namespace MantleCMS.Infrastructure;
@@ -17,7 +19,7 @@ public class DependencyRegistrar : IDependencyRegistrar
         get { return 1; }
     }
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
 
@@ -40,5 +42,8 @@ public class DependencyRegistrar : IDependencyRegistrar
 
         // Navigation
         builder.RegisterType<AdminNavigationProvider>().As<INavigationProvider>().SingleInstance();
+
+        // Script Builders..
+        builder.RegisterType<ToastyScriptBuilder>().As<IToastsScriptBuilder>().SingleInstance();
     }
 }

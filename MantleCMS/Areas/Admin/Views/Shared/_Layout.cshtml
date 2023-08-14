@@ -17,6 +17,7 @@
     <!-- Basic Styles -->
     <environment names="Development">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/yeti/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/egalink-toasty.js/dist/toasty.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet"
@@ -27,6 +28,7 @@
               asp-fallback-test-value="absolute"
               integrity="sha256-DRBcqVZc0R5Nl4RZ3Yns4+7BrnxYa+QYqAA2g/rZKug="
               crossorigin="anonymous">
+        <link rel="stylesheet" href="~/lib/egalink-toasty.js/dist/toasty.min.css" />
     </environment>
 
     <link rel="stylesheet" type="text/css" media="screen" href="~/lib/font-awesome/css/font-awesome.min.css" />
@@ -45,10 +47,11 @@
     <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/skin.min.css" />
     <link rel="stylesheet" type="text/css" href="/lib/tinymce/skins/ui/oxide/content.min.css" />
 
-    <!-- TODO: Move out of layour.. into where it's needed -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/css/fileinput.min.css"
-          integrity="sha256-96fNEX74O/HsXlnQoCSIn+Ay8zMEUVzw2sEvqdyl6I8="
-          crossorigin="anonymous" />
+    <style type="text/css">
+        .toast:not(.show) {
+            display: block !important;
+        }
+    </style>
 
     @RenderSection("styles", required: false)
 </head>
@@ -106,11 +109,8 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jquery-migrate/dist/jquery-migrate.js"></script>
-
-        <!-- TODO: Move out of layour.. into where it's needed -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.js" integrity="sha256-vR+CUENSptgqpaxyoOXkQ+5JH1nGpGhssph4gBNPu/I=" crossorigin="anonymous"></script>
-
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/egalink-toasty.js/dist/toasty.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"
@@ -125,9 +125,6 @@
                 crossorigin="anonymous">
         </script>
 
-        <!-- TODO: Move out of layour.. into where it's needed -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.js" integrity="sha256-vR+CUENSptgqpaxyoOXkQ+5JH1nGpGhssph4gBNPu/I=" crossorigin="anonymous"></script>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -135,12 +132,21 @@
                 crossorigin="anonymous">
         </script>
 
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/egalink-toasty.js/dist/toasty.min.js"></script>
     </environment>
 
     <script type="text/javascript">
         $.migrateMute = true;
         $.migrateTrace = false;
+        const toast = new Toasty({
+            enableSounds: true,
+            sounds: {
+                info: "/lib/egalink-toasty.js/dist/sounds/info/1.mp3",
+                success: "/lib/egalink-toasty.js/dist/sounds/success/1.mp3",
+                warning: "/lib/egalink-toasty.js/dist/sounds/warning/1.mp3",
+                error: "/lib/egalink-toasty.js/dist/sounds/error/1.mp3",
+            }
+        });
     </script>
 
     @await RenderSectionAsync("scripts", required: false)

@@ -169,15 +169,15 @@
             .then(response => {
                 if (response.ok) {
                     refreshODataGrid();
-                    $.notify(self.translations.executedTaskSuccess, "success");
+                    MantleNotify.success(self.translations.executedTaskSuccess);
                 }
                 else {
-                    $.notify(self.translations.executedTaskError, "error");
+                    MantleNotify.error(self.translations.executedTaskError);
                 }
                 return response;
             })
             .catch(error => {
-                $.notify(self.translations.executedTaskError, "error");
+                MantleNotify.error(self.translations.executedTaskError);
                 console.error('Error: ', error);
             });
         };

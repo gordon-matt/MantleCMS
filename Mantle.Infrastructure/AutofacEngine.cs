@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Configuration;
 
 namespace Mantle.Infrastructure;
 
@@ -28,7 +29,7 @@ public class AutofacEngine : IEngine, IDisposable
     /// <param name="services">Collection of service descriptors</param>
     /// <param name="configuration">Configuration root of the application</param>
     /// <returns>Service provider</returns>
-    public virtual IServiceProvider ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration)
+    public virtual IServiceProvider ConfigureServices(ContainerBuilder containerBuilder, IConfiguration configuration)
     {
         //find startup configurations provided by other assemblies
         var typeFinder = new WebAppTypeFinder();
@@ -47,7 +48,7 @@ public class AutofacEngine : IEngine, IDisposable
         }
 
         //register dependencies
-        RegisterDependencies(containerBuilder, typeFinder);
+        RegisterDependencies(containerBuilder, typeFinder, configuration);
 
         //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -126,7 +127,7 @@ public class AutofacEngine : IEngine, IDisposable
     /// </summary>
     /// <param name="containerBuilder">Container Builder</param>
     /// <param name="typeFinder">Type finder</param>
-    protected virtual IServiceProvider RegisterDependencies(ContainerBuilder containerBuilder, ITypeFinder typeFinder)
+    protected virtual IServiceProvider RegisterDependencies(ContainerBuilder containerBuilder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         //register engine
         containerBuilder.RegisterInstance(this).As<IEngine>().SingleInstance();
@@ -146,7 +147,7 @@ public class AutofacEngine : IEngine, IDisposable
         //register all provided dependencies
         foreach (var dependencyRegistrar in instances)
         {
-            dependencyRegistrar.Register(containerBuilder, typeFinder);
+            dependencyRegistrar.Register(containerBuilder, typeFinder, configuration);
         }
 
         ////populate Autofac container builder with the set of registered service descriptors

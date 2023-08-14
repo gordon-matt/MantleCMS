@@ -18,6 +18,7 @@ using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Web.ContentManagement.Infrastructure;
 
@@ -25,7 +26,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         //builder.RegisterType<DbSeeder>().As<IDbSeeder>().InstancePerDependency(); // TODO?
 

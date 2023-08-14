@@ -68,7 +68,7 @@
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
                 switchSection($("#grid-section"));
-                $.notify(response.Message, "success");
+                MantleNotify.success(response.Message);
             });
 
             GridHelper.initKendoGrid(
@@ -190,12 +190,12 @@
         self.clear = async function () {
             if (confirm(self.translations.resetLocalizableStringsConfirm)) {
                 await ODataHelper.postOData(`${apiUrl}/Default.ResetLocalizableStrings`, null, () => {
-                    $.notify(self.translations.resetLocalizableStringsSuccess, "success");
+                    MantleNotify.success(self.translations.resetLocalizableStringsSuccess);
                     setTimeout(function () {
                         window.location.reload();
                     }, 500);
                 }, () => {
-                    $.notify(self.translations.resetLocalizableStringsError, "error");
+                    MantleNotify.error(self.translations.resetLocalizableStringsError);
                 });
             }
         };

@@ -99,9 +99,9 @@
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
                     switchSection($("#page-type-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 }, () => {
-                    $.notify(self.parent.translations.insertRecordError, "error");
+                    MantleNotify.error(self.parent.translations.insertRecordError);
                 });
             }
             else {
@@ -109,9 +109,9 @@
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
                     switchSection($("#page-type-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 }, () => {
-                    $.notify(self.parent.translations.updateRecordError, "error");
+                    MantleNotify.error(self.parent.translations.updateRecordError);
                 });
             }
         };
@@ -185,9 +185,9 @@
                     $('#PageVersionGrid').data('kendoGrid').dataSource.read();
                     $('#PageVersionGrid').data('kendoGrid').refresh();
                     switchSection($("#page-grid-section"));
-                    $.notify(self.parent.translations.pageHistoryRestoreSuccess, "success");
+                    MantleNotify.success(self.parent.translations.pageHistoryRestoreSuccess);
                 }, () => {
-                    $.notify(self.parent.translations.pageHistoryRestoreError, "error");
+                    MantleNotify.error(self.parent.translations.pageHistoryRestoreError);
                 });
             };
         };
@@ -526,7 +526,7 @@
                     }
                 })
                 .catch(error => {
-                    $.notify(self.parent.translations.getRecordError, "error");
+                    MantleNotify.error(self.parent.translations.getRecordError);
                     console.error('Error: ', error);
                 });
 
@@ -535,7 +535,7 @@
         self.remove = async function (id, parentId) {
             await ODataHelper.deleteOData(`${pageApiUrl}(${id})`, () => {
                 self.refreshGrid(parentId);
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -645,7 +645,7 @@
                 if (parentId) {
                     self.refreshGrid(parentId);
                 }
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.updateRecordSuccess);
             });
         };
         self.showPageHistory = function (id) {
@@ -852,9 +852,9 @@
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, { ParentId: parentId }, () => {
                 $("#parentPageModal").modal("hide");
                 self.refreshGrid(parentId);
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.updateRecordSuccess);
             }, () => {
-                $.notify(self.parent.translations.updateRecordError, "error");
+                MantleNotify.error(self.parent.translations.updateRecordError);
             });
         };
         self.localize = function (id) {

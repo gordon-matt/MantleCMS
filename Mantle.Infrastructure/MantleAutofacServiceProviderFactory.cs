@@ -55,7 +55,7 @@ public class MantleAutofacServiceProviderFactory : IServiceProviderFactory<Conta
         //initialize plugins
         PluginManager.Initialize(partManager, hostingEnvironment, pluginOptions);
 
-        var configuration = provider.GetService<IConfigurationRoot>();
+        var configuration = provider.GetService<IConfiguration>();
 
         var engine = new AutofacEngine();
         var serviceProvider = engine.ConfigureServices(containerBuilder, configuration);
