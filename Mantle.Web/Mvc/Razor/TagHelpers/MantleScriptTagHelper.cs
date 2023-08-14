@@ -24,6 +24,7 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
     protected const string DEBUG_SRC_ATTRIBUTE_NAME = "asp-debug-src";
     protected const string LOCATION_ATTRIBUTE_NAME = "asp-location";
     protected const string SRC_ATTRIBUTE_NAME = "src";
+    protected const string NOCACHE_ATTRIBUTE_NAME = "asp-no-cache";
 
     #endregion Constants
 
@@ -124,10 +125,13 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
             asset = _assetPipeline.AddJavaScriptBundle(sourceFile, sourceFile);
         }
 
-        if (!sourceFile.Value.StartsWith("/Plugins/"))
+        if (NoCache || sourceFile.Value.StartsWithAny("/Plugins/", "~/Plugins/"))
         {
-            output.Attributes.SetAttribute(SRC_ATTRIBUTE_NAME, $"{Src}?v={asset.GenerateCacheKey(ViewContext.HttpContext, webOptimizerOptions)}");
+            output.Attributes.SetAttribute(SRC_ATTRIBUTE_NAME, Src);
+            return;
         }
+
+        output.Attributes.SetAttribute(SRC_ATTRIBUTE_NAME, $"{Src}?v={asset.GenerateCacheKey(ViewContext.HttpContext, webOptimizerOptions)}");
     }
 
     #endregion Utilities
@@ -214,6 +218,9 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
     /// </summary>
     [HtmlAttributeName(SRC_ATTRIBUTE_NAME)]
     public string Src { get; set; }
+
+    [HtmlAttributeName(NOCACHE_ATTRIBUTE_NAME)]
+    public bool NoCache { get; set; }
 
     #endregion Properties
 }
