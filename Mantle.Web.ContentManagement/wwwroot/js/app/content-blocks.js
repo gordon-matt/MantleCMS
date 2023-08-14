@@ -10,6 +10,7 @@ define(function (require) {
     require('jqueryval');
     require('kendo');
     require('notify');
+    require('mantle-toasts');
     require('grid-helper');
     require('odata-helpers');
     require('tinymce');

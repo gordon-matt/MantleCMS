@@ -23,7 +23,7 @@
                 }
                 else {
                     //$.notify({ message: this.options.messages.getRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                    $.notify(this.options.messages.getRecordError, 'danger');
+                    MantleNotify.error(this.options.messages.getRecordError);
                 }
                 console.error('Error: ', error);
             });
@@ -40,7 +40,7 @@
                         else {
                             this.refreshODataGrid();
                             //$.notify({ message: this.options.messages.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-                            $.notify(this.options.messages.deleteRecordSuccess, 'success');
+                            MantleNotify.success(this.options.messages.deleteRecordSuccess);
                         }
                     } else {
                         if (onError) {
@@ -48,7 +48,7 @@
                         }
                         else {
                             //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                            $.notify(this.options.messages.deleteRecordError, 'danger');
+                            MantleNotify.error(this.options.messages.deleteRecordError);
                         }
                     }
                 })
@@ -58,7 +58,7 @@
                     }
                     else {
                         //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                        $.notify(this.options.messages.deleteRecordError, 'danger');
+                        MantleNotify.error(this.options.messages.deleteRecordError);
                     }
                     console.error('Error: ', error);
                 });
@@ -82,7 +82,7 @@
                     this.refreshODataGrid();
                     switchSection($("#grid-section"));
                     //$.notify({ message: this.options.messages.insertRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-                    $.notify(this.options.messages.insertRecordSuccess, 'success');
+                    MantleNotify.success(this.options.messages.insertRecordSuccess);
                 }
             }
             else {
@@ -91,7 +91,7 @@
                 }
                 else {
                     //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                    $.notify(this.options.messages.insertRecordError, 'danger');
+                    MantleNotify.error(this.options.messages.insertRecordError);
                 }
             }
             return response;
@@ -102,7 +102,7 @@
             }
             else {
                 //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.insertRecordError, 'danger');
+                MantleNotify.error(this.options.messages.insertRecordError);
             }
             console.error('Error: ', error);
         });
@@ -125,7 +125,7 @@
                     this.refreshODataGrid();
                     switchSection($("#grid-section"));
                     //$.notify({ message: this.options.messages.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-                    $.notify(this.options.messages.updateRecordSuccess, 'success');
+                    MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
             }
             else {
@@ -134,7 +134,7 @@
                 }
                 else {
                     //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                    $.notify(this.options.messages.updateRecordError, 'danger');
+                    MantleNotify.error(this.options.messages.updateRecordError);
                 }
             }
             return response;
@@ -145,7 +145,7 @@
             }
             else {
                 //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.updateRecordError, 'danger');
+                MantleNotify.error(this.options.messages.updateRecordError);
             }
             console.error('Error: ', error);
         });
@@ -167,7 +167,7 @@
                 else {
                     this.refreshODataGrid();
                     //$.notify({ message: this.options.messages.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
-                    $.notify(this.options.messages.updateRecordSuccess, 'success');
+                    MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
             }
             else {
@@ -176,7 +176,7 @@
                 }
                 else {
                     //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                    $.notify(this.options.messages.updateRecordError, 'danger');
+                    MantleNotify.error(this.options.messages.updateRecordError);
                 }
             }
             return response;
@@ -187,7 +187,7 @@
             }
             else {
                 //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
-                $.notify(this.options.messages.updateRecordError, 'danger');
+                MantleNotify.error(this.options.messages.updateRecordError);
             }
             console.error('Error: ', error);
         });

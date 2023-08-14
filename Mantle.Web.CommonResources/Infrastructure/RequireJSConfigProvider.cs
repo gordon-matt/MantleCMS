@@ -18,7 +18,8 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
                 { "mantle-tinymce", "/_content/Mantle.Web.CommonResources/js/tinymce/mantle-tinymce" },
                 { "momentjs", "/_content/Mantle.Web.CommonResources/js/moment-with-locales.min" },
                 { "grid-helper", "/_content/Mantle.Web.CommonResources/js/grid-helper" },
-                { "odata-helpers", "/_content/Mantle.Web.CommonResources/js/odata-helpers" }
+                { "odata-helpers", "/_content/Mantle.Web.CommonResources/js/odata-helpers" },
+                { "mantle-toasts", "/mantle/common/scripts/toasts" }
             };
         }
     }
