@@ -10,8 +10,6 @@ public class DependencyRegistrar : IDependencyRegistrar
 
     public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
     {
-        // Embedded File Provider
-        builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
         builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
     }
 
