@@ -10,6 +10,7 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
 {
@@ -17,7 +18,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
     {
         #region IDependencyRegistrar Members
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

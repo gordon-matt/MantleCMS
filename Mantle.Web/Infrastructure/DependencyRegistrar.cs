@@ -11,6 +11,7 @@ using Mantle.Web.Mvc.Resources;
 using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Navigation;
 using Mantle.Web.Security.Membership;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Web.Infrastructure;
 
@@ -18,7 +19,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         var settings = DataSettingsManager.LoadSettings();
         builder.Register(x => settings).As<DataSettings>();

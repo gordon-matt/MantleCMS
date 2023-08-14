@@ -113,7 +113,7 @@
                     switchSection($("#settings-form-section"));
                 })
                 .catch(error => {
-                    $.notify(self.parent.translations.getRecordError, "error");
+                    MantleNotify.error(self.parent.translations.getRecordError);
                     console.error('Error: ', error);
                 });
         };
@@ -131,9 +131,9 @@
 
             await ODataHelper.postOData(`${settingsApiUrl}/Default.SaveSettings`, record, () => {
                 switchSection($("#settings-grid-section"));
-                $.notify(self.parent.translations.updateRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.updateRecordSuccess);
             }, () => {
-                $.notify(self.parent.translations.updateRecordError, "error");
+                MantleNotify.error(self.parent.translations.updateRecordError);
             });
         };
         self.cancel = function () {
@@ -244,7 +244,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#CountryGrid').data('kendoGrid').dataSource.read();
                 $('#CountryGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -274,7 +274,7 @@
                     $('#CountryGrid').data('kendoGrid').dataSource.read();
                     $('#CountryGrid').data('kendoGrid').refresh();
                     switchSection($("#country-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -283,9 +283,9 @@
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
                         switchSection($("#country-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     }, () => {
-                        $.notify(self.parent.translations.updateRecordError, "error");
+                        MantleNotify.error(self.parent.translations.updateRecordError);
                     });
                 }
                 else {
@@ -293,7 +293,7 @@
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
                         switchSection($("#country-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     });
                 }
             }
@@ -428,7 +428,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#StateGrid').data('kendoGrid').dataSource.read();
                 $('#StateGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -458,7 +458,7 @@
                     $('#StateGrid').data('kendoGrid').dataSource.read();
                     $('#StateGrid').data('kendoGrid').refresh();
                     switchSection($("#state-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -467,9 +467,9 @@
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
                         switchSection($("#state-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     }, () => {
-                        $.notify(self.parent.translations.updateRecordError, "error");
+                        MantleNotify.error(self.parent.translations.updateRecordError);
                     });
                 }
                 else {
@@ -477,7 +477,7 @@
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
                         switchSection($("#state-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     });
                 }
             }
@@ -599,7 +599,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#CityGrid').data('kendoGrid').dataSource.read();
                 $('#CityGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -627,7 +627,7 @@
                     $('#CityGrid').data('kendoGrid').dataSource.read();
                     $('#CityGrid').data('kendoGrid').refresh();
                     switchSection($("#city-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -636,9 +636,9 @@
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
                         switchSection($("#city-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     }, () => {
-                        $.notify(self.parent.translations.updateRecordError, "error");
+                        MantleNotify.error(self.parent.translations.updateRecordError);
                     });
                 }
                 else {
@@ -646,7 +646,7 @@
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
                         switchSection($("#city-grid-section"));
-                        $.notify(self.parent.translations.updateRecordSuccess, "success");
+                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
                     });
                 }
             }

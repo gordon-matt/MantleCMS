@@ -9,7 +9,7 @@ public interface IMantleStartup
     /// </summary>
     /// <param name="containerBuilder">Container Builder</param>
     /// <param name="configuration">Configuration root of the application</param>
-    void ConfigureServices(ContainerBuilder containerBuilder, IConfigurationRoot configuration);
+    void ConfigureServices(ContainerBuilder containerBuilder, IConfiguration configuration);
 
     /// <summary>
     /// Configure the using of added middleware

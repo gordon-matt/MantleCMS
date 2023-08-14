@@ -150,7 +150,7 @@
             await ODataHelper.deleteOData(`${postApiUrl}(${id})`, () => {
                 $('#PostGrid').data('kendoGrid').dataSource.read();
                 $('#PostGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -186,7 +186,7 @@
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
                     switchSection($("#post-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -194,7 +194,7 @@
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
                     switchSection($("#post-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };
@@ -270,7 +270,7 @@
             await ODataHelper.deleteOData(`${categoryApiUrl}(${id})`, () => {
                 $('#CategoryGrid').data('kendoGrid').dataSource.read();
                 $('#CategoryGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -291,7 +291,7 @@
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
                     switchSection($("#category-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -299,7 +299,7 @@
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
                     switchSection($("#category-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };
@@ -375,7 +375,7 @@
             await ODataHelper.deleteOData(`${tagApiUrl}(${id})`, () => {
                 $('#TagGrid').data('kendoGrid').dataSource.read();
                 $('#TagGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -396,7 +396,7 @@
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
                     switchSection($("#tag-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -404,7 +404,7 @@
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
                     switchSection($("#tag-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };

@@ -86,6 +86,10 @@
     {
       "library": "jquery-migrate@3.4.1",
       "destination": "wwwroot/lib/jquery-migrate/"
+    },
+    {
+      "library": "egalink-toasty.js@1.5.5",
+      "destination": "wwwroot/lib/egalink-toasty.js/"
     }
   ]
 }

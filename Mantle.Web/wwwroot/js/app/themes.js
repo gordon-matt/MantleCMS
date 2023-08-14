@@ -77,9 +77,9 @@
             await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
-                $.notify(self.translations.setThemeSuccess, "success");
+                MantleNotify.success(self.translations.setThemeSuccess);
             }, () => {
-                $.notify(self.translations.setThemeError, "error");
+                MantleNotify.error(self.translations.setThemeError);
             });
         };
     };

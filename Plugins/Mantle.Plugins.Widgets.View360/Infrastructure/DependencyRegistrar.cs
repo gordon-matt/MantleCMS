@@ -2,6 +2,7 @@
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Widgets.View360.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace Mantle.Plugins.Widgets.View360.Infrastructure
     {
         #region IDependencyRegistrar Members
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

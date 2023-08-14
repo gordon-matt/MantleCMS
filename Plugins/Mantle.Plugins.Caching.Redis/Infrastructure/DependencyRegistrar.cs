@@ -3,12 +3,13 @@ using Mantle.Caching;
 using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Web.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Caching.Redis.Infrastructure
 {
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

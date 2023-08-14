@@ -117,7 +117,7 @@
                 LimitedToTenants: self.limitedToTenants()
             });
 
-            $.notify(self.translations.updateRecordSuccess, "success");
+            MantleNotify.success(self.translations.updateRecordSuccess);
         };
 
         self.cancel = function () {
@@ -133,10 +133,10 @@
             .then(response => response.json())
             .then((data) => {
                 if (data.Success) {
-                    $.notify(data.Message, "success");
+                    MantleNotify.success(data.Message);
                 }
                 else {
-                    $.notify(data.Message, "error");
+                    MantleNotify.error(data.Message);
                 }
 
                 setTimeout(function () {
@@ -144,7 +144,7 @@
                 }, 1000);
             })
             .catch(error => {
-                $.notify(self.translations.installPluginError, "error");
+                MantleNotify.error(self.translations.installPluginError);
                 console.error('Error: ', error);
             });
         }
@@ -157,10 +157,10 @@
             .then(response => response.json())
             .then((data) => {
                 if (data.Success) {
-                    $.notify(data.Message, "success");
+                    MantleNotify.success(data.Message);
                 }
                 else {
-                    $.notify(data.Message, "error");
+                    MantleNotify.error(data.Message);
                 }
 
                 setTimeout(function () {
@@ -168,7 +168,7 @@
                 }, 1000);
             })
             .catch(error => {
-                $.notify(self.translations.uninstallPluginError, "error");
+                MantleNotify.error(self.translations.uninstallPluginError);
                 console.error('Error: ', error);
             });
         }

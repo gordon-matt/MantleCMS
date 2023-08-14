@@ -4,6 +4,7 @@ using Mantle.Localization;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Web.Common.Infrastructure;
 
@@ -11,7 +12,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
         builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();

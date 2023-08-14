@@ -218,7 +218,7 @@ define(function (require) {
                     }
                 })
                 .catch(error => {
-                    $.notify(self.parent.translations.getRecordError, "error");
+                    MantleNotify.error(self.parent.translations.getRecordError);
                     console.error('Error: ', error);
                 });
 
@@ -375,7 +375,7 @@ define(function (require) {
                 $('#ZoneGrid').data('kendoGrid').refresh();
                 $('#ZoneId option[value="' + id + '"]').remove();
                 $('#Create_ZoneId option[value="' + id + '"]').remove();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -405,7 +405,7 @@ define(function (require) {
                         text: record.Name
                     }));
 
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -419,7 +419,7 @@ define(function (require) {
                     $('#ZoneId option[value="' + record.Id + '"]').text(record.Name);
                     $('#Create_ZoneId option[value="' + record.Id + '"]').text(record.Name);
 
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };

@@ -90,7 +90,7 @@
             await ODataHelper.deleteOData(`${rolesApiUrl}('${id}')`, () => {
                 $('#RolesGrid').data('kendoGrid').dataSource.read();
                 $('#RolesGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
 
@@ -109,7 +109,7 @@
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
                     switchSection($("#roles-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -117,7 +117,7 @@
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
                     switchSection($("#roles-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };
@@ -152,9 +152,9 @@
 
             await ODataHelper.postOData(`${rolesApiUrl}/Default.AssignPermissionsToRole`, data, () => {
                 switchSection($("#roles-grid-section"));
-                $.notify(self.parent.translations.savePermissionsSuccess, "success");
+                MantleNotify.success(self.parent.translations.savePermissionsSuccess);
             }, () => {
-                $.notify(self.parent.translations.savePermissionsError, "error");
+                MantleNotify.error(self.parent.translations.savePermissionsError);
             });
         };
     };
@@ -195,9 +195,9 @@
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.ChangePassword`, record, () => {
                 switchSection($("#users-grid-section"));
-                $.notify(self.parent.translations.changePasswordSuccess, "success");
+                MantleNotify.success(self.parent.translations.changePasswordSuccess);
             }, () => {
-                $.notify(self.parent.translations.changePasswordError, "error");
+                MantleNotify.error(self.parent.translations.changePasswordError);
             });
         };
     };
@@ -296,7 +296,7 @@
             await ODataHelper.deleteOData(`${usersApiUrl}('${id}')`, () => {
                 $('#UsersGrid').data('kendoGrid').dataSource.read();
                 $('#UsersGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
 
@@ -319,9 +319,9 @@
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
                     switchSection($("#users-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 }, () => {
-                    $.notify(self.parent.translations.insertRecordError, "error");
+                    MantleNotify.error(self.parent.translations.insertRecordError);
                 });
             }
             else {
@@ -329,9 +329,9 @@
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
                     switchSection($("#users-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 }, () => {
-                    $.notify(self.parent.translations.updateRecordError, "error");
+                    MantleNotify.error(self.parent.translations.updateRecordError);
                 });
             }
         };
@@ -367,9 +367,9 @@
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.AssignUserToRoles`, data, () => {
                 switchSection($("#users-grid-section"));
-                $.notify(self.parent.translations.saveRolesSuccess, "success");
+                MantleNotify.success(self.parent.translations.saveRolesSuccess);
             }, () => {
-                $.notify(self.parent.translations.saveRolesError, "error");
+                MantleNotify.error(self.parent.translations.saveRolesError);
             });
         };
         self.changePassword = function (id, userName) {

@@ -7,6 +7,7 @@ using Mantle.Tasks;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging.Configuration;
 using Mantle.Web.Navigation;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Web.Messaging.Infrastructure;
 
@@ -14,7 +15,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         // Navigation
         builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();

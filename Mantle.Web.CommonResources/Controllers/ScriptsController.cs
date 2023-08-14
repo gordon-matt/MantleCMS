@@ -18,7 +18,22 @@ public class ScriptsController : MantleController
     [Route("toasts.js")]
     public IActionResult Toasts()
     {
-        string js = toastsScriptBuilder.Build();
+        string js =
+$@"class MantleNotify {{
+    static error(message) {{
+        {toastsScriptBuilder.ErrorFormat.Replace("[[message]]", "message")}
+    }};
+    static info(message) {{
+        {toastsScriptBuilder.InfoFormat.Replace("[[message]]", "message")}
+    }};
+    static success(message) {{
+        {toastsScriptBuilder.SuccessFormat.Replace("[[message]]", "message")}
+    }};
+    static warn(message) {{
+        {toastsScriptBuilder.WarningFormat.Replace("[[message]]", "message")}
+    }};
+}}";
+
         return File(Encoding.UTF8.GetBytes(js), "text/javascript");
     }
 }

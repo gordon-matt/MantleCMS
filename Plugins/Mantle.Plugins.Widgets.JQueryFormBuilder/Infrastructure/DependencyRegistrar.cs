@@ -3,6 +3,7 @@ using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.JQueryFormBuilder.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Plugins.Widgets.JQueryFormBuilder.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace Mantle.Plugins.Widgets.JQueryFormBuilder.Infrastructure
     {
         #region IDependencyRegistrar Members
 
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
+        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
         {
             if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
             {

@@ -213,14 +213,14 @@
                 await ODataHelper.postOData("/odata/mantle/cms/MenuItemApi", record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
                 await ODataHelper.putOData(`/odata/mantle/cms/MenuItemApi(${self.id()})`, record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };

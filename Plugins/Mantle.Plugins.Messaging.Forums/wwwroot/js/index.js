@@ -100,7 +100,7 @@
             await ODataHelper.deleteOData(`${forumApiUrl}(${id})`, () => {
                 $('#ForumGrid').data('kendoGrid').dataSource.read();
                 $('#ForumGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -123,7 +123,7 @@
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -131,7 +131,7 @@
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };
@@ -222,7 +222,7 @@
             await ODataHelper.deleteOData(`${forumGroupApiUrl}(${id})`, () => {
                 $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                 $('#ForumGroupGrid').data('kendoGrid').refresh();
-                $.notify(self.parent.translations.deleteRecordSuccess, "success");
+                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
             });
         };
         self.save = async function () {
@@ -243,7 +243,7 @@
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-group-grid-section"));
-                    $.notify(self.parent.translations.insertRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
                 });
             }
             else {
@@ -251,7 +251,7 @@
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-group-grid-section"));
-                    $.notify(self.parent.translations.updateRecordSuccess, "success");
+                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
                 });
             }
         };

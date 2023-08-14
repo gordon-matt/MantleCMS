@@ -123,7 +123,7 @@
                     switchSection($("#form-section"));
                 })
                 .catch(error => {
-                    $.notify(self.translations.getRecordError, "error");
+                    MantleNotify.error(self.translations.getRecordError);
                     console.error('Error: ', error);
                 });
         };
