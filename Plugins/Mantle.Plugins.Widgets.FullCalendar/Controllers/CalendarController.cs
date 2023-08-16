@@ -13,7 +13,7 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Controllers
         //[Compress]
         //[OutputCache(Duration = 86400, VaryByParam = "none")]
         [Route("")]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             if (!CheckPermission(FullCalendarPermissions.ReadCalendar))
             {

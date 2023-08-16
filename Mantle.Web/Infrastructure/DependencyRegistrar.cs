@@ -50,6 +50,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 
         // Navigation
         builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+        builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
         builder.RegisterType<NavigationManager>().As<INavigationManager>().InstancePerDependency();
         builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
 

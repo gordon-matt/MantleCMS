@@ -25,7 +25,7 @@ public class LanguageController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public ActionResult Index()
+    public IActionResult Index()
     {
         if (!CheckPermission(MantleWebPermissions.LanguagesRead))
         {

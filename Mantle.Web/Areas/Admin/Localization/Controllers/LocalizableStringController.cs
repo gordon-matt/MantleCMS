@@ -21,7 +21,7 @@ public class LocalizableStringController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public ActionResult Index()
+    public IActionResult Index()
     {
         if (!CheckPermission(MantleWebPermissions.LocalizableStringsRead))
         {
@@ -56,7 +56,7 @@ public class LocalizableStringController : MantleController
     }
 
     [Route("export/{cultureCode}")]
-    public ActionResult ExportLanguagePack(string cultureCode)
+    public IActionResult ExportLanguagePack(string cultureCode)
     {
         int tenantId = WorkContext.CurrentTenant.Id;
 
@@ -74,5 +74,26 @@ public class LocalizableStringController : MantleController
         string json = languagePack.JsonSerialize();
         string fileName = string.Format("{0}_LanguagePack_{1}_{2:yyyy-MM-dd}.json", siteSettings.SiteName, cultureCode, DateTime.Now);
         return File(new UTF8Encoding().GetBytes(json), "application/json", fileName);
+    }
+
+    [Route("translations.js")]
+    public IActionResult GetTranslationsJS()
+    {
+        var localizedStrings = T.GetAllStrings()
+            .ToDictionary(k => k.Name, v => v.Value)
+            .Select(x => $"'{x.Key}': '{x.Value.Replace("'", "\\'")}'");
+        
+        string js =
+$@"class MantleI18N {{
+    static dict = {{
+        {string.Join($",{Environment.NewLine}\t\t\t", localizedStrings)}
+	}};
+
+    static t(key) {{
+        return MantleI18N.dict[key] ?? key;
+    }}
+}}";
+
+        return File(Encoding.UTF8.GetBytes(js), "text/javascript");
     }
 }

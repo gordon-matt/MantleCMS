@@ -44,10 +44,16 @@ public class MantleStringLocalizer : IStringLocalizer
         string cultureCode = Culture.Name;
 
         var resourceCache = LoadCulture(tenantId, cultureCode);
+        var invariantResourceCache = LoadCulture(tenantId, null);
+        var missingKeys = invariantResourceCache.Keys.Except(resourceCache.Keys);
 
-        return resourceCache.IsNullOrEmpty()
+        var merged = resourceCache
+            .Union(invariantResourceCache.Where(x => missingKeys.Contains(x.Key)))
+            .ToDictionary(k => k.Key, v => v.Value);
+
+        return merged.IsNullOrEmpty()
             ? Enumerable.Empty<LocalizedString>()
-            : resourceCache.Select(x => new LocalizedString(x.Key, x.Value));
+            : merged.Select(x => new LocalizedString(x.Key, x.Value));
     }
 
     public IStringLocalizer WithCulture(CultureInfo culture)
