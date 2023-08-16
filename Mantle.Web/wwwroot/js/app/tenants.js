@@ -12,6 +12,7 @@
     require('odata-helpers');
 
     require('mantle-section-switching');
+    require('mantle-translations');
 
     const odataBaseUrl = "/odata/mantle/web/TenantApi";
 
@@ -19,7 +20,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.validator = false;
 
@@ -30,16 +30,6 @@
 
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/tenants/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -60,10 +50,10 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/General.Name'),
                     filterable: true
                 },
-                    GridHelper.defaultActionColumn(self.translations.edit, self.translations.delete)
+                    GridHelper.defaultActionColumn(MantleI18N.t('Mantle.Web/General.Edit'), MantleI18N.t('Mantle.Web/General.Delete'))
                 ],
                 self.gridPageSize,
                 { field: "Name", dir: "asc" });
@@ -77,7 +67,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
         self.edit = async function (id) {
@@ -88,7 +78,7 @@
             self.hosts(data.Hosts);
 
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
         self.remove = async function (id) {

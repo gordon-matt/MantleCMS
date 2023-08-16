@@ -13,7 +13,7 @@ public class MessageTemplateController : MantleController
     }
 
     [Route("")]
-    public ActionResult Index()
+    public IActionResult Index()
     {
         if (!CheckPermission(MessagingPermissions.MessageTemplatesRead))
         {

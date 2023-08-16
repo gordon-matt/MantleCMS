@@ -21,13 +21,13 @@ public class HomeController : MantleController
     }
 
     [Route("")]
-    public ActionResult Host()
+    public IActionResult Host()
     {
         return View();
     }
 
     [Route("dashboard")]
-    public ActionResult Dashboard()
+    public IActionResult Dashboard()
     {
         if (!CheckPermission(StandardPermissions.DashboardAccess))
         {
@@ -40,7 +40,7 @@ public class HomeController : MantleController
     }
 
     [Route("shell")]
-    public ActionResult Shell()
+    public IActionResult Shell()
     {
         return View();
     }
