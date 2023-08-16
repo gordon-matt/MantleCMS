@@ -8,11 +8,11 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
 
     const MenuItemModel = function (parent) {
         const self = this;
@@ -116,20 +116,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Text",
-                    title: self.parent.translations.columns.menuItem.text,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Text'),
                     filterable: true
                 }, {
                     field: "Url",
-                    title: self.parent.translations.columns.menuItem.url,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Url'),
                     filterable: true
                 }, {
                     field: "Position",
-                    title: self.parent.translations.columns.menuItem.position,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Position'),
                     filterable: true,
                     width: 70
                 }, {
                     field: "Enabled",
-                    title: self.parent.translations.columns.menuItem.enabled,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Enabled'),
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -139,10 +139,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', MantleI18N.t('Mantle.Web.ContentManagement/Menus.NewItem'), 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -213,14 +213,14 @@
                 await ODataHelper.postOData("/odata/mantle/cms/MenuItemApi", record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`/odata/mantle/cms/MenuItemApi(${self.id()})`, record, () => {
                     self.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -326,20 +326,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Text",
-                    title: self.parent.translations.columns.menuItem.text,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Text'),
                     filterable: true
                 }, {
                     field: "Url",
-                    title: self.parent.translations.columns.menuItem.url,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Url'),
                     filterable: true
                 }, {
                     field: "Position",
-                    title: self.parent.translations.columns.menuItem.position,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Position'),
                     filterable: true,
                     width: 70
                 }, {
                     field: "Enabled",
-                    title: self.parent.translations.columns.menuItem.enabled,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Enabled'),
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -349,10 +349,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
-                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', self.parent.translations.newItem, 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
-                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
+                        GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', MantleI18N.t('Mantle.Web.ContentManagement/Menus.NewItem'), 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
+                        GridHelper.actionIconButton("menuItemModel.toggleEnabled", 'fa fa-toggle-on', MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',\'#=ParentId#\', #=Enabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -392,19 +392,19 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.menu.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuModel.Name'),
                     filterable: true
                 }, {
                     field: "UrlFilter",
-                    title: self.parent.translations.columns.menu.urlFilter,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuModel.UrlFilter'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("menuModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("menuModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("menuModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("menuModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         GridHelper.actionIconButton("menuModel.items", 'fa fa-bars', "Items", 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },
@@ -421,7 +421,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuApi(${id})`);
@@ -431,7 +431,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`/odata/mantle/cms/MenuApi(${id})`);
@@ -478,7 +478,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.menuModel = false;
         self.menuItemModel = false;
@@ -489,16 +488,6 @@
         };
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/menus/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

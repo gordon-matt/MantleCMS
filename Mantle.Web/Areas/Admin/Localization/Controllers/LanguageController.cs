@@ -41,37 +41,6 @@ public class LanguageController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Create = T[MantleWebLocalizableStrings.General.Create].Value,
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-            InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-            Localize = T[MantleWebLocalizableStrings.Localization.Localize].Value,
-            ResetLocalizableStringsConfirm = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsConfirm].Value,
-            ResetLocalizableStringsError = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsError].Value,
-            ResetLocalizableStringsSuccess = T[MantleWebLocalizableStrings.Localization.ResetLocalizableStringsSuccess].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Columns = new
-            {
-                Name = T[MantleWebLocalizableStrings.Localization.LanguageModel.Name].Value,
-                CultureCode = T[MantleWebLocalizableStrings.Localization.LanguageModel.CultureCode].Value,
-                IsEnabled = T[MantleWebLocalizableStrings.Localization.LanguageModel.IsEnabled].Value,
-                SortOrder = T[MantleWebLocalizableStrings.Localization.LanguageModel.SortOrder].Value,
-            }
-        });
-    }
-
     [HttpPost]
     [Route("import-language-pack")]
     public JsonResult ImportFile()

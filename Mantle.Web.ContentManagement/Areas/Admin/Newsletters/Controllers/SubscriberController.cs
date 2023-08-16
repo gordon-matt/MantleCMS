@@ -40,24 +40,6 @@ public class SubscriberController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Columns = new
-            {
-                Email = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Email].Value,
-                Name = T[MantleCmsLocalizableStrings.ContentBlocks.NewsletterSubscriptionBlock.Name].Value,
-            }
-        });
-    }
-
     [AllowAnonymous]
     [Route("subscribe")]
     [ValidateAntiForgeryToken]

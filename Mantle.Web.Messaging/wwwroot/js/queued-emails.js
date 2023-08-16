@@ -9,24 +9,14 @@
     require('mantle-toasts');
     require('grid-helper');
     require('odata-helpers');
+    require('mantle-translations');
 
     const ViewModel = function () {
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.attached = async function () {
-            // Load translations first, else will have errors
-            await fetch("/admin/messaging/queued-email/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
-
             self.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
@@ -43,31 +33,31 @@
                     }
                 }, [{
                     field: "Subject",
-                    title: self.translations.columns.subject,
+                    title: MantleI18N.t('Mantle.Web.Messaging/QueuedEmail.Subject'),
                     filterable: true
                 }, {
                     field: "ToAddress",
-                    title: self.translations.columns.toAddress,
+                    title: MantleI18N.t('Mantle.Web.Messaging/QueuedEmail.ToAddress'),
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.translations.columns.createdOnUtc,
+                    title: MantleI18N.t('Mantle.Web.Messaging/QueuedEmail.CreatedOnUtc'),
                     format: "{0:G}",
                     filterable: true
                 }, {
                     field: "SentOnUtc",
-                    title: self.translations.columns.sentOnUtc,
+                    title: MantleI18N.t('Mantle.Web.Messaging/QueuedEmail.SentOnUtc'),
                     format: "{0:G}",
                     filterable: true
                 }, {
                     field: "SentTries",
-                    title: self.translations.columns.sentTries,
+                    title: MantleI18N.t('Mantle.Web.Messaging/QueuedEmail.SentTries'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template: '<div class="btn-group">' +
-                        GridHelper.actionIconButton("remove", 'fa fa-times', self.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,

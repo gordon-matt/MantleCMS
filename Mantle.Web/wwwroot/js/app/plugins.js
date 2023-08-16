@@ -4,14 +4,15 @@
     const $ = require('jquery');
     const ko = require('knockout');
 
+    require('jqueryval');
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
     
     const apiUrl = "/odata/mantle/web/PluginApi";
 
@@ -19,7 +20,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.systemName = ko.observable(null);
         self.friendlyName = ko.observable(null);
@@ -30,16 +30,6 @@
 
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/plugins/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -61,25 +51,25 @@
                     }
                 }, [{
                     field: "Group",
-                    title: self.translations.columns.group,
+                    title: MantleI18N.t('Mantle.Web/Plugins.Model.Group'),
                     filterable: true
                 }, {
                     field: "FriendlyName",
-                    title: self.translations.columns.pluginInfo,
+                    title: MantleI18N.t('Mantle.Web/Plugins.Model.PluginInfo'),
                     template: '<b>#:FriendlyName#</b>' +
                         '<br />Version: #:Version#' +
                         '<br />Author: #:Author#' +
                         '<br />SystemName: #:SystemName#' +
                         '<br />DisplayOrder: #:DisplayOrder#' +
                         '<br />Installed: <i class="fa #=Installed ? \'fa-ok-circle fa-2x text-success\' : \'ffa-no-circle fa-2x text-danger\'#"></i>' +
-                        '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + self.translations.edit + '</a>',
+                        '<br /><a data-bind="click: edit.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Edit') + '</a>',
                     filterable: false
                 }, {
                     field: "Installed",
                     title: " ",
                     template:
-                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + self.translations.uninstall + '</a> #} ' +
-                        'else {# <a data-bind="click: install.bind($data,\'#=SystemName#\')" class="btn btn-success btn-sm">' + self.translations.install + '</a> #} #',
+                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Uninstall') + '</a> #} ' +
+                        'else {# <a data-bind="click: install.bind($data,\'#=SystemName#\')" class="btn btn-success btn-sm">' + MantleI18N.t('Mantle.Web/General.Install') + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -103,7 +93,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
         self.save = async function () {
@@ -117,7 +107,7 @@
                 LimitedToTenants: self.limitedToTenants()
             });
 
-            MantleNotify.success(self.translations.updateRecordSuccess);
+            MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
         };
 
         self.cancel = function () {
@@ -144,7 +134,7 @@
                 }, 1000);
             })
             .catch(error => {
-                MantleNotify.error(self.translations.installPluginError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Plugins.InstallPluginError'));
                 console.error('Error: ', error);
             });
         }
@@ -168,7 +158,7 @@
                 }, 1000);
             })
             .catch(error => {
-                MantleNotify.error(self.translations.uninstallPluginError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Plugins.UninstallPluginError'));
                 console.error('Error: ', error);
             });
         }

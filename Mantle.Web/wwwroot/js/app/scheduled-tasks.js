@@ -4,12 +4,14 @@
     const $ = require('jquery');
     const ko = require('knockout');
 
+    require('jqueryval');
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
-    require('mantle-section-switching');
 
     const odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
@@ -17,7 +19,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.id = ko.observable(0);
         self.name = ko.observable(null);
@@ -35,16 +36,6 @@
                     Seconds: { required: true }
                 }
             });
-
-            // Load translations first, else will have errors
-            await fetch("/admin/scheduled-tasks/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -65,44 +56,44 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.Name'),
                     filterable: true
                 }, {
                     field: "Seconds",
-                    title: self.translations.columns.seconds,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.Seconds'),
                     width: 70,
                     filterable: false
                 }, {
                     field: "Enabled",
-                    title: self.translations.columns.enabled,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.Enabled'),
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "StopOnError",
-                    title: self.translations.columns.stopOnError,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.StopOnError'),
                     template: '<i class="fa #=StopOnError ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "LastStartUtc",
-                    title: self.translations.columns.lastStartUtc,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.LastStartUtc'),
                     width: 200,
                     type: "date",
                     format: "{0:G}",
                     filterable: false
                 }, {
                     field: "LastEndUtc",
-                    title: self.translations.columns.lastEndUtc,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.LastEndUtc'),
                     width: 200,
                     type: "date",
                     format: "{0:G}",
                     filterable: false
                 }, {
                     field: "LastSuccessUtc",
-                    title: self.translations.columns.lastSuccessUtc,
+                    title: MantleI18N.t('Mantle.Web/ScheduledTasks.Model.LastSuccessUtc'),
                     width: 200,
                     type: "date",
                     format: "{0:G}",
@@ -112,8 +103,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("runNow", 'fa fa-play', self.translations.runNow, 'primary') +
-                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
+                        GridHelper.actionIconButton("runNow", 'fa fa-play', MantleI18N.t('Mantle.Web/ScheduledTasks.RunNow'), 'primary') +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -133,7 +124,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
         self.save = async function () {
@@ -169,15 +160,15 @@
             .then(response => {
                 if (response.ok) {
                     refreshODataGrid();
-                    MantleNotify.success(self.translations.executedTaskSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/ScheduledTasks.ExecutedTaskSuccess'));
                 }
                 else {
-                    MantleNotify.error(self.translations.executedTaskError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/ScheduledTasks.ExecutedTaskError'));
                 }
                 return response;
             })
             .catch(error => {
-                MantleNotify.error(self.translations.executedTaskError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/ScheduledTasks.ExecutedTaskError'));
                 console.error('Error: ', error);
             });
         };

@@ -11,15 +11,17 @@ define(function (require) {
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-    require('tinymce');
-    require('tinymce-jquery');
-    require('tinymce-knockout');
 
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
+
     require('mantle-knockout-chosen');
+    require('tinymce');
+    require('tinymce-jquery');
+    require('tinymce-knockout');
     require('mantle-tinymce');
 
     ko.mapping = koMap;
@@ -75,19 +77,19 @@ define(function (require) {
                     }
                 }, [{
                     field: "Title",
-                    title: self.parent.translations.columns.title,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Model.Title'),
                     filterable: true
                 }, {
                     field: "BlockName",
-                    title: self.parent.translations.columns.blockType,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Model.BlockName'),
                     filterable: true
                 }, {
                     field: "Order",
-                    title: self.parent.translations.columns.order,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Model.Order'),
                     filterable: false
                 }, {
                     field: "IsEnabled",
-                    title: self.parent.translations.columns.isEnabled,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Model.IsEnabled'),
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -97,10 +99,10 @@ define(function (require) {
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("blockModel.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionIconButton("blockModel.localize", 'fa fa-globe', self.parent.translations.localize, 'success') +
-                        GridHelper.actionIconButton("blockModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
-                        GridHelper.actionIconButton("blockModel.toggleEnabled", 'fa fa-toggle-on', self.parent.translations.toggle, 'secondary', `\'#=Id#\', #=IsEnabled#`) +
+                        GridHelper.actionIconButton("blockModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("blockModel.localize", 'fa fa-globe', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
+                        GridHelper.actionIconButton("blockModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
+                        GridHelper.actionIconButton("blockModel.toggleEnabled", 'fa fa-toggle-on', MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\', #=IsEnabled#`) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -218,7 +220,7 @@ define(function (require) {
                     }
                 })
                 .catch(error => {
-                    MantleNotify.error(self.parent.translations.getRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.GetRecordError'));
                     console.error('Error: ', error);
                 });
 
@@ -339,15 +341,15 @@ define(function (require) {
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.ZoneModel.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("zoneModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("zoneModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("zoneModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("zoneModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -375,7 +377,7 @@ define(function (require) {
                 $('#ZoneGrid').data('kendoGrid').refresh();
                 $('#ZoneId option[value="' + id + '"]').remove();
                 $('#Create_ZoneId option[value="' + id + '"]').remove();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -405,7 +407,7 @@ define(function (require) {
                         text: record.Name
                     }));
 
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -419,7 +421,7 @@ define(function (require) {
                     $('#ZoneId option[value="' + record.Id + '"]').text(record.Name);
                     $('#Create_ZoneId option[value="' + record.Id + '"]').text(record.Name);
 
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -433,7 +435,6 @@ define(function (require) {
 
         self.gridPageSize = 10;
         self.pageId = null;
-        self.translations = false;
 
         self.blockModel = false;
         self.zoneModel = false;
@@ -452,16 +453,6 @@ define(function (require) {
         };
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/blocks/content-blocks/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

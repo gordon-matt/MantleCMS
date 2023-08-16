@@ -40,34 +40,6 @@ public class RegionController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Create = T[MantleWebLocalizableStrings.General.Create].Value,
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-            InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-            Localize = T[MantleWebLocalizableStrings.General.Localize].Value,
-            Settings = T[MantleWebLocalizableStrings.General.Settings].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Cities = T[LocalizableStrings.Regions.Cities].Value,
-            States = T[LocalizableStrings.Regions.States].Value,
-            Columns = new
-            {
-                Name = T[LocalizableStrings.Regions.Model.Name].Value
-            }
-        });
-    }
-
     [Route("get-editor-ui/{settingsId}")]
     public async Task<IActionResult> GetEditorUI(string settingsId)
     {

@@ -22,25 +22,4 @@ public class QueuedEmailController : MantleController
 
         return PartialView("/Views/QueuedEmail/Index.cshtml");
     }
-
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Columns = new
-            {
-                CreatedOnUtc = T[LocalizableStrings.QueuedEmail.CreatedOnUtc].Value,
-                SentOnUtc = T[LocalizableStrings.QueuedEmail.SentOnUtc].Value,
-                SentTries = T[LocalizableStrings.QueuedEmail.SentTries].Value,
-                Subject = T[LocalizableStrings.QueuedEmail.Subject].Value,
-                ToAddress = T[LocalizableStrings.QueuedEmail.ToAddress].Value
-            }
-        });
-    }
 }

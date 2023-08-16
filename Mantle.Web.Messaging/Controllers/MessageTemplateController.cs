@@ -29,34 +29,6 @@ public class MessageTemplateController : MantleController
         return PartialView("/Views/MessageTemplate/Index.cshtml");
     }
 
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Create = T[MantleWebLocalizableStrings.General.Create].Value,
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            EditWithGrapesJS = string.Format(T[MantleWebLocalizableStrings.General.EditWithFormat].Value, "GrapesJS"),
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            GetTokensError = T[LocalizableStrings.GetTokensError].Value,
-            InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-            InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-            Toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Columns = new
-            {
-                Name = T[LocalizableStrings.MessageTemplate.Name].Value,
-                Editor = T[LocalizableStrings.MessageTemplate.Editor].Value,
-                Enabled = T[MantleWebLocalizableStrings.General.Enabled].Value
-            }
-        });
-    }
-
     [Route("get-available-editors")]
     public JsonResult GetAvailableEditors()
     {

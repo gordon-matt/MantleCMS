@@ -31,30 +31,6 @@ public class PluginController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            Install = T[MantleWebLocalizableStrings.General.Install].Value,
-            InstallPluginSuccess = T[MantleWebLocalizableStrings.Plugins.InstallPluginSuccess].Value,
-            InstallPluginError = T[MantleWebLocalizableStrings.Plugins.InstallPluginError].Value,
-            Uninstall = T[MantleWebLocalizableStrings.General.Uninstall].Value,
-            UninstallPluginSuccess = T[MantleWebLocalizableStrings.Plugins.UninstallPluginSuccess].Value,
-            UninstallPluginError = T[MantleWebLocalizableStrings.Plugins.UninstallPluginError].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Columns = new
-            {
-                Group = T[MantleWebLocalizableStrings.Plugins.Model.Group].Value,
-                PluginInfo = T[MantleWebLocalizableStrings.Plugins.Model.PluginInfo].Value,
-            }
-        });
-    }
-
     [HttpPost]
     [Route("install/{systemName}")]
     public JsonResult Install(string systemName)

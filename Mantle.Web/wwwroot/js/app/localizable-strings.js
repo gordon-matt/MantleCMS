@@ -5,6 +5,7 @@
     const ko = require('knockout');
 
     require('kendo');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
 
@@ -14,7 +15,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
         self.cultureCode = null;
 
         self.activate = function (cultureCode) {
@@ -25,15 +25,6 @@
             }
         };
         self.attached = async function () {
-            // Load translations first, else will have errors
-            await fetch("/admin/localization/localizable-strings/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -146,15 +137,15 @@
                 scrollable: false,
                 columns: [{
                     field: "Key",
-                    title: self.translations.columns.key,
+                    title: MantleI18N.t('Mantle.Web/Localization.LocalizableStringModel.Key'),
                     filterable: true
                 }, {
                     field: "InvariantValue",
-                    title: self.translations.columns.invariantValue,
+                    title: MantleI18N.t('Mantle.Web/Localization.LocalizableStringModel.InvariantValue'),
                     filterable: true
                 }, {
                     field: "LocalizedValue",
-                    title: self.translations.columns.localizedValue,
+                    title: MantleI18N.t('Mantle.Web/Localization.LocalizableStringModel.LocalizedValue'),
                     filterable: true
                 }, {
                     command: ["edit", "destroy"],

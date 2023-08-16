@@ -9,10 +9,10 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
-
-    require('mantle-section-switching');
 
     const calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
     const eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
@@ -49,22 +49,22 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.event.Name
+                    title: MantleI18N.t('Plugins.Widgets.FullCalendar/CalendarModel.Name')
                 }, {
                     field: "StartDateTime",
-                    title: self.parent.translations.columns.event.StartDateTime,
+                    title: MantleI18N.t('Plugins.Widgets.FullCalendar/CalendarEventModel.StartDateTime'),
                     format: "{0:G}"
                 }, {
                     field: "EndDateTime",
-                    title: self.parent.translations.columns.event.EndDateTime,
+                    title: MantleI18N.t('Plugins.Widgets.FullCalendar/CalendarEventModel.EndDateTime'),
                     format: "{0:G}"
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("eventModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("eventModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("eventModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("eventModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -85,7 +85,7 @@
 
             self.validator.resetForm();
             switchSection($("#events-form-section"));
-            $("#events-form-section-legend").html(self.parent.translations.create);
+            $("#events-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${eventApiUrl}(${id})`);
@@ -96,13 +96,13 @@
             self.endDateTime(data.EndDateTime);
             self.validator.resetForm();
             switchSection($("#events-form-section"));
-            $("#events-form-section-legend").html(self.parent.translations.edit);
+            $("#events-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${eventApiUrl}(${id})`, () => {
                 $('#EventGrid').data('kendoGrid').dataSource.read();
                 $('#EventGrid').data('kendoGrid').refresh();
-                MantleNotify.success((self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -128,7 +128,7 @@
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
                     switchSection($("#events-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -136,7 +136,7 @@
                     $('#EventGrid').data('kendoGrid').dataSource.read();
                     $('#EventGrid').data('kendoGrid').refresh();
                     switchSection($("#events-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -173,15 +173,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.calendar.name
+                    title: MantleI18N.t('Plugins.Widgets.FullCalendar/CalendarModel.Name')
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("showEvents", 'fa fa-calendar', self.parent.translations.events) +
-                        GridHelper.actionIconButton("calendarModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("calendarModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showEvents", 'fa fa-calendar', MantleI18N.t('Plugins.Widgets.FullCalendar/Events')) +
+                        GridHelper.actionIconButton("calendarModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("calendarModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -196,7 +196,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${calendarApiUrl}(${id})`);
@@ -204,7 +204,7 @@
             self.name(data.Name);
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${calendarApiUrl}(${id})`);
@@ -235,7 +235,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.calendarModel = false;
         self.eventModel = false;
@@ -248,16 +247,6 @@
         };
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/plugins/widgets/fullcalendar/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.calendarModel.init();
             self.eventModel.init();

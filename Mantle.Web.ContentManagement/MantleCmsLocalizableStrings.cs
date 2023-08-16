@@ -132,6 +132,7 @@ public static class MantleCmsLocalizableStrings
 
         public static class Model
         {
+            public const string BlockName = "Mantle.Web.ContentManagement/ContentBlocks.Model.BlockName";
             public const string BlockType = "Mantle.Web.ContentManagement/ContentBlocks.Model.BlockType";
             public const string CustomTemplatePath = "Mantle.Web.ContentManagement/ContentBlocks.Model.CustomTemplatePath";
             public const string IsEnabled = "Mantle.Web.ContentManagement/ContentBlocks.Model.IsEnabled";

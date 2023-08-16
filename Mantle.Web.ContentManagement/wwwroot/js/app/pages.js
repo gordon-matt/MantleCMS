@@ -9,14 +9,15 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
+
     require('tinymce');
     require('tinymce-jquery');
     require('tinymce-knockout');
-
-    require('mantle-common');
-    require('mantle-section-switching');
     require('mantle-tinymce');
 
     const pageApiUrl = "/odata/mantle/cms/PageApi";
@@ -52,12 +53,12 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.pageType.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageTypeModel.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group">' + GridHelper.actionIconButton("pageTypeModel.edit", 'fa fa-edit', self.parent.translations.edit) + '</div>',
+                    template: '<div class="btn-group">' + GridHelper.actionIconButton("pageTypeModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -79,7 +80,7 @@
 
             self.validator.resetForm();
             switchSection($("#page-type-form-section"));
-            $("#page-type-form-section-legend").html(self.parent.translations.edit);
+            $("#page-type-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.save = async function () {
             const isNew = (self.id() == emptyGuid);
@@ -99,9 +100,9 @@
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
                     switchSection($("#page-type-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 }, () => {
-                    MantleNotify.error(self.parent.translations.insertRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.InsertRecordError'));
                 });
             }
             else {
@@ -109,9 +110,9 @@
                     $('#PageTypesGrid').data('kendoGrid').dataSource.read();
                     $('#PageTypesGrid').data('kendoGrid').refresh();
                     switchSection($("#page-type-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 }, () => {
-                    MantleNotify.error(self.parent.translations.updateRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
                 });
             }
         };
@@ -151,15 +152,15 @@
                     }
                 }, [{
                     field: "Title",
-                    title: self.parent.translations.columns.pageVersion.title,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageVersionModel.Title'),
                     filterable: true
                 }, {
                     field: "Slug",
-                    title: self.parent.translations.columns.pageVersion.slug,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageVersionModel.Slug'),
                     filterable: true
                 }, {
                     field: "DateModifiedUtc",
-                    title: self.parent.translations.columns.pageVersion.dateModifiedUtc,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageVersionModel.DateModified'),
                     filterable: true,
                     width: 180,
                     type: "date",
@@ -169,8 +170,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("pageVersionModel.restore", 'fa fa-undo', self.parent.translations.restore, 'warning') +
-                        GridHelper.actionIconButton("pageVersionModel.preview", 'fa fa-search', self.parent.translations.preview) +
+                        GridHelper.actionIconButton("pageVersionModel.restore", 'fa fa-undo', MantleI18N.t('Mantle.Web.ContentManagement/Pages.Restore'), 'warning') +
+                        GridHelper.actionIconButton("pageVersionModel.preview", 'fa fa-search', MantleI18N.t('Mantle.Web/General.Preview')) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -180,14 +181,14 @@
                 { field: "DateModifiedUtc", dir: "desc" });
         };
         self.restore = async function (id) {
-            if (confirm(self.parent.translations.pageHistoryRestoreConfirm)) {
+            if (confirm(MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreConfirm'))) {
                 await ODataHelper.postOData(`${pageVersionApiUrl}(${id})/Default.RestoreVersion`, record, () => {
                     $('#PageVersionGrid').data('kendoGrid').dataSource.read();
                     $('#PageVersionGrid').data('kendoGrid').refresh();
                     switchSection($("#page-grid-section"));
-                    MantleNotify.success(self.parent.translations.pageHistoryRestoreSuccess);
+                    MantleNotify.success(sMantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreSuccess'));
                 }, () => {
-                    MantleNotify.error(self.parent.translations.pageHistoryRestoreError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreError'));
                 });
             };
         };
@@ -319,18 +320,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.page.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.Name'),
                     filterable: true
                 }, {
                     field: "IsEnabled",
-                    title: self.parent.translations.columns.page.isEnabled,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.IsEnabled'),
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "ShowOnMenus",
-                    title: self.parent.translations.columns.page.showOnMenus,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.ShowOnMenus'),
                     template: '<i class="fa #=ShowOnMenus ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -340,18 +341,18 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
-                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", MantleI18N.t('Mantle.Web/General.Create'), 'primary') +
+                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistory'), 'warning', `\'#=Id#\',null`) +
 
-                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
+                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Title') + '">' +
                         '<i class="fa fa-cubes"></i></a>' +
 
-                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
-                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
-                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
-                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'secondary') +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", MantleI18N.t('Mantle.Web/General.Localize'), 'primary') +
+                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", MantleI18N.t('Mantle.Web/General.Preview'), 'success') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", MantleI18N.t('Mantle.Web/General.Move'), 'secondary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -383,7 +384,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.setupVersionCreateSection = function () {
             self.parent.pageVersionModel.id(emptyGuid);
@@ -456,7 +457,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.setupVersionEditSection = async function (json) {
             self.parent.pageVersionModel.id(json.Id);
@@ -526,7 +527,7 @@
                     }
                 })
                 .catch(error => {
-                    MantleNotify.error(self.parent.translations.getRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.GetRecordError'));
                     console.error('Error: ', error);
                 });
 
@@ -535,7 +536,7 @@
         self.remove = async function (id, parentId) {
             await ODataHelper.deleteOData(`${pageApiUrl}(${id})`, () => {
                 self.refreshGrid(parentId);
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -645,7 +646,7 @@
                 if (parentId) {
                     self.refreshGrid(parentId);
                 }
-                MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
             });
         };
         self.showPageHistory = function (id) {
@@ -758,18 +759,18 @@
                 scrollable: false,
                 columns: [{
                     field: "Name",
-                    title: self.parent.translations.columns.page.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.Name'),
                     filterable: true
                 }, {
                     field: "IsEnabled",
-                    title: self.parent.translations.columns.page.isEnabled,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.IsEnabled'),
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "ShowOnMenus",
-                    title: self.parent.translations.columns.page.showOnMenus,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageModel.ShowOnMenus'),
                     template: '<i class="fa #=ShowOnMenus ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -779,18 +780,18 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", self.parent.translations.create, 'primary') +
-                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", self.parent.translations.pageHistory, 'warning', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("pageModel.create", "fa fa-plus", MantleI18N.t('Mantle.Web/General.Create'), 'primary') +
+                        GridHelper.actionIconButton("pageModel.showPageHistory", "fa fa-clock-o", MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistory'), 'warning', `\'#=Id#\',null`) +
 
-                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + self.parent.translations.contentBlocks + '">' +
+                        '<a href="\\#blocks/content-blocks/#=Id#" class="btn btn-info btn-sm" title="' + MantleI18N.t('Mantle.Web.ContentManagement/ContentBlocks.Title') + '">' +
                         '<i class="fa fa-cubes"></i></a>' +
 
-                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
-                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
-                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", self.parent.translations.preview, 'success') +
-                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", self.parent.translations.move, 'secondary') +
+                        GridHelper.actionIconButton("pageModel.toggleEnabled", "fa fa-toggle-on", MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',\'#=ParentId#\',#=IsEnabled#`) +
+                        GridHelper.actionIconButton("pageModel.localize", "fa fa-globe", MantleI18N.t('Mantle.Web/General.Localize'), 'primary') +
+                        GridHelper.actionIconButton("pageModel.preview", "fa fa-search", MantleI18N.t('Mantle.Web/General.Preview'), 'success') +
+                        GridHelper.actionIconButton("pageModel.move", "fa fa-caret-square-o-right", MantleI18N.t('Mantle.Web/General.Move'), 'secondary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -852,9 +853,9 @@
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, { ParentId: parentId }, () => {
                 $("#parentPageModal").modal("hide");
                 self.refreshGrid(parentId);
-                MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
             }, () => {
-                MantleNotify.error(self.parent.translations.updateRecordError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
             });
         };
         self.localize = function (id) {
@@ -873,7 +874,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
         self.currentCulture = null;
         self.defaultFrontendLayoutPath = null;
 
@@ -888,16 +888,6 @@
         };
         self.attached = async function () {
             currentSection = $("#page-grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/pages/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
             self.defaultFrontendLayoutPath = $("#DefaultFrontendLayoutPath").val();

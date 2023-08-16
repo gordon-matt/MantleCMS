@@ -34,23 +34,6 @@ public class SettingsController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Columns = new
-            {
-                Name = T[MantleWebLocalizableStrings.Settings.Model.Name].Value,
-            }
-        });
-    }
-
     [Route("get-editor-ui/{type}")]
     public async Task<IActionResult> GetEditorUI(string type)
     {

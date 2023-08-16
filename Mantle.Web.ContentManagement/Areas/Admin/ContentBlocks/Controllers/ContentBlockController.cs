@@ -42,36 +42,6 @@ public class ContentBlockController : MantleController
         return PartialView("/Areas/Admin/ContentBlocks/Views/ContentBlock/Index.cshtml");
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Create = T[MantleWebLocalizableStrings.General.Create].Value,
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-            InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-            Localize = T[MantleWebLocalizableStrings.General.Localize].Value,
-            Toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            Columns = new
-            {
-                Title = T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title].Value,
-                BlockType = T[MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType].Value,
-                Order = T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order].Value,
-                IsEnabled = T[MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled].Value,
-                Name = T[MantleCmsLocalizableStrings.ContentBlocks.ZoneModel.Name].Value,
-            }
-        });
-    }
-
     [Route("get-editor-ui/{contentBlockId}")]
     public async Task<IActionResult> GetEditorUI(Guid contentBlockId)
     {

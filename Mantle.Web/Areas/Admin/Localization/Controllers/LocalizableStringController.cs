@@ -40,21 +40,6 @@ public class LocalizableStringController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            Columns = new
-            {
-                InvariantValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.InvariantValue].Value,
-                Key = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.Key].Value,
-                LocalizedValue = T[MantleWebLocalizableStrings.Localization.LocalizableStringModel.LocalizedValue].Value,
-            }
-        });
-    }
-
     [Route("export/{cultureCode}")]
     public IActionResult ExportLanguagePack(string cultureCode)
     {
@@ -86,7 +71,7 @@ public class LocalizableStringController : MantleController
         string js =
 $@"class MantleI18N {{
     static dict = {{
-        {string.Join($",{Environment.NewLine}\t\t\t", localizedStrings)}
+        {string.Join($",{Environment.NewLine}\t\t", localizedStrings)}
 	}};
 
     static t(key) {{

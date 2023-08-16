@@ -7,6 +7,7 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
 
@@ -16,19 +17,8 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.attached = async function () {
-            // Load translations first, else will have errors
-            await fetch("/admin/configuration/themes/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
-
             self.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
@@ -45,27 +35,27 @@
                     }
                 }, [{
                     field: "PreviewImageUrl",
-                    title: self.translations.columns.previewImageUrl,
+                    title: MantleI18N.t('Mantle.Web/Themes.Model.PreviewImageUrl'),
                     template: '<img src="#=PreviewImageUrl#" alt="#=Title#" class="thumbnail" style="max-width:200px;" />',
                     filterable: false,
                     width: 200
                 }, {
                     field: "Title",
-                    title: self.translations.columns.title,
+                    title: MantleI18N.t('Mantle.Web/Themes.Model.Title'),
                     filterable: true
                 }, {
                     field: "SupportRtl",
-                    title: self.translations.columns.supportRtl,
+                    title: MantleI18N.t('Mantle.Web/Themes.Model.SupportRtl'),
                     template: '<i class="fa #=SupportRtl ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "IsDefaultTheme",
-                    title: self.translations.columns.isDefaultTheme,
+                    title: MantleI18N.t('Mantle.Web/Themes.Model.IsDefaultTheme'),
                     template:
                         '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
-                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-secondary btn-sm">' + self.translations.set + '</a> #} #',
+                        'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Set') + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
@@ -77,9 +67,9 @@
             await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {
                 $('#Grid').data('kendoGrid').dataSource.read();
                 $('#Grid').data('kendoGrid').refresh();
-                MantleNotify.success(self.translations.setThemeSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/Themes.SetThemeSuccess'));
             }, () => {
-                MantleNotify.error(self.translations.setThemeError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Themes.SetThemeError'));
             });
         };
     };

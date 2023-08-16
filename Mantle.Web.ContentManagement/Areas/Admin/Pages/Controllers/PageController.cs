@@ -53,62 +53,6 @@ public class PageController : MantleController
         return PartialView();
     }
 
-    //[OutputCache(Duration = 86400, VaryByParam = "none")]
-    [Route("get-translations")]
-    public JsonResult GetTranslations()
-    {
-        return Json(new
-        {
-            CircularRelationshipError = T[MantleCmsLocalizableStrings.Messages.CircularRelationshipError].Value,
-            Create = T[MantleWebLocalizableStrings.General.Create].Value,
-            ContentBlocks = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value,
-            Delete = T[MantleWebLocalizableStrings.General.Delete].Value,
-            DeleteRecordConfirm = T[MantleWebLocalizableStrings.General.ConfirmDeleteRecord].Value,
-            DeleteRecordError = T[MantleWebLocalizableStrings.General.DeleteRecordError].Value,
-            DeleteRecordSuccess = T[MantleWebLocalizableStrings.General.DeleteRecordSuccess].Value,
-            Details = T[MantleWebLocalizableStrings.General.Details].Value,
-            Edit = T[MantleWebLocalizableStrings.General.Edit].Value,
-            GetRecordError = T[MantleWebLocalizableStrings.General.GetRecordError].Value,
-            GetTranslationError = T[MantleCmsLocalizableStrings.Messages.GetTranslationError].Value,
-            PageHistory = T[MantleCmsLocalizableStrings.Pages.PageHistory].Value,
-            InsertRecordError = T[MantleWebLocalizableStrings.General.InsertRecordError].Value,
-            InsertRecordSuccess = T[MantleWebLocalizableStrings.General.InsertRecordSuccess].Value,
-            Localize = T[MantleWebLocalizableStrings.General.Localize].Value,
-            Move = T[MantleWebLocalizableStrings.General.Move].Value,
-            Preview = T[MantleWebLocalizableStrings.General.Preview].Value,
-            Restore = T[MantleCmsLocalizableStrings.Pages.Restore].Value,
-            Toggle = T[MantleWebLocalizableStrings.General.Toggle].Value,
-            Translations = T[MantleCmsLocalizableStrings.Pages.Translations].Value,
-            UpdateRecordError = T[MantleWebLocalizableStrings.General.UpdateRecordError].Value,
-            UpdateRecordSuccess = T[MantleWebLocalizableStrings.General.UpdateRecordSuccess].Value,
-            UpdateTranslationError = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationError].Value,
-            UpdateTranslationSuccess = T[MantleCmsLocalizableStrings.Messages.UpdateTranslationSuccess].Value,
-            View = T[MantleWebLocalizableStrings.General.View].Value,
-            PageHistoryRestoreConfirm = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreConfirm].Value,
-            PageHistoryRestoreError = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreError].Value,
-            PageHistoryRestoreSuccess = T[MantleCmsLocalizableStrings.Pages.PageHistoryRestoreSuccess].Value,
-            Columns = new
-            {
-                Page = new
-                {
-                    Name = T[MantleCmsLocalizableStrings.Pages.PageModel.Name].Value,
-                    IsEnabled = T[MantleCmsLocalizableStrings.Pages.PageModel.IsEnabled].Value,
-                    ShowOnMenus = T[MantleCmsLocalizableStrings.Pages.PageModel.ShowOnMenus].Value,
-                },
-                PageType = new
-                {
-                    Name = T[MantleCmsLocalizableStrings.Pages.PageTypeModel.Name].Value,
-                },
-                PageVersion = new
-                {
-                    Title = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Title].Value,
-                    Slug = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.Slug].Value,
-                    DateModifiedUtc = T[MantleCmsLocalizableStrings.Pages.PageVersionModel.DateModified].Value,
-                }
-            }
-        });
-    }
-
     [Route("get-editor-ui/{pageVersionId}")]
     public async Task<IActionResult> GetEditorUI(Guid pageVersionId)
     {

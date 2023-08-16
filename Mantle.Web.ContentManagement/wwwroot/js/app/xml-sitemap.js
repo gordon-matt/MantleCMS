@@ -7,6 +7,7 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
 
@@ -16,31 +17,20 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.changeFrequencies = [];
 
         self.attached = async function () {
-            // Load translations first, else will have errors
-            await fetch("/admin/sitemap/xml-sitemap/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
-
             self.gridPageSize = $("#GridPageSize").val();
 
             self.changeFrequencies = [
-                { "Id": 0, "Name": self.translations.changeFrequencies.always },
-                { "Id": 1, "Name": self.translations.changeFrequencies.hourly },
-                { "Id": 2, "Name": self.translations.changeFrequencies.daily },
-                { "Id": 3, "Name": self.translations.changeFrequencies.weekly },
-                { "Id": 4, "Name": self.translations.changeFrequencies.monthly },
-                { "Id": 5, "Name": self.translations.changeFrequencies.yearly },
-                { "Id": 6, "Name": self.translations.changeFrequencies.never }
+                { "Id": 0, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Always') },
+                { "Id": 1, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Hourly') },
+                { "Id": 2, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Daily') },
+                { "Id": 3, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Weekly') },
+                { "Id": 4, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Monthly') },
+                { "Id": 5, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Yearly') },
+                { "Id": 6, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Never') }
             ];
 
             $("#Grid").kendoGrid({
@@ -146,20 +136,20 @@
                 scrollable: false,
                 columns: [{
                     field: "Id",
-                    title: self.translations.columns.id,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.Id'),
                     filterable: false
                 }, {
                     field: "Location",
-                    title: self.translations.columns.location,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.Location'),
                     filterable: true
                 }, {
                     field: "ChangeFrequency",
-                    title: self.translations.columns.changeFrequency,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.ChangeFrequency'),
                     filterable: false,
                     editor: self.changeFrequenciesDropDownEditor
                 }, {
                     field: "Priority",
-                    title: self.translations.columns.priority,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.Priority'),
                     filterable: true
                 }, {
                     command: ["edit"],
@@ -201,11 +191,11 @@
         }
 
         self.generateFile = async function () {
-            if (confirm(self.translations.confirmGenerateFile)) {
+            if (confirm(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.ConfirmGenerateFile'))) {
                 await ODataHelper.postOData(`${odataBaseUrl}/Default.Generate`, null, () => {
-                    MantleNotify.success(self.translations.generateFileSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.GenerateFileSuccess'));
                 }, () => {
-                    MantleNotify.error(self.translations.generateFileError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.GenerateFileError'));
                 });
             }
         }
