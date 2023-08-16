@@ -8,11 +8,10 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-section-switching');
     require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
 
     const odataBaseUrl = "/odata/mantle/web/TenantApi";
 
@@ -53,7 +52,9 @@
                     title: MantleI18N.t('Mantle.Web/General.Name'),
                     filterable: true
                 },
-                    GridHelper.defaultActionColumn(MantleI18N.t('Mantle.Web/General.Edit'), MantleI18N.t('Mantle.Web/General.Delete'))
+                    GridHelper.defaultActionColumn(
+                        MantleI18N.t('Mantle.Web/General.Edit'),
+                        MantleI18N.t('Mantle.Web/General.Delete'))
                 ],
                 self.gridPageSize,
                 { field: "Name", dir: "asc" });

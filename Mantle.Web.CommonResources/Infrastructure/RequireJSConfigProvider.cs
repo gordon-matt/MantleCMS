@@ -31,7 +31,8 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
             return new Dictionary<string, string[]>
             {
                 { "mantle-knockout-chosen", new[] { "chosen", "knockout" } },
-                { "mantle-tinymce", new[] { "tinymce" } }
+                { "mantle-tinymce", new[] { "tinymce" } },
+                { "odata-helpers", new[] { "mantle-translations" } }
             };
         }
     }

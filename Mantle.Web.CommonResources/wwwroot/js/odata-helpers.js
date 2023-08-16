@@ -1,14 +1,22 @@
 ﻿class ODataHelper {
     static #defaultOptions = {
         messages: {
-            getRecordError: "Error when trying to retrieve record!",
-            deleteRecordConfirm: "Are you sure that you want to delete this record?",
-            deleteRecordSuccess: "Successfully deleted record!",
-            deleteRecordError: "Error when trying to retrieve record!",
-            insertRecordSuccess: "Successfully inserted record!",
-            insertRecordError: "Error when trying to insert record!",
-            updateRecordSuccess: "Successfully updated record!",
-            updateRecordError: "Error when trying to update record!"
+            //getRecordError: "Error when trying to retrieve record!",
+            //deleteRecordConfirm: "Are you sure that you want to delete this record?",
+            //deleteRecordSuccess: "Successfully deleted record!",
+            //deleteRecordError: "Error when trying to retrieve record!",
+            //insertRecordSuccess: "Successfully inserted record!",
+            //insertRecordError: "Error when trying to insert record!",
+            //updateRecordSuccess: "Successfully updated record!",
+            //updateRecordError: "Error when trying to update record!"
+            getRecordError: MantleI18N.t('Mantle.Web/General.GetRecordError'),
+            deleteRecordConfirm: MantleI18N.t('Mantle.Web/General.ConfirmDeleteRecord'),
+            deleteRecordSuccess: MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'),
+            deleteRecordError: MantleI18N.t('Mantle.Web/General.DeleteRecordError'),
+            insertRecordSuccess: MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'),
+            insertRecordError: MantleI18N.t('Mantle.Web/General.InsertRecordError'),
+            updateRecordSuccess: MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'),
+            updateRecordError: MantleI18N.t('Mantle.Web/General.UpdateRecordError')
         }
     };
 
@@ -22,7 +30,6 @@
                     onError();
                 }
                 else {
-                    //$.notify({ message: this.options.messages.getRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                     MantleNotify.error(this.options.messages.getRecordError);
                 }
                 console.error('Error: ', error);
@@ -39,7 +46,6 @@
                         }
                         else {
                             this.refreshODataGrid();
-                            //$.notify({ message: this.options.messages.deleteRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
                             MantleNotify.success(this.options.messages.deleteRecordSuccess);
                         }
                     } else {
@@ -47,7 +53,6 @@
                             onError();
                         }
                         else {
-                            //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                             MantleNotify.error(this.options.messages.deleteRecordError);
                         }
                     }
@@ -57,7 +62,6 @@
                         onError();
                     }
                     else {
-                        //$.notify({ message: this.options.messages.deleteRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                         MantleNotify.error(this.options.messages.deleteRecordError);
                     }
                     console.error('Error: ', error);
@@ -81,7 +85,6 @@
                 else {
                     this.refreshODataGrid();
                     switchSection($("#grid-section"));
-                    //$.notify({ message: this.options.messages.insertRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
                     MantleNotify.success(this.options.messages.insertRecordSuccess);
                 }
             }
@@ -90,7 +93,6 @@
                     onError();
                 }
                 else {
-                    //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                     MantleNotify.error(this.options.messages.insertRecordError);
                 }
             }
@@ -101,7 +103,6 @@
                 onError();
             }
             else {
-                //$.notify({ message: this.options.messages.insertRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                 MantleNotify.error(this.options.messages.insertRecordError);
             }
             console.error('Error: ', error);
@@ -124,7 +125,6 @@
                 else {
                     this.refreshODataGrid();
                     switchSection($("#grid-section"));
-                    //$.notify({ message: this.options.messages.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
                     MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
             }
@@ -133,7 +133,6 @@
                     onError();
                 }
                 else {
-                    //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                     MantleNotify.error(this.options.messages.updateRecordError);
                 }
             }
@@ -144,7 +143,6 @@
                 onError();
             }
             else {
-                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                 MantleNotify.error(this.options.messages.updateRecordError);
             }
             console.error('Error: ', error);
@@ -166,7 +164,6 @@
                 }
                 else {
                     this.refreshODataGrid();
-                    //$.notify({ message: this.options.messages.updateRecordSuccess, icon: 'fa fa-check' }, { type: 'success' });
                     MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
             }
@@ -175,7 +172,6 @@
                     onError();
                 }
                 else {
-                    //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                     MantleNotify.error(this.options.messages.updateRecordError);
                 }
             }
@@ -186,7 +182,6 @@
                 onError();
             }
             else {
-                //$.notify({ message: this.options.messages.updateRecordError, icon: 'fa fa-exclamation-triangle' }, { type: 'danger' });
                 MantleNotify.error(this.options.messages.updateRecordError);
             }
             console.error('Error: ', error);

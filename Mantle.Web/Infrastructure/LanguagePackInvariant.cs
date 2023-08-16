@@ -214,10 +214,9 @@ public class LanguagePackInvariant : ILanguagePack
         { MantleWebLocalizableStrings.Themes.Model.IsDefaultTheme, "Default Theme" },
         { MantleWebLocalizableStrings.Themes.Model.PreviewImageUrl, "Preview" },
         { MantleWebLocalizableStrings.Themes.Model.SupportRtl, "Supports RTL" },
-        { MantleWebLocalizableStrings.Themes.SetDesktopThemeError, "Error when setting default desktop theme." },
-        { MantleWebLocalizableStrings.Themes.SetDesktopThemeSuccess, "Successfully set default desktop theme." },
-        { MantleWebLocalizableStrings.Themes.SetMobileThemeError, "Error when setting default mobile theme." },
-        { MantleWebLocalizableStrings.Themes.SetMobileThemeSuccess, "Successfully set default mobile theme." },
+        { MantleWebLocalizableStrings.Themes.Model.Title, "Title" },
+        { MantleWebLocalizableStrings.Themes.SetThemeError, "Error when setting default theme." },
+        { MantleWebLocalizableStrings.Themes.SetThemeSuccess, "Successfully set default theme." },
 
         { MantleWebLocalizableStrings.UserProfile.Account.FamilyName, "Family Name" },
         { MantleWebLocalizableStrings.UserProfile.Account.GivenNames, "Given Name/s" },

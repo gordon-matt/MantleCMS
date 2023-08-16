@@ -9,11 +9,11 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
 
     //require('jquery-maphilight');
     require('jquery-image-mapster');
@@ -41,12 +41,12 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.Common/Regions.Model.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
-                    template: '<div class="btn-group">' + GridHelper.actionIconButton("settings.edit", 'fa fa-edit', self.parent.translations.edit) + '</div>',
+                    template: '<div class="btn-group">' + GridHelper.actionIconButton("settings.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) + '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 120
@@ -113,7 +113,7 @@
                     switchSection($("#settings-form-section"));
                 })
                 .catch(error => {
-                    MantleNotify.error(self.parent.translations.getRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.GetRecordError'));
                     console.error('Error: ', error);
                 });
         };
@@ -131,9 +131,9 @@
 
             await ODataHelper.postOData(`${settingsApiUrl}/Default.SaveSettings`, record, () => {
                 switchSection($("#settings-grid-section"));
-                MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
             }, () => {
-                MantleNotify.error(self.parent.translations.updateRecordError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
             });
         };
         self.cancel = function () {
@@ -176,20 +176,20 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.Common/Regions.Model.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        `# if(HasStates) {# ${GridHelper.actionIconButton('country.showStates', 'fa fa-globe', self.parent.translations.states, 'primary')} #} ` +
-                        `else {# ${GridHelper.actionIconButton('country.showCities', 'fa fa-globe', self.parent.translations.cities, 'primary')} #} # ` +
+                        `# if(HasStates) {# ${GridHelper.actionIconButton('country.showStates', 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.States'), 'primary')} #} ` +
+                        `else {# ${GridHelper.actionIconButton('country.showCities', 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.Cities'), 'primary')} #} # ` +
 
-                        GridHelper.actionIconButton("country.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionIconButton("country.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
-                        GridHelper.actionIconButton("country.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
-                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("country.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("country.localize", 'fa fa-language', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
+                        GridHelper.actionIconButton("country.removeItem", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', MantleI18N.t('Mantle.Web/General.Settings'), 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -210,7 +210,7 @@
 
             self.validator.resetForm();
             switchSection($("#country-form-section"));
-            $("#country-form-section-legend").html(self.parent.translations.create);
+            $("#country-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id, cultureCode) {
             let url = `${apiUrl}(${id})`;
@@ -233,7 +233,7 @@
 
             self.validator.resetForm();
             switchSection($("#country-form-section"));
-            $("#country-form-section-legend").html(self.parent.translations.edit);
+            $("#country-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.localize = function (id) {
             $("#RegionType").val('Country');
@@ -244,7 +244,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#CountryGrid').data('kendoGrid').dataSource.read();
                 $('#CountryGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -274,7 +274,7 @@
                     $('#CountryGrid').data('kendoGrid').dataSource.read();
                     $('#CountryGrid').data('kendoGrid').refresh();
                     switchSection($("#country-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -283,9 +283,9 @@
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
                         switchSection($("#country-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
-                        MantleNotify.error(self.parent.translations.updateRecordError);
+                        MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
                     });
                 }
                 else {
@@ -293,7 +293,7 @@
                         $('#CountryGrid').data('kendoGrid').dataSource.read();
                         $('#CountryGrid').data('kendoGrid').refresh();
                         switchSection($("#country-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });
                 }
             }
@@ -364,18 +364,18 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.Common/Regions.Model.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("state.showCities", 'fa fa-globe', self.parent.translations.cities) +
-                        GridHelper.actionIconButton("state.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionIconButton("state.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
-                        GridHelper.actionIconButton("state.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
-                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("state.showCities", 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.Cities')) +
+                        GridHelper.actionIconButton("state.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("state.localize", 'fa fa-language', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
+                        GridHelper.actionIconButton("state.removeItem", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', MantleI18N.t('Mantle.Web/General.Settings'), 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -395,7 +395,7 @@
 
             self.validator.resetForm();
             switchSection($("#state-form-section"));
-            $("#state-form-section-legend").html(self.parent.translations.create);
+            $("#state-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id, cultureCode) {
             let url = `${apiUrl}(${id})`;
@@ -417,7 +417,7 @@
 
             self.validator.resetForm();
             switchSection($("#state-form-section"));
-            $("#state-form-section-legend").html(self.parent.translations.edit);
+            $("#state-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.localize = function (id) {
             $("#RegionType").val('State');
@@ -428,7 +428,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#StateGrid').data('kendoGrid').dataSource.read();
                 $('#StateGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -458,7 +458,7 @@
                     $('#StateGrid').data('kendoGrid').dataSource.read();
                     $('#StateGrid').data('kendoGrid').refresh();
                     switchSection($("#state-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -467,9 +467,9 @@
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
                         switchSection($("#state-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
-                        MantleNotify.error(self.parent.translations.updateRecordError);
+                        MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
                     });
                 }
                 else {
@@ -477,7 +477,7 @@
                         $('#StateGrid').data('kendoGrid').dataSource.read();
                         $('#StateGrid').data('kendoGrid').refresh();
                         switchSection($("#state-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });
                 }
             }
@@ -532,17 +532,17 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.Common/Regions.Model.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("city.edit", 'fa fa-edit', self.parent.translations.edit, 'secondary', `\'#=Id#\', null`) +
-                        GridHelper.actionIconButton("city.localize", 'fa fa-language', self.parent.translations.localize, 'success') +
-                        GridHelper.actionIconButton("city.removeItem", 'fa fa-times', self.parent.translations.delete, 'danger') +
-                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', self.parent.translations.settings, 'info') +
+                        GridHelper.actionIconButton("city.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
+                        GridHelper.actionIconButton("city.localize", 'fa fa-language', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
+                        GridHelper.actionIconButton("city.removeItem", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
+                        GridHelper.actionIconButton("showSettings", 'fa fa-cog', MantleI18N.t('Mantle.Web/General.Settings'), 'info') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -567,7 +567,7 @@
 
             self.validator.resetForm();
             switchSection($("#city-form-section"));
-            $("#city-form-section-legend").html(self.parent.translations.create);
+            $("#city-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id, cultureCode) {
             let url = `${apiUrl}(${id})`;
@@ -588,7 +588,7 @@
 
             self.validator.resetForm();
             switchSection($("#city-form-section"));
-            $("#city-form-section-legend").html(self.parent.translations.edit);
+            $("#city-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.localize = function (id) {
             $("#RegionType").val('City');
@@ -599,7 +599,7 @@
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 $('#CityGrid').data('kendoGrid').dataSource.read();
                 $('#CityGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -627,7 +627,7 @@
                     $('#CityGrid').data('kendoGrid').dataSource.read();
                     $('#CityGrid').data('kendoGrid').refresh();
                     switchSection($("#city-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -636,9 +636,9 @@
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
                         switchSection($("#city-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
-                        MantleNotify.error(self.parent.translations.updateRecordError);
+                        MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
                     });
                 }
                 else {
@@ -646,7 +646,7 @@
                         $('#CityGrid').data('kendoGrid').dataSource.read();
                         $('#CityGrid').data('kendoGrid').refresh();
                         switchSection($("#city-grid-section"));
-                        MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                        MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });
                 }
             }
@@ -668,7 +668,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.selectedContinentId = ko.observable(0);
         self.selectedCountryId = ko.observable(0);
@@ -687,16 +686,6 @@
         };
         self.attached = async function () {
             currentSection = $("#main-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/regions/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

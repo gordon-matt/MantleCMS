@@ -8,10 +8,10 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
-
-    require('mantle-section-switching');
 
     const forumGroupApiUrl = "/odata/mantle/plugins/forums/ForumGroupApi";
     const forumApiUrl = "/odata/mantle/plugins/forums/ForumApi";
@@ -47,15 +47,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/General.Name'),
                     filterable: true
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.columns.displayOrder,
+                    title: MantleI18N.t('Mantle.Web/General.Order'),
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.parent.translations.columns.createdOnUtc,
+                    title: MantleI18N.t('Mantle.Web/General.DateCreatedUtc'),
                     format: "{0:G}",
                     filterable: true
                 }, {
@@ -63,8 +63,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("forumModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("forumModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("forumModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("forumModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -82,7 +82,7 @@
 
             self.validator.resetForm();
             switchSection($("#forum-form-section"));
-            $("#forum-form-section-legend").html(self.parent.translations.create);
+            $("#forum-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${forumApiUrl}(${id})`);
@@ -94,13 +94,13 @@
 
             self.validator.resetForm();
             switchSection($("#forum-form-section"));
-            $("#forum-form-section-legend").html(self.parent.translations.edit);
+            $("#forum-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${forumApiUrl}(${id})`, () => {
                 $('#ForumGrid').data('kendoGrid').dataSource.read();
                 $('#ForumGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -123,7 +123,7 @@
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -131,7 +131,7 @@
                     $('#ForumGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -172,15 +172,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/General.Name'),
                     filterable: true
                 }, {
                     field: "DisplayOrder",
-                    title: self.parent.translations.columns.displayOrder,
+                    title: MantleI18N.t('Mantle.Web/General.Order'),
                     filterable: true
                 }, {
                     field: "CreatedOnUtc",
-                    title: self.parent.translations.columns.createdOnUtc,
+                    title: MantleI18N.t('Mantle.Web/General.DateCreatedUtc'),
                     format: "{0:G}",
                     filterable: true
                 }, {
@@ -188,9 +188,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("showForums", 'fa fa-comments', self.parent.translations.forums) +
-                        GridHelper.actionIconButton("forumGroupModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("forumGroupModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("showForums", 'fa fa-comments', MantleI18N.t('Plugins.Messaging.Forums/Forums')) +
+                        GridHelper.actionIconButton("forumGroupModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("forumGroupModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -206,7 +206,7 @@
 
             self.validator.resetForm();
             switchSection($("#forum-group-form-section"));
-            $("#forum-group-form-section-legend").html(self.parent.translations.create);
+            $("#forum-group-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${forumGroupApiUrl}(${id})`);
@@ -216,13 +216,13 @@
 
             self.validator.resetForm();
             switchSection($("#forum-group-form-section"));
-            $("#forum-group-form-section-legend").html(self.parent.translations.edit);
+            $("#forum-group-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${forumGroupApiUrl}(${id})`, () => {
                 $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                 $('#ForumGroupGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -243,7 +243,7 @@
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-group-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -251,7 +251,7 @@
                     $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
                     $('#ForumGroupGrid').data('kendoGrid').refresh();
                     switchSection($("#forum-group-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -264,7 +264,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.forumGroupModel = false;
         self.forumModel = false;
@@ -277,16 +276,6 @@
         };
         self.attached = async function () {
             currentSection = $("#forum-group-grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/plugins/messaging/forums/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

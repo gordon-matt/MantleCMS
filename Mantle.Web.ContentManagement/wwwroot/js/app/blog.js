@@ -8,16 +8,17 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
+
     require('chosen');
+    require('mantle-knockout-chosen');
     require('tinymce');
     require('tinymce-jquery');
     require('tinymce-knockout');
-
-    require('mantle-common');
-    require('mantle-section-switching');
-    require('mantle-knockout-chosen');
     require('mantle-tinymce');
 
     const postApiUrl = "/odata/mantle/cms/BlogPostApi";
@@ -83,11 +84,11 @@
                     }
                 }, [{
                     field: "Headline",
-                    title: self.parent.translations.columns.post.headline,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Blog.PostModel.Headline'),
                     filterable: true
                 }, {
                     field: "DateCreatedUtc",
-                    title: self.parent.translations.columns.post.dateCreatedUtc,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Blog.PostModel.DateCreatedUtc'),
                     filterable: true,
                     format: '{0:G}',
                     width: 200
@@ -96,8 +97,8 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("postModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("postModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("postModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("postModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -121,7 +122,7 @@
 
             self.validator.resetForm();
             switchSection($("#post-form-section"));
-            $("#post-form-section-legend").html(self.parent.translations.create);
+            $("#post-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${postApiUrl}(${id})?$expand=Tags`);
@@ -144,13 +145,13 @@
 
             self.validator.resetForm();
             switchSection($("#post-form-section"));
-            $("#post-form-section-legend").html(self.parent.translations.edit);
+            $("#post-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${postApiUrl}(${id})`, () => {
                 $('#PostGrid').data('kendoGrid').dataSource.read();
                 $('#PostGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -186,7 +187,7 @@
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
                     switchSection($("#post-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -194,7 +195,7 @@
                     $('#PostGrid').data('kendoGrid').dataSource.read();
                     $('#PostGrid').data('kendoGrid').refresh();
                     switchSection($("#post-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -230,15 +231,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.category.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Blog.CategoryModel.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("categoryModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("categoryModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("categoryModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("categoryModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -254,7 +255,7 @@
 
             self.validator.resetForm();
             switchSection($("#category-form-section"));
-            $("#category-form-section-legend").html(self.parent.translations.create);
+            $("#category-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${categoryApiUrl}(${id})`);
@@ -264,13 +265,13 @@
 
             self.validator.resetForm();
             switchSection($("#category-form-section"));
-            $("#category-form-section-legend").html(self.parent.translations.edit);
+            $("#category-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${categoryApiUrl}(${id})`, () => {
                 $('#CategoryGrid').data('kendoGrid').dataSource.read();
                 $('#CategoryGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -291,7 +292,7 @@
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
                     switchSection($("#category-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -299,7 +300,7 @@
                     $('#CategoryGrid').data('kendoGrid').dataSource.read();
                     $('#CategoryGrid').data('kendoGrid').refresh();
                     switchSection($("#category-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -335,15 +336,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.tag.name,
+                    title: MantleI18N.t('Mantle.Web.ContentManagement/Blog.TagModel.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("tagModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("tagModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("tagModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("tagModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -359,7 +360,7 @@
 
             self.validator.resetForm();
             switchSection($("#tag-form-section"));
-            $("#tag-form-section-legend").html(self.parent.translations.create);
+            $("#tag-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.edit = async function (id) {
             const data = await ODataHelper.getOData(`${tagApiUrl}(${id})`);
@@ -369,13 +370,13 @@
 
             self.validator.resetForm();
             switchSection($("#tag-form-section"));
-            $("#tag-form-section-legend").html(self.parent.translations.edit);
+            $("#tag-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${tagApiUrl}(${id})`, () => {
                 $('#TagGrid').data('kendoGrid').dataSource.read();
                 $('#TagGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
         self.save = async function () {
@@ -396,7 +397,7 @@
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
                     switchSection($("#tag-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -404,7 +405,7 @@
                     $('#TagGrid').data('kendoGrid').dataSource.read();
                     $('#TagGrid').data('kendoGrid').refresh();
                     switchSection($("#tag-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -417,7 +418,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.postModel = false;
         self.categoryModel = false;
@@ -433,16 +433,6 @@
         };
         self.attached = async function () {
             currentSection = $("#post-grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/blog/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

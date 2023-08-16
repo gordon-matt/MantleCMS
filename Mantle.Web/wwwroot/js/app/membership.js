@@ -8,11 +8,11 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
 
     const permissionsApiUrl = "/odata/mantle/web/PermissionApi";
     const rolesApiUrl = "/odata/mantle/web/RoleApi";
@@ -45,16 +45,16 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.role.name,
+                    title: MantleI18N.t('Mantle.Web/Membership.RoleModel.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("roleModel.editPermissions", 'fa fa-check-square-o', self.parent.translations.permissions) +
-                        GridHelper.actionIconButton("roleModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("roleModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("roleModel.editPermissions", 'fa fa-check-square-o', MantleI18N.t('Mantle.Web/Membership.Permissions')) +
+                        GridHelper.actionIconButton("roleModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("roleModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -72,7 +72,7 @@
 
             self.validator.resetForm();
             switchSection($("#roles-form-section"));
-            $("#roles-form-section-legend").html(self.parent.translations.create);
+            $("#roles-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
         self.edit = async function (id) {
@@ -83,14 +83,14 @@
 
             self.validator.resetForm();
             switchSection($("#roles-form-section"));
-            $("#roles-form-section-legend").html(self.parent.translations.edit);
+            $("#roles-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${rolesApiUrl}('${id}')`, () => {
                 $('#RolesGrid').data('kendoGrid').dataSource.read();
                 $('#RolesGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
 
@@ -109,7 +109,7 @@
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
                     switchSection($("#roles-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
@@ -117,7 +117,7 @@
                     $('#RolesGrid').data('kendoGrid').dataSource.read();
                     $('#RolesGrid').data('kendoGrid').refresh();
                     switchSection($("#roles-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
@@ -152,9 +152,9 @@
 
             await ODataHelper.postOData(`${rolesApiUrl}/Default.AssignPermissionsToRole`, data, () => {
                 switchSection($("#roles-grid-section"));
-                MantleNotify.success(self.parent.translations.savePermissionsSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/Membership.SavePermissionsSuccess'));
             }, () => {
-                MantleNotify.error(self.parent.translations.savePermissionsError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.SavePermissionsError'));
             });
         };
     };
@@ -195,9 +195,9 @@
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.ChangePassword`, record, () => {
                 switchSection($("#users-grid-section"));
-                MantleNotify.success(self.parent.translations.changePasswordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/Membership.ChangePasswordSuccess'));
             }, () => {
-                MantleNotify.error(self.parent.translations.changePasswordError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.ChangePasswordError'));
             });
         };
     };
@@ -235,15 +235,15 @@
                     }
                 }, [{
                     field: "UserName",
-                    title: self.parent.translations.columns.user.userName,
+                    title: MantleI18N.t('Mantle.Web/Membership.UserModel.UserName'),
                     filterable: true
                 }, {
                     field: "Email",
-                    title: self.parent.translations.columns.user.email,
+                    title: MantleI18N.t('Mantle.Web/Membership.UserModel.Email'),
                     filterable: true
                 }, {
                     field: "IsLockedOut",
-                    title: self.parent.translations.columns.user.isActive,
+                    title: MantleI18N.t('Mantle.Web/Membership.UserModel.IsActive'),
                     template: '<i class="fa #=!IsLockedOut ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -253,10 +253,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("userModel.editRoles", 'fa fa-users', self.parent.translations.roles) +
-                        GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', self.parent.translations.password) +
-                        GridHelper.actionIconButton("userModel.edit", 'fa fa-edit', self.parent.translations.edit) +
-                        GridHelper.actionIconButton("userModel.remove", 'fa fa-times', self.parent.translations.delete, 'danger') +
+                        GridHelper.actionIconButton("userModel.editRoles", 'fa fa-users', MantleI18N.t('Mantle.Web/Membership.Roles')) +
+                        GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', MantleI18N.t('Mantle.Web/Membership.Password')) +
+                        GridHelper.actionIconButton("userModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("userModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -296,7 +296,7 @@
             await ODataHelper.deleteOData(`${usersApiUrl}('${id}')`, () => {
                 $('#UsersGrid').data('kendoGrid').dataSource.read();
                 $('#UsersGrid').data('kendoGrid').refresh();
-                MantleNotify.success(self.parent.translations.deleteRecordSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
 
@@ -319,9 +319,9 @@
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
                     switchSection($("#users-grid-section"));
-                    MantleNotify.success(self.parent.translations.insertRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 }, () => {
-                    MantleNotify.error(self.parent.translations.insertRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.InsertRecordError'));
                 });
             }
             else {
@@ -329,9 +329,9 @@
                     $('#UsersGrid').data('kendoGrid').dataSource.read();
                     $('#UsersGrid').data('kendoGrid').refresh();
                     switchSection($("#users-grid-section"));
-                    MantleNotify.success(self.parent.translations.updateRecordSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 }, () => {
-                    MantleNotify.error(self.parent.translations.updateRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
                 });
             }
         };
@@ -367,9 +367,9 @@
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.AssignUserToRoles`, data, () => {
                 switchSection($("#users-grid-section"));
-                MantleNotify.success(self.parent.translations.saveRolesSuccess);
+                MantleNotify.success(MantleI18N.t('Mantle.Web/Membership.SaveRolesSuccess'));
             }, () => {
-                MantleNotify.error(self.parent.translations.saveRolesError);
+                MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.SaveRolesError'));
             });
         };
         self.changePassword = function (id, userName) {
@@ -450,7 +450,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.userModel = false;
         self.roleModel = false;
@@ -463,16 +462,6 @@
         };
         self.attached = async function () {
             currentSection = $("#users-grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/membership/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 

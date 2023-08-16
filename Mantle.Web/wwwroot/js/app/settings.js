@@ -9,11 +9,11 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
 
     const apiUrl = "/odata/mantle/web/SettingsApi";
 
@@ -23,7 +23,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.id = ko.observable(emptyGuid);
         self.name = ko.observable("");
@@ -32,16 +31,6 @@
 
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/configuration/settings/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -54,13 +43,13 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/Settings.Model.Name'),
                     filterable: true
                 }, {
                     field: "Id",
                     title: " ",
                     template: '<div class="btn-group">' +
-                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -123,7 +112,7 @@
                     switchSection($("#form-section"));
                 })
                 .catch(error => {
-                    MantleNotify.error(self.translations.getRecordError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/General.GetRecordError'));
                     console.error('Error: ', error);
                 });
         };

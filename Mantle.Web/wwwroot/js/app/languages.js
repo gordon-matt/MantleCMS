@@ -8,11 +8,11 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('grid-helper');
-    require('odata-helpers');
-
     require('mantle-common');
     require('mantle-section-switching');
+    require('mantle-translations');
+    require('grid-helper');
+    require('odata-helpers');
     /*require('bootstrap-fileinput');*/
 
     const apiUrl = "/odata/mantle/web/LanguageApi";
@@ -21,7 +21,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
 
         self.id = ko.observable(emptyGuid);
         self.name = ko.observable(null);
@@ -34,16 +33,6 @@
 
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/localization/languages/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             self.gridPageSize = $("#GridPageSize").val();
 
@@ -83,23 +72,23 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web/Localization.LanguageModel.Name'),
                     filterable: true
                 }, {
                     field: "CultureCode",
-                    title: self.translations.columns.cultureCode,
+                    title: MantleI18N.t('Mantle.Web/Localization.LanguageModel.CultureCode'),
                     filterable: true,
                     width: 70
                 }, {
                     field: "IsEnabled",
-                    title: self.translations.columns.isEnabled,
+                    title: MantleI18N.t('Mantle.Web/Localization.LanguageModel.IsEnabled'),
                     template: '<i class="fa #=IsEnabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
                     width: 70
                 }, {
                     field: "SortOrder",
-                    title: self.translations.columns.sortOrder,
+                    title: MantleI18N.t('Mantle.Web/Localization.LanguageModel.SortOrder'),
                     filterable: true,
                     width: 70
                 }, {
@@ -107,9 +96,9 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("edit", 'fa fa-edit', self.translations.edit) +
-                        GridHelper.actionIconButton("remove", 'fa fa-times', self.translations.delete, 'danger') +
-                        `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${self.translations.localize}</a>` +
+                        GridHelper.actionIconButton("edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
+                        GridHelper.actionIconButton("remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
+                        `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${MantleI18N.t('Mantle.Web/Localization.Localize')}</a>` +
                         '</div>',
                     //TODO: '<a data-bind="click: setDefault.bind($data,\'#=Id#\', #=IsEnabled#)" class="btn btn-secondary btn-xs">Set Default</a></div>',
                     attributes: { "class": "text-center" },
@@ -130,7 +119,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
         self.edit = async function (id) {
@@ -144,7 +133,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
         self.remove = async function (id) {
@@ -188,14 +177,14 @@
         };
 
         self.clear = async function () {
-            if (confirm(self.translations.resetLocalizableStringsConfirm)) {
+            if (confirm(MantleI18N.t('Mantle.Web/Localization.ResetLocalizableStringsConfirm'))) {
                 await ODataHelper.postOData(`${apiUrl}/Default.ResetLocalizableStrings`, null, () => {
-                    MantleNotify.success(self.translations.resetLocalizableStringsSuccess);
+                    MantleNotify.success(MantleI18N.t('Mantle.Web/Localization.ResetLocalizableStringsSuccess'));
                     setTimeout(function () {
                         window.location.reload();
                     }, 500);
                 }, () => {
-                    MantleNotify.error(self.translations.resetLocalizableStringsError);
+                    MantleNotify.error(MantleI18N.t('Mantle.Web/Localization.ResetLocalizableStringsError'));
                 });
             }
         };

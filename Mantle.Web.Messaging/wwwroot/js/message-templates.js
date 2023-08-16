@@ -8,15 +8,16 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
+    require('mantle-common');
+    require('mantle-section-switching');
+    require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
+
+    require('momentjs');
     require('tinymce');
     require('tinymce-jquery');
     require('tinymce-knockout');
-    require('momentjs');
-
-    require('mantle-common');
-    require('mantle-section-switching');
     require('mantle-tinymce');
 
     const templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
@@ -80,15 +81,15 @@
                     }
                 }, [{
                     field: "Name",
-                    title: self.parent.translations.columns.name,
+                    title: MantleI18N.t('Mantle.Web.Messaging/MessageTemplate.Name'),
                     filterable: true
                 }, {
                     field: "Editor",
-                    title: self.parent.translations.columns.editor, //TODO: Render as logo?
+                    title: MantleI18N.t('Mantle.Web.Messaging/MessageTemplate.Editor'), //TODO: Render as logo?
                     filterable: true
                 }, {
                     field: "Enabled",
-                    title: self.parent.translations.columns.enabled,
+                    title: MantleI18N.t('Mantle.Web/General.Enabled'),
                     template: '<i class="fa #=Enabled ? \'fa-check text-success\' : \'fa-times text-danger\'#"></i>',
                     attributes: { "class": "text-center" },
                     filterable: true,
@@ -98,10 +99,10 @@
                     title: " ",
                     template:
                         '<div class="btn-group">' +
-                        GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", self.parent.translations.edit, 'secondary', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("templateModel.remove", "fa fa-trash", self.parent.translations.delete, 'danger', `\'#=Id#\',null`) +
-                        GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", self.parent.translations.toggle, 'secondary', `\'#=Id#\',#=Enabled#`) +
-                        GridHelper.actionIconButton("templateModel.localize", "fa fa-globe", self.parent.translations.localize, 'primary') +
+                        GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("templateModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
+                        GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',#=Enabled#`) +
+                        GridHelper.actionIconButton("templateModel.localize", "fa fa-globe", MantleI18N.t('Mantle.Web/General.Localize'), 'primary') +
                         '</div>',
                     attributes: { "class": "text-center" },
                     filterable: false,
@@ -127,7 +128,7 @@
 
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.create);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
         self.setupVersionCreateSection = function () {
             self.parent.templateVersionModel.id(0);
@@ -197,7 +198,7 @@
             self.inEditMode(true);
             self.validator.resetForm();
             switchSection($("#form-section"));
-            $("#form-section-legend").html(self.parent.translations.edit);
+            $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
             //---------------------------------------------------------------------------------------
             // END: Get Template
             //---------------------------------------------------------------------------------------
@@ -298,7 +299,6 @@
         const self = this;
 
         self.gridPageSize = 10;
-        self.translations = false;
         self.messageTemplateEditors = [];
         self.currentCulture = null;
 
@@ -311,16 +311,6 @@
         };
         self.attached = async function () {
             currentSection = $("#grid-section");
-
-            // Load translations first, else will have errors
-            await fetch("/admin/messaging/templates/get-translations")
-                .then(response => response.json())
-                .then((data) => {
-                    self.translations = data;
-                })
-                .catch(error => {
-                    console.error('Error: ', error);
-                });
 
             // Load editors
             await fetch("/admin/messaging/templates/get-available-editors")

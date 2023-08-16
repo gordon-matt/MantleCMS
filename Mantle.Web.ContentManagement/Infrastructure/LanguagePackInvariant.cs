@@ -59,6 +59,7 @@ public class LanguagePackInvariant : ILanguagePack
         { MantleCmsLocalizableStrings.ContentBlocks.LastNPostsBlock.NumberOfEntries, "# of Entries" },
         { MantleCmsLocalizableStrings.ContentBlocks.ManageContentBlocks, "Manage Content Blocks" },
         { MantleCmsLocalizableStrings.ContentBlocks.ManageZones, "Manage Zones" },
+        { MantleCmsLocalizableStrings.ContentBlocks.Model.BlockName, "Block Name" },
         { MantleCmsLocalizableStrings.ContentBlocks.Model.BlockType, "Block Type" },
         { MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath, "Custom Template Path" },
         { MantleCmsLocalizableStrings.ContentBlocks.Model.IsEnabled, "Is Enabled" },

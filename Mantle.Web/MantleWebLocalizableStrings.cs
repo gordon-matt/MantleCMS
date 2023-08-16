@@ -293,16 +293,15 @@ public static class MantleWebLocalizableStrings
 
     public static class Themes
     {
-        public const string SetDesktopThemeError = "Mantle.Web/Themes.SetDesktopThemeError";
-        public const string SetDesktopThemeSuccess = "Mantle.Web/Themes.SetDesktopThemeSuccess";
-        public const string SetMobileThemeError = "Mantle.Web/Themes.SetMobileThemeError";
-        public const string SetMobileThemeSuccess = "Mantle.Web/Themes.SetMobileThemeSuccess";
+        public const string SetThemeError = "Mantle.Web/Themes.SetThemeError";
+        public const string SetThemeSuccess = "Mantle.Web/Themes.SetThemeSuccess";
 
         public static class Model
         {
             public const string PreviewImageUrl = "Mantle.Web/Themes.Model.PreviewImageUrl";
             public const string SupportRtl = "Mantle.Web/Themes.Model.SupportRtl";
             public const string IsDefaultTheme = "Mantle.Web/Themes.Model.IsDefaultTheme";
+            public const string Title = "Mantle.Web/Themes.Model.Title";
         }
     }
 
