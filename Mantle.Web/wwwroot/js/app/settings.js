@@ -65,7 +65,7 @@
             self.type(data.Type);
             self.value(data.Value);
 
-            await fetch(`/admin/configuration/settings/get-editor-ui/${replaceAll(self.type(), '.', '-')}`)
+            await fetch(`/admin/configuration/settings/get-editor-ui/${self.type().replaceAll('.', '-')}`)
                 .then(response => response.json())
                 .then((data) => {
                     // Clean up from previously injected html/scripts

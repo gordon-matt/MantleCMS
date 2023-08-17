@@ -8,7 +8,7 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('mantle-common');
+    //require('mantle-common');
     require('mantle-section-switching');
     require('mantle-translations');
     require('grid-helper');

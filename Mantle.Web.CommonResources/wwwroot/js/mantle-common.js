@@ -1,22 +1,5 @@
 ﻿const emptyGuid = '00000000-0000-0000-0000-000000000000';
 
-if (typeof String.prototype.startsWith != 'function') {
-    String.prototype.startsWith = function (str) {
-        return this.slice(0, str.length) == str;
-    };
-}
-if (typeof String.prototype.endsWith != 'function') {
-    String.prototype.endsWith = function (str) {
-        return this.slice(-str.length) == str;
-    };
-}
-function stringToNullIfEmpty(s) {
-    if (s == '') {
-        return null;
-    }
-    return s;
-};
-
 function getLocalStorageKeys() {
     const keys = [];
     for (const i = 0; i < localStorage.length; i++) {
@@ -24,16 +7,3 @@ function getLocalStorageKeys() {
     }
     return keys;
 };
-
-function escapeRegExp(string) {
-    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-}
-
-function replaceAll(string, find, replace) {
-    return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
-function isFunction(functionToCheck) {
-    const getType = {};
-    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
