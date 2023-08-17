@@ -1,5 +1,5 @@
 ﻿using Mantle.Tenants.Entities;
-using Mantle.Web.Navigation;
+using Mantle.Web.Navigation.Breadcrumbs;
 
 namespace Mantle.Web;
 

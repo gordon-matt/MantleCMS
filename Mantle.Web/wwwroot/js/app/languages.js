@@ -13,7 +13,7 @@
     require('mantle-translations');
     require('grid-helper');
     require('odata-helpers');
-    /*require('bootstrap-fileinput');*/
+    require('bootstrap-fileinput');
 
     const apiUrl = "/odata/mantle/web/LanguageApi";
 

@@ -40,7 +40,7 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
 
     #region Ctor
 
-    public MantleScriptTagHelper(Configuration.WebOptimizerOptions webOptimizerOptions,
+    public MantleScriptTagHelper(IOptions<Configuration.WebOptimizerOptions> webOptimizerOptions,
         HtmlEncoder htmlEncoder,
         IAssetPipeline assetPipeline,
         IMantleHtmlHelper nopHtmlHelper,
@@ -48,7 +48,7 @@ public partial class MantleScriptTagHelper : UrlResolutionTagHelper
         IWebHelper webHelper,
         IWebHostEnvironment webHostEnvironment) : base(urlHelperFactory, htmlEncoder)
     {
-        this.webOptimizerOptions = webOptimizerOptions;
+        this.webOptimizerOptions = webOptimizerOptions.Value;
         _assetPipeline = assetPipeline ?? throw new ArgumentNullException(nameof(assetPipeline));
         _nopHtmlHelper = nopHtmlHelper;
         _webHelper = webHelper;

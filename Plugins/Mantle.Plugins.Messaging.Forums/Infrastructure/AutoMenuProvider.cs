@@ -89,7 +89,7 @@ public class AutoMenuProvider : IAutoMenuProvider
         else if (currentUrlSlug.StartsWith("forums/forum-group/"))
         {
             string forumGroupId = currentUrlSlug.Replace("forums/forum-group/", string.Empty);
-            forumGroupId = forumGroupId.Substring(0, forumGroupId.IndexOf("/"));
+            forumGroupId = forumGroupId[..forumGroupId.IndexOf("/")];
 
             int groupId = int.Parse(forumGroupId);
 

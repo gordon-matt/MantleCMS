@@ -1,6 +1,6 @@
 ﻿using Mantle.Tenants;
 using Mantle.Tenants.Entities;
-using Mantle.Web.Navigation;
+using Mantle.Web.Navigation.Breadcrumbs;
 using System.Collections.Concurrent;
 
 namespace Mantle.Web;
