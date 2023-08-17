@@ -8,7 +8,7 @@
     require('kendo');
     require('notify');
     require('mantle-toasts');
-    require('mantle-common');
+    //require('mantle-common');
     require('mantle-section-switching');
     require('mantle-translations');
     require('grid-helper');
@@ -79,7 +79,7 @@
         };
 
         self.edit = async function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
+            systemName = systemName.replaceAll(".", "-");
 
             self.limitedToTenants([]);
 
@@ -115,7 +115,7 @@
         };
 
         self.install = async function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
+            systemName = systemName.replaceAll(".", "-");
 
             await fetch(`/admin/plugins/install/${systemName}`, {
                 method: "POST"
@@ -139,7 +139,7 @@
             });
         }
         self.uninstall = async function (systemName) {
-            systemName = replaceAll(systemName, ".", "-");
+            systemName = systemName.replaceAll(".", "-");
 
             await fetch(`/admin/plugins/uninstall/${systemName}`, {
                 method: "POST"
