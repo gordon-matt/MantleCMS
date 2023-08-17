@@ -1,4 +1,6 @@
-﻿namespace Mantle.Tasks.Infrastructure;
+﻿using Microsoft.Extensions.Options;
+
+namespace Mantle.Tasks.Infrastructure;
 
 public class StartupTask : IStartupTask
 {
@@ -11,8 +13,8 @@ public class StartupTask : IStartupTask
 
     private static void EnsureScheduledTasks()
     {
-        var options = EngineContext.Current.Resolve<MantleTasksOptions>();
-        if (options.ScheduledTasksEnabled)
+        var options = EngineContext.Current.Resolve<IOptions<MantleTasksOptions>>();
+        if (options.Value.ScheduledTasksEnabled)
         {
             var taskRepository = EngineContext.Current.Resolve<IRepository<ScheduledTask>>();
             var allTasks = EngineContext.Current.ResolveAll<ITask>();

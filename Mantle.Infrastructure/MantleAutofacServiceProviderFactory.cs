@@ -1,4 +1,6 @@
-﻿namespace Mantle.Infrastructure;
+﻿using Microsoft.Extensions.Options;
+
+namespace Mantle.Infrastructure;
 
 public class MantleAutofacServiceProviderFactory : IServiceProviderFactory<ContainerBuilder>
 {
@@ -47,13 +49,13 @@ public class MantleAutofacServiceProviderFactory : IServiceProviderFactory<Conta
         //set base application path
         var provider = services.BuildServiceProvider();
         var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
-        var pluginOptions = provider.GetRequiredService<MantlePluginOptions>();
+        var pluginOptions = provider.GetRequiredService<IOptions<MantlePluginOptions>>();
         CommonHelper.BaseDirectory = hostingEnvironment.ContentRootPath;
 
         var partManager = provider.GetService<ApplicationPartManager>();
 
         //initialize plugins
-        PluginManager.Initialize(partManager, hostingEnvironment, pluginOptions);
+        PluginManager.Initialize(partManager, hostingEnvironment, pluginOptions.Value);
 
         var configuration = provider.GetService<IConfiguration>();
 
@@ -61,9 +63,9 @@ public class MantleAutofacServiceProviderFactory : IServiceProviderFactory<Conta
         var serviceProvider = engine.ConfigureServices(containerBuilder, configuration);
         EngineContext.Create(engine);
 
-        var infrastructureOptions = provider.GetService<MantleInfrastructureOptions>();
+        var infrastructureOptions = provider.GetService<IOptions<MantleInfrastructureOptions>>();
         //run startup tasks
-        if (!infrastructureOptions.IgnoreStartupTasks)
+        if (!infrastructureOptions.Value.IgnoreStartupTasks)
         {
             engine.RunStartupTasks();
         }

@@ -1,4 +1,4 @@
-﻿namespace Mantle.Web.Navigation;
+﻿namespace Mantle.Web.Navigation.Breadcrumbs;
 
 public class Breadcrumb
 {

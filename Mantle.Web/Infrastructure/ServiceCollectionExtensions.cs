@@ -10,25 +10,11 @@ public static class ServiceCollectionExtensions
 {
     public static void ConfigureMantleOptions(this IServiceCollection services, IConfigurationRoot configuration)
     {
-        var infrastructureOptions = new MantleInfrastructureOptions();
-        configuration.Bind(infrastructureOptions);
-        services.AddSingleton(infrastructureOptions);
-
-        var pluginOptions = new MantlePluginOptions();
-        configuration.Bind(pluginOptions);
-        services.AddSingleton(pluginOptions);
-
-        var tasksOptions = new MantleTasksOptions();
-        configuration.Bind(tasksOptions);
-        services.AddSingleton(tasksOptions);
-
-        var webOptions = new MantleWebOptions();
-        configuration.Bind(webOptions);
-        services.AddSingleton(webOptions);
-
-        var webOptimizerOptionswebOptions = new WebOptimizerOptions();
-        configuration.Bind(webOptimizerOptionswebOptions);
-        services.AddSingleton(webOptimizerOptionswebOptions);
+        services.Configure<MantleInfrastructureOptions>(configuration.GetSection(nameof(MantleInfrastructureOptions)))
+            .Configure<MantlePluginOptions>(configuration.GetSection(nameof(MantlePluginOptions)))
+            .Configure<MantleTasksOptions>(configuration.GetSection(nameof(MantleTasksOptions)))
+            .Configure<MantleWebOptions>(configuration.GetSection(nameof(MantleWebOptions)))
+            .Configure<WebOptimizerOptions>(configuration.GetSection(nameof(WebOptimizerOptions)));
     }
 
     /// <summary>

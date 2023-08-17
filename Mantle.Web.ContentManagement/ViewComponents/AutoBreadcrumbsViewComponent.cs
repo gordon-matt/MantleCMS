@@ -2,7 +2,7 @@
 using Mantle.Web.ContentManagement.Areas.Admin.Pages;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using Mantle.Web.Navigation;
+using Mantle.Web.Navigation.Breadcrumbs;
 
 namespace Mantle.Web.ContentManagement.ViewComponents;
 

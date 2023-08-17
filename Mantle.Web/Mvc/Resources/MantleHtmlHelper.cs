@@ -44,7 +44,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     #region Ctor
 
     public MantleHtmlHelper(
-        Configuration.WebOptimizerOptions webOptimizerOptions,
+        IOptions<Configuration.WebOptimizerOptions> webOptimizerOptions,
         HtmlEncoder htmlEncoder,
         IActionContextAccessor actionContextAccessor,
         IAssetPipeline assetPipeline,
@@ -52,7 +52,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
         IUrlHelperFactory urlHelperFactory,
         IWebHostEnvironment webHostEnvironment)
     {
-        this.webOptimizerOptions = webOptimizerOptions;
+        this.webOptimizerOptions = webOptimizerOptions.Value;
         _htmlEncoder = htmlEncoder;
         _actionContextAccessor = actionContextAccessor;
         _assetPipeline = assetPipeline;
