@@ -65,8 +65,7 @@
         };
         self.setTheme = async function (name) {
             await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid();
                 MantleNotify.success(MantleI18N.t('Mantle.Web/Themes.SetThemeSuccess'));
             }, () => {
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Themes.SetThemeError'));

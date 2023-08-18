@@ -98,8 +98,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${forumApiUrl}(${id})`, () => {
-                $('#ForumGrid').data('kendoGrid').dataSource.read();
-                $('#ForumGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('ForumGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -120,16 +119,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(forumApiUrl, record, () => {
-                    $('#ForumGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('ForumGrid');
                     switchSection($("#forum-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${forumApiUrl}(${self.id()})`, record, () => {
-                    $('#ForumGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('ForumGrid');
                     switchSection($("#forum-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
@@ -220,8 +217,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${forumGroupApiUrl}(${id})`, () => {
-                $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                $('#ForumGroupGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('ForumGroupGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -240,16 +236,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(forumGroupApiUrl, record, () => {
-                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGroupGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('ForumGroupGrid');
                     switchSection($("#forum-group-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${forumGroupApiUrl}(${self.id()})`, record, () => {
-                    $('#ForumGroupGrid').data('kendoGrid').dataSource.read();
-                    $('#ForumGroupGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('ForumGroupGrid');
                     switchSection($("#forum-group-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });

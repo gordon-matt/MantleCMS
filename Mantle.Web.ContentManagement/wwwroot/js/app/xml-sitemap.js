@@ -94,8 +94,7 @@
                     sync: function (e) {
                         // Refresh grid after save (not ideal, but if we don't, then the enum column (ChangeFrequency) shows
                         //  a number instead of the name). Haven't found a better solution yet.
-                        $('#Grid').data('kendoGrid').dataSource.read();
-                        $('#Grid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid();
                     },
                     batch: false,
                     pageSize: self.gridPageSize,

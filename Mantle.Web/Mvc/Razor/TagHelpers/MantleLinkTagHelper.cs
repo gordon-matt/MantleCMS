@@ -8,12 +8,11 @@ namespace Mantle.Web.Mvc.Razor.TagHelpers;
 /// <summary>
 /// CSS bundling tag helper
 /// </summary>
-[HtmlTargetElement(LINK_TAG_NAME, Attributes = "[rel=stylesheet]")]
+[HtmlTargetElement("mantle-link", Attributes = "[rel=stylesheet]")]
 public partial class MantleLinkTagHelper : UrlResolutionTagHelper
 {
     #region Constants
 
-    protected const string LINK_TAG_NAME = "link";
     protected const string EXCLUDE_FROM_BUNDLE_ATTRIBUTE_NAME = "asp-exclude-from-bundle";
     protected const string HREF_ATTRIBUTE_NAME = "href";
 

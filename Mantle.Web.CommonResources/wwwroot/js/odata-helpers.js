@@ -45,7 +45,7 @@
                             onSuccess();
                         }
                         else {
-                            this.refreshODataGrid();
+                            GridHelper.refreshGrid();
                             MantleNotify.success(this.options.messages.deleteRecordSuccess);
                         }
                     } else {
@@ -83,7 +83,7 @@
                     onSuccess();
                 }
                 else {
-                    this.refreshODataGrid();
+                    GridHelper.refreshGrid();
                     switchSection($("#grid-section"));
                     MantleNotify.success(this.options.messages.insertRecordSuccess);
                 }
@@ -123,7 +123,7 @@
                     onSuccess();
                 }
                 else {
-                    this.refreshODataGrid();
+                    GridHelper.refreshGrid();
                     switchSection($("#grid-section"));
                     MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
@@ -163,7 +163,7 @@
                     onSuccess();
                 }
                 else {
-                    this.refreshODataGrid();
+                    GridHelper.refreshGrid();
                     MantleNotify.success(this.options.messages.updateRecordSuccess);
                 }
             }
@@ -187,12 +187,4 @@
             console.error('Error: ', error);
         });
     }
-
-    static async refreshODataGrid() {
-        const grid = $('#Grid').data('kendoGrid');
-        if (grid) {
-            grid.dataSource.read();
-            grid.refresh();
-        }
-    };
 }

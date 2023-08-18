@@ -88,8 +88,7 @@
 
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${rolesApiUrl}('${id}')`, () => {
-                $('#RolesGrid').data('kendoGrid').dataSource.read();
-                $('#RolesGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('RolesGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -106,16 +105,14 @@
 
             if (self.id() == emptyGuid) {
                 await ODataHelper.postOData(rolesApiUrl, record, () => {
-                    $('#RolesGrid').data('kendoGrid').dataSource.read();
-                    $('#RolesGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('RolesGrid');
                     switchSection($("#roles-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${rolesApiUrl}('${self.id()}')`, record, () => {
-                    $('#RolesGrid').data('kendoGrid').dataSource.read();
-                    $('#RolesGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('RolesGrid');
                     switchSection($("#roles-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
@@ -294,8 +291,7 @@
 
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${usersApiUrl}('${id}')`, () => {
-                $('#UsersGrid').data('kendoGrid').dataSource.read();
-                $('#UsersGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('UsersGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -316,8 +312,7 @@
 
             if (isNew) {
                 await ODataHelper.postOData(usersApiUrl, record, () => {
-                    $('#UsersGrid').data('kendoGrid').dataSource.read();
-                    $('#UsersGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('UsersGrid');
                     switchSection($("#users-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 }, () => {
@@ -326,8 +321,7 @@
             }
             else {
                 await ODataHelper.putOData(`${usersApiUrl}('${self.id()}')`, record, () => {
-                    $('#UsersGrid').data('kendoGrid').dataSource.read();
-                    $('#UsersGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('UsersGrid');
                     switchSection($("#users-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 }, () => {

@@ -375,8 +375,7 @@ define(function (require) {
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`/odata/mantle/cms/ZoneApi(${id})`, () => {
-                $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                $('#ZoneGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('ZoneGrid');
                 $('#ZoneId option[value="' + id + '"]').remove();
                 $('#Create_ZoneId option[value="' + id + '"]').remove();
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
@@ -394,9 +393,7 @@ define(function (require) {
 
             if (isNew) {
                 await ODataHelper.postOData("/odata/mantle/cms/ZoneApi", record, () => {
-                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                    $('#ZoneGrid').data('kendoGrid').refresh();
-
+                    GridHelper.refreshGrid('ZoneGrid');
                     switchSection($("#zones-grid-section"));
 
                     // Update zone drop downs
@@ -414,9 +411,7 @@ define(function (require) {
             }
             else {
                 await ODataHelper.putOData(`/odata/mantle/cms/ZoneApi(${self.id()})`, record, () => {
-                    $('#ZoneGrid').data('kendoGrid').dataSource.read();
-                    $('#ZoneGrid').data('kendoGrid').refresh();
-
+                    GridHelper.refreshGrid('ZoneGrid');
                     switchSection($("#zones-grid-section"));
 
                     // Update zone drop downs
