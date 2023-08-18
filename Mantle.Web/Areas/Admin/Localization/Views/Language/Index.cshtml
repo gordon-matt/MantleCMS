@@ -64,10 +64,8 @@
                 <form id="upload-section-form" role="form" class="form-horizontal">
                     <fieldset>
                         <div class="mb-3">
-                            @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload])
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                @Html.FileUpload("Upload")
-                            </div>
+                            @Html.Label("Upload", T[MantleWebLocalizableStrings.General.Upload], new { @class = "form-label" })
+                            @Html.FileUpload("Upload")
                         </div>
                         <div class="mb-3 float-end">
                             <div class="@MantleWebConstants.AdminCss.Columns.Full">

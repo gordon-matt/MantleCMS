@@ -27,18 +27,6 @@ public class ContentBlockController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.ContentBlocks.ManageContentBlocks].Value;
-
-        //if (pageId.HasValue)
-        //{
-        //    WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Pages.ManagePages].Value, Url.Action("Index", "Page", new { area = CmsConstants.Areas.Pages }));
-        //}
-
-        //ViewBag.PageId = pageId;
-
         return PartialView("/Areas/Admin/ContentBlocks/Views/ContentBlock/Index.cshtml");
     }
 

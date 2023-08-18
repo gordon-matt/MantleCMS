@@ -14,11 +14,6 @@ public class XmlSitemapController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Sitemap.Title].Value);
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Sitemap.XMLSitemap].Value;
-
         return PartialView();
     }
 }

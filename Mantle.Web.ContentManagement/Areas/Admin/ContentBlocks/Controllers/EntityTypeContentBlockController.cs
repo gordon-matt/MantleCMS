@@ -27,11 +27,6 @@ public class EntityTypeContentBlockController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.ContentBlocks.ManageContentBlocks].Value;
-
         return PartialView("/Areas/Admin/ContentBlocks/Views/EntityTypeContentBlock/Index.cshtml");
     }
 

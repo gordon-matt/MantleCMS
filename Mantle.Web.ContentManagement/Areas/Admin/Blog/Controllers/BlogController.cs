@@ -14,11 +14,6 @@ public class BlogController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Blog.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Blog.ManageBlog].Value;
-
         return PartialView();
     }
 }

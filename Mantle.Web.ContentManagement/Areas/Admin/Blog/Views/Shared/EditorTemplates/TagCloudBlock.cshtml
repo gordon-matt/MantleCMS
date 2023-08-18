@@ -4,11 +4,9 @@
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="mb-3">
             <label></label>
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <mantle-input asp-for="AutoResize" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize]" ko-bind="blockModel.autoResize" />
-                <mantle-input asp-for="RemoveOverflowing" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing]" ko-bind="blockModel.removeOverflowing" />
-                <mantle-input asp-for="EncodeURI" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.EncodeURI]" ko-bind="blockModel.encodeURI" />
-            </div>
+            <mantle-input asp-for="AutoResize" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.AutoResize]" ko-bind="blockModel.autoResize" />
+            <mantle-input asp-for="RemoveOverflowing" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.RemoveOverflowing]" ko-bind="blockModel.removeOverflowing" />
+            <mantle-input asp-for="EncodeURI" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.EncodeURI]" ko-bind="blockModel.encodeURI" />
         </div>
         <mantle-input asp-for="Steps" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.Steps]" ko-bind="blockModel.steps" type="number" />
         <mantle-input asp-for="ClassPattern" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.TagCloudBlock.ClassPattern]" ko-bind="blockModel.classPattern" />

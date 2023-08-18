@@ -14,11 +14,6 @@ public class MenuController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Menus.Title].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Menus.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Menus.ManageMenus].Value;
-
         return PartialView();
     }
 }

@@ -14,11 +14,6 @@ public class ScheduledTaskController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.ScheduledTasks.Title].Value);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.ScheduledTasks.Title].Value;
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.ScheduledTasks.ManageScheduledTasks].Value;
-
         return PartialView();
     }
 }

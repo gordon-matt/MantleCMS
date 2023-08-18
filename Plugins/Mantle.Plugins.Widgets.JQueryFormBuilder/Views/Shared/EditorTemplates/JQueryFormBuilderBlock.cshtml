@@ -30,10 +30,7 @@
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <mantle-input asp-for="RedirectUrl" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.RedirectUrl]" ko-bind="blockModel.redirectUrl" />
         <div class="mb-3">
-            <label></label>
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <mantle-input asp-for="UseAjax" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]" ko-bind="blockModel.useAjax" />
-            </div>
+            <mantle-input asp-for="UseAjax" asp-label="@T[LocalizableStrings.ContentBlocks.FormBuilderBlock.UseAjax]" ko-bind="blockModel.useAjax" />
         </div>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">

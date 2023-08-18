@@ -13,12 +13,6 @@ public class MediaController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Media.Title].Value);
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Media.ManageMedia].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Media.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Media.ManageMedia].Value;
-
         return PartialView();
     }
 }

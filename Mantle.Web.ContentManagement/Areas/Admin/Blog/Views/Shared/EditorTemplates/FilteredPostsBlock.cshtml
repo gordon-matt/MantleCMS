@@ -3,42 +3,36 @@
 <div id="block-content">
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="mb-3">
-            @Html.Label("FilterType", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType])
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <mantle-select asp-for="FilterType"
-                               asp-items="WebEnumExtensions.ToSelectList<FilterType>()"
-                               asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType]"
-                               ko-bind="blockModel.filterType" />
-            </div>
+            @Html.Label("FilterType", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType], new { @class = "form-label" })
+            <mantle-select asp-for="FilterType"
+                            asp-items="WebEnumExtensions.ToSelectList<FilterType>()"
+                            asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.FilterType]"
+                            ko-bind="blockModel.filterType" />
         </div>
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="mb-3" data-bind="visible: filterType() == 1">
-            @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId])
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="fa fa-folder"></i>
-                    </span>
-                    @Html.MantleCMS().BlogCategoryDropDownList(
-                        "CategoryId",
-                        emptyText: string.Empty,
-                        htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.categoryId" })
-                </div>
+            @Html.Label("CategoryId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.CategoryId], new { @class = "form-label" })
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa fa-folder"></i>
+                </span>
+                @Html.MantleCMS().BlogCategoryDropDownList(
+                    "CategoryId",
+                    emptyText: string.Empty,
+                    htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.categoryId" })
             </div>
         </div>
         <div class="mb-3" data-bind="visible: filterType() == 2">
-            @Html.Label("TagId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId])
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="fa fa-tags"></i>
-                    </span>
-                    @Html.MantleCMS().BlogTagDropDownList(
-                        "TagId",
-                        emptyText: string.Empty,
-                        htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.tagId" })
-                </div>
+            @Html.Label("TagId", T[MantleCmsLocalizableStrings.ContentBlocks.AllPostsBlock.TagId], new { @class = "form-label" })
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa fa-tags"></i>
+                </span>
+                @Html.MantleCMS().BlogTagDropDownList(
+                    "TagId",
+                    emptyText: string.Empty,
+                    htmlAttributes: new { @class = "form-control", data_bind = "value: blockModel.tagId" })
             </div>
         </div>
     </div>

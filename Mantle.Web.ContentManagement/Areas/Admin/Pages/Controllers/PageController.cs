@@ -45,11 +45,6 @@ public class PageController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Pages.Title].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Pages.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Pages.ManagePages].Value;
-
         return PartialView();
     }
 

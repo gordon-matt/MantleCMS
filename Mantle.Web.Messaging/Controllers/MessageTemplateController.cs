@@ -20,12 +20,6 @@ public class MessageTemplateController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Messaging].Value);
-        WorkContext.Breadcrumbs.Add(T[LocalizableStrings.MessageTemplates].Value);
-
-        ViewBag.Title = T[LocalizableStrings.Messaging].Value;
-        ViewBag.SubTitle = T[LocalizableStrings.MessageTemplates].Value;
-
         return PartialView("/Views/MessageTemplate/Index.cshtml");
     }
 
