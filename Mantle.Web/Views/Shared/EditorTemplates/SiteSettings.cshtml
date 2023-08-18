@@ -25,7 +25,7 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="mb-3">
-                @Html.LabelFor(m => m.DefaultTheme)
+                @Html.LabelFor(m => m.DefaultTheme, new { @class = "form-label" })
                 @Html.Mantle().ThemesDropDownListFor(m => m.DefaultTheme, new { @class = "form-control", data_bind = "value: defaultTheme" })
                 @Html.ValidationMessageFor(m => m.DefaultTheme)
             </div>
@@ -34,7 +34,7 @@
         using (var tab = tabs.BeginPanel())
         {
             <div class="mb-3">
-                @Html.LabelFor(m => m.DefaultLanguage)
+                @Html.LabelFor(m => m.DefaultLanguage, new { @class = "form-label" })
                 @Html.Mantle().LanguagesDropDownListFor(m => m.DefaultLanguage, new { @class = "form-control", data_bind = "value: defaultLanguage" })
                 @Html.ValidationMessageFor(m => m.DefaultLanguage)
             </div>

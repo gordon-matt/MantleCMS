@@ -31,11 +31,6 @@ public class RegionController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Regions.Title]);
-
-        ViewBag.Title = T[LocalizableStrings.Regions.Title];
-        ViewBag.RegionSettings = regionSettings.Value;
-
         //var model = regionService.Value.GetContinents(true).Select(x => (RegionModel)x);
         return PartialView();
     }

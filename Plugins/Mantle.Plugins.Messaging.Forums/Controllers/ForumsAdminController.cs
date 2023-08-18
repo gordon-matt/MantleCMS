@@ -13,10 +13,6 @@ public class ForumsAdminController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Forums], Url.Action("Index"));
-
-        ViewBag.Title = T[LocalizableStrings.Forums];
-
         return PartialView();
     }
 }

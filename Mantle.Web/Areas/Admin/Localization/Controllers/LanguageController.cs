@@ -32,12 +32,6 @@ public class LanguageController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Localization.Title].Value);
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Localization.Languages].Value);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.Localization.Title].Value;
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.Localization.Languages].Value;
-
         return PartialView();
     }
 

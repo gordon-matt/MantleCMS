@@ -14,16 +14,14 @@
     </div>
     <div class="@MantleWebConstants.AdminCss.Columns.Half">
         <div class="mb-3">
-            @Html.LabelFor(m => m.Source)
+            @Html.LabelFor(m => m.Source, new { @class = "form-label" })
             @fileManagerModal.RenderFormField()
         </div>
         <div class="mb-3">
             <label></label>
-            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                <mantle-input asp-for="ShowControls" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls]" ko-bind="blockModel.showControls" />
-                <mantle-input asp-for="AutoPlay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.AutoPlay]" ko-bind="blockModel.autoPlay" />
-                <mantle-input asp-for="Loop" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Loop]" ko-bind="blockModel.loop" />
-            </div>
+            <mantle-input asp-for="ShowControls" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.ShowControls]" ko-bind="blockModel.showControls" />
+            <mantle-input asp-for="AutoPlay" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.AutoPlay]" ko-bind="blockModel.autoPlay" />
+            <mantle-input asp-for="Loop" asp-label="@T[MantleCmsLocalizableStrings.ContentBlocks.VideoBlock.Loop]" ko-bind="blockModel.loop" />
         </div>
     </div>
 

@@ -23,11 +23,6 @@ public class PluginController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Plugins.Title]);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.Plugins.Title];
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.Plugins.ManagePlugins];
-
         return PartialView();
     }
 

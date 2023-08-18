@@ -14,12 +14,6 @@ public class ThemeController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Configuration].Value);
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Themes].Value);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.General.Configuration].Value;
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.General.Themes].Value;
-
         return PartialView();
     }
 }

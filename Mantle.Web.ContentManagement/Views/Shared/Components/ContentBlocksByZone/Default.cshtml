@@ -11,7 +11,7 @@
         @await Html.PartialAsync(block.CustomTemplatePath, block)
     }
     else
-    {   // await Html.PartialAsync won't be able to find the view if the ".cshtml" extension is present
-        @await Html.PartialAsync(block.DisplayTemplatePath.Replace(".cshtml", string.Empty), block)
+    {
+        @await Html.PartialAsync(block.DisplayTemplatePath, block)
     }
 }

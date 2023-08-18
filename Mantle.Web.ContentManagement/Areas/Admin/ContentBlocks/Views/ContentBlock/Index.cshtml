@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                                 <div class="mb-3">
-                                    @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
+                                    @Html.Label("Create_Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "form-label" })
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="fa fa-file"></i>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                                 <div class="mb-3">
-                                    @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
+                                    @Html.Label("Create_Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "form-label" })
                                     @Html.TextBox("Create_Order", null, new { @class = "form-control", data_bind = "value: blockModel.order" })
                                 </div>
                                 <mantle-select asp-for-name="Create_ZoneId"
@@ -76,7 +76,7 @@
                         <div class="row">
                             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                                 <div class="mb-3">
-                                    @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title])
+                                    @Html.Label("Title", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Title], new { @class = "form-label" })
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="fa fa-file"></i>
@@ -85,13 +85,13 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath])
+                                    @Html.Label("CustomTemplatePath", T[MantleCmsLocalizableStrings.ContentBlocks.Model.CustomTemplatePath], new { @class = "form-label" })
                                     @Html.TextBox("CustomTemplatePath", null, new { @class = "form-control", data_bind = "value: blockModel.customTemplatePath" })
                                 </div>
                             </div>
                             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                                 <div class="mb-3">
-                                    @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order])
+                                    @Html.Label("Order", T[MantleCmsLocalizableStrings.ContentBlocks.Model.Order], new { @class = "form-label" })
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="fa fa-sort-numeric-asc"></i>
@@ -152,7 +152,7 @@
                     <fieldset>
                         <legend id="zone-edit-section-legend"></legend>
                         <div class="mb-3">
-                            @Html.Label("Zone_Name", T[MantleCmsLocalizableStrings.ContentBlocks.ZoneModel.Name])
+                            @Html.Label("Zone_Name", T[MantleCmsLocalizableStrings.ContentBlocks.ZoneModel.Name], new { @class = "form-label" })
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fa fa-file"></i>

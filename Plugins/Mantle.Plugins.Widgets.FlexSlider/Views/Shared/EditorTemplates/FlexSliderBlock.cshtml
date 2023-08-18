@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="@MantleWebConstants.AdminCss.Columns.Half">
                     <div class="mb-3">
-                        @Html.LabelFor(m => m.MediaFolder)
+                        @Html.LabelFor(m => m.MediaFolder, new { @class = "form-label" })
                         @fileManagerModal.RenderFormField()
                     </div>
                     <mantle-input asp-for="ControlId" asp-label="@T[LocalizableStrings.FlexSliderBlock.ControlId]" ko-bind="blockModel.controlId" />
@@ -24,14 +24,12 @@
                     <mantle-input asp-for="Selector" asp-label="@T[LocalizableStrings.FlexSliderBlock.Selector]" ko-bind="blockModel.selector" />
                     <div class="mb-3">
                         <label></label>
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
-                            <mantle-input asp-for="PauseOnAction" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnAction]" ko-bind="blockModel.pauseOnAction" />
-                            <mantle-input asp-for="PauseOnHover" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnHover]" ko-bind="blockModel.pauseOnHover" />
-                            <mantle-input asp-for="Touch" asp-label="@T[LocalizableStrings.FlexSliderBlock.Touch]" ko-bind="blockModel.touch" />
-                            <mantle-input asp-for="Video" asp-label="@T[LocalizableStrings.FlexSliderBlock.Video]" ko-bind="blockModel.video" />
-                            <mantle-input asp-for="Slideshow" asp-label="@T[LocalizableStrings.FlexSliderBlock.Slideshow]" ko-bind="blockModel.slideshow" />
-                        </div>
+                        <mantle-input asp-for="Randomize" asp-label="@T[LocalizableStrings.FlexSliderBlock.Randomize]" ko-bind="blockModel.randomize" />
+                        <mantle-input asp-for="PauseOnAction" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnAction]" ko-bind="blockModel.pauseOnAction" />
+                        <mantle-input asp-for="PauseOnHover" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseOnHover]" ko-bind="blockModel.pauseOnHover" />
+                        <mantle-input asp-for="Touch" asp-label="@T[LocalizableStrings.FlexSliderBlock.Touch]" ko-bind="blockModel.touch" />
+                        <mantle-input asp-for="Video" asp-label="@T[LocalizableStrings.FlexSliderBlock.Video]" ko-bind="blockModel.video" />
+                        <mantle-input asp-for="Slideshow" asp-label="@T[LocalizableStrings.FlexSliderBlock.Slideshow]" ko-bind="blockModel.slideshow" />
                     </div>
                     <mantle-input asp-for="SlideshowSpeed" asp-label="@T[LocalizableStrings.FlexSliderBlock.SlideshowSpeed]" ko-bind="blockModel.slideshowSpeed" type="number" />
                 </div>
@@ -69,12 +67,10 @@
                                    ko-bind="blockModel.direction" />
                     <div class="mb-3">
                         <label></label>
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
-                            <mantle-input asp-for="AnimationLoop" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationLoop]" ko-bind="blockModel.animationLoop" />
-                            <mantle-input asp-for="SmoothHeight" asp-label="@T[LocalizableStrings.FlexSliderBlock.SmoothHeight]" ko-bind="blockModel.smoothHeight" />
-                            <mantle-input asp-for="UseCSS" asp-label="@T[LocalizableStrings.FlexSliderBlock.UseCSS]" ko-bind="blockModel.useCSS" />
-                        </div>
+                        <mantle-input asp-for="Reverse" asp-label="@T[LocalizableStrings.FlexSliderBlock.Reverse]" ko-bind="blockModel.startAt" />
+                        <mantle-input asp-for="AnimationLoop" asp-label="@T[LocalizableStrings.FlexSliderBlock.AnimationLoop]" ko-bind="blockModel.animationLoop" />
+                        <mantle-input asp-for="SmoothHeight" asp-label="@T[LocalizableStrings.FlexSliderBlock.SmoothHeight]" ko-bind="blockModel.smoothHeight" />
+                        <mantle-input asp-for="UseCSS" asp-label="@T[LocalizableStrings.FlexSliderBlock.UseCSS]" ko-bind="blockModel.useCSS" />
                     </div>
                 </div>
             </div>
@@ -86,9 +82,7 @@
                     <div class="well">
                         <div class="mb-3">
                             <label></label>
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
-                            </div>
+                            <mantle-input asp-for="DirectionNav" asp-label="@T[LocalizableStrings.FlexSliderBlock.DirectionNav]" ko-bind="blockModel.directionNav" />
                         </div>
                         <mantle-input asp-for="PrevText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PrevText]" ko-bind="blockModel.prevText" />
                         <mantle-input asp-for="NextText" asp-label="@T[LocalizableStrings.FlexSliderBlock.NextText]" ko-bind="blockModel.nextText" />
@@ -104,20 +98,16 @@
                     <div class="well">
                         <div class="mb-3">
                             <label></label>
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
-                            </div>
+                            <mantle-input asp-for="PausePlay" asp-label="@T[LocalizableStrings.FlexSliderBlock.PausePlay]" ko-bind="blockModel.pausePlay" />
                         </div>
                         <mantle-input asp-for="PauseText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PauseText]" ko-bind="blockModel.pauseText" />
                         <mantle-input asp-for="PlayText" asp-label="@T[LocalizableStrings.FlexSliderBlock.PlayText]" ko-bind="blockModel.playText" />
                     </div>
                     <div class="mb-3">
                         <label></label>
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                            <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />
-                            <mantle-input asp-for="MultipleKeyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]" ko-bind="blockModel.multipleKeyboard" />
-                            <mantle-input asp-for="Mousewheel" asp-label="@T[LocalizableStrings.FlexSliderBlock.Mousewheel]" ko-bind="blockModel.mousewheel" />
-                        </div>
+                        <mantle-input asp-for="Keyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.Keyboard]" ko-bind="blockModel.keyboard" />
+                        <mantle-input asp-for="MultipleKeyboard" asp-label="@T[LocalizableStrings.FlexSliderBlock.MultipleKeyboard]" ko-bind="blockModel.multipleKeyboard" />
+                        <mantle-input asp-for="Mousewheel" asp-label="@T[LocalizableStrings.FlexSliderBlock.Mousewheel]" ko-bind="blockModel.mousewheel" />
                     </div>
                 </div>
             </div>

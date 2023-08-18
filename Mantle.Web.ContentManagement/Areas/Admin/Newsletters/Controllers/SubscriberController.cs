@@ -31,12 +31,6 @@ public class SubscriberController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Newsletters.Title].Value);
-        WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value);
-
-        ViewBag.Title = T[MantleCmsLocalizableStrings.Newsletters.Title].Value;
-        ViewBag.SubTitle = T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value;
-
         return PartialView();
     }
 

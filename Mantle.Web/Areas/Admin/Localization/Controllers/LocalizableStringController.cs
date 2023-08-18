@@ -28,15 +28,6 @@ public class LocalizableStringController : MantleController
             return Unauthorized();
         }
 
-        //var language = languageService.Value.FindOne(languageId);
-
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Localization.Languages].Value, "#localization/languages");
-        //WorkContext.Breadcrumbs.Add(language.Name);
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Localization.LocalizableStrings].Value);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.Localization.Title].Value;
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.Localization.LocalizableStrings].Value;
-
         return PartialView();
     }
 
@@ -67,7 +58,7 @@ public class LocalizableStringController : MantleController
         var localizedStrings = T.GetAllStrings()
             .ToDictionary(k => k.Name, v => v.Value)
             .Select(x => $"'{x.Key}': '{x.Value.Replace("'", "\\'")}'");
-        
+
         string js =
 $@"class MantleI18N {{
     static dict = {{

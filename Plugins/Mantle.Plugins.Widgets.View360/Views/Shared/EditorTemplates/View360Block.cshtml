@@ -30,11 +30,11 @@
             </div>
             <div class="@MantleWebConstants.AdminCss.Columns.Half">
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.ImagesDirectory)
+                    @Html.LabelFor(m => m.ImagesDirectory, new { @class = "form-label" })
                     @imagesDirectoryModal.RenderFormField()
                 </div>
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.FullSizeImagesDirectory)
+                    @Html.LabelFor(m => m.FullSizeImagesDirectory, new { @class = "form-label" })
                     @fullSizeImagesDirectory.RenderFormField()
                 </div>
             </div>

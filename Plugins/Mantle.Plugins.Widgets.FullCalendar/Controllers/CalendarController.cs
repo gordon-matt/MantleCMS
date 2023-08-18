@@ -1,5 +1,4 @@
-﻿using Mantle.Web;
-using Mantle.Web.Mvc;
+﻿using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +18,6 @@ namespace Mantle.Plugins.Widgets.FullCalendar.Controllers
             {
                 return Unauthorized();
             }
-
-            WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Plugins.Title]);
-            WorkContext.Breadcrumbs.Add(T[LocalizableStrings.FullCalendar]);
-
-            ViewBag.Title = T[LocalizableStrings.FullCalendar];
 
             return PartialView();
         }

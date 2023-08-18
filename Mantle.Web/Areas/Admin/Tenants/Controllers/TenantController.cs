@@ -13,11 +13,6 @@ public class TenantController : MantleController
             return Unauthorized();
         }
 
-        WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.Tenants.Title].Value);
-
-        ViewBag.Title = T[MantleWebLocalizableStrings.Tenants.Title].Value;
-        ViewBag.SubTitle = T[MantleWebLocalizableStrings.Tenants.ManageTenants].Value;
-
         return PartialView();
     }
 }

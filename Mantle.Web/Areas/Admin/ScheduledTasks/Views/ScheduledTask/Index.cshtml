@@ -17,18 +17,14 @@
                     <fieldset>
                         <legend id="form-section-legend"></legend>
                         <div class="mb-3">
-                            @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name])
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                <p class="form-control-static" data-bind="text: name"></p>
-                            </div>
+                            @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name], new { @class = "form-label" })
+                            <p class="form-control-static" data-bind="text: name"></p>
                         </div>
                         <mantle-input asp-for="Seconds" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds]" asp-icon="fa fa-clock-o" />
                         <div class="mb-3">
                             <label></label>
-                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
-                                <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled]" />
-                                <mantle-input asp-for="StopOnError" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError]" />
-                            </div>
+                            <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled]" />
+                            <mantle-input asp-for="StopOnError" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError]" />
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="mb-3 float-end">
