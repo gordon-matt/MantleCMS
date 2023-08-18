@@ -88,4 +88,12 @@
         clickParams ??= `'#=Id#'`;
         return `<button type="button" data-bind="click: ${funcName}.bind($data,${clickParams})" class="btn btn-${state} btn-${GridHelper.actionIconButtonSize}" title="${text}"><i class="${icon}"></i></a></button>`;
     };
+
+    static async refreshGrid(gridId) {
+        const grid = $(gridId ? `#${gridId}` : '#Grid').data('kendoGrid');
+        if (grid) {
+            grid.dataSource.read();
+            grid.refresh();
+        }
+    };
 }

@@ -100,8 +100,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${eventApiUrl}(${id})`, () => {
-                $('#EventGrid').data('kendoGrid').dataSource.read();
-                $('#EventGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('EventGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -125,16 +124,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(eventApiUrl, record, () => {
-                    $('#EventGrid').data('kendoGrid').dataSource.read();
-                    $('#EventGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('EventGrid');
                     switchSection($("#events-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${eventApiUrl}(${self.id()})`, record, () => {
-                    $('#EventGrid').data('kendoGrid').dataSource.read();
-                    $('#EventGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('EventGrid');
                     switchSection($("#events-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });

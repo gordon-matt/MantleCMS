@@ -1,14 +1,9 @@
 ﻿@model Language
 
-@* @foreach (var script in SiteSettings.GetResources(ResourceType.Script, "Bootstrap-FileInput"))
-{
-    <script asp-location="None" asp-exclude-from-bundle="true" src="@script.Path"></script>
-}
-
 @foreach (var style in SiteSettings.GetResources(ResourceType.Stylesheet, "Bootstrap-FileInput"))
 {
-    <link rel="stylesheet" asp-exclude-from-bundle="true" href="@style.Path" />
-} *@
+    <link rel="stylesheet" href="@style.Path" />
+}
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 

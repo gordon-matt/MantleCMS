@@ -97,8 +97,7 @@
 
             if (isNew) {
                 await ODataHelper.postOData(pageTypeApiUrl, record, () => {
-                    $('#PageTypesGrid').data('kendoGrid').dataSource.read();
-                    $('#PageTypesGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PageTypesGrid');
                     switchSection($("#page-type-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 }, () => {
@@ -107,8 +106,7 @@
             }
             else {
                 await ODataHelper.putOData(`${pageTypeApiUrl}(${self.id()})`, record, () => {
-                    $('#PageTypesGrid').data('kendoGrid').dataSource.read();
-                    $('#PageTypesGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PageTypesGrid');
                     switchSection($("#page-type-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 }, () => {
@@ -183,8 +181,7 @@
         self.restore = async function (id) {
             if (confirm(MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreConfirm'))) {
                 await ODataHelper.postOData(`${pageVersionApiUrl}(${id})/Default.RestoreVersion`, record, () => {
-                    $('#PageVersionGrid').data('kendoGrid').dataSource.read();
-                    $('#PageVersionGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PageVersionGrid');
                     switchSection($("#page-grid-section"));
                     MantleNotify.success(sMantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreSuccess'));
                 }, () => {
@@ -666,17 +663,14 @@
         self.refreshGrid = function (parentId) {
             if (parentId && (parentId != "null")) {
                 try {
-                    $('#page-grid-' + parentId).data('kendoGrid').dataSource.read();
-                    $('#page-grid-' + parentId).data('kendoGrid').refresh();
+                    GridHelper.refreshGrid(`page-grid-${parentId}`);
                 }
                 catch (err) {
-                    $('#PageGrid').data('kendoGrid').dataSource.read();
-                    $('#PageGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PageGrid');
                 }
             }
             else {
-                $('#PageGrid').data('kendoGrid').dataSource.read();
-                $('#PageGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('PageGrid');
                 self.reloadTopLevelPages();
             }
         };

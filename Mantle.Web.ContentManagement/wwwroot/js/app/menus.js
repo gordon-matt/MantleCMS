@@ -239,17 +239,14 @@
         self.refreshGrid = function(parentId) {
             if (parentId && (parentId != "null")) {
                 try {
-                    $('#items-grid-' + parentId).data('kendoGrid').dataSource.read();
-                    $('#items-grid-' + parentId).data('kendoGrid').refresh();
+                    GridHelper.refreshGrid(`items-grid-${parentId}`);
                 }
                 catch (err) {
-                    $('#ItemsGrid').data('kendoGrid').dataSource.read();
-                    $('#ItemsGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('ItemsGrid');
                 }
             }
             else {
-                $('#ItemsGrid').data('kendoGrid').dataSource.read();
-                $('#ItemsGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('ItemsGrid');
             }
         }
         self.detailInit = function(e) {

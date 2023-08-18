@@ -13,7 +13,7 @@
     }
     foreach (var style in Settings.GetResources(ResourceType.Stylesheet, "jQCloud"))
     {
-        <link rel="stylesheet" href="@style.Path" />
+        <mantle-link rel="stylesheet" href="@style.Path" />
     }
 
     Dictionary<int, int> data = null;

@@ -149,8 +149,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${postApiUrl}(${id})`, () => {
-                $('#PostGrid').data('kendoGrid').dataSource.read();
-                $('#PostGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('PostGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -184,16 +183,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(postApiUrl, record, () => {
-                    $('#PostGrid').data('kendoGrid').dataSource.read();
-                    $('#PostGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PostGrid');
                     switchSection($("#post-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${postApiUrl}(${self.id()})`, record, () => {
-                    $('#PostGrid').data('kendoGrid').dataSource.read();
-                    $('#PostGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('PostGrid');
                     switchSection($("#post-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
@@ -269,8 +266,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${categoryApiUrl}(${id})`, () => {
-                $('#CategoryGrid').data('kendoGrid').dataSource.read();
-                $('#CategoryGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('CategoryGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -289,16 +285,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(categoryApiUrl, record, () => {
-                    $('#CategoryGrid').data('kendoGrid').dataSource.read();
-                    $('#CategoryGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('CategoryGrid');
                     switchSection($("#category-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${categoryApiUrl}(${self.id()})`, record, () => {
-                    $('#CategoryGrid').data('kendoGrid').dataSource.read();
-                    $('#CategoryGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('CategoryGrid');
                     switchSection($("#category-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
@@ -374,8 +368,7 @@
         };
         self.remove = async function (id) {
             await ODataHelper.deleteOData(`${tagApiUrl}(${id})`, () => {
-                $('#TagGrid').data('kendoGrid').dataSource.read();
-                $('#TagGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('TagGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -394,16 +387,14 @@
 
             if (isNew) {
                 await ODataHelper.postOData(tagApiUrl, record, () => {
-                    $('#TagGrid').data('kendoGrid').dataSource.read();
-                    $('#TagGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('TagGrid');
                     switchSection($("#tag-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
                 await ODataHelper.putOData(`${tagApiUrl}(${self.id()})`, record, () => {
-                    $('#TagGrid').data('kendoGrid').dataSource.read();
-                    $('#TagGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('TagGrid');
                     switchSection($("#tag-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });

@@ -242,8 +242,7 @@
         };
         self.removeItem = async function (id) {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
-                $('#CountryGrid').data('kendoGrid').dataSource.read();
-                $('#CountryGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('CountryGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -271,8 +270,7 @@
 
             if (isNew) {
                 await ODataHelper.postOData(apiUrl, record, () => {
-                    $('#CountryGrid').data('kendoGrid').dataSource.read();
-                    $('#CountryGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('CountryGrid');
                     switchSection($("#country-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
@@ -280,8 +278,7 @@
             else {
                 if (self.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
-                        $('#CountryGrid').data('kendoGrid').dataSource.read();
-                        $('#CountryGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('CountryGrid');
                         switchSection($("#country-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
@@ -290,8 +287,7 @@
                 }
                 else {
                     await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
-                        $('#CountryGrid').data('kendoGrid').dataSource.read();
-                        $('#CountryGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('CountryGrid');
                         switchSection($("#country-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });
@@ -426,8 +422,7 @@
         };
         self.removeItem = async function (id) {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
-                $('#StateGrid').data('kendoGrid').dataSource.read();
-                $('#StateGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('StateGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -455,8 +450,7 @@
 
             if (isNew) {
                 await ODataHelper.postOData(apiUrl, record, () => {
-                    $('#StateGrid').data('kendoGrid').dataSource.read();
-                    $('#StateGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('StateGrid');
                     switchSection($("#state-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
@@ -464,8 +458,7 @@
             else {
                 if (self.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
-                        $('#StateGrid').data('kendoGrid').dataSource.read();
-                        $('#StateGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('StateGrid');
                         switchSection($("#state-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
@@ -474,8 +467,7 @@
                 }
                 else {
                     await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
-                        $('#StateGrid').data('kendoGrid').dataSource.read();
-                        $('#StateGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('StateGrid');
                         switchSection($("#state-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });
@@ -597,8 +589,7 @@
         };
         self.removeItem = async function (id) {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
-                $('#CityGrid').data('kendoGrid').dataSource.read();
-                $('#CityGrid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid('CityGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
@@ -624,8 +615,7 @@
 
             if (isNew) {
                 await ODataHelper.postOData(apiUrl, record, () => {
-                    $('#CityGrid').data('kendoGrid').dataSource.read();
-                    $('#CityGrid').data('kendoGrid').refresh();
+                    GridHelper.refreshGrid('CityGrid');
                     switchSection($("#city-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
@@ -633,8 +623,7 @@
             else {
                 if (self.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
-                        $('#CityGrid').data('kendoGrid').dataSource.read();
-                        $('#CityGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('CityGrid');
                         switchSection($("#city-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     }, () => {
@@ -643,8 +632,7 @@
                 }
                 else {
                     await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
-                        $('#CityGrid').data('kendoGrid').dataSource.read();
-                        $('#CityGrid').data('kendoGrid').refresh();
+                        GridHelper.refreshGrid('CityGrid');
                         switchSection($("#city-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                     });

@@ -54,10 +54,9 @@
             });
             $('#Upload').on('filebatchuploadsuccess', function (event, data, previewId, index) {
                 const response = data.response;
-                $('#Grid').data('kendoGrid').dataSource.read();
-                $('#Grid').data('kendoGrid').refresh();
+                GridHelper.refreshGrid();
                 switchSection($("#grid-section"));
-                MantleNotify.success(response.Message);
+                MantleNotify.success(response.message);
             });
 
             GridHelper.initKendoGrid(
@@ -163,7 +162,7 @@
                 await ODataHelper.postOData(apiUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
+                await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record);
             }
         };
 
