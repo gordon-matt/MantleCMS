@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Mantle</AssemblyName>
-    <PackageId>Mantle</PackageId>
+    <PackageId>MantleFramework</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -11,6 +11,8 @@
     <Authors>Matt Gordon</Authors>
     <Description>Mantle</Description>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<Version>1.0.0-beta</Version>
+	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

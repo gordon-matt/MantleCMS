@@ -7,6 +7,8 @@
     <Company />
     <Description>Mantle - Dapper</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageId>MantleFramework.Data.Dapper</PackageId>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

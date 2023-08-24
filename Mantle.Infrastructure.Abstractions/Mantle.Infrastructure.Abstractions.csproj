@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Infrastructure.Abstractions</AssemblyName>
-    <PackageId>Mantle.Infrastructure.Abstractions</PackageId>
+    <PackageId>MantleFramework.Infrastructure.Abstractions</PackageId>
     <RootNamespace>Mantle.Infrastructure</RootNamespace>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -12,6 +12,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
+    <Version>1.0.0-beta</Version>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
