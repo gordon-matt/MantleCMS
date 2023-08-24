@@ -4,13 +4,15 @@
     <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Identity</AssemblyName>
-    <PackageId>Mantle.Identity</PackageId>
+    <PackageId>MantleFramework.Identity</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <Description>Mantle - Identity Membership</Description>
+    <Version>1.0.0-beta</Version>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
+	<Version>1.0.0-beta</Version>
+	<PackageId>MantleFramework.Caching</PackageId>
+	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+	<Authors>Matt Gordon</Authors>
   </PropertyGroup>
 
   <ItemGroup>

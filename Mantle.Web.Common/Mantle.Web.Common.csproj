@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.Common</AssemblyName>
-    <PackageId>Mantle.Web.Common</PackageId>
+    <PackageId>MantleFramework.Web.Common</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -12,6 +12,8 @@
     <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Version>1.0.0-beta</Version>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
