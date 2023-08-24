@@ -15,7 +15,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/messaging/templates",
                     Route = "messaging/templates",
-                    JsPath = "/_content/Mantle.Web.Messaging/js/message-templates",
+                    JsPath = "/_content/MantleFramework.Web.Messaging/js/message-templates",
                     Title = T[LocalizableStrings.MessageTemplates].Value
                 },
 
@@ -23,7 +23,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/messaging/queued-email",
                     Route = "messaging/queued-email",
-                    JsPath = "/_content/Mantle.Web.Messaging/js/queued-emails",
+                    JsPath = "/_content/MantleFramework.Web.Messaging/js/queued-emails",
                     Title = T[LocalizableStrings.QueuedEmails].Value
                 }
             };

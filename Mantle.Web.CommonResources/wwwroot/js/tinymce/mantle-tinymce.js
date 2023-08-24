@@ -1,5 +1,5 @@
-﻿tinymce.PluginManager.load('mantle_contentzone', '/_content/Mantle.Web.CommonResources/js/tinymce/plugins/mantle_contentzone/plugin.js');
-tinymce.PluginManager.load('responsivefilemanager', '/_content/Mantle.Web.CommonResources/js/tinymce/plugins/responsivefilemanager/plugin.js');
+﻿tinymce.PluginManager.load('mantle_contentzone', '/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/mantle_contentzone/plugin.js');
+tinymce.PluginManager.load('responsivefilemanager', '/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/responsivefilemanager/plugin.js');
 
 const mantleDefaultTinyMCEConfig = {
     theme: "silver",

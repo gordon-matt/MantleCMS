@@ -20,7 +20,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/localization/languages",
                     Route = "localization/languages",
-                    JsPath = "/_content/Mantle.Web/js/app/languages",
+                    JsPath = "/_content/MantleFramework.Web/js/app/languages",
                     Title = T[MantleWebLocalizableStrings.Localization.Languages]
                 },
 
@@ -28,7 +28,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/localization/localizable-strings",
                     Route = "localization/localizable-strings/:cultureCode",
-                    JsPath = "/_content/Mantle.Web/js/app/localizable-strings",
+                    JsPath = "/_content/MantleFramework.Web/js/app/localizable-strings",
                     Title = T[MantleWebLocalizableStrings.Localization.LocalizableStrings]
                 },
 
@@ -36,7 +36,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 //{
                 //    ModuleId = "viewmodels/admin/log",
                 //    Route = "log",
-                //    JsPath = "/_content/Mantle.Web/js/app/log",
+                //    JsPath = "/_content/MantleFramework.Web/js/app/log",
                 //    Title = T[MantleWebLocalizableStrings.Log.Title]
                 //},
 
@@ -44,7 +44,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/membership",
                     Route = "membership",
-                    JsPath = "/_content/Mantle.Web/js/app/membership",
+                    JsPath = "/_content/MantleFramework.Web/js/app/membership",
                     Title = T[MantleWebLocalizableStrings.Membership.Title]
                 },
 
@@ -52,7 +52,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/plugins",
                     Route = "plugins",
-                    JsPath = "/_content/Mantle.Web/js/app/plugins",
+                    JsPath = "/_content/MantleFramework.Web/js/app/plugins",
                     Title = T[MantleWebLocalizableStrings.Plugins.Title]
                 },
 
@@ -60,7 +60,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/scheduled-tasks",
                     Route = "scheduled-tasks",
-                    JsPath = "/_content/Mantle.Web/js/app/scheduled-tasks",
+                    JsPath = "/_content/MantleFramework.Web/js/app/scheduled-tasks",
                     Title = T[MantleWebLocalizableStrings.ScheduledTasks.Title]
                 },
 
@@ -68,7 +68,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/tenants",
                     Route = "tenants",
-                    JsPath = "/_content/Mantle.Web/js/app/tenants",
+                    JsPath = "/_content/MantleFramework.Web/js/app/tenants",
                     Title = T[MantleWebLocalizableStrings.Tenants.Title]
                 },
 
@@ -76,7 +76,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/configuration/settings",
                     Route = "configuration/settings",
-                    JsPath = "/_content/Mantle.Web/js/app/settings",
+                    JsPath = "/_content/MantleFramework.Web/js/app/settings",
                     Title = T[MantleWebLocalizableStrings.General.Settings]
                 },
 
@@ -84,7 +84,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 {
                     ModuleId = "viewmodels/admin/configuration/themes",
                     Route = "configuration/themes",
-                    JsPath = "/_content/Mantle.Web/js/app/themes",
+                    JsPath = "/_content/MantleFramework.Web/js/app/themes",
                     Title = T[MantleWebLocalizableStrings.General.Themes]
                 }
             };
