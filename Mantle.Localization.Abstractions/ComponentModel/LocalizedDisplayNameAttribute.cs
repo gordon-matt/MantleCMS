@@ -3,6 +3,7 @@
 namespace Mantle.Localization.ComponentModel;
 
 //TODO: Implement this with a custom DataAnnotationsModelMetadataProvider?
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class LocalizedDisplayNameAttribute : DisplayNameAttribute
 {
     private static IStringLocalizer localizer;

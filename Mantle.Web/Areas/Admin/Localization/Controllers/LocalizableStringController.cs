@@ -5,16 +5,13 @@
 [Route("admin/localization/localizable-strings")]
 public class LocalizableStringController : MantleController
 {
-    private readonly Lazy<ILanguageService> languageService;
     private readonly Lazy<ILocalizableStringService> localizableStringService;
     private readonly SiteSettings siteSettings;
 
     public LocalizableStringController(
-        Lazy<ILanguageService> languageService,
         Lazy<ILocalizableStringService> localizableStringService,
         SiteSettings siteSettings)
     {
-        this.languageService = languageService;
         this.localizableStringService = localizableStringService;
         this.siteSettings = siteSettings;
     }
@@ -52,6 +49,7 @@ public class LocalizableStringController : MantleController
         return File(new UTF8Encoding().GetBytes(json), "application/json", fileName);
     }
 
+    [AllowAnonymous]
     [Route("translations.js")]
     public IActionResult GetTranslationsJS()
     {
