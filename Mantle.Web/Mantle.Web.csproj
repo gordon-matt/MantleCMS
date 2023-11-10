@@ -13,7 +13,7 @@
     <Authors>Matt Gordon</Authors>
     <Description>Mantle - Web. Includes admin pages for Membership, Localization, Configuration, Tenants, Scheduled Tasks, etc. Also includes many extensions and helper classes.</Description>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>1.0.0-beta.2</Version>
+    <Version>1.0.0-beta.3</Version>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
 
