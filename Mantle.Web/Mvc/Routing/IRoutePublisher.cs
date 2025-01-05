@@ -5,14 +5,9 @@ public interface IRoutePublisher
     void RegisterEndpoints(IEndpointRouteBuilder endpoints);
 }
 
-public class RoutePublisher : IRoutePublisher
+public class RoutePublisher(ITypeFinder typeFinder) : IRoutePublisher
 {
-    protected readonly ITypeFinder typeFinder;
-
-    public RoutePublisher(ITypeFinder typeFinder)
-    {
-        this.typeFinder = typeFinder;
-    }
+    protected readonly ITypeFinder typeFinder = typeFinder;
 
     protected virtual PluginDescriptor FindPlugin(Type providerType)
     {

@@ -20,10 +20,7 @@ public class MemoryCacheManager : ICacheManager
     /// <typeparam name="T">Type</typeparam>
     /// <param name="key">The key of the value to get.</param>
     /// <returns>The value associated with the specified key.</returns>
-    public virtual T Get<T>(string key)
-    {
-        return cache.Get<T>(key);
-    }
+    public virtual T Get<T>(string key) => cache.Get<T>(key);
 
     /// <summary>
     /// Adds the specified key and object to the cache.
@@ -94,7 +91,7 @@ public class MemoryCacheManager : ICacheManager
     public virtual void RemoveByPattern(string pattern)
     {
         var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        var keysToRemove = new List<String>();
+        var keysToRemove = new List<string>();
 
         foreach (string key in keys)
         {

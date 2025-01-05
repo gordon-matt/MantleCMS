@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>Mantle.Data</RootNamespace>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Version>1.0.0-beta</Version>
-	<PackageId>MantleFramework.Data.Abstractions</PackageId>
-	<Authors>Matt Gordon</Authors>
-	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0-beta</Version>
+    <PackageId>MantleFramework.Data.Abstractions</PackageId>
+    <Authors>Matt Gordon</Authors>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Extenso.Data.Entity" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+    <PackageReference Include="Extenso.Data.Entity" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
   </ItemGroup>
-
 </Project>

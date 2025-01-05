@@ -93,7 +93,7 @@ function onBeforeSave(viewModel) {
 		DefaultLanguage: viewModel.defaultLanguage(),
 		DefaultMetaKeywords: viewModel.defaultMetaKeywords(),
 		DefaultMetaDescription: viewModel.defaultMetaDescription(),
-		HomePageTitle: viewModel.homePageTitle()
+		HomePageTitle: viewModel.homePageTitle(),
 		Resources: viewModel.resources()
 	};
 	viewModel.value(ko.mapping.toJSON(data));

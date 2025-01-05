@@ -1,4 +1,7 @@
-﻿@inject Mantle.Web.IWorkContext WorkContext
+﻿@removeTagHelper Mantle.Web.Mvc.Razor.TagHelpers.MantleScriptTagHelper, Mantle.Web
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.ScriptTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject Mantle.Web.IWorkContext WorkContext
 
 @*<link type="text/css" rel="stylesheet" href="@Style.GetBundleUrl("third-party/fg-menu")" />*@
 
@@ -268,6 +271,6 @@
     }
 }
 
-<script asp-location="None" asp-exclude-from-bundle="true" type="text/x-kendo-template" id="pages-template">
+<script type="text/x-kendo-template" id="pages-template">
     <div class="detail-grid" id="page-grid-#=Id#"></div>
 </script>

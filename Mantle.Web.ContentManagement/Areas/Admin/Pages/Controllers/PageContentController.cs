@@ -13,29 +13,23 @@ public class PageContentController : MantleController
 {
     protected static Regex ContentZonePattern = new(@"\[\[ContentZone:(?<Zone>.*)\]\]", RegexOptions.Compiled);
     private readonly IContentBlockService contentBlockService;
-    private readonly Lazy<IMembershipService> membershipService;
-    private readonly IPageService pageService;
     private readonly IPageVersionService pageVersionService;
     private readonly IPageTypeService pageTypeService;
     private readonly IRepository<Zone> zoneRepository;
     private readonly IRazorViewRenderService razorViewRenderService;
 
     public PageContentController(
-        IPageService pageService,
         IPageVersionService pageVersionService,
         IPageTypeService pageTypeService,
         IContentBlockService contentBlockService,
         IRepository<Zone> zoneRepository,
-        Lazy<IMembershipService> membershipService,
         IRazorViewRenderService razorViewRenderService)
         : base()
     {
-        this.pageService = pageService;
         this.pageVersionService = pageVersionService;
         this.pageTypeService = pageTypeService;
         this.contentBlockService = contentBlockService;
         this.zoneRepository = zoneRepository;
-        this.membershipService = membershipService;
         this.razorViewRenderService = razorViewRenderService;
     }
 

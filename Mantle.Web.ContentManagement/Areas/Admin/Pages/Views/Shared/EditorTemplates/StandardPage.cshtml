@@ -19,7 +19,7 @@
 </div>
 
 <script asp-location="None" asp-exclude-from-bundle="true" type="text/javascript">
-    const pageModel = (function () {
+    var pageModel = (function () {
         const f = {};
         f.updateModel = function (pageVersionModel) {
             pageVersionModel.metaTitle = ko.observable("");

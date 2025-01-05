@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>Mantle.Caching</RootNamespace>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Version>1.0.0-beta</Version>
-	<PackageId>MantleFramework.Caching.Abstractions</PackageId>
-	<Authors>Matt Gordon</Authors>
-	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0-beta</Version>
+    <PackageId>MantleFramework.Caching.Abstractions</PackageId>
+    <Authors>Matt Gordon</Authors>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
 </Project>

@@ -59,7 +59,8 @@ public class LanguageApiController : GenericTenantODataController<LanguageEntity
         }
         await localizableStringService.Value.InsertAsync(toInsert);
 
-        cacheManager.Value.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
+        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, GetTenantId());
+        cacheManager.Value.RemoveByPattern(cacheKey);
 
         return Ok();
     }

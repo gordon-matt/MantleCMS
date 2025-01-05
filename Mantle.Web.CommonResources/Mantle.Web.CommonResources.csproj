@@ -1,29 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.CommonResources</AssemblyName>
     <PackageId>MantleFramework.Web.CommonResources</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <NeutralLanguage>en-US</NeutralLanguage>
-	<OutputTypeEx>library</OutputTypeEx>
+    <OutputTypeEx>library</OutputTypeEx>
     <Authors>Matt Gordon</Authors>
-	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Description>Mantle - Common Resources: Includes embedded JavaScript used by many of the framework's projects.</Description>
     <Version>1.0.0-beta.2</Version>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
 </Project>

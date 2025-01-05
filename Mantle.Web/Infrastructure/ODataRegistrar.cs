@@ -83,7 +83,7 @@ public class ODataRegistrar : IODataRegistrar
 
         var getRolesForUserFunction = builder.EntityType<MantleRole>().Collection.Function("GetRolesForUser");
         getRolesForUserFunction.Parameter<string>("userId");
-        getRolesForUserFunction.Returns<IActionResult>();
+        getRolesForUserFunction.Returns<IEnumerable<EdmRole>>();
 
         var assignPermissionsToRoleAction = builder.EntityType<MantleRole>().Collection.Action("AssignPermissionsToRole");
         assignPermissionsToRoleAction.Parameter<string>("roleId");
