@@ -28,15 +28,9 @@ public class MantleStringLocalizer : IStringLocalizer
         this.localizableStringService = localizableStringService;
     }
 
-    public LocalizedString this[string name]
-    {
-        get { return GetLocalizedString(name); }
-    }
+    public LocalizedString this[string name] => GetLocalizedString(name);
 
-    public LocalizedString this[string name, params object[] arguments]
-    {
-        get { return GetLocalizedString(name); }
-    }
+    public LocalizedString this[string name, params object[] arguments] => GetLocalizedString(name);
 
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {
@@ -52,16 +46,15 @@ public class MantleStringLocalizer : IStringLocalizer
             .ToDictionary(k => k.Key, v => v.Value);
 
         return merged.IsNullOrEmpty()
-            ? Enumerable.Empty<LocalizedString>()
+            ? []
             : merged.Select(x => new LocalizedString(x.Key, x.Value));
     }
 
-    public IStringLocalizer WithCulture(CultureInfo culture)
-    {
-        var stringLocalizer = new MantleStringLocalizer(cacheManager, workContext, localizableStringService);
-        stringLocalizer.Culture = culture;
-        return stringLocalizer;
-    }
+    public IStringLocalizer WithCulture(CultureInfo culture) =>
+        new MantleStringLocalizer(cacheManager, workContext, localizableStringService)
+        {
+            Culture = culture
+        };
 
     public virtual LocalizedString GetLocalizedString(string key)
     {

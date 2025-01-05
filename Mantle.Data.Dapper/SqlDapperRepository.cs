@@ -1,4 +1,6 @@
-﻿namespace Mantle.Data.Dapper;
+﻿using Microsoft.Data.SqlClient;
+
+namespace Mantle.Data.Dapper;
 
 public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey>
     where TEntity : BaseEntity<TKey>

@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Library</OutputType>
     <AssemblyName>Mantle.Plugins.Messaging.Forums</AssemblyName>
     <PackageId>Mantle.Plugins.Messaging.Forums</PackageId>
@@ -12,17 +11,14 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
-  
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
-    <PackageReference Include="WilderMinds.RssSyndication" Version="1.7.0" />
+    <PackageReference Include="Autofac" Version="8.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="WilderMinds.RssSyndication" Version="1.7.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\..\Mantle.Web.Common\Mantle.Web.Common.csproj" />
@@ -30,18 +26,15 @@
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="wwwroot\**\*" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="Views\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <Target Name="CopyArtifacts" AfterTargets="Build">
     <PropertyGroup>
       <PluginCopyDir>..\..\MantleCMS\Plugins\Messaging.Forums\</PluginCopyDir>
@@ -52,5 +45,4 @@
     <MakeDir Directories="$(PluginCopyDir)" Condition="!Exists('$(PluginCopyDir)')" />
     <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(PluginCopyDir)%(RecursiveDir)%(FileName)%(Extension)" />
   </Target>
-
 </Project>

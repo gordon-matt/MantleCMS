@@ -1,5 +1,6 @@
 ﻿using Mantle.Localization;
 using Mantle.Localization.Entities;
+using Mantle.Web;
 
 namespace Mantle.Plugins;
 
@@ -24,18 +25,12 @@ public abstract class BasePlugin : IPlugin
     /// <summary>
     /// Install plugin
     /// </summary>
-    public virtual void Install()
-    {
-        PluginManager.MarkPluginAsInstalled(this.PluginDescriptor.SystemName);
-    }
+    public virtual void Install() => PluginManager.MarkPluginAsInstalled(this.PluginDescriptor.SystemName);
 
     /// <summary>
     /// Uninstall plugin
     /// </summary>
-    public virtual void Uninstall()
-    {
-        PluginManager.MarkPluginAsUninstalled(this.PluginDescriptor.SystemName);
-    }
+    public virtual void Uninstall() => PluginManager.MarkPluginAsUninstalled(this.PluginDescriptor.SystemName);
 
     protected virtual void InstallLanguagePack<TLanguagePack>() where TLanguagePack : ILanguagePack, new()
     {
@@ -56,8 +51,11 @@ public abstract class BasePlugin : IPlugin
         var localizableStringRepository = EngineContext.Current.Resolve<IRepository<LocalizableString>>();
         localizableStringRepository.Insert(toInsert);
 
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
+
         var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-        cacheManager.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
+        cacheManager.RemoveByPattern(cacheKey);
     }
 
     protected virtual void UninstallLanguagePack<TLanguagePack>() where TLanguagePack : ILanguagePack, new()
@@ -74,7 +72,10 @@ public abstract class BasePlugin : IPlugin
 
         localizableStringRepository.Delete(toDelete);
 
+        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
+
         var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-        cacheManager.RemoveByPattern(CacheKeys.LocalizableStringsPatternFormat);
+        cacheManager.RemoveByPattern(cacheKey);
     }
 }

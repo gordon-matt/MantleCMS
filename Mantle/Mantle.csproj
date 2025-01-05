@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Mantle</AssemblyName>
     <PackageId>MantleFramework</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -10,19 +9,15 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <Description>Mantle</Description>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Version>1.0.0-beta</Version>
-	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0-beta</Version>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Extenso.Core" Version="7.1.1" />
+    <PackageReference Include="Extenso.Core" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Localization.Abstractions\Mantle.Localization.Abstractions.csproj" />
   </ItemGroup>
-
 </Project>

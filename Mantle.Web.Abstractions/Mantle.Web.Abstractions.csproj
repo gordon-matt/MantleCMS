@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Mantle.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Security\Mantle.Security.csproj" />
+    <ProjectReference Include="..\Mantle.Tenants.Abstractions\Mantle.Tenants.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

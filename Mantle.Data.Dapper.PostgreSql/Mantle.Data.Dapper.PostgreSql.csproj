@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Authors>Matt Gordon</Authors>
     <Company />
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -10,17 +9,14 @@
     <PackageId>MantleFramework.Data.Dapper.PostgreSql</PackageId>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.143" />
-    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="7.0.0" />
-    <PackageReference Include="Npgsql" Version="7.0.4" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="9.0.0" />
+    <PackageReference Include="Npgsql" Version="9.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data.Dapper\Mantle.Data.Dapper.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
 </Project>

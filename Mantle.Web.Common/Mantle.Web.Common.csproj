@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mantle.Web.Common</AssemblyName>
     <PackageId>MantleFramework.Web.Common</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -15,25 +14,20 @@
     <Version>1.0.0-beta.2</Version>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="7.0.1" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="9.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\img\WorldMap.jpg" />
     <None Include="wwwroot\js\jquery.imagemapster.min.js" />
   </ItemGroup>
-
 </Project>

@@ -1,19 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Version>1.0.0-beta</Version>
-	<PackageId>MantleFramework.Localization</PackageId>
-	<Authors>Matt Gordon</Authors>
-	<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0-beta</Version>
+    <PackageId>MantleFramework.Localization</PackageId>
+    <Authors>Matt Gordon</Authors>
+    <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data.Abstractions\Mantle.Data.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />
   </ItemGroup>
-
 </Project>

@@ -251,7 +251,7 @@
                     template:
                         '<div class="btn-group">' +
                         GridHelper.actionIconButton("userModel.editRoles", 'fa fa-users', MantleI18N.t('Mantle.Web/Membership.Roles')) +
-                        GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', MantleI18N.t('Mantle.Web/Membership.Password')) +
+                        GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', MantleI18N.t('Mantle.Web/Membership.Password'), 'secondary', `\'#=Id#\', \'#=UserName#\'`) +
                         GridHelper.actionIconButton("userModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("userModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
@@ -339,7 +339,7 @@
             self.roles([]);
             self.filterRoleId(emptyGuid);
 
-            const data = await ODataHelper.getOData(`${usersApiUrl}/Default.GetRolesForUser(userId='${id}')`);
+            const data = await ODataHelper.getOData(`${rolesApiUrl}/Default.GetRolesForUser(userId='${id}')`);
             if (data.value && data.value.length > 0) {
                 for (const item of data.value) {
                     self.roles.push(item.Id);
@@ -366,12 +366,14 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.SaveRolesError'));
             });
         };
+
         self.changePassword = function (id, userName) {
             self.parent.changePasswordModel.id(id);
             self.parent.changePasswordModel.userName(userName);
             self.parent.changePasswordModel.validator.resetForm();
             switchSection($("#change-password-form-section"));
         };
+
         self.filterRole = function () {
             const grid = $('#UsersGrid').data('kendoGrid');
 
