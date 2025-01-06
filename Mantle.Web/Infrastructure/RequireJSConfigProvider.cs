@@ -1,12 +1,5 @@
 ﻿namespace Mantle.Web.Infrastructure;
 
-public interface IRequireJSConfigProvider
-{
-    IDictionary<string, string> Paths { get; }
-
-    IDictionary<string, string[]> Shim { get; }
-}
-
 public class RequireJSConfigProvider : IRequireJSConfigProvider
 {
     public RequireJSConfigProvider(SiteSettings siteSettings)

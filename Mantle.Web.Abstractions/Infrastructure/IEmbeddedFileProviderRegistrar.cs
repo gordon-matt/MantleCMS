@@ -9,8 +9,8 @@ public interface IEmbeddedFileProviderRegistrar
 
 public class EmbeddedFileProviderRegistrar : IEmbeddedFileProviderRegistrar
 {
-    public IEnumerable<EmbeddedFileProvider> EmbeddedFileProviders => new List<EmbeddedFileProvider>
-    {
+    public IEnumerable<EmbeddedFileProvider> EmbeddedFileProviders =>
+    [
         new EmbeddedFileProvider(GetType().Assembly, "Mantle.Web")
-    };
+    ];
 }

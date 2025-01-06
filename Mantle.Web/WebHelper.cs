@@ -42,7 +42,7 @@ public partial class WebHelper : IWebHelper
             return string.Empty;
         }
 
-        var hostHeader = httpContextAccessor.HttpContext?.Request?.Headers[HeaderNames.Host];
+        var hostHeader = httpContextAccessor.HttpContext?.Request?.Headers.Host;
 
         if (!hostHeader.HasValue || StringValues.IsNullOrEmpty(hostHeader.Value))
         {
@@ -64,7 +64,7 @@ public partial class WebHelper : IWebHelper
 
     public virtual string GetUrlReferrer()
     {
-        return httpContextAccessor.HttpContext.Request.Headers[HeaderNames.Referer];
+        return httpContextAccessor.HttpContext.Request.Headers.Referer;
     }
 
     //public virtual string MapPath(string path, string basePath = null)
@@ -162,6 +162,6 @@ public partial class WebHelper : IWebHelper
             return false;
         }
 
-        return request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        return request.Headers.XRequestedWith == "XMLHttpRequest";
     }
 }

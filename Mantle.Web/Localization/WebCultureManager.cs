@@ -3,11 +3,6 @@ using Mantle.Web.Localization.Services;
 
 namespace Mantle.Web.Localization;
 
-public interface IWebCultureManager : ICultureManager
-{
-    string GetCurrentCulture(HttpContext httpContext);
-}
-
 public class WebCultureManager : DefaultCultureManager, IWebCultureManager
 {
     private readonly IEnumerable<ICultureSelector> cultureSelectors;
