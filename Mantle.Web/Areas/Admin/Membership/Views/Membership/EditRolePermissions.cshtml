@@ -9,7 +9,7 @@
                     <fieldset>
                         <legend>@T[MantleWebLocalizableStrings.Membership.EditRolePermissions]</legend>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                            <div class="mb-3">
+                            <div class="mb-3 mantle-permissions-list">
                                 @*@Html.Label("RolePermissions", "Permissions", new { @class = "form-label" })*@
                                 @Html.Mantle().PermissionsCheckBoxList("RolePermissions", null, new { @class = "checkbox" }, new { data_bind = "checked: roleModel.permissions" })
                             </div>

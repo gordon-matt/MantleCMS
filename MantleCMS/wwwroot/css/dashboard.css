@@ -83,3 +83,11 @@ label.checkbox-list-group-label {
 body {
     padding-top: 70px;
 }
+
+div.extenso-checkbox > label.checkbox > span {
+    margin-left: 5px;
+}
+
+.mantle-permissions-list {
+    column-count: 3
+}

@@ -27,7 +27,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
 
     protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context)
     {
-        return context.Tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        return context.Tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
     }
 
     protected override Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)

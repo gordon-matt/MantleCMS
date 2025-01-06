@@ -1,10 +1,5 @@
 ﻿namespace Mantle.Web.Mvc.Routing;
 
-public interface IRoutePublisher
-{
-    void RegisterEndpoints(IEndpointRouteBuilder endpoints);
-}
-
 public class RoutePublisher(ITypeFinder typeFinder) : IRoutePublisher
 {
     protected readonly ITypeFinder typeFinder = typeFinder;

@@ -1,5 +1,4 @@
-﻿using Mantle.Security.Membership;
-using Mantle.Tenants.Entities;
+﻿using Mantle.Tenants.Entities;
 using Mantle.Web.Navigation.Breadcrumbs;
 
 namespace Mantle.Web;

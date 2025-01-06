@@ -1,6 +1,6 @@
 ﻿namespace Mantle.Web.Navigation;
 
-public class MenuItemComparer : IEqualityComparer<MenuItem>
+internal class MenuItemComparer : IEqualityComparer<MenuItem>
 {
     #region IEqualityComparer<MenuItem> Members
 
