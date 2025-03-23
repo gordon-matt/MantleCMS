@@ -6,7 +6,7 @@ Mantle is a multi-purpose framework and CMS loaded with functionality and featur
 
 ## Intro
 
-Mantle is both a CMS and just a general purpose .NET Core web framework, built up with various extensions / helper classes. It is the successor to [KoreCMS](https://github.com/gordon-matt/KoreCMS).I originally started this project about 5 years ago, but it's been laying dormant for a long time due to my being too busy to work on it. I have now been at it again for the last month or so and fixed up a lot of issues and added tons of new stuff. That said, I probably won't be doing too much more on this for a while - if I do find more time, I'm likely to spend it working on my Blazor CMS called [Inferno](https://github.com/gordon-matt/inferno).
+Mantle is both a CMS and just a general purpose .NET Core web framework, built up with various extensions / helper classes. It is the successor to [KoreCMS](https://github.com/gordon-matt/KoreCMS).
 
 ## Tech
 
