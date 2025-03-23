@@ -10,8 +10,8 @@
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="Extenso.Data.QueryBuilder" Version="9.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Extenso.Data.QueryBuilder" Version="9.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
