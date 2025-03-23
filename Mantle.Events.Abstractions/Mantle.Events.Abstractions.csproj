@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>Mantle.Events</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.0</Version>
     <PackageId>MantleFramework.Events.Abstractions</PackageId>
     <Authors>Matt Gordon</Authors>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>

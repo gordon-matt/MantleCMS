@@ -4,6 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Mantle.Web</RootNamespace>
+    <PackageId>MantleFramework.Web.Abstractions</PackageId>
+	<Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

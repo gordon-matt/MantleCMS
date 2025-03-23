@@ -8,6 +8,7 @@
     <Description>Mantle - Dapper PostgreSQL</Description>
     <PackageId>MantleFramework.Data.Dapper.PostgreSql</PackageId>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+    <Version>1.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
