@@ -8,7 +8,7 @@ public class PublicUserApiController : ODataController
 
     public PublicUserApiController(IMembershipService service, IWorkContext workContext)
     {
-        this.Service = service;
+        Service = service;
         this.workContext = workContext;
     }
 

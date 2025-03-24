@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Configuration;
 
 namespace Mantle.Infrastructure;
 
@@ -59,53 +58,23 @@ public class AutofacEngine : IEngine, IDisposable
         return ServiceProvider;
     }
 
-    public virtual T Resolve<T>() where T : class
-    {
-        return containerManager.Resolve<T>();
-        //return (T)GetServiceProvider().GetRequiredService(typeof(T));
-    }
+    public virtual T Resolve<T>() where T : class => containerManager.Resolve<T>();//return (T)GetServiceProvider().GetRequiredService(typeof(T));
 
-    public T Resolve<T>(IDictionary<string, object> ctorArgs) where T : class
-    {
-        return containerManager.Resolve<T>(ctorArgs);
-    }
+    public T Resolve<T>(IDictionary<string, object> ctorArgs) where T : class => containerManager.Resolve<T>(ctorArgs);
 
-    public virtual object Resolve(Type type)
-    {
-        return containerManager.Resolve(type);
-        //return GetServiceProvider().GetRequiredService(type);
-    }
+    public virtual object Resolve(Type type) => containerManager.Resolve(type);//return GetServiceProvider().GetRequiredService(type);
 
-    public T ResolveNamed<T>(string name) where T : class
-    {
-        return containerManager.ResolveNamed<T>(name);
-    }
+    public T ResolveNamed<T>(string name) where T : class => containerManager.ResolveNamed<T>(name);
 
-    public virtual IEnumerable<T> ResolveAll<T>()
-    {
-        return containerManager.ResolveAll<T>();
-        //return (IEnumerable<T>)GetServiceProvider().GetServices(typeof(T));
-    }
+    public virtual IEnumerable<T> ResolveAll<T>() => containerManager.ResolveAll<T>();//return (IEnumerable<T>)GetServiceProvider().GetServices(typeof(T));
 
-    public IEnumerable<T> ResolveAllNamed<T>(string name)
-    {
-        return containerManager.ResolveAllNamed<T>(name);
-    }
+    public IEnumerable<T> ResolveAllNamed<T>(string name) => containerManager.ResolveAllNamed<T>(name);
 
-    public virtual object ResolveUnregistered(Type type)
-    {
-        return containerManager.ResolveUnregistered(type);
-    }
+    public virtual object ResolveUnregistered(Type type) => containerManager.ResolveUnregistered(type);
 
-    public bool TryResolve<T>(out T instance) where T : class
-    {
-        return containerManager.TryResolve<T>(out instance);
-    }
+    public bool TryResolve<T>(out T instance) where T : class => containerManager.TryResolve<T>(out instance);
 
-    public bool TryResolve(Type serviceType, out object instance)
-    {
-        return containerManager.TryResolve(serviceType, out instance);
-    }
+    public bool TryResolve(Type serviceType, out object instance) => containerManager.TryResolve(serviceType, out instance);
 
     #endregion IEngine Members
 

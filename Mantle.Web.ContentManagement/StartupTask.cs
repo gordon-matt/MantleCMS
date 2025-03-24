@@ -7,10 +7,7 @@ public class StartupTask : IStartupTask
 {
     #region IStartupTask Members
 
-    public void Execute()
-    {
-        EnsurePageTypes();
-    }
+    public void Execute() => EnsurePageTypes();
 
     private static void EnsurePageTypes()
     {
@@ -23,14 +20,17 @@ public class StartupTask : IStartupTask
         var installedPageTypes = pageTypeRepository.Find();
         var installedPageTypeNames = installedPageTypes.Select(x => x.Name).ToList();
 
-        var pageTypesToAdd = allPageTypes.Where(x => !installedPageTypeNames.Contains(x.Name)).Select(x => new PageType
-        {
-            Id = Guid.NewGuid(),
-            Name = x.Name,
-            // Commented this out, so that if it's NULL, we will use the currently set layout path instead (no need to
-            //  remember to reset this one).
-            //LayoutPath = MantleWebConstants.DefaultFrontendLayoutPath
-        }).ToList();
+        var pageTypesToAdd = allPageTypes
+            .Where(x => !installedPageTypeNames.Contains(x.Name))
+            .Select(x => new PageType
+            {
+                Id = Guid.NewGuid(),
+                Name = x.Name,
+                // Commented this out, so that if it's NULL, we will use the currently set layout path instead (no need to
+                //  remember to reset this one).
+                //LayoutPath = MantleWebConstants.DefaultFrontendLayoutPath
+            })
+            .ToList();
 
         if (!pageTypesToAdd.IsNullOrEmpty())
         {
@@ -46,10 +46,7 @@ public class StartupTask : IStartupTask
         }
     }
 
-    public int Order
-    {
-        get { return 1; }
-    }
+    public int Order => 1;
 
     #endregion IStartupTask Members
 }

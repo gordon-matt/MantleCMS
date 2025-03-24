@@ -16,10 +16,7 @@ public class NavigationProvider : INavigationProvider
 
     public string MenuName => MantleWebConstants.Areas.Admin;
 
-    public void GetNavigation(NavigationBuilder builder)
-    {
-        builder.Add(T[LocalizableStrings.Messaging].Value, "2", BuildMessagingMenu);
-    }
+    public void GetNavigation(NavigationBuilder builder) => builder.Add(T[LocalizableStrings.Messaging].Value, "2", BuildMessagingMenu);
 
     #endregion INavigationProvider Members
 

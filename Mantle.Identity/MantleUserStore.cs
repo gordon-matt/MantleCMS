@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 namespace Mantle.Identity;
 
@@ -19,35 +19,17 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
 
     #region Private Properties
 
-    private DbSet<TUser> UsersSet
-    {
-        get { return Context.Set<TUser>(); }
-    }
+    private DbSet<TUser> UsersSet => Context.Set<TUser>();
 
-    private DbSet<TRole> Roles
-    {
-        get { return Context.Set<TRole>(); }
-    }
+    private DbSet<TRole> Roles => Context.Set<TRole>();
 
-    private DbSet<IdentityUserClaim<string>> UserClaims
-    {
-        get { return Context.Set<IdentityUserClaim<string>>(); }
-    }
+    private DbSet<IdentityUserClaim<string>> UserClaims => Context.Set<IdentityUserClaim<string>>();
 
-    private DbSet<IdentityUserRole<string>> UserRoles
-    {
-        get { return Context.Set<IdentityUserRole<string>>(); }
-    }
+    private DbSet<IdentityUserRole<string>> UserRoles => Context.Set<IdentityUserRole<string>>();
 
-    private DbSet<IdentityUserLogin<string>> UserLogins
-    {
-        get { return Context.Set<IdentityUserLogin<string>>(); }
-    }
+    private DbSet<IdentityUserLogin<string>> UserLogins => Context.Set<IdentityUserLogin<string>>();
 
-    private DbSet<IdentityUserToken<string>> UserTokens
-    {
-        get { return Context.Set<IdentityUserToken<string>>(); }
-    }
+    private DbSet<IdentityUserToken<string>> UserTokens => Context.Set<IdentityUserToken<string>>();
 
     private IWorkContext WorkContext
     {
@@ -58,21 +40,15 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         }
     }
 
-    private int TenantId
-    {
-        get { return WorkContext.CurrentTenant.Id; }
-    }
+    private int TenantId => WorkContext.CurrentTenant.Id;
 
     #endregion Private Properties
 
-    protected override IdentityUserRole<string> CreateUserRole(TUser user, TRole role)
+    protected override IdentityUserRole<string> CreateUserRole(TUser user, TRole role) => new()
     {
-        return new IdentityUserRole<string>()
-        {
-            UserId = user.Id,
-            RoleId = role.Id
-        };
-    }
+        UserId = user.Id,
+        RoleId = role.Id
+    };
 
     protected override IdentityUserClaim<string> CreateUserClaim(TUser user, Claim claim)
     {
@@ -81,27 +57,21 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         return userClaim;
     }
 
-    protected override IdentityUserLogin<string> CreateUserLogin(TUser user, UserLoginInfo login)
+    protected override IdentityUserLogin<string> CreateUserLogin(TUser user, UserLoginInfo login) => new()
     {
-        return new IdentityUserLogin<string>
-        {
-            UserId = user.Id,
-            ProviderKey = login.ProviderKey,
-            LoginProvider = login.LoginProvider,
-            ProviderDisplayName = login.ProviderDisplayName
-        };
-    }
+        UserId = user.Id,
+        ProviderKey = login.ProviderKey,
+        LoginProvider = login.LoginProvider,
+        ProviderDisplayName = login.ProviderDisplayName
+    };
 
-    protected override IdentityUserToken<string> CreateUserToken(TUser user, string loginProvider, string name, string value)
+    protected override IdentityUserToken<string> CreateUserToken(TUser user, string loginProvider, string name, string value) => new()
     {
-        return new IdentityUserToken<string>
-        {
-            UserId = user.Id,
-            LoginProvider = loginProvider,
-            Name = name,
-            Value = value
-        };
-    }
+        UserId = user.Id,
+        LoginProvider = loginProvider,
+        Name = name,
+        Value = value
+    };
 
     public override Task<TUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default)
     {
@@ -199,16 +169,13 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
         }
     }
 
-    protected override Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
-    {
-        return Roles.SingleOrDefaultAsync(r =>
-            r.NormalizedName == normalizedRoleName
-            && (r.TenantId == TenantId || (r.TenantId == null)),
+    protected override Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken) =>
+        Roles.SingleOrDefaultAsync(
+            r =>
+                r.NormalizedName == normalizedRoleName &&
+                (r.TenantId == TenantId || (r.TenantId == null)),
             cancellationToken);
-    }
 
-    protected override Task<IdentityUserRole<string>> FindUserRoleAsync(string userId, string roleId, CancellationToken cancellationToken)
-    {
-        return UserRoles.FindAsync(new object[] { userId, roleId }, cancellationToken).AsTask();
-    }
+    protected override Task<IdentityUserRole<string>> FindUserRoleAsync(string userId, string roleId, CancellationToken cancellationToken) =>
+        UserRoles.FindAsync([userId, roleId], cancellationToken).AsTask();
 }

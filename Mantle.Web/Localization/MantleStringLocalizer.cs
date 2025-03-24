@@ -1,6 +1,6 @@
-﻿using Mantle.Localization;
+﻿using System.Globalization;
+using Mantle.Localization;
 using Mantle.Localization.Entities;
-using System.Globalization;
 
 namespace Mantle.Web.Localization;
 
@@ -14,8 +14,7 @@ public class MantleStringLocalizer : IStringLocalizer
 
     public CultureInfo Culture
     {
-        get { return culture ??= CultureInfo.CurrentCulture; }
-        private set { culture = value; }
+        get => culture ??= CultureInfo.CurrentCulture; private set => culture = value;
     }
 
     public MantleStringLocalizer(
@@ -88,21 +87,12 @@ public class MantleStringLocalizer : IStringLocalizer
     protected virtual IDictionary<string, string> LoadCulture(int tenantId, string cultureCode)
     {
         string cacheKey = string.Concat(CacheKeys.LocalizableStringsFormat, tenantId, cultureCode);
-        return cacheManager.Get(cacheKey, () =>
-        {
-            return LoadTranslationsForCulture(tenantId, cultureCode);
-        });
+        return cacheManager.Get(cacheKey, () => LoadTranslationsForCulture(tenantId, cultureCode));
     }
 
-    protected virtual Dictionary<string, string> LoadTranslationsForCulture(int tenantId, string cultureCode)
-    {
-        if (string.IsNullOrEmpty(cultureCode))
-        {
-            return LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == null));
-        }
-
-        return LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == cultureCode));
-    }
+    protected virtual Dictionary<string, string> LoadTranslationsForCulture(int tenantId, string cultureCode) => string.IsNullOrEmpty(cultureCode)
+        ? LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == null))
+        : LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == cultureCode));
 
     private static Dictionary<string, string> LoadTranslations(IEnumerable<LocalizableString> items)
     {

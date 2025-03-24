@@ -1,7 +1,7 @@
-﻿using Mantle.Web.Messaging.Configuration;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using Mantle.Web.Messaging.Configuration;
 
 namespace Mantle.Web.Messaging.Services;
 
@@ -63,8 +63,5 @@ public class DefaultEmailSender : IEmailSender
         Send(mailMessage);
     }
 
-    public static bool IsValidEmailAddress(string mailAddress)
-    {
-        return !string.IsNullOrEmpty(mailAddress) && regexValidEmail.IsMatch(mailAddress);
-    }
+    public static bool IsValidEmailAddress(string mailAddress) => !string.IsNullOrEmpty(mailAddress) && regexValidEmail.IsMatch(mailAddress);
 }

@@ -12,9 +12,6 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// </summary>
     public PluginDescriptor()
     {
-        this.SupportedVersions = new List<string>();
-        this.LimitedToTenants = new List<int>();
-        this.LimitedToUserRoles = new List<string>();
     }
 
     /// <summary>
@@ -23,7 +20,7 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// <param name="referencedAssembly">Referenced assembly</param>
     public PluginDescriptor(Assembly referencedAssembly) : this()
     {
-        this.ReferencedAssembly = referencedAssembly;
+        ReferencedAssembly = referencedAssembly;
     }
 
     #endregion Ctors
@@ -34,10 +31,7 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// Get the instance of the plugin
     /// </summary>
     /// <returns>Plugin instance</returns>
-    public IPlugin Instance()
-    {
-        return Instance<IPlugin>();
-    }
+    public IPlugin Instance() => Instance<IPlugin>();
 
     /// <summary>
     /// Get the instance of the plugin
@@ -71,43 +65,28 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// </summary>
     /// <param name="other">The PluginDescriptor to compare with this instance</param>
     /// <returns>An integer that indicates whether this instance precedes, follows, or appears in the same position in the sort order as the specified parameter</returns>
-    public int CompareTo(PluginDescriptor other)
-    {
-        if (DisplayOrder != other.DisplayOrder)
-        {
-            return DisplayOrder.CompareTo(other.DisplayOrder);
-        }
-
-        return FriendlyName.CompareTo(other.FriendlyName);
-    }
+    public int CompareTo(PluginDescriptor other) => DisplayOrder != other.DisplayOrder
+        ? DisplayOrder.CompareTo(other.DisplayOrder)
+        : FriendlyName.CompareTo(other.FriendlyName);
 
     /// <summary>
     /// Returns the plugin as a string
     /// </summary>
     /// <returns>Value of the FriendlyName</returns>
-    public override string ToString()
-    {
-        return FriendlyName;
-    }
+    public override string ToString() => FriendlyName;
 
     /// <summary>
     /// Determines whether this instance and another specified PluginDescriptor object have the same SystemName
     /// </summary>
     /// <param name="value">The PluginDescriptor to compare to this instance</param>
     /// <returns>True if the SystemName of the value parameter is the same as the SystemName of this instance; otherwise, false</returns>
-    public override bool Equals(object value)
-    {
-        return SystemName?.Equals((value as PluginDescriptor)?.SystemName) ?? false;
-    }
+    public override bool Equals(object value) => SystemName?.Equals((value as PluginDescriptor)?.SystemName) ?? false;
 
     /// <summary>
     /// Returns the hash code for this plugin descriptor
     /// </summary>
     /// <returns>A 32-bit signed integer hash code</returns>
-    public override int GetHashCode()
-    {
-        return SystemName.GetHashCode();
-    }
+    public override int GetHashCode() => SystemName.GetHashCode();
 
     #endregion Methods
 
@@ -141,7 +120,7 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// Gets or sets the supported versions of nopCommerce
     /// </summary>
     [JsonProperty(PropertyName = "SupportedVersions")]
-    public virtual IList<string> SupportedVersions { get; set; }
+    public virtual IList<string> SupportedVersions { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the author
@@ -171,13 +150,13 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
     /// Gets or sets the list of tenant identifiers in which this plugin is available. If empty, then this plugin is available in all tenants
     /// </summary>
     [JsonProperty(PropertyName = "LimitedToTenants")]
-    public virtual IList<int> LimitedToTenants { get; set; }
+    public virtual IList<int> LimitedToTenants { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the list of user role identifiers for which this plugin is available. If empty, then this plugin is available for all ones.
     /// </summary>
     [JsonProperty(PropertyName = "LimitedToUserRoles")]
-    public virtual IList<string> LimitedToUserRoles { get; set; }
+    public virtual IList<string> LimitedToUserRoles { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the value indicating whether plugin is installed

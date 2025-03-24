@@ -54,30 +54,18 @@ public class NavigationItemBuilder : NavigationBuilder
     public override IEnumerable<MenuItem> Build()
     {
         item.Items = base.Build();
-        return new[] { item };
+        return [item];
     }
 
-    public NavigationItemBuilder Action(RouteValueDictionary routeValues)
-    {
-        return routeValues != null
-            ? Action(routeValues["action"] as string, routeValues["controller"] as string, routeValues)
-            : Action(null, null, new RouteValueDictionary());
-    }
+    public NavigationItemBuilder Action(RouteValueDictionary routeValues) => routeValues != null
+        ? Action(routeValues["action"] as string, routeValues["controller"] as string, routeValues)
+        : Action(null, null, []);
 
-    public NavigationItemBuilder Action(string actionName)
-    {
-        return Action(actionName, null, new RouteValueDictionary());
-    }
+    public NavigationItemBuilder Action(string actionName) => Action(actionName, null, []);
 
-    public NavigationItemBuilder Action(string actionName, string controllerName)
-    {
-        return Action(actionName, controllerName, new RouteValueDictionary());
-    }
+    public NavigationItemBuilder Action(string actionName, string controllerName) => Action(actionName, controllerName, []);
 
-    public NavigationItemBuilder Action(string actionName, string controllerName, object routeValues)
-    {
-        return Action(actionName, controllerName, new RouteValueDictionary(routeValues));
-    }
+    public NavigationItemBuilder Action(string actionName, string controllerName, object routeValues) => Action(actionName, controllerName, new RouteValueDictionary(routeValues));
 
     public NavigationItemBuilder Action(string actionName, string controllerName, RouteValueDictionary routeValues)
     {

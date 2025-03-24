@@ -18,25 +18,13 @@ public class PageApiController : GenericTenantODataController<Page, Guid>
         this.workContext = workContext;
     }
 
-    protected override Guid GetId(Page entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(Page entity) => entity.Id;
 
-    protected override void SetNewId(Page entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(Page entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.PagesRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.PagesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.PagesWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.PagesWrite;
 
     [HttpGet]
     public IActionResult GetTopLevelPages()

@@ -145,8 +145,5 @@ public class EntityTypeContentBlockService : GenericDataService<EntityTypeConten
         return result;
     }
 
-    protected virtual int GetTenantId()
-    {
-        return workContext.CurrentTenant.Id;
-    }
+    protected virtual int GetTenantId() => workContext.CurrentTenant.Id;
 }

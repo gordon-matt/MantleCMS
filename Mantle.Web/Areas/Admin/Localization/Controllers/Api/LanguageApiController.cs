@@ -19,15 +19,9 @@ public class LanguageApiController : GenericTenantODataController<LanguageEntity
         this.cacheManager = cacheManager;
     }
 
-    protected override Guid GetId(LanguageEntity entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(LanguageEntity entity) => entity.Id;
 
-    protected override void SetNewId(LanguageEntity entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(LanguageEntity entity) => entity.Id = Guid.NewGuid();
 
     [HttpPost]
     public virtual async Task<IActionResult> ResetLocalizableStrings([FromBody] ODataActionParameters parameters)
@@ -59,19 +53,13 @@ public class LanguageApiController : GenericTenantODataController<LanguageEntity
         }
         await localizableStringService.Value.InsertAsync(toInsert);
 
-        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, GetTenantId());
+        string cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, GetTenantId());
         cacheManager.Value.RemoveByPattern(cacheKey);
 
         return Ok();
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return MantleWebPermissions.LanguagesRead; }
-    }
+    protected override Permission ReadPermission => MantleWebPermissions.LanguagesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MantleWebPermissions.LanguagesWrite; }
-    }
+    protected override Permission WritePermission => MantleWebPermissions.LanguagesWrite;
 }

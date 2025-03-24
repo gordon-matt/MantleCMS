@@ -1,4 +1,5 @@
 ﻿using Mantle.Messaging.Data.Entities;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Messaging.Controllers.Api;
 
@@ -14,37 +15,22 @@ public class MessageTemplateApiController : GenericTenantODataController<Message
         this.tokensProviders = tokensProviders;
     }
 
-    protected override int GetId(MessageTemplate entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(MessageTemplate entity) => entity.Id;
 
     protected override void SetNewId(MessageTemplate entity)
     {
     }
 
     [HttpGet]
-    public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName)
-    {
-        if (!CheckPermission(ReadPermission))
-        {
-            return Enumerable.Empty<string>();
-        }
-
-        return tokensProviders.Value
+    public virtual IEnumerable<string> GetTokens([FromODataUri] string templateName) => !CheckPermission(ReadPermission)
+        ? Enumerable.Empty<string>()
+        : tokensProviders.Value
             .SelectMany(x => x.GetTokens(templateName))
             .Distinct()
             .OrderBy(x => x)
             .ToList();
-    }
 
-    protected override Permission ReadPermission
-    {
-        get { return MessagingPermissions.MessageTemplatesRead; }
-    }
+    protected override Permission ReadPermission => MessagingPermissions.MessageTemplatesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MessagingPermissions.MessageTemplatesWrite; }
-    }
+    protected override Permission WritePermission => MessagingPermissions.MessageTemplatesWrite;
 }

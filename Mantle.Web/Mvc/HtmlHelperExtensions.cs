@@ -16,20 +16,11 @@ public static class HtmlHelperExtensions
 {
     #region Html Link
 
-    public static IHtmlContent EmailLink(this IHtmlHelper helper, string emailAddress)
-    {
-        return helper.Link(string.Concat("mailto:", emailAddress));
-    }
+    public static IHtmlContent EmailLink(this IHtmlHelper helper, string emailAddress) => helper.Link(string.Concat("mailto:", emailAddress));
 
-    public static IHtmlContent Link(this IHtmlHelper helper, string href, PageTarget target = PageTarget.Default)
-    {
-        return helper.Link(href, href, target);
-    }
+    public static IHtmlContent Link(this IHtmlHelper helper, string href, PageTarget target = PageTarget.Default) => helper.Link(href, href, target);
 
-    public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, PageTarget target = PageTarget.Default)
-    {
-        return helper.Link(linkText, href, null, target);
-    }
+    public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, PageTarget target = PageTarget.Default) => helper.Link(linkText, href, null, target);
 
     public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, object htmlAttributes, PageTarget target = PageTarget.Default)
     {
@@ -127,7 +118,7 @@ public static class HtmlHelperExtensions
     public static IHtmlContent HelpTextFor<TModel, TProperty>(this IHtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, object htmlAttributes = null)
     {
         var memberExpression = expression.Body as MemberExpression;
-        var propertyInfo = (memberExpression.Member as PropertyInfo);
+        var propertyInfo = memberExpression.Member as PropertyInfo;
         var attribute = propertyInfo.GetCustomAttributes().OfType<LocalizedHelpTextAttribute>().FirstOrDefault();
 
         if (attribute == null)
@@ -143,10 +134,7 @@ public static class HtmlHelperExtensions
         return new HtmlString(tagBuilder.ToString());
     }
 
-    public static Mantle<TModel> Mantle<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-    {
-        return new Mantle<TModel>(html);
-    }
+    public static Mantle<TModel> Mantle<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
 
     ///// <summary>
     ///// Create an HTML tree from a recursive collection of items
@@ -167,7 +155,13 @@ public class Mantle<TModel>
         this.html = html;
     }
 
-    public IHtmlContent LanguagesDropDownList(string name, string selectedValue = null, object htmlAttributes = null, string emptyText = null, bool includeInvariant = false, string invariantText = null)
+    public IHtmlContent LanguagesDropDownList(
+        string name,
+        string selectedValue = null,
+        object htmlAttributes = null,
+        string emptyText = null,
+        bool includeInvariant = false,
+        string invariantText = null)
     {
         var selectList = GetLanguages(selectedValue, emptyText);
         return html.DropDownList(name, selectList, htmlAttributes);
@@ -179,7 +173,12 @@ public class Mantle<TModel>
     /// <param name="expression"> An expression that identifies the property to use. This property should contain a culture code value</param>
     /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
     /// <returns></returns>
-    public IHtmlContent LanguagesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null, bool includeInvariant = false, string invariantText = null)
+    public IHtmlContent LanguagesDropDownListFor(
+        Expression<Func<TModel, string>> expression,
+        object htmlAttributes = null,
+        string emptyText = null,
+        bool includeInvariant = false,
+        string invariantText = null)
     {
         var func = expression.Compile();
         string selectedValue = func(html.ViewData.Model);
@@ -212,10 +211,9 @@ public class Mantle<TModel>
                 {
                     Name = permission.Name,
                     Category = string.IsNullOrEmpty(permission.Category) ? T[MantleWebLocalizableStrings.General.Miscellaneous] : permission.Category,
-                    Description = permission.Description
+                    Description = permission.Description,
+                    TenantId = workContext.CurrentTenant.Id
                 };
-
-                newPermission.TenantId = workContext.CurrentTenant.Id;
                 membershipService.InsertPermission(newPermission);
                 allPermissions.Add(newPermission);
             }
@@ -464,16 +462,13 @@ public class Mantle<TModel>
         return new HtmlString(tagBuilder.ToString());
     }
 
-    public ModalFileManager<TModel> ModalFileManager(string fieldId, FileFilterMode filterMode, string modalTitle, string knockoutBinding = null)
+    public ModalFileManager<TModel> ModalFileManager(string fieldId, FileFilterMode filterMode, string modalTitle, string knockoutBinding = null) => new(html)
     {
-        return new ModalFileManager<TModel>(html)
-        {
-            FieldId = fieldId,
-            FilterMode = filterMode,
-            ModalTitle = modalTitle,
-            KnockoutBinding = knockoutBinding
-        };
-    }
+        FieldId = fieldId,
+        FilterMode = filterMode,
+        ModalTitle = modalTitle,
+        KnockoutBinding = knockoutBinding
+    };
 
     private class PermissionComparer : IComparer<string>
     {
@@ -486,24 +481,9 @@ public class Mantle<TModel>
 
         public int Compare(string x, string y)
         {
-            int value = String.Compare(x, y, StringComparison.Ordinal);
+            int value = string.Compare(x, y, StringComparison.Ordinal);
 
-            if (value == 0)
-            {
-                return 0;
-            }
-
-            if (baseComparer.Compare(x, "System") == 0)
-            {
-                return -1;
-            }
-
-            if (baseComparer.Compare(y, "System") == 0)
-            {
-                return 1;
-            }
-
-            return value;
+            return value == 0 ? 0 : baseComparer.Compare(x, "System") == 0 ? -1 : baseComparer.Compare(y, "System") == 0 ? 1 : value;
         }
     }
 }

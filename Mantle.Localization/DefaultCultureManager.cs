@@ -4,19 +4,12 @@ public partial class DefaultCultureManager : ICultureManager
 {
     #region ICultureManager Members
 
-    public string GetCurrentCulture()
-    {
-        return CultureInfo.CurrentUICulture.Name;
-    }
+    public string GetCurrentCulture() => CultureInfo.CurrentUICulture.Name;
 
     public bool IsValidCulture(string cultureName)
     {
         var cultureRegex = CultureRegex();
-        if (cultureRegex.IsMatch(cultureName))
-        {
-            return true;
-        }
-        return false;
+        return cultureRegex.IsMatch(cultureName);
     }
 
     [GeneratedRegex("\\w{2}(-\\w{2,})*")]

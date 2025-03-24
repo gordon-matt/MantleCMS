@@ -55,23 +55,11 @@ public class NavigationBuilder
     public NavigationBuilder Add(
         string caption,
         Action<NavigationItemBuilder> itemBuilder,
-        string cssClass = null)
-    {
-        return Add(caption, null, itemBuilder, cssClass);
-    }
+        string cssClass = null) => Add(caption, null, itemBuilder, cssClass);
 
-    public NavigationBuilder Add(Action<NavigationItemBuilder> itemBuilder, string cssClass = null)
-    {
-        return Add(null, null, itemBuilder, cssClass);
-    }
+    public NavigationBuilder Add(Action<NavigationItemBuilder> itemBuilder, string cssClass = null) => Add(null, null, itemBuilder, cssClass);
 
-    public NavigationBuilder Add(string caption, string cssClass = null)
-    {
-        return Add(caption, null, x => { }, cssClass);
-    }
+    public NavigationBuilder Add(string caption, string cssClass = null) => Add(caption, null, x => { }, cssClass);
 
-    public virtual IEnumerable<MenuItem> Build()
-    {
-        return (Contained ?? Enumerable.Empty<MenuItem>()).ToList();
-    }
+    public virtual IEnumerable<MenuItem> Build() => (Contained ?? Enumerable.Empty<MenuItem>()).ToList();
 }

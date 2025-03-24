@@ -27,10 +27,7 @@ public class WebAppTypeFinder : AppDomainTypeFinder
     /// Gets a physical disk path of \Bin directory
     /// </summary>
     /// <returns>The physical path. E.g. "c:\inetpub\wwwroot\bin"</returns>
-    public virtual string GetBinDirectory()
-    {
-        return System.AppContext.BaseDirectory;
-    }
+    public virtual string GetBinDirectory() => System.AppContext.BaseDirectory;
 
     /// <summary>
     /// Get assemblies

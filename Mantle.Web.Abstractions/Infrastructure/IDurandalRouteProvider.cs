@@ -16,7 +16,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
             var T = EngineContext.Current.Resolve<IStringLocalizer>();
             var routes = new List<DurandalRoute>
             {
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/localization/languages",
                     Route = "localization/languages",
@@ -24,7 +24,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.Localization.Languages]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/localization/localizable-strings",
                     Route = "localization/localizable-strings/:cultureCode",
@@ -40,7 +40,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                 //    Title = T[MantleWebLocalizableStrings.Log.Title]
                 //},
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/membership",
                     Route = "membership",
@@ -48,7 +48,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.Membership.Title]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/plugins",
                     Route = "plugins",
@@ -56,7 +56,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.Plugins.Title]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/scheduled-tasks",
                     Route = "scheduled-tasks",
@@ -64,7 +64,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.ScheduledTasks.Title]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/tenants",
                     Route = "tenants",
@@ -72,7 +72,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.Tenants.Title]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/configuration/settings",
                     Route = "configuration/settings",
@@ -80,7 +80,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleWebLocalizableStrings.General.Settings]
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/configuration/themes",
                     Route = "configuration/themes",

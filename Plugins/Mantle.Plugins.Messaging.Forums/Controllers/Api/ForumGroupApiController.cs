@@ -12,10 +12,7 @@ public class ForumGroupApiController : GenericTenantODataController<ForumGroup, 
         this.cacheManager = cacheManager;
     }
 
-    protected override int GetId(ForumGroup entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(ForumGroup entity) => entity.Id;
 
     protected override void SetNewId(ForumGroup entity)
     {

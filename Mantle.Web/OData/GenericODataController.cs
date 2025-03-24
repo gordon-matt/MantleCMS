@@ -79,12 +79,7 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
         }
 
         // TODO: CheckPermission(ReadPermission) is getting done twice.. once above, and once in CanViewEntity(). Unnecessary... see if this can be modified
-        if (!CanViewEntity(entity))
-        {
-            return Unauthorized();
-        }
-
-        return Ok(entity);
+        return !CanViewEntity(entity) ? Unauthorized() : Ok(entity);
     }
 
     // PUT: odata/<Entity>(5)
@@ -223,10 +218,7 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
 
     #region Non-Public Methods
 
-    protected virtual bool EntityExists(TKey key)
-    {
-        return Service.FindOne(key) != null;
-    }
+    protected virtual bool EntityExists(TKey key) => Service.FindOne(key) != null;
 
     protected abstract TKey GetId(TEntity entity);
 
@@ -241,21 +233,13 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
     /// the user viewing data for a different site (tenant)
     /// </summary>
     /// <param name="entity"></param>
-    protected virtual IQueryable<TEntity> ApplyMandatoryFilter(IQueryable<TEntity> query)
-    {
+    protected virtual IQueryable<TEntity> ApplyMandatoryFilter(IQueryable<TEntity> query) =>
         // Do nothing, by default
-        return query;
-    }
+        query;
 
-    protected virtual bool CanViewEntity(TEntity entity)
-    {
-        return CheckPermission(ReadPermission);
-    }
+    protected virtual bool CanViewEntity(TEntity entity) => CheckPermission(ReadPermission);
 
-    protected virtual bool CanModifyEntity(TEntity entity)
-    {
-        return CheckPermission(WritePermission);
-    }
+    protected virtual bool CanModifyEntity(TEntity entity) => CheckPermission(WritePermission);
 
     protected virtual void OnBeforeSave(TEntity entity)
     {
@@ -321,13 +305,9 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
     // }
 
     // This code added to correctly implement the disposable pattern.
-    public void Dispose()
-    {
+    public void Dispose() =>
         // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        Dispose(true);
-        // TODO: uncomment the following line if the finalizer is overridden above.
-        // GC.SuppressFinalize(this);
-    }
+        Dispose(true);// TODO: uncomment the following line if the finalizer is overridden above.// GC.SuppressFinalize(this);
 
     #endregion IDisposable Support
 }

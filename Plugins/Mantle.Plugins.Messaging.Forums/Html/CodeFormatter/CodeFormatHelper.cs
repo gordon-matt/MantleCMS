@@ -32,13 +32,14 @@ public partial class CodeFormatHelper
             return match.Value;
         }
 
-        var options = new HighlightOptions();
-
-        options.Language = match.Groups["lang"].Value;
-        options.Code = match.Groups["code"].Value;
-        options.DisplayLineNumbers = match.Groups["linenumbers"].Value == "on";
-        options.Title = match.Groups["title"].Value;
-        options.AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on";
+        var options = new HighlightOptions
+        {
+            Language = match.Groups["lang"].Value,
+            Code = match.Groups["code"].Value,
+            DisplayLineNumbers = match.Groups["linenumbers"].Value == "on",
+            Title = match.Groups["title"].Value,
+            AlternateLineNumbers = match.Groups["altlinenumbers"].Value == "on"
+        };
 
         string result = match.Value.Replace(match.Groups["begin"].Value, "");
         result = result.Replace(match.Groups["end"].Value, "");
@@ -58,13 +59,14 @@ public partial class CodeFormatHelper
             return match.Value;
         }
 
-        var options = new HighlightOptions();
-
-        options.Language = "c#";
-        options.Code = match.Groups["inner"].Value;
-        options.DisplayLineNumbers = false;
-        options.Title = string.Empty;
-        options.AlternateLineNumbers = false;
+        var options = new HighlightOptions
+        {
+            Language = "c#",
+            Code = match.Groups["inner"].Value,
+            DisplayLineNumbers = false,
+            Title = string.Empty,
+            AlternateLineNumbers = false
+        };
 
         string result = match.Value;
         result = Highlight(options, result);
@@ -76,15 +78,7 @@ public partial class CodeFormatHelper
     /// </summary>
     /// <param name="html">HTML</param>
     /// <returns>Formatted text</returns>
-    private static string StripHtml(string html)
-    {
-        if (string.IsNullOrEmpty(html))
-        {
-            return string.Empty;
-        }
-
-        return regexHtml.Replace(html, string.Empty);
-    }
+    private static string StripHtml(string html) => string.IsNullOrEmpty(html) ? string.Empty : regexHtml.Replace(html, string.Empty);
 
     /// <summary>
     /// Returns the formatted text.
@@ -97,50 +91,64 @@ public partial class CodeFormatHelper
         switch (options.Language)
         {
             case "c#":
-                var csf = new CSharpFormat();
-                csf.LineNumbers = options.DisplayLineNumbers;
-                csf.Alternate = options.AlternateLineNumbers;
+                var csf = new CSharpFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 return csf.FormatCode(text).HtmlDecode();
 
             case "vb":
-                var vbf = new VisualBasicFormat();
-                vbf.LineNumbers = options.DisplayLineNumbers;
-                vbf.Alternate = options.AlternateLineNumbers;
+                var vbf = new VisualBasicFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 return vbf.FormatCode(text);
 
             case "js":
-                var jsf = new JavaScriptFormat();
-                jsf.LineNumbers = options.DisplayLineNumbers;
-                jsf.Alternate = options.AlternateLineNumbers;
+                var jsf = new JavaScriptFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 return jsf.FormatCode(text).HtmlDecode();
 
             case "html":
-                var htmlf = new HtmlFormat();
-                htmlf.LineNumbers = options.DisplayLineNumbers;
-                htmlf.Alternate = options.AlternateLineNumbers;
+                var htmlf = new HtmlFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 text = StripHtml(text).Trim();
                 string code = htmlf.FormatCode(text.HtmlDecode()).Trim();
                 return code.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "xml":
-                var xmlf = new HtmlFormat();
-                xmlf.LineNumbers = options.DisplayLineNumbers;
-                xmlf.Alternate = options.AlternateLineNumbers;
+                var xmlf = new HtmlFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 text = text.Replace("<br />", "\r\n");
                 text = StripHtml(text).Trim();
                 string xml = xmlf.FormatCode(text.HtmlDecode()).Trim();
                 return xml.Replace("\r\n", "<br />").Replace("\n", "<br />");
 
             case "tsql":
-                var tsqlf = new TsqlFormat();
-                tsqlf.LineNumbers = options.DisplayLineNumbers;
-                tsqlf.Alternate = options.AlternateLineNumbers;
+                var tsqlf = new TsqlFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 return tsqlf.FormatCode(text).HtmlDecode();
 
             case "msh":
-                var mshf = new MshFormat();
-                mshf.LineNumbers = options.DisplayLineNumbers;
-                mshf.Alternate = options.AlternateLineNumbers;
+                var mshf = new MshFormat
+                {
+                    LineNumbers = options.DisplayLineNumbers,
+                    Alternate = options.AlternateLineNumbers
+                };
                 return mshf.FormatCode(text).HtmlDecode();
         }
 

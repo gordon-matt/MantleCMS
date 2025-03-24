@@ -1,5 +1,6 @@
 ﻿using Mantle.Messaging.Data.Entities;
 using Mantle.Messaging.Services;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace Mantle.Web.Messaging.Controllers.Api;
 
@@ -15,10 +16,7 @@ public class MessageTemplateVersionApiController : GenericODataController<Messag
         this.messageTemplateService = messageTemplateService;
     }
 
-    protected override int GetId(MessageTemplateVersion entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(MessageTemplateVersion entity) => entity.Id;
 
     protected override void SetNewId(MessageTemplateVersion entity)
     {
@@ -66,13 +64,7 @@ public class MessageTemplateVersionApiController : GenericODataController<Messag
         return Ok(currentVersion);
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return MessagingPermissions.MessageTemplatesRead; }
-    }
+    protected override Permission ReadPermission => MessagingPermissions.MessageTemplatesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MessagingPermissions.MessageTemplatesWrite; }
-    }
+    protected override Permission WritePermission => MessagingPermissions.MessageTemplatesWrite;
 }

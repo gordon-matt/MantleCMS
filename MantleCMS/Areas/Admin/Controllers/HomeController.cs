@@ -21,10 +21,7 @@ public class HomeController : MantleController
     }
 
     [Route("")]
-    public IActionResult Host()
-    {
-        return View();
-    }
+    public IActionResult Host() => View();
 
     [Route("dashboard")]
     public IActionResult Dashboard()
@@ -40,10 +37,7 @@ public class HomeController : MantleController
     }
 
     [Route("shell")]
-    public IActionResult Shell()
-    {
-        return View();
-    }
+    public IActionResult Shell() => View();
 
     [Route("get-spa-routes")]
     public JsonResult GetSpaRoutes()
@@ -57,8 +51,8 @@ public class HomeController : MantleController
     {
         var config = new RequireJsConfig
         {
-            Paths = new Dictionary<string, string>(),
-            Shim = new Dictionary<string, string[]>()
+            Paths = [],
+            Shim = []
         };
 
         // Routes First

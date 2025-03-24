@@ -7,13 +7,5 @@ public class BlogController : MantleController
 {
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(CmsPermissions.BlogRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(CmsPermissions.BlogRead) ? Unauthorized() : PartialView();
 }

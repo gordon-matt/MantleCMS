@@ -6,10 +6,7 @@ public class StartupTask : IStartupTask
 {
     #region IStartupTask Members
 
-    public void Execute()
-    {
-        EnsureScheduledTasks();
-    }
+    public void Execute() => EnsureScheduledTasks();
 
     private static void EnsureScheduledTasks()
     {

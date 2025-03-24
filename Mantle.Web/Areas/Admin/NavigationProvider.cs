@@ -13,10 +13,7 @@ public class NavigationProvider : INavigationProvider
 
     #region INavigationProvider Members
 
-    public string MenuName
-    {
-        get { return MantleWebConstants.Areas.Admin; }
-    }
+    public string MenuName => MantleWebConstants.Areas.Admin;
 
     public void GetNavigation(NavigationBuilder builder)
     {
@@ -37,13 +34,10 @@ public class NavigationProvider : INavigationProvider
             .Url("#");
     }
 
-    private void BuildMembershipMenu(NavigationItemBuilder builder)
-    {
-        builder
-            .Url("#membership")
-            .Icons("fa fa-users")
-            .Permission(MantleWebPermissions.MembershipManage);
-    }
+    private void BuildMembershipMenu(NavigationItemBuilder builder) => builder
+        .Url("#membership")
+        .Icons("fa fa-users")
+        .Permission(MantleWebPermissions.MembershipManage);
 
     private void BuildConfigurationMenu(NavigationItemBuilder builder)
     {
@@ -103,8 +97,5 @@ public class NavigationProvider : INavigationProvider
             .Permission(MantleWebPermissions.ScheduledTasksRead));
     }
 
-    private void BuildPluginsMenu(NavigationItemBuilder builder)
-    {
-        builder.Icons("fa fa-puzzle-piece");
-    }
+    private void BuildPluginsMenu(NavigationItemBuilder builder) => builder.Icons("fa fa-puzzle-piece");
 }

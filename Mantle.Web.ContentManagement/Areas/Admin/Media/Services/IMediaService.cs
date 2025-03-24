@@ -38,10 +38,9 @@ public class MediaService : IMediaService
     /// <param name="mediaPath">The relative path of the media folder containing the media.</param>
     /// <param name="fileName">The media file name.</param>
     /// <returns>The public URL for the media.</returns>
-    public string GetPublicUrl(string directoryPath, string fileName)
-    {
-        return string.IsNullOrEmpty(directoryPath) ? fileName : Path.Combine("/Media/Uploads", directoryPath, fileName);
-    }
+    public string GetPublicUrl(string directoryPath, string fileName) => string.IsNullOrEmpty(directoryPath)
+        ? fileName :
+        Path.Combine("/Media/Uploads", directoryPath, fileName);
 
     private MediaFile BuildMediaFile(string directoryPath, FileInfo file)
     {

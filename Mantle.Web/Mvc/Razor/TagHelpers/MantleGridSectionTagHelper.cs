@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Globalization;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
 
@@ -13,11 +13,8 @@ public class MantleGridSectionTagHelper : TagHelper
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        if (context == null)
-            throw new ArgumentNullException(nameof(context));
-
-        if (output == null)
-            throw new ArgumentNullException(nameof(output));
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(output);
 
         //clear the output
         output.SuppressOutput();

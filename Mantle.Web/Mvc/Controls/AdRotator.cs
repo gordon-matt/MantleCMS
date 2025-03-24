@@ -35,10 +35,7 @@ public class Ad
         return new HtmlString(html);
     }
 
-    public static IHtmlContent Rotate(params Ad[] ads)
-    {
-        return Rotate(null, ads);
-    }
+    public static IHtmlContent Rotate(params Ad[] ads) => Rotate(null, ads);
 
     private static Ad PickAd(string keywordFilter, params Ad[] ads)
     {
@@ -90,8 +87,10 @@ public class Ad
             }
         }
 
-        var imageBuilder = new TagBuilder("img");
-        imageBuilder.TagRenderMode = TagRenderMode.SelfClosing;
+        var imageBuilder = new TagBuilder("img")
+        {
+            TagRenderMode = TagRenderMode.SelfClosing
+        };
 
         merge(imageBuilder, ad.ImageAttributes);
         mergeIfNotBlank(imageBuilder, "src", ad.ImageUrl);

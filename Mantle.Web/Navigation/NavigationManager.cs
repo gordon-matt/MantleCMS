@@ -87,7 +87,7 @@ public class NavigationManager : INavigationManager
     {
         foreach (var item in items)
         {
-            if (authorizationService == null || (!item.Permissions.Any() || item.Permissions.Any(x => authorizationService.TryCheckAccess(x, workContext.CurrentUser))))
+            if (authorizationService == null || !item.Permissions.Any() || item.Permissions.Any(x => authorizationService.TryCheckAccess(x, workContext.CurrentUser)))
             {
                 yield return new MenuItem
                 {
@@ -111,18 +111,14 @@ public class NavigationManager : INavigationManager
         var orderer = new FlatPositionComparer();
 
         return sources.SelectMany(x => x).ToArray()
-
             // group same menus
             .GroupBy(key => key, (key, items) => Join(items.ToList()), comparer)
-
             // group same position
             .GroupBy(item => item.Position)
-
             // order position groups by position
             .OrderBy(positionGroup => positionGroup.Key, orderer)
-
             // ordered by item text in the postion group
-            .SelectMany(positionGroup => positionGroup.OrderBy(item => item.Text == null ? "" : item.Text));
+            .SelectMany(positionGroup => positionGroup.OrderBy(item => item.Text ?? ""));
     }
 
     private static MenuItem Join(IEnumerable<MenuItem> items)
@@ -154,8 +150,8 @@ public class NavigationManager : INavigationManager
             string.IsNullOrEmpty(agg)
                 ? pos
                 : string.IsNullOrEmpty(pos)
-                        ? agg
-                        : comparer.Compare(agg, pos) < 0 ? agg : pos);
+                    ? agg
+                    : comparer.Compare(agg, pos) < 0 ? agg : pos);
     }
 
     public string GetUrl(string menuItemUrl, RouteValueDictionary routeValueDictionary)

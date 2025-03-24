@@ -1,6 +1,6 @@
-﻿using KendoGridBinder.Containers;
+﻿using System.Linq.Dynamic.Core;
+using KendoGridBinder.Containers;
 using KendoGridBinder.ModelBinder.Mvc;
-using System.Linq.Dynamic.Core;
 
 namespace Mantle.Web.Mvc.KendoUI;
 
@@ -88,9 +88,5 @@ public static class GenericDataServiceExtensions
         return expression.Length > 1 ? expression : null;
     }
 
-    private static string MapFieldfromViewModeltoEntity(string field)
-    {
-        return field;
-        //return _mappings != null && field != null && _mappings.ContainsKey(field) ? _mappings[field].Path : field;
-    }
+    private static string MapFieldfromViewModeltoEntity(string field) => field;//return _mappings != null && field != null && _mappings.ContainsKey(field) ? _mappings[field].Path : field;
 }

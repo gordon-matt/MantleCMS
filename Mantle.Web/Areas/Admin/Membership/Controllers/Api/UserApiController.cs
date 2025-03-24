@@ -49,12 +49,7 @@ public class UserApiController : ODataController
 
         var entity = await Service.GetUserById(key);
 
-        if (entity == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(entity);
+        return entity == null ? NotFound() : Ok(entity);
     }
 
     public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantleUser entity)

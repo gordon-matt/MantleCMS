@@ -30,8 +30,5 @@ public class MantleController : Controller
         return authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser);
     }
 
-    protected virtual IActionResult RedirectToHomePage()
-    {
-        return RedirectToAction("Index", "Home", new { area = string.Empty });
-    }
+    protected virtual IActionResult RedirectToHomePage() => RedirectToAction("Index", "Home", new { area = string.Empty });
 }

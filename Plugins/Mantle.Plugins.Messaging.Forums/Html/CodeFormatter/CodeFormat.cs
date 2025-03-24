@@ -38,10 +38,7 @@ public abstract partial class CodeFormat : SourceFormat
     /// <remarks>
     /// Keywords must be separated with spaces.
     /// </remarks>
-    protected abstract string Keywords
-    {
-        get;
-    }
+    protected abstract string Keywords { get; }
 
     /// <summary>
     /// Can be overridden to provide a list of preprocessors defined in
@@ -50,28 +47,19 @@ public abstract partial class CodeFormat : SourceFormat
     /// <remarks>
     /// Preprocessors must be separated with spaces.
     /// </remarks>
-    protected virtual string Preprocessors
-    {
-        get { return ""; }
-    }
+    protected virtual string Preprocessors => string.Empty;
 
     /// <summary>
     /// Must be overridden to provide a regular expression string
     /// to match strings literals.
     /// </summary>
-    protected abstract string StringRegex
-    {
-        get;
-    }
+    protected abstract string StringRegex { get; }
 
     /// <summary>
     /// Must be overridden to provide a regular expression string
     /// to match comments.
     /// </summary>
-    protected abstract string CommentRegex
-    {
-        get;
-    }
+    protected abstract string CommentRegex { get; }
 
     /// <summary>
     /// Determines if the language is case sensitive.
@@ -82,10 +70,7 @@ public abstract partial class CodeFormat : SourceFormat
     /// A case-insensitive language formatter must override this
     /// property to return false.
     /// </remarks>
-    public virtual bool CaseSensitive
-    {
-        get { return true; }
-    }
+    public virtual bool CaseSensitive => true;
 
     /// <summary/>
     protected CodeFormat()
@@ -133,7 +118,7 @@ public abstract partial class CodeFormat : SourceFormat
     {
         if (match.Groups[1].Success) //comment
         {
-            var reader = new StringReader(match.ToString());
+            using var reader = new StringReader(match.ToString());
             string line;
             var sb = new StringBuilder();
             while ((line = reader.ReadLine()) != null)
@@ -161,6 +146,6 @@ public abstract partial class CodeFormat : SourceFormat
             return "<span class=\"kwrd\">" + match.ToString() + "</span>";
         }
         System.Diagnostics.Debug.Assert(false, "None of the above!");
-        return ""; //none of the above
+        return string.Empty; //none of the above
     }
 }

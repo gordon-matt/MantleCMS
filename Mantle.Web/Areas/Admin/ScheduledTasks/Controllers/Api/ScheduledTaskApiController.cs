@@ -9,10 +9,7 @@ public class ScheduledTaskApiController : GenericODataController<ScheduledTask, 
     {
     }
 
-    protected override int GetId(ScheduledTask entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(ScheduledTask entity) => entity.Id;
 
     protected override void SetNewId(ScheduledTask entity)
     {
@@ -44,9 +41,11 @@ public class ScheduledTaskApiController : GenericODataController<ScheduledTask, 
             return NotFound();
         }
 
-        var task = new MantleTask(scheduleTask);
-        //ensure that the task is enabled
-        task.Enabled = true;
+        var task = new MantleTask(scheduleTask)
+        {
+            //ensure that the task is enabled
+            Enabled = true
+        };
 
         try
         {
@@ -61,13 +60,7 @@ public class ScheduledTaskApiController : GenericODataController<ScheduledTask, 
         return Ok();
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return MantleWebPermissions.ScheduledTasksRead; }
-    }
+    protected override Permission ReadPermission => MantleWebPermissions.ScheduledTasksRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MantleWebPermissions.ScheduledTasksWrite; }
-    }
+    protected override Permission WritePermission => MantleWebPermissions.ScheduledTasksWrite;
 }

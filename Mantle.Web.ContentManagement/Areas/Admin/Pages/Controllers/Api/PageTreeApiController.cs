@@ -69,20 +69,17 @@ public class PageTreeApiController : ODataController
         }).AsQueryable());
     }
 
-    private static IEnumerable<PageTreeItem> GetSubPages(IEnumerable<Page> pages, Guid parentId)
-    {
-        return pages
-            .Where(x => x.ParentId == parentId)
-            .OrderBy(x => x.Order)
-            .ThenBy(x => x.Name)
-            .Select(x => new PageTreeItem
-            {
-                Id = x.Id,
-                Title = x.Name,
-                IsEnabled = x.IsEnabled,
-                SubPages = GetSubPages(pages, x.Id).ToList()
-            });
-    }
+    private static IEnumerable<PageTreeItem> GetSubPages(IEnumerable<Page> pages, Guid parentId) => pages
+        .Where(x => x.ParentId == parentId)
+        .OrderBy(x => x.Order)
+        .ThenBy(x => x.Name)
+        .Select(x => new PageTreeItem
+        {
+            Id = x.Id,
+            Title = x.Name,
+            IsEnabled = x.IsEnabled,
+            SubPages = GetSubPages(pages, x.Id).ToList()
+        });
 
     protected virtual bool CheckPermission(Permission permission)
     {
@@ -90,17 +87,14 @@ public class PageTreeApiController : ODataController
         return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
     }
 
-    protected virtual int GetTenantId()
-    {
-        return workContext.CurrentTenant.Id;
-    }
+    protected virtual int GetTenantId() => workContext.CurrentTenant.Id;
 }
 
 public class PageTreeItem
 {
     public PageTreeItem()
     {
-        SubPages = new List<PageTreeItem>();
+        SubPages = [];
     }
 
     public Guid Id { get; set; }

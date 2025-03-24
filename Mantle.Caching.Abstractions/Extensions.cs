@@ -5,10 +5,7 @@ namespace Mantle.Caching;
 /// </summary>
 public static class CacheExtensions
 {
-    public static T Get<T>(this ICacheManager cacheManager, string key, Func<T> acquire)
-    {
-        return Get(cacheManager, key, 60, acquire);
-    }
+    public static T Get<T>(this ICacheManager cacheManager, string key, Func<T> acquire) => Get(cacheManager, key, 60, acquire);
 
     public static T Get<T>(this ICacheManager cacheManager, string key, int cacheTimeInMinutes, Func<T> acquire)
     {

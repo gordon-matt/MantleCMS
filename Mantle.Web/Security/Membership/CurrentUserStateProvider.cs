@@ -33,11 +33,7 @@ public class CurrentUserStateProvider : IWorkContextStateProvider
 
                     user ??= AsyncHelper.RunSync(() => membershipService.GetUserByName(null, httpContext.User.Identity.Name));
 
-                    if (user == null)
-                    {
-                        return default;
-                    }
-                    return (T)(object)user;
+                    return user == null ? default : (T)(object)user;
                 };
             }
         }

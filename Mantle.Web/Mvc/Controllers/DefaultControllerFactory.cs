@@ -27,27 +27,16 @@ public class DefaultControllerFactory : IControllerFactory
         IControllerActivator controllerActivator,
         IEnumerable<IControllerPropertyActivator> propertyActivators)
     {
-        if (controllerActivator == null)
-        {
-            throw new ArgumentNullException(nameof(controllerActivator));
-        }
+        ArgumentNullException.ThrowIfNull(propertyActivators);
 
-        if (propertyActivators == null)
-        {
-            throw new ArgumentNullException(nameof(propertyActivators));
-        }
-
-        _controllerActivator = controllerActivator;
+        _controllerActivator = controllerActivator ?? throw new ArgumentNullException(nameof(controllerActivator));
         _propertyActivators = propertyActivators.ToArray();
     }
 
     /// <inheritdoc />
     public object CreateController(ControllerContext context)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
+        ArgumentNullException.ThrowIfNull(context);
 
         if (context.ActionDescriptor == null)
         {
@@ -66,15 +55,8 @@ public class DefaultControllerFactory : IControllerFactory
     /// <inheritdoc />
     public void ReleaseController(ControllerContext context, object controller)
     {
-        if (context == null)
-        {
-            throw new ArgumentNullException(nameof(context));
-        }
-
-        if (controller == null)
-        {
-            throw new ArgumentNullException(nameof(controller));
-        }
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(controller);
 
         _controllerActivator.Release(context, controller);
     }

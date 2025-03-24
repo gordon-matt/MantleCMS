@@ -4,15 +4,9 @@ public class MantleStringLocalizerFactory : IStringLocalizerFactory
 {
     private MantleStringLocalizer stringLocalizer;
 
-    public IStringLocalizer Create(Type resourceSource)
-    {
-        return Create();
-    }
+    public IStringLocalizer Create(Type resourceSource) => Create();
 
-    public IStringLocalizer Create(string baseName, string location)
-    {
-        return Create();
-    }
+    public IStringLocalizer Create(string baseName, string location) => Create();
 
     protected IStringLocalizer Create()
     {

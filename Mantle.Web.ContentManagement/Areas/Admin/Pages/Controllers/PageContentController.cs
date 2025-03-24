@@ -1,9 +1,9 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+﻿using System.Text.RegularExpressions;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using System.Text.RegularExpressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
 
@@ -147,15 +147,7 @@ public class PageContentController : MantleController
         return NotFound();
     }
 
-    private bool IsVisible(IContentBlock contentBlock)
-    {
-        if (contentBlock == null || !contentBlock.Enabled)
-        {
-            return false;
-        }
-
-        return true;
-    }
+    private bool IsVisible(IContentBlock contentBlock) => contentBlock != null && contentBlock.Enabled;
 
     private string InsertContentBlocks(string content, IEnumerable<IContentBlock> contentBlocks)
     {

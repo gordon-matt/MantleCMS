@@ -5,11 +5,6 @@ namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 [DataContract]
 public class SitemapConfig : TenantEntity<int>
 {
-    public SitemapConfig()
-    {
-        Priority = .5f;
-    }
-
     [DataMember]
     public Guid PageId { get; set; }
 
@@ -17,7 +12,7 @@ public class SitemapConfig : TenantEntity<int>
     public ChangeFrequency ChangeFrequency { get; set; }
 
     [DataMember]
-    public float Priority { get; set; }
+    public float Priority { get; set; } = .5f;
 }
 
 public class SitemapConfigMap : IEntityTypeConfiguration<SitemapConfig>, IMantleEntityTypeConfiguration

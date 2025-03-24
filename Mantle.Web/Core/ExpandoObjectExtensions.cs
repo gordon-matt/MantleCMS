@@ -9,22 +9,22 @@ public static class ExpandoObjectExtensions
         var json = new StringBuilder();
         var keyPairs = new List<string>();
         IDictionary<string, object> dictionary = expando;
-        json.Append("{");
+        json.Append('{');
 
         foreach (var pair in dictionary)
         {
             if (pair.Value is ExpandoObject)
             {
-                keyPairs.Add(string.Format(@"""{0}"": {1}", pair.Key, (pair.Value as ExpandoObject).ToJson()));
+                keyPairs.Add($@"""{pair.Key}"": {(pair.Value as ExpandoObject).ToJson()}");
             }
             else
             {
-                keyPairs.Add(string.Format(@"""{0}"": {1}", pair.Key, pair.Value.JsonSerialize()));
+                keyPairs.Add($@"""{pair.Key}"": {pair.Value.JsonSerialize()}");
             }
         }
 
         json.Append(string.Join(",", keyPairs.ToArray()));
-        json.Append("}");
+        json.Append('}');
 
         return json.ToString();
     }

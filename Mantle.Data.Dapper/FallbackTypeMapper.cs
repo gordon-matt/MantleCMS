@@ -66,10 +66,7 @@ public class FallbackTypeMapper : SqlMapper.ITypeMap
         return null;
     }
 
-    public ConstructorInfo FindExplicitConstructor()
-    {
-        return mappers
-            .Select(mapper => mapper.FindExplicitConstructor())
-            .FirstOrDefault(result => result != null);
-    }
+    public ConstructorInfo FindExplicitConstructor() => mappers
+        .Select(mapper => mapper.FindExplicitConstructor())
+        .FirstOrDefault(result => result != null);
 }

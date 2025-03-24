@@ -15,8 +15,6 @@ public class RegionSettings : BaseEntity<int>
 
 public class RegionSettingsMap : IEntityTypeConfiguration<RegionSettings>, IMantleEntityTypeConfiguration
 {
-    #region IEntityTypeConfiguration Members
-
     public void Configure(EntityTypeBuilder<RegionSettings> builder)
     {
         builder.ToTable(Constants.Tables.RegionSettings, MantleWebConstants.DatabaseSchemas.Mantle);
@@ -26,10 +24,5 @@ public class RegionSettingsMap : IEntityTypeConfiguration<RegionSettings>, IMant
         builder.Property(m => m.Fields).IsRequired().IsUnicode(true);
     }
 
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

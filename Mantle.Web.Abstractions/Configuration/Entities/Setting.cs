@@ -19,10 +19,7 @@ public class Setting : TenantEntity<Guid>
     /// </summary>
     public string Value { get; set; }
 
-    public override string ToString()
-    {
-        return Name;
-    }
+    public override string ToString() => Name;
 }
 
 public class SettingMap : IEntityTypeConfiguration<Setting>, IMantleEntityTypeConfiguration
@@ -36,12 +33,5 @@ public class SettingMap : IEntityTypeConfiguration<Setting>, IMantleEntityTypeCo
         builder.Property(s => s.Value).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

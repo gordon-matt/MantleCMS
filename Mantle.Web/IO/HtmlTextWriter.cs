@@ -11,25 +11,13 @@ public class HtmlTextWriter : TextWriter, IHtmlContent
         stringWriter = new StringWriter();
     }
 
-    public override Encoding Encoding
-    {
-        get { return stringWriter.Encoding; }
-    }
+    public override Encoding Encoding => stringWriter.Encoding;
 
-    public override string ToString()
-    {
-        return stringWriter.ToString();
-    }
+    public override string ToString() => stringWriter.ToString();
 
-    public override void Write(string value)
-    {
-        stringWriter.Write(value);
-    }
+    public override void Write(string value) => stringWriter.Write(value);
 
-    public override void Write(char value)
-    {
-        stringWriter.Write(value);
-    }
+    public override void Write(char value) => stringWriter.Write(value);
 
     public void WriteTo(TextWriter writer, HtmlEncoder encoder)
     {
@@ -44,5 +32,11 @@ public class HtmlTextWriter : TextWriter, IHtmlContent
         //}
 
         writer.Write(stringWriter.ToString());
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        stringWriter?.Dispose();
+        base.Dispose(disposing);
     }
 }

@@ -25,11 +25,7 @@ public abstract class MantleRoleValidator<TRole> : RoleValidator<TRole>
         }
         var errors = new List<IdentityError>();
         await ValidateRoleName(manager, role, errors);
-        if (errors.Count > 0)
-        {
-            return IdentityResult.Failed(errors.ToArray());
-        }
-        return IdentityResult.Success;
+        return errors.Count > 0 ? IdentityResult.Failed(errors.ToArray()) : IdentityResult.Success;
     }
 
     private async Task ValidateRoleName(

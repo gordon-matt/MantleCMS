@@ -44,7 +44,7 @@ public partial class MantleCssMinifier : Processor
 
         context.Content = content;
 
-        return;
+        await Task.CompletedTask;
     }
 
     #endregion Methods

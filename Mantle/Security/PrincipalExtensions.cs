@@ -1,5 +1,5 @@
-﻿using Extenso.Reflection;
-using System.Security.Principal;
+﻿using System.Security.Principal;
+using Extenso.Reflection;
 
 namespace Mantle.Security;
 

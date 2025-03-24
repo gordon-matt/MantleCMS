@@ -2,14 +2,6 @@
 
 public class SearchModel
 {
-    public SearchModel()
-    {
-        LimitList = new List<SelectListItem>();
-        ForumList = new List<SelectListItem>();
-        WithinList = new List<SelectListItem>();
-        this.ForumTopics = new List<ForumTopicRowModel>();
-    }
-
     public bool ShowAdvancedSearch { get; set; }
 
     //[AllowHtml]
@@ -21,7 +13,7 @@ public class SearchModel
 
     public int? LimitDays { get; set; }
 
-    public IList<ForumTopicRowModel> ForumTopics { get; set; }
+    public IList<ForumTopicRowModel> ForumTopics { get; set; } = [];
 
     public int TopicPageSize { get; set; }
 
@@ -29,11 +21,11 @@ public class SearchModel
 
     public int TopicPageIndex { get; set; }
 
-    public List<SelectListItem> LimitList { get; set; }
+    public List<SelectListItem> LimitList { get; set; } = [];
 
-    public List<SelectListItem> ForumList { get; set; }
+    public List<SelectListItem> ForumList { get; set; } = [];
 
-    public List<SelectListItem> WithinList { get; set; }
+    public List<SelectListItem> WithinList { get; set; } = [];
 
     public int ForumIdSelected { get; set; }
 

@@ -25,8 +25,5 @@ public class LocalizedDisplayNameAttribute : DisplayNameAttribute
 
     public string ResourceKey { get; set; }
 
-    public override string DisplayName
-    {
-        get { return T[ResourceKey]; }
-    }
+    public override string DisplayName => T[ResourceKey];
 }

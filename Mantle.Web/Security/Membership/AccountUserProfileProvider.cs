@@ -20,35 +20,20 @@ public class AccountUserProfileProvider : IUserProfileProvider
 
     #region IUserProfileProvider Members
 
-    public string Name
-    {
-        get { return "Account"; }
-    }
+    public string Name => "Account";
 
-    public string DisplayTemplatePath
-    {
-        get { return "/Views/Shared/DisplayTemplates/AccountUserProfileProvider.cshtml"; }
-    }
+    public string DisplayTemplatePath => "/Views/Shared/DisplayTemplates/AccountUserProfileProvider.cshtml";
 
-    public string EditorTemplatePath
-    {
-        get { return "/Views/Shared/EditorTemplates/AccountUserProfileProvider.cshtml"; }
-    }
+    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/AccountUserProfileProvider.cshtml";
 
-    public int Order
-    {
-        get { return 0; }
-    }
+    public int Order => 0;
 
-    public IEnumerable<string> GetFieldNames()
-    {
-        return new[]
-        {
-            Fields.FamilyName,
-            Fields.GivenNames,
-            Fields.ShowFamilyNameFirst
-        };
-    }
+    public IEnumerable<string> GetFieldNames() =>
+    [
+        Fields.FamilyName,
+        Fields.GivenNames,
+        Fields.ShowFamilyNameFirst
+    ];
 
     public void PopulateFields(string userId)
     {
@@ -56,17 +41,17 @@ public class AccountUserProfileProvider : IUserProfileProvider
 
         var profile = AsyncHelper.RunSync(() => membershipService.GetProfile(userId));
 
-        if (profile.ContainsKey(Fields.FamilyName))
+        if (profile.TryGetValue(Fields.FamilyName, out string familyName))
         {
-            FamilyName = profile[Fields.FamilyName];
+            FamilyName = familyName;
         }
-        if (profile.ContainsKey(Fields.GivenNames))
+        if (profile.TryGetValue(Fields.GivenNames, out string givenNames))
         {
-            GivenNames = profile[Fields.GivenNames];
+            GivenNames = givenNames;
         }
-        if (profile.ContainsKey(Fields.ShowFamilyNameFirst))
+        if (profile.TryGetValue(Fields.ShowFamilyNameFirst, out string showFamilyNameFirst))
         {
-            ShowFamilyNameFirst = bool.Parse(profile[Fields.ShowFamilyNameFirst]);
+            ShowFamilyNameFirst = bool.Parse(showFamilyNameFirst);
         }
     }
 

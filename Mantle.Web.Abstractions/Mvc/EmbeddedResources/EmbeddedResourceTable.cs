@@ -22,15 +22,12 @@ public class EmbeddedResourceTable
         }
     }
 
-    public IEnumerable<EmbeddedResourceMetadata> Resources
-    {
-        get { return resourceCache.Values; }
-    }
+    public IEnumerable<EmbeddedResourceMetadata> Resources => resourceCache.Values;
 
     public bool ContainsEmbeddedResource(string fullyQualifiedName)
     {
         var resource = FindEmbeddedResource(fullyQualifiedName);
-        return (resource != null);
+        return resource != null;
     }
 
     public EmbeddedResourceMetadata FindEmbeddedResource(string fullyQualifiedName)

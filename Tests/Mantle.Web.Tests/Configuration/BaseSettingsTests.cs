@@ -1,6 +1,6 @@
-﻿using Extenso.AspNetCore.Mvc.Html;
+﻿using System.Text;
+using Extenso.AspNetCore.Mvc.Html;
 using Mantle.Web.Configuration;
-using System.Text;
 
 namespace Mantle.Web.Tests.Configuration;
 

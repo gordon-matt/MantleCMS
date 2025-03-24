@@ -11,7 +11,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
             var T = EngineContext.Current.Resolve<IStringLocalizer>();
             var routes = new List<DurandalRoute>
             {
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/plugins/messaging/forums",
                     Route = "plugins/messaging/forums",

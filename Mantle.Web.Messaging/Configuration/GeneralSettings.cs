@@ -18,35 +18,35 @@ public class GeneralSettings : BaseResourceSettings
 
     [System.Text.Json.Serialization.JsonIgnore]
     [Newtonsoft.Json.JsonIgnore]
-    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
-    {
+    public override ICollection<RequiredResourceCollection> DefaultResources =>
+    [
         new RequiredResourceCollection
         {
             Name = "GrapesJs",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "/lib/grapesjs/dist/grapes.min.js" },
                 new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "/lib/grapesjs/dist/css/grapes.min.css" }
-            }
+            ]
         },
         new RequiredResourceCollection
         {
             Name = "GrapesJs-Aviary",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "http://feather.aviary.com/imaging/v3/editor.js" },
                 new RequiredResource { Type = ResourceType.Script, Order = 1, Path = "/lib/grapesjs-aviary/dist/grapesjs-aviary.min.js" }
-            }
+            ]
         },
         new RequiredResourceCollection
         {
             Name = "GrapesJs-Mjml",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "/lib/grapesjs-mjml/dist/index.min.js" }
-            }
+            ]
         }
-    };
+    ];
 
     #endregion IResourceSettings Members
 }

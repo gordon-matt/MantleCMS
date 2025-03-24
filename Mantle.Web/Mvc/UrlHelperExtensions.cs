@@ -15,10 +15,7 @@ public static class UrlHelperExtensions
         this IUrlHelper url,
         string actionName,
         string controllerName,
-        object routeValues = null)
-    {
-        return url.Action(actionName, controllerName, routeValues, url.ActionContext.HttpContext.Request.Scheme);
-    }
+        object routeValues = null) => url.Action(actionName, controllerName, routeValues, url.ActionContext.HttpContext.Request.Scheme);
 
     /// <summary>
     /// Generates a fully qualified URL to the specified content by using the specified content path. Converts a
@@ -45,10 +42,7 @@ public static class UrlHelperExtensions
     public static string AbsoluteRouteUrl(
         this IUrlHelper url,
         string routeName,
-        object routeValues = null)
-    {
-        return url.RouteUrl(routeName, routeValues, url.ActionContext.HttpContext.Request.Scheme);
-    }
+        object routeValues = null) => url.RouteUrl(routeName, routeValues, url.ActionContext.HttpContext.Request.Scheme);
 
     public static IHtmlContent Script(this IUrlHelper url, string src, object htmlAttributes = null)
     {

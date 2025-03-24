@@ -37,12 +37,5 @@ public class ForumPostMap : IEntityTypeConfiguration<ForumPost>, IMantleEntityTy
         builder.HasIndex(x => x.TopicId);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return PluginManager.IsPluginInstalled(Constants.PluginSystemName); }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => PluginManager.IsPluginInstalled(Constants.PluginSystemName);
 }

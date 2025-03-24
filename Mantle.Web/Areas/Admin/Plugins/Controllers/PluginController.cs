@@ -16,15 +16,7 @@ public class PluginController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(StandardPermissions.FullAccess))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(StandardPermissions.FullAccess) ? Unauthorized() : PartialView();
 
     [HttpPost]
     [Route("install/{systemName}")]
@@ -66,7 +58,7 @@ public class PluginController : MantleController
         catch (Exception x)
         {
             Logger.LogError(new EventId(), x, x.GetBaseException().Message);
-            return Json(new { Success = false, Message = x.GetBaseException().Message });
+            return Json(new { Success = false, x.GetBaseException().Message });
         }
 
         return Json(new { Success = true, Message = T[MantleWebLocalizableStrings.Plugins.InstallPluginSuccess].Value });
@@ -113,7 +105,7 @@ public class PluginController : MantleController
         catch (Exception x)
         {
             Logger.LogError(new EventId(), x, x.GetBaseException().Message);
-            return Json(new { Success = false, Message = x.GetBaseException().Message });
+            return Json(new { Success = false, x.GetBaseException().Message });
         }
 
         return Json(new { Success = true, Message = T[MantleWebLocalizableStrings.Plugins.UninstallPluginSuccess].Value });

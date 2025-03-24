@@ -119,14 +119,9 @@ public partial class ResolveLinksHelper
         var info = CultureInfo.InvariantCulture;
         foreach (Match match in regex.Matches(text))
         {
-            if (!match.Value.Contains("://"))
-            {
-                text = text.Replace(match.Value, string.Format(info, link, "http://", match.Value, ShortenUrl(match.Value, MAX_LENGTH)));
-            }
-            else
-            {
-                text = text.Replace(match.Value, string.Format(info, link, string.Empty, match.Value, ShortenUrl(match.Value, MAX_LENGTH)));
-            }
+            text = !match.Value.Contains("://")
+                ? text.Replace(match.Value, string.Format(info, link, "http://", match.Value, ShortenUrl(match.Value, MAX_LENGTH)))
+                : text.Replace(match.Value, string.Format(info, link, string.Empty, match.Value, ShortenUrl(match.Value, MAX_LENGTH)));
         }
 
         return text;

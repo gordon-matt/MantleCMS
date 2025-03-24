@@ -5,12 +5,12 @@ namespace Mantle.Plugins;
 /// </summary>
 public static class PluginExtensions
 {
-    private static readonly List<string> SupportedLogoImageExtensions = new()
-    {
+    private static readonly List<string> SupportedLogoImageExtensions =
+    [
         "jpg",
         "png",
         "gif"
-    };
+    ];
 
     /// <summary>
     /// Get logo URL

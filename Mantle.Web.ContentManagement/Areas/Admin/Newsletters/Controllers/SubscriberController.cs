@@ -24,15 +24,7 @@ public class SubscriberController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(CmsPermissions.NewsletterRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(CmsPermissions.NewsletterRead) ? Unauthorized() : PartialView();
 
     [AllowAnonymous]
     [Route("subscribe")]
@@ -59,7 +51,7 @@ public class SubscriberController : MantleController
         var users = (await membershipService.Value.GetUsers(WorkContext.CurrentTenant.Id, x => userIds.Contains(x.Id)))
             .Select(x => new
             {
-                Email = x.Email,
+                x.Email,
                 Name = membershipService.Value.GetUserDisplayName(x)
             })
             .OrderBy(x => x.Name);

@@ -13,12 +13,8 @@ internal class DefaultControllerActivator : IControllerActivator
     /// <param name="typeActivatorCache">The <see cref="ITypeActivatorCache"/>.</param>
     public DefaultControllerActivator(ITypeActivatorCache typeActivatorCache)
     {
-        if (typeActivatorCache == null)
-        {
-            throw new ArgumentNullException(nameof(typeActivatorCache));
-        }
-
-        _typeActivatorCache = typeActivatorCache;
+        _typeActivatorCache = typeActivatorCache
+            ?? throw new ArgumentNullException(nameof(typeActivatorCache));
     }
 
     /// <inheritdoc />

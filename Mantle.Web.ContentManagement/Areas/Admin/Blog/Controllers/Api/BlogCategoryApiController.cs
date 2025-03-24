@@ -10,22 +10,13 @@ public class BlogCategoryApiController : GenericTenantODataController<BlogCatego
     {
     }
 
-    protected override int GetId(BlogCategory entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(BlogCategory entity) => entity.Id;
 
     protected override void SetNewId(BlogCategory entity)
     {
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.BlogRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.BlogRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.BlogWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.BlogWrite;
 }

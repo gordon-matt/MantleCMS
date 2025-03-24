@@ -1,7 +1,7 @@
-﻿using Mantle.Web.Mvc.Resources;
+﻿using System.Text.Encodings.Web;
+using Mantle.Web.Mvc.Resources;
 using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Text.Encodings.Web;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
 

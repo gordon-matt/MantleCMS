@@ -4,10 +4,7 @@ namespace Mantle.Web.Common;
 
 public static class HtmlHelperExtensions
 {
-    public static MantleCommon<TModel> MantleCommon<TModel>(this HtmlHelper<TModel> html) where TModel : class
-    {
-        return new MantleCommon<TModel>(html);
-    }
+    public static MantleCommon<TModel> MantleCommon<TModel>(this HtmlHelper<TModel> html) where TModel : class => new(html);
 }
 
 public class MantleCommon<TModel>

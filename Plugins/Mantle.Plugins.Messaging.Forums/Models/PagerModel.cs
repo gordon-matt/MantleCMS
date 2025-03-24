@@ -31,10 +31,7 @@ public class PagerModel
     {
         get
         {
-            if (localizer == null)
-            {
-                localizer = EngineContext.Current.Resolve<IStringLocalizer>();
-            }
+            localizer ??= EngineContext.Current.Resolve<IStringLocalizer>();
             return localizer;
         }
     }
@@ -42,30 +39,15 @@ public class PagerModel
     /// <summary>
     /// Gets the current page index
     /// </summary>
-    public int CurrentPage
-    {
-        get
-        {
-            return (this.PageIndex + 1);
-        }
-    }
+    public int CurrentPage => this.PageIndex + 1;
 
     /// <summary>
     /// Gets or sets a count of individual pages to be displayed
     /// </summary>
     public int IndividualPagesDisplayedCount
     {
-        get
-        {
-            if (individualPagesDisplayedCount <= 0)
-                return 5;
-
-            return individualPagesDisplayedCount;
-        }
-        set
-        {
-            individualPagesDisplayedCount = value;
-        }
+        get => individualPagesDisplayedCount <= 0 ? 5 : individualPagesDisplayedCount;
+        set => individualPagesDisplayedCount = value;
     }
 
     /// <summary>
@@ -73,18 +55,8 @@ public class PagerModel
     /// </summary>
     public int PageIndex
     {
-        get
-        {
-            if (this.pageIndex < 0)
-            {
-                return 0;
-            }
-            return this.pageIndex;
-        }
-        set
-        {
-            this.pageIndex = value;
-        }
+        get => this.pageIndex < 0 ? 0 : this.pageIndex;
+        set => this.pageIndex = value;
     }
 
     /// <summary>
@@ -92,14 +64,8 @@ public class PagerModel
     /// </summary>
     public int PageSize
     {
-        get
-        {
-            return (pageSize <= 0) ? 10 : pageSize;
-        }
-        set
-        {
-            pageSize = value;
-        }
+        get => (pageSize <= 0) ? 10 : pageSize;
+        set => pageSize = value;
     }
 
     /// <summary>
@@ -107,14 +73,8 @@ public class PagerModel
     /// </summary>
     public bool ShowFirst
     {
-        get
-        {
-            return showFirst ?? true;
-        }
-        set
-        {
-            showFirst = value;
-        }
+        get => showFirst ?? true;
+        set => showFirst = value;
     }
 
     /// <summary>
@@ -122,14 +82,8 @@ public class PagerModel
     /// </summary>
     public bool ShowIndividualPages
     {
-        get
-        {
-            return showIndividualPages ?? true;
-        }
-        set
-        {
-            showIndividualPages = value;
-        }
+        get => showIndividualPages ?? true;
+        set => showIndividualPages = value;
     }
 
     /// <summary>
@@ -137,14 +91,8 @@ public class PagerModel
     /// </summary>
     public bool ShowLast
     {
-        get
-        {
-            return showLast ?? true;
-        }
-        set
-        {
-            showLast = value;
-        }
+        get => showLast ?? true;
+        set => showLast = value;
     }
 
     /// <summary>
@@ -152,14 +100,8 @@ public class PagerModel
     /// </summary>
     public bool ShowNext
     {
-        get
-        {
-            return showNext ?? true;
-        }
-        set
-        {
-            showNext = value;
-        }
+        get => showNext ?? true;
+        set => showNext = value;
     }
 
     /// <summary>
@@ -167,14 +109,8 @@ public class PagerModel
     /// </summary>
     public bool ShowPagerItems
     {
-        get
-        {
-            return showPagerItems ?? true;
-        }
-        set
-        {
-            showPagerItems = value;
-        }
+        get => showPagerItems ?? true;
+        set => showPagerItems = value;
     }
 
     /// <summary>
@@ -182,14 +118,8 @@ public class PagerModel
     /// </summary>
     public bool ShowPrevious
     {
-        get
-        {
-            return showPrevious ?? true;
-        }
-        set
-        {
-            showPrevious = value;
-        }
+        get => showPrevious ?? true;
+        set => showPrevious = value;
     }
 
     /// <summary>
@@ -197,14 +127,8 @@ public class PagerModel
     /// </summary>
     public bool ShowTotalSummary
     {
-        get
-        {
-            return showTotalSummary ?? false;
-        }
-        set
-        {
-            showTotalSummary = value;
-        }
+        get => showTotalSummary ?? false;
+        set => showTotalSummary = value;
     }
 
     /// <summary>
@@ -237,16 +161,10 @@ public class PagerModel
     /// </summary>
     public string FirstButtonText
     {
-        get
-        {
-            return (!string.IsNullOrEmpty(firstButtonText)) ?
-                firstButtonText :
-                T[LocalizableStrings.Models.Pager.First];
-        }
-        set
-        {
-            firstButtonText = value;
-        }
+        get => (!string.IsNullOrEmpty(firstButtonText))
+            ? firstButtonText
+            : T[LocalizableStrings.Models.Pager.First];
+        set => firstButtonText = value;
     }
 
     /// <summary>
@@ -254,16 +172,10 @@ public class PagerModel
     /// </summary>
     public string LastButtonText
     {
-        get
-        {
-            return (!string.IsNullOrEmpty(lastButtonText)) ?
-                lastButtonText :
-                T[LocalizableStrings.Models.Pager.Last];
-        }
-        set
-        {
-            lastButtonText = value;
-        }
+        get => (!string.IsNullOrEmpty(lastButtonText))
+            ? lastButtonText
+            : T[LocalizableStrings.Models.Pager.Last];
+        set => lastButtonText = value;
     }
 
     /// <summary>
@@ -271,16 +183,10 @@ public class PagerModel
     /// </summary>
     public string NextButtonText
     {
-        get
-        {
-            return (!string.IsNullOrEmpty(nextButtonText)) ?
-                nextButtonText :
-                T[LocalizableStrings.Models.Pager.Next];
-        }
-        set
-        {
-            nextButtonText = value;
-        }
+        get => (!string.IsNullOrEmpty(nextButtonText))
+            ? nextButtonText
+            : T[LocalizableStrings.Models.Pager.Next];
+        set => nextButtonText = value;
     }
 
     /// <summary>
@@ -288,16 +194,10 @@ public class PagerModel
     /// </summary>
     public string PreviousButtonText
     {
-        get
-        {
-            return (!string.IsNullOrEmpty(previousButtonText)) ?
-                previousButtonText :
-                T[LocalizableStrings.Models.Pager.Previous];
-        }
-        set
-        {
-            previousButtonText = value;
-        }
+        get => (!string.IsNullOrEmpty(previousButtonText))
+            ? previousButtonText
+            : T[LocalizableStrings.Models.Pager.Previous];
+        set => previousButtonText = value;
     }
 
     /// <summary>
@@ -305,16 +205,10 @@ public class PagerModel
     /// </summary>
     public string CurrentPageText
     {
-        get
-        {
-            return (!string.IsNullOrEmpty(currentPageText)) ?
-                currentPageText :
-                T[LocalizableStrings.Models.Pager.CurrentPage];
-        }
-        set
-        {
-            currentPageText = value;
-        }
+        get => (!string.IsNullOrEmpty(currentPageText))
+            ? currentPageText
+            : T[LocalizableStrings.Models.Pager.CurrentPage];
+        set => currentPageText = value;
     }
 
     /// <summary>
@@ -341,19 +235,13 @@ public class PagerModel
     /// Gets first individual page index
     /// </summary>
     /// <returns>Page index</returns>
-    public int GetFirstIndividualPageIndex()
-    {
-        if ((this.TotalPages < this.IndividualPagesDisplayedCount) ||
-            ((this.PageIndex - (this.IndividualPagesDisplayedCount / 2)) < 0))
-        {
-            return 0;
-        }
-        if ((this.PageIndex + (this.IndividualPagesDisplayedCount / 2)) >= this.TotalPages)
-        {
-            return (this.TotalPages - this.IndividualPagesDisplayedCount);
-        }
-        return (this.PageIndex - (this.IndividualPagesDisplayedCount / 2));
-    }
+    public int GetFirstIndividualPageIndex() =>
+        (this.TotalPages < this.IndividualPagesDisplayedCount) ||
+        ((this.PageIndex - (this.IndividualPagesDisplayedCount / 2)) < 0)
+            ? 0
+            : (this.PageIndex + (this.IndividualPagesDisplayedCount / 2)) >= this.TotalPages
+                ? this.TotalPages - this.IndividualPagesDisplayedCount
+                : this.PageIndex - (this.IndividualPagesDisplayedCount / 2);
 
     /// <summary>
     /// Get last individual page index
@@ -366,16 +254,13 @@ public class PagerModel
         {
             num--;
         }
-        if ((this.TotalPages < this.IndividualPagesDisplayedCount) ||
-            ((this.PageIndex + num) >= this.TotalPages))
-        {
-            return (this.TotalPages - 1);
-        }
-        if ((this.PageIndex - (this.IndividualPagesDisplayedCount / 2)) < 0)
-        {
-            return (this.IndividualPagesDisplayedCount - 1);
-        }
-        return (this.PageIndex + num);
+        return
+            (this.TotalPages < this.IndividualPagesDisplayedCount) ||
+            ((this.PageIndex + num) >= this.TotalPages)
+                ? this.TotalPages - 1
+                : (this.PageIndex - (this.IndividualPagesDisplayedCount / 2)) < 0
+                    ? this.IndividualPagesDisplayedCount - 1
+                    : this.PageIndex + num;
     }
 
     #endregion Methods

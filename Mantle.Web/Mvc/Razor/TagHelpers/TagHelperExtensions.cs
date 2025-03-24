@@ -16,25 +16,16 @@ public static class TagHelperExtensions
     /// <param name="output">An information associated with the current HTML tag</param>
     /// <param name="attributeName">Name of the attribute</param>
     /// <returns>Matching name</returns>
-    public static async Task<string> GetAttributeValueAsync(this TagHelperOutput output, string attributeName)
-    {
-        if (string.IsNullOrEmpty(attributeName) || !output.Attributes.TryGetAttribute(attributeName, out var attr))
-        {
-            return null;
-        }
-
-        if (attr.Value is string stringValue)
-        {
-            return stringValue;
-        }
-
-        return attr.Value switch
-        {
-            HtmlString htmlString => htmlString.ToString(),
-            IHtmlContent content => content.GetString(),
-            _ => default
-        };
-    }
+    public static async Task<string> GetAttributeValueAsync(this TagHelperOutput output, string attributeName) => string.IsNullOrEmpty(attributeName) || !output.Attributes.TryGetAttribute(attributeName, out var attr)
+        ? null
+        : attr.Value is string stringValue
+            ? stringValue
+            : attr.Value switch
+            {
+                HtmlString htmlString => htmlString.ToString(),
+                IHtmlContent content => content.GetString(),
+                _ => default
+            };
 
     /// <summary>
     /// Get attributes from tag helper output as collection of key/string value pairs
@@ -43,10 +34,7 @@ public static class TagHelperExtensions
     /// <returns>Collection of key/string value pairs</returns>
     public static async Task<IDictionary<string, string>> GetAttributeDictionaryAsync(this TagHelperOutput output)
     {
-        if (output is null)
-        {
-            throw new ArgumentNullException(nameof(output));
-        }
+        ArgumentNullException.ThrowIfNull(output);
 
         var result = new Dictionary<string, string>();
 

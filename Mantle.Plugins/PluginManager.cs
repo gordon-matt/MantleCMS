@@ -299,7 +299,8 @@ public class PluginManager
         var installedPluginSystemNames = GetInstalledPluginNames(filePath);
 
         //add plugin system name to the list if doesn't already exist
-        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName =>
+            pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
 
         if (!alreadyMarkedAsInstalled)
         {
@@ -334,7 +335,8 @@ public class PluginManager
         var installedPluginSystemNames = GetInstalledPluginNames(filePath);
 
         //remove plugin system name from the list if exists
-        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName => pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+        bool alreadyMarkedAsInstalled = installedPluginSystemNames.Any(pluginName =>
+            pluginName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
         if (alreadyMarkedAsInstalled)
         {
             installedPluginSystemNames.Remove(systemName);
@@ -361,21 +363,10 @@ public class PluginManager
     /// </summary>
     /// <param name="typeInAssembly">Type</param>
     /// <returns>Plugin descriptor if exists; otherwise null</returns>
-    public static PluginDescriptor FindPlugin(Type typeInAssembly)
-    {
-        if (typeInAssembly == null)
-        {
-            throw new ArgumentNullException(nameof(typeInAssembly));
-        }
-
-        if (ReferencedPlugins == null)
-        {
-            return null;
-        }
-
-        return ReferencedPlugins.FirstOrDefault(plugin => plugin.ReferencedAssembly != null
+    public static PluginDescriptor FindPlugin(Type typeInAssembly) => typeInAssembly == null
+            ? throw new ArgumentNullException(nameof(typeInAssembly))
+            : ReferencedPlugins?.FirstOrDefault(plugin => plugin.ReferencedAssembly != null
             && plugin.ReferencedAssembly.FullName.Equals(typeInAssembly.Assembly.FullName, StringComparison.InvariantCultureIgnoreCase));
-    }
 
     /// <summary>
     /// Get plugin descriptor from the plugin description file
@@ -473,7 +464,7 @@ public class PluginManager
 
     public static bool IsPluginInstalled(string systemName)
     {
-        installedPlugins ??= new Dictionary<string, bool>();
+        installedPlugins ??= [];
 
         if (!installedPlugins.ContainsKey(systemName))
         {
@@ -534,7 +525,7 @@ public class PluginManager
             filePath = CommonHelper.MapPath(ObsoleteInstalledPluginsFilePath);
             if (!File.Exists(filePath))
             {
-                return new List<string>();
+                return [];
             }
 
             //get plugin system names from the old txt file
@@ -563,7 +554,7 @@ public class PluginManager
         string text = File.ReadAllText(filePath);
         if (string.IsNullOrEmpty(text))
         {
-            return new List<string>();
+            return [];
         }
 
         //get plugin system names from the JSON file
@@ -784,20 +775,7 @@ public class PluginManager
     /// </summary>
     /// <param name="folder"></param>
     /// <returns></returns>
-    private static bool IsPackagePluginFolder(DirectoryInfo folder)
-    {
-        if (folder?.Parent == null)
-        {
-            return false;
-        }
-
-        if (!folder.Parent.Name.Equals(PluginsPathName, StringComparison.InvariantCultureIgnoreCase))
-        {
-            return false;
-        }
-
-        return true;
-    }
+    private static bool IsPackagePluginFolder(DirectoryInfo folder) => (folder?.Parent) != null && folder.Parent.Name.Equals(PluginsPathName, StringComparison.InvariantCultureIgnoreCase);
 
     #endregion Utilities
 

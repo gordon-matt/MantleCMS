@@ -10,7 +10,7 @@ public class MemoryCacheManager : ICacheManager
 
     public MemoryCacheManager(IServiceProvider serviceProvider)
     {
-        keys = new HashSet<string>();
+        keys = [];
         cache = serviceProvider.GetService<IMemoryCache>();
     }
 
@@ -57,7 +57,7 @@ public class MemoryCacheManager : ICacheManager
         //  So we need to ALWAYS check actual cache!
         cache.TryGetValue(key, out object cacheEntry);
 
-        bool isSet = (cacheEntry != null);
+        bool isSet = cacheEntry != null;
 
         if (!isSet)
         {

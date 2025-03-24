@@ -14,7 +14,7 @@ public class PermissionApiController : ODataController
         ILoggerFactory loggerFactory,
         IWorkContext workContext)
     {
-        this.Service = service;
+        Service = service;
         this.logger = loggerFactory.CreateLogger<PermissionApiController>();
         this.workContext = workContext;
     }
@@ -183,10 +183,7 @@ public class PermissionApiController : ODataController
         return Ok(response);
     }
 
-    protected virtual bool EntityExists(string key)
-    {
-        return AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
-    }
+    protected virtual bool EntityExists(string key) => AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
 
     protected static bool CheckPermission(Permission permission)
     {

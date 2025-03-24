@@ -14,10 +14,7 @@ namespace MantleCMS.Infrastructure;
 
 public class DependencyRegistrar : IDependencyRegistrar
 {
-    public int Order
-    {
-        get { return 1; }
-    }
+    public int Order => 1;
 
     public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {

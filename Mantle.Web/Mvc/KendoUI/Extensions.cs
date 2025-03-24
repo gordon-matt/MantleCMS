@@ -18,7 +18,7 @@ public static class Extensions
 
         if (propertyInfo == null)
         {
-            return new List<DataItem>();
+            return [];
         }
 
         object property = propertyInfo.GetValue(self, null);

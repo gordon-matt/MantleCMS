@@ -38,12 +38,5 @@ public class ContentBlockMap : IEntityTypeConfiguration<ContentBlock>, IMantleEn
         //builder.Property(x => x.CultureCode).HasMaxLength(10).HasColumnType("varchar");
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

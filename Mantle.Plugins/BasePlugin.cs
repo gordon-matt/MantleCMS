@@ -12,10 +12,7 @@ public abstract class BasePlugin : IPlugin
     /// <summary>
     /// Gets a configuration page URL
     /// </summary>
-    public virtual string GetConfigurationPageUrl()
-    {
-        return null;
-    }
+    public virtual string GetConfigurationPageUrl() => null;
 
     /// <summary>
     /// Gets or sets the plugin descriptor
@@ -52,7 +49,7 @@ public abstract class BasePlugin : IPlugin
         localizableStringRepository.Insert(toInsert);
 
         var workContext = EngineContext.Current.Resolve<IWorkContext>();
-        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
+        string cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
 
         var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
         cacheManager.RemoveByPattern(cacheKey);
@@ -73,7 +70,7 @@ public abstract class BasePlugin : IPlugin
         localizableStringRepository.Delete(toDelete);
 
         var workContext = EngineContext.Current.Resolve<IWorkContext>();
-        var cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
+        string cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
 
         var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
         cacheManager.RemoveByPattern(cacheKey);

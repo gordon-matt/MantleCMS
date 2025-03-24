@@ -129,7 +129,9 @@ public abstract class MantleAccountController<TUser> : MantleController
     public virtual async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
     {
         // Ensure the user has gone through the username & password screen first
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync()
+            ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
+
         ViewData["ReturnUrl"] = returnUrl;
 
         return View();
@@ -145,7 +147,9 @@ public abstract class MantleAccountController<TUser> : MantleController
             return View(model);
         }
 
-        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync() ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
+        var user = await _signInManager.GetTwoFactorAuthenticationUserAsync()
+            ?? throw new ApplicationException($"Unable to load two-factor authentication user.");
+
         string recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
 
         var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
@@ -170,10 +174,7 @@ public abstract class MantleAccountController<TUser> : MantleController
 
     [HttpGet]
     [AllowAnonymous]
-    public virtual IActionResult Lockout()
-    {
-        return View();
-    }
+    public virtual IActionResult Lockout() => View();
 
     [HttpGet]
     [AllowAnonymous]
@@ -276,7 +277,9 @@ public abstract class MantleAccountController<TUser> : MantleController
         if (ModelState.IsValid)
         {
             // Get the information about the user from the external login provider
-            var info = await _signInManager.GetExternalLoginInfoAsync() ?? throw new ApplicationException("Error loading external login information during confirmation.");
+            var info = await _signInManager.GetExternalLoginInfoAsync()
+                ?? throw new ApplicationException("Error loading external login information during confirmation.");
+
             var user = new TUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
@@ -304,17 +307,17 @@ public abstract class MantleAccountController<TUser> : MantleController
         {
             return RedirectToAction("Index", "Home");
         }
-        var user = await _userManager.FindByIdAsync(userId) ?? throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+
+        var user = await _userManager.FindByIdAsync(userId)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+
         var result = await _userManager.ConfirmEmailAsync(user, code);
         return View(result.Succeeded ? "ConfirmEmail" : "Error");
     }
 
     [HttpGet]
     [AllowAnonymous]
-    public virtual IActionResult ForgotPassword()
-    {
-        return View();
-    }
+    public virtual IActionResult ForgotPassword() => View();
 
     [HttpPost]
     [AllowAnonymous]
@@ -324,7 +327,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         if (ModelState.IsValid)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            if (user == null || !await _userManager.IsEmailConfirmedAsync(user))
             {
                 // Don't reveal that the user does not exist or is not confirmed
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -334,8 +337,12 @@ public abstract class MantleAccountController<TUser> : MantleController
             // visit https://go.microsoft.com/fwlink/?LinkID=532713
             string code = await _userManager.GeneratePasswordResetTokenAsync(user);
             string callbackUrl = Url.ResetPasswordCallbackLink<TUser>(user.Id, code, Request.Scheme);
-            await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-               $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+
+            await _emailSender.SendEmailAsync(
+                model.Email,
+                "Reset Password",
+                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 
@@ -345,10 +352,7 @@ public abstract class MantleAccountController<TUser> : MantleController
 
     [HttpGet]
     [AllowAnonymous]
-    public virtual IActionResult ForgotPasswordConfirmation()
-    {
-        return View();
-    }
+    public virtual IActionResult ForgotPasswordConfirmation() => View();
 
     [HttpGet]
     [AllowAnonymous]
@@ -388,16 +392,10 @@ public abstract class MantleAccountController<TUser> : MantleController
 
     [HttpGet]
     [AllowAnonymous]
-    public virtual IActionResult ResetPasswordConfirmation()
-    {
-        return View();
-    }
+    public virtual IActionResult ResetPasswordConfirmation() => View();
 
     [HttpGet]
-    public virtual IActionResult AccessDenied()
-    {
-        return View();
-    }
+    public virtual IActionResult AccessDenied() => View();
 
     #region User Profile
 
@@ -429,10 +427,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         return View("Profile", model: userId);
     }
 
-    public virtual async Task<ActionResult> ViewMyProfile()
-    {
-        return await ViewProfile(WorkContext.CurrentUser.Id);
-    }
+    public virtual async Task<ActionResult> ViewMyProfile() => await ViewProfile(WorkContext.CurrentUser.Id);
 
     public virtual async Task<ActionResult> EditProfile(string userId)
     {
@@ -448,7 +443,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         {
             ViewBag.Title = T[LocalizableStrings.EditProfile].Value;
             var user = await membershipService.GetUserById(userId);
-            WorkContext.Breadcrumbs.Add(string.Format(T[LocalizableStrings.ProfileForUser].Value, user.UserName), Url.Action("ViewProfile", new { userId = userId }));
+            WorkContext.Breadcrumbs.Add(string.Format(T[LocalizableStrings.ProfileForUser].Value, user.UserName), Url.Action("ViewProfile", new { userId }));
             WorkContext.Breadcrumbs.Add(T[MantleWebLocalizableStrings.General.Edit].Value);
         }
         else
@@ -459,10 +454,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         return View("ProfileEdit", model: userId);
     }
 
-    public virtual async Task<ActionResult> EditMyProfile()
-    {
-        return await EditProfile(WorkContext.CurrentUser.Id);
-    }
+    public virtual async Task<ActionResult> EditMyProfile() => await EditProfile(WorkContext.CurrentUser.Id);
 
     [HttpPost]
     public virtual async Task<ActionResult> UpdateProfile()
@@ -490,11 +482,9 @@ public abstract class MantleAccountController<TUser> : MantleController
 
         //eventBus.Notify<IMembershipEventHandler>(x => x.ProfileChanged(userId, newProfile));
 
-        if (userId == WorkContext.CurrentUser.Id)
-        {
-            return RedirectToAction("ViewMyProfile");
-        }
-        return RedirectToAction("ViewMyProfile", RouteData.Values.Merge(new { userId }));
+        return userId == WorkContext.CurrentUser.Id
+            ? RedirectToAction("ViewMyProfile")
+            : (ActionResult)RedirectToAction("ViewMyProfile", RouteData.Values.Merge(new { userId }));
     }
 
     #endregion User Profile
@@ -509,17 +499,7 @@ public abstract class MantleAccountController<TUser> : MantleController
         }
     }
 
-    private IActionResult RedirectToLocal(string returnUrl)
-    {
-        if (Url.IsLocalUrl(returnUrl))
-        {
-            return Redirect(returnUrl);
-        }
-        else
-        {
-            return RedirectToAction("Index", "Home");
-        }
-    }
+    private IActionResult RedirectToLocal(string returnUrl) => Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) : RedirectToAction("Index", "Home");
 
     #endregion Helpers
 }

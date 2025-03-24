@@ -11,10 +11,8 @@ public static class EventPublisherExtensions
     /// <typeparam name="T">Entity type</typeparam>
     /// <param name="eventPublisher">Event publisher</param>
     /// <param name="entity">Entity</param>
-    public static void EntityInserted<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity
-    {
+    public static void EntityInserted<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity =>
         eventPublisher.Publish(new EntityInsertedEvent<T>(entity));
-    }
 
     /// <summary>
     /// Entity updated
@@ -22,10 +20,8 @@ public static class EventPublisherExtensions
     /// <typeparam name="T">Entity type</typeparam>
     /// <param name="eventPublisher">Event publisher</param>
     /// <param name="entity">Entity</param>
-    public static void EntityUpdated<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity
-    {
+    public static void EntityUpdated<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity =>
         eventPublisher.Publish(new EntityUpdatedEvent<T>(entity));
-    }
 
     /// <summary>
     /// Entity deleted
@@ -33,8 +29,6 @@ public static class EventPublisherExtensions
     /// <typeparam name="T">Entity type</typeparam>
     /// <param name="eventPublisher">Event publisher</param>
     /// <param name="entity">Entity</param>
-    public static void EntityDeleted<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity
-    {
+    public static void EntityDeleted<T>(this IEventPublisher eventPublisher, T entity) where T : IEntity =>
         eventPublisher.Publish(new EntityDeletedEvent<T>(entity));
-    }
 }

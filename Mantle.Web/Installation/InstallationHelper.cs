@@ -20,31 +20,19 @@ public static class InstallationHelper
     {
         var dataSettings = EngineContext.Current.Resolve<DataSettings>();
 
-        string connectionString;
-        if (model.EnterConnectionString)
-        {
-            connectionString = model.ConnectionString;
-        }
-        else
-        {
-            if (model.UseWindowsAuthentication)
-            {
-                connectionString = string.Format(
+        string connectionString = model.EnterConnectionString
+            ? model.ConnectionString
+            : model.UseWindowsAuthentication
+                ? string.Format(
                     ConnectionStringWAFormat,
                     model.DatabaseServer,
-                    model.DatabaseName);
-            }
-            else
-            {
-                connectionString = string.Format(
+                    model.DatabaseName)
+                : string.Format(
                     ConnectionStringFormat,
                     model.DatabaseServer,
                     model.DatabaseName,
                     model.DatabaseUsername,
                     model.DatabasePassword);
-            }
-        }
-
         dataSettings.ConnectionString = connectionString;
 
         // We need to save the Password to settings temporarily in order to setup the login details AFTER restarting the app domain

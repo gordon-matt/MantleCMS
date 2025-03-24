@@ -29,15 +29,9 @@ public class PageTypeService : GenericDataService<PageType>, IPageTypeService
 
     #region IPageTypeService Members
 
-    public MantlePageType GetMantlePageType(string name)
-    {
-        return mantlePageTypes.Value.FirstOrDefault(x => x.Name == name);
-    }
+    public MantlePageType GetMantlePageType(string name) => mantlePageTypes.Value.FirstOrDefault(x => x.Name == name);
 
-    public IEnumerable<MantlePageType> GetMantlePageTypes()
-    {
-        return mantlePageTypes.Value;
-    }
+    public IEnumerable<MantlePageType> GetMantlePageTypes() => mantlePageTypes.Value;
 
     #endregion IPageTypeService Members
 }

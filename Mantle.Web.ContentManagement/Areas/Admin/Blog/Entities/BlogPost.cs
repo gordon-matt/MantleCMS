@@ -32,8 +32,7 @@ public class BlogPost : TenantEntity<Guid>
 
     public virtual ICollection<BlogPostTag> Tags
     {
-        get { return tags ??= new HashSet<BlogPostTag>(); }
-        set { tags = value; }
+        get => tags ??= new HashSet<BlogPostTag>(); set => tags = value;
     }
 }
 
@@ -67,12 +66,5 @@ public class PostMap : IEntityTypeConfiguration<BlogPost>, IMantleEntityTypeConf
         builder.HasIndex(x => x.CategoryId);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

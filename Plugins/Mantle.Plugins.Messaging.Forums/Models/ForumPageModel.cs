@@ -2,11 +2,6 @@
 
 public class ForumPageModel
 {
-    public ForumPageModel()
-    {
-        this.ForumTopics = new List<ForumTopicRowModel>();
-    }
-
     public int Id { get; set; }
 
     public string Name { get; set; }
@@ -17,7 +12,7 @@ public class ForumPageModel
 
     public string WatchForumText { get; set; }
 
-    public IList<ForumTopicRowModel> ForumTopics { get; set; }
+    public IList<ForumTopicRowModel> ForumTopics { get; set; } = [];
 
     public int TopicPageSize { get; set; }
 

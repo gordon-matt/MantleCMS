@@ -1,7 +1,7 @@
-﻿using Mantle.Plugins.Messaging.Forums.Extensions;
+﻿using System.Security.Principal;
+using Mantle.Plugins.Messaging.Forums.Extensions;
 using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Mantle.Web.ContentManagement.Infrastructure;
-using System.Security.Principal;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure;
 
@@ -29,62 +29,62 @@ public class AutoMenuProvider : IAutoMenuProvider
     {
         if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {
-            return Enumerable.Empty<MenuItem>();
+            return [];
         }
 
         if (!forumSettings.ShowOnMenus)
         {
-            return Enumerable.Empty<MenuItem>();
+            return [];
         }
 
         var T = EngineContext.Current.Resolve<IStringLocalizer>();
 
-        return new[]{new MenuItem
-        {
-            Text = string.IsNullOrEmpty(forumSettings.PageTitle)
-                ? T[LocalizableStrings.Forums]
-                : forumSettings.PageTitle,
-            Url = "/forums",
-            Enabled = true,
-            ParentId = null,
-            Position = forumSettings.MenuPosition
-        }};
+        return
+        [
+            new MenuItem
+            {
+                Text = string.IsNullOrEmpty(forumSettings.PageTitle)
+                    ? T[LocalizableStrings.Forums]
+                    : forumSettings.PageTitle,
+                Url = "/forums",
+                Enabled = true,
+                ParentId = null,
+                Position = forumSettings.MenuPosition
+            }
+        ];
     }
 
     public IEnumerable<MenuItem> GetSubMenuItems(string currentUrlSlug, IPrincipal user)
     {
         if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {
-            return Enumerable.Empty<MenuItem>();
+            return [];
         }
 
         if (!forumSettings.ShowOnMenus)
         {
-            return Enumerable.Empty<MenuItem>();
+            return [];
         }
 
         if (!currentUrlSlug.StartsWithAny(RootUrlSlug, "categories"))
         {
-            return Enumerable.Empty<MenuItem>();
+            return [];
         }
 
         if (currentUrlSlug == "forums")
         {
-            using (var connection = forumGroupRepository.Value.OpenConnection())
-            {
-                var menuItems = connection.Query()
-                    .OrderBy(x => x.Name)
-                    .ToHashSet()
-                    .Select((x, index) => new MenuItem
-                    {
-                        Text = x.Name,
-                        Url = string.Format("/forums/forum-group/{0}/{1}", x.Id, x.GetSeName()),
-                        Enabled = true,
-                        ParentId = null,
-                        Position = index
-                    });
-                return menuItems;
-            }
+            using var connection = forumGroupRepository.Value.OpenConnection();
+            return connection.Query()
+                .OrderBy(x => x.Name)
+                .ToHashSet()
+                .Select((x, index) => new MenuItem
+                {
+                    Text = x.Name,
+                    Url = string.Format("/forums/forum-group/{0}/{1}", x.Id, x.GetSeName()),
+                    Enabled = true,
+                    ParentId = null,
+                    Position = index
+                });
         }
         else if (currentUrlSlug.StartsWith("forums/forum-group/"))
         {
@@ -97,28 +97,25 @@ public class AutoMenuProvider : IAutoMenuProvider
 
             if (group == null)
             {
-                return Enumerable.Empty<MenuItem>();
+                return [];
             }
 
-            using (var connection = forumRepository.Value.OpenConnection())
-            {
-                var menuItems = connection
-                    .Query(x => x.ForumGroupId == group.Id)
-                    .OrderBy(x => x.Name)
-                    .ToHashSet()
-                    .Select((x, index) => new MenuItem
-                    {
-                        Text = x.Name,
-                        Url = string.Format("/forums/forum/{0}/{1}", x.Id, x.GetSeName()),
-                        Enabled = true,
-                        ParentId = null,
-                        Position = index
-                    });
-                return menuItems;
-            }
+            using var connection = forumRepository.Value.OpenConnection();
+            return connection
+                .Query(x => x.ForumGroupId == group.Id)
+                .OrderBy(x => x.Name)
+                .ToHashSet()
+                .Select((x, index) => new MenuItem
+                {
+                    Text = x.Name,
+                    Url = string.Format("/forums/forum/{0}/{1}", x.Id, x.GetSeName()),
+                    Enabled = true,
+                    ParentId = null,
+                    Position = index
+                });
         }
 
-        return Enumerable.Empty<MenuItem>();
+        return [];
     }
 
     #endregion IAutoMenuProvider Members

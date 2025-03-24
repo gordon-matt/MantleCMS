@@ -1,9 +1,9 @@
-﻿global using Extenso.Data.Entity;
+﻿global using System.Globalization;
+global using System.Text.RegularExpressions;
+global using Extenso.Data.Entity;
 global using Mantle.Caching;
 global using Mantle.Data.Entity;
 global using Mantle.Data.Services;
 global using Mantle.Localization.Entities;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-global using System.Globalization;
-global using System.Text.RegularExpressions;

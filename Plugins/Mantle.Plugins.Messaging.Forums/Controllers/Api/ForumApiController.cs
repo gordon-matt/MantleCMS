@@ -12,10 +12,7 @@ public class ForumApiController : GenericODataController<Forum, int>
         this.cacheManager = cacheManager;
     }
 
-    protected override int GetId(Forum entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(Forum entity) => entity.Id;
 
     protected override void SetNewId(Forum entity)
     {

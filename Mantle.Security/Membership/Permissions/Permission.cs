@@ -10,8 +10,5 @@ public class Permission
 
     public IEnumerable<Permission> ImpliedBy { get; set; }
 
-    public static Permission Named(string name)
-    {
-        return new Permission { Name = name };
-    }
+    public static Permission Named(string name) => new() { Name = name };
 }

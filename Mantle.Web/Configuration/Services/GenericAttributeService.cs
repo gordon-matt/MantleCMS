@@ -13,10 +13,7 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
     public virtual IEnumerable<GenericAttribute> GetAttributesForEntity(string entityId, string entityType)
     {
         string cacheKey = string.Format(GenericAttributeKeyFormat, entityId, entityType);
-        return CacheManager.Get(cacheKey, () =>
-        {
-            return Find(x => x.EntityId == entityId && x.EntityType == entityType);
-        });
+        return CacheManager.Get(cacheKey, () => Find(x => x.EntityId == entityId && x.EntityType == entityType));
     }
 
     public virtual TPropType GetAttribute<TPropType>(IEntity entity, string property)
@@ -33,19 +30,9 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
         var prop = props.FirstOrDefault(ga =>
             ga.Property.Equals(property, StringComparison.OrdinalIgnoreCase));
 
-        if (prop == null || string.IsNullOrEmpty(prop.Value))
-        {
-            return default;
-        }
-
-        if (typeof(TPropType).IsSimple())
-        {
-            return prop.Value.ConvertTo<TPropType>();
-        }
-        else
-        {
-            return prop.Value.JsonDeserialize<TPropType>();
-        }
+        return prop == null || string.IsNullOrEmpty(prop.Value)
+            ? default
+            : typeof(TPropType).IsSimple() ? prop.Value.ConvertTo<TPropType>() : prop.Value.JsonDeserialize<TPropType>();
     }
 
     public virtual void SaveAttribute<TPropType>(IEntity entity, string property, TPropType value)
@@ -68,16 +55,7 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
         var prop = props.FirstOrDefault(x =>
             x.Property.Equals(property, StringComparison.OrdinalIgnoreCase));
 
-        string valueStr = null;
-        if (typeof(TPropType).IsSimple())
-        {
-            valueStr = value.ToString();
-        }
-        else
-        {
-            valueStr = value.JsonSerialize();
-        }
-
+        string valueStr = typeof(TPropType).IsSimple() ? value.ToString() : value.JsonSerialize();
         if (prop != null)
         {
             if (string.IsNullOrWhiteSpace(valueStr))

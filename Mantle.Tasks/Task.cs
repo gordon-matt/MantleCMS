@@ -12,7 +12,7 @@ public partial class Task
     /// </summary>
     private Task()
     {
-        this.Enabled = true;
+        Enabled = true;
     }
 
     /// <summary>
@@ -21,19 +21,19 @@ public partial class Task
     /// <param name="task">Task </param>
     public Task(ScheduledTask task)
     {
-        this.Type = task.Type;
-        this.Enabled = task.Enabled;
-        this.StopOnError = task.StopOnError;
-        this.Name = task.Name;
+        Type = task.Type;
+        Enabled = task.Enabled;
+        StopOnError = task.StopOnError;
+        Name = task.Name;
     }
 
     //private ITask CreateTask(ILifetimeScope scope)
     private ITask CreateTask()
     {
         ITask task = null;
-        if (this.Enabled)
+        if (Enabled)
         {
-            var type2 = System.Type.GetType(this.Type);
+            var type2 = System.Type.GetType(Type);
             if (type2 != null)
             {
                 object instance = null;
@@ -61,7 +61,7 @@ public partial class Task
     /// <param name="dispose">A value indicating whether all instances hsould be disposed after task run</param>
     public void Execute(bool throwException = false)
     {
-        this.IsRunning = true;
+        IsRunning = true;
 
         //background tasks has an issue with Autofac
         //because scope is generated each time it's requested
@@ -71,36 +71,36 @@ public partial class Task
         //var scope = EngineContext.Current.ContainerManager.Scope();
         //var scheduledTaskService = EngineContext.Current.ContainerManager.Resolve<IScheduledTaskService>("", scope);
         var scheduledTaskService = EngineContext.Current.Resolve<IScheduledTaskService>();
-        var scheduledTask = scheduledTaskService.GetTaskByType(this.Type);
+        var scheduledTask = scheduledTaskService.GetTaskByType(Type);
 
         try
         {
-            //var task = this.CreateTask(scope);
-            var task = this.CreateTask();
+            //var task = CreateTask(scope);
+            var task = CreateTask();
             if (task != null)
             {
-                this.LastStartUtc = DateTime.UtcNow;
+                LastStartUtc = DateTime.UtcNow;
                 if (scheduledTask != null)
                 {
                     //update appropriate datetime properties
-                    scheduledTask.LastStartUtc = this.LastStartUtc;
+                    scheduledTask.LastStartUtc = LastStartUtc;
                     scheduledTaskService.UpdateTask(scheduledTask);
                 }
 
                 //execute task
                 task.Execute();
-                this.LastEndUtc = this.LastSuccessUtc = DateTime.UtcNow;
+                LastEndUtc = LastSuccessUtc = DateTime.UtcNow;
             }
         }
         catch (Exception x)
         {
-            this.Enabled = !this.StopOnError;
-            this.LastEndUtc = DateTime.UtcNow;
+            Enabled = !StopOnError;
+            LastEndUtc = DateTime.UtcNow;
 
             //log error
             var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger<Task>();
-            logger.LogError(new EventId(), x, string.Format("Error while running the '{0}' scheduled task. {1}", Name, x.Message));
+            logger.LogError(new EventId(), x, $"Error while running the '{Name}' scheduled task. {x.Message}");
             if (throwException)
             {
                 throw;
@@ -110,12 +110,12 @@ public partial class Task
         if (scheduledTask != null)
         {
             //update appropriate datetime properties
-            scheduledTask.LastEndUtc = this.LastEndUtc;
-            scheduledTask.LastSuccessUtc = this.LastSuccessUtc;
+            scheduledTask.LastEndUtc = LastEndUtc;
+            scheduledTask.LastSuccessUtc = LastSuccessUtc;
             scheduledTaskService.UpdateTask(scheduledTask);
         }
 
-        this.IsRunning = false;
+        IsRunning = false;
     }
 
     /// <summary>

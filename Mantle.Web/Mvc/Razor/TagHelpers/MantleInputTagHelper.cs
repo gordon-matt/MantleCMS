@@ -1,8 +1,8 @@
-﻿using Extenso.AspNetCore.Mvc.Html;
+﻿using System.Text.Encodings.Web;
+using Extenso.AspNetCore.Mvc.Html;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Text.Encodings.Web;
 
 namespace Mantle.Web.Mvc.Razor.TagHelpers;
 

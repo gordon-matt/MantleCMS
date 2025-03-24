@@ -14,33 +14,18 @@ public class ThemeUserProfileProvider : IUserProfileProvider
 
     #region IUserProfileProvider Members
 
-    public string Name
-    {
-        get { return "Theme"; }
-    }
+    public string Name => "Theme";
 
-    public string DisplayTemplatePath
-    {
-        get { return "/Views/Shared/DisplayTemplates/ThemeUserProfileProvider.cshtml"; }
-    }
+    public string DisplayTemplatePath => "/Views/Shared/DisplayTemplates/ThemeUserProfileProvider.cshtml";
 
-    public string EditorTemplatePath
-    {
-        get { return "/Views/Shared/EditorTemplates/ThemeUserProfileProvider.cshtml"; }
-    }
+    public string EditorTemplatePath => "/Views/Shared/EditorTemplates/ThemeUserProfileProvider.cshtml";
 
-    public int Order
-    {
-        get { return 9999; }
-    }
+    public int Order => 9999;
 
-    public IEnumerable<string> GetFieldNames()
-    {
-        return new[]
-        {
-            Fields.PreferredTheme
-        };
-    }
+    public IEnumerable<string> GetFieldNames() =>
+    [
+        Fields.PreferredTheme
+    ];
 
     public void PopulateFields(string userId)
     {

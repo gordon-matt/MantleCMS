@@ -15,15 +15,11 @@ public static class ForumExtensions
         switch (editor)
         {
             case EditorType.SimpleTextBox:
-                {
-                    text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
-                }
+                text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
                 break;
 
             case EditorType.BBCodeEditor:
-                {
-                    text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
-                }
+                text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
                 break;
 
             default:
@@ -83,69 +79,31 @@ public static class ForumExtensions
         return text;
     }
 
-    public static ForumTopic GetLastTopic(this Forum forum, IForumService forumService)
-    {
-        if (forum == null)
-        {
-            throw new ArgumentNullException(nameof(forum));
-        }
+    public static ForumTopic GetLastTopic(this Forum forum, IForumService forumService) => forum == null
+        ? throw new ArgumentNullException(nameof(forum))
+        : AsyncHelper.RunSync(() => forumService.GetTopicById(forum.LastTopicId));
 
-        return AsyncHelper.RunSync(() => forumService.GetTopicById(forum.LastTopicId));
-    }
+    public static ForumPost GetLastPost(this Forum forum, IForumService forumService) => forum == null
+        ? throw new ArgumentNullException(nameof(forum))
+        : AsyncHelper.RunSync(() => forumService.GetPostById(forum.LastPostId));
 
-    public static ForumPost GetLastPost(this Forum forum, IForumService forumService)
-    {
-        if (forum == null)
-        {
-            throw new ArgumentNullException(nameof(forum));
-        }
-
-        return AsyncHelper.RunSync(() => forumService.GetPostById(forum.LastPostId));
-    }
-
-    public static MantleUser GetLastPostCustomer(this Forum forum, IMembershipService membershipService)
-    {
-        if (forum == null)
-        {
-            throw new ArgumentNullException(nameof(forum));
-        }
-
-        return AsyncHelper.RunSync(() => membershipService.GetUserById(forum.LastPostUserId));
-    }
+    public static MantleUser GetLastPostCustomer(this Forum forum, IMembershipService membershipService) => forum == null
+        ? throw new ArgumentNullException(nameof(forum))
+        : AsyncHelper.RunSync(() => membershipService.GetUserById(forum.LastPostUserId));
 
     public static ForumPost GetFirstPost(this ForumTopic forumTopic, IForumService forumService)
     {
-        if (forumTopic == null)
-        {
-            throw new ArgumentNullException(nameof(forumTopic));
-        }
+        ArgumentNullException.ThrowIfNull(forumTopic);
 
         var forumPosts = AsyncHelper.RunSync(() => forumService.GetAllPosts(forumTopic.Id, null, string.Empty, 0, 1));
-        if (forumPosts.Count > 0)
-        {
-            return forumPosts.First();
-        }
-
-        return null;
+        return forumPosts.Count > 0 ? forumPosts.First() : null;
     }
 
-    public static ForumPost GetLastPost(this ForumTopic forumTopic, IForumService forumService)
-    {
-        if (forumTopic == null)
-        {
-            throw new ArgumentNullException(nameof(forumTopic));
-        }
+    public static ForumPost GetLastPost(this ForumTopic forumTopic, IForumService forumService) => forumTopic == null
+        ? throw new ArgumentNullException(nameof(forumTopic))
+        : AsyncHelper.RunSync(() => forumService.GetPostById(forumTopic.LastPostId));
 
-        return AsyncHelper.RunSync(() => forumService.GetPostById(forumTopic.LastPostId));
-    }
-
-    public static MantleUser GetLastPostCustomer(this ForumTopic forumTopic, IMembershipService membershipService)
-    {
-        if (forumTopic == null)
-        {
-            throw new ArgumentNullException(nameof(forumTopic));
-        }
-
-        return AsyncHelper.RunSync(() => membershipService.GetUserById(forumTopic.LastPostUserId));
-    }
+    public static MantleUser GetLastPostCustomer(this ForumTopic forumTopic, IMembershipService membershipService) => forumTopic == null
+        ? throw new ArgumentNullException(nameof(forumTopic))
+        : AsyncHelper.RunSync(() => membershipService.GetUserById(forumTopic.LastPostUserId));
 }

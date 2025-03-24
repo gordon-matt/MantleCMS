@@ -7,13 +7,5 @@ public class MembershipController : MantleController
 {
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(MantleWebPermissions.MembershipManage))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(MantleWebPermissions.MembershipManage) ? Unauthorized() : PartialView();
 }

@@ -1,4 +1,5 @@
-﻿global using Autofac;
+﻿global using System.Collections.ObjectModel;
+global using Autofac;
 global using Extenso;
 global using Extenso.Collections;
 global using Extenso.Data.Entity;
@@ -9,4 +10,3 @@ global using Mantle.Tasks.Entities;
 global using Mantle.Tasks.Services;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-global using System.Collections.ObjectModel;

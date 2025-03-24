@@ -11,7 +11,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
             var T = EngineContext.Current.Resolve<IStringLocalizer>();
             var routes = new List<DurandalRoute>
             {
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/messaging/templates",
                     Route = "messaging/templates",
@@ -19,7 +19,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[LocalizableStrings.MessageTemplates].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/messaging/queued-email",
                     Route = "messaging/queued-email",

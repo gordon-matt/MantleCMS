@@ -14,7 +14,7 @@ public static class TenantExtensions
         var parsedValues = new List<string>();
         if (!string.IsNullOrEmpty(tenant.Hosts))
         {
-            string[] hosts = tenant.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] hosts = tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
             foreach (string host in hosts)
             {
                 string tmp = host.Trim();
@@ -27,17 +27,7 @@ public static class TenantExtensions
         return parsedValues;
     }
 
-    public static bool ContainsHostValue(this Tenant tenant, string host)
-    {
-        if (tenant == null)
-        {
-            throw new ArgumentNullException(nameof(tenant));
-        }
-        if (string.IsNullOrEmpty(host))
-        {
-            return false;
-        }
-
-        return tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
-    }
+    public static bool ContainsHostValue(this Tenant tenant, string host) => tenant == null
+        ? throw new ArgumentNullException(nameof(tenant))
+        : !string.IsNullOrEmpty(host) && tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
 }

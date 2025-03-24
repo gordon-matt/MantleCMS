@@ -28,12 +28,5 @@ public class PermissionMap : IEntityTypeConfiguration<Permission>, IMantleEntity
         builder.Property(x => x.Description).IsRequired().HasMaxLength(128).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

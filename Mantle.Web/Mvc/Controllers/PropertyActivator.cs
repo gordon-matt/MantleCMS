@@ -34,25 +34,13 @@ internal class PropertyActivator<TContext>
     public static PropertyActivator<TContext>[] GetPropertiesToActivate(
         Type type,
         Type activateAttributeType,
-        Func<PropertyInfo, PropertyActivator<TContext>> createActivateInfo)
-    {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        if (activateAttributeType == null)
-        {
-            throw new ArgumentNullException(nameof(activateAttributeType));
-        }
-
-        if (createActivateInfo == null)
-        {
-            throw new ArgumentNullException(nameof(createActivateInfo));
-        }
-
-        return GetPropertiesToActivate(type, activateAttributeType, createActivateInfo, includeNonPublic: false);
-    }
+        Func<PropertyInfo, PropertyActivator<TContext>> createActivateInfo) => type == null
+            ? throw new ArgumentNullException(nameof(type))
+            : activateAttributeType == null
+                ? throw new ArgumentNullException(nameof(activateAttributeType))
+                : createActivateInfo == null
+                    ? throw new ArgumentNullException(nameof(createActivateInfo))
+                    : GetPropertiesToActivate(type, activateAttributeType, createActivateInfo, includeNonPublic: false);
 
     public static PropertyActivator<TContext>[] GetPropertiesToActivate(
         Type type,
@@ -60,30 +48,16 @@ internal class PropertyActivator<TContext>
         Func<PropertyInfo, PropertyActivator<TContext>> createActivateInfo,
         bool includeNonPublic)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        if (activateAttributeType == null)
-        {
-            throw new ArgumentNullException(nameof(activateAttributeType));
-        }
-
-        if (createActivateInfo == null)
-        {
-            throw new ArgumentNullException(nameof(createActivateInfo));
-        }
+        ArgumentNullException.ThrowIfNull(type);
+        ArgumentNullException.ThrowIfNull(activateAttributeType);
+        ArgumentNullException.ThrowIfNull(createActivateInfo);
 
         var properties = type.GetRuntimeProperties()
             .Where((property) =>
-            {
-                return
-                    property.IsDefined(activateAttributeType) &&
-                    property.GetIndexParameters().Length == 0 &&
-                    property.SetMethod != null &&
-                    !property.SetMethod.IsStatic;
-            });
+                property.IsDefined(activateAttributeType) &&
+                property.GetIndexParameters().Length == 0 &&
+                property.SetMethod != null &&
+                !property.SetMethod.IsStatic);
 
         if (!includeNonPublic)
         {

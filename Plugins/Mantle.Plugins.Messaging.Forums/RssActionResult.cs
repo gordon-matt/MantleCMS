@@ -13,7 +13,7 @@ public class RssActionResult : IActionResult
         response.StatusCode = 200;
 
         string content = Feed.Serialize();
-        var bytes = Encoding.UTF8.GetBytes(content);
+        byte[] bytes = Encoding.UTF8.GetBytes(content);
         context.HttpContext.Response.Body.WriteAsync(bytes, 0, bytes.Length);
         return null;//TODO
         //return TaskCache.CompletedTask;

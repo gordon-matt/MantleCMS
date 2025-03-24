@@ -1,6 +1,6 @@
-﻿using Mantle.Helpers;
+﻿using System.Globalization;
+using Mantle.Helpers;
 using Mantle.Localization.Entities;
-using System.Globalization;
 
 namespace Mantle.Web.Areas.Admin.Localization.Controllers;
 
@@ -25,15 +25,7 @@ public class LanguageController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(MantleWebPermissions.LanguagesRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(MantleWebPermissions.LanguagesRead) ? Unauthorized() : PartialView();
 
     [HttpPost]
     [Route("import-language-pack")]

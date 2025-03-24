@@ -80,7 +80,7 @@ if (blockModel.useAjax()) {
         for (int i = 0; i < propertyCount; i++)
         {
             var property = blockProperties.ElementAt(i);
-            bool isLast = (i == propertyCount - 1);
+            bool isLast = i == propertyCount - 1;
 
             if (property.Name == "ThankYouMessage")
             {

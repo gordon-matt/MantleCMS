@@ -1,11 +1,11 @@
-﻿using KendoGridBinder;
+﻿using System.Linq.Dynamic.Core;
+using KendoGridBinder;
 using KendoGridBinder.AutoMapperExtensions;
 using KendoGridBinder.Containers;
 using KendoGridBinder.Containers.Json;
 using KendoGridBinder.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Linq.Dynamic.Core;
 
 namespace Mantle.Web.Mvc.KendoUI;
 
@@ -88,14 +88,9 @@ public class CustomKendoGrid<TEntity, TViewModel>
 
             _query = tempQuery;
 
-            if (_conversion == null)
-            {
-                Data = _query.ToList().Select(x => JObject.FromObject(x));
-            }
-            else
-            {
-                Data = _conversion(_query).ToList().Select(x => JObject.FromObject(x));
-            }
+            Data = _conversion == null
+                ? _query.ToList().Select(x => JObject.FromObject(x))
+                : _conversion(_query).ToList().Select(x => JObject.FromObject(x));
             Groups = null;
         }
     }
@@ -106,10 +101,7 @@ public class CustomKendoGrid<TEntity, TViewModel>
         Total = totalCount;
     }
 
-    public IQueryable<TEntity> AsQueryable()
-    {
-        return _query;
-    }
+    public IQueryable<TEntity> AsQueryable() => _query;
 
     private IQueryable<TEntity> ApplyFiltering(IQueryable<TEntity> query, FilterObjectWrapper filter)
     {
@@ -175,7 +167,7 @@ public class CustomKendoGrid<TEntity, TViewModel>
             aggregatesExpression = $", new ({string.Join(", ", convertedAggregateObjects)}) as Aggregates";
         }
 
-        var sort = request.SortObjects?.ToList() ?? new List<SortObject>();
+        var sort = request.SortObjects?.ToList() ?? [];
         bool hasSortObjects = sort.Any();
 
         // List[0] = LastName as Last
@@ -316,13 +308,7 @@ public class CustomKendoGrid<TEntity, TViewModel>
         return finalExpression.Length == 0 ? "true" : finalExpression;
     }
 
-    protected string MapFieldfromViewModeltoEntity(string field)
-    {
-        return _mappings != null && field != null && _mappings.ContainsKey(field) ? _mappings[field].Path : field;
-    }
+    protected string MapFieldfromViewModeltoEntity(string field) => _mappings != null && field != null && _mappings.ContainsKey(field) ? _mappings[field].Path : field;
 
-    protected string MapFieldfromEntitytoViewModel(string field)
-    {
-        return _mappings != null && field != null && _mappings.Any(m => m.Value.Path == field) ? _mappings.First(kvp => kvp.Value.Path == field).Key : field;
-    }
+    protected string MapFieldfromEntitytoViewModel(string field) => _mappings != null && field != null && _mappings.Any(m => m.Value.Path == field) ? _mappings.First(kvp => kvp.Value.Path == field).Key : field;
 }

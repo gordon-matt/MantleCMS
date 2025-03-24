@@ -13,14 +13,14 @@
 
 //        public Guid WidgetId { get; set; }
 
-//        #region IEntity Members
+//
 
 //        public object[] KeyValues
 //        {
 //            get { return new object[] { Id }; }
 //        }
 
-//        #endregion IEntity Members
+//
 //    }
 
 //    public class PageWidgetMap : EntityTypeConfiguration<PageWidget>, IEntityTypeConfiguration

@@ -39,12 +39,5 @@ public class PrivateMessageMap : IEntityTypeConfiguration<PrivateMessage>, IMant
         builder.Property(x => x.CreatedOnUtc).IsRequired();
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return PluginManager.IsPluginInstalled(Constants.PluginSystemName); }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => PluginManager.IsPluginInstalled(Constants.PluginSystemName);
 }

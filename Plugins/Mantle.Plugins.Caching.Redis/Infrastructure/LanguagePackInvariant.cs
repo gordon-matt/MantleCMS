@@ -1,18 +1,17 @@
 ﻿using Mantle.Localization;
 
-namespace Mantle.Plugins.Caching.Redis.Infrastructure
+namespace Mantle.Plugins.Caching.Redis.Infrastructure;
+
+public class LanguagePackInvariant : ILanguagePack
 {
-    public class LanguagePackInvariant : ILanguagePack
+    #region ILanguagePack Members
+
+    public string CultureCode => null;
+
+    public IDictionary<string, string> LocalizedStrings => new Dictionary<string, string>
     {
-        #region ILanguagePack Members
+        { LocalizableStrings.Settings.ConnectionString, "Connection String" },
+    };
 
-        public string CultureCode => null;
-
-        public IDictionary<string, string> LocalizedStrings => new Dictionary<string, string>
-        {
-            { LocalizableStrings.Settings.ConnectionString, "Connection String" },
-        };
-
-        #endregion ILanguagePack Members
-    }
+    #endregion ILanguagePack Members
 }

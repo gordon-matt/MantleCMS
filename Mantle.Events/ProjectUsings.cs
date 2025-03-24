@@ -1,3 +1,3 @@
-﻿global using Extenso.Data.Entity;
+﻿global using System.Data;
+global using Extenso.Data.Entity;
 global using Mantle.Infrastructure;
-global using System.Data;

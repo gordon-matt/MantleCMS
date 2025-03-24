@@ -23,1467 +23,1467 @@ namespace MantleCMS.Data.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Mantle.Localization.Entities.Language", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CultureCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("CultureCode")
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("IsRTL")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsRTL")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                b.Property<int>("SortOrder")
+                    .HasColumnType("int");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Languages", "mantle");
-                });
+                b.ToTable("Languages", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Localization.Entities.LocalizableProperty", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CultureCode")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("CultureCode")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<string>("EntityId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                b.Property<string>("EntityId")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(50)");
 
-                    b.Property<string>("EntityType")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(512)");
+                b.Property<string>("EntityType")
+                    .IsRequired()
+                    .HasMaxLength(512)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(512)");
 
-                    b.Property<string>("Property")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(128)");
+                b.Property<string>("Property")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Value")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("LocalizableProperties", "mantle");
-                });
+                b.ToTable("LocalizableProperties", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Localization.Entities.LocalizableString", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CultureCode")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("CultureCode")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("TextKey")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("TextKey")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TextValue")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("TextValue")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("LocalizableStrings", "mantle");
-                });
+                b.ToTable("LocalizableStrings", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Logging.Entities.LogEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ErrorClass")
-                        .HasMaxLength(512)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(512)");
+                b.Property<string>("ErrorClass")
+                    .HasMaxLength(512)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(512)");
 
-                    b.Property<string>("ErrorMessage")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ErrorMessage")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ErrorMethod")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                b.Property<string>("ErrorMethod")
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ErrorSource")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("ErrorSource")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime>("EventDateTime")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("EventDateTime")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("EventLevel")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
+                b.Property<string>("EventLevel")
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(5)");
 
-                    b.Property<string>("EventMessage")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("EventMessage")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InnerErrorMessage")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("InnerErrorMessage")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MachineName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                b.Property<string>("MachineName")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("UserName")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Log", "mantle");
-                });
+                b.ToTable("Log", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Editor")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Editor")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("Enabled")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid?>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid?>("OwnerId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("MessageTemplates", "mantle");
-                });
+                b.ToTable("MessageTemplates", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplateVersion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CultureCode")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("CultureCode")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<string>("Data")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Data")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreatedUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateModifiedUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int>("MessageTemplateId")
-                        .HasColumnType("int");
+                b.Property<int>("MessageTemplateId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Subject")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("MessageTemplateId");
+                b.HasIndex("MessageTemplateId");
 
-                    b.ToTable("MessageTemplateVersions", "mantle");
-                });
+                b.ToTable("MessageTemplateVersions", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Messaging.Data.Entities.QueuedEmail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedOnUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("CreatedOnUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("FromAddress")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("FromAddress")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("FromName")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("FromName")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("MailMessage")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("MailMessage")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
+                b.Property<int>("Priority")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime?>("SentOnUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("SentOnUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int>("SentTries")
-                        .HasColumnType("int");
+                b.Property<int>("SentTries")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Subject")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Subject")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("ToAddress")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("ToAddress")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ToName")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("ToName")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("QueuedEmails", "mantle");
-                });
+                b.ToTable("QueuedEmails", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Tasks.Entities.ScheduledTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("Enabled")
+                    .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastEndUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("LastEndUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LastStartUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("LastStartUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("LastSuccessUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime?>("LastSuccessUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Seconds")
-                        .HasColumnType("int");
+                b.Property<int>("Seconds")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("StopOnError")
-                        .HasColumnType("bit");
+                b.Property<bool>("StopOnError")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                b.Property<string>("Type")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("ScheduledTasks", "mantle");
-                });
+                b.ToTable("ScheduledTasks", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Tenants.Entities.Tenant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Hosts")
-                        .HasMaxLength(1024)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(1024)");
+                b.Property<string>("Hosts")
+                    .HasMaxLength(1024)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(1024)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Tenants", "mantle");
-                });
+                b.ToTable("Tenants", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CountryCode")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(2)");
+                b.Property<string>("CountryCode")
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(2)");
 
-                    b.Property<bool>("HasStates")
-                        .HasColumnType("bit");
+                b.Property<bool>("HasStates")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<short?>("Order")
-                        .HasColumnType("smallint");
+                b.Property<short?>("Order")
+                    .HasColumnType("smallint");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
+                b.Property<int?>("ParentId")
+                    .HasColumnType("int");
 
-                    b.Property<byte>("RegionType")
-                        .HasColumnType("tinyint");
+                b.Property<byte>("RegionType")
+                    .HasColumnType("tinyint");
 
-                    b.Property<string>("StateCode")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("StateCode")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
+                b.HasIndex("ParentId");
 
-                    b.ToTable("Common_Regions", "mantle");
-                });
+                b.ToTable("Common_Regions", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Fields")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Fields")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
+                b.Property<int>("RegionId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("SettingsId")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                b.Property<string>("SettingsId")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Common_RegionSettings", "mantle");
-                });
+                b.ToTable("Common_RegionSettings", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.Configuration.Entities.GenericAttribute", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("EntityId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                b.Property<string>("EntityId")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(50)");
 
-                    b.Property<string>("EntityType")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(512)");
+                b.Property<string>("EntityType")
+                    .IsRequired()
+                    .HasMaxLength(512)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(512)");
 
-                    b.Property<string>("Property")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(128)");
+                b.Property<string>("Property")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Value")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("GenericAttributes", "mantle");
-                });
+                b.ToTable("GenericAttributes", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.Configuration.Entities.Setting", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                b.Property<string>("Type")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Value")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Settings", "mantle");
-                });
+                b.ToTable("Settings", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("UrlSlug")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("UrlSlug")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("BlogCategories", "mantle");
-                });
+                b.ToTable("BlogCategories", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                b.Property<int>("CategoryId")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreatedUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("ExternalLink")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("ExternalLink")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("FullDescription")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("FullDescription")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Headline")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("Headline")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("MetaDescription")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("MetaDescription")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("MetaKeywords")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("MetaKeywords")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ShortDescription")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("Slug")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("TeaserImageUrl")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("TeaserImageUrl")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("UseExternalLink")
-                        .HasColumnType("bit");
+                b.Property<bool>("UseExternalLink")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                b.HasIndex("CategoryId");
 
-                    b.ToTable("BlogPosts", "mantle");
-                });
+                b.ToTable("BlogPosts", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPostTag", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("PostId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                b.Property<int>("TagId")
+                    .HasColumnType("int");
 
-                    b.HasKey("PostId", "TagId");
+                b.HasKey("PostId", "TagId");
 
-                    b.HasIndex("TagId");
+                b.HasIndex("TagId");
 
-                    b.ToTable("BlogPostTags", "mantle");
-                });
+                b.ToTable("BlogPostTags", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("UrlSlug")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("UrlSlug")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("BlogTags", "mantle");
-                });
+                b.ToTable("BlogTags", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.ContentBlock", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BlockName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("BlockName")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("BlockType")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(1024)");
+                b.Property<string>("BlockType")
+                    .IsRequired()
+                    .HasMaxLength(1024)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(1024)");
 
-                    b.Property<string>("BlockValues")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("BlockValues")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomTemplatePath")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("CustomTemplatePath")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                b.Property<int>("Order")
+                    .HasColumnType("int");
 
-                    b.Property<Guid?>("PageId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid?>("PageId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("ZoneId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("ZoneId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("ContentBlocks", "mantle");
-                });
+                b.ToTable("ContentBlocks", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.EntityTypeContentBlock", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BlockName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("BlockName")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("BlockType")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(1024)");
+                b.Property<string>("BlockType")
+                    .IsRequired()
+                    .HasMaxLength(1024)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(1024)");
 
-                    b.Property<string>("BlockValues")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("BlockValues")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomTemplatePath")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("CustomTemplatePath")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("EntityId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                b.Property<string>("EntityId")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(50)");
 
-                    b.Property<string>("EntityType")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(512)");
+                b.Property<string>("EntityType")
+                    .IsRequired()
+                    .HasMaxLength(512)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(512)");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                b.Property<int>("Order")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("ZoneId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("ZoneId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("EntityTypeContentBlocks", "mantle");
-                });
+                b.ToTable("EntityTypeContentBlocks", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities.Zone", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Zones", "mantle");
-                });
+                b.ToTable("Zones", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities.Menu", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("UrlFilter")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("UrlFilter")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Menus", "mantle");
-                });
+                b.ToTable("Menus", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities.MenuItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CssClass")
-                        .HasMaxLength(128)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(128)");
+                b.Property<string>("CssClass")
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Description")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("Enabled")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("IsExternalUrl")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsExternalUrl")
+                    .HasColumnType("bit");
 
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("MenuId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid?>("ParentId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
+                b.Property<int>("Position")
+                    .HasColumnType("int");
 
-                    b.Property<Guid?>("RefId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid?>("RefId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Text")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Url")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("MenuItems", "mantle");
-                });
+                b.ToTable("MenuItems", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AccessRestrictions")
-                        .HasMaxLength(1024)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(1024)");
+                b.Property<string>("AccessRestrictions")
+                    .HasMaxLength(1024)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(1024)");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("IsEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                b.Property<int>("Order")
+                    .HasColumnType("int");
 
-                    b.Property<Guid>("PageTypeId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("PageTypeId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid?>("ParentId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("ShowOnMenus")
-                        .HasColumnType("bit");
+                b.Property<bool>("ShowOnMenus")
+                    .HasColumnType("bit");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Pages", "mantle");
-                });
+                b.ToTable("Pages", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LayoutPath")
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("LayoutPath")
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("PageTypes", "mantle");
-                });
+                b.ToTable("PageTypes", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageVersion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CultureCode")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
+                b.Property<string>("CultureCode")
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(10)");
 
-                    b.Property<DateTime>("DateCreatedUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateCreatedUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModifiedUtc")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("DateModifiedUtc")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Fields")
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Fields")
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("PageId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("PageId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Slug")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<byte>("Status")
-                        .HasColumnType("tinyint");
+                b.Property<byte>("Status")
+                    .HasColumnType("tinyint");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("PageId");
+                b.HasIndex("PageId");
 
-                    b.ToTable("PageVersions", "mantle");
-                });
+                b.ToTable("PageVersions", "mantle");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities.SitemapConfig", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte>("ChangeFrequency")
-                        .HasColumnType("tinyint");
+                b.Property<byte>("ChangeFrequency")
+                    .HasColumnType("tinyint");
 
-                    b.Property<Guid>("PageId")
-                        .HasColumnType("uniqueidentifier");
+                b.Property<Guid>("PageId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("Priority")
-                        .HasColumnType("real");
+                b.Property<float>("Priority")
+                    .HasColumnType("real");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("SitemapConfig", "mantle");
-                });
+                b.ToTable("SitemapConfig", "mantle");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("Name")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                b.HasIndex("NormalizedName")
+                    .IsUnique()
+                    .HasDatabaseName("RoleNameIndex")
+                    .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
-                });
+                b.ToTable("AspNetRoles", (string)null);
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("Id")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                b.Property<int>("AccessFailedCount")
+                    .HasColumnType("int");
 
-                    b.Property<string>("ApplicationRoleId")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("ApplicationRoleId")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("Email")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                b.Property<bool>("EmailConfirmed")
+                    .HasColumnType("bit");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("LockoutEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                b.Property<DateTimeOffset?>("LockoutEnd")
+                    .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedEmail")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("NormalizedUserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("PasswordHash")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("PhoneNumber")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                b.Property<bool>("PhoneNumberConfirmed")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("SecurityStamp")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                b.Property<bool>("TwoFactorEnabled")
+                    .HasColumnType("bit");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.Property<string>("UserName")
+                    .HasMaxLength(256)
+                    .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("ApplicationRoleId");
+                b.HasIndex("ApplicationRoleId");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                b.HasIndex("NormalizedEmail")
+                    .HasDatabaseName("EmailIndex");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                b.HasIndex("NormalizedUserName")
+                    .IsUnique()
+                    .HasDatabaseName("UserNameIndex")
+                    .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
-                });
+                b.ToTable("AspNetUsers", (string)null);
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.Permission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("Category")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Permissions", "mantle");
-                });
+                b.ToTable("Permissions", "mantle");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.RolePermission", b =>
-                {
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int");
+            {
+                b.Property<int>("PermissionId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasMaxLength(450)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("RoleId")
+                    .HasMaxLength(450)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("PermissionId", "RoleId");
+                b.HasKey("PermissionId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions", "mantle");
-                });
+                b.ToTable("RolePermissions", "mantle");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.UserProfileEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(255)");
+                b.Property<string>("Key")
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("TenantId")
-                        .HasColumnType("int");
+                b.Property<int?>("TenantId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(128)");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .IsUnicode(false)
+                    .HasColumnType("varchar(128)");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .IsRequired()
+                    .IsUnicode(true)
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("UserProfiles", "mantle");
-                });
+                b.ToTable("UserProfiles", "mantle");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("RoleId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
+                b.ToTable("AspNetRoleClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
+                b.ToTable("AspNetUserClaims", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("ProviderKey")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ProviderDisplayName")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("UserId")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
+                b.ToTable("AspNetUserLogins", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("RoleId")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserId", "RoleId");
+                b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+                b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
+                b.ToTable("AspNetUserRoles", (string)null);
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+            {
+                b.Property<string>("UserId")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Value")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
+                b.ToTable("AspNetUserTokens", (string)null);
+            });
 
             modelBuilder.Entity("Mantle.Messaging.Data.Entities.MessageTemplateVersion", b =>
-                {
-                    b.HasOne("Mantle.Messaging.Data.Entities.MessageTemplate", "MessageTemplate")
-                        .WithMany()
-                        .HasForeignKey("MessageTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Mantle.Messaging.Data.Entities.MessageTemplate", "MessageTemplate")
+                    .WithMany()
+                    .HasForeignKey("MessageTemplateId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("MessageTemplate");
-                });
+                b.Navigation("MessageTemplate");
+            });
 
             modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", b =>
-                {
-                    b.HasOne("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+            {
+                b.HasOne("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", "Parent")
+                    .WithMany("Children")
+                    .HasForeignKey("ParentId")
+                    .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Parent");
-                });
+                b.Navigation("Parent");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", b =>
-                {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", "Category")
-                        .WithMany("Posts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", "Category")
+                    .WithMany("Posts")
+                    .HasForeignKey("CategoryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Category");
-                });
+                b.Navigation("Category");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPostTag", b =>
-                {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", "Post")
-                        .WithMany("Tags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", "Post")
+                    .WithMany("Tags")
+                    .HasForeignKey("PostId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", "Tag")
-                        .WithMany("Posts")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", "Tag")
+                    .WithMany("Posts")
+                    .HasForeignKey("TagId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Post");
+                b.Navigation("Post");
 
-                    b.Navigation("Tag");
-                });
+                b.Navigation("Tag");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.PageVersion", b =>
-                {
-                    b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", "Page")
-                        .WithMany("Versions")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", "Page")
+                    .WithMany("Versions")
+                    .HasForeignKey("PageId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Page");
-                });
+                b.Navigation("Page");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ApplicationRoleId");
-                });
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
+                    .WithMany("Users")
+                    .HasForeignKey("ApplicationRoleId");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.RolePermission", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.Permission", "Permission")
-                        .WithMany("RolesPermissions")
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("MantleCMS.Data.Entities.Permission", "Permission")
+                    .WithMany("RolesPermissions")
+                    .HasForeignKey("PermissionId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", "Role")
-                        .WithMany("RolesPermissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("MantleCMS.Data.Entities.ApplicationRole", "Role")
+                    .WithMany("RolesPermissions")
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Permission");
+                b.Navigation("Permission");
 
-                    b.Navigation("Role");
-                });
+                b.Navigation("Role");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+            {
+                b.HasOne("MantleCMS.Data.Entities.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("Mantle.Web.Common.Areas.Admin.Regions.Entities.Region", b =>
-                {
-                    b.Navigation("Children");
-                });
+            {
+                b.Navigation("Children");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogCategory", b =>
-                {
-                    b.Navigation("Posts");
-                });
+            {
+                b.Navigation("Posts");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogPost", b =>
-                {
-                    b.Navigation("Tags");
-                });
+            {
+                b.Navigation("Tags");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities.BlogTag", b =>
-                {
-                    b.Navigation("Posts");
-                });
+            {
+                b.Navigation("Posts");
+            });
 
             modelBuilder.Entity("Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities.Page", b =>
-                {
-                    b.Navigation("Versions");
-                });
+            {
+                b.Navigation("Versions");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.ApplicationRole", b =>
-                {
-                    b.Navigation("RolesPermissions");
+            {
+                b.Navigation("RolesPermissions");
 
-                    b.Navigation("Users");
-                });
+                b.Navigation("Users");
+            });
 
             modelBuilder.Entity("MantleCMS.Data.Entities.Permission", b =>
-                {
-                    b.Navigation("RolesPermissions");
-                });
+            {
+                b.Navigation("RolesPermissions");
+            });
 #pragma warning restore 612, 618
         }
     }

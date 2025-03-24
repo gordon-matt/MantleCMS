@@ -1,7 +1,7 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models;
+﻿using System.Net.Mail;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Models;
 using Mantle.Web.Messaging.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
-using System.Net.Mail;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Controllers;
 
@@ -62,16 +62,11 @@ public class FormBlockController : MantleController
         var viewEngineResult = razorViewEngine.FindView(ControllerContext, "MessageTemplate", false);
 
         // If someone has provided a custom template (see LocationFormatProvider)
-        if (viewEngineResult.View != null)
-        {
-            body = await razorViewRenderService.RenderToStringAsync("MessageTemplate", values, useActionContext: true);
-        }
-        else
-        {
-            body = await razorViewRenderService.RenderToStringAsync(
+        body = viewEngineResult.View != null
+            ? await razorViewRenderService.RenderToStringAsync("MessageTemplate", values, useActionContext: true)
+            : await razorViewRenderService.RenderToStringAsync(
                 "/Areas/Admin/ContentBlocks/Views/FormBlock/MessageTemplate.cshtml",
                 values);
-        }
 
         #endregion Render Email Body
 
@@ -143,12 +138,7 @@ public class FormBlockController : MantleController
                 RedirectUrl = !string.IsNullOrWhiteSpace(redirectUrl) ? redirectUrl : Url.Content("~/")
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return Json(result);
-            }
-
-            return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
+            return Request.IsAjaxRequest() ? Json(result) : View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
 
             #endregion Custom Form URL
         }
@@ -170,12 +160,7 @@ public class FormBlockController : MantleController
                     RedirectUrl = !string.IsNullOrWhiteSpace(redirectUrl) ? redirectUrl : Url.Content("~/")
                 };
 
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(result);
-                }
-
-                return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
+                return Request.IsAjaxRequest() ? Json(result) : View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
             }
             catch (Exception x)
             {
@@ -190,12 +175,7 @@ public class FormBlockController : MantleController
                     RedirectUrl = urlReferer ?? Url.Content("~/")
                 };
 
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(result);
-                }
-
-                return View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
+                return Request.IsAjaxRequest() ? Json(result) : View("/Areas/Admin/ContentBlocks/Views/FormBlock/SaveResult.cshtml", result);
             }
 
             #endregion Default Behaviour (Email)

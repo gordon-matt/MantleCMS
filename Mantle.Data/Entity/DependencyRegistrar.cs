@@ -1,6 +1,6 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace Mantle.Data.Entity;
 
@@ -30,10 +30,7 @@ public class DependencyRegistrar : IDependencyRegistrar
         }
     }
 
-    public int Order
-    {
-        get { return 0; }
-    }
+    public int Order => 0;
 
     #endregion IDependencyRegistrar Members
 }

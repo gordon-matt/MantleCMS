@@ -47,12 +47,7 @@ public class RoleApiController : ODataController
 
         var entity = await Service.GetRoleById(key);
 
-        if (entity == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(entity);
+        return entity == null ? NotFound() : Ok(entity);
     }
 
     public virtual async Task<IActionResult> Put([FromODataUri] string key, [FromBody] MantleRole entity)
@@ -209,10 +204,7 @@ public class RoleApiController : ODataController
         return Ok();
     }
 
-    protected virtual bool EntityExists(string key)
-    {
-        return AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
-    }
+    protected virtual bool EntityExists(string key) => AsyncHelper.RunSync(() => Service.GetUserById(key)) != null;
 
     protected static bool CheckPermission(Permission permission)
     {

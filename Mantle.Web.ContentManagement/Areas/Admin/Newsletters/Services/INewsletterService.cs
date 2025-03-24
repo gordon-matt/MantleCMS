@@ -86,7 +86,7 @@ public class NewsletterService : INewsletterService
         AsyncHelper.RunSync(() => membershipService.Value.SaveProfileEntry(user.Id, NewsletterUserProfileProvider.Fields.SubscribeToNewsletters, bool.TrueString));
 
         name = name.Trim();
-        if (name.Contains(" "))
+        if (name.Contains(' '))
         {
             string[] nameArray = name.Split(' ');
             string familyName = nameArray.Last();

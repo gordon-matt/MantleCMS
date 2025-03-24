@@ -64,24 +64,24 @@ public class BlogSettings : BaseResourceSettings
 
     [System.Text.Json.Serialization.JsonIgnore]
     [Newtonsoft.Json.JsonIgnore]
-    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
-    {
+    public override ICollection<RequiredResourceCollection> DefaultResources =>
+    [
         new RequiredResourceCollection
         {
             Name = "Bootpag",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootpag@1.0.7/lib/jquery.bootpag.min.js" }
-            }
+            ]
         },
         new RequiredResourceCollection
         {
             Name = "jQCloud",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/jqcloud2@2.0.3/dist/jqcloud.min.js" },
                 new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/jqcloud2@2.0.3/dist/jqcloud.min.css" }
-            }
+            ]
         }
-    };
+    ];
 }

@@ -29,15 +29,9 @@ public abstract class MantleRoleStore<TRole, TContext> : RoleStore<TRole, TConte
 
     #endregion Private Properties
 
-    public override async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default)
-    {
-        return await base.CreateAsync(role, cancellationToken);
-    }
+    public override async Task<IdentityResult> CreateAsync(TRole role, CancellationToken cancellationToken = default) => await base.CreateAsync(role, cancellationToken);
 
-    protected override IdentityRoleClaim<string> CreateRoleClaim(TRole role, Claim claim)
-    {
-        return new IdentityRoleClaim<string> { RoleId = role.Id, ClaimType = claim.Type, ClaimValue = claim.Value };
-    }
+    protected override IdentityRoleClaim<string> CreateRoleClaim(TRole role, Claim claim) => new() { RoleId = role.Id, ClaimType = claim.Type, ClaimValue = claim.Value };
 
     // Get by ID should not need to override.. onyl for getting by name
     //public override Task<TRole> FindByIdAsync(string id, CancellationToken cancellationToken = default(CancellationToken))

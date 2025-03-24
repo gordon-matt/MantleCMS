@@ -1,7 +1,7 @@
-﻿using Mantle.Web.CommonResources.ScriptBuilder.Toasts;
+﻿using System.Text;
+using Mantle.Web.CommonResources.ScriptBuilder.Toasts;
 using Mantle.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace Mantle.Web.CommonResources.Controllers;
 

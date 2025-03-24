@@ -101,29 +101,20 @@ public abstract partial class SourceFormat
     /// Transforms a source code string to HTML 4.01.
     /// </summary>
     /// <returns>A string containing the HTML formatted code.</returns>
-    public string FormatCode(string source)
-    {
-        return FormatCode(source, LineNumbers, Alternate, EmbedStyleSheet, false);
-    }
+    public string FormatCode(string source) => FormatCode(source, LineNumbers, Alternate, EmbedStyleSheet, false);
 
     /// <summary>
     /// Allows formatting a part of the code in a different language,
     /// for example a JavaScript block inside an HTML file.
     /// </summary>
-    public string FormatSubCode(string source)
-    {
-        return FormatCode(source, false, false, false, true);
-    }
+    public string FormatSubCode(string source) => FormatCode(source, false, false, false, true);
 
     /// <summary>
     /// Gets the CSS stylesheet as a stream.
     /// </summary>
     /// <returns>A text <see cref="Stream"/> of the CSS definitions.</returns>
-    public static Stream GetCssStream()
-    {
-        return Assembly.GetEntryAssembly().GetManifestResourceStream(
-            "Manoli.Utils.CSharpFormat.csharp.css");
-    }
+    public static Stream GetCssStream() => Assembly.GetEntryAssembly().GetManifestResourceStream(
+        "Manoli.Utils.CSharpFormat.csharp.css");
 
     /// <summary>
     /// Gets the CSS stylesheet as a string.

@@ -13,12 +13,5 @@ public class LocalizablePropertyMap : IEntityTypeConfiguration<LocalizableProper
         builder.Property(m => m.Value).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

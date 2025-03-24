@@ -46,21 +46,15 @@ public class PluginFinder : IPluginFinder
     /// <param name="pluginDescriptor">Plugin descriptor to check</param>
     /// <param name="loadMode">Load plugins mode</param>
     /// <returns>true - available; false - no</returns>
-    protected virtual bool CheckLoadMode(PluginDescriptor pluginDescriptor, LoadPluginsMode loadMode)
-    {
-        if (pluginDescriptor == null)
-        {
-            throw new ArgumentNullException(nameof(pluginDescriptor));
-        }
-
-        return loadMode switch
+    protected virtual bool CheckLoadMode(PluginDescriptor pluginDescriptor, LoadPluginsMode loadMode) => pluginDescriptor == null
+        ? throw new ArgumentNullException(nameof(pluginDescriptor))
+        : loadMode switch
         {
             LoadPluginsMode.All => true,//no filering
             LoadPluginsMode.InstalledOnly => pluginDescriptor.Installed,
             LoadPluginsMode.NotInstalledOnly => !pluginDescriptor.Installed,
             _ => throw new Exception("Not supported LoadPluginsMode"),
         };
-    }
 
     /// <summary>
     /// Check whether the plugin is in a certain group
@@ -68,20 +62,9 @@ public class PluginFinder : IPluginFinder
     /// <param name="pluginDescriptor">Plugin descriptor to check</param>
     /// <param name="group">Group</param>
     /// <returns>true - available; false - no</returns>
-    protected virtual bool CheckGroup(PluginDescriptor pluginDescriptor, string group)
-    {
-        if (pluginDescriptor == null)
-        {
-            throw new ArgumentNullException(nameof(pluginDescriptor));
-        }
-
-        if (string.IsNullOrEmpty(group))
-        {
-            return true;
-        }
-
-        return group.Equals(pluginDescriptor.Group, StringComparison.InvariantCultureIgnoreCase);
-    }
+    protected virtual bool CheckGroup(PluginDescriptor pluginDescriptor, string group) => pluginDescriptor == null
+        ? throw new ArgumentNullException(nameof(pluginDescriptor))
+        : string.IsNullOrEmpty(group) || group.Equals(pluginDescriptor.Group, StringComparison.InvariantCultureIgnoreCase);
 
     #endregion Utilities
 
@@ -101,17 +84,7 @@ public class PluginFinder : IPluginFinder
         }
 
         //no validation required
-        if (!tenantId.HasValue || tenantId == 0)
-        {
-            return true;
-        }
-
-        if (!pluginDescriptor.LimitedToTenants.Any())
-        {
-            return true;
-        }
-
-        return pluginDescriptor.LimitedToTenants.Contains(tenantId.Value);
+        return !tenantId.HasValue || tenantId == 0 || !pluginDescriptor.LimitedToTenants.Any() || pluginDescriptor.LimitedToTenants.Contains(tenantId.Value);
     }
 
     /// <summary>
@@ -145,10 +118,7 @@ public class PluginFinder : IPluginFinder
     /// Gets plugin groups
     /// </summary>
     /// <returns>Plugins groups</returns>
-    public virtual IEnumerable<string> GetPluginGroups()
-    {
-        return GetPluginDescriptors(LoadPluginsMode.All).Select(x => x.Group).Distinct().OrderBy(x => x);
-    }
+    public virtual IEnumerable<string> GetPluginGroups() => GetPluginDescriptors(LoadPluginsMode.All).Select(x => x.Group).Distinct().OrderBy(x => x);
 
     /// <summary>
     /// Gets plugins
@@ -163,10 +133,7 @@ public class PluginFinder : IPluginFinder
         LoadPluginsMode loadMode = LoadPluginsMode.InstalledOnly,
         MantleUser user = null,
         int tenantId = 0,
-        string group = null) where T : class, IPlugin
-    {
-        return GetPluginDescriptors<T>(loadMode, user, tenantId, group).Select(p => p.Instance<T>());
-    }
+        string group = null) where T : class, IPlugin => GetPluginDescriptors<T>(loadMode, user, tenantId, group).Select(p => p.Instance<T>());
 
     /// <summary>
     /// Get plugin descriptors
@@ -202,11 +169,8 @@ public class PluginFinder : IPluginFinder
         MantleUser user = null,
         int tenantId = 0,
         string group = null)
-        where T : class, IPlugin
-    {
-        return GetPluginDescriptors(loadMode, user, tenantId, group)
-            .Where(p => typeof(T).IsAssignableFrom(p.PluginType));
-    }
+        where T : class, IPlugin =>
+            GetPluginDescriptors(loadMode, user, tenantId, group).Where(p => typeof(T).IsAssignableFrom(p.PluginType));
 
     /// <summary>
     /// Get a plugin descriptor by its system name
@@ -214,11 +178,9 @@ public class PluginFinder : IPluginFinder
     /// <param name="systemName">Plugin system name</param>
     /// <param name="loadMode">Load plugins mode</param>
     /// <returns>>Plugin descriptor</returns>
-    public virtual PluginDescriptor GetPluginDescriptorBySystemName(string systemName, LoadPluginsMode loadMode = LoadPluginsMode.InstalledOnly)
-    {
-        return GetPluginDescriptors(loadMode)
-            .SingleOrDefault(p => p.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
-    }
+    public virtual PluginDescriptor GetPluginDescriptorBySystemName(string systemName, LoadPluginsMode loadMode = LoadPluginsMode.InstalledOnly) =>
+        GetPluginDescriptors(loadMode)
+        .SingleOrDefault(p => p.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
 
     /// <summary>
     /// Get a plugin descriptor by its system name
@@ -228,11 +190,9 @@ public class PluginFinder : IPluginFinder
     /// <param name="loadMode">Load plugins mode</param>
     /// <returns>>Plugin descriptor</returns>
     public virtual PluginDescriptor GetPluginDescriptorBySystemName<T>(string systemName, LoadPluginsMode loadMode = LoadPluginsMode.InstalledOnly)
-        where T : class, IPlugin
-    {
-        return GetPluginDescriptors<T>(loadMode)
-            .SingleOrDefault(p => p.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
-    }
+        where T : class, IPlugin =>
+        GetPluginDescriptors<T>(loadMode)
+        .SingleOrDefault(p => p.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
 
     /// <summary>
     /// Reload plugins after updating

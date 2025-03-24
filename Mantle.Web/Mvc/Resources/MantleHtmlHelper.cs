@@ -1,11 +1,11 @@
-﻿using Mantle.Web.Helpers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.DependencyInjection;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text.Encodings.Web;
+using Mantle.Web.Helpers;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.DependencyInjection;
 using WebOptimizer;
 
 namespace Mantle.Web.Mvc.Resources;
@@ -25,15 +25,15 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     protected readonly IUrlHelperFactory _urlHelperFactory;
     protected readonly IWebHostEnvironment _webHostEnvironment;
 
-    protected readonly Dictionary<ResourceLocation, List<ScriptReferenceMeta>> _scriptParts = new();
-    protected readonly Dictionary<ResourceLocation, List<string>> _inlineScriptParts = new();
-    protected readonly List<CssReferenceMeta> _cssParts = new();
+    protected readonly Dictionary<ResourceLocation, List<ScriptReferenceMeta>> _scriptParts = [];
+    protected readonly Dictionary<ResourceLocation, List<string>> _inlineScriptParts = [];
+    protected readonly List<CssReferenceMeta> _cssParts = [];
 
-    protected readonly List<string> _canonicalUrlParts = new();
-    protected readonly List<string> _headCustomParts = new();
-    protected readonly List<string> _metaDescriptionParts = new();
-    protected readonly List<string> _metaKeywordParts = new();
-    protected readonly List<string> _pageCssClassParts = new();
+    protected readonly List<string> _canonicalUrlParts = [];
+    protected readonly List<string> _headCustomParts = [];
+    protected readonly List<string> _metaDescriptionParts = [];
+    protected readonly List<string> _metaKeywordParts = [];
+    protected readonly List<string> _pageCssClassParts = [];
 
     protected string _activeAdminMenuSystemName;
     protected string _editPageUrl;
@@ -81,9 +81,10 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
 
     protected IAsset CreateJavaScriptAsset(string bundleKey, string[] assetFiles)
     {
-        var asset = _assetPipeline.AddBundle(bundleKey, $"{MimeTypes.TextJavascript}; charset=UTF-8", assetFiles)
-                    .EnforceFileExtensions(".js", ".es5", ".es6")
-                    .AddResponseHeader(HeaderNames.XContentTypeOptions, "nosniff");
+        var asset = _assetPipeline
+            .AddBundle(bundleKey, $"{MimeTypes.TextJavascript}; charset=UTF-8", assetFiles)
+            .EnforceFileExtensions(".js", ".es5", ".es6")
+            .AddResponseHeader(HeaderNames.XContentTypeOptions, "nosniff");
 
         //to more precisely log problem files we minify them before concatenating
         asset.Processors.Add(new MantleJsMinifier());
@@ -266,7 +267,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         if (!_scriptParts.ContainsKey(location))
         {
-            _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+            _scriptParts.Add(location, []);
         }
 
         if (string.IsNullOrEmpty(src))
@@ -305,7 +306,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         if (!_scriptParts.ContainsKey(location))
         {
-            _scriptParts.Add(location, new List<ScriptReferenceMeta>());
+            _scriptParts.Add(location, []);
         }
 
         if (string.IsNullOrEmpty(src))
@@ -403,7 +404,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         if (!_inlineScriptParts.ContainsKey(location))
         {
-            _inlineScriptParts.Add(location, new());
+            _inlineScriptParts.Add(location, []);
         }
 
         if (string.IsNullOrEmpty(script))
@@ -428,7 +429,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         if (!_inlineScriptParts.ContainsKey(location))
         {
-            _inlineScriptParts.Add(location, new());
+            _inlineScriptParts.Add(location, []);
         }
 
         if (string.IsNullOrEmpty(script))
@@ -581,8 +582,8 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
         }
 
         var styles = _cssParts
-                .Where(item => !webOptimizerOptions.EnableCssBundling || item.ExcludeFromBundle || !item.IsLocal)
-                .Distinct();
+            .Where(item => !webOptimizerOptions.EnableCssBundling || item.ExcludeFromBundle || !item.IsLocal)
+            .Distinct();
 
         foreach (var item in styles)
         {
@@ -700,7 +701,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
     {
         //use only distinct rows
         var distinctParts = _headCustomParts.Distinct().ToList();
-        if (!distinctParts.Any())
+        if (distinctParts.Count == 0)
         {
             return HtmlString.Empty;
         }
@@ -753,12 +754,7 @@ public partial class MantleHtmlHelper : IMantleHtmlHelper
 
         string result = string.Join(" ", _pageCssClassParts.AsEnumerable().Reverse().ToArray());
 
-        if (string.IsNullOrEmpty(result))
-        {
-            return string.Empty;
-        }
-
-        return _htmlEncoder.Encode(result);
+        return string.IsNullOrEmpty(result) ? string.Empty : _htmlEncoder.Encode(result);
     }
 
     ///// <summary>

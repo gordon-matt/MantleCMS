@@ -1,8 +1,8 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+﻿using System.Text.RegularExpressions;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
-using System.Text.RegularExpressions;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Pages.Controllers;
 
@@ -38,15 +38,7 @@ public class PageController : MantleController
     }
 
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(CmsPermissions.PagesRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(CmsPermissions.PagesRead) ? Unauthorized() : PartialView();
 
     [Route("get-editor-ui/{pageVersionId}")]
     public async Task<IActionResult> GetEditorUI(Guid pageVersionId)

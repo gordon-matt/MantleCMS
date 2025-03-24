@@ -50,10 +50,7 @@ public class TenantApiController : GenericODataController<Tenant, int>
         return result;
     }
 
-    protected override int GetId(Tenant entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(Tenant entity) => entity.Id;
 
     protected override void SetNewId(Tenant entity)
     {

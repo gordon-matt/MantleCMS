@@ -4,77 +4,41 @@ public class LocationFormatProvider : ILocationFormatProvider
 {
     #region ILocationFormatProvider Members
 
-    public IEnumerable<string> AreaViewLocationFormats
+    public IEnumerable<string> AreaViewLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
+    };
 
-    public IEnumerable<string> AreaMasterLocationFormats
+    public IEnumerable<string> AreaMasterLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
+    };
 
-    public IEnumerable<string> AreaPartialViewLocationFormats
+    public IEnumerable<string> AreaPartialViewLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Areas/{2}/Shared/{0}.cshtml",
+    };
 
-    public IEnumerable<string> ViewLocationFormats
+    public IEnumerable<string> ViewLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
+    };
 
-    public IEnumerable<string> MasterLocationFormats
+    public IEnumerable<string> MasterLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
+    };
 
-    public IEnumerable<string> PartialViewLocationFormats
+    public IEnumerable<string> PartialViewLocationFormats => new[]
     {
-        get
-        {
-            return new[]
-            {
-                "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
-                "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
-            };
-        }
-    }
+        "~/Views/Plugins/Messaging.Forums/{1}/{0}.cshtml",
+        "~/Views/Plugins/Messaging.Forums/Shared/{0}.cshtml",
+    };
 
     #endregion ILocationFormatProvider Members
 }

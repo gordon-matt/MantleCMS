@@ -20,20 +20,9 @@ public partial class WebHelper : IWebHelper
         this.httpContextAccessor = httpContextAccessor;
     }
 
-    public virtual bool IsCurrentConnectionSecured()
-    {
-        if (!IsRequestAvailable())
-        {
-            return false;
-        }
+    public virtual bool IsCurrentConnectionSecured() => IsRequestAvailable() && httpContextAccessor.HttpContext.Request.IsHttps;
 
-        return httpContextAccessor.HttpContext.Request.IsHttps;
-    }
-
-    public virtual string GetRemoteIpAddress()
-    {
-        return httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-    }
+    public virtual string GetRemoteIpAddress() => httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
     public virtual string GetUrlHost(bool? useSsl = null)
     {
@@ -62,10 +51,7 @@ public partial class WebHelper : IWebHelper
         return host;
     }
 
-    public virtual string GetUrlReferrer()
-    {
-        return httpContextAccessor.HttpContext.Request.Headers.Referer;
-    }
+    public virtual string GetUrlReferrer() => httpContextAccessor.HttpContext.Request.Headers.Referer;
 
     //public virtual string MapPath(string path, string basePath = null)
     //{
@@ -150,18 +136,7 @@ public partial class WebHelper : IWebHelper
     /// </summary>
     /// <param name="request">HTTP request</param>
     /// <returns>Result</returns>
-    public virtual bool IsAjaxRequest(HttpRequest request)
-    {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
-
-        if (request.Headers == null)
-        {
-            return false;
-        }
-
-        return request.Headers.XRequestedWith == "XMLHttpRequest";
-    }
+    public virtual bool IsAjaxRequest(HttpRequest request) => request == null
+        ? throw new ArgumentNullException(nameof(request))
+        : request.Headers != null && request.Headers.XRequestedWith == "XMLHttpRequest";
 }

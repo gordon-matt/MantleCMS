@@ -1,8 +1,8 @@
-﻿using Extenso.Data.Entity;
+﻿using System.Data;
+using Extenso.Data.Entity;
 using Extenso.Data.QueryBuilder;
 using Extenso.Data.QueryBuilder.Npgsql;
 using Npgsql;
-using System.Data;
 
 namespace Mantle.Data.Dapper.PostgreSql;
 
@@ -23,31 +23,15 @@ public class NpgsqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, T
         return connection;
     }
 
-    public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
-    {
-        if (queryBuilder is not NpgsqlSelectQueryBuilder)
-        {
-            throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", nameof(queryBuilder));
-        }
-        return base.Find(queryBuilder);
-    }
+    public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder) => queryBuilder is not NpgsqlSelectQueryBuilder
+        ? throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", nameof(queryBuilder))
+        : base.Find(queryBuilder);
 
-    public override int Count(ISelectQueryBuilder queryBuilder)
-    {
-        if (queryBuilder is not NpgsqlSelectQueryBuilder)
-        {
-            throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", nameof(queryBuilder));
-        }
-        return base.Count(queryBuilder);
-    }
+    public override int Count(ISelectQueryBuilder queryBuilder) => queryBuilder is not NpgsqlSelectQueryBuilder
+        ? throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", nameof(queryBuilder))
+        : base.Count(queryBuilder);
 
-    public override ISelectQueryBuilder CreateQuery()
-    {
-        return new NpgsqlSelectQueryBuilder(schema);
-    }
+    public override ISelectQueryBuilder CreateQuery() => new NpgsqlSelectQueryBuilder(schema);
 
-    protected override string EncloseIdentifier(string identifier)
-    {
-        return $"\"{identifier}\"";
-    }
+    protected override string EncloseIdentifier(string identifier) => $"\"{identifier}\"";
 }

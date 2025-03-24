@@ -18,10 +18,7 @@ public class DataSettings
 
     public string Theme { get; set; }
 
-    public bool IsValid()
-    {
-        return !string.IsNullOrEmpty(ProviderName) && !string.IsNullOrEmpty(ConnectionString);
-    }
+    public bool IsValid() => !string.IsNullOrEmpty(ProviderName) && !string.IsNullOrEmpty(ConnectionString);
 }
 
 public static class DataSettingsManager
@@ -87,8 +84,5 @@ public static class DataSettingsHelper
         }
     }
 
-    public static void ResetCache()
-    {
-        isDatabaseInstalled = null;
-    }
+    public static void ResetCache() => isDatabaseInstalled = null;
 }

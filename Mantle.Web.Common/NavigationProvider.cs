@@ -13,13 +13,10 @@ public class NavigationProvider : INavigationProvider
 
     public string MenuName => MantleWebConstants.Areas.Admin;
 
-    public void GetNavigation(NavigationBuilder builder)
-    {
-        builder.Add(T[MantleWebLocalizableStrings.General.Configuration],
-            menu => menu.Add(T[LocalizableStrings.Regions.Title], "5", item => item
-                .Url("#regions")
-                //.Action("Index", "Region", new { area = Constants.Areas.Regions })
-                .Icons("fa fa-globe")
-                .Permission(Permissions.RegionsRead)));
-    }
+    public void GetNavigation(NavigationBuilder builder) => builder.Add(T[MantleWebLocalizableStrings.General.Configuration],
+        menu => menu.Add(T[LocalizableStrings.Regions.Title], "5", item => item
+            .Url("#regions")
+            //.Action("Index", "Region", new { area = Constants.Areas.Regions })
+            .Icons("fa fa-globe")
+            .Permission(Permissions.RegionsRead)));
 }
