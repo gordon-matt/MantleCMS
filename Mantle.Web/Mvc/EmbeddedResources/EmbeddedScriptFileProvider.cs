@@ -47,12 +47,7 @@ public class EmbeddedScriptFileProvider : IFileProvider
 
         var metadata = EmbeddedScripts.FindEmbeddedResource(subpath);
 
-        if (metadata == null)
-        {
-            return null;
-        }
-
-        return new EmbeddedResourceFileInfo(metadata);
+        return metadata == null ? null : (IFileInfo)new EmbeddedResourceFileInfo(metadata);
     }
 
     public IDirectoryContents GetDirectoryContents(string subpath)
@@ -87,23 +82,9 @@ public class EmbeddedScriptFileProvider : IFileProvider
         return new EnumerableDirectoryContents(entries);
     }
 
-    public IChangeToken Watch(string pattern)
-    {
-        return NullChangeToken.Singleton;
-    }
+    public IChangeToken Watch(string pattern) => NullChangeToken.Singleton;
 
-    private static bool HasInvalidPathChars(string path)
-    {
-        return path.IndexOfAny(invalidFileNameChars) != -1;
-    }
+    private static bool HasInvalidPathChars(string path) => path.IndexOfAny(invalidFileNameChars) != -1;
 
-    private bool IsEmbeddedScript(string subpath)
-    {
-        if (string.IsNullOrEmpty(subpath))
-        {
-            return false;
-        }
-
-        return EmbeddedScripts.ContainsEmbeddedResource(subpath);
-    }
+    private bool IsEmbeddedScript(string subpath) => !string.IsNullOrEmpty(subpath) && EmbeddedScripts.ContainsEmbeddedResource(subpath);
 }

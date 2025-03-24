@@ -1,4 +1,6 @@
-﻿global using Extenso;
+﻿global using System.Net.Mail;
+global using System.Text;
+global using Extenso;
 global using Extenso.Data.Entity;
 global using Mantle.Caching;
 global using Mantle.Data.Entity;
@@ -7,5 +9,3 @@ global using Mantle.Messaging.Data.Entities;
 global using Mantle.Tenants.Entities;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-global using System.Net.Mail;
-global using System.Text;

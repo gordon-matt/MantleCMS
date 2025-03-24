@@ -9,10 +9,7 @@ public class LanguageService : GenericDataService<LanguageEntity>, ILanguageServ
     {
     }
 
-    public IEnumerable<LanguageEntity> GetActiveLanguages(int tenantId)
-    {
-        return Find(x => x.TenantId == tenantId && x.IsEnabled);
-    }
+    public IEnumerable<LanguageEntity> GetActiveLanguages(int tenantId) => Find(x => x.TenantId == tenantId && x.IsEnabled);
 
     public bool CheckIfRightToLeft(int tenantId, string cultureCode)
     {

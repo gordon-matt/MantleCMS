@@ -19,31 +19,15 @@ public class SqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, TKey
         return connection;
     }
 
-    public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder)
-    {
-        if (queryBuilder is not SqlServerSelectQueryBuilder)
-        {
-            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder));
-        }
-        return base.Find(queryBuilder);
-    }
+    public override IEnumerable<TEntity> Find(ISelectQueryBuilder queryBuilder) => queryBuilder is not SqlServerSelectQueryBuilder
+        ? throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder))
+        : base.Find(queryBuilder);
 
-    public override int Count(ISelectQueryBuilder queryBuilder)
-    {
-        if (queryBuilder is not SqlServerSelectQueryBuilder)
-        {
-            throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder));
-        }
-        return base.Count(queryBuilder);
-    }
+    public override int Count(ISelectQueryBuilder queryBuilder) => queryBuilder is not SqlServerSelectQueryBuilder
+        ? throw new ArgumentException("queryBuilder must be of type, 'SqlServerSelectQueryBuilder'", nameof(queryBuilder))
+        : base.Count(queryBuilder);
 
-    public override ISelectQueryBuilder CreateQuery()
-    {
-        return new SqlServerSelectQueryBuilder();
-    }
+    public override ISelectQueryBuilder CreateQuery() => new SqlServerSelectQueryBuilder();
 
-    protected override string EncloseIdentifier(string identifier)
-    {
-        return $"[{identifier}]";
-    }
+    protected override string EncloseIdentifier(string identifier) => $"[{identifier}]";
 }

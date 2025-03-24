@@ -5,7 +5,7 @@
 /// </summary>
 public partial class TaskManager
 {
-    private readonly List<TaskThread> taskThreads = new();
+    private readonly List<TaskThread> taskThreads = [];
     private readonly int notRunTasksInterval = 60 * 30; //30 minutes
 
     public TaskManager()

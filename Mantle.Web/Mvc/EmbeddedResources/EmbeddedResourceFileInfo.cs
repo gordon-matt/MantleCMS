@@ -10,12 +10,7 @@ public class EmbeddedResourceFileInfo : IFileInfo
 
     public EmbeddedResourceFileInfo(EmbeddedResourceMetadata metadata)
     {
-        if (metadata == null)
-        {
-            throw new ArgumentNullException(nameof(metadata));
-        }
-
-        this.metadata = metadata;
+        this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
         assembly = GetResourceAssembly();
         Name = metadata.ResourceName;
         LastModified = DateTimeOffset.UtcNow;

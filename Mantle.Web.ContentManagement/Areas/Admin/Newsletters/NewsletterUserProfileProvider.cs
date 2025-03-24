@@ -14,33 +14,18 @@ public class NewsletterUserProfileProvider : IUserProfileProvider
 
     #region IUserProfileProvider Members
 
-    public string Name
-    {
-        get { return "Newsletters"; }
-    }
+    public string Name => "Newsletters";
 
-    public string DisplayTemplatePath
-    {
-        get { return "/Areas/Admin/Newsletters/Views/Shared/DisplayTemplates/NewsletterUserProfileProvider.cshtml"; }
-    }
+    public string DisplayTemplatePath => "/Areas/Admin/Newsletters/Views/Shared/DisplayTemplates/NewsletterUserProfileProvider.cshtml";
 
-    public string EditorTemplatePath
-    {
-        get { return "/Areas/Admin/Newsletters/Views/Shared/EditorTemplates/NewsletterUserProfileProvider.cshtml"; }
-    }
+    public string EditorTemplatePath => "/Areas/Admin/Newsletters/Views/Shared/EditorTemplates/NewsletterUserProfileProvider.cshtml";
 
-    public int Order
-    {
-        get { return 9999; }
-    }
+    public int Order => 9999;
 
-    public IEnumerable<string> GetFieldNames()
-    {
-        return new[]
-        {
-            Fields.SubscribeToNewsletters
-        };
-    }
+    public IEnumerable<string> GetFieldNames() =>
+    [
+        Fields.SubscribeToNewsletters
+    ];
 
     public void PopulateFields(string userId)
     {

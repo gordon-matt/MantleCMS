@@ -2,10 +2,7 @@
 
 public static class HtmlHelperExtensions
 {
-    public static MantleMessaging<TModel> MantleMessaging<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-    {
-        return new MantleMessaging<TModel>(html);
-    }
+    public static MantleMessaging<TModel> MantleMessaging<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
 }
 
 public class MantleMessaging<TModel>

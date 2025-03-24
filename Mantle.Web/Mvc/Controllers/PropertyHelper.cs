@@ -91,20 +91,14 @@ internal class PropertyHelper
     /// </summary>
     /// <param name="instance">The object whose property value will be returned.</param>
     /// <returns>The property value.</returns>
-    public object GetValue(object instance)
-    {
-        return ValueGetter(instance);
-    }
+    public object GetValue(object instance) => ValueGetter(instance);
 
     /// <summary>
     /// Sets the property value for the specified <paramref name="instance" />.
     /// </summary>
     /// <param name="instance">The object whose property value will be set.</param>
     /// <param name="value">The property value.</param>
-    public void SetValue(object instance, object value)
-    {
-        ValueSetter(instance, value);
-    }
+    public void SetValue(object instance, object value) => ValueSetter(instance, value);
 
     /// <summary>
     /// Creates and caches fast property helpers that expose getters for every public get property on the
@@ -113,10 +107,7 @@ internal class PropertyHelper
     /// <param name="typeInfo">The type info to extract property accessors for.</param>
     /// <returns>A cached array of all public properties of the specified type.
     /// </returns>
-    public static PropertyHelper[] GetProperties(TypeInfo typeInfo)
-    {
-        return GetProperties(typeInfo.AsType());
-    }
+    public static PropertyHelper[] GetProperties(TypeInfo typeInfo) => GetProperties(typeInfo.AsType());
 
     /// <summary>
     /// Creates and caches fast property helpers that expose getters for every public get property on the
@@ -125,10 +116,7 @@ internal class PropertyHelper
     /// <param name="type">The type to extract property accessors for.</param>
     /// <returns>A cached array of all public properties of the specified type.
     /// </returns>
-    public static PropertyHelper[] GetProperties(Type type)
-    {
-        return GetProperties(type, p => CreateInstance(p), PropertiesCache);
-    }
+    public static PropertyHelper[] GetProperties(Type type) => GetProperties(type, p => CreateInstance(p), PropertiesCache);
 
     /// <summary>
     /// <para>
@@ -144,10 +132,8 @@ internal class PropertyHelper
     /// <returns>
     /// A cached array of all public properties of the specified type.
     /// </returns>
-    public static PropertyHelper[] GetVisibleProperties(TypeInfo typeInfo)
-    {
-        return GetVisibleProperties(typeInfo.AsType(), p => CreateInstance(p), PropertiesCache, VisiblePropertiesCache);
-    }
+    public static PropertyHelper[] GetVisibleProperties(TypeInfo typeInfo) =>
+        GetVisibleProperties(typeInfo.AsType(), p => CreateInstance(p), PropertiesCache, VisiblePropertiesCache);
 
     /// <summary>
     /// <para>
@@ -163,10 +149,8 @@ internal class PropertyHelper
     /// <returns>
     /// A cached array of all public properties of the specified type.
     /// </returns>
-    public static PropertyHelper[] GetVisibleProperties(Type type)
-    {
-        return GetVisibleProperties(type, p => CreateInstance(p), PropertiesCache, VisiblePropertiesCache);
-    }
+    public static PropertyHelper[] GetVisibleProperties(Type type) =>
+        GetVisibleProperties(type, p => CreateInstance(p), PropertiesCache, VisiblePropertiesCache);
 
     /// <summary>
     /// Creates a single fast property getter. The result is not cached.
@@ -338,18 +322,12 @@ internal class PropertyHelper
         return dictionary;
     }
 
-    private static PropertyHelper CreateInstance(PropertyInfo property)
-    {
-        return new PropertyHelper(property);
-    }
+    private static PropertyHelper CreateInstance(PropertyInfo property) => new(property);
 
     // Called via reflection
     private static object CallPropertyGetter<TDeclaringType, TValue>(
         Func<TDeclaringType, TValue> getter,
-        object target)
-    {
-        return getter((TDeclaringType)target);
-    }
+        object target) => getter((TDeclaringType)target);
 
     // Called via reflection
     private static object CallPropertyGetterByReference<TDeclaringType, TValue>(
@@ -363,15 +341,7 @@ internal class PropertyHelper
     // Called via reflection
     private static object CallNullSafePropertyGetter<TDeclaringType, TValue>(
         Func<TDeclaringType, TValue> getter,
-        object target)
-    {
-        if (target == null)
-        {
-            return null;
-        }
-
-        return getter((TDeclaringType)target);
-    }
+        object target) => target == null ? null : getter((TDeclaringType)target);
 
     // Called via reflection
     private static object CallNullSafePropertyGetterByReference<TDeclaringType, TValue>(
@@ -390,10 +360,7 @@ internal class PropertyHelper
     private static void CallPropertySetter<TDeclaringType, TValue>(
         Action<TDeclaringType, TValue> setter,
         object target,
-        object value)
-    {
-        setter((TDeclaringType)target, (TValue)value);
-    }
+        object value) => setter((TDeclaringType)target, (TValue)value);
 
     protected static PropertyHelper[] GetVisibleProperties(
         Type type,
@@ -497,13 +464,11 @@ internal class PropertyHelper
         return helpers;
     }
 
-    private static bool IsInterestingProperty(PropertyInfo property)
-    {
+    private static bool IsInterestingProperty(PropertyInfo property) =>
         // For improving application startup time, do not use GetIndexParameters() api early in this check as it
         // creates a copy of parameter array and also we would like to check for the presence of a get method
         // and short circuit asap.
-        return
-            property.GetMethod != null &&
+        property.GetMethod != null &&
             property.GetMethod.IsPublic &&
             !property.GetMethod.IsStatic &&
 
@@ -512,17 +477,12 @@ internal class PropertyHelper
 
             // Indexed properties are not useful (or valid) for grabbing properties off an object.
             property.GetMethod.GetParameters().Length == 0;
-    }
 
     // PropertyHelper can't really interact with ref-struct properties since they can't be
     // boxed and can't be used as generic types. We just ignore them.
     //
     // see: https://github.com/aspnet/Mvc/issues/8545
-    private static bool IsRefStructProperty(PropertyInfo property)
-    {
-        return
-            IsByRefLikeAttribute != null &&
-            property.PropertyType.IsValueType &&
-            property.PropertyType.IsDefined(IsByRefLikeAttribute);
-    }
+    private static bool IsRefStructProperty(PropertyInfo property) => IsByRefLikeAttribute != null &&
+        property.PropertyType.IsValueType &&
+        property.PropertyType.IsDefined(IsByRefLikeAttribute);
 }

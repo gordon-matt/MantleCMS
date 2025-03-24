@@ -41,12 +41,7 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
             x.SettingsId == settingsId &&
             x.RegionId == regionId);
 
-        if (settings == null)
-        {
-            return default;
-        }
-
-        return settings.Fields.JsonDeserialize<T>();
+        return settings == null ? default : settings.Fields.JsonDeserialize<T>();
     }
 
     public Dictionary<int, T> GetSettings<T>(IEnumerable<int> regionIds = null) where T : IRegionSettings
@@ -54,19 +49,11 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
         var instance = Activator.CreateInstance<T>();
         string settingsId = instance.Name.ToSlugUrl();
 
-        IEnumerable<RegionSettings> settings;
-
-        if (regionIds.IsNullOrEmpty())
-        {
-            settings = Find(x => x.SettingsId == settingsId);
-        }
-        else
-        {
-            settings = Find(x =>
+        var settings = regionIds.IsNullOrEmpty()
+            ? Find(x => x.SettingsId == settingsId)
+            : Find(x =>
                x.SettingsId == settingsId &&
                regionIds.Contains(x.RegionId));
-        }
-
         return settings.ToDictionary(k => k.RegionId, v => v.Fields.JsonDeserialize<T>());
     }
 }

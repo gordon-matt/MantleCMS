@@ -1,7 +1,7 @@
 ﻿// Taken from nopCommerce v3.7
 
-using Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 using System.Text.RegularExpressions;
+using Mantle.Plugins.Messaging.Forums.Html.CodeFormatter;
 
 namespace Mantle.Plugins.Messaging.Forums.Html;
 

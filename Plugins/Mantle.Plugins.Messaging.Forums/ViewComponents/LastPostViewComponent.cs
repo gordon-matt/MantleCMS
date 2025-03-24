@@ -44,14 +44,9 @@ public class LastPostViewComponent : ViewComponent
             model.AllowViewingProfiles = true;
             model.UserName = await membershipService.GetUserDisplayName(postUser);
             //created on string
-            if (forumSettings.RelativeDateTimeFormattingEnabled)
-            {
-                model.PostCreatedOnStr = post.CreatedOnUtc.RelativeFormat(true, "f");
-            }
-            else
-            {
-                model.PostCreatedOnStr = dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f");
-            }
+            model.PostCreatedOnStr = forumSettings.RelativeDateTimeFormattingEnabled
+                ? post.CreatedOnUtc.RelativeFormat(true, "f")
+                : dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f");
         }
         model.ShowTopic = showTopic;
         return View(model);

@@ -10,23 +10,11 @@ public class QueuedEmailApiController : GenericTenantODataController<QueuedEmail
     {
     }
 
-    protected override Guid GetId(QueuedEmail entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(QueuedEmail entity) => entity.Id;
 
-    protected override void SetNewId(QueuedEmail entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(QueuedEmail entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return MessagingPermissions.QueuedEmailsRead; }
-    }
+    protected override Permission ReadPermission => MessagingPermissions.QueuedEmailsRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MessagingPermissions.QueuedEmailsWrite; }
-    }
+    protected override Permission WritePermission => MessagingPermissions.QueuedEmailsWrite;
 }

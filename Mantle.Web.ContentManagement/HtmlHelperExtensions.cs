@@ -8,10 +8,7 @@ namespace Mantle.Web.ContentManagement;
 
 public static class HtmlHelperExtensions
 {
-    public static MantleCMS<TModel> MantleCMS<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-    {
-        return new MantleCMS<TModel>(html);
-    }
+    public static MantleCMS<TModel> MantleCMS<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
 }
 
 public enum WidgetColumns : byte

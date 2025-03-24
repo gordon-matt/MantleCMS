@@ -27,10 +27,7 @@ public class StartupTask : IStartupTask
         EnsureSettings(tenantIds);
     }
 
-    public int Order
-    {
-        get { return 1; }
-    }
+    public int Order => 1;
 
     #endregion IStartupTask Members
 
@@ -206,14 +203,17 @@ public class StartupTask : IStartupTask
         var installedSettings = settingsRepository.Find(x => x.TenantId == null);
         var installedSettingNames = installedSettings.Select(x => x.Name).ToList();
 
-        var settingsToAdd = allSettings.Where(x => x.IsTenantRestricted && !installedSettingNames.Contains(x.Name)).Select(x => new Setting
-        {
-            Id = Guid.NewGuid(),
-            TenantId = null,
-            Name = x.Name,
-            Type = x.GetType().FullName,
-            Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
-        }).ToList();
+        var settingsToAdd = allSettings
+            .Where(x => x.IsTenantRestricted && !installedSettingNames.Contains(x.Name))
+            .Select(x => new Setting
+            {
+                Id = Guid.NewGuid(),
+                TenantId = null,
+                Name = x.Name,
+                Type = x.GetType().FullName,
+                Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
+            })
+            .ToList();
 
         if (!settingsToAdd.IsNullOrEmpty())
         {
@@ -236,14 +236,17 @@ public class StartupTask : IStartupTask
             installedSettings = settingsRepository.Find(x => x.TenantId == tenantId);
             installedSettingNames = installedSettings.Select(x => x.Name).ToList();
 
-            settingsToAdd = allSettings.Where(x => !x.IsTenantRestricted && !installedSettingNames.Contains(x.Name)).Select(x => new Setting
-            {
-                Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                Name = x.Name,
-                Type = x.GetType().FullName,
-                Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
-            }).ToList();
+            settingsToAdd = allSettings
+                .Where(x => !x.IsTenantRestricted && !installedSettingNames.Contains(x.Name))
+                .Select(x => new Setting
+                {
+                    Id = Guid.NewGuid(),
+                    TenantId = tenantId,
+                    Name = x.Name,
+                    Type = x.GetType().FullName,
+                    Value = Activator.CreateInstance(x.GetType()).JsonSerialize()
+                })
+                .ToList();
 
             if (!settingsToAdd.IsNullOrEmpty())
             {

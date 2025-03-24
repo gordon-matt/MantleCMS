@@ -114,19 +114,19 @@ public class ForumsController : MantleController
     {
         var list = new List<SelectListItem>
         {
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.TopicTypes.Normal],
                 Value = ((int)ForumTopicType.Normal).ToString()
             },
 
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.TopicTypes.Sticky],
                 Value = ((int)ForumTopicType.Sticky).ToString()
             },
 
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.TopicTypes.Announcement],
                 Value = ((int)ForumTopicType.Announcement).ToString()
@@ -140,7 +140,7 @@ public class ForumsController : MantleController
     protected virtual async Task<IEnumerable<SelectListItem>> ForumGroupsForumsList()
     {
         var forumsSelectList = new List<SelectListItem>();
-        var separator = "--";
+        string separator = "--";
         var groups = await forumService.GetAllForumGroups();
 
         foreach (var group in groups)
@@ -198,7 +198,7 @@ public class ForumsController : MantleController
         }
 
         int pageSize = forumSettings.ActiveDiscussionsPageSize > 0 ? forumSettings.ActiveDiscussionsPageSize : 50;
-        var topics = await forumService.GetActiveTopics(forumId, (page - 1), pageSize);
+        var topics = await forumService.GetActiveTopics(forumId, page - 1, pageSize);
 
         var model = new ActiveDiscussionsModel
         {
@@ -342,7 +342,7 @@ public class ForumsController : MantleController
         if (forum != null)
         {
             int pageSize = forumSettings.TopicsPageSize > 0 ? forumSettings.TopicsPageSize : 10;
-            var topics = await forumService.GetAllTopics(forum.Id, null, string.Empty, ForumSearchType.All, 0, (page - 1), pageSize);
+            var topics = await forumService.GetAllTopics(forum.Id, null, string.Empty, ForumSearchType.All, 0, page - 1, pageSize);
 
             var model = new ForumPageModel
             {
@@ -577,39 +577,34 @@ public class ForumsController : MantleController
                     AllowPrivateMessages = forumSettings.AllowPrivateMessages,
                     SignaturesEnabled = forumSettings.SignaturesEnabled,
                     FormattedSignature = postUser.GetAttribute<string>(SystemUserAttributeNames.Signature).FormatForumSignatureText(),
+                    //created on string
+                    PostCreatedOnStr = forumSettings.RelativeDateTimeFormattingEnabled
+                        ? post.CreatedOnUtc.RelativeFormat(true, "f")
+                        : dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f"),
+
+                    // TODO
+                    ////avatar
+                    //if (_customerSettings.AllowUsersToUploadAvatars)
+                    //{
+                    //    postModel.UserAvatarUrl = _pictureService.GetPictureUrl(
+                    //        postUser.GetAttribute<int>(SystemUserAttributeNames.AvatarPictureId),
+                    //        _mediaSettings.AvatarPictureSize,
+                    //        _customerSettings.DefaultAvatarEnabled,
+                    //        defaultPictureType: PictureType.Avatar);
+                    //}
+
+                    ////location
+                    //postModel.ShowUsersLocation = _customerSettings.ShowUsersLocation;
+                    //if (_customerSettings.ShowUsersLocation)
+                    //{
+                    //    var countryId = postUser.GetAttribute<int>(SystemUserAttributeNames.CountryId);
+                    //    var country = regionService.FindOne(countryId);
+                    //    postModel.UserLocation = country != null ? country.GetLocalized(x => x.Name) : string.Empty;
+                    //}
+
+                    // page number is needed for creating post link in _ForumPost partial view
+                    CurrentTopicPage = page
                 };
-                //created on string
-                if (forumSettings.RelativeDateTimeFormattingEnabled)
-                {
-                    postModel.PostCreatedOnStr = post.CreatedOnUtc.RelativeFormat(true, "f");
-                }
-                else
-                {
-                    postModel.PostCreatedOnStr = dateTimeHelper.ConvertToUserTime(post.CreatedOnUtc, DateTimeKind.Utc).ToString("f");
-                }
-
-                // TODO
-                ////avatar
-                //if (_customerSettings.AllowUsersToUploadAvatars)
-                //{
-                //    postModel.UserAvatarUrl = _pictureService.GetPictureUrl(
-                //        postUser.GetAttribute<int>(SystemUserAttributeNames.AvatarPictureId),
-                //        _mediaSettings.AvatarPictureSize,
-                //        _customerSettings.DefaultAvatarEnabled,
-                //        defaultPictureType: PictureType.Avatar);
-                //}
-
-                ////location
-                //postModel.ShowUsersLocation = _customerSettings.ShowUsersLocation;
-                //if (_customerSettings.ShowUsersLocation)
-                //{
-                //    var countryId = postUser.GetAttribute<int>(SystemUserAttributeNames.CountryId);
-                //    var country = regionService.FindOne(countryId);
-                //    postModel.UserLocation = country != null ? country.GetLocalized(x => x.Name) : string.Empty;
-                //}
-
-                // page number is needed for creating post link in _ForumPost partial view
-                postModel.CurrentTopicPage = page;
                 model.ForumPostModels.Add(postModel);
             }
 
@@ -1010,7 +1005,7 @@ public class ForumsController : MantleController
 
                 string ipAddress = webHelper.GetRemoteIpAddress();
 
-                DateTime nowUtc = DateTime.UtcNow;
+                var nowUtc = DateTime.UtcNow;
 
                 if (await forumService.IsUserAllowedToSetTopicPriority(WorkContext.CurrentUser))
                 {
@@ -1103,17 +1098,7 @@ public class ForumsController : MantleController
     [HttpPost]
     //[FrontendAntiForgery]
     [Route("topic/save")]
-    public async Task<IActionResult> TopicSave(EditForumTopicModel model)
-    {
-        if (model.IsEdit)
-        {
-            return await TopicEditPost(model);
-        }
-        else
-        {
-            return await TopicCreatePost(model);
-        }
-    }
+    public async Task<IActionResult> TopicSave(EditForumTopicModel model) => model.IsEdit ? await TopicEditPost(model) : await TopicCreatePost(model);
 
     [Route("post/delete/{id}")]
     public async Task<IActionResult> PostDelete(int id)
@@ -1141,11 +1126,9 @@ public class ForumsController : MantleController
 
             //get topic one more time because it can be deleted (first or only post deleted)
             topic = await forumService.GetTopicById(post.TopicId);
-            if (topic == null)
-            {
-                return RedirectToAction("Forum", new { id = forumId, slug = forumSlug });
-            }
-            return RedirectToAction("Topic", new { id = topic.Id, slug = topic.GetSeName() });
+            return topic == null
+                ? RedirectToAction("Forum", new { id = forumId, slug = forumSlug })
+                : (IActionResult)RedirectToAction("Topic", new { id = topic.Id, slug = topic.GetSeName() });
         }
 
         return RedirectToAction("Index");
@@ -1257,7 +1240,7 @@ public class ForumsController : MantleController
                 }
 
                 string text = model.Text;
-                var maxPostLength = forumSettings.PostMaxLength;
+                int maxPostLength = forumSettings.PostMaxLength;
 
                 if (maxPostLength > 0 && text.Length > maxPostLength)
                 {
@@ -1266,7 +1249,7 @@ public class ForumsController : MantleController
 
                 string ipAddress = webHelper.GetRemoteIpAddress();
 
-                DateTime nowUtc = DateTime.UtcNow;
+                var nowUtc = DateTime.UtcNow;
 
                 var post = new ForumPost
                 {
@@ -1312,17 +1295,12 @@ public class ForumsController : MantleController
 
                 int pageSize = forumSettings.PostsPageSize > 0 ? forumSettings.PostsPageSize : 10;
 
-                int pageIndex = (await forumService.CalculateTopicPageIndex(post.TopicId, pageSize, post.Id) + 1);
+                int pageIndex = await forumService.CalculateTopicPageIndex(post.TopicId, pageSize, post.Id) + 1;
                 string url = string.Empty;
 
-                if (pageIndex > 1)
-                {
-                    url = Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName(), page = pageIndex });
-                }
-                else
-                {
-                    url = Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName() });
-                }
+                url = pageIndex > 1
+                    ? Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName(), page = pageIndex })
+                    : Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName() });
                 return Redirect(string.Format("{0}#{1}", url, post.Id));
             }
             catch (Exception ex)
@@ -1447,7 +1425,7 @@ public class ForumsController : MantleController
                 var nowUtc = DateTime.UtcNow;
 
                 string text = model.Text;
-                var maxPostLength = forumSettings.PostMaxLength;
+                int maxPostLength = forumSettings.PostMaxLength;
                 if (maxPostLength > 0 && text.Length > maxPostLength)
                 {
                     text = text[..maxPostLength];
@@ -1488,16 +1466,11 @@ public class ForumsController : MantleController
                 }
 
                 int pageSize = forumSettings.PostsPageSize > 0 ? forumSettings.PostsPageSize : 10;
-                int pageIndex = (await forumService.CalculateTopicPageIndex(post.TopicId, pageSize, post.Id) + 1);
-                var url = string.Empty;
-                if (pageIndex > 1)
-                {
-                    url = Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName(), page = pageIndex });
-                }
-                else
-                {
-                    url = Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName() });
-                }
+                int pageIndex = await forumService.CalculateTopicPageIndex(post.TopicId, pageSize, post.Id) + 1;
+                string url = string.Empty;
+                url = pageIndex > 1
+                    ? Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName(), page = pageIndex })
+                    : Url.Action("Topic", new { id = post.TopicId, slug = topic.GetSeName() });
                 return Redirect(string.Format("{0}#{1}", url, post.Id));
             }
             catch (Exception ex)
@@ -1522,17 +1495,7 @@ public class ForumsController : MantleController
     [HttpPost]
     //[FrontendAntiForgery]
     [Route("post/save")]
-    public async Task<IActionResult> PostSave(EditForumPostModel model)
-    {
-        if (model.IsEdit)
-        {
-            return await PostEditPost(model);
-        }
-        else
-        {
-            return await PostCreatePost(model);
-        }
-    }
+    public async Task<IActionResult> PostSave(EditForumPostModel model) => model.IsEdit ? await PostEditPost(model) : await PostCreatePost(model);
 
     [Route("search")]
     public async Task<IActionResult> Search(
@@ -1555,42 +1518,42 @@ public class ForumsController : MantleController
         // Create the values for the "Limit results to previous" select list
         var limitList = new List<SelectListItem>
         {
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.AllResults],
                 Value = "0"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.OneDay],
                 Value = "1"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.SevenDays],
                 Value = "7"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.TwoWeeks],
                 Value = "14"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.OneMonth],
                 Value = "30"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.ThreeMonths],
                 Value = "92"
             },
-            new SelectListItem
+            new()
             {
                 Text= T[LocalizableStrings.Models.Search.LimitResultsToPrevious.SixMonths],
                 Value = "183"
             },
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.LimitResultsToPrevious.OneYear],
                 Value = "365"
@@ -1601,7 +1564,7 @@ public class ForumsController : MantleController
         // Create the values for the "Search in forum" select list
         var forumsSelectList = new List<SelectListItem>
         {
-            new SelectListItem
+            new()
             {
                 Text = T[LocalizableStrings.Models.Search.SearchInForum.All],
                 Value = "0",
@@ -1632,17 +1595,17 @@ public class ForumsController : MantleController
         // Create the values for "Search within" select list
         var withinList = new List<SelectListItem>
         {
-            new SelectListItem
+            new()
             {
                 Value = ((int)ForumSearchType.All).ToString(),
                 Text = T[LocalizableStrings.Models.Search.SearchWithin.All]
             },
-            new SelectListItem
+            new()
             {
                 Value = ((int)ForumSearchType.TopicTitlesOnly).ToString(),
                 Text = T[LocalizableStrings.Models.Search.SearchWithin.TopicTitlesOnly]
             },
-            new SelectListItem
+            new()
             {
                 Value = ((int)ForumSearchType.PostTextOnly).ToString(),
                 Text = T[LocalizableStrings.Models.Search.SearchWithin.PostTextOnly]
@@ -1712,8 +1675,8 @@ public class ForumsController : MantleController
                     model.ForumTopics.Add(topicModel);
                 }
 
-                model.SearchResultsVisible = (topics.Count > 0);
-                model.NoResultsVisisble = !(model.SearchResultsVisible);
+                model.SearchResultsVisible = topics.Count > 0;
+                model.NoResultsVisisble = !model.SearchResultsVisible;
 
                 return View(model);
             }
@@ -1820,7 +1783,7 @@ public class ForumsController : MantleController
 
         var customer = WorkContext.CurrentUser;
 
-        var pageSize = forumSettings.ForumSubscriptionsPageSize;
+        int pageSize = forumSettings.ForumSubscriptionsPageSize;
 
         var subscriptions = await forumService.GetAllSubscriptions(customer.Id, 0, 0, pageIndex, pageSize);
 
@@ -1936,7 +1899,7 @@ public class ForumsController : MantleController
             {
                 Success = true,
                 Url = string.Format("/Media/Uploads/_Users/{0}/{1}", WorkContext.CurrentUser.Id, file.FileName),
-                FileName = file.FileName
+                file.FileName
             });
         }
         catch (Exception x)

@@ -14,15 +14,12 @@ public class EdmThemeConfiguration
 
     public bool IsDefaultTheme { get; set; }
 
-    public static implicit operator EdmThemeConfiguration(ThemeConfiguration other)
+    public static implicit operator EdmThemeConfiguration(ThemeConfiguration other) => new()
     {
-        return new EdmThemeConfiguration
-        {
-            Id = Guid.NewGuid(), //To Keep OData v4 happy
-            Title = other.ThemeName,
-            SupportRtl = other.SupportRtl,
-            PreviewImageUrl = other.PreviewImageUrl,
-            PreviewText = other.PreviewText
-        };
-    }
+        Id = Guid.NewGuid(), //To Keep OData v4 happy
+        Title = other.ThemeName,
+        SupportRtl = other.SupportRtl,
+        PreviewImageUrl = other.PreviewImageUrl,
+        PreviewText = other.PreviewText
+    };
 }

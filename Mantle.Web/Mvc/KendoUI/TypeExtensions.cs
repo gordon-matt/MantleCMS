@@ -30,20 +30,12 @@ internal static class TypeExtensions
         typeof(Convert)
 };
 
-    public static bool IsPredefinedType(this Type type)
-    {
-        return PredefinedTypes.Any(left => left == type);
-    }
+    public static bool IsPredefinedType(this Type type) => PredefinedTypes.Any(left => left == type);
 
     public static string FirstSortableProperty(this Type type)
     {
         var propertyInfo = type.GetTypeInfo().GetProperties().FirstOrDefault(property => property.PropertyType.IsPredefinedType());
 
-        if (propertyInfo == null)
-        {
-            throw new NotSupportedException("CannotFindPropertyToSortBy");
-        }
-
-        return propertyInfo.Name;
+        return propertyInfo == null ? throw new NotSupportedException("CannotFindPropertyToSortBy") : propertyInfo.Name;
     }
 }

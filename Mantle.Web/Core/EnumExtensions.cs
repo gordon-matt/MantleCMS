@@ -12,13 +12,12 @@ public static class EnumExtensions
         }
 
         var array = Enum.GetValues(type);
-        int order;
 
         var values = (from object e in array
                       select new
                       {
                           Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                          Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
+                          Name = Extenso.EnumExtensions.GetDisplayName(e, out int order),
                           Order = order
                       }).ToList();
 
@@ -47,13 +46,11 @@ public static class EnumExtensions
             throw new NotSupportedException("You must specify an enum type");
         }
 
-        int order;
-
         var values = (from T e in Extenso.EnumExtensions.GetValues<T>()
                       select new
                       {
                           Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                          Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
+                          Name = Extenso.EnumExtensions.GetDisplayName(e, out int order),
                           Order = order
                       }).ToList();
 
@@ -83,13 +80,12 @@ public static class EnumExtensions
         }
 
         var array = Enum.GetValues(type);
-        int order;
 
         var values = (from object e in array
                       select new
                       {
                           Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                          Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
+                          Name = Extenso.EnumExtensions.GetDisplayName(e, out int order),
                           Order = order
                       }).ToList();
 
@@ -118,13 +114,11 @@ public static class EnumExtensions
             throw new NotSupportedException("You must specify an enum type");
         }
 
-        int order;
-
         var values = (from T e in Extenso.EnumExtensions.GetValues<T>()
                       select new
                       {
                           Id = nameIsId ? e.ToString() : e.ConvertTo<int>().ToString(),
-                          Name = Extenso.EnumExtensions.GetDisplayName(e, out order),
+                          Name = Extenso.EnumExtensions.GetDisplayName(e, out int order),
                           Order = order
                       }).ToList();
 

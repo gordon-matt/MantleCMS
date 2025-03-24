@@ -18,17 +18,9 @@ public class CurrentCultureCodeStateProvider : IWorkContextStateProvider
 
     #region IWorkContextStateProvider Members
 
-    public Func<IWorkContext, T> Get<T>(string name)
-    {
-        if (name == MantleWebConstants.StateProviders.CurrentCultureCode)
-        {
-            return ctx => cacheManager.Get(MantleWebConstants.CacheKeys.CurrentCulture, () =>
-            {
-                return (T)(object)cultureManager.GetCurrentCulture(httpContextAccessor.HttpContext);
-            });
-        }
-        return null;
-    }
+    public Func<IWorkContext, T> Get<T>(string name) => name == MantleWebConstants.StateProviders.CurrentCultureCode
+        ? (ctx => cacheManager.Get(MantleWebConstants.CacheKeys.CurrentCulture, () => (T)(object)cultureManager.GetCurrentCulture(httpContextAccessor.HttpContext)))
+        : null;
 
     #endregion IWorkContextStateProvider Members
 }

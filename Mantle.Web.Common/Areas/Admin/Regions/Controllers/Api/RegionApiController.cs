@@ -16,10 +16,7 @@ public class RegionApiController : GenericTenantODataController<Region, int>
         this.localizablePropertyService = localizablePropertyService;
     }
 
-    protected override int GetId(Region entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(Region entity) => entity.Id;
 
     protected override void SetNewId(Region entity)
     {
@@ -102,13 +99,7 @@ public class RegionApiController : GenericTenantODataController<Region, int>
         }
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return Permissions.RegionsRead; }
-    }
+    protected override Permission ReadPermission => Permissions.RegionsRead;
 
-    protected override Permission WritePermission
-    {
-        get { return Permissions.RegionsWrite; }
-    }
+    protected override Permission WritePermission => Permissions.RegionsWrite;
 }

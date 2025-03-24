@@ -10,15 +10,9 @@ public class SettingsApiController : GenericTenantODataController<Setting, Guid>
         this.cacheManager = cacheManager;
     }
 
-    protected override Guid GetId(Setting entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(Setting entity) => entity.Id;
 
-    protected override void SetNewId(Setting entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(Setting entity) => entity.Id = Guid.NewGuid();
 
     public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] Setting entity)
     {
@@ -68,13 +62,7 @@ public class SettingsApiController : GenericTenantODataController<Setting, Guid>
         return await result;
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return MantleWebPermissions.SettingsRead; }
-    }
+    protected override Permission ReadPermission => MantleWebPermissions.SettingsRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MantleWebPermissions.SettingsWrite; }
-    }
+    protected override Permission WritePermission => MantleWebPermissions.SettingsWrite;
 }

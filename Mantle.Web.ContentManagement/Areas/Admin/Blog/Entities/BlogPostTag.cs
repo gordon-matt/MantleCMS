@@ -12,15 +12,8 @@ public class BlogPostTag : IEntity
 
     public BlogTag Tag { get; set; }
 
-    #region IEntity Members
-
     [IgnoreDataMember]
-    public object[] KeyValues
-    {
-        get { return new object[] { PostId, TagId }; }
-    }
-
-    #endregion IEntity Members
+    public object[] KeyValues => new object[] { PostId, TagId };
 }
 
 public class PostTagMap : IEntityTypeConfiguration<BlogPostTag>, IMantleEntityTypeConfiguration
@@ -36,12 +29,5 @@ public class PostTagMap : IEntityTypeConfiguration<BlogPostTag>, IMantleEntityTy
         builder.HasIndex(x => x.TagId);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

@@ -20,8 +20,5 @@ public class DisposableWriteLock : IDisposable
         this.readerWriterLockSlim.EnterWriteLock();
     }
 
-    void IDisposable.Dispose()
-    {
-        readerWriterLockSlim.ExitWriteLock();
-    }
+    void IDisposable.Dispose() => readerWriterLockSlim.ExitWriteLock();
 }

@@ -96,23 +96,11 @@ public class BlogPostApiController : GenericTenantODataController<BlogPost, Guid
         return result;
     }
 
-    protected override Guid GetId(BlogPost entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(BlogPost entity) => entity.Id;
 
-    protected override void SetNewId(BlogPost entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(BlogPost entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.BlogRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.BlogRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.BlogWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.BlogWrite;
 }

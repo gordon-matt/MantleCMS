@@ -48,11 +48,8 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        if (context == null)
-            throw new ArgumentNullException(nameof(context));
-
-        if (output == null)
-            throw new ArgumentNullException(nameof(output));
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(output);
 
         var viewContextAware = htmlHelper as IViewContextAware;
         viewContextAware?.Contextualize(ViewContext);
@@ -68,6 +65,7 @@ public class MantleTextAreaTagHelper : TextAreaTagHelper
         string @class = output.Attributes.ContainsName("class")
             ? $"{output.Attributes["class"].Value} form-control"
             : "form-control";
+
         output.Attributes.SetAttribute("class", @class);
 
         string koBinding = KnockoutBinding;

@@ -6,8 +6,8 @@ internal class MenuItemComparer : IEqualityComparer<MenuItem>
 
     public bool Equals(MenuItem x, MenuItem y)
     {
-        string xTextHint = x.Text == null ? null : x.Text;
-        string yTextHint = y.Text == null ? null : y.Text;
+        string xTextHint = x.Text ?? null;
+        string yTextHint = y.Text ?? null;
         if (!string.Equals(xTextHint, yTextHint))
         {
             return false;
@@ -39,16 +39,7 @@ internal class MenuItemComparer : IEqualityComparer<MenuItem>
             }
         }
 
-        if (!string.IsNullOrWhiteSpace(x.Url) && y.RouteValues != null)
-        {
-            return false;
-        }
-        if (!string.IsNullOrWhiteSpace(y.Url) && x.RouteValues != null)
-        {
-            return false;
-        }
-
-        return true;
+        return (string.IsNullOrWhiteSpace(x.Url) || y.RouteValues == null) && (string.IsNullOrWhiteSpace(y.Url) || x.RouteValues == null);
     }
 
     public int GetHashCode(MenuItem obj)

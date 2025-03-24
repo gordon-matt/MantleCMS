@@ -25,13 +25,5 @@ public class DefaultContentBlockProvider : IContentBlockProvider
         return contentBlocks.Where(x => IsVisible(x)).ToList();
     }
 
-    protected bool IsVisible(IContentBlock contentBlock)
-    {
-        if (contentBlock == null || !contentBlock.Enabled)
-        {
-            return false;
-        }
-
-        return true;
-    }
+    protected bool IsVisible(IContentBlock contentBlock) => contentBlock != null && contentBlock.Enabled;
 }

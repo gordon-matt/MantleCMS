@@ -28,10 +28,7 @@ public class ForumTopic : BaseEntity<int>
 
     public virtual Forum Forum { get; set; }
 
-    public int NumReplies
-    {
-        get { return NumPosts > 0 ? (NumPosts - 1) : 0; }
-    }
+    public int NumReplies => NumPosts > 0 ? (NumPosts - 1) : 0;
 }
 
 public class ForumTopicMap : IEntityTypeConfiguration<ForumTopic>, IMantleEntityTypeConfiguration
@@ -56,12 +53,5 @@ public class ForumTopicMap : IEntityTypeConfiguration<ForumTopic>, IMantleEntity
         builder.HasIndex(x => x.ForumId);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return PluginManager.IsPluginInstalled(Constants.PluginSystemName); }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => PluginManager.IsPluginInstalled(Constants.PluginSystemName);
 }

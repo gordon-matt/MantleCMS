@@ -53,10 +53,7 @@ public class DependencyRegistrar : IDependencyRegistrar
         builder.RegisterType<GrapesJsMessageTemplateEditor>().As<IMessageTemplateEditor>().SingleInstance();
     }
 
-    public int Order
-    {
-        get { return 1; }
-    }
+    public int Order => 1;
 
     #endregion IDependencyRegistrar Members
 }

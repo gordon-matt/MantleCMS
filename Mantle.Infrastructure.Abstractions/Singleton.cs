@@ -49,7 +49,7 @@ public class SingletonList<T> : Singleton<IList<T>>
 {
     static SingletonList()
     {
-        Singleton<IList<T>>.Instance = new List<T>();
+        Singleton<IList<T>>.Instance = [];
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class SingletonDictionary<TKey, TValue> : Singleton<IDictionary<TKey, TVa
 {
     static SingletonDictionary()
     {
-        Singleton<Dictionary<TKey, TValue>>.Instance = new Dictionary<TKey, TValue>();
+        Singleton<Dictionary<TKey, TValue>>.Instance = [];
     }
 
     /// <summary>

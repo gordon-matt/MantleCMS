@@ -16,16 +16,16 @@ public class FlexSliderPluginSettings : BaseResourceSettings
 
     [System.Text.Json.Serialization.JsonIgnore]
     [Newtonsoft.Json.JsonIgnore]
-    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
-    {
+    public override ICollection<RequiredResourceCollection> DefaultResources =>
+    [
         new RequiredResourceCollection
         {
             Name = "FlexSlider",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/flexslider@2.7.2/demo/js/jquery.flexslider.js" },
                 new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/flexslider@2.7.2/demo/css/flexslider.css" }
-            }
+            ]
         }
-    };
+    ];
 }

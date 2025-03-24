@@ -63,21 +63,11 @@ public class ThemeApiController : ODataController
 
         siteSettings.DefaultTheme = themeName;
 
-        if (!string.IsNullOrEmpty(themeConfig.DefaultLayoutPath))
-        {
-            siteSettings.DefaultFrontendLayoutPath = themeConfig.DefaultLayoutPath;
-        }
-        else
-        {
-            siteSettings.DefaultFrontendLayoutPath = "~/Views/Shared/_Layout.cshtml";
-        }
+        siteSettings.DefaultFrontendLayoutPath = !string.IsNullOrEmpty(themeConfig.DefaultLayoutPath) ? themeConfig.DefaultLayoutPath : "~/Views/Shared/_Layout.cshtml";
 
         settingsService.Value.SaveSettings(siteSettings, workContext.CurrentTenant.Id);
         MantleWebConstants.ResetCache();
     }
 
-    protected bool CheckPermission(Permission permission)
-    {
-        return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
-    }
+    protected bool CheckPermission(Permission permission) => authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
 }

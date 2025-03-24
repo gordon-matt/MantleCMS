@@ -41,12 +41,5 @@ public class EntityTypeContentBlockMap : IEntityTypeConfiguration<EntityTypeCont
         builder.Property(x => x.CustomTemplatePath).HasMaxLength(255).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

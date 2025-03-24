@@ -11,23 +11,11 @@ public class ZoneApiController : GenericTenantODataController<Zone, Guid>
     {
     }
 
-    protected override Guid GetId(Zone entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(Zone entity) => entity.Id;
 
-    protected override void SetNewId(Zone entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(Zone entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.ContentZonesRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.ContentZonesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.ContentZonesWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.ContentZonesWrite;
 }

@@ -15,20 +15,11 @@ public class AdminNavigationProvider : INavigationProvider
 
     #region INavigationProvider Members
 
-    public string MenuName
-    {
-        get { return MantleWebConstants.Areas.Admin; }
-    }
+    public string MenuName => MantleWebConstants.Areas.Admin;
 
-    public void GetNavigation(NavigationBuilder builder)
-    {
-        builder.Add(T[MantleWebLocalizableStrings.Dashboard.Title], "0", BuildDashboardMenu);
-    }
+    public void GetNavigation(NavigationBuilder builder) => builder.Add(T[MantleWebLocalizableStrings.Dashboard.Title], "0", BuildDashboardMenu);
 
-    private static void BuildDashboardMenu(NavigationItemBuilder builder)
-    {
-        builder.Icons("fa fa-dashboard");
-    }
+    private static void BuildDashboardMenu(NavigationItemBuilder builder) => builder.Icons("fa fa-dashboard");
 
     #endregion INavigationProvider Members
 }

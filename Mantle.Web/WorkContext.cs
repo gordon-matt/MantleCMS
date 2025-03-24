@@ -1,7 +1,7 @@
-﻿using Mantle.Tenants;
+﻿using System.Collections.Concurrent;
+using Mantle.Tenants;
 using Mantle.Tenants.Entities;
 using Mantle.Web.Navigation.Breadcrumbs;
-using System.Collections.Concurrent;
 
 namespace Mantle.Web;
 
@@ -17,7 +17,7 @@ public partial class WorkContext : IWorkContext
     {
         webHelper = EngineContext.Current.Resolve<IWebHelper>();
         workContextStateProviders = EngineContext.Current.ResolveAll<IWorkContextStateProvider>();
-        Breadcrumbs = new BreadcrumbCollection();
+        Breadcrumbs = [];
     }
 
     #region IWorkContext Members
@@ -28,10 +28,7 @@ public partial class WorkContext : IWorkContext
         return (T)resolver();
     }
 
-    public void SetState<T>(string name, T value)
-    {
-        stateResolvers[name] = () => value;
-    }
+    public void SetState<T>(string name, T value) => stateResolvers[name] = () => value;
 
     public BreadcrumbCollection Breadcrumbs { get; set; }
 
@@ -70,12 +67,7 @@ public partial class WorkContext : IWorkContext
 
                 // Load the first found tenant
                 tenant ??= allTenants.FirstOrDefault();
-                if (tenant == null)
-                {
-                    throw new MantleException("No tenant could be loaded");
-                }
-
-                cachedTenant = tenant;
+                cachedTenant = tenant ?? throw new MantleException("No tenant could be loaded");
                 return cachedTenant;
             }
             catch
@@ -93,10 +85,6 @@ public partial class WorkContext : IWorkContext
             .Select(wcsp => wcsp.Get<T>(name))
             .FirstOrDefault(value => !Equals(value, default(T)));
 
-        if (resolver == null)
-        {
-            return () => default(T);
-        }
-        return () => resolver(this);
+        return resolver == null ? (() => default(T)) : (() => resolver(this));
     }
 }

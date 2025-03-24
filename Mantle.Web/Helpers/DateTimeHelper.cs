@@ -1,7 +1,7 @@
-﻿using Mantle.Web.Configuration.Services;
-using Mantle.Web.Security.Membership;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Mantle.Web.Configuration.Services;
+using Mantle.Web.Security.Membership;
 
 namespace Mantle.Web.Helpers;
 
@@ -24,43 +24,29 @@ public partial class DateTimeHelper : IDateTimeHelper
         this.dateTimeSettings = dateTimeSettings;
     }
 
-    public TimeZoneInfo FindTimeZoneById(string id)
-    {
-        return TimeZoneInfo.FindSystemTimeZoneById(id);
-    }
+    public TimeZoneInfo FindTimeZoneById(string id) => TimeZoneInfo.FindSystemTimeZoneById(id);
 
-    public ReadOnlyCollection<TimeZoneInfo> GetSystemTimeZones()
-    {
-        return TimeZoneInfo.GetSystemTimeZones();
-    }
+    public ReadOnlyCollection<TimeZoneInfo> GetSystemTimeZones() => TimeZoneInfo.GetSystemTimeZones();
 
-    public DateTime ConvertToUserTime(DateTime dateTime)
-    {
-        return ConvertToUserTime(dateTime, dateTime.Kind);
-    }
+    public DateTime ConvertToUserTime(DateTime dateTime) => ConvertToUserTime(dateTime, dateTime.Kind);
 
     public DateTime ConvertToUserTime(DateTime dateTime, DateTimeKind sourceDateTimeKind)
     {
         dateTime = DateTime.SpecifyKind(dateTime, sourceDateTimeKind);
-        var currentUserTimeZoneInfo = this.CurrentTimeZone;
+        var currentUserTimeZoneInfo = CurrentTimeZone;
         return TimeZoneInfo.ConvertTime(dateTime, currentUserTimeZoneInfo);
     }
 
     public DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone)
     {
-        var currentUserTimeZoneInfo = this.CurrentTimeZone;
+        var currentUserTimeZoneInfo = CurrentTimeZone;
         return ConvertToUserTime(dateTime, sourceTimeZone, currentUserTimeZoneInfo);
     }
 
-    public DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone)
-    {
-        return TimeZoneInfo.ConvertTime(dateTime, sourceTimeZone, destinationTimeZone);
-    }
+    public DateTime ConvertToUserTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone) =>
+        TimeZoneInfo.ConvertTime(dateTime, sourceTimeZone, destinationTimeZone);
 
-    public DateTime ConvertToUtcTime(DateTime dateTime)
-    {
-        return ConvertToUtcTime(dateTime, dateTime.Kind);
-    }
+    public DateTime ConvertToUtcTime(DateTime dateTime) => ConvertToUtcTime(dateTime, dateTime.Kind);
 
     public DateTime ConvertToUtcTime(DateTime dateTime, DateTimeKind sourceDateTimeKind)
     {
@@ -106,7 +92,7 @@ public partial class DateTimeHelper : IDateTimeHelper
         }
 
         //default timezone
-        timeZoneInfo ??= this.DefaultTenantTimeZone;
+        timeZoneInfo ??= DefaultTenantTimeZone;
 
         return timeZoneInfo;
     }
@@ -146,10 +132,7 @@ public partial class DateTimeHelper : IDateTimeHelper
 
     public TimeZoneInfo CurrentTimeZone
     {
-        get
-        {
-            return GetUserTimeZone(workContext.CurrentUser);
-        }
+        get => GetUserTimeZone(workContext.CurrentUser);
         set
         {
             if (!dateTimeSettings.AllowUsersToSetTimeZone)

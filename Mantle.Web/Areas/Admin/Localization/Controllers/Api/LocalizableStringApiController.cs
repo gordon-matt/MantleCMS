@@ -14,15 +14,9 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
         this.cacheManager = cacheManager;
     }
 
-    protected override Guid GetId(LocalizableString entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(LocalizableString entity) => entity.Id;
 
-    protected override void SetNewId(LocalizableString entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(LocalizableString entity) => entity.Id = Guid.NewGuid();
 
     //[EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
     [HttpGet]
@@ -42,16 +36,17 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
             // With grouping, we use .Where() and then .FirstOrDefault() instead of just the .FirstOrDefault() by itself
             //  for compatibility with MySQL.
             //  See: http://stackoverflow.com/questions/23480044/entity-framework-select-statement-with-logic
-            var query = connection.Query(x => x.TenantId == tenantId && (x.CultureCode == null || x.CultureCode == cultureCode))
-                        .GroupBy(x => x.TextKey)
-                        .Select(grp => new ComparitiveLocalizableString
-                        {
-                            Key = grp.Key,
-                            InvariantValue = grp.Where(x => x.CultureCode == null).FirstOrDefault().TextValue,
-                            LocalizedValue = grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault() == null
-                                ? string.Empty
-                                : grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault().TextValue
-                        });
+            var query = connection
+                .Query(x => x.TenantId == tenantId && (x.CultureCode == null || x.CultureCode == cultureCode))
+                .GroupBy(x => x.TextKey)
+                .Select(grp => new ComparitiveLocalizableString
+                {
+                    Key = grp.Key,
+                    InvariantValue = grp.Where(x => x.CultureCode == null).FirstOrDefault().TextValue,
+                    LocalizedValue = grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault() == null
+                        ? string.Empty
+                        : grp.Where(x => x.CultureCode == cultureCode).FirstOrDefault().TextValue
+                });
 
             var results = options.ApplyTo(query, IgnoreQueryOptions);
             var response = await Task.FromResult((results as IQueryable<ComparitiveLocalizableString>).ToHashSet());
@@ -134,13 +129,7 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
         return NoContent();
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return MantleWebPermissions.LocalizableStringsRead; }
-    }
+    protected override Permission ReadPermission => MantleWebPermissions.LocalizableStringsRead;
 
-    protected override Permission WritePermission
-    {
-        get { return MantleWebPermissions.LocalizableStringsWrite; }
-    }
+    protected override Permission WritePermission => MantleWebPermissions.LocalizableStringsWrite;
 }

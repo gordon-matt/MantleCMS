@@ -75,20 +75,9 @@ public partial class HtmlFormat : SourceFormat
     /// <param name="match">The <see cref="Match"/> resulting from a
     /// single regular expression match.</param>
     /// <returns>A string containing the HTML code fragment.</returns>
-    private string AttributeMatchEval(Match match)
-    {
-        if (match.Groups[1].Success) //attribute value
-        {
-            return "<span class=\"kwrd\">" + match.ToString() + "</span>";
-        }
-
-        if (match.Groups[2].Success) //attribute name
-        {
-            return "<span class=\"attr\">" + match.ToString() + "</span>";
-        }
-
-        return match.ToString();
-    }
+    private string AttributeMatchEval(Match match) => match.Groups[1].Success
+        ? "<span class=\"kwrd\">" + match.ToString() + "</span>"
+        : match.Groups[2].Success ? "<span class=\"attr\">" + match.ToString() + "</span>" : match.ToString();
 
     /// <summary>
     /// Called to evaluate the HTML fragment corresponding to each
@@ -106,7 +95,7 @@ public partial class HtmlFormat : SourceFormat
         }
         if (match.Groups[2].Success) //comment
         {
-            var reader = new StringReader(match.ToString());
+            using var reader = new StringReader(match.ToString());
             string line;
             var sb = new StringBuilder();
             while ((line = reader.ReadLine()) != null)
@@ -121,31 +110,17 @@ public partial class HtmlFormat : SourceFormat
             }
             return sb.ToString();
         }
-        if (match.Groups[3].Success) //asp tag
-        {
-            return "<span class=\"asp\">" + match.ToString() + "</span>";
-        }
-        if (match.Groups[4].Success) //asp C# code
-        {
-            return csf.FormatSubCode(match.ToString());
-        }
-        if (match.Groups[5].Success) //tag delimiter
-        {
-            return "<span class=\"kwrd\">" + match.ToString() + "</span>";
-        }
-        if (match.Groups[6].Success) //html tagname
-        {
-            return "<span class=\"html\">" + match.ToString() + "</span>";
-        }
-        if (match.Groups[7].Success) //attributes
-        {
-            return attribRegex.Replace(match.ToString(),
-                new MatchEvaluator(AttributeMatchEval));
-        }
-        if (match.Groups[8].Success) //entity
-        {
-            return "<span class=\"attr\">" + match.ToString() + "</span>";
-        }
-        return match.ToString();
+        return match.Groups[3].Success
+            ? "<span class=\"asp\">" + match.ToString() + "</span>"
+            : match.Groups[4].Success
+            ? csf.FormatSubCode(match.ToString())
+            : match.Groups[5].Success
+            ? "<span class=\"kwrd\">" + match.ToString() + "</span>"
+            : match.Groups[6].Success
+            ? "<span class=\"html\">" + match.ToString() + "</span>"
+            : match.Groups[7].Success
+            ? attribRegex.Replace(match.ToString(),
+                new MatchEvaluator(AttributeMatchEval))
+            : match.Groups[8].Success ? "<span class=\"attr\">" + match.ToString() + "</span>" : match.ToString();
     }
 }

@@ -12,8 +12,6 @@ public class MessageTemplateVersionService : GenericDataService<MessageTemplateV
     {
     }
 
-    public MessageTemplateVersion FindOne(int templateId, string cultureCode)
-    {
-        return FindOne(x => x.MessageTemplateId == templateId && x.CultureCode == cultureCode);
-    }
+    public MessageTemplateVersion FindOne(int templateId, string cultureCode) =>
+        FindOne(x => x.MessageTemplateId == templateId && x.CultureCode == cultureCode);
 }

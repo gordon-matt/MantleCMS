@@ -13,19 +13,10 @@ public class MessageTemplateController : MantleController
     }
 
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(MessagingPermissions.MessageTemplatesRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView("/Views/MessageTemplate/Index.cshtml");
-    }
+    public IActionResult Index() => !CheckPermission(MessagingPermissions.MessageTemplatesRead)
+        ? Unauthorized()
+        : PartialView("/Views/MessageTemplate/Index.cshtml");
 
     [Route("get-available-editors")]
-    public JsonResult GetAvailableEditors()
-    {
-        return Json(messageTemplateEditors);
-    }
+    public JsonResult GetAvailableEditors() => Json(messageTemplateEditors);
 }

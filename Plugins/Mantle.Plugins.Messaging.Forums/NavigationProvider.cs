@@ -13,12 +13,9 @@ public class NavigationProvider : INavigationProvider
 
     public string MenuName => MantleWebConstants.Areas.Admin;
 
-    public void GetNavigation(NavigationBuilder builder)
-    {
-        builder.Add(T[MantleWebLocalizableStrings.Plugins.Title],
-            menu => menu.Add(T[LocalizableStrings.Forums], "5", item => item
-                .Url("#plugins/messaging/forums")
-                .Icons("fa fa-comments")
-                .Permission(ForumPermissions.ReadForums)));
-    }
+    public void GetNavigation(NavigationBuilder builder) => builder.Add(T[MantleWebLocalizableStrings.Plugins.Title],
+        menu => menu.Add(T[LocalizableStrings.Forums], "5", item => item
+            .Url("#plugins/messaging/forums")
+            .Icons("fa fa-comments")
+            .Permission(ForumPermissions.ReadForums)));
 }

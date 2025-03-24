@@ -30,8 +30,5 @@ public class MenuItem
 
     public IEnumerable<string> Icons { get; set; }
 
-    public override string ToString()
-    {
-        return Text;
-    }
+    public override string ToString() => Text;
 }

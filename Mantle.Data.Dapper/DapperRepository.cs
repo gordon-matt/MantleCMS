@@ -37,18 +37,15 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
     public virtual IEnumerable<TEntity> Find(string predicate, int skip = 0, short take = -1, string orderBy = null, SortDirection sortDirection = SortDirection.Ascending)
     {
         using var connection = OpenConnection();
-        if (take > 0)
-        {
-            return connection.Query<TEntity>(string.Format(
+        return take > 0
+            ? connection.Query<TEntity>(string.Format(
                 "SELECT * FROM {0} WHERE {1} ORDER BY {2} OFFSET {3} ROWS FETCH NEXT {4} ROWS ONLY;",
                 GetTableName(),
                 predicate,
                 orderBy == null ? "1 " + GetDirection(sortDirection) : EncloseIdentifier(orderBy) + " " + GetDirection(sortDirection),
                 skip,
-                take));
-        }
-
-        return connection.Query<TEntity>(string.Format(
+                take))
+            : connection.Query<TEntity>(string.Format(
             "SELECT * FROM {0} WHERE {1}{2}",
             GetTableName(),
             predicate,
@@ -67,10 +64,7 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
             .FirstOrDefault();
     }
 
-    public virtual TEntity FindOne(string predicate)
-    {
-        return Find(predicate, 0, 1).FirstOrDefault();
-    }
+    public virtual TEntity FindOne(string predicate) => Find(predicate, 0, 1).FirstOrDefault();
 
     public virtual int Count()
     {
@@ -98,7 +92,7 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     public virtual int Delete(TEntity entity)
     {
-        int recordsAffected = 0;
+        int recordsAffected;
         using var connection = OpenConnection();
         try
         {
@@ -214,7 +208,7 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     public virtual int Update(TEntity entity)
     {
-        int recordsAffected = 0;
+        int recordsAffected;
         using var connection = OpenConnection();
         try
         {
@@ -259,25 +253,13 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
     #endregion IDapperRepository<TEntity, TKey> Members
 
-    protected virtual string GetTableName()
-    {
-        if (!string.IsNullOrEmpty(schema))
-        {
-            return string.Concat(schema, '.', EncloseIdentifier(tableName));
-        }
-        return EncloseIdentifier(tableName);
-    }
+    protected virtual string GetTableName() => !string.IsNullOrEmpty(schema)
+        ? string.Concat(schema, '.', EncloseIdentifier(tableName))
+        : EncloseIdentifier(tableName);
 
     protected abstract string EncloseIdentifier(string identifier);
 
-    protected virtual object FormatValue(object value)
-    {
-        if (value is string or Guid or DateTime)
-        {
-            return string.Concat("'", value, "'");
-        }
-        return value;
-    }
+    protected virtual object FormatValue(object value) => value is string or Guid or DateTime ? string.Concat("'", value, "'") : value;
 
     //TODO: Cache the properties (without values, of course)
     protected static PropertyContainer ParseProperties(TEntity entity)
@@ -337,10 +319,7 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
         return string.Join(separator, pairs);
     }
 
-    protected string GetDirection(SortDirection sortDirection)
-    {
-        return sortDirection == SortDirection.Descending ? "DESC" : "ASC";
-    }
+    protected string GetDirection(SortDirection sortDirection) => sortDirection == SortDirection.Descending ? "DESC" : "ASC";
 
     #region Nested Types
 
@@ -351,35 +330,17 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
         #region Properties
 
-        internal IEnumerable<string> IdNames
-        {
-            get { return _ids.Keys; }
-        }
+        internal IEnumerable<string> IdNames => _ids.Keys;
 
-        internal IEnumerable<string> ValueNames
-        {
-            get { return _values.Keys; }
-        }
+        internal IEnumerable<string> ValueNames => _values.Keys;
 
-        internal IEnumerable<string> AllNames
-        {
-            get { return _ids.Keys.Union(_values.Keys); }
-        }
+        internal IEnumerable<string> AllNames => _ids.Keys.Union(_values.Keys);
 
-        internal IDictionary<string, object> IdPairs
-        {
-            get { return _ids; }
-        }
+        internal IDictionary<string, object> IdPairs => _ids;
 
-        internal IDictionary<string, object> ValuePairs
-        {
-            get { return _values; }
-        }
+        internal IDictionary<string, object> ValuePairs => _values;
 
-        internal IEnumerable<KeyValuePair<string, object>> AllPairs
-        {
-            get { return _ids.Concat(_values); }
-        }
+        internal IEnumerable<KeyValuePair<string, object>> AllPairs => _ids.Concat(_values);
 
         #endregion Properties
 
@@ -387,23 +348,17 @@ public abstract class DapperRepository<TEntity, TKey> : IDapperRepository<TEntit
 
         internal PropertyContainer()
         {
-            _ids = new Dictionary<string, object>();
-            _values = new Dictionary<string, object>();
+            _ids = [];
+            _values = [];
         }
 
         #endregion Constructor
 
         #region Methods
 
-        internal void AddId(string name, object value)
-        {
-            _ids.Add(name, value);
-        }
+        internal void AddId(string name, object value) => _ids.Add(name, value);
 
-        internal void AddValue(string name, object value)
-        {
-            _values.Add(name, value);
-        }
+        internal void AddValue(string name, object value) => _values.Add(name, value);
 
         #endregion Methods
     }

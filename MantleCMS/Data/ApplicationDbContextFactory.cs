@@ -37,10 +37,7 @@ public class ApplicationDbContextFactory : IDbContextFactory
         }
     }
 
-    public DbContext GetContext()
-    {
-        return new ApplicationDbContext(Options);
-    }
+    public DbContext GetContext() => new ApplicationDbContext(Options);
 
     public DbContext GetContext(string connectionString)
     {

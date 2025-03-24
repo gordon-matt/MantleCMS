@@ -1,3 +1,4 @@
+using System.Globalization;
 using Autofac;
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
@@ -23,7 +24,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace MantleCMS;
 
@@ -95,10 +95,7 @@ public class Startup
             options.AccessDeniedPath = "/account/access-denied";
         });
 
-        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-        })
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddUserStore<ApplicationUserStore>()
         .AddRoleStore<ApplicationRoleStore>()
@@ -165,10 +162,7 @@ public class Startup
 
         services.AddRazorPages();
 
-        services.AddResponsiveFileManager(options =>
-        {
-            options.MaxSizeUpload = 32;
-        });
+        services.AddResponsiveFileManager(options => options.MaxSizeUpload = 32);
 
         #region RequestLocalizationOptions
 
@@ -182,11 +176,11 @@ public class Startup
 
                 if (supportedCultures.IsNullOrEmpty())
                 {
-                    supportedCultures = new List<CultureInfo>
-                    {
+                    supportedCultures =
+                    [
                         new CultureInfo("en-US"),
                         // Can add more if needed later...
-                    };
+                    ];
                 }
 
                 options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
@@ -213,10 +207,7 @@ public class Startup
             }
         });
 
-        services.Configure<RazorViewEngineOptions>(options =>
-        {
-            options.ViewLocationExpanders.Add(new TenantViewLocationExpander());
-        });
+        services.Configure<RazorViewEngineOptions>(options => options.ViewLocationExpanders.Add(new TenantViewLocationExpander()));
 
         #endregion RazorViewEngineOptions
 
@@ -277,12 +268,7 @@ public class Startup
         {
             FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
             RequestPath = new PathString("/Plugins"),
-            OnPrepareResponse = ctx =>
-            {
-                ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800");
-                //if (!string.IsNullOrEmpty(nopConfig.StaticFilesCacheControl))
-                //    ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, mantleConfig.StaticFilesCacheControl);
-            }
+            OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800")
         });
 
         //// Add support for node_modules but only during development

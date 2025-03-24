@@ -44,7 +44,7 @@ public abstract class BaseSettings : ISettings
             sb.AppendLine(RenderObservableDeclaration(property));
         }
 
-        bool isResourceSettings = (this is IResourceSettings);
+        bool isResourceSettings = this is IResourceSettings;
         if (isResourceSettings)
         {
             sb.AppendLine("\tviewModel.resources = ko.observableArray([]);");
@@ -96,7 +96,7 @@ public abstract class BaseSettings : ISettings
 
     public virtual string RenderKOOnBeforeSaveFunction(IEnumerable<SettingsPropertyInfo> settingsProperties)
     {
-        bool isResourceSettings = (this is IResourceSettings);
+        bool isResourceSettings = this is IResourceSettings;
         var sb = new StringBuilder(512);
 
         sb.AppendLine("function onBeforeSave(viewModel) {");
@@ -138,26 +138,14 @@ public abstract class BaseSettings : ISettings
             string value;
             if (property.Attribute.DefaultValue is not null)
             {
-                if (property.Attribute.DefaultValue is bool)
-                {
-                    value = property.Attribute.DefaultValue.ToString().ToLowerInvariant();
-                }
-                else
-                {
-                    value = property.Attribute.DefaultValue.ToString();
-                }
+                value = property.Attribute.DefaultValue is bool
+                    ? property.Attribute.DefaultValue.ToString().ToLowerInvariant()
+                    : property.Attribute.DefaultValue.ToString();
             }
             else if (property.Type.GetDefaultValue() is not null)
             {
-                var val = property.Type.GetDefaultValue();
-                if (val is bool)
-                {
-                    value = val.ToString().ToLowerInvariant();
-                }
-                else
-                {
-                    value = val.ToString();
-                }
+                object val = property.Type.GetDefaultValue();
+                value = val is bool ? val.ToString().ToLowerInvariant() : val.ToString();
             }
             else
             {
@@ -168,27 +156,16 @@ public abstract class BaseSettings : ISettings
         }
     }
 
-    protected virtual string RenderObservableAssignment(SettingsPropertyInfo property)
-    {
-        if (!string.IsNullOrWhiteSpace(property.Attribute.Assignment))
-        {
-            return $"\t\t{property.Attribute.Assignment}";
-        }
-
-        if (property.Type == typeof(bool))
-        {
-            return $"\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ viewModel.{property.KOName}(data.{property.Name}); }}";
-        }
-        else
-        {
-            return $"\t\tif (data.{property.Name}) {{ viewModel.{property.KOName}(data.{property.Name}); }}";
-        }
-    }
+    protected virtual string RenderObservableAssignment(SettingsPropertyInfo property) => !string.IsNullOrWhiteSpace(property.Attribute.Assignment)
+        ? $"\t\t{property.Attribute.Assignment}"
+        : property.Type == typeof(bool)
+            ? $"\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ viewModel.{property.KOName}(data.{property.Name}); }}"
+            : $"\t\tif (data.{property.Name}) {{ viewModel.{property.KOName}(data.{property.Name}); }}";
 
     protected virtual string RenderSaveValue(SettingsPropertyInfo property, bool isLast) =>
         !string.IsNullOrWhiteSpace(property.Attribute.Save)
-        ? $"\t\t{property.Attribute.Save}{(isLast ? string.Empty : ",")}"
-        : $"\t\t{property.Name}: viewModel.{property.KOName}(){(isLast ? string.Empty : ",")}";
+            ? $"\t\t{property.Attribute.Save}{(isLast ? string.Empty : ",")}"
+            : $"\t\t{property.Name}: viewModel.{property.KOName}(){(isLast ? string.Empty : ",")}";
 
     public record SettingsPropertyInfo(string Name, string KOName, Type Type, SettingsPropertyAttribute Attribute);
 }

@@ -1,5 +1,5 @@
-﻿using Mantle.Threading;
-using System.Security;
+﻿using System.Security;
+using Mantle.Threading;
 
 namespace Mantle.Security.Membership.Permissions;
 
@@ -47,7 +47,7 @@ public class RolesBasedAuthorizationService : IMantleAuthorizationService
                 }
                 else
                 {
-                    rolesToExamine = (AsyncHelper.RunSync(() => membershipService.GetRolesForUser(context.User.Id))).Select(x => x.Name).ToList();
+                    rolesToExamine = AsyncHelper.RunSync(() => membershipService.GetRolesForUser(context.User.Id)).Select(x => x.Name).ToList();
                     if (!rolesToExamine.Contains(anonymousRole[0]))
                     {
                         rolesToExamine = rolesToExamine.Concat(authenticatedRole);

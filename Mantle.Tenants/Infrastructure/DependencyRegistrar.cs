@@ -9,10 +9,8 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
-    {
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration) =>
         builder.RegisterType<TenantService>().As<ITenantService>().InstancePerDependency();
-    }
 
     public int Order => 0;
 

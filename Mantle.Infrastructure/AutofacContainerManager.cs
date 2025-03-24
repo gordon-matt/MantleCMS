@@ -13,54 +13,26 @@ public class AutofacContainerManager : IDisposable
         Container = container;
     }
 
-    public T Resolve<T>(string key = "") where T : class
-    {
-        if (string.IsNullOrEmpty(key))
-        {
-            return Container.Resolve<T>();
-        }
-        return Container.ResolveKeyed<T>(key);
-    }
+    public T Resolve<T>(string key = "") where T : class => string.IsNullOrEmpty(key) ? Container.Resolve<T>() : Container.ResolveKeyed<T>(key);
 
     public T Resolve<T>(IDictionary<string, object> ctorArgs, string key = "") where T : class
     {
         var ctorParams = ctorArgs.Select(x => new NamedParameter(x.Key, x.Value)).ToArray();
 
-        if (string.IsNullOrEmpty(key))
-        {
-            return Container.Resolve<T>(ctorParams);
-        }
-        return Container.ResolveKeyed<T>(key, ctorParams);
+        return string.IsNullOrEmpty(key) ? Container.Resolve<T>(ctorParams) : Container.ResolveKeyed<T>(key, ctorParams);
     }
 
-    public T ResolveNamed<T>(string name) where T : class
-    {
-        return Container.ResolveNamed<T>(name);
-    }
+    public T ResolveNamed<T>(string name) where T : class => Container.ResolveNamed<T>(name);
 
-    public object Resolve(Type type)
-    {
-        return Container.Resolve(type);
-    }
+    public object Resolve(Type type) => Container.Resolve(type);
 
-    public IEnumerable<T> ResolveAll<T>(string key = "")
-    {
-        if (string.IsNullOrEmpty(key))
-        {
-            return Container.Resolve<IEnumerable<T>>().ToArray();
-        }
-        return Container.ResolveKeyed<IEnumerable<T>>(key).ToArray();
-    }
+    public IEnumerable<T> ResolveAll<T>(string key = "") => string.IsNullOrEmpty(key)
+        ? Container.Resolve<IEnumerable<T>>().ToArray()
+        : (IEnumerable<T>)Container.ResolveKeyed<IEnumerable<T>>(key).ToArray();
 
-    public IEnumerable<T> ResolveAllNamed<T>(string name)
-    {
-        return Container.ResolveKeyed<IEnumerable<T>>(name).ToArray();
-    }
+    public IEnumerable<T> ResolveAllNamed<T>(string name) => Container.ResolveKeyed<IEnumerable<T>>(name).ToArray();
 
-    public T ResolveUnregistered<T>() where T : class
-    {
-        return ResolveUnregistered(typeof(T)) as T;
-    }
+    public T ResolveUnregistered<T>() where T : class => ResolveUnregistered(typeof(T)) as T;
 
     public object ResolveUnregistered(Type type)
     {
@@ -87,25 +59,13 @@ public class AutofacContainerManager : IDisposable
         throw new MantleException("No constructor was found that had all the dependencies satisfied.", innerException);
     }
 
-    public bool TryResolve<T>(out T instance) where T : class
-    {
-        return Container.TryResolve<T>(out instance);
-    }
+    public bool TryResolve<T>(out T instance) where T : class => Container.TryResolve<T>(out instance);
 
-    public bool TryResolve(Type serviceType, out object instance)
-    {
-        return Container.TryResolve(serviceType, out instance);
-    }
+    public bool TryResolve(Type serviceType, out object instance) => Container.TryResolve(serviceType, out instance);
 
-    public bool IsRegistered(Type serviceType)
-    {
-        return Container.IsRegistered(serviceType);
-    }
+    public bool IsRegistered(Type serviceType) => Container.IsRegistered(serviceType);
 
-    public object ResolveOptional(Type serviceType)
-    {
-        return Container.ResolveOptional(serviceType);
-    }
+    public object ResolveOptional(Type serviceType) => Container.ResolveOptional(serviceType);
 
     #region IDisposable Members
 

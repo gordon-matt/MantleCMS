@@ -115,25 +115,13 @@ public class EntityTypeContentBlockApiController : GenericODataController<Entity
         }
     }
 
-    protected override Guid GetId(EntityTypeContentBlock entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(EntityTypeContentBlock entity) => entity.Id;
 
-    protected override void SetNewId(EntityTypeContentBlock entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(EntityTypeContentBlock entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.ContentBlocksRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.ContentBlocksRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.ContentBlocksWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.ContentBlocksWrite;
 
     private static void SetValues(EntityTypeContentBlock entity)
     {

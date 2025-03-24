@@ -67,14 +67,7 @@ public static class DateTimeExtensions
             }
 
             //default formatting
-            if (!String.IsNullOrEmpty(defaultFormat))
-            {
-                result = tmp1.ToString(defaultFormat);
-            }
-            else
-            {
-                result = tmp1.ToString();
-            }
+            result = !string.IsNullOrEmpty(defaultFormat) ? tmp1.ToString(defaultFormat) : tmp1.ToString();
         }
         return result;
     }

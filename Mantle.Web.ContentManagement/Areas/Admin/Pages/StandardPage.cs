@@ -39,10 +39,7 @@ public class StandardPage : MantlePageType
     //    description = BodyContent;
     //}
 
-    public override void ReplaceContentTokens(Func<string, string> func)
-    {
-        BodyContent = func(BodyContent);
-    }
+    public override void ReplaceContentTokens(Func<string, string> func) => BodyContent = func(BodyContent);
 
     //[Searchable]
     public string MetaTitle { get; set; }

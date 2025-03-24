@@ -24,7 +24,7 @@ public class MailMessageWrapper
 
         if (mailMessage.AlternateViews.Count > 0)
         {
-            AlternateViews = new List<AlternateViewWrapper>();
+            AlternateViews = [];
             foreach (var alternateView in mailMessage.AlternateViews)
             {
                 var view = new AlternateViewWrapper
@@ -44,7 +44,7 @@ public class MailMessageWrapper
 
         if (mailMessage.Attachments.Count > 0)
         {
-            Attachments = new List<AttachmentWrapper>();
+            Attachments = [];
 
             foreach (var attachment in mailMessage.Attachments)
             {
@@ -63,7 +63,7 @@ public class MailMessageWrapper
 
         if (mailMessage.Bcc.Count > 0)
         {
-            Bcc = new List<MailAddressWrapper>();
+            Bcc = [];
 
             foreach (var mailAddress in mailMessage.Bcc)
             {
@@ -73,7 +73,7 @@ public class MailMessageWrapper
 
         if (mailMessage.CC.Count > 0)
         {
-            Cc = new List<MailAddressWrapper>();
+            Cc = [];
 
             foreach (var mailAddress in mailMessage.CC)
             {
@@ -83,7 +83,7 @@ public class MailMessageWrapper
 
         if (mailMessage.To.Count > 0)
         {
-            To = new List<MailAddressWrapper>();
+            To = [];
 
             foreach (var mailAddress in mailMessage.To)
             {
@@ -93,7 +93,7 @@ public class MailMessageWrapper
 
         if (mailMessage.ReplyToList.Count > 0)
         {
-            ReplyToList = new List<MailAddressWrapper>();
+            ReplyToList = [];
 
             foreach (var mailAddress in mailMessage.ReplyToList)
             {
@@ -103,7 +103,7 @@ public class MailMessageWrapper
 
         if (mailMessage.Headers.Count > 0)
         {
-            Headers = new Dictionary<string, string>();
+            Headers = [];
             foreach (string key in mailMessage.Headers.AllKeys)
             {
                 Headers.Add(key, mailMessage.Headers[key]);
@@ -248,8 +248,7 @@ public class MailMessageWrapper
         return mailMessage;
     }
 
-    public static MailMessageWrapper Create(string str)
-    {
+    public static MailMessageWrapper Create(string str) =>
         //var settings = new JsonSerializerSettings
         //{
         //    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
@@ -257,11 +256,9 @@ public class MailMessageWrapper
         //};
         //return str.JsonDeserialize<MailMessageWrapper>(settings);
 
-        return str.JsonDeserialize<MailMessageWrapper>();
-    }
+        str.JsonDeserialize<MailMessageWrapper>();
 
-    public override string ToString()
-    {
+    public override string ToString() =>
         //var settings = new JsonSerializerSettings
         //{
         //    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
@@ -269,8 +266,7 @@ public class MailMessageWrapper
         //};
         //return this.ToJson(settings);
 
-        return this.JsonSerialize();
-    }
+        this.JsonSerialize();
 
     #region Nested type: AttachmentWrapper
 

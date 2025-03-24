@@ -1,61 +1,55 @@
-﻿using Extenso.Data.Entity;
+﻿using System.Linq.Expressions;
+using Extenso.Data.Entity;
 using Mantle.Infrastructure;
 using Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 using Mantle.Web.Collections;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq.Expressions;
 
-namespace Mantle.Plugins.Widgets.FullCalendar
+namespace Mantle.Plugins.Widgets.FullCalendar;
+
+public static class HtmlHelperExtensions
 {
-    public static class HtmlHelperExtensions
+    public static FullCalendar<TModel> FullCalendar<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
+}
+
+public class FullCalendar<TModel>
+    where TModel : class
+{
+    private readonly IHtmlHelper<TModel> html;
+
+    internal FullCalendar(IHtmlHelper<TModel> html)
     {
-        public static FullCalendar<TModel> FullCalendar<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-        {
-            return new FullCalendar<TModel>(html);
-        }
+        this.html = html;
     }
 
-    public class FullCalendar<TModel>
-        where TModel : class
+    public IHtmlContent CalendarDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
     {
-        private readonly IHtmlHelper<TModel> html;
+        var selectList = GetCalendarSelectList(selectedValue, emptyText);
+        return html.DropDownList(name, selectList, htmlAttributes);
+    }
 
-        internal FullCalendar(IHtmlHelper<TModel> html)
-        {
-            this.html = html;
-        }
+    public IHtmlContent CalendarDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
+    {
+        var func = expression.Compile();
+        int selectedValue = func(html.ViewData.Model);
 
-        public IHtmlContent CalendarDropDownList(string name, int? selectedValue = null, string emptyText = null, object htmlAttributes = null)
-        {
-            var selectList = GetCalendarSelectList(selectedValue, emptyText);
-            return html.DropDownList(name, selectList, htmlAttributes);
-        }
+        var selectList = GetCalendarSelectList(selectedValue, emptyText);
+        return html.DropDownListFor(expression, selectList, htmlAttributes);
+    }
 
-        public IHtmlContent CalendarDropDownListFor(Expression<Func<TModel, int>> expression, object htmlAttributes = null, string emptyText = null)
-        {
-            var func = expression.Compile();
-            var selectedValue = func(html.ViewData.Model);
+    public IEnumerable<SelectListItem> GetCalendarSelectList(int? selectedValue = null, string emptyText = null)
+    {
+        var repository = EngineContext.Current.Resolve<IRepository<Calendar>>();
 
-            var selectList = GetCalendarSelectList(selectedValue, emptyText);
-            return html.DropDownListFor(expression, selectList, htmlAttributes);
-        }
-
-        public IEnumerable<SelectListItem> GetCalendarSelectList(int? selectedValue = null, string emptyText = null)
-        {
-            var repository = EngineContext.Current.Resolve<IRepository<Calendar>>();
-
-            using (var connection = repository.OpenConnection())
-            {
-                return connection.Query()
-                    .OrderBy(x => x.Name)
-                    .ToHashSet()
-                    .ToSelectList(
-                        value => value.Id,
-                        text => text.Name,
-                        selectedValue,
-                        emptyText);
-            }
-        }
+        using var connection = repository.OpenConnection();
+        return connection.Query()
+            .OrderBy(x => x.Name)
+            .ToHashSet()
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name,
+                selectedValue,
+                emptyText);
     }
 }

@@ -4,11 +4,6 @@ namespace Mantle.Plugins.Messaging.Forums.Models;
 
 public class EditForumTopicModel
 {
-    public EditForumTopicModel()
-    {
-        TopicPriorities = new List<SelectListItem>();
-    }
-
     public bool IsEdit { get; set; }
 
     public int Id { get; set; }
@@ -33,7 +28,7 @@ public class EditForumTopicModel
 
     public bool IsUserAllowedToSetTopicPriority { get; set; }
 
-    public IEnumerable<SelectListItem> TopicPriorities { get; set; }
+    public IEnumerable<SelectListItem> TopicPriorities { get; set; } = [];
 
     public bool IsUserAllowedToSubscribe { get; set; }
 

@@ -10,8 +10,7 @@ public class BlogTag : TenantEntity<int>
 
     public ICollection<BlogPostTag> Posts
     {
-        get { return posts ??= new HashSet<BlogPostTag>(); }
-        set { posts = value; }
+        get => posts ??= new HashSet<BlogPostTag>(); set => posts = value;
     }
 }
 
@@ -25,12 +24,5 @@ public class TagMap : IEntityTypeConfiguration<BlogTag>, IMantleEntityTypeConfig
         builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

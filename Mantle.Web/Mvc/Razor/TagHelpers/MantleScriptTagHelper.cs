@@ -1,11 +1,11 @@
-﻿using Extenso.AspNetCore.Mvc.Html;
+﻿using System.Text.Encodings.Web;
+using Extenso.AspNetCore.Mvc.Html;
 using Mantle.Web.Helpers;
 using Mantle.Web.Mvc.Resources;
 using Microsoft.AspNetCore.Mvc.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Encodings.Web;
 using WebOptimizer;
 using ResourceLocation = Mantle.Web.Mvc.Resources.ResourceLocation;
 

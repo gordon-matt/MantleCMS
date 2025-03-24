@@ -41,15 +41,7 @@ public partial class ScheduledTaskService : IScheduledTaskService
     /// </summary>
     /// <param name="taskId">Task identifier</param>
     /// <returns>Task</returns>
-    public virtual ScheduledTask GetTaskById(int taskId)
-    {
-        if (taskId == 0)
-        {
-            return null;
-        }
-
-        return taskRepository.FindOne(taskId);
-    }
+    public virtual ScheduledTask GetTaskById(int taskId) => taskId == 0 ? null : taskRepository.FindOne(taskId);
 
     /// <summary>
     /// Gets a task by its type

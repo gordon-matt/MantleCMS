@@ -20,15 +20,9 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
         tenants = tenantService.Find();
     }
 
-    protected override string GetContextIdentifier(HttpContext context)
-    {
-        return context.Request.Host.Value.ToLower();
-    }
+    protected override string GetContextIdentifier(HttpContext context) => context.Request.Host.Value.ToLower();
 
-    protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context)
-    {
-        return context.Tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
-    }
+    protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context) => context.Tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
 
     protected override Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
     {
@@ -84,9 +78,6 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
         return Task.FromResult(tenantContext);
     }
 
-    protected override MemoryCacheEntryOptions CreateCacheEntryOptions()
-    {
-        return new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(new TimeSpan(24, 0, 0)); // Cache for 24 hours
-    }
+    protected override MemoryCacheEntryOptions CreateCacheEntryOptions() =>
+        new MemoryCacheEntryOptions().SetAbsoluteExpiration(new TimeSpan(24, 0, 0)); // Cache for 24 hours
 }

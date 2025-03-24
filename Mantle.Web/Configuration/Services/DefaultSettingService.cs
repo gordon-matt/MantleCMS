@@ -17,23 +17,10 @@ public class DefaultSettingService : ISettingService
         string key = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, tenantId, type);
         return cacheManager.Get(key, () =>
         {
-            Setting settings = null;
-
-            if (tenantId.HasValue)
-            {
-                settings = repository.FindOne(x => x.TenantId == tenantId && x.Type == type);
-            }
-            else
-            {
-                settings = repository.FindOne(x => x.TenantId == null && x.Type == type);
-            }
-
-            if (settings == null || string.IsNullOrEmpty(settings.Value))
-            {
-                return new TSettings();
-            }
-
-            return settings.Value.JsonDeserialize<TSettings>();
+            var settings = tenantId.HasValue
+                ? repository.FindOne(x => x.TenantId == tenantId && x.Type == type)
+                : repository.FindOne(x => x.TenantId == null && x.Type == type);
+            return settings == null || string.IsNullOrEmpty(settings.Value) ? new TSettings() : settings.Value.JsonDeserialize<TSettings>();
         });
     }
 
@@ -43,39 +30,20 @@ public class DefaultSettingService : ISettingService
         string key = string.Format(MantleWebConstants.CacheKeys.SettingsKeyFormat, tenantId, type);
         return cacheManager.Get(key, () =>
         {
-            Setting settings = null;
-
-            if (tenantId.HasValue)
-            {
-                settings = repository.FindOne(x => x.TenantId == tenantId && x.Type == type);
-            }
-            else
-            {
-                settings = repository.FindOne(x => x.TenantId == null && x.Type == type);
-            }
-
-            if (settings == null || string.IsNullOrEmpty(settings.Value))
-            {
-                return (ISettings)Activator.CreateInstance(settingsType);
-            }
-
-            return (ISettings)settings.Value.JsonDeserialize(settingsType);
+            var settings = tenantId.HasValue
+                ? repository.FindOne(x => x.TenantId == tenantId && x.Type == type)
+                : repository.FindOne(x => x.TenantId == null && x.Type == type);
+            return settings == null || string.IsNullOrEmpty(settings.Value)
+                ? (ISettings)Activator.CreateInstance(settingsType)
+                : (ISettings)settings.Value.JsonDeserialize(settingsType);
         });
     }
 
     public void SaveSettings(string key, string value, int? tenantId = null)
     {
-        Setting setting = null;
-
-        if (tenantId.HasValue)
-        {
-            setting = repository.FindOne(x => x.TenantId == tenantId && x.Type == key);
-        }
-        else
-        {
-            setting = repository.FindOne(x => x.TenantId == null && x.Type == key);
-        }
-
+        var setting = tenantId.HasValue
+            ? repository.FindOne(x => x.TenantId == tenantId && x.Type == key)
+            : repository.FindOne(x => x.TenantId == null && x.Type == key);
         if (setting == null)
         {
             var iSettings = EngineContext.Current.ResolveAll<ISettings>().FirstOrDefault(x => x.GetType().FullName == key);

@@ -8,10 +8,7 @@ namespace Mantle.Web.Configuration;
 
 public class ConfigurationModule : Module
 {
-    protected override void Load(ContainerBuilder builder)
-    {
-        builder.RegisterSource(new SettingsSource());
-    }
+    protected override void Load(ContainerBuilder builder) => builder.RegisterSource(new SettingsSource());
 
     public class SettingsSource : IRegistrationSource
     {
@@ -34,9 +31,8 @@ public class ConfigurationModule : Module
             }
         }
 
-        internal static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new()
-        {
-            return RegistrationBuilder
+        internal static IComponentRegistration BuildRegistration<TSettings>() where TSettings : ISettings, new() =>
+            RegistrationBuilder
                 .ForDelegate((c, p) =>
                 {
                     int currentTenantId = c.Resolve<IWorkContext>().CurrentTenant.Id;
@@ -50,11 +46,7 @@ public class ConfigurationModule : Module
                 })
                 .InstancePerLifetimeScope()
                 .CreateRegistration();
-        }
 
-        public bool IsAdapterForIndividualComponents
-        {
-            get { return false; }
-        }
+        public bool IsAdapterForIndividualComponents => false;
     }
 }

@@ -6,13 +6,5 @@
 public class MediaController : MantleController
 {
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(CmsPermissions.MediaRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(CmsPermissions.MediaRead) ? Unauthorized() : PartialView();
 }

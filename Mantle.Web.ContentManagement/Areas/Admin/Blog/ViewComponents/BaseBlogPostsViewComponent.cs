@@ -28,7 +28,9 @@ public abstract class BaseBlogPostsViewComponent : ViewComponent
     protected async Task<IViewComponentResult> Posts(int pageIndex, IEnumerable<BlogPost> model)
     {
         var userIds = model.Select(x => x.UserId).Distinct();
-        var userNames = (await MembershipService.Value.GetUsers(WorkContext.CurrentTenant.Id, x => userIds.Contains(x.Id))).ToDictionary(k => k.Id, v => v.UserName);
+        var userNames =
+            (await MembershipService.Value.GetUsers(WorkContext.CurrentTenant.Id, x => userIds.Contains(x.Id)))
+            .ToDictionary(k => k.Id, v => v.UserName);
 
         int total = await PostService.Value.CountAsync();
 

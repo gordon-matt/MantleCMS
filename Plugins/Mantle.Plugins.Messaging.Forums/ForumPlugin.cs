@@ -15,7 +15,7 @@ public class ForumPlugin : BasePlugin
         UninstallLanguagePack<LanguagePackInvariant>();
 
         var dbContextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
-        var dbContext = dbContextFactory.GetContext();
+        using var dbContext = dbContextFactory.GetContext();
 
         //TODO:
         //DropTable(dbContext, Constants.Tables.PrivateMessages);

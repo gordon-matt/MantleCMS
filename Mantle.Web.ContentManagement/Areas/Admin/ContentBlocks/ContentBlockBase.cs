@@ -1,6 +1,6 @@
-﻿using Extenso.Reflection;
+﻿using System.Reflection;
+using Extenso.Reflection;
 using Humanizer;
-using System.Reflection;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
@@ -108,7 +108,7 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
         for (int i = 0; i < propertyCount; i++)
         {
             var property = blockProperties.ElementAt(i);
-            bool isLast = (i == propertyCount - 1);
+            bool isLast = i == propertyCount - 1;
             sb.AppendLine(RenderSaveValue(property, isLast));
         }
 
@@ -130,26 +130,14 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
             string value;
             if (property.Attribute.DefaultValue is not null)
             {
-                if (property.Attribute.DefaultValue is bool)
-                {
-                    value = property.Attribute.DefaultValue.ToString().ToLowerInvariant();
-                }
-                else
-                {
-                    value = property.Attribute.DefaultValue.ToString();
-                }
+                value = property.Attribute.DefaultValue is bool
+                    ? property.Attribute.DefaultValue.ToString().ToLowerInvariant()
+                    : property.Attribute.DefaultValue.ToString();
             }
             else if (property.Type.GetDefaultValue() is not null)
             {
-                var val = property.Type.GetDefaultValue();
-                if (val is bool)
-                {
-                    value = val.ToString().ToLowerInvariant();
-                }
-                else
-                {
-                    value = val.ToString();
-                }
+                object val = property.Type.GetDefaultValue();
+                value = val is bool ? val.ToString().ToLowerInvariant() : val.ToString();
             }
             else
             {
@@ -160,17 +148,9 @@ public abstract class ContentBlockBase : BaseEntity<Guid>, IContentBlock
         }
     }
 
-    protected virtual string RenderObservableAssignment(BlockPropertyInfo property)
-    {
-        if (property.Type == typeof(bool))
-        {
-            return $"\t\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ blockModel.{property.KOName}(data.{property.Name}()); }}";
-        }
-        else
-        {
-            return $"\t\t\tif (data.{property.Name}) {{ blockModel.{property.KOName}(data.{property.Name}()); }}";
-        }
-    }
+    protected virtual string RenderObservableAssignment(BlockPropertyInfo property) => property.Type == typeof(bool)
+        ? $"\t\t\tif (data.{property.Name} && (typeof data.{property.Name} === 'boolean')) {{ blockModel.{property.KOName}(data.{property.Name}()); }}"
+        : $"\t\t\tif (data.{property.Name}) {{ blockModel.{property.KOName}(data.{property.Name}()); }}";
 
     protected virtual string RenderSaveValue(BlockPropertyInfo property, bool isLast) =>
         $"\t\t\t{property.Name}: blockModel.{property.KOName}(){(isLast ? string.Empty : ",")}";

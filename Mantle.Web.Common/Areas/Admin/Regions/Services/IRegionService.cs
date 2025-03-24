@@ -105,20 +105,16 @@ public class RegionService : GenericDataService<Region>, IRegionService
 
         using (var connection = OpenConnection())
         {
-            if (regionType.HasValue)
-            {
-                subRegions = connection.Query()
+            subRegions = regionType.HasValue
+                ? connection.Query()
                     .Include(x => x.Parent)
                     .Include(x => x.Children)
                     .Where(x => x.Parent.Id == regionId && x.RegionType == regionType)
                     .OrderBy(x => x.Order == null)
                     .ThenBy(x => x.Order)
                     .ThenBy(x => x.Name)
-                    .ToHashSet();
-            }
-            else
-            {
-                subRegions = connection.Query()
+                    .ToHashSet()
+                : (ICollection<Region>)connection.Query()
                    .Include(x => x.Parent)
                    .Include(x => x.Children)
                    .Where(x => x.Parent.Id == regionId)
@@ -126,7 +122,6 @@ public class RegionService : GenericDataService<Region>, IRegionService
                    .ThenBy(x => x.Order)
                    .ThenBy(x => x.Name)
                    .ToHashSet();
-            }
         }
 
         if (!string.IsNullOrEmpty(cultureCode))
@@ -144,14 +139,9 @@ public class RegionService : GenericDataService<Region>, IRegionService
             .Include(x => x.Parent)
             .Include(x => x.Children);
 
-        if (regionType.HasValue)
-        {
-            query = query.Where(x => x.Parent.Id == regionId && x.RegionType == regionType);
-        }
-        else
-        {
-            query = query.Where(x => x.Parent.Id == regionId);
-        }
+        query = regionType.HasValue
+            ? query.Where(x => x.Parent.Id == regionId && x.RegionType == regionType)
+            : query.Where(x => x.Parent.Id == regionId);
 
         query = query
             .OrderBy(x => x.Order == null)
@@ -201,24 +191,19 @@ public class RegionService : GenericDataService<Region>, IRegionService
 
         using (var connection = OpenConnection())
         {
-            if (includeCities)
-            {
-                states = connection.Query()
+            states = includeCities
+                ? connection.Query()
                     .Include(x => x.Children)
                     .Where(x => x.ParentId == countryId && x.RegionType == RegionType.State)
                     .OrderBy(x => x.Order == null)
                     .ThenBy(x => x.Order)
                     .ThenBy(x => x.Name)
-                    .ToHashSet();
-            }
-            else
-            {
-                states = connection.Query(x => x.ParentId == countryId && x.RegionType == RegionType.State)
+                    .ToHashSet()
+                : (ICollection<Region>)connection.Query(x => x.ParentId == countryId && x.RegionType == RegionType.State)
                     .OrderBy(x => x.Order == null)
                     .ThenBy(x => x.Order)
                     .ThenBy(x => x.Name)
                     .ToHashSet();
-            }
         }
 
         if (!string.IsNullOrEmpty(cultureCode))

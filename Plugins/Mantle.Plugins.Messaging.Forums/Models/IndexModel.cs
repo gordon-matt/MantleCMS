@@ -2,10 +2,5 @@
 
 public class IndexModel
 {
-    public IndexModel()
-    {
-        this.ForumGroups = new List<ForumGroupModel>();
-    }
-
-    public IList<ForumGroupModel> ForumGroups { get; set; }
+    public IList<ForumGroupModel> ForumGroups { get; set; } = [];
 }

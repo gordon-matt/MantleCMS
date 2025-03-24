@@ -17,25 +17,24 @@ internal class FlatPositionComparer : IComparer<string>
             ? "before"
             : y.Trim().Length == 0 ? "0" : y.Trim(':').TrimEnd('.');
 
-        string[] xParts = x.Split(new[] { '.', ':' });
-        string[] yParts = y.Split(new[] { '.', ':' });
-        for (int i = 0; i < xParts.Count(); i++)
+        string[] xParts = x.Split(['.', ':']);
+        string[] yParts = y.Split(['.', ':']);
+
+        for (int i = 0; i < xParts.Length; i++)
         {
             if (yParts.Length < i + 1) // x is further defined meaning it comes after y (e.g. x == 1.2.3 and y == 1.2)
             {
                 return 1;
             }
 
-            int xPos;
-            int yPos;
             string xPart = string.IsNullOrWhiteSpace(xParts[i]) ? "before" : xParts[i];
             string yPart = string.IsNullOrWhiteSpace(yParts[i]) ? "before" : yParts[i];
 
             xPart = NormalizeKnownPartitions(xPart);
             yPart = NormalizeKnownPartitions(yPart);
 
-            bool xIsInt = int.TryParse(xPart, out xPos);
-            bool yIsInt = int.TryParse(yPart, out yPos);
+            bool xIsInt = int.TryParse(xPart, out int xPos);
+            bool yIsInt = int.TryParse(yPart, out int yPos);
 
             if (!xIsInt && !yIsInt)
             {
@@ -53,31 +52,12 @@ internal class FlatPositionComparer : IComparer<string>
             }
         }
 
-        if (xParts.Length < yParts.Length) // all things being equal y might be further defined than x (e.g. x == 1.2 and y == 1.2.3)
-        {
-            return -1;
-        }
-
-        return 0;
+        return xParts.Length < yParts.Length ? -1 : 0;
     }
 
-    private static string NormalizeKnownPartitions(string partition)
-    {
-        if (partition.Length < 5) // known partitions are long
-        {
-            return partition;
-        }
-
-        if (string.Compare(partition, "before", StringComparison.OrdinalIgnoreCase) == 0)
-        {
-            return "-9999";
-        }
-
-        if (string.Compare(partition, "after", StringComparison.OrdinalIgnoreCase) == 0)
-        {
-            return "9999";
-        }
-
-        return partition;
-    }
+    private static string NormalizeKnownPartitions(string partition) => partition.Length < 5
+        ? partition
+        : string.Compare(partition, "before", StringComparison.OrdinalIgnoreCase) == 0
+            ? "-9999"
+            : string.Compare(partition, "after", StringComparison.OrdinalIgnoreCase) == 0 ? "9999" : partition;
 }

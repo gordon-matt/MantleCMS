@@ -57,22 +57,19 @@ public class RegionSettingsApiController : ODataController
             x.RegionId == regionId &&
             x.SettingsId == settingsId);
 
-        if (dataEntity != null)
-        {
-            return new EdmRegionSettings
+        return dataEntity != null
+            ? new EdmRegionSettings
             {
                 Id = settingsId,
                 Name = settings.Name,
                 Fields = dataEntity.Fields
+            }
+            : new EdmRegionSettings
+            {
+                Id = settingsId,
+                Name = settings.Name,
+                Fields = null
             };
-        }
-
-        return new EdmRegionSettings
-        {
-            Id = settingsId,
-            Name = settings.Name,
-            Fields = null
-        };
     }
 
     [HttpPost]

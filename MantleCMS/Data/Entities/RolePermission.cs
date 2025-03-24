@@ -1,8 +1,8 @@
-﻿using Mantle.Data.Entity;
+﻿using System.Runtime.Serialization;
+using Mantle.Data.Entity;
 using Mantle.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Runtime.Serialization;
 
 namespace MantleCMS.Data.Entities;
 
@@ -12,15 +12,8 @@ public class RolePermission : IEntity
 
     public string RoleId { get; set; }
 
-    #region IEntity Members
-
     [IgnoreDataMember]
-    public object[] KeyValues
-    {
-        get { return new object[] { Permission, RoleId }; }
-    }
-
-    #endregion IEntity Members
+    public object[] KeyValues => new object[] { Permission, RoleId };
 
     public virtual Permission Permission { get; set; }
 
@@ -42,12 +35,5 @@ public class RolePermissionMap : IEntityTypeConfiguration<RolePermission>, IMant
         builder.HasIndex(x => x.RoleId);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

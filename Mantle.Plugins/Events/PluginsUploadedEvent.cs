@@ -13,7 +13,7 @@ public class PluginsUploadedEvent
     /// <param name="uploadedPlugins">Uploaded plugins</param>
     public PluginsUploadedEvent(IList<PluginDescriptor> uploadedPlugins)
     {
-        this.UploadedPlugins = uploadedPlugins;
+        UploadedPlugins = uploadedPlugins;
     }
 
     #endregion Ctor

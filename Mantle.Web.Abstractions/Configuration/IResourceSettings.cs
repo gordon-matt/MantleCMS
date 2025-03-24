@@ -11,7 +11,7 @@ public class RequiredResourceCollection
 {
     public string Name { get; set; }
 
-    public ICollection<RequiredResource> Resources { get; set; } = new List<RequiredResource>();
+    public ICollection<RequiredResource> Resources { get; set; } = [];
 }
 
 public class RequiredResource

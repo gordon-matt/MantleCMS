@@ -1,7 +1,7 @@
-﻿using Mantle.Identity.Models.ManageViewModels;
-using Mantle.Web.Configuration;
-using System.Text;
+﻿using System.Text;
 using System.Text.Encodings.Web;
+using Mantle.Identity.Models.ManageViewModels;
+using Mantle.Web.Configuration;
 
 namespace Mantle.Identity;
 
@@ -198,11 +198,8 @@ public abstract class MantleManageController<TUser> : Controller
             return View(model);
         }
 
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var addPasswordResult = await userManager.AddPasswordAsync(user, model.NewPassword);
         if (!addPasswordResult.Succeeded)
@@ -220,11 +217,8 @@ public abstract class MantleManageController<TUser> : Controller
     [HttpGet]
     public virtual async Task<IActionResult> ExternalLogins()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var model = new ExternalLoginsViewModel { CurrentLogins = await userManager.GetLoginsAsync(user) };
         model.OtherLogins = (await signInManager.GetExternalAuthenticationSchemesAsync())
@@ -252,11 +246,8 @@ public abstract class MantleManageController<TUser> : Controller
     [HttpGet]
     public virtual async Task<IActionResult> LinkLoginCallback()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var info = await signInManager.GetExternalLoginInfoAsync(user.Id);
         if (info == null)
@@ -281,11 +272,8 @@ public abstract class MantleManageController<TUser> : Controller
     [ValidateAntiForgeryToken]
     public virtual async Task<IActionResult> RemoveLogin(RemoveLoginViewModel model)
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var result = await userManager.RemoveLoginAsync(user, model.LoginProvider, model.ProviderKey);
         if (!result.Succeeded)
@@ -301,11 +289,8 @@ public abstract class MantleManageController<TUser> : Controller
     [HttpGet]
     public virtual async Task<IActionResult> TwoFactorAuthentication()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var model = new TwoFactorAuthenticationViewModel
         {
@@ -321,28 +306,19 @@ public abstract class MantleManageController<TUser> : Controller
     public virtual async Task<IActionResult> Disable2faWarning()
     {
         var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
-
-        if (!user.TwoFactorEnabled)
-        {
-            throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
-        }
-
-        return View(nameof(Disable2fa));
+        return user == null
+            ? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.")
+            : !user.TwoFactorEnabled
+                ? throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.")
+                : (IActionResult)View(nameof(Disable2fa));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public virtual async Task<IActionResult> Disable2fa()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         var disable2faResult = await userManager.SetTwoFactorEnabledAsync(user, false);
         if (!disable2faResult.Succeeded)
@@ -357,11 +333,8 @@ public abstract class MantleManageController<TUser> : Controller
     [HttpGet]
     public virtual async Task<IActionResult> EnableAuthenticator()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         string unformattedKey = await userManager.GetAuthenticatorKeyAsync(user);
         if (string.IsNullOrEmpty(unformattedKey))
@@ -388,11 +361,8 @@ public abstract class MantleManageController<TUser> : Controller
             return View(model);
         }
 
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         // Strip spaces and hypens
         string verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -412,20 +382,14 @@ public abstract class MantleManageController<TUser> : Controller
     }
 
     [HttpGet]
-    public virtual IActionResult ResetAuthenticatorWarning()
-    {
-        return View(nameof(ResetAuthenticator));
-    }
+    public virtual IActionResult ResetAuthenticatorWarning() => View(nameof(ResetAuthenticator));
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public virtual async Task<IActionResult> ResetAuthenticator()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         await userManager.SetTwoFactorEnabledAsync(user, false);
         await userManager.ResetAuthenticatorKeyAsync(user);
@@ -437,11 +401,8 @@ public abstract class MantleManageController<TUser> : Controller
     [HttpGet]
     public virtual async Task<IActionResult> GenerateRecoveryCodes()
     {
-        var user = await userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
-        }
+        var user = await userManager.GetUserAsync(User)
+            ?? throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
         if (!user.TwoFactorEnabled)
         {
@@ -483,14 +444,11 @@ public abstract class MantleManageController<TUser> : Controller
         return result.ToString().ToLowerInvariant();
     }
 
-    private string GenerateQrCodeUri(string email, string unformattedKey)
-    {
-        return string.Format(
-            AuthenicatorUriFormat,
-            urlEncoder.Encode(siteSettings.SiteName),
-            urlEncoder.Encode(email),
-            unformattedKey);
-    }
+    private string GenerateQrCodeUri(string email, string unformattedKey) => string.Format(
+        AuthenicatorUriFormat,
+        urlEncoder.Encode(siteSettings.SiteName),
+        urlEncoder.Encode(email),
+        unformattedKey);
 
     #endregion Helpers
 }

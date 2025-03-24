@@ -16,10 +16,7 @@ public class CmsNavigationProvider : INavigationProvider
 
     public string MenuName => MantleWebConstants.Areas.Admin;
 
-    public void GetNavigation(NavigationBuilder builder)
-    {
-        builder.Add(T[MantleCmsLocalizableStrings.Navigation.CMS].Value, "2", BuildCmsMenu);
-    }
+    public void GetNavigation(NavigationBuilder builder) => builder.Add(T[MantleCmsLocalizableStrings.Navigation.CMS].Value, "2", BuildCmsMenu);
 
     #endregion INavigationProvider Members
 

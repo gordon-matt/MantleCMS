@@ -29,8 +29,5 @@ public sealed class Token
     /// </summary>
     public bool HtmlEncoded { get; }
 
-    public override string ToString()
-    {
-        return string.Format("{0}: {1}", Key, Value);
-    }
+    public override string ToString() => string.Format("{0}: {1}", Key, Value);
 }

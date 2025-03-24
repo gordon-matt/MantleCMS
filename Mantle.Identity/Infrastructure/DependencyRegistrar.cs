@@ -8,16 +8,11 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
-    {
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration) =>
         // localization
         builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
-    }
 
-    public int Order
-    {
-        get { return 0; }
-    }
+    public int Order => 0;
 
     #endregion IDependencyRegistrar Members
 }

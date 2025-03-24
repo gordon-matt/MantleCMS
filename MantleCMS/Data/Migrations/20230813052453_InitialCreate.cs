@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace MantleCMS.Data.Migrations;
 
 /// <inheritdoc />
@@ -23,10 +21,7 @@ public partial class InitialCreate : Migration
                 ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_AspNetRoles", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "BlogCategories",
@@ -39,10 +34,7 @@ public partial class InitialCreate : Migration
                 UrlSlug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_BlogCategories", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_BlogCategories", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "BlogTags",
@@ -55,10 +47,7 @@ public partial class InitialCreate : Migration
                 UrlSlug = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_BlogTags", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_BlogTags", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Common_Regions",
@@ -99,10 +88,7 @@ public partial class InitialCreate : Migration
                 SettingsId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                 Fields = table.Column<string>(type: "nvarchar(max)", nullable: false)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Common_RegionSettings", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Common_RegionSettings", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "ContentBlocks",
@@ -120,10 +106,7 @@ public partial class InitialCreate : Migration
                 CustomTemplatePath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                 PageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_ContentBlocks", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_ContentBlocks", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "EntityTypeContentBlocks",
@@ -142,10 +125,7 @@ public partial class InitialCreate : Migration
                 BlockValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 CustomTemplatePath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_EntityTypeContentBlocks", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_EntityTypeContentBlocks", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "GenericAttributes",
@@ -159,10 +139,7 @@ public partial class InitialCreate : Migration
                 Property = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
                 Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_GenericAttributes", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_GenericAttributes", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Languages",
@@ -177,10 +154,7 @@ public partial class InitialCreate : Migration
                 SortOrder = table.Column<int>(type: "int", nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Languages", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Languages", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "LocalizableProperties",
@@ -195,10 +169,7 @@ public partial class InitialCreate : Migration
                 Property = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
                 Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_LocalizableProperties", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_LocalizableProperties", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "LocalizableStrings",
@@ -211,10 +182,7 @@ public partial class InitialCreate : Migration
                 TextValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_LocalizableStrings", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_LocalizableStrings", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Log",
@@ -235,10 +203,7 @@ public partial class InitialCreate : Migration
                 InnerErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Log", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Log", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "MenuItems",
@@ -257,10 +222,7 @@ public partial class InitialCreate : Migration
                 IsExternalUrl = table.Column<bool>(type: "bit", nullable: false),
                 RefId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_MenuItems", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_MenuItems", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Menus",
@@ -272,10 +234,7 @@ public partial class InitialCreate : Migration
                 UrlFilter = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Menus", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Menus", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "MessageTemplates",
@@ -290,10 +249,7 @@ public partial class InitialCreate : Migration
                 Enabled = table.Column<bool>(type: "bit", nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_MessageTemplates", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_MessageTemplates", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Pages",
@@ -310,10 +266,7 @@ public partial class InitialCreate : Migration
                 AccessRestrictions = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Pages", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Pages", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "PageTypes",
@@ -324,10 +277,7 @@ public partial class InitialCreate : Migration
                 Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 LayoutPath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_PageTypes", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_PageTypes", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Permissions",
@@ -341,10 +291,7 @@ public partial class InitialCreate : Migration
                 Description = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Permissions", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Permissions", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "QueuedEmails",
@@ -364,10 +311,7 @@ public partial class InitialCreate : Migration
                 SentOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_QueuedEmails", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_QueuedEmails", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "ScheduledTasks",
@@ -385,10 +329,7 @@ public partial class InitialCreate : Migration
                 LastEndUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                 LastSuccessUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_ScheduledTasks", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_ScheduledTasks", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Settings",
@@ -401,10 +342,7 @@ public partial class InitialCreate : Migration
                 Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Settings", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Settings", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "SitemapConfig",
@@ -418,10 +356,7 @@ public partial class InitialCreate : Migration
                 Priority = table.Column<float>(type: "real", nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_SitemapConfig", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_SitemapConfig", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Tenants",
@@ -434,10 +369,7 @@ public partial class InitialCreate : Migration
                 Url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 Hosts = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Tenants", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Tenants", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "UserProfiles",
@@ -451,10 +383,7 @@ public partial class InitialCreate : Migration
                 Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_UserProfiles", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_UserProfiles", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Zones",
@@ -465,10 +394,7 @@ public partial class InitialCreate : Migration
                 Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 TenantId = table.Column<int>(type: "int", nullable: true)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Zones", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Zones", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "AspNetRoleClaims",

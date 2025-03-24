@@ -26,12 +26,5 @@ public class UserProfileEntryMap : IEntityTypeConfiguration<UserProfileEntry>, I
         builder.Property(x => x.Value).IsRequired().IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

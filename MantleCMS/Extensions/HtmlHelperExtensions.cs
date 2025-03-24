@@ -8,10 +8,7 @@ namespace MantleCMS.Extensions;
 
 public static class HtmlHelperExtensions
 {
-    public static DemoApp<TModel> DemoApp<TModel>(this IHtmlHelper<TModel> html) where TModel : class
-    {
-        return new DemoApp<TModel>(html);
-    }
+    public static DemoApp<TModel> DemoApp<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
 }
 
 public class DemoApp<TModel>

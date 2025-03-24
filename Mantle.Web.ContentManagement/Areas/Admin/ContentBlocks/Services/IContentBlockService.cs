@@ -64,10 +64,7 @@ public class ContentBlockService : GenericDataService<ContentBlock>, IContentBlo
             pageId,
             cultureCode);
 
-        var records = CacheManager.Get(key, () =>
-        {
-            return Find(x => x.PageId == pageId);
-        });
+        var records = CacheManager.Get(key, () => Find(x => x.PageId == pageId));
 
         return GetContentBlocks(records, cultureCode);
     }
@@ -86,9 +83,8 @@ public class ContentBlockService : GenericDataService<ContentBlock>, IContentBlo
 
         var records = Enumerable.Empty<ContentBlock>();
 
-        if (includeDisabled)
-        {
-            records = CacheManager.Get(key, () =>
+        records = includeDisabled
+            ? CacheManager.Get(key, () =>
             {
                 var zone = zoneRepository.Value.FindOne(x => x.TenantId == tenantId && x.Name == zoneName);
 
@@ -106,11 +102,8 @@ public class ContentBlockService : GenericDataService<ContentBlock>, IContentBlo
                 return pageId.HasValue
                     ? Find(x => x.ZoneId == zone.Id && x.PageId == pageId.Value)
                     : Find(x => x.ZoneId == zone.Id && x.PageId == null);
-            });
-        }
-        else
-        {
-            records = CacheManager.Get(key, () =>
+            })
+            : CacheManager.Get(key, () =>
             {
                 var zone = zoneRepository.Value.FindOne(x => x.TenantId == tenantId && x.Name == zoneName);
 
@@ -134,7 +127,6 @@ public class ContentBlockService : GenericDataService<ContentBlock>, IContentBlo
 
                 return list;
             });
-        }
 
         return GetContentBlocks(records, cultureCode);
     }
@@ -194,8 +186,5 @@ public class ContentBlockService : GenericDataService<ContentBlock>, IContentBlo
         return result;
     }
 
-    protected virtual int GetTenantId()
-    {
-        return workContext.CurrentTenant.Id;
-    }
+    protected virtual int GetTenantId() => workContext.CurrentTenant.Id;
 }

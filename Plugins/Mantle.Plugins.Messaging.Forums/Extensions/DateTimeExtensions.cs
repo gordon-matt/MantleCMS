@@ -12,10 +12,7 @@ public static class DateTimeExtensions
     /// </summary>
     /// <param name="source">Source (UTC format)</param>
     /// <returns>Formatted date and time string</returns>
-    public static string RelativeFormat(this DateTime source)
-    {
-        return RelativeFormat(source, string.Empty);
-    }
+    public static string RelativeFormat(this DateTime source) => RelativeFormat(source, string.Empty);
 
     /// <summary>
     /// Relative formatting of DateTime (e.g. 2 hours ago, a month ago)
@@ -23,10 +20,7 @@ public static class DateTimeExtensions
     /// <param name="source">Source (UTC format)</param>
     /// <param name="defaultFormat">Default format string (in case relative formatting is not applied)</param>
     /// <returns>Formatted date and time string</returns>
-    public static string RelativeFormat(this DateTime source, string defaultFormat)
-    {
-        return RelativeFormat(source, false, defaultFormat);
-    }
+    public static string RelativeFormat(this DateTime source, string defaultFormat) => RelativeFormat(source, false, defaultFormat);
 
     /// <summary>
     /// Relative formatting of DateTime (e.g. 2 hours ago, a month ago)
@@ -64,7 +58,10 @@ public static class DateTimeExtensions
             {
                 int hours = ts.Hours;
                 if (hours == 1)
+                {
                     hours = 2;
+                }
+
                 result = hours + " hours ago";
             }
             else if (delta < 172800) // 48 (hours) * 60 (minutes) * 60 (seconds)
@@ -88,20 +85,13 @@ public static class DateTimeExtensions
         }
         else
         {
-            DateTime tmp1 = source;
+            var tmp1 = source;
             if (convertToUserTime)
             {
                 tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
             }
             //default formatting
-            if (!string.IsNullOrEmpty(defaultFormat))
-            {
-                result = tmp1.ToString(defaultFormat);
-            }
-            else
-            {
-                result = tmp1.ToString();
-            }
+            result = !string.IsNullOrEmpty(defaultFormat) ? tmp1.ToString(defaultFormat) : tmp1.ToString();
         }
         return result;
     }

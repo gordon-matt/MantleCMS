@@ -10,23 +10,11 @@ public class PageTypeApiController : GenericODataController<PageType, Guid>
     {
     }
 
-    protected override Guid GetId(PageType entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(PageType entity) => entity.Id;
 
-    protected override void SetNewId(PageType entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(PageType entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.PageTypesRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.PageTypesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.PageTypesWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.PageTypesWrite;
 }

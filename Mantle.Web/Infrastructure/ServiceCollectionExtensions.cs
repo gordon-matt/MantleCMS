@@ -8,14 +8,12 @@ namespace Mantle.Web.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    public static void ConfigureMantleOptions(this IServiceCollection services, IConfigurationRoot configuration)
-    {
-        services.Configure<MantleInfrastructureOptions>(configuration.GetSection(nameof(MantleInfrastructureOptions)))
-            .Configure<MantlePluginOptions>(configuration.GetSection(nameof(MantlePluginOptions)))
-            .Configure<MantleTasksOptions>(configuration.GetSection(nameof(MantleTasksOptions)))
-            .Configure<MantleWebOptions>(configuration.GetSection(nameof(MantleWebOptions)))
-            .Configure<WebOptimizerOptions>(configuration.GetSection(nameof(WebOptimizerOptions)));
-    }
+    public static void ConfigureMantleOptions(this IServiceCollection services, IConfigurationRoot configuration) => services
+        .Configure<MantleInfrastructureOptions>(configuration.GetSection(nameof(MantleInfrastructureOptions)))
+        .Configure<MantlePluginOptions>(configuration.GetSection(nameof(MantlePluginOptions)))
+        .Configure<MantleTasksOptions>(configuration.GetSection(nameof(MantleTasksOptions)))
+        .Configure<MantleWebOptions>(configuration.GetSection(nameof(MantleWebOptions)))
+        .Configure<WebOptimizerOptions>(configuration.GetSection(nameof(WebOptimizerOptions)));
 
     /// <summary>
     /// Adds WebOptimizer to the specified <see cref="IServiceCollection"/> and enables CSS and JavaScript minification.

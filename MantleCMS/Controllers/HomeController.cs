@@ -23,20 +23,11 @@ public class HomeController : MantleController
     }
 
     [Route("about")]
-    public IActionResult About()
-    {
-        return View();
-    }
+    public IActionResult About() => View();
 
     [Route("contact")]
-    public IActionResult Contact()
-    {
-        return View();
-    }
+    public IActionResult Contact() => View();
 
     [Route("test")]
-    public IActionResult Test()
-    {
-        return View();
-    }
+    public IActionResult Test() => View();
 }

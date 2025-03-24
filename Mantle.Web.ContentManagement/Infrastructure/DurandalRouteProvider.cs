@@ -11,7 +11,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
             var T = EngineContext.Current.Resolve<IStringLocalizer>();
             var routes = new List<DurandalRoute>
             {
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/blog",
                     Route = "blog",
@@ -19,7 +19,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.Blog.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/blocks/content-blocks",
                     Route = "blocks/content-blocks(/:pageId)",
@@ -27,7 +27,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/blocks/entity-type-content-blocks",
                     Route = "blocks/entity-type-content-blocks/:entityType/:entityId",
@@ -35,7 +35,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.ContentBlocks.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/media",
                     Route = "media",
@@ -43,7 +43,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.Media.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/menus",
                     Route = "menus",
@@ -51,7 +51,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.Menus.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/newsletters/subscribers",
                     Route = "newsletters/subscribers",
@@ -59,7 +59,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.Newsletters.Subscribers].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/pages",
                     Route = "pages",
@@ -67,7 +67,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Title = T[MantleCmsLocalizableStrings.Pages.Title].Value
                 },
 
-                new DurandalRoute
+                new()
                 {
                     ModuleId = "viewmodels/admin/sitemap/xml-sitemap",
                     Route = "sitemap/xml-sitemap",

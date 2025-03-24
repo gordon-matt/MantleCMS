@@ -26,10 +26,7 @@ public class MenuItem : BaseEntity<Guid>
 
     //public virtual MenuItem Parent { get; set; }
 
-    public override string ToString()
-    {
-        return Text;
-    }
+    public override string ToString() => Text;
 }
 
 public class MenuItemMap : IEntityTypeConfiguration<MenuItem>, IMantleEntityTypeConfiguration

@@ -2,11 +2,6 @@
 
 public class ForumTopicPageModel
 {
-    public ForumTopicPageModel()
-    {
-        this.ForumPostModels = new List<ForumPostModel>();
-    }
-
     public int Id { get; set; }
 
     public string Subject { get; set; }
@@ -23,7 +18,7 @@ public class ForumTopicPageModel
 
     public bool IsUserAllowedToSubscribe { get; set; }
 
-    public IList<ForumPostModel> ForumPostModels { get; set; }
+    public IList<ForumPostModel> ForumPostModels { get; set; } = [];
 
     public int PostsPageIndex { get; set; }
 

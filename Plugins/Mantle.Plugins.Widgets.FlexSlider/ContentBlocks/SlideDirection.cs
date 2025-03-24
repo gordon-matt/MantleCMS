@@ -1,8 +1,7 @@
-﻿namespace Mantle.Plugins.Widgets.FlexSlider.ContentBlocks
+﻿namespace Mantle.Plugins.Widgets.FlexSlider.ContentBlocks;
+
+public enum SlideDirection : byte
 {
-    public enum SlideDirection : byte
-    {
-        Horizontal = 0,
-        Vertical = 1
-    }
+    Horizontal = 0,
+    Vertical = 1
 }

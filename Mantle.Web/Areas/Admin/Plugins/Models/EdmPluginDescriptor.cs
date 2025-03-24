@@ -20,20 +20,17 @@ public class EdmPluginDescriptor
 
     public IEnumerable<int> LimitedToTenants { get; set; }
 
-    public static implicit operator EdmPluginDescriptor(PluginDescriptor other)
+    public static implicit operator EdmPluginDescriptor(PluginDescriptor other) => new()
     {
-        return new EdmPluginDescriptor
-        {
-            //Id = Guid.NewGuid(), //To Keep OData v4 happy
-            Id = other.SystemName.Replace('.', '-'), //To Keep OData v4 happy
-            Group = other.Group,
-            FriendlyName = other.FriendlyName,
-            SystemName = other.SystemName,
-            Version = other.Version,
-            Author = other.Author,
-            DisplayOrder = other.DisplayOrder,
-            Installed = other.Installed,
-            LimitedToTenants = other.LimitedToTenants ?? Enumerable.Empty<int>()
-        };
-    }
+        //Id = Guid.NewGuid(), //To Keep OData v4 happy
+        Id = other.SystemName.Replace('.', '-'), //To Keep OData v4 happy
+        Group = other.Group,
+        FriendlyName = other.FriendlyName,
+        SystemName = other.SystemName,
+        Version = other.Version,
+        Author = other.Author,
+        DisplayOrder = other.DisplayOrder,
+        Installed = other.Installed,
+        LimitedToTenants = other.LimitedToTenants ?? Enumerable.Empty<int>()
+    };
 }

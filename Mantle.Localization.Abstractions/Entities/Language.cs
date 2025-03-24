@@ -1,5 +1,5 @@
-﻿using Mantle.Tenants.Entities;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Mantle.Tenants.Entities;
 
 namespace Mantle.Localization.Entities;
 

@@ -17,15 +17,9 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
         this.localizablePropertyService = localizablePropertyService;
     }
 
-    protected override Guid GetId(ContentBlock entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(ContentBlock entity) => entity.Id;
 
-    protected override void SetNewId(ContentBlock entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(ContentBlock entity) => entity.Id = Guid.NewGuid();
 
     public override async Task<IActionResult> Get(ODataQueryOptions<ContentBlock> options)
     {
@@ -62,9 +56,9 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
 
         var connection = GetDisposableConnection();
         var query = connection
-                .Query(x => x.PageId == pageId)
-                .OrderBy(x => x.ZoneId)
-                .ThenBy(x => x.Order);
+            .Query(x => x.PageId == pageId)
+            .OrderBy(x => x.ZoneId)
+            .ThenBy(x => x.Order);
 
         //var results = options.ApplyTo(query, AllowedQueryOptions);
         var results = options.ApplyTo(query);
@@ -176,13 +170,7 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
         }
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.ContentBlocksRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.ContentBlocksRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.ContentBlocksWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.ContentBlocksWrite;
 }

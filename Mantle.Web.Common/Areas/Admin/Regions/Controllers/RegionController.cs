@@ -79,8 +79,8 @@ public class RegionController : MantleController
             .ThenBy(x => x.Name)
             .Select(x => new
             {
-                Id = x.Id,
-                Name = x.Name
+                x.Id,
+                x.Name
             });
 
         return Json(new { Data = data });
@@ -100,8 +100,8 @@ public class RegionController : MantleController
             .ThenBy(x => x.Name)
             .Select(x => new
             {
-                Id = x.Id,
-                Name = x.Name
+                x.Id,
+                x.Name
             });
 
         return Json(new { Data = data });

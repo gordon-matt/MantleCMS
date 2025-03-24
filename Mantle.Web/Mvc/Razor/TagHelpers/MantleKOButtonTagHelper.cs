@@ -25,11 +25,8 @@ public class MantleKOButtonTagHelper : TagHelper
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        if (context == null)
-            throw new ArgumentNullException(nameof(context));
-
-        if (output == null)
-            throw new ArgumentNullException(nameof(output));
+        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(output);
 
         //clear the output
         output.SuppressOutput();
@@ -48,18 +45,15 @@ public class MantleKOButtonTagHelper : TagHelper
         output.Content.AppendHtml(tagBuilder.ToString());
     }
 
-    protected virtual string GetButtonCssClass(State state)
+    protected virtual string GetButtonCssClass(State state) => state switch
     {
-        return state switch
-        {
-            State.Danger => "btn btn-danger",
-            State.Default => "btn btn-secondary",
-            State.Info => "btn btn-info",
-            State.Inverse => "btn btn-inverse",
-            State.Primary => "btn btn-primary",
-            State.Success => "btn btn-success",
-            State.Warning => "btn btn-warning",
-            _ => "btn btn-secondary",
-        };
-    }
+        State.Danger => "btn btn-danger",
+        State.Default => "btn btn-secondary",
+        State.Info => "btn btn-info",
+        State.Inverse => "btn btn-inverse",
+        State.Primary => "btn btn-primary",
+        State.Success => "btn btn-success",
+        State.Warning => "btn btn-warning",
+        _ => "btn btn-secondary",
+    };
 }

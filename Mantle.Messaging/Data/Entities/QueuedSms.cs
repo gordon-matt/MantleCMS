@@ -46,14 +46,14 @@
 //    /// </summary>
 //    public DateTime? SentOnUtc { get; set; }
 
-//    #region IEntity Members
+//
 
 //    public object[] KeyValues
 //    {
 //        get { return new object[] { Id }; }
 //    }
 
-//    #endregion IEntity Members
+//
 //}
 
 //public class QueuedSmsMap : IEntityTypeConfiguration<QueuedSms>, IMantleEntityTypeConfiguration

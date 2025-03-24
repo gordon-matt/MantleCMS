@@ -58,18 +58,18 @@ public class ForumSettings : BaseResourceSettings
 
     [System.Text.Json.Serialization.JsonIgnore]
     [Newtonsoft.Json.JsonIgnore]
-    public override ICollection<RequiredResourceCollection> DefaultResources => new List<RequiredResourceCollection>
-    {
+    public override ICollection<RequiredResourceCollection> DefaultResources =>
+    [
         new RequiredResourceCollection
         {
             Name = "Bootstrap-FileInput",
-            Resources = new List<RequiredResource>
-            {
+            Resources =
+            [
                 new RequiredResource { Type = ResourceType.Script, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/js/fileinput.min.js" },
                 new RequiredResource { Type = ResourceType.Stylesheet, Order = 0, Path = "https://cdn.jsdelivr.net/npm/bootstrap-fileinput@5.5.2/css/fileinput.min.css" }
-            }
+            ]
         }
-    };
+    ];
 
     #endregion IResourceSettings Members
 

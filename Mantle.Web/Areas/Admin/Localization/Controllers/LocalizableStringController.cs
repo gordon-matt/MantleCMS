@@ -18,15 +18,7 @@ public class LocalizableStringController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(MantleWebPermissions.LocalizableStringsRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(MantleWebPermissions.LocalizableStringsRead) ? Unauthorized() : PartialView();
 
     [Route("export/{cultureCode}")]
     public IActionResult ExportLanguagePack(string cultureCode)

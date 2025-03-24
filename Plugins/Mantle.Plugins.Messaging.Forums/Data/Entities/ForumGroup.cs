@@ -16,8 +16,7 @@ public class ForumGroup : TenantEntity<int>
 
     public virtual ICollection<Forum> Forums
     {
-        get { return forums ?? (forums = new List<Forum>()); }
-        protected set { forums = value; }
+        get => forums ??= []; protected set => forums = value;
     }
 }
 
@@ -33,12 +32,5 @@ public class ForumGroupMap : IEntityTypeConfiguration<ForumGroup>, IMantleEntity
         builder.Property(x => x.UpdatedOnUtc).IsRequired();
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return PluginManager.IsPluginInstalled(Constants.PluginSystemName); }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => PluginManager.IsPluginInstalled(Constants.PluginSystemName);
 }

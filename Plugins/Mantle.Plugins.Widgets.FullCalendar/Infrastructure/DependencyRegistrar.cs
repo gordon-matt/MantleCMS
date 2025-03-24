@@ -12,40 +12,36 @@ using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
 
-namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure
+namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
+
+public class DependencyRegistrar : IDependencyRegistrar
 {
-    public class DependencyRegistrar : IDependencyRegistrar
+    #region IDependencyRegistrar Members
+
+    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
-        #region IDependencyRegistrar Members
-
-        public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+        if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {
-            if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
-            {
-                return;
-            }
-
-            builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
-
-            builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
-
-            builder.RegisterType<FullCalendarPermissions>().As<IPermissionProvider>().SingleInstance();
-            builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
-            builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
-            builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
-
-            builder.RegisterType<FullCalendarBlock>().As<IContentBlock>().InstancePerDependency();
-
-            builder.RegisterType<CalendarService>().As<ICalendarService>().InstancePerDependency();
-            builder.RegisterType<CalendarEventService>().As<ICalendarEventService>().InstancePerDependency();
-            builder.RegisterType<FullCalendarPluginSettings>().As<ISettings>().InstancePerLifetimeScope();
+            return;
         }
 
-        public int Order
-        {
-            get { return 9999; }
-        }
+        builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
 
-        #endregion IDependencyRegistrar Members
+        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
+
+        builder.RegisterType<FullCalendarPermissions>().As<IPermissionProvider>().SingleInstance();
+        builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
+        builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
+        builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+
+        builder.RegisterType<FullCalendarBlock>().As<IContentBlock>().InstancePerDependency();
+
+        builder.RegisterType<CalendarService>().As<ICalendarService>().InstancePerDependency();
+        builder.RegisterType<CalendarEventService>().As<ICalendarEventService>().InstancePerDependency();
+        builder.RegisterType<FullCalendarPluginSettings>().As<ISettings>().InstancePerLifetimeScope();
     }
+
+    public int Order => 9999;
+
+    #endregion IDependencyRegistrar Members
 }

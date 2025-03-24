@@ -16,16 +16,12 @@ public class MenuItemService : GenericDataService<MenuItem>, IMenuItemService
     {
     }
 
-    public MenuItem GetMenuItemByRefId(Guid refId)
-    {
-        return refId == Guid.Empty
-            ? null
-            : FindOne(x => x.RefId == refId);
-    }
+    public MenuItem GetMenuItemByRefId(Guid refId) => refId == Guid.Empty
+        ? null
+        : FindOne(x => x.RefId == refId);
 
-    public IEnumerable<MenuItem> GetMenuItems(Guid menuId, bool enabledOnly = false)
-    {
-        return CacheManager.Get(string.Format("Repository_MenuItem_GetByMenuIdAndEnabled_{0}_{1}", menuId, enabledOnly), () =>
+    public IEnumerable<MenuItem> GetMenuItems(Guid menuId, bool enabledOnly = false) =>
+        CacheManager.Get(string.Format("Repository_MenuItem_GetByMenuIdAndEnabled_{0}_{1}", menuId, enabledOnly), () =>
         {
             using var connection = OpenConnection();
             return enabledOnly
@@ -40,7 +36,6 @@ public class MenuItemService : GenericDataService<MenuItem>, IMenuItemService
                     .ThenBy(x => x.Text)
                     .ToList();
         });
-    }
 
     protected override void ClearCache()
     {

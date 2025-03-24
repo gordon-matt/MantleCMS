@@ -1,4 +1,7 @@
-﻿global using Extenso;
+﻿global using System.Linq.Expressions;
+global using System.Reflection;
+global using System.Text;
+global using Extenso;
 global using Extenso.AspNetCore.Mvc.Rendering;
 global using Extenso.Collections;
 global using Extenso.Data.Entity;
@@ -47,6 +50,3 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 global using Microsoft.Extensions.Primitives;
 global using Microsoft.Net.Http.Headers;
-global using System.Linq.Expressions;
-global using System.Reflection;
-global using System.Text;

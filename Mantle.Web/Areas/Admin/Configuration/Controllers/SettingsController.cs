@@ -18,15 +18,7 @@ public class SettingsController : MantleController
     }
 
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(MantleWebPermissions.SettingsRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(MantleWebPermissions.SettingsRead) ? Unauthorized() : PartialView();
 
     [Route("get-editor-ui/{type}")]
     public async Task<IActionResult> GetEditorUI(string type)

@@ -1,6 +1,6 @@
-﻿using Mantle.Caching;
+﻿using System.Linq.Expressions;
+using Mantle.Caching;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
 
 namespace Mantle.Data.Services;
 
@@ -65,90 +65,54 @@ public class GenericDataService<TEntity> : IGenericDataService<TEntity> where TE
 
     #region Find
 
-    public virtual IEnumerable<TEntity> Find(params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return CacheManager.Get(CacheKey, () =>
-        {
-            return repository.Find(includePaths);
-        });
-    }
+    public virtual IEnumerable<TEntity> Find(params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        CacheManager.Get(CacheKey, () => repository.Find(includePaths));
 
-    public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return repository.Find(filterExpression, includePaths);
-    }
+    public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        repository.Find(filterExpression, includePaths);
 
-    public virtual async Task<IEnumerable<TEntity>> FindAsync(params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return await CacheManager.Get(CacheKey, async () =>
-        {
-            return await repository.FindAsync(includePaths);
-        });
-    }
+    public virtual async Task<IEnumerable<TEntity>> FindAsync(params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        await CacheManager.Get(CacheKey, async () => await repository.FindAsync(includePaths));
 
-    public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return await repository.FindAsync(filterExpression, includePaths);
-    }
+    public virtual async Task<IEnumerable<TEntity>> FindAsync(
+        Expression<Func<TEntity, bool>> filterExpression,
+        params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        await repository.FindAsync(filterExpression, includePaths);
 
-    public virtual TEntity FindOne(params object[] keyValues)
-    {
-        return repository.FindOne(keyValues);
-    }
+    public virtual TEntity FindOne(params object[] keyValues) =>
+        repository.FindOne(keyValues);
 
-    public virtual TEntity FindOne(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return repository.FindOne(filterExpression, includePaths);
-    }
+    public virtual TEntity FindOne(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        repository.FindOne(filterExpression, includePaths);
 
-    public virtual async Task<TEntity> FindOneAsync(params object[] keyValues)
-    {
-        return await repository.FindOneAsync(keyValues);
-    }
+    public virtual async Task<TEntity> FindOneAsync(params object[] keyValues) =>
+        await repository.FindOneAsync(keyValues);
 
-    public virtual async Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths)
-    {
-        return await repository.FindOneAsync(filterExpression, includePaths);
-    }
+    public virtual async Task<TEntity> FindOneAsync(
+        Expression<Func<TEntity, bool>> filterExpression,
+        params Expression<Func<TEntity, dynamic>>[] includePaths) =>
+        await repository.FindOneAsync(filterExpression, includePaths);
 
     #endregion Find
 
     #region Open/Use Connection
 
-    public virtual IRepositoryConnection<TEntity> OpenConnection()
-    {
-        return repository.OpenConnection();
-    }
+    public virtual IRepositoryConnection<TEntity> OpenConnection() => repository.OpenConnection();
 
     public virtual IRepositoryConnection<TEntity> UseConnection<TOther>(IRepositoryConnection<TOther> connection)
-        where TOther : class
-    {
-        return repository.UseConnection(connection);
-    }
+        where TOther : class => repository.UseConnection(connection);
 
     #endregion Open/Use Connection
 
     #region Count
 
-    public virtual int Count()
-    {
-        return repository.Count();
-    }
+    public virtual int Count() => repository.Count();
 
-    public virtual int Count(Expression<Func<TEntity, bool>> countExpression)
-    {
-        return repository.Count(countExpression);
-    }
+    public virtual int Count(Expression<Func<TEntity, bool>> countExpression) => repository.Count(countExpression);
 
-    public virtual async Task<int> CountAsync()
-    {
-        return await repository.CountAsync();
-    }
+    public virtual async Task<int> CountAsync() => await repository.CountAsync();
 
-    public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> countExpression)
-    {
-        return await repository.CountAsync(countExpression);
-    }
+    public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> countExpression) => await repository.CountAsync(countExpression);
 
     #endregion Count
 
@@ -189,30 +153,15 @@ public class GenericDataService<TEntity> : IGenericDataService<TEntity> where TE
         return rowsAffected;
     }
 
-    public virtual async Task<int> DeleteAllAsync()
-    {
-        return await repository.DeleteAllAsync();
-    }
+    public virtual async Task<int> DeleteAllAsync() => await repository.DeleteAllAsync();
 
-    public virtual async Task<int> DeleteAsync(TEntity entity)
-    {
-        return await repository.DeleteAsync(entity);
-    }
+    public virtual async Task<int> DeleteAsync(TEntity entity) => await repository.DeleteAsync(entity);
 
-    public virtual async Task<int> DeleteAsync(IEnumerable<TEntity> entities)
-    {
-        return await repository.DeleteAsync(entities);
-    }
+    public virtual async Task<int> DeleteAsync(IEnumerable<TEntity> entities) => await repository.DeleteAsync(entities);
 
-    public virtual async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> filterExpression)
-    {
-        return await repository.DeleteAsync(filterExpression);
-    }
+    public virtual async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> filterExpression) => await repository.DeleteAsync(filterExpression);
 
-    public virtual async Task<int> DeleteAsync(IQueryable<TEntity> query)
-    {
-        return await repository.DeleteAsync(query);
-    }
+    public virtual async Task<int> DeleteAsync(IQueryable<TEntity> query) => await repository.DeleteAsync(query);
 
     #endregion Delete
 

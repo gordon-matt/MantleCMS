@@ -47,8 +47,5 @@ public class Tokenizer : ITokenizer
         return template;
     }
 
-    private static string Replace(string original, string pattern, string replacement)
-    {
-        return original.Replace(pattern, replacement);
-    }
+    private static string Replace(string original, string pattern, string replacement) => original.Replace(pattern, replacement);
 }

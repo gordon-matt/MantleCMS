@@ -6,10 +6,7 @@ public static class GenericAttributeExtensions
 {
     public static TPropType GetAttribute<TPropType>(this IEntity entity, string key, IGenericAttributeService service = null)
     {
-        if (entity == null)
-        {
-            throw new ArgumentNullException(nameof(entity));
-        }
+        ArgumentNullException.ThrowIfNull(entity);
 
         service ??= EngineContext.Current.Resolve<IGenericAttributeService>();
 
@@ -30,11 +27,6 @@ public static class GenericAttributeExtensions
 
         var prop = props.FirstOrDefault(x => x.Property.Equals(key, StringComparison.OrdinalIgnoreCase));
 
-        if (prop == null || string.IsNullOrEmpty(prop.Value))
-        {
-            return default;
-        }
-
-        return prop.Value.ConvertTo<TPropType>();
+        return prop == null || string.IsNullOrEmpty(prop.Value) ? default : prop.Value.ConvertTo<TPropType>();
     }
 }

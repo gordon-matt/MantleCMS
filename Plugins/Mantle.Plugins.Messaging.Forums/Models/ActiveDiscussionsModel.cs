@@ -2,12 +2,7 @@
 
 public class ActiveDiscussionsModel
 {
-    public ActiveDiscussionsModel()
-    {
-        ForumTopics = new List<ForumTopicRowModel>();
-    }
-
-    public IList<ForumTopicRowModel> ForumTopics { get; private set; }
+    public IList<ForumTopicRowModel> ForumTopics { get; private set; } = [];
 
     public bool ViewAllLinkEnabled { get; set; }
 

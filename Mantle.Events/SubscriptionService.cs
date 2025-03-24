@@ -10,8 +10,5 @@ public class SubscriptionService : ISubscriptionService
     /// </summary>
     /// <typeparam name="T">Type</typeparam>
     /// <returns>Event consumers</returns>
-    public IList<IConsumer<T>> GetSubscriptions<T>()
-    {
-        return EngineContext.Current.ResolveAll<IConsumer<T>>().ToList();
-    }
+    public IList<IConsumer<T>> GetSubscriptions<T>() => EngineContext.Current.ResolveAll<IConsumer<T>>().ToList();
 }

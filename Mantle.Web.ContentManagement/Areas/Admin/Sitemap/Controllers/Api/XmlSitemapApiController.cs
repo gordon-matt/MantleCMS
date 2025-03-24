@@ -1,9 +1,9 @@
-﻿using Mantle.Helpers;
+﻿using System.Xml.Serialization;
+using Mantle.Helpers;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
 using Microsoft.AspNetCore.Http.Extensions;
-using System.Xml.Serialization;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Controllers.Api;
 
@@ -27,25 +27,16 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
 
     #region GenericODataController<GoogleSitemapPageConfig, int> Members
 
-    protected override int GetId(SitemapConfig entity)
-    {
-        return entity.Id;
-    }
+    protected override int GetId(SitemapConfig entity) => entity.Id;
 
     protected override void SetNewId(SitemapConfig entity)
     {
         // Do nothing
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.SitemapRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.SitemapRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.SitemapWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.SitemapWrite;
 
     #endregion GenericODataController<GoogleSitemapPageConfig, int> Members
 
@@ -54,7 +45,7 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
     {
         if (!CheckPermission(ReadPermission))
         {
-            return Enumerable.Empty<SitemapConfigModel>();
+            return [];
         }
 
         int tenantId = GetTenantId();
@@ -172,7 +163,7 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
                 .ToListAsync();
         }
 
-        string siteUrl = (new Uri(Request.GetDisplayUrl())).GetLeftPart(UriPartial.Authority);
+        string siteUrl = new Uri(Request.GetDisplayUrl()).GetLeftPart(UriPartial.Authority);
 
         // For each Page
         foreach (var item in config)

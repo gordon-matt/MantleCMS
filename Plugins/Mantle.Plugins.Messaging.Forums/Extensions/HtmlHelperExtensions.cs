@@ -56,7 +56,7 @@ public static class HtmlHelperExtensions
                 //previous page
                 if (model.PageIndex > 0)
                 {
-                    model.RouteValues.page = (model.PageIndex);
+                    model.RouteValues.page = model.PageIndex;
 
                     links.Append("<li class=\"previous-page\">");
                     //if (model.UseRouteLinks)
@@ -79,11 +79,11 @@ public static class HtmlHelperExtensions
                 {
                     if (model.PageIndex == i)
                     {
-                        links.AppendFormat("<li class=\"current-page\"><span>{0}</span></li>", (i + 1));
+                        links.AppendFormat("<li class=\"current-page\"><span>{0}</span></li>", i + 1);
                     }
                     else
                     {
-                        model.RouteValues.page = (i + 1);
+                        model.RouteValues.page = i + 1;
 
                         links.Append("<li class=\"individual-page\">");
                         //if (model.UseRouteLinks)
@@ -92,7 +92,7 @@ public static class HtmlHelperExtensions
                         //}
                         //else
                         //{
-                        links.Append(html.ActionLink((i + 1).ToString(), model.RouteActionName, model.RouteValues, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], (i + 1)) }));
+                        links.Append(html.ActionLink((i + 1).ToString(), model.RouteActionName, model.RouteValues, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], i + 1) }));
                         //}
                         links.Append("</li>");
                     }
@@ -103,7 +103,7 @@ public static class HtmlHelperExtensions
                 //next page
                 if ((model.PageIndex + 1) < model.TotalPages)
                 {
-                    model.RouteValues.page = (model.PageIndex + 2);
+                    model.RouteValues.page = model.PageIndex + 2;
 
                     links.Append("<li class=\"next-page\">");
                     //if (model.UseRouteLinks)
@@ -137,7 +137,7 @@ public static class HtmlHelperExtensions
                 }
             }
         }
-        var result = links.ToString();
+        string result = links.ToString();
         if (!string.IsNullOrEmpty(result))
         {
             result = "<ul>" + result + "</ul>";
@@ -149,9 +149,9 @@ public static class HtmlHelperExtensions
     {
         var localizer = EngineContext.Current.Resolve<IStringLocalizer>();
 
-        var forumTopicId = model.Id;
-        var forumTopicSlug = model.SeName;
-        var totalPages = model.TotalPostPages;
+        int forumTopicId = model.Id;
+        string forumTopicSlug = model.SeName;
+        int totalPages = model.TotalPostPages;
 
         if (totalPages > 0)
         {
@@ -161,7 +161,7 @@ public static class HtmlHelperExtensions
             {
                 for (int x = 1; x <= totalPages; x++)
                 {
-                    links.Append(html.ActionLink(x.ToString(), "Topic", new { id = forumTopicId, page = (x), slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], x.ToString()) }));
+                    links.Append(html.ActionLink(x.ToString(), "Topic", new { id = forumTopicId, page = x, slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], x.ToString()) }));
                     if (x < totalPages)
                     {
                         links.Append(", ");
@@ -170,12 +170,12 @@ public static class HtmlHelperExtensions
             }
             else
             {
-                links.Append(html.ActionLink("1", "Topic", new { id = forumTopicId, page = (1), slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], 1) }));
+                links.Append(html.ActionLink("1", "Topic", new { id = forumTopicId, page = 1, slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], 1) }));
                 links.Append(" ... ");
 
-                for (int x = (totalPages - 2); x <= totalPages; x++)
+                for (int x = totalPages - 2; x <= totalPages; x++)
                 {
-                    links.Append(html.ActionLink(x.ToString(), "Topic", new { id = forumTopicId, page = (x), slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], x.ToString()) }));
+                    links.Append(html.ActionLink(x.ToString(), "Topic", new { id = forumTopicId, page = x, slug = forumTopicSlug }, new { title = string.Format(localizer[LocalizableStrings.Pager.PageLinkTitle], x.ToString()) }));
 
                     if (x < totalPages)
                     {

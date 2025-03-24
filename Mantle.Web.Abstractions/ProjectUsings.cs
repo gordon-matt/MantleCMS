@@ -1,4 +1,6 @@
-﻿global using Extenso;
+﻿global using System.Reflection;
+global using System.Text;
+global using Extenso;
 global using Extenso.Data.Entity;
 global using Mantle.Data.Services;
 global using Mantle.Infrastructure;
@@ -13,5 +15,3 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Controllers;
 global using Microsoft.AspNetCore.Routing;
 global using Microsoft.Extensions.Localization;
-global using System.Reflection;
-global using System.Text;

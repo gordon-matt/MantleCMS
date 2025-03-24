@@ -6,13 +6,7 @@
 public class TenantController : MantleController
 {
     [Route("")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(StandardPermissions.FullAccess))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView();
-    }
+    public IActionResult Index() => !CheckPermission(StandardPermissions.FullAccess)
+        ? Unauthorized()
+        : PartialView();
 }

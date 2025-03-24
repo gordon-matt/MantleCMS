@@ -10,10 +10,7 @@ public class NewsletterSubscriptionBlock : ContentBlockBase
 
     public override string DisplayTemplatePath => "/Areas/Admin/Newsletters/Views/Shared/DisplayTemplates.NewsletterSubscriptionBlock.cshtml";
 
-    public override string EditorTemplatePath
-    {
-        get { throw new NotSupportedException(); }
-    }
+    public override string EditorTemplatePath => throw new NotSupportedException();
 
     #endregion ContentBlockBase Overrides
 }

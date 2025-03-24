@@ -11,23 +11,11 @@ public class MenuItemApiController : GenericODataController<MenuItem, Guid>
     {
     }
 
-    protected override Guid GetId(MenuItem entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(MenuItem entity) => entity.Id;
 
-    protected override void SetNewId(MenuItem entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(MenuItem entity) => entity.Id = Guid.NewGuid();
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.MenusRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.MenusRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.MenusWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.MenusWrite;
 }

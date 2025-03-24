@@ -2,12 +2,7 @@
 
 public class UserForumSubscriptionsModel
 {
-    public UserForumSubscriptionsModel()
-    {
-        this.ForumSubscriptions = new List<ForumSubscriptionModel>();
-    }
-
-    public IList<ForumSubscriptionModel> ForumSubscriptions { get; set; }
+    public IList<ForumSubscriptionModel> ForumSubscriptions { get; set; } = [];
 
     public PagerModel PagerModel { get; set; }
 

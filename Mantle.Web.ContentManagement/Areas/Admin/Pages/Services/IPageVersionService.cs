@@ -121,14 +121,14 @@ public class PageVersionService : GenericDataService<PageVersion>, IPageVersionS
                     x.Status != VersionStatus.Archived);
 
             var localizedVersion = localizedVersions
-                    .Where(x => x.Status == VersionStatus.Published)
-                    .OrderByDescending(x => x.DateModifiedUtc)
-                    .FirstOrDefault();
+                .Where(x => x.Status == VersionStatus.Published)
+                .OrderByDescending(x => x.DateModifiedUtc)
+                .FirstOrDefault();
 
             localizedVersion ??= localizedVersions
-                    .Where(x => x.Status == VersionStatus.Draft)
-                    .OrderByDescending(x => x.DateModifiedUtc)
-                    .FirstOrDefault();
+                .Where(x => x.Status == VersionStatus.Draft)
+                .OrderByDescending(x => x.DateModifiedUtc)
+                .FirstOrDefault();
 
             if (localizedVersion != null)
             {
@@ -147,14 +147,9 @@ public class PageVersionService : GenericDataService<PageVersion>, IPageVersionS
             .OrderByDescending(x => x.DateModifiedUtc)
             .FirstOrDefault();
 
-        if (publishedVersion == null)
-        {
-            return invariantVersions
-                .Where(x => x.Status == VersionStatus.Draft)
-                .OrderByDescending(x => x.DateModifiedUtc)
-                .FirstOrDefault();
-        }
-
-        return publishedVersion;
+        return publishedVersion ?? invariantVersions
+            .Where(x => x.Status == VersionStatus.Draft)
+            .OrderByDescending(x => x.DateModifiedUtc)
+            .FirstOrDefault();
     }
 }

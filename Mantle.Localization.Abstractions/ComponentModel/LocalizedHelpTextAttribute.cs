@@ -21,8 +21,5 @@ public class LocalizedHelpTextAttribute : Attribute
 
     public string ResourceKey { get; set; }
 
-    public string HelpText
-    {
-        get { return T[ResourceKey]; }
-    }
+    public string HelpText => T[ResourceKey];
 }

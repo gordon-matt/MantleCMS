@@ -1,11 +1,11 @@
-﻿using Mantle.Exceptions;
+﻿using System.Linq.Expressions;
+using Mantle.Exceptions;
 using Mantle.Security;
 using Mantle.Security.Membership;
 using Mantle.Web;
 using Mantle.Web.Security.Membership;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace MantleCMS.Services;
 
@@ -21,8 +21,8 @@ public abstract class IdentityMembershipService : IMembershipService
 
     static IdentityMembershipService()
     {
-        cachedUserRoles = new Dictionary<string, List<MantleRole>>();
-        cachedRolePermissions = new Dictionary<string, List<MantlePermission>>();
+        cachedUserRoles = [];
+        cachedRolePermissions = [];
     }
 
     public IdentityMembershipService(
@@ -62,14 +62,7 @@ public abstract class IdentityMembershipService : IMembershipService
     {
         IQueryable<ApplicationUser> query = context.Set<ApplicationUser>();
 
-        if (tenantId.HasValue)
-        {
-            query = query.Where(x => x.TenantId == tenantId);
-        }
-        else
-        {
-            query = query.Where(x => x.TenantId == null);
-        }
+        query = tenantId.HasValue ? query.Where(x => x.TenantId == tenantId) : query.Where(x => x.TenantId == null);
 
         return query
             .Select(x => new MantleUser
@@ -104,19 +97,16 @@ public abstract class IdentityMembershipService : IMembershipService
         using var context = contextFactory.GetContext();
         var user = context.Set<ApplicationUser>().Find(userId);
 
-        if (user == null)
-        {
-            return null;
-        }
-
-        return await Task.FromResult(new MantleUser
-        {
-            Id = user.Id,
-            TenantId = user.TenantId,
-            UserName = user.UserName,
-            Email = user.Email,
-            IsLockedOut = user.LockoutEnabled
-        });
+        return user == null
+            ? null
+            : await Task.FromResult(new MantleUser
+            {
+                Id = user.Id,
+                TenantId = user.TenantId,
+                UserName = user.UserName,
+                Email = user.Email,
+                IsLockedOut = user.LockoutEnabled
+            });
     }
 
     public async Task<MantleUser> GetUserByEmail(int? tenantId, string email)
@@ -124,28 +114,20 @@ public abstract class IdentityMembershipService : IMembershipService
         ApplicationUser user;
 
         using var context = contextFactory.GetContext();
-        if (tenantId.HasValue)
-        {
-            user = await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Email == email);
-        }
-        else
-        {
-            user = await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == null && x.Email == email);
-        }
+        user = tenantId.HasValue
+            ? await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Email == email)
+            : await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == null && x.Email == email);
 
-        if (user == null)
-        {
-            return null;
-        }
-
-        return new MantleUser
-        {
-            Id = user.Id,
-            TenantId = user.TenantId,
-            UserName = user.UserName,
-            Email = user.Email,
-            IsLockedOut = user.LockoutEnabled
-        };
+        return user == null
+            ? null
+            : new MantleUser
+            {
+                Id = user.Id,
+                TenantId = user.TenantId,
+                UserName = user.UserName,
+                Email = user.Email,
+                IsLockedOut = user.LockoutEnabled
+            };
     }
 
     public async Task<MantleUser> GetUserByName(int? tenantId, string userName)
@@ -153,28 +135,20 @@ public abstract class IdentityMembershipService : IMembershipService
         ApplicationUser user;
 
         using var context = contextFactory.GetContext();
-        if (tenantId.HasValue)
-        {
-            user = await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.UserName == userName);
-        }
-        else
-        {
-            user = await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == null && x.UserName == userName);
-        }
+        user = tenantId.HasValue
+            ? await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.UserName == userName)
+            : await context.Set<ApplicationUser>().FirstOrDefaultAsync(x => x.TenantId == null && x.UserName == userName);
 
-        if (user == null)
-        {
-            return null;
-        }
-
-        return new MantleUser
-        {
-            Id = user.Id,
-            TenantId = user.TenantId,
-            UserName = user.UserName,
-            Email = user.Email,
-            IsLockedOut = user.LockoutEnabled
-        };
+        return user == null
+            ? null
+            : new MantleUser
+            {
+                Id = user.Id,
+                TenantId = user.TenantId,
+                UserName = user.UserName,
+                Email = user.Email,
+                IsLockedOut = user.LockoutEnabled
+            };
     }
 
     public async Task<IEnumerable<MantleRole>> GetRolesForUser(object userId)
@@ -326,20 +300,15 @@ public abstract class IdentityMembershipService : IMembershipService
 
         using (var context = contextFactory.GetContext())
         {
-            if (tenantId.HasValue)
-            {
-                currentRoleIds = from ur in context.Set<IdentityUserRole<string>>()
-                                 join r in context.Set<ApplicationRole>() on ur.RoleId equals r.Id
-                                 where r.TenantId == tenantId && ur.UserId == uId
-                                 select ur.RoleId;
-            }
-            else
-            {
-                currentRoleIds = from ur in context.Set<IdentityUserRole<string>>()
-                                 join r in context.Set<ApplicationRole>() on ur.RoleId equals r.Id
-                                 where r.TenantId == null && ur.UserId == uId
-                                 select ur.RoleId;
-            }
+            currentRoleIds = tenantId.HasValue
+                ? (from ur in context.Set<IdentityUserRole<string>>()
+                   join r in context.Set<ApplicationRole>() on ur.RoleId equals r.Id
+                   where r.TenantId == tenantId && ur.UserId == uId
+                   select ur.RoleId)
+                : (from ur in context.Set<IdentityUserRole<string>>()
+                   join r in context.Set<ApplicationRole>() on ur.RoleId equals r.Id
+                   where r.TenantId == null && ur.UserId == uId
+                   select ur.RoleId);
 
             var rIds = roleIds.ToListOf<string>();
 
@@ -414,25 +383,15 @@ public abstract class IdentityMembershipService : IMembershipService
             {
                 bool showFamilyNameFirst = bool.Parse(profile[AccountUserProfileProvider.Fields.ShowFamilyNameFirst]);
 
-                if (showFamilyNameFirst)
-                {
-                    return familyName + " " + givenNames;
-                }
-                return givenNames + " " + familyName;
+                return showFamilyNameFirst ? familyName + " " + givenNames : givenNames + " " + familyName;
             }
             return givenNames + " " + familyName;
         }
-        else if (hasFamilyName)
-        {
-            return profile[AccountUserProfileProvider.Fields.FamilyName];
-        }
-        else if (hasGivenNames)
-        {
-            return profile[AccountUserProfileProvider.Fields.GivenNames];
-        }
         else
         {
-            return user.UserName;
+            return hasFamilyName
+                ? profile[AccountUserProfileProvider.Fields.FamilyName]
+                : hasGivenNames ? profile[AccountUserProfileProvider.Fields.GivenNames] : user.UserName;
         }
     }
 
@@ -444,14 +403,7 @@ public abstract class IdentityMembershipService : IMembershipService
     {
         var query = roleManager.Roles;
 
-        if (tenantId.HasValue)
-        {
-            query = query.Where(x => x.TenantId == tenantId);
-        }
-        else
-        {
-            query = query.Where(x => x.TenantId == null);
-        }
+        query = tenantId.HasValue ? query.Where(x => x.TenantId == tenantId) : query.Where(x => x.TenantId == null);
 
         return await query
             .Select(x => new MantleRole
@@ -494,27 +446,16 @@ public abstract class IdentityMembershipService : IMembershipService
 
     public async Task<MantleRole> GetRoleByName(int? tenantId, string roleName)
     {
-        ApplicationRole role;
-
-        if (tenantId.HasValue)
-        {
-            role = await roleManager.Roles.FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == roleName);
-        }
-        else
-        {
-            role = await roleManager.Roles.FirstOrDefaultAsync(x => x.TenantId == null && x.Name == roleName);
-        }
-
-        if (role == null)
-        {
-            return null;
-        }
-
-        return new MantleRole
-        {
-            Id = role.Id,
-            Name = role.Name
-        };
+        var role = tenantId.HasValue
+            ? await roleManager.Roles.FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == roleName)
+            : await roleManager.Roles.FirstOrDefaultAsync(x => x.TenantId == null && x.Name == roleName);
+        return role == null
+            ? null
+            : new MantleRole
+            {
+                Id = role.Id,
+                Name = role.Name
+            };
     }
 
     public async Task<bool> DeleteRole(object roleId)
@@ -587,21 +528,13 @@ public abstract class IdentityMembershipService : IMembershipService
 
     public async Task<IEnumerable<MantleUser>> GetUsersByRoleName(int? tenantId, string roleName)
     {
-        ApplicationRole role;
-
-        if (tenantId.HasValue)
-        {
-            role = await roleManager.Roles
+        var role = tenantId.HasValue
+            ? await roleManager.Roles
                 .Include(x => x.Users)
-                .FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == roleName);
-        }
-        else
-        {
-            role = await roleManager.Roles
+                .FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == roleName)
+            : await roleManager.Roles
                 .Include(x => x.Users)
                 .FirstOrDefaultAsync(x => x.TenantId == null && x.Name == roleName);
-        }
-
         var userIds = role.Users.Select(x => x.Id).ToList();
         var users = await userManager.Users.Where(x => userIds.Contains(x.Id)).ToHashSetAsync();
 
@@ -624,22 +557,17 @@ public abstract class IdentityMembershipService : IMembershipService
         using var context = contextFactory.GetContext();
         IQueryable<Permission> query = context.Set<Permission>();
 
-        if (tenantId.HasValue)
-        {
-            query = query.Where(x => x.TenantId == tenantId);
-        }
-        else
-        {
-            query = query.Where(x => x.TenantId == null);
-        }
+        query = tenantId.HasValue ? query.Where(x => x.TenantId == tenantId) : query.Where(x => x.TenantId == null);
 
-        return (await query.ToListAsync()).Select(x => new MantlePermission
-        {
-            Id = x.Id.ToString(),
-            Name = x.Name,
-            Category = x.Category,
-            Description = x.Description
-        }).ToList();
+        return (await query.ToListAsync())
+            .Select(x => new MantlePermission
+            {
+                Id = x.Id.ToString(),
+                Name = x.Name,
+                Category = x.Category,
+                Description = x.Description
+            })
+            .ToList();
     }
 
     public async Task<MantlePermission> GetPermissionById(object permissionId)
@@ -649,18 +577,15 @@ public abstract class IdentityMembershipService : IMembershipService
         using var context = contextFactory.GetContext();
         var entity = await context.Set<Permission>().FirstOrDefaultAsync(x => x.Id == id);
 
-        if (entity == null)
-        {
-            return null;
-        }
-
-        return new MantlePermission
-        {
-            Id = entity.Id.ToString(),
-            Name = entity.Name,
-            Category = entity.Category,
-            Description = entity.Description
-        };
+        return entity == null
+            ? null
+            : new MantlePermission
+            {
+                Id = entity.Id.ToString(),
+                Name = entity.Name,
+                Category = entity.Category,
+                Description = entity.Description
+            };
     }
 
     public async Task<MantlePermission> GetPermissionByName(int? tenantId, string permissionName)
@@ -668,27 +593,19 @@ public abstract class IdentityMembershipService : IMembershipService
         Permission entity = null;
 
         using var context = contextFactory.GetContext();
-        if (tenantId.HasValue)
-        {
-            entity = await context.Set<Permission>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == permissionName);
-        }
-        else
-        {
-            entity = await context.Set<Permission>().FirstOrDefaultAsync(x => x.TenantId == null && x.Name == permissionName);
-        }
+        entity = tenantId.HasValue
+            ? await context.Set<Permission>().FirstOrDefaultAsync(x => x.TenantId == tenantId && x.Name == permissionName)
+            : await context.Set<Permission>().FirstOrDefaultAsync(x => x.TenantId == null && x.Name == permissionName);
 
-        if (entity == null)
-        {
-            return null;
-        }
-
-        return new MantlePermission
-        {
-            Id = entity.Id.ToString(),
-            Name = entity.Name,
-            Category = entity.Category,
-            Description = entity.Description
-        };
+        return entity == null
+            ? null
+            : new MantlePermission
+            {
+                Id = entity.Id.ToString(),
+                Name = entity.Name,
+                Category = entity.Category,
+                Description = entity.Description
+            };
     }
 
     public async Task<IEnumerable<MantlePermission>> GetPermissionsForRole(int? tenantId, string roleName)
@@ -701,22 +618,15 @@ public abstract class IdentityMembershipService : IMembershipService
         using var context = contextFactory.GetContext();
         var query = context.Set<Permission>().Include(x => x.RolesPermissions);
 
-        List<Permission> permissions = null;
-        if (tenantId.HasValue)
-        {
-            permissions = await (from p in query
-                                 from rp in p.RolesPermissions
-                                 where p.TenantId == tenantId && rp.Role.Name == roleName
-                                 select p).ToListAsync();
-        }
-        else
-        {
-            permissions = await (from p in query
-                                 from rp in p.RolesPermissions
-                                 where p.TenantId == null && rp.Role.Name == roleName
-                                 select p).ToListAsync();
-        }
-
+        var permissions = tenantId.HasValue
+            ? await (from p in query
+                     from rp in p.RolesPermissions
+                     where p.TenantId == tenantId && rp.Role.Name == roleName
+                     select p).ToListAsync()
+            : await (from p in query
+                     from rp in p.RolesPermissions
+                     where p.TenantId == null && rp.Role.Name == roleName
+                     select p).ToListAsync();
         var rolePermissions = permissions.Select(x => new MantlePermission
         {
             Id = x.Id.ToString(),
@@ -919,12 +829,7 @@ public abstract class IdentityMembershipService : IMembershipService
             x.UserId == userId &&
             x.Key == key);
 
-        if (entry != null)
-        {
-            return entry.Value;
-        }
-
-        return null;
+        return entry?.Value;
     }
 
     public async Task SaveProfileEntry(string userId, string key, string value)
@@ -966,14 +871,9 @@ public abstract class IdentityMembershipService : IMembershipService
         using var connection = userProfileRepository.OpenConnection();
         var query = connection.Query();
 
-        if (tenantId.HasValue)
-        {
-            query = query.Where(x => x.TenantId == tenantId && x.Key == key);
-        }
-        else
-        {
-            query = query.Where(x => x.TenantId == null && x.Key == key);
-        }
+        query = tenantId.HasValue
+            ? query.Where(x => x.TenantId == tenantId && x.Key == key)
+            : query.Where(x => x.TenantId == null && x.Key == key);
 
         return (await query.ToHashSetAsync())
             .Select(x => new MantleUserProfileEntry
@@ -990,14 +890,9 @@ public abstract class IdentityMembershipService : IMembershipService
         using var connection = userProfileRepository.OpenConnection();
         var query = connection.Query();
 
-        if (tenantId.HasValue)
-        {
-            query = query.Where(x => x.TenantId == tenantId && x.Key == key && x.Value == value);
-        }
-        else
-        {
-            query = query.Where(x => x.TenantId == null && x.Key == key && x.Value == value);
-        }
+        query = tenantId.HasValue
+            ? query.Where(x => x.TenantId == tenantId && x.Key == key && x.Value == value)
+            : query.Where(x => x.TenantId == null && x.Key == key && x.Value == value);
 
         return (await query.ToHashSetAsync())
             .Select(x => new MantleUserProfileEntry
@@ -1012,17 +907,9 @@ public abstract class IdentityMembershipService : IMembershipService
     public async Task<bool> ProfileEntryExists(int? tenantId, string key, string value, string userId = null)
     {
         using var connection = userProfileRepository.OpenConnection();
-        IQueryable<UserProfileEntry> query = null;
-
-        if (tenantId.HasValue)
-        {
-            query = connection.Query(x => x.TenantId == tenantId && x.Key == key && x.Value == value);
-        }
-        else
-        {
-            query = connection.Query(x => x.TenantId == null && x.Key == key && x.Value == value);
-        }
-
+        var query = tenantId.HasValue
+            ? connection.Query(x => x.TenantId == tenantId && x.Key == key && x.Value == value)
+            : connection.Query(x => x.TenantId == null && x.Key == key && x.Value == value);
         if (!string.IsNullOrEmpty(userId))
         {
             query = query.Where(x => x.UserId == userId);

@@ -25,7 +25,7 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
         {
             var shim = new Dictionary<string, string[]>
             {
-                { "jquery-image-mapster", new[] { "jquery" } }
+                { "jquery-image-mapster", ["jquery"] }
             };
 
             return shim;

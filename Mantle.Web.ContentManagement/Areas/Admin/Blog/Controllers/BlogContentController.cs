@@ -74,13 +74,10 @@ public class BlogContentController : MantleController
         }
 
         int tenantId = WorkContext.CurrentTenant.Id;
-        var category = await categoryService.Value.FindOneAsync(x => x.TenantId == tenantId && x.UrlSlug == categorySlug);
 
-        if (category == null)
-        {
-            throw new EntityNotFoundException(string.Concat(
+        var category = await categoryService.Value.FindOneAsync(x => x.TenantId == tenantId && x.UrlSlug == categorySlug)
+            ?? throw new EntityNotFoundException(string.Concat(
                 "Could not find a blog category with slug, '", categorySlug, "'"));
-        }
 
         WorkContext.Breadcrumbs.Add(T[MantleCmsLocalizableStrings.Blog.Title].Value, Url.Action("Index"));
         WorkContext.Breadcrumbs.Add(category.Name);

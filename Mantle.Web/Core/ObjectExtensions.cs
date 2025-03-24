@@ -4,10 +4,7 @@ namespace Mantle.Web;
 
 public static class ObjectExtensions
 {
-    public static IDictionary<string, object> ToDictionary(this object obj)
-    {
-        return HtmlHelper.AnonymousObjectToHtmlAttributes(obj);
-    }
+    public static IDictionary<string, object> ToDictionary(this object obj) => HtmlHelper.AnonymousObjectToHtmlAttributes(obj);
 
     public static ExpandoObject ToExpando(this object anonymousObject)
     {

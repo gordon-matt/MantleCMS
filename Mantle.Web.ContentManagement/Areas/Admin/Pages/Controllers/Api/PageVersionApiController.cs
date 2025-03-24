@@ -219,15 +219,9 @@ public class PageVersionApiController : GenericTenantODataController<PageVersion
         return Updated(entity);
     }
 
-    protected override Guid GetId(PageVersion entity)
-    {
-        return entity.Id;
-    }
+    protected override Guid GetId(PageVersion entity) => entity.Id;
 
-    protected override void SetNewId(PageVersion entity)
-    {
-        entity.Id = Guid.NewGuid();
-    }
+    protected override void SetNewId(PageVersion entity) => entity.Id = Guid.NewGuid();
 
     [HttpPost]
     public async Task<IActionResult> RestoreVersion([FromODataUri] Guid key, [FromBody] ODataActionParameters parameters)
@@ -329,15 +323,9 @@ public class PageVersionApiController : GenericTenantODataController<PageVersion
         return Ok(pageVersion);
     }
 
-    protected override Permission ReadPermission
-    {
-        get { return CmsPermissions.PagesRead; }
-    }
+    protected override Permission ReadPermission => CmsPermissions.PagesRead;
 
-    protected override Permission WritePermission
-    {
-        get { return CmsPermissions.PagesWrite; }
-    }
+    protected override Permission WritePermission => CmsPermissions.PagesWrite;
 
     private void RemoveOldVersions(Guid pageId, string cultureCode)
     {

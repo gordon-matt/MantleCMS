@@ -74,15 +74,9 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(forumGroup);
     }
 
-    public virtual async Task<ForumGroup> GetForumGroupById(int forumGroupId)
-    {
-        if (forumGroupId == 0)
-        {
-            return null;
-        }
-
-        return await forumGroupRepository.FindOneAsync(forumGroupId);
-    }
+    public virtual async Task<ForumGroup> GetForumGroupById(int forumGroupId) => forumGroupId == 0
+        ? null
+        : await forumGroupRepository.FindOneAsync(forumGroupId);
 
     public virtual async Task<IEnumerable<ForumGroup>> GetAllForumGroups()
     {
@@ -91,13 +85,11 @@ public class ForumService : IForumService
 
         return await cacheManager.Get(key, async () =>
         {
-            using (var connection = forumGroupRepository.OpenConnection())
-            {
-                return await connection
-                    .Query(x => x.TenantId == tenantId)
-                    .OrderBy(x => x.DisplayOrder)
-                    .ToListAsync();
-            }
+            using var connection = forumGroupRepository.OpenConnection();
+            return await connection
+                .Query(x => x.TenantId == tenantId)
+                .OrderBy(x => x.DisplayOrder)
+                .ToListAsync();
         });
     }
 
@@ -180,15 +172,7 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(forum);
     }
 
-    public virtual async Task<Forum> GetForumById(int forumId)
-    {
-        if (forumId == 0)
-        {
-            return null;
-        }
-
-        return await forumRepository.FindOneAsync(forumId);
-    }
+    public virtual async Task<Forum> GetForumById(int forumId) => forumId == 0 ? null : await forumRepository.FindOneAsync(forumId);
 
     public virtual async Task<IEnumerable<Forum>> GetAllForumsByGroupId(int forumGroupId)
     {
@@ -197,13 +181,11 @@ public class ForumService : IForumService
 
         return await cacheManager.Get(key, async () =>
         {
-            using (var connection = forumRepository.OpenConnection())
-            {
-                return await connection
-                    .Query(f => f.ForumGroupId == forumGroupId)
-                    .OrderBy(f => f.DisplayOrder)
-                    .ToListAsync();
-            }
+            using var connection = forumRepository.OpenConnection();
+            return await connection
+                .Query(f => f.ForumGroupId == forumGroupId)
+                .OrderBy(f => f.DisplayOrder)
+                .ToListAsync();
         });
     }
 
@@ -281,10 +263,7 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(forumTopic);
     }
 
-    public virtual async Task<ForumTopic> GetTopicById(int forumTopicId)
-    {
-        return await GetTopicById(forumTopicId, false);
-    }
+    public virtual async Task<ForumTopic> GetTopicById(int forumTopicId) => await GetTopicById(forumTopicId, false);
 
     public virtual async Task<ForumTopic> GetTopicById(int forumTopicId, bool increaseViews)
     {
@@ -325,15 +304,14 @@ public class ForumService : IForumService
         //we need to cast it to int, otherwise it won't work in SQLCE4
         //we cannot use string.IsNullOrEmpty in query because it causes SqlCeException on SQLCE4
         bool searchKeywords = !string.IsNullOrEmpty(keywords);
-        bool searchTopicTitles = searchType == ForumSearchType.All || searchType == ForumSearchType.TopicTitlesOnly;
-        bool searchPostText = searchType == ForumSearchType.All || searchType == ForumSearchType.PostTextOnly;
+        bool searchTopicTitles = searchType is ForumSearchType.All or ForumSearchType.TopicTitlesOnly;
+        bool searchPostText = searchType is ForumSearchType.All or ForumSearchType.PostTextOnly;
 
-        using (var forumTopicConnection = forumTopicRepository.OpenConnection())
-        using (var forumPostConnection = forumPostRepository.UseConnection(forumTopicConnection))
-        {
-            var query1 = from ft in forumTopicConnection.Query()
-                         join fp in forumPostConnection.Query() on ft.Id equals fp.TopicId
-                         where
+        using var forumTopicConnection = forumTopicRepository.OpenConnection();
+        using var forumPostConnection = forumPostRepository.UseConnection(forumTopicConnection);
+        var query1 = from ft in forumTopicConnection.Query()
+                     join fp in forumPostConnection.Query() on ft.Id equals fp.TopicId
+                     where
                          (forumId == 0 || ft.ForumId == forumId) &&
                          (userId == null || ft.UserId == userId) &&
                          (
@@ -341,15 +319,14 @@ public class ForumService : IForumService
                             (searchTopicTitles && ft.Subject.Contains(keywords)) ||
                             (searchPostText && fp.Text.Contains(keywords))) &&
                          (!limitDate.HasValue || limitDate.Value <= ft.LastPostTime)
-                         select ft.Id;
+                     select ft.Id;
 
-            var query2 = from ft in forumTopicConnection.Query()
-                         where query1.Contains(ft.Id)
-                         orderby ft.TopicType descending, ft.LastPostTime descending, ft.Id descending
-                         select ft;
+        var query2 = from ft in forumTopicConnection.Query()
+                     where query1.Contains(ft.Id)
+                     orderby ft.TopicType descending, ft.LastPostTime descending, ft.Id descending
+                     select ft;
 
-            return await Task.FromResult(new PagedList<ForumTopic>(query2, pageIndex, pageSize));
-        }
+        return await Task.FromResult(new PagedList<ForumTopic>(query2, pageIndex, pageSize));
     }
 
     public virtual async Task<IPagedCollection<ForumTopic>> GetActiveTopics(
@@ -357,23 +334,21 @@ public class ForumService : IForumService
         int pageIndex = 0,
         int pageSize = int.MaxValue)
     {
-        using (var forumTopicConnection = forumTopicRepository.OpenConnection())
-        {
-            var query1 = from ft in forumTopicConnection.Query()
-                         where
-                         (forumId == 0 || ft.ForumId == forumId) &&
-                         (ft.LastPostTime.HasValue)
-                         select ft.Id;
+        using var forumTopicConnection = forumTopicRepository.OpenConnection();
+        var query1 = from ft in forumTopicConnection.Query()
+                     where
+                     (forumId == 0 || ft.ForumId == forumId) &&
+                     ft.LastPostTime.HasValue
+                     select ft.Id;
 
-            var query2 = from ft in forumTopicConnection.Query()
-                         where query1.Contains(ft.Id)
-                         orderby ft.LastPostTime descending
-                         select ft;
+        var query2 = from ft in forumTopicConnection.Query()
+                     where query1.Contains(ft.Id)
+                     orderby ft.LastPostTime descending
+                     select ft;
 
-            var topics = new PagedList<ForumTopic>(query2, pageIndex, pageSize);
+        var topics = new PagedList<ForumTopic>(query2, pageIndex, pageSize);
 
-            return await Task.FromResult(topics);
-        }
+        return await Task.FromResult(topics);
     }
 
     public virtual async Task InsertTopic(ForumTopic forumTopic, bool sendNotifications)
@@ -481,7 +456,7 @@ public class ForumService : IForumService
 
         //delete topic if it was the first post
         bool deleteTopic = false;
-        ForumPost firstPost = forumTopic.GetFirstPost(this);
+        var firstPost = forumTopic.GetFirstPost(this);
         if (firstPost != null && firstPost.Id == forumPost.Id)
         {
             deleteTopic = true;
@@ -513,25 +488,14 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(forumPost);
     }
 
-    public virtual async Task<ForumPost> GetPostById(int forumPostId)
-    {
-        if (forumPostId == 0)
-        {
-            return null;
-        }
-
-        return await forumPostRepository.FindOneAsync(forumPostId);
-    }
+    public virtual async Task<ForumPost> GetPostById(int forumPostId) => forumPostId == 0 ? null : await forumPostRepository.FindOneAsync(forumPostId);
 
     public virtual async Task<IPagedCollection<ForumPost>> GetAllPosts(
         int forumTopicId = 0,
         string userId = null,
         string keywords = null,
         int pageIndex = 0,
-        int pageSize = int.MaxValue)
-    {
-        return await GetAllPosts(forumTopicId, userId, keywords, true, pageIndex, pageSize);
-    }
+        int pageSize = int.MaxValue) => await GetAllPosts(forumTopicId, userId, keywords, true, pageIndex, pageSize);
 
     public virtual async Task<IPagedCollection<ForumPost>> GetAllPosts(
         int forumTopicId = 0,
@@ -541,28 +505,26 @@ public class ForumService : IForumService
         int pageIndex = 0,
         int pageSize = int.MaxValue)
     {
-        using (var forumPostConnection = forumPostRepository.OpenConnection())
+        using var forumPostConnection = forumPostRepository.OpenConnection();
+        var query = forumPostConnection.Query();
+        if (forumTopicId > 0)
         {
-            var query = forumPostConnection.Query();
-            if (forumTopicId > 0)
-            {
-                query = query.Where(x => forumTopicId == x.TopicId);
-            }
-            if (!string.IsNullOrEmpty(userId))
-            {
-                query = query.Where(x => userId == x.UserId);
-            }
-            if (!string.IsNullOrEmpty(keywords))
-            {
-                query = query.Where(x => x.Text.Contains(keywords));
-            }
-
-            query = ascSort ?
-                query.OrderBy(x => x.CreatedOnUtc).ThenBy(fp => fp.Id) :
-                query.OrderByDescending(x => x.CreatedOnUtc).ThenBy(fp => fp.Id);
-
-            return await Task.FromResult(new PagedList<ForumPost>(query, pageIndex, pageSize));
+            query = query.Where(x => forumTopicId == x.TopicId);
         }
+        if (!string.IsNullOrEmpty(userId))
+        {
+            query = query.Where(x => userId == x.UserId);
+        }
+        if (!string.IsNullOrEmpty(keywords))
+        {
+            query = query.Where(x => x.Text.Contains(keywords));
+        }
+
+        query = ascSort ?
+            query.OrderBy(x => x.CreatedOnUtc).ThenBy(fp => fp.Id) :
+            query.OrderByDescending(x => x.CreatedOnUtc).ThenBy(fp => fp.Id);
+
+        return await Task.FromResult(new PagedList<ForumPost>(query, pageIndex, pageSize));
     }
 
     public virtual async Task InsertPost(ForumPost forumPost, bool sendNotifications)
@@ -650,15 +612,7 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(privateMessage);
     }
 
-    public virtual async Task<PrivateMessage> GetPrivateMessageById(int privateMessageId)
-    {
-        if (privateMessageId == 0)
-        {
-            return null;
-        }
-
-        return await forumPrivateMessageRepository.FindOneAsync(privateMessageId);
-    }
+    public virtual async Task<PrivateMessage> GetPrivateMessageById(int privateMessageId) => privateMessageId == 0 ? null : await forumPrivateMessageRepository.FindOneAsync(privateMessageId);
 
     public virtual async Task<IPagedCollection<PrivateMessage>> GetAllPrivateMessages(
         string fromUserId,
@@ -670,40 +624,38 @@ public class ForumService : IForumService
         int pageIndex = 0,
         int pageSize = int.MaxValue)
     {
-        using (var forumPrivateMessageConnection = forumPrivateMessageRepository.OpenConnection())
+        using var forumPrivateMessageConnection = forumPrivateMessageRepository.OpenConnection();
+        var query = forumPrivateMessageConnection.Query();
+        //if (storeId > 0)
+        //    query = query.Where(pm => storeId == pm.StoreId);
+        if (!string.IsNullOrEmpty(fromUserId))
         {
-            var query = forumPrivateMessageConnection.Query();
-            //if (storeId > 0)
-            //    query = query.Where(pm => storeId == pm.StoreId);
-            if (!string.IsNullOrEmpty(fromUserId))
-            {
-                query = query.Where(pm => fromUserId == pm.FromUserId);
-            }
-            if (!string.IsNullOrEmpty(toUserId))
-            {
-                query = query.Where(pm => toUserId == pm.ToUserId);
-            }
-            if (isRead.HasValue)
-            {
-                query = query.Where(pm => isRead.Value == pm.IsRead);
-            }
-            if (isDeletedByAuthor.HasValue)
-            {
-                query = query.Where(pm => isDeletedByAuthor.Value == pm.IsDeletedByAuthor);
-            }
-            if (isDeletedByRecipient.HasValue)
-            {
-                query = query.Where(pm => isDeletedByRecipient.Value == pm.IsDeletedByRecipient);
-            }
-            if (!string.IsNullOrEmpty(keywords))
-            {
-                query = query.Where(pm => pm.Subject.Contains(keywords));
-                query = query.Where(pm => pm.Text.Contains(keywords));
-            }
-            query = query.OrderByDescending(pm => pm.CreatedOnUtc);
-
-            return await Task.FromResult(new PagedList<PrivateMessage>(query, pageIndex, pageSize));
+            query = query.Where(pm => fromUserId == pm.FromUserId);
         }
+        if (!string.IsNullOrEmpty(toUserId))
+        {
+            query = query.Where(pm => toUserId == pm.ToUserId);
+        }
+        if (isRead.HasValue)
+        {
+            query = query.Where(pm => isRead.Value == pm.IsRead);
+        }
+        if (isDeletedByAuthor.HasValue)
+        {
+            query = query.Where(pm => isDeletedByAuthor.Value == pm.IsDeletedByAuthor);
+        }
+        if (isDeletedByRecipient.HasValue)
+        {
+            query = query.Where(pm => isDeletedByRecipient.Value == pm.IsDeletedByRecipient);
+        }
+        if (!string.IsNullOrEmpty(keywords))
+        {
+            query = query.Where(pm => pm.Subject.Contains(keywords));
+            query = query.Where(pm => pm.Text.Contains(keywords));
+        }
+        query = query.OrderByDescending(pm => pm.CreatedOnUtc);
+
+        return await Task.FromResult(new PagedList<PrivateMessage>(query, pageIndex, pageSize));
     }
 
     public virtual async Task InsertPrivateMessage(PrivateMessage privateMessage)
@@ -768,15 +720,7 @@ public class ForumService : IForumService
         //_eventPublisher.EntityDeleted(forumSubscription);
     }
 
-    public virtual async Task<ForumSubscription> GetSubscriptionById(int forumSubscriptionId)
-    {
-        if (forumSubscriptionId == 0)
-        {
-            return null;
-        }
-
-        return await forumSubscriptionRepository.FindOneAsync(forumSubscriptionId);
-    }
+    public virtual async Task<ForumSubscription> GetSubscriptionById(int forumSubscriptionId) => forumSubscriptionId == 0 ? null : await forumSubscriptionRepository.FindOneAsync(forumSubscriptionId);
 
     public virtual async Task<IPagedCollection<ForumSubscription>> GetAllSubscriptions(
         string userId = null,
@@ -785,27 +729,23 @@ public class ForumService : IForumService
         int pageIndex = 0,
         int pageSize = int.MaxValue)
     {
-        bool isLockedOut = string.IsNullOrEmpty(userId)
-            ? false
-            : (await membershipService.GetUserById(userId)).IsLockedOut;
+        bool isLockedOut = !string.IsNullOrEmpty(userId) && (await membershipService.GetUserById(userId)).IsLockedOut;
 
-        using (var forumSubscriptionConnection = forumSubscriptionRepository.OpenConnection())
-        {
-            var fsQuery = forumSubscriptionConnection
-                .Query(x =>
-                    (userId == null || x.UserId == userId) &&
-                    (forumId == 0 || x.ForumId == forumId) &&
-                    (topicId == 0 || x.TopicId == topicId) &&
-                    (!isLockedOut))
-                .Select(x => x.Id);
+        using var forumSubscriptionConnection = forumSubscriptionRepository.OpenConnection();
+        var fsQuery = forumSubscriptionConnection
+            .Query(x =>
+                (userId == null || x.UserId == userId) &&
+                (forumId == 0 || x.ForumId == forumId) &&
+                (topicId == 0 || x.TopicId == topicId) &&
+                (!isLockedOut))
+            .Select(x => x.Id);
 
-            var query = forumSubscriptionConnection
-                .Query(x => fsQuery.Contains(x.Id))
-                .OrderByDescending(x => x.CreatedOnUtc)
-                .ThenByDescending(x => x.Id);
+        var query = forumSubscriptionConnection
+            .Query(x => fsQuery.Contains(x.Id))
+            .OrderByDescending(x => x.CreatedOnUtc)
+            .ThenByDescending(x => x.Id);
 
-            return await Task.FromResult(new PagedList<ForumSubscription>(query, pageIndex, pageSize));
-        }
+        return await Task.FromResult(new PagedList<ForumSubscription>(query, pageIndex, pageSize));
     }
 
     public virtual async Task InsertSubscription(ForumSubscription forumSubscription)
@@ -851,12 +791,7 @@ public class ForumService : IForumService
         //    return false;
         //}
 
-        if (await IsForumModerator(user))
-        {
-            return true;
-        }
-
-        return true;
+        return await IsForumModerator(user) || true;
     }
 
     public virtual async Task<bool> IsUserAllowedToEditTopic(MantleUser user, ForumTopic topic)
@@ -907,12 +842,7 @@ public class ForumService : IForumService
         //    return false;
         //}
 
-        if (await IsForumModerator(user))
-        {
-            return true;
-        }
-
-        return false;
+        return await IsForumModerator(user);
     }
 
     public virtual async Task<bool> IsUserAllowedToDeleteTopic(MantleUser user, ForumTopic topic)
@@ -1040,12 +970,7 @@ public class ForumService : IForumService
         //    return false;
         //}
 
-        if (await IsForumModerator(user))
-        {
-            return true;
-        }
-
-        return false;
+        return await IsForumModerator(user);
     }
 
     public virtual async Task<bool> IsUserAllowedToSubscribe(MantleUser user)
@@ -1224,15 +1149,13 @@ public class ForumService : IForumService
             return;
         }
 
-        using (var forumPostConnection = forumPostRepository.OpenConnection())
-        {
-            int numPosts = await forumPostConnection
-                .Query(x => x.UserId == userId)
-                .Select(x => x.Id)
-                .CountAsync();
+        using var forumPostConnection = forumPostRepository.OpenConnection();
+        int numPosts = await forumPostConnection
+            .Query(x => x.UserId == userId)
+            .Select(x => x.Id)
+            .CountAsync();
 
-            genericAttributeService.SaveAttribute(user, SystemUserAttributeNames.ForumPostCount, numPosts);
-        }
+        genericAttributeService.SaveAttribute(user, SystemUserAttributeNames.ForumPostCount, numPosts);
     }
 
     private async Task<bool> IsForumModerator(MantleUser user)

@@ -20,15 +20,9 @@ public class ContentBlockController : MantleController
 
     //[OutputCache(Duration = 86400, VaryByParam = "none")]
     [Route("{pageId?}")]
-    public IActionResult Index()
-    {
-        if (!CheckPermission(CmsPermissions.ContentBlocksRead))
-        {
-            return Unauthorized();
-        }
-
-        return PartialView("/Areas/Admin/ContentBlocks/Views/ContentBlock/Index.cshtml");
-    }
+    public IActionResult Index() => !CheckPermission(CmsPermissions.ContentBlocksRead)
+        ? Unauthorized()
+        : PartialView("/Areas/Admin/ContentBlocks/Views/ContentBlock/Index.cshtml");
 
     [Route("get-editor-ui/{contentBlockId}")]
     public async Task<IActionResult> GetEditorUI(Guid contentBlockId)

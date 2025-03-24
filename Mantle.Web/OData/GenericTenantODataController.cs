@@ -38,10 +38,7 @@ public abstract class GenericTenantODataController<TEntity, TKey> : GenericOData
 
     #endregion GenericODataController<TEntity, TKey> Members
 
-    protected virtual int GetTenantId()
-    {
-        return workContext.CurrentTenant.Id;
-    }
+    protected virtual int GetTenantId() => workContext.CurrentTenant.Id;
 
     protected override bool CanViewEntity(TEntity entity)
     {

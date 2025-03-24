@@ -10,19 +10,19 @@
 public class ColumnAttributeTypeMapper<T> : FallbackTypeMapper
 {
     public ColumnAttributeTypeMapper()
-        : base(new SqlMapper.ITypeMap[]
-            {
-                new CustomPropertyTypeMap(
-                   typeof(T),
-                   (type, columnName) =>
-                       type.GetTypeInfo().GetProperties().FirstOrDefault(prop =>
-                           prop.GetCustomAttributes(false)
-                               .OfType<DapperColumnAttribute>()
-                               .Any(attr => attr.Name == columnName)
-                           )
-                   ),
-                new DefaultTypeMap(typeof(T))
-            })
+        : base(
+        [
+            new CustomPropertyTypeMap(
+                typeof(T),
+                (type, columnName) =>
+                    type.GetTypeInfo().GetProperties().FirstOrDefault(prop =>
+                        prop.GetCustomAttributes(false)
+                            .OfType<DapperColumnAttribute>()
+                            .Any(attr => attr.Name == columnName)
+                        )
+                ),
+            new DefaultTypeMap(typeof(T))
+        ])
     {
     }
 }

@@ -10,8 +10,7 @@ public class BlogCategory : TenantEntity<int>
 
     public ICollection<BlogPost> Posts
     {
-        get { return posts ??= new HashSet<BlogPost>(); }
-        set { posts = value; }
+        get => posts ??= new HashSet<BlogPost>(); set => posts = value;
     }
 }
 
@@ -25,12 +24,5 @@ public class CategoryMap : IEntityTypeConfiguration<BlogCategory>, IMantleEntity
         builder.Property(x => x.UrlSlug).IsRequired().HasMaxLength(255).IsUnicode(true);
     }
 
-    #region IEntityTypeConfiguration Members
-
-    public bool IsEnabled
-    {
-        get { return true; }
-    }
-
-    #endregion IEntityTypeConfiguration Members
+    public bool IsEnabled => true;
 }

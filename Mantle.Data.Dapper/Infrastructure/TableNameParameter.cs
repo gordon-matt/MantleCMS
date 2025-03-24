@@ -17,7 +17,6 @@ public class TableNameParameter : Parameter
         valueProvider = () =>
         {
             var entityType = pi.Member.DeclaringType.GetGenericArguments()[0];
-
             var tableNameResolver = context.Resolve<ITableNameResolver>();
             string tableName = tableNameResolver.GetTableName(entityType);
             return tableName;

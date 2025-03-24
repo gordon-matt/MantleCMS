@@ -63,11 +63,9 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <returns>
     /// True if the assembly should be loaded into Mantle.
     /// </returns>
-    public virtual bool Matches(string assemblyFullName)
-    {
-        return !Matches(assemblyFullName, AssemblySkipLoadingPattern)
-               && Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
-    }
+    public virtual bool Matches(string assemblyFullName) =>
+        !Matches(assemblyFullName, AssemblySkipLoadingPattern) &&
+        Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
 
     /// <summary>
     /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
@@ -81,10 +79,8 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <returns>
     /// True if the pattern matches the assembly name.
     /// </returns>
-    protected virtual bool Matches(string assemblyFullName, string pattern)
-    {
-        return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-    }
+    protected virtual bool Matches(string assemblyFullName, string pattern) =>
+        Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     /// <summary>
     /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
@@ -168,10 +164,8 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <typeparam name="T">Type</typeparam>
     /// <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
     /// <returns>Result</returns>
-    public IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true)
-    {
-        return FindClassesOfType(typeof(T), onlyConcreteClasses);
-    }
+    public IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true) =>
+        FindClassesOfType(typeof(T), onlyConcreteClasses);
 
     /// <summary>
     /// Find classes of type
@@ -180,10 +174,8 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
     /// <returns>Result</returns>
     /// <returns></returns>
-    public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, bool onlyConcreteClasses = true)
-    {
-        return FindClassesOfType(assignTypeFrom, GetAssemblies(), onlyConcreteClasses);
-    }
+    public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, bool onlyConcreteClasses = true) =>
+        FindClassesOfType(assignTypeFrom, GetAssemblies(), onlyConcreteClasses);
 
     /// <summary>
     /// Find classes of type
@@ -192,10 +184,8 @@ public class AppDomainTypeFinder : ITypeFinder
     /// <param name="assemblies">Assemblies</param>
     /// <param name="onlyConcreteClasses">A value indicating whether to find only concrete classes</param>
     /// <returns>Result</returns>
-    public IEnumerable<Type> FindClassesOfType<T>(IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
-    {
-        return FindClassesOfType(typeof(T), assemblies, onlyConcreteClasses);
-    }
+    public IEnumerable<Type> FindClassesOfType<T>(IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true) =>
+        FindClassesOfType(typeof(T), assemblies, onlyConcreteClasses);
 
     /// <summary>
     /// Find classes of type
@@ -289,16 +279,13 @@ public class AppDomainTypeFinder : ITypeFinder
     #region Properties
 
     /// <summary>The app domain to look for types in.</summary>
-    public virtual AppDomain App
-    {
-        get { return AppDomain.CurrentDomain; }
-    }
+    public virtual AppDomain App => AppDomain.CurrentDomain;
 
     /// <summary>Gets or sets whether Mantle should iterate assemblies in the app domain when loading Mantle types. Loading patterns are applied when loading these assemblies.</summary>
     public bool LoadAppDomainAssemblies { get; set; } = true;
 
     /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-    public IList<string> AssemblyNames { get; set; } = new List<string>();
+    public IList<string> AssemblyNames { get; set; } = [];
 
     /// <summary>Gets the pattern for dlls that we know don't need to be investigated.</summary>
     public string AssemblySkipLoadingPattern { get; set; } = "^System|^mscorlib|^Microsoft|^AjaxControlToolkit|^Antlr3|^Autofac|^AutoMapper|^Castle|^ComponentArt|^CppCodeProvider|^DotNetOpenAuth|^EntityFramework|^EPPlus|^FluentValidation|^ImageResizer|^itextsharp|^log4net|^MaxMind|^MbUnit|^MiniProfiler|^Mono.Math|^MvcContrib|^Newtonsoft|^NHibernate|^nunit|^Org.Mentalis|^PerlRegex|^QuickGraph|^Recaptcha|^Remotion|^RestSharp|^Rhino|^Telerik|^Iesi|^TestDriven|^TestFu|^UserAgentStringLibrary|^VJSharpCodeProvider|^WebActivator|^WebDev|^WebGrease";
