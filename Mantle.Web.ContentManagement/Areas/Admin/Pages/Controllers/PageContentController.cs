@@ -35,7 +35,7 @@ public class PageContentController : MantleController
 
     //[OutputCache(Duration = 600, VaryByParam = "slug")] //TODO: Uncomment this when ready
     [Route("{slug}")]
-    public async Task<ActionResult> Index(string slug)
+    public async Task<IActionResult> Index(string slug)
     {
         //// Hack to make it search the correct path for the view
         //if (!this.ControllerContext.RouteData.DataTokens.ContainsKey("area"))

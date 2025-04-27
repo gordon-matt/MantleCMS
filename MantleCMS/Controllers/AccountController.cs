@@ -138,20 +138,20 @@ public class AccountController : MantleAccountController<ApplicationUser>
     #region User Profile
 
     [Route("profile/{userId}")]
-    public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> ViewProfile(string userId) => await base.ViewProfile(userId);
+    public override async Task<IActionResult> ViewProfile(string userId) => await base.ViewProfile(userId);
 
     [Route("my-profile")]
-    public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> ViewMyProfile() => await base.ViewMyProfile();
+    public override async Task<IActionResult> ViewMyProfile() => await base.ViewMyProfile();
 
     [Route("profile/edit/{userId}/")]
-    public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> EditProfile(string userId) => await base.EditProfile(userId);
+    public override async Task<IActionResult> EditProfile(string userId) => await base.EditProfile(userId);
 
     [Route("my-profile/edit")]
-    public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> EditMyProfile() => await base.EditMyProfile();
+    public override async Task<IActionResult> EditMyProfile() => await base.EditMyProfile();
 
     [HttpPost]
     [Route("update-profile")]
-    public override async Task<Microsoft.AspNetCore.Mvc.ActionResult> UpdateProfile() => await base.UpdateProfile();
+    public override async Task<IActionResult> UpdateProfile() => await base.UpdateProfile();
 
     #endregion User Profile
 }

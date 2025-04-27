@@ -1,5 +1,8 @@
-﻿namespace Mantle.Messaging;
+﻿using System.Diagnostics;
 
+namespace Mantle.Messaging;
+
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class MailMessageWrapper
 {
     public MailMessageWrapper()
@@ -258,18 +261,11 @@ public class MailMessageWrapper
 
         str.JsonDeserialize<MailMessageWrapper>();
 
-    public override string ToString() =>
-        //var settings = new JsonSerializerSettings
-        //{
-        //    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
-        //    Culture = CultureInfo.InvariantCulture
-        //};
-        //return this.ToJson(settings);
-
-        this.JsonSerialize();
+    private string DebuggerDisplay => this.JsonSerialize();
 
     #region Nested type: AttachmentWrapper
 
+    [DebuggerDisplay("{Name}")]
     public class AttachmentWrapper
     {
         public string ContentStream { get; set; }
@@ -283,6 +279,7 @@ public class MailMessageWrapper
 
     #region Nested type: MailAddressWrapper
 
+    [DebuggerDisplay("{Address}")]
     public class MailAddressWrapper
     {
         public MailAddressWrapper()

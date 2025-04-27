@@ -32,7 +32,7 @@ public class BlogContentController : MantleController
     }
 
     [Route("")]
-    public async Task<ActionResult> Index()
+    public async Task<IActionResult> Index()
     {
         // If there are access restrictions
         if (!await PageSecurityHelper.CheckUserHasAccessToBlog(User))
@@ -65,7 +65,7 @@ public class BlogContentController : MantleController
     }
 
     [Route("category/{categorySlug}")]
-    public async Task<ActionResult> Category(string categorySlug)
+    public async Task<IActionResult> Category(string categorySlug)
     {
         // If there are access restrictions
         if (!await PageSecurityHelper.CheckUserHasAccessToBlog(User))
@@ -104,7 +104,7 @@ public class BlogContentController : MantleController
     }
 
     [Route("tag/{tagSlug}")]
-    public async Task<ActionResult> Tag(string tagSlug)
+    public async Task<IActionResult> Tag(string tagSlug)
     {
         int tenantId = WorkContext.CurrentTenant.Id;
 
@@ -142,7 +142,7 @@ public class BlogContentController : MantleController
         return await Posts(pageIndex, model);
     }
 
-    private async Task<ActionResult> Posts(int pageIndex, IEnumerable<BlogPost> model)
+    private async Task<IActionResult> Posts(int pageIndex, IEnumerable<BlogPost> model)
     {
         var userIds = model.Select(x => x.UserId).Distinct();
         var userNames = (await membershipService.Value.GetUsers(WorkContext.CurrentTenant.Id, x => userIds.Contains(x.Id))).ToDictionary(k => k.Id, v => v.UserName);
@@ -176,7 +176,7 @@ public class BlogContentController : MantleController
     }
 
     [Route("{slug}")]
-    public async Task<ActionResult> Details(string slug)
+    public async Task<IActionResult> Details(string slug)
     {
         // If there are access restrictions
         if (!await PageSecurityHelper.CheckUserHasAccessToBlog(User))

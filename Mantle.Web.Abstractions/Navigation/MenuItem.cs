@@ -1,13 +1,10 @@
-﻿namespace Mantle.Web.Navigation;
+﻿using System.Diagnostics;
 
+namespace Mantle.Web.Navigation;
+
+[DebuggerDisplay("{Text}")]
 public class MenuItem
 {
-    public MenuItem()
-    {
-        Permissions = Enumerable.Empty<Permission>();
-        Icons = Enumerable.Empty<string>();
-    }
-
     public string Text { get; set; }
 
     //public string Description { get; set; }
@@ -24,11 +21,9 @@ public class MenuItem
 
     public IEnumerable<MenuItem> Items { get; set; }
 
-    public IEnumerable<Permission> Permissions { get; set; }
+    public IEnumerable<Permission> Permissions { get; set; } = [];
 
     public string CssClass { get; set; }
 
-    public IEnumerable<string> Icons { get; set; }
-
-    public override string ToString() => Text;
+    public IEnumerable<string> Icons { get; set; } = [];
 }

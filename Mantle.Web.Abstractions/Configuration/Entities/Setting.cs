@@ -1,10 +1,12 @@
-﻿using Mantle.Data.Entity;
+﻿using System.Diagnostics;
+using Mantle.Data.Entity;
 using Mantle.Tenants.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Web.Configuration.Entities;
 
+[DebuggerDisplay("{Name}")]
 public class Setting : TenantEntity<Guid>
 {
     /// <summary>
@@ -18,8 +20,6 @@ public class Setting : TenantEntity<Guid>
     /// Gets or sets the value
     /// </summary>
     public string Value { get; set; }
-
-    public override string ToString() => Name;
 }
 
 public class SettingMap : IEntityTypeConfiguration<Setting>, IMantleEntityTypeConfiguration

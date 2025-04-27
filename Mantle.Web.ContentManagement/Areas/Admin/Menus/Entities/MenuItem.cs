@@ -1,5 +1,8 @@
-﻿namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
+﻿using System.Diagnostics;
 
+namespace Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
+
+[DebuggerDisplay("{Text}")]
 public class MenuItem : BaseEntity<Guid>
 {
     public Guid MenuId { get; set; }
@@ -25,8 +28,6 @@ public class MenuItem : BaseEntity<Guid>
     //public virtual Menu Menu { get; set; }
 
     //public virtual MenuItem Parent { get; set; }
-
-    public override string ToString() => Text;
 }
 
 public class MenuItemMap : IEntityTypeConfiguration<MenuItem>, IMantleEntityTypeConfiguration

@@ -1,5 +1,8 @@
-﻿namespace Mantle.Messaging;
+﻿using System.Diagnostics;
 
+namespace Mantle.Messaging;
+
+[DebuggerDisplay("{Key}: {Value}")]
 public sealed class Token
 {
     public Token(string key, string value) :
@@ -28,6 +31,4 @@ public sealed class Token
     /// Indicates whether this token should be HTML encoded
     /// </summary>
     public bool HtmlEncoded { get; }
-
-    public override string ToString() => string.Format("{0}: {1}", Key, Value);
 }

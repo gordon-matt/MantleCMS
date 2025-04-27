@@ -1,5 +1,8 @@
-﻿namespace Mantle.Security.Membership;
+﻿using System.Diagnostics;
 
+namespace Mantle.Security.Membership;
+
+[DebuggerDisplay("{UserName}")]
 public class MantleUser : BaseEntity<string>
 {
     public int? TenantId { get; set; }
@@ -9,6 +12,4 @@ public class MantleUser : BaseEntity<string>
     public string Email { get; set; }
 
     public bool IsLockedOut { get; set; }
-
-    public override string ToString() => UserName;
 }

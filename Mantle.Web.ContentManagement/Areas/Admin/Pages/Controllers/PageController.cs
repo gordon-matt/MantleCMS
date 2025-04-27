@@ -62,7 +62,7 @@ public class PageController : MantleController
     }
 
     [Route("preview/{pageId}")]
-    public async Task<ActionResult> Preview(Guid pageId)
+    public async Task<IActionResult> Preview(Guid pageId)
     {
         string currentCulture = WorkContext.CurrentCultureCode;
         int tenantId = WorkContext.CurrentTenant.Id;
@@ -72,7 +72,7 @@ public class PageController : MantleController
     }
 
     [Route("preview-version/{pageVersionId}")]
-    public async Task<ActionResult> PreviewVersion(Guid pageVersionId)
+    public async Task<IActionResult> PreviewVersion(Guid pageVersionId)
     {
         PageVersion pageVersion;
         using (var connection = pageVersionService.Value.OpenConnection())
@@ -85,7 +85,7 @@ public class PageController : MantleController
         return await PagePreview(pageVersion);
     }
 
-    private async Task<ActionResult> PagePreview(PageVersion pageVersion)
+    private async Task<IActionResult> PagePreview(PageVersion pageVersion)
     {
         if (pageVersion != null)
         {

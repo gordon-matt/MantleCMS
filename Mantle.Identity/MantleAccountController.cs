@@ -399,7 +399,7 @@ public abstract class MantleAccountController<TUser> : MantleController
 
     #region User Profile
 
-    public virtual async Task<ActionResult> ViewProfile(string userId)
+    public virtual async Task<IActionResult> ViewProfile(string userId)
     {
         WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Title].Value);
 
@@ -427,9 +427,9 @@ public abstract class MantleAccountController<TUser> : MantleController
         return View("Profile", model: userId);
     }
 
-    public virtual async Task<ActionResult> ViewMyProfile() => await ViewProfile(WorkContext.CurrentUser.Id);
+    public virtual async Task<IActionResult> ViewMyProfile() => await ViewProfile(WorkContext.CurrentUser.Id);
 
-    public virtual async Task<ActionResult> EditProfile(string userId)
+    public virtual async Task<IActionResult> EditProfile(string userId)
     {
         WorkContext.Breadcrumbs.Add(T[LocalizableStrings.Title].Value);
 
@@ -454,10 +454,10 @@ public abstract class MantleAccountController<TUser> : MantleController
         return View("ProfileEdit", model: userId);
     }
 
-    public virtual async Task<ActionResult> EditMyProfile() => await EditProfile(WorkContext.CurrentUser.Id);
+    public virtual async Task<IActionResult> EditMyProfile() => await EditProfile(WorkContext.CurrentUser.Id);
 
     [HttpPost]
-    public virtual async Task<ActionResult> UpdateProfile()
+    public virtual async Task<IActionResult> UpdateProfile()
     {
         var userId = Request.Form["UserId"];
 
@@ -484,7 +484,7 @@ public abstract class MantleAccountController<TUser> : MantleController
 
         return userId == WorkContext.CurrentUser.Id
             ? RedirectToAction("ViewMyProfile")
-            : (ActionResult)RedirectToAction("ViewMyProfile", RouteData.Values.Merge(new { userId }));
+            : RedirectToAction("ViewMyProfile", RouteData.Values.Merge(new { userId }));
     }
 
     #endregion User Profile
