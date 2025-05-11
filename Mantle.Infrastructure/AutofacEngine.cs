@@ -81,17 +81,6 @@ public class AutofacEngine : IEngine, IDisposable
     #region Non-Public Methods
 
     /// <summary>
-    /// Get IServiceProvider
-    /// </summary>
-    /// <returns>IServiceProvider</returns>
-    protected virtual IServiceProvider GetServiceProvider()
-    {
-        var accessor = ServiceProvider.GetService<IHttpContextAccessor>();
-        var context = accessor.HttpContext;
-        return context != null ? context.RequestServices : ServiceProvider;
-    }
-
-    /// <summary>
     /// Register dependencies using Autofac
     /// </summary>
     /// <param name="containerBuilder">Container Builder</param>
