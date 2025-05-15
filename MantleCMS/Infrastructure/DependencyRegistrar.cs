@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Mantle.Data.Entity;
+﻿using Mantle.Data.Entity;
 using Mantle.Data.Services;
 using Mantle.Localization;
 using Mantle.Security.Membership;

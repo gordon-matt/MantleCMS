@@ -1,6 +1,4 @@
-﻿using Mantle.Security.Membership.Permissions;
-
-namespace Mantle.Plugins.Widgets.FullCalendar;
+﻿namespace Mantle.Plugins.Widgets.FullCalendar;
 
 public class FullCalendarPermissions : IPermissionProvider
 {

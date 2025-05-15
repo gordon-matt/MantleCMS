@@ -1,8 +1,4 @@
-﻿using Mantle.Data.Entity;
-using Mantle.Tenants.Entities;
-using Mantle.Web;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 

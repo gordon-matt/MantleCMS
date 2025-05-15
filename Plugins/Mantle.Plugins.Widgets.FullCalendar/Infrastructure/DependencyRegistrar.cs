@@ -1,13 +1,9 @@
-﻿using Dependo;
-using Extenso.AspNetCore.OData;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
-using Mantle.Security.Membership.Permissions;
-using Mantle.Web.Configuration;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.Infrastructure;
-using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

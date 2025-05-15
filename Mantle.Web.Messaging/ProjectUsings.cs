@@ -3,7 +3,6 @@ global using Dependo;
 global using Extenso;
 global using Extenso.Collections;
 global using Extenso.Data.Entity;
-global using Mantle.Infrastructure;
 global using Mantle.Localization.ComponentModel;
 global using Mantle.Security.Membership.Permissions;
 global using Mantle.Web.Collections;

@@ -1,6 +1,4 @@
-﻿using Mantle.Web.Mvc.Themes;
-
-namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
+﻿namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
 
 public class LocationFormatProvider : ILocationFormatProvider
 {

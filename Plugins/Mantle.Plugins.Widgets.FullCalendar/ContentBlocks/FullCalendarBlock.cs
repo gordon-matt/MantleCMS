@@ -1,5 +1,4 @@
-﻿using Mantle.Localization.ComponentModel;
-using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 

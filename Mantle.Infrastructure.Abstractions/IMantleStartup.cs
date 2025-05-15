@@ -1,6 +1,5 @@
 ﻿using Dependo;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Infrastructure;
 

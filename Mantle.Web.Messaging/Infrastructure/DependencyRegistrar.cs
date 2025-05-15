@@ -1,5 +1,4 @@
-﻿using Dependo;
-using Extenso.AspNetCore.OData;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Localization;
 using Mantle.Messaging;
 using Mantle.Messaging.Services;

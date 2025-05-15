@@ -1,6 +1,4 @@
-﻿using Mantle.Infrastructure;
-using Mantle.Web.Infrastructure;
-using Microsoft.Extensions.Localization;
+﻿using Mantle.Web.Infrastructure;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
 

@@ -1,6 +1,4 @@
-﻿using Mantle.Web.Configuration;
-
-namespace Mantle.Plugins.Widgets.FullCalendar;
+﻿namespace Mantle.Plugins.Widgets.FullCalendar;
 
 public class FullCalendarPluginSettings : BaseResourceSettings
 {

@@ -1,7 +1,3 @@
-using Extenso.Data.Entity;
-using Mantle.Data.Entity;
-using Mantle.Web;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Data.Entities;

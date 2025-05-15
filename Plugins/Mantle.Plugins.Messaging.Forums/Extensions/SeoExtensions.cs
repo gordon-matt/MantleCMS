@@ -4,30 +4,21 @@ public static class SeoExtensions
 {
     public static string GetSeName(this ForumGroup forumGroup)
     {
-        if (forumGroup == null)
-        {
-            throw new ArgumentNullException(nameof(forumGroup));
-        }
+        ArgumentNullException.ThrowIfNull(forumGroup);
         string seName = GetSeName(forumGroup.Name);
         return seName;
     }
 
     public static string GetSeName(this Forum forum)
     {
-        if (forum == null)
-        {
-            throw new ArgumentNullException(nameof(forum));
-        }
+        ArgumentNullException.ThrowIfNull(forum);
         string seName = GetSeName(forum.Name);
         return seName;
     }
 
     public static string GetSeName(this ForumTopic forumTopic)
     {
-        if (forumTopic == null)
-        {
-            throw new ArgumentNullException(nameof(forumTopic));
-        }
+        ArgumentNullException.ThrowIfNull(forumTopic);
         string seName = GetSeName(forumTopic.Subject);
 
         // Trim SE name to avoid URLs that are too long

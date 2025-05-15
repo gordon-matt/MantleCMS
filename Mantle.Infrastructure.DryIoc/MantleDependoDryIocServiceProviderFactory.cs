@@ -1,6 +1,5 @@
 ﻿using Dependo;
 using Dependo.DryIoc;
-using DryIoc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 

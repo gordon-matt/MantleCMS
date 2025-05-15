@@ -3,7 +3,6 @@ using Dependo;
 using Extenso;
 using Extenso.Reflection;
 using Mantle.Caching;
-using Mantle.Infrastructure;
 using StackExchange.Redis;
 
 namespace Mantle.Plugins.Caching.Redis;

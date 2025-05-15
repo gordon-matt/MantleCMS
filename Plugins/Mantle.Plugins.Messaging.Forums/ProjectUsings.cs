@@ -8,7 +8,6 @@ global using Extenso.Data.Entity;
 global using Mantle.Caching;
 global using Mantle.Data.Entity;
 global using Mantle.Exceptions;
-global using Mantle.Infrastructure;
 global using Mantle.Localization.ComponentModel;
 global using Mantle.Plugins.Messaging.Forums.Data.Entities;
 global using Mantle.Security.Membership;

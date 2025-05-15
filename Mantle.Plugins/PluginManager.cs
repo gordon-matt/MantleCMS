@@ -1,8 +1,6 @@
 ﻿//Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
 
-using Microsoft.Extensions.Hosting;
-
 namespace Mantle.Plugins;
 
 /// <summary>

@@ -1,6 +1,4 @@
-﻿using Extenso.Data.Entity;
-using Mantle.Caching;
-using Mantle.Data.Services;
+﻿using Mantle.Data.Services;
 using Mantle.Plugins.Widgets.FullCalendar.Data.Entities;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Services;

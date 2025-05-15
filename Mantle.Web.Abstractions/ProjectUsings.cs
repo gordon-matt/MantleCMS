@@ -4,7 +4,6 @@ global using Dependo;
 global using Extenso;
 global using Extenso.Data.Entity;
 global using Mantle.Data.Services;
-global using Mantle.Infrastructure;
 global using Mantle.Localization.ComponentModel;
 global using Mantle.Security.Membership;
 global using Mantle.Security.Membership.Permissions;

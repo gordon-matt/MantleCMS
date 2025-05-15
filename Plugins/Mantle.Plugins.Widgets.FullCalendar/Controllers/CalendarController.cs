@@ -1,8 +1,4 @@
-﻿using Mantle.Web.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Mantle.Plugins.Widgets.FullCalendar.Controllers;
+﻿namespace Mantle.Plugins.Widgets.FullCalendar.Controllers;
 
 [Authorize]
 [Area(Constants.RouteArea)]

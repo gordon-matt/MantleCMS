@@ -1,6 +1,5 @@
 ﻿using Dependo;
 using Dependo.DryIoc;
-using DryIoc;
 
 namespace Mantle.Infrastructure.DryIoc;
 
