@@ -15,9 +15,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.3.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
     <ProjectReference Include="..\..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\..\Mantle\Mantle.csproj" />

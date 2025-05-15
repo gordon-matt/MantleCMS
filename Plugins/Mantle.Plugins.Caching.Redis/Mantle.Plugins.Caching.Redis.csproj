@@ -12,7 +12,6 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.3.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.37" />
   </ItemGroup>
   <ItemGroup>

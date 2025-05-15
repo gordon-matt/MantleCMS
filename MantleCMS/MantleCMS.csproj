@@ -15,8 +15,6 @@
     <None Remove="Plugins\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.3.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Extenso.Core" Version="9.2.0" />
     <PackageReference Include="Extenso.Data" Version="9.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
