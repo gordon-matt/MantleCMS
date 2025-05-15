@@ -87,8 +87,8 @@ public class SubscriberApiController : ODataController
 
     protected static bool CheckPermission(Permission permission)
     {
-        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var authorizationService = DependoResolver.Instance.Resolve<IMantleAuthorizationService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
         return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
     }
 }

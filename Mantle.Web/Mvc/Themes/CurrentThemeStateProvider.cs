@@ -6,7 +6,7 @@ public class CurrentThemeStateProvider : IWorkContextStateProvider
     {
         if (name == MantleWebConstants.StateProviders.CurrentTheme)
         {
-            string currentTheme = EngineContext.Current.Resolve<IThemeContext>().WorkingTheme;
+            string currentTheme = DependoResolver.Instance.Resolve<IThemeContext>().WorkingTheme;
             return ctx => (T)(object)currentTheme;
         }
         return null;

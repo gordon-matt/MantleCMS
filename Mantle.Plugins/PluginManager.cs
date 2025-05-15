@@ -1,6 +1,8 @@
 ﻿//Contributor: Umbraco (http://www.umbraco.com). Thanks a lot!
 //SEE THIS POST for full details of what this does - http://shazwazza.com/post/Developing-a-plugin-framework-in-ASPNET-with-medium-trust.aspx
 
+using Microsoft.Extensions.Hosting;
+
 namespace Mantle.Plugins;
 
 /// <summary>
@@ -60,16 +62,11 @@ public class PluginManager
     /// </summary>
     /// <param name="applicationPartManager">Application part manager</param>
     /// <param name="config">Config</param>
-    public static void Initialize(ApplicationPartManager applicationPartManager, IHostingEnvironment hostingEnvironment, MantlePluginOptions options)
+    public static void Initialize(ApplicationPartManager applicationPartManager, MantlePluginOptions options)
     {
         if (applicationPartManager == null)
         {
             throw new ArgumentNullException(nameof(applicationPartManager));
-        }
-
-        if (hostingEnvironment == null)
-        {
-            throw new ArgumentNullException(nameof(hostingEnvironment));
         }
 
         using (new DisposableWriteLock(Locker))

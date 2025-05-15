@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Dependo;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Infrastructure;
 
@@ -9,7 +11,7 @@ public interface IMantleStartup
     /// </summary>
     /// <param name="containerBuilder">Container Builder</param>
     /// <param name="configuration">Configuration root of the application</param>
-    void ConfigureServices(ContainerBuilder containerBuilder, IConfiguration configuration);
+    void ConfigureServices(IContainerBuilder containerBuilder, IConfiguration configuration);
 
     /// <summary>
     /// Configure the using of added middleware

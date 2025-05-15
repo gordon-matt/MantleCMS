@@ -1,5 +1,6 @@
 ﻿global using System.Reflection;
 global using System.Text;
+global using Dependo;
 global using Extenso;
 global using Extenso.Collections;
 global using Extenso.Collections.Generic;

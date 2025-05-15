@@ -122,7 +122,7 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetBlogCategorySelectList(int? selectedValue = null, string emptyText = null)
     {
-        var categoryService = EngineContext.Current.Resolve<IBlogCategoryService>();
+        var categoryService = DependoResolver.Instance.Resolve<IBlogCategoryService>();
 
         return categoryService.Find()
             .ToSelectList(
@@ -134,7 +134,7 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetBlogTagSelectList(int? selectedValue = null, string emptyText = null)
     {
-        var tagService = EngineContext.Current.Resolve<IBlogTagService>();
+        var tagService = DependoResolver.Instance.Resolve<IBlogTagService>();
 
         return tagService.Find()
             .ToSelectList(
@@ -146,7 +146,7 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetContentBlockTypesSelectList(string selectedValue = null, string emptyText = null)
     {
-        var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
+        var contentBlocks = DependoResolver.Instance.ResolveAll<IContentBlock>();
 
         var blockTypes = contentBlocks
             .Select(x => new
@@ -166,7 +166,7 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetPageTypesSelectList(string selectedValue = null, string emptyText = null)
     {
-        var repository = EngineContext.Current.Resolve<IRepository<PageType>>();
+        var repository = DependoResolver.Instance.Resolve<IRepository<PageType>>();
 
         using var connection = repository.OpenConnection();
         return connection.Query()
@@ -181,8 +181,8 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetTopLevelPagesSelectList(string selectedValue = null, string emptyText = null)
     {
-        var pageService = EngineContext.Current.Resolve<IPageService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var pageService = DependoResolver.Instance.Resolve<IPageService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         int tenantId = workContext.CurrentTenant.Id;
 
@@ -196,7 +196,7 @@ public class MantleCMS<TModel>
 
     public IEnumerable<SelectListItem> GetZonesSelectList(string selectedValue = null, string emptyText = null)
     {
-        var zoneService = EngineContext.Current.Resolve<IZoneService>();
+        var zoneService = DependoResolver.Instance.Resolve<IZoneService>();
 
         using var connection = zoneService.OpenConnection();
         return connection.Query()

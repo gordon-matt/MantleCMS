@@ -46,7 +46,7 @@ public class DefaultSettingService : ISettingService
             : repository.FindOne(x => x.TenantId == null && x.Type == key);
         if (setting == null)
         {
-            var iSettings = EngineContext.Current.ResolveAll<ISettings>().FirstOrDefault(x => x.GetType().FullName == key);
+            var iSettings = DependoResolver.Instance.ResolveAll<ISettings>().FirstOrDefault(x => x.GetType().FullName == key);
 
             if (iSettings != null)
             {

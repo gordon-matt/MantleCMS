@@ -88,7 +88,7 @@ public static class DateTimeExtensions
             var tmp1 = source;
             if (convertToUserTime)
             {
-                tmp1 = EngineContext.Current.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
+                tmp1 = DependoResolver.Instance.Resolve<IDateTimeHelper>().ConvertToUserTime(tmp1, DateTimeKind.Utc);
             }
             //default formatting
             result = !string.IsNullOrEmpty(defaultFormat) ? tmp1.ToString(defaultFormat) : tmp1.ToString();

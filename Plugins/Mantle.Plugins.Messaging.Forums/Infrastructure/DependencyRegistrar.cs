@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Dependo;
 using Extenso.AspNetCore.OData;
 using Mantle.Localization;
 using Mantle.Plugins.Messaging.Forums.Services;
@@ -6,6 +6,7 @@ using Mantle.Web.ContentManagement.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Plugins.Messaging.Forums.Infrastructure;
 
@@ -13,28 +14,28 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {
             return;
         }
 
-        builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+        builder.Register<IDurandalRouteProvider, DurandalRouteProvider>(ServiceLifetime.Singleton);
 
         // Embedded File Provider
-        builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+        builder.Register<IEmbeddedFileProviderRegistrar, EmbeddedFileProviderRegistrar>(ServiceLifetime.Scoped);
 
-        builder.RegisterType<ForumSettings>().As<ISettings>().InstancePerLifetimeScope();
-        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
+        builder.Register<ISettings, ForumSettings>(ServiceLifetime.Scoped);
+        builder.Register<ILanguagePack, LanguagePackInvariant>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<ForumPermissions>().As<IPermissionProvider>().SingleInstance();
-        builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
-        builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
-        builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+        builder.Register<IPermissionProvider, ForumPermissions>(ServiceLifetime.Singleton);
+        builder.Register<ILocationFormatProvider, LocationFormatProvider>(ServiceLifetime.Singleton);
+        builder.Register<INavigationProvider, NavigationProvider>(ServiceLifetime.Singleton);
+        builder.Register<IODataRegistrar, ODataRegistrar>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<AutoMenuProvider>().As<IAutoMenuProvider>().SingleInstance();
-        builder.RegisterType<ForumService>().As<IForumService>().InstancePerDependency();
+        builder.Register<IAutoMenuProvider, AutoMenuProvider>(ServiceLifetime.Singleton);
+        builder.Register<IForumService, ForumService>(ServiceLifetime.Transient);
     }
 
     public int Order => 9999;

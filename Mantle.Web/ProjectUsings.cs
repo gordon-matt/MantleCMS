@@ -1,6 +1,7 @@
 ﻿global using System.Linq.Expressions;
 global using System.Reflection;
 global using System.Text;
+global using Dependo;
 global using Extenso;
 global using Extenso.AspNetCore.Mvc.Rendering;
 global using Extenso.Collections;

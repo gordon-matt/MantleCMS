@@ -18,7 +18,7 @@ public class PageTypeService : GenericDataService<PageType>, IPageTypeService
     {
         mantlePageTypes = new Lazy<IEnumerable<MantlePageType>>(() =>
         {
-            var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
+            var typeFinder = DependoResolver.Instance.Resolve<ITypeFinder>();
 
             var pageTypes = typeFinder.FindClassesOfType<MantlePageType>()
                 .Select(x => (MantlePageType)Activator.CreateInstance(x));

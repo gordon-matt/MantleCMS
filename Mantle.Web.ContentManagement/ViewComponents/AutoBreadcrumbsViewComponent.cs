@@ -33,8 +33,8 @@ public class AutoBreadcrumbsViewComponent : ViewComponent
             return View(templateViewName, breadcrumbs);
         }
 
-        var pageService = EngineContext.Current.Resolve<IPageService>();
-        var pageVersionService = EngineContext.Current.Resolve<IPageVersionService>();
+        var pageService = DependoResolver.Instance.Resolve<IPageService>();
+        var pageVersionService = DependoResolver.Instance.Resolve<IPageVersionService>();
 
         int tenantId = workContext.CurrentTenant.Id;
 

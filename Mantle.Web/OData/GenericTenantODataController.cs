@@ -12,13 +12,13 @@ public abstract class GenericTenantODataController<TEntity, TKey> : GenericOData
     public GenericTenantODataController(IGenericDataService<TEntity> service)
         : base(service)
     {
-        this.workContext = EngineContext.Current.Resolve<IWorkContext>();
+        this.workContext = DependoResolver.Instance.Resolve<IWorkContext>();
     }
 
     public GenericTenantODataController(IRepository<TEntity> repository)
         : base(repository)
     {
-        this.workContext = EngineContext.Current.Resolve<IWorkContext>();
+        this.workContext = DependoResolver.Instance.Resolve<IWorkContext>();
     }
 
     #endregion Constructors

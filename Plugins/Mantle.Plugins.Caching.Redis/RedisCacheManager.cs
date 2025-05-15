@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Dependo;
 using Extenso;
 using Extenso.Reflection;
 using Mantle.Caching;
@@ -16,7 +17,7 @@ public class RedisCacheManager : ICacheManager
     public RedisCacheManager()
     {
         //TODO: Test
-        connectionString = EngineContext.Current.Resolve<RedisCacheSettings>().ConnectionString;
+        connectionString = DependoResolver.Instance.Resolve<RedisCacheSettings>().ConnectionString;
     }
 
     ~RedisCacheManager()

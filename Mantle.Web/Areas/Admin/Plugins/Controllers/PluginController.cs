@@ -1,4 +1,6 @@
-﻿namespace Mantle.Web.Areas.Admin.Plugins.Controllers;
+﻿using Mantle.Plugins;
+
+namespace Mantle.Web.Areas.Admin.Plugins.Controllers;
 
 [Authorize]
 [Area(MantleWebConstants.Areas.Plugins)]

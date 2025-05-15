@@ -18,7 +18,7 @@ public class DefaultContentBlockProvider : IContentBlockProvider
 
     public virtual IEnumerable<IContentBlock> GetContentBlocks(string zoneName)
     {
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
         var pageId = workContext.GetState<Guid?>("CurrentPageId");
 
         var contentBlocks = contentBlockService.GetContentBlocks(zoneName, workContext.CurrentCultureCode, pageId: pageId);

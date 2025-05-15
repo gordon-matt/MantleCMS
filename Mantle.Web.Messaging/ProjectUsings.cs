@@ -1,4 +1,5 @@
 ﻿global using System.Text;
+global using Dependo;
 global using Extenso;
 global using Extenso.Collections;
 global using Extenso.Data.Entity;

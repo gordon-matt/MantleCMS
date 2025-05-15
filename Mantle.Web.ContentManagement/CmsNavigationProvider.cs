@@ -7,7 +7,7 @@ public class CmsNavigationProvider : INavigationProvider
 {
     public CmsNavigationProvider()
     {
-        T = EngineContext.Current.Resolve<IStringLocalizer>();
+        T = DependoResolver.Instance.Resolve<IStringLocalizer>();
     }
 
     public IStringLocalizer T { get; set; }

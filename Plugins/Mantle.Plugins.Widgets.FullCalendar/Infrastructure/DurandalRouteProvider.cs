@@ -10,7 +10,7 @@ public class DurandalRouteProvider : IDurandalRouteProvider
     {
         get
         {
-            var T = EngineContext.Current.Resolve<IStringLocalizer>();
+            var T = DependoResolver.Instance.Resolve<IStringLocalizer>();
             var routes = new List<DurandalRoute>
             {
                 new()

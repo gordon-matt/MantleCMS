@@ -43,14 +43,14 @@ public class PluginDescriptor : IDescriptor, IComparable<PluginDescriptor>
         object instance = null;
         try
         {
-            instance = EngineContext.Current.Resolve(PluginType);
+            instance = DependoResolver.Instance.Resolve(PluginType);
         }
         catch
         {
             //try resolve
         }
         //not resolved
-        instance ??= EngineContext.Current.ResolveUnregistered(PluginType);
+        instance ??= DependoResolver.Instance.ResolveUnregistered(PluginType);
         var typedInstance = instance as T;
         if (typedInstance != null)
         {

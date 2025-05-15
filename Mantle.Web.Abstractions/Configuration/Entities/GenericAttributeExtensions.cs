@@ -8,7 +8,7 @@ public static class GenericAttributeExtensions
     {
         ArgumentNullException.ThrowIfNull(entity);
 
-        service ??= EngineContext.Current.Resolve<IGenericAttributeService>();
+        service ??= DependoResolver.Instance.Resolve<IGenericAttributeService>();
 
         string entityId = string.Join("|", entity.KeyValues);
         string entityType = entity.GetType().Name;

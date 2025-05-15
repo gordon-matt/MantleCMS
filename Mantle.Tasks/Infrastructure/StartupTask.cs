@@ -10,11 +10,11 @@ public class StartupTask : IStartupTask
 
     private static void EnsureScheduledTasks()
     {
-        var options = EngineContext.Current.Resolve<IOptions<MantleTasksOptions>>();
+        var options = DependoResolver.Instance.Resolve<IOptions<MantleTasksOptions>>();
         if (options.Value.ScheduledTasksEnabled)
         {
-            var taskRepository = EngineContext.Current.Resolve<IRepository<ScheduledTask>>();
-            var allTasks = EngineContext.Current.ResolveAll<ITask>();
+            var taskRepository = DependoResolver.Instance.Resolve<IRepository<ScheduledTask>>();
+            var allTasks = DependoResolver.Instance.ResolveAll<ITask>();
             var allTaskNames = allTasks.Select(x => x.Name).ToList();
             var installedTasks = taskRepository.Find();
             var installedTaskNames = installedTasks.Select(x => x.Name).ToList();

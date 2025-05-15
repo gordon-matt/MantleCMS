@@ -16,7 +16,7 @@ public class EmbeddedViewFileProvider : IFileProvider
         {
             if (embeddedViews == null)
             {
-                var embeddedResourceResolver = EngineContext.Current.Resolve<IEmbeddedResourceResolver>();
+                var embeddedResourceResolver = DependoResolver.Instance.Resolve<IEmbeddedResourceResolver>();
                 embeddedViews = embeddedResourceResolver.Views;
             }
             return embeddedViews;

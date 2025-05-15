@@ -27,7 +27,7 @@
 
 //        public IEnumerable<IDocumentIndex> GetDocuments(Func<string, IDocumentIndex> factory)
 //        {
-//            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+//            var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 //            int tenantId = workContext.CurrentTenant.Id;
 
 //            var entries = blogService.Find(x => x.TenantId == tenantId);

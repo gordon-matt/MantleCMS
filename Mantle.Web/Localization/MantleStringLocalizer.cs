@@ -109,7 +109,7 @@ public class MantleStringLocalizer : IStringLocalizer
     protected virtual string AddTranslation(int tenantId, string cultureCode, string key)
     {
         // TODO: Consider resolving this once for better performance?
-        var providers = EngineContext.Current.ResolveAll<ILanguagePack>();
+        var providers = DependoResolver.Instance.ResolveAll<ILanguagePack>();
         var languagePacks = providers.Where(x => x.CultureCode == null);
 
         string value = key;

@@ -2,6 +2,7 @@
 global using System.Data;
 global using System.Runtime.Serialization;
 global using System.Security.Claims;
+global using Dependo;
 global using Mantle.Identity.Entities;
 global using Mantle.Identity.Models.AccountViewModels;
 global using Mantle.Identity.Services;

@@ -198,7 +198,7 @@ public class Startup
 
             options.FileProviders.Add(new EmbeddedViewFileProvider()); // allow embedded views for special cases like dynamic settings in framework
 
-            var embeddedFileProviders = EngineContext.Current.ResolveAll<IEmbeddedFileProviderRegistrar>()
+            var embeddedFileProviders = DependoResolver.Instance.ResolveAll<IEmbeddedFileProviderRegistrar>()
                 .SelectMany(x => x.EmbeddedFileProviders);
 
             foreach (var embeddedFileProvider in embeddedFileProviders)
@@ -329,13 +329,13 @@ public class Startup
 
             endpoints.MapRazorPages();
 
-            var routePublisher = EngineContext.Current.Resolve<IRoutePublisher>();
+            var routePublisher = DependoResolver.Instance.Resolve<IRoutePublisher>();
             routePublisher.RegisterEndpoints(endpoints);
         });
 
         // If you want to dispose of resources that have been resolved in the
         // application container, register for the "ApplicationStopped" event.
-        //appLifetime.ApplicationStopped.Register(() => EngineContext.Current.Dispose());
+        //appLifetime.ApplicationStopped.Register(() => DependoResolver.Instance.Dispose());
 
         ConfigureNLog();
     }
@@ -368,7 +368,7 @@ public class Startup
 
             ////databaseTarget.DBProvider = "Npgsql"; // If using other provider...
 
-            //var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+            //var dataSettings = DependoResolver.Instance.Resolve<DataSettings>();
             //databaseTarget.ConnectionString = dataSettings.ConnectionString;
         }
         catch { }

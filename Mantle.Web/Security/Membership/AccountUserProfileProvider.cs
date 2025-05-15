@@ -37,7 +37,7 @@ public class AccountUserProfileProvider : IUserProfileProvider
 
     public void PopulateFields(string userId)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
 
         var profile = AsyncHelper.RunSync(() => membershipService.GetProfile(userId));
 

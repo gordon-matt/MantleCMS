@@ -17,7 +17,7 @@ public partial class TaskManager
     /// </summary>
     public void Initialize()
     {
-        var taskService = EngineContext.Current.Resolve<IScheduledTaskService>();
+        var taskService = DependoResolver.Instance.Resolve<IScheduledTaskService>();
 
         taskThreads.Clear();
 

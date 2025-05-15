@@ -8,9 +8,9 @@ public class StartupTask : IStartupTask
 
     public void Execute()
     {
-        var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+        var contextFactory = DependoResolver.Instance.Resolve<IDbContextFactory>();
         using var context = contextFactory.GetContext() as ApplicationDbContext;
-        var efHelper = EngineContext.Current.Resolve<IMantleEntityFrameworkHelper>();
+        var efHelper = DependoResolver.Instance.Resolve<IMantleEntityFrameworkHelper>();
         efHelper.EnsureTables(context);
     }
 }

@@ -11,7 +11,7 @@ public static class MvcHelpers
         {
             if (actionContext == null)
             {
-                var serviceProvider = EngineContext.Current.Resolve<IServiceProvider>();
+                var serviceProvider = DependoResolver.Instance.Resolve<IServiceProvider>();
 
                 actionContext = new ActionContext(
                     new DefaultHttpContext { RequestServices = serviceProvider },
@@ -28,7 +28,7 @@ public static class MvcHelpers
         {
             if (urlHelper == null)
             {
-                var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
+                var urlHelperFactory = DependoResolver.Instance.Resolve<IUrlHelperFactory>();
                 urlHelper = urlHelperFactory.GetUrlHelper(ActionContext);
             }
             return urlHelper;

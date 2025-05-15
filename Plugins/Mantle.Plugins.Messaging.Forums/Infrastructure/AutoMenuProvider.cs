@@ -37,7 +37,7 @@ public class AutoMenuProvider : IAutoMenuProvider
             return [];
         }
 
-        var T = EngineContext.Current.Resolve<IStringLocalizer>();
+        var T = DependoResolver.Instance.Resolve<IStringLocalizer>();
 
         return
         [

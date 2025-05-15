@@ -1,10 +1,10 @@
-﻿using Autofac;
-using Extenso.AspNetCore.OData;
+﻿using Extenso.AspNetCore.OData;
 using Mantle.Localization;
 using Mantle.Web.Common.Areas.Admin.Regions.Services;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Web.Common.Infrastructure;
 
@@ -12,22 +12,22 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
-        builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
-        builder.RegisterType<RequireJSConfigProvider>().As<IRequireJSConfigProvider>().SingleInstance();
+        builder.Register<IDurandalRouteProvider, DurandalRouteProvider>(ServiceLifetime.Singleton);
+        builder.Register<IRequireJSConfigProvider, RequireJSConfigProvider>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
-        builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
-        builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
-        builder.RegisterType<RegionService>().As<IRegionService>().InstancePerDependency();
-        builder.RegisterType<RegionSettingsService>().As<IRegionSettingsService>().InstancePerDependency();
-        builder.RegisterType<Permissions>().As<IPermissionProvider>().SingleInstance();
+        builder.Register<ILanguagePack, LanguagePackInvariant>(ServiceLifetime.Singleton);
+        builder.Register<INavigationProvider, NavigationProvider>(ServiceLifetime.Singleton);
+        builder.Register<ILocationFormatProvider, LocationFormatProvider>(ServiceLifetime.Singleton);
+        builder.Register<IRegionService, RegionService>(ServiceLifetime.Transient);
+        builder.Register<IRegionSettingsService, RegionSettingsService>(ServiceLifetime.Transient);
+        builder.Register<IPermissionProvider, Permissions>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+        builder.Register<IODataRegistrar, ODataRegistrar>(ServiceLifetime.Singleton);
 
         // Embedded File Provider
-        builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+        builder.Register<IEmbeddedFileProviderRegistrar, EmbeddedFileProviderRegistrar>(ServiceLifetime.Scoped);
     }
 
     public int Order => 1;

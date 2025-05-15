@@ -8,7 +8,7 @@ public class AdminNavigationProvider : INavigationProvider
 {
     public AdminNavigationProvider()
     {
-        T = EngineContext.Current.Resolve<IStringLocalizer>();
+        T = DependoResolver.Instance.Resolve<IStringLocalizer>();
     }
 
     public IStringLocalizer T { get; set; }

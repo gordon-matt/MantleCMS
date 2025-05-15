@@ -11,7 +11,7 @@ public static class ApplicationBuilderExtensions
     /// <param name="application">Builder for configuring an application's request pipeline</param>
     public static void UseMantleWebOptimizer(this IApplicationBuilder application)
     {
-        var webHostEnvironment = EngineContext.Current.Resolve<IWebHostEnvironment>();
+        var webHostEnvironment = DependoResolver.Instance.Resolve<IWebHostEnvironment>();
 
         application.UseWebOptimizer(webHostEnvironment, new[]
         {

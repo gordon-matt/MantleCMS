@@ -13,7 +13,7 @@ public class MantleViewLocationExpander : IViewLocationExpander
     {
         if (locationFormatProviders == null)
         {
-            locationFormatProviders = EngineContext.Current.ResolveAll<ILocationFormatProvider>() ?? Enumerable.Empty<ILocationFormatProvider>();
+            locationFormatProviders = DependoResolver.Instance.ResolveAll<ILocationFormatProvider>() ?? Enumerable.Empty<ILocationFormatProvider>();
             allViewLocationFormats = locationFormatProviders.ToDictionary(k => k.GetType().Assembly.FullName, v => GetViewLocationFormats(v));
             allAreaViewLocationFormats = locationFormatProviders.ToDictionary(k => k.GetType().Assembly.FullName, v => GetAreaViewLocationFormats(v));
         }

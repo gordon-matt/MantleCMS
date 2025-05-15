@@ -1,15 +1,11 @@
 ﻿global using System.Data;
-global using System.Diagnostics;
 global using System.Net;
 global using System.Reflection;
-global using System.Text.RegularExpressions;
-global using Autofac;
-global using Autofac.Extensions.DependencyInjection;
+global using DryIoc;
 global using Mantle.Helpers;
 global using Mantle.Infrastructure.Configuration;
 global using Mantle.Plugins;
 global using Mantle.Plugins.Configuration;
-global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.ApplicationParts;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;

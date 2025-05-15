@@ -48,7 +48,7 @@ public class PageVersionApiController : GenericTenantODataController<PageVersion
 
         if (previous == null)
         {
-            var localizer = EngineContext.Current.Resolve<IStringLocalizer>();
+            var localizer = DependoResolver.Instance.Resolve<IStringLocalizer>();
             return BadRequest(localizer[MantleCmsLocalizableStrings.Pages.CannotDeleteOnlyVersion].Value);
         }
 

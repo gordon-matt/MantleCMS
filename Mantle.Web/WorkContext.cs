@@ -15,8 +15,8 @@ public partial class WorkContext : IWorkContext
 
     public WorkContext()
     {
-        webHelper = EngineContext.Current.Resolve<IWebHelper>();
-        workContextStateProviders = EngineContext.Current.ResolveAll<IWorkContextStateProvider>();
+        webHelper = DependoResolver.Instance.Resolve<IWebHelper>();
+        workContextStateProviders = DependoResolver.Instance.ResolveAll<IWorkContextStateProvider>();
         Breadcrumbs = [];
     }
 
@@ -61,7 +61,7 @@ public partial class WorkContext : IWorkContext
                     host = host.LeftOf(':');
                 }
 
-                var tenantService = EngineContext.Current.Resolve<ITenantService>();
+                var tenantService = DependoResolver.Instance.Resolve<ITenantService>();
                 var allTenants = tenantService.Find();
                 var tenant = allTenants.FirstOrDefault(s => s.ContainsHostValue(host));
 

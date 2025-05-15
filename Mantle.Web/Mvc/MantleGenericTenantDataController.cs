@@ -17,13 +17,13 @@
 //        public MantleGenericTenantDataController(IRepository<TEntity> repository)
 //            : base(repository)
 //        {
-//            workContext = EngineContext.Current.Resolve<IWorkContext>();
+//            workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 //        }
 
 //        public MantleGenericTenantDataController(IGenericDataService<TEntity> service)
 //            : base(service)
 //        {
-//            workContext = EngineContext.Current.Resolve<IWorkContext>();
+//            workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 //        }
 
 //        #endregion Constructors

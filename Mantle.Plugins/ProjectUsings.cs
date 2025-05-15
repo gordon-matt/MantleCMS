@@ -1,6 +1,7 @@
 ﻿global using System.Diagnostics;
 global using System.Reflection;
 global using System.Runtime.Loader;
+global using Dependo;
 global using Extenso;
 global using Extenso.Data.Entity;
 global using Mantle.Caching;

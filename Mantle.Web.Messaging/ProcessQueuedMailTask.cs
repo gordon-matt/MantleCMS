@@ -19,7 +19,7 @@ public class ProcessQueuedMailTask : ITask
         int messagesPerBatch;
 
         // TODO: This will now be a problem because of tenants feature.. we need to do this task for each tenant
-        var smtpSettings = EngineContext.Current.Resolve<SmtpSettings>();
+        var smtpSettings = DependoResolver.Instance.Resolve<SmtpSettings>();
         if (!string.IsNullOrEmpty(smtpSettings.Host))
         {
             maxTries = smtpSettings.MaxTries;
@@ -31,14 +31,14 @@ public class ProcessQueuedMailTask : ITask
             messagesPerBatch = 50;
         }
 
-        var emailSender = EngineContext.Current.Resolve<IEmailSender>();
-        var providers = EngineContext.Current.ResolveAll<IQueuedMessageProvider>();
+        var emailSender = DependoResolver.Instance.Resolve<IEmailSender>();
+        var providers = DependoResolver.Instance.ResolveAll<IQueuedMessageProvider>();
 
-        //var componentContext = EngineContext.Current.Resolve<IComponentContext>();
+        //var componentContext = DependoResolver.Instance.Resolve<IComponentContext>();
         //var logger = componentContext.Resolve<ILogger>(new TypedParameter(typeof(Type), typeof(ProcessQueuedMailTask)));
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger(GetType());
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         foreach (var provider in providers)
         {

@@ -45,13 +45,13 @@ public abstract class BasePlugin : IPlugin
             });
         }
 
-        var localizableStringRepository = EngineContext.Current.Resolve<IRepository<LocalizableString>>();
+        var localizableStringRepository = DependoResolver.Instance.Resolve<IRepository<LocalizableString>>();
         localizableStringRepository.Insert(toInsert);
 
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
         string cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
 
-        var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
+        var cacheManager = DependoResolver.Instance.Resolve<ICacheManager>();
         cacheManager.RemoveByPattern(cacheKey);
     }
 
@@ -63,16 +63,16 @@ public abstract class BasePlugin : IPlugin
             .LocalizedStrings.Select(y => y.Key)
             .Distinct();
 
-        var localizableStringRepository = EngineContext.Current.Resolve<IRepository<LocalizableString>>();
+        var localizableStringRepository = DependoResolver.Instance.Resolve<IRepository<LocalizableString>>();
 
         var toDelete = localizableStringRepository.Find(x => distinctKeys.Contains(x.TextKey));
 
         localizableStringRepository.Delete(toDelete);
 
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
         string cacheKey = string.Format(CacheKeys.LocalizableStringsPatternFormat, workContext.CurrentTenant.Id);
 
-        var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
+        var cacheManager = DependoResolver.Instance.Resolve<ICacheManager>();
         cacheManager.RemoveByPattern(cacheKey);
     }
 }

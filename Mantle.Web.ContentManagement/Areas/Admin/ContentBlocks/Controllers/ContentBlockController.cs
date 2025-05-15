@@ -30,7 +30,7 @@ public class ContentBlockController : MantleController
         var blockEntity = contentBlockService.Value.FindOne(contentBlockId);
         var blockType = Type.GetType(blockEntity.BlockType);
 
-        var blocks = EngineContext.Current.ResolveAll<IContentBlock>();
+        var blocks = DependoResolver.Instance.ResolveAll<IContentBlock>();
         var block = blocks.First(x => x.GetType() == blockType);
 
         string content;

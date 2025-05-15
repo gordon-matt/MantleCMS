@@ -14,7 +14,7 @@ public class ForumPlugin : BasePlugin
     {
         UninstallLanguagePack<LanguagePackInvariant>();
 
-        var dbContextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+        var dbContextFactory = DependoResolver.Instance.Resolve<IDbContextFactory>();
         using var dbContext = dbContextFactory.GetContext();
 
         //TODO:

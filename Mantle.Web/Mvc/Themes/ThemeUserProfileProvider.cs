@@ -29,7 +29,7 @@ public class ThemeUserProfileProvider : IUserProfileProvider
 
     public void PopulateFields(string userId)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
         PreferredTheme = AsyncHelper.RunSync(() => membershipService.GetProfileEntry(userId, Fields.PreferredTheme));
     }
 

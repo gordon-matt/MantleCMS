@@ -39,8 +39,8 @@
 //                return;
 //            }
 
-//            WorkContext = EngineContext.Current.Resolve<IWorkContext>();
-//            resourcesManager = EngineContext.Current.Resolve<IResourcesManager>();
+//            WorkContext = DependoResolver.Instance.Resolve<IWorkContext>();
+//            resourcesManager = DependoResolver.Instance.Resolve<IResourcesManager>();
 //            Script = new ScriptRegister(WorkContext, this);
 //            Style = new StyleRegister(WorkContext);
 //            initializationCompleted = true;
@@ -49,7 +49,7 @@
 //        //TODO: can we make this static? Since the items wont change (cant add at runtime)
 //        public IEnumerable<MenuItem> MenuItems
 //        {
-//            get { return EngineContext.Current.Resolve<INavigationManager>().BuildMenu(); }
+//            get { return DependoResolver.Instance.Resolve<INavigationManager>().BuildMenu(); }
 //        }
 
 //        public IWorkContext WorkContext { get; private set; }
@@ -60,7 +60,7 @@
 //            {
 //                if (!isRightToLeft.HasValue)
 //                {
-//                    var languageService = EngineContext.Current.Resolve<ILanguageService>();
+//                    var languageService = DependoResolver.Instance.Resolve<ILanguageService>();
 //                    isRightToLeft = languageService.CheckIfRightToLeft(WorkContext.CurrentTenant.Id, WorkContext.CurrentCultureCode);
 //                }
 //                return isRightToLeft.Value;
@@ -79,7 +79,7 @@
 
 //        public bool CheckPermission(Permission permission)
 //        {
-//            var authorizationService = EngineContext.Current.Resolve<IAuthorizationService>();
+//            var authorizationService = DependoResolver.Instance.Resolve<IAuthorizationService>();
 //            if (authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser))
 //            {
 //                return true;
@@ -140,7 +140,7 @@
 //            {
 //                if (siteSettings == null)
 //                {
-//                    siteSettings = EngineContext.Current.Resolve<SiteSettings>();
+//                    siteSettings = DependoResolver.Instance.Resolve<SiteSettings>();
 //                }
 //                return siteSettings;
 //            }

@@ -16,31 +16,29 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     public int Order => 1;
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
-        //builder.RegisterType<SqlDbHelper>().As<IMantleDbHelper>().SingleInstance();
+        //builder.Register<IMantleDbHelper, SqlDbHelper>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<ApplicationDbContextFactory>().As<IDbContextFactory>().SingleInstance();
+        builder.Register<IDbContextFactory, ApplicationDbContextFactory>(ServiceLifetime.Singleton);
 
-        builder.RegisterGeneric(typeof(MantleEntityFrameworkRepository<>))
-            .As(typeof(IRepository<>))
-            .InstancePerLifetimeScope();
+        builder.RegisterGeneric(typeof(IRepository<>), typeof(MantleEntityFrameworkRepository<>), ServiceLifetime.Scoped);
 
-        builder.RegisterType<SqlServerEntityFrameworkHelper>().As<IMantleEntityFrameworkHelper>().SingleInstance();
+        builder.Register<IMantleEntityFrameworkHelper, SqlServerEntityFrameworkHelper>(ServiceLifetime.Singleton);
 
         // SPA Routes
-        builder.RegisterType<AdminDurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+        builder.Register<IDurandalRouteProvider, AdminDurandalRouteProvider>(ServiceLifetime.Singleton);
 
         // Services
-        builder.RegisterType<MembershipService>().As<IMembershipService>().InstancePerDependency();
+        builder.Register<IMembershipService, MembershipService>(ServiceLifetime.Transient);
 
         // Localization
-        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().InstancePerDependency();
+        builder.Register<ILanguagePack, LanguagePackInvariant>(ServiceLifetime.Transient);
 
         // Navigation
-        builder.RegisterType<AdminNavigationProvider>().As<INavigationProvider>().SingleInstance();
+        builder.Register<INavigationProvider, AdminNavigationProvider>(ServiceLifetime.Singleton);
 
         // Script Builders..
-        builder.RegisterType<ToastyScriptBuilder>().As<IToastsScriptBuilder>().SingleInstance();
+        builder.Register<IToastsScriptBuilder, ToastyScriptBuilder>(ServiceLifetime.Singleton);
     }
 }

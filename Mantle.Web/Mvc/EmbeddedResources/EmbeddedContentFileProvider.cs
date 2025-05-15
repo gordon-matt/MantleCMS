@@ -16,7 +16,7 @@ public class EmbeddedContentFileProvider : IFileProvider
         {
             if (embeddedContent == null)
             {
-                var embeddedResourceResolver = EngineContext.Current.Resolve<IEmbeddedResourceResolver>();
+                var embeddedResourceResolver = DependoResolver.Instance.Resolve<IEmbeddedResourceResolver>();
                 embeddedContent = embeddedResourceResolver.Content;
             }
             return embeddedContent;

@@ -11,7 +11,7 @@ public class MantleWebConstants
         {
             if (string.IsNullOrEmpty(defaultAdminLayoutPath))
             {
-                var siteSettings = EngineContext.Current.Resolve<SiteSettings>();
+                var siteSettings = DependoResolver.Instance.Resolve<SiteSettings>();
 
                 defaultAdminLayoutPath = string.IsNullOrEmpty(siteSettings.AdminLayoutPath)
                     ? "~/Areas/Admin/Views/Shared/_Layout.cshtml"
@@ -27,7 +27,7 @@ public class MantleWebConstants
         {
             if (string.IsNullOrEmpty(defaultFrontendLayoutPath))
             {
-                var siteSettings = EngineContext.Current.Resolve<SiteSettings>();
+                var siteSettings = DependoResolver.Instance.Resolve<SiteSettings>();
 
                 defaultFrontendLayoutPath = string.IsNullOrEmpty(siteSettings.DefaultFrontendLayoutPath)
                     ? "~/Views/Shared/_Layout.cshtml"

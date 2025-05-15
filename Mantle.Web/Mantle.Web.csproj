@@ -46,6 +46,7 @@
     <ProjectReference Include="..\Mantle.Infrastructure\Mantle.Infrastructure.csproj" />
     <ProjectReference Include="..\Mantle.Localization\Mantle.Localization.csproj" />
     <ProjectReference Include="..\Mantle.Logging\Mantle.Logging.csproj" />
+    <ProjectReference Include="..\Mantle.Plugins\Mantle.Plugins.csproj" />
     <ProjectReference Include="..\Mantle.Security\Mantle.Security.csproj" />
     <ProjectReference Include="..\Mantle.Tasks\Mantle.Tasks.csproj" />
     <ProjectReference Include="..\Mantle.Web.Abstractions\Mantle.Web.Abstractions.csproj" />

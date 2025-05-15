@@ -1,7 +1,6 @@
-﻿using Autofac;
-using Mantle.Infrastructure;
-using Mantle.Tenants.Services;
+﻿using Mantle.Tenants.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Tenants.Infrastructure;
 
@@ -9,8 +8,8 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration) =>
-        builder.RegisterType<TenantService>().As<ITenantService>().InstancePerDependency();
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration) =>
+        builder.Register<ITenantService, TenantService>(ServiceLifetime.Transient);
 
     public int Order => 0;
 

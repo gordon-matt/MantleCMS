@@ -7,7 +7,7 @@
 //    {
 //        public CultureSelectorResult GetCulture(HttpContext context)
 //        {
-//            string cultureCode = EngineContext.Current.Resolve<MantleSiteSettings>().DefaultLanguage;
+//            string cultureCode = DependoResolver.Instance.Resolve<MantleSiteSettings>().DefaultLanguage;
 //            return string.IsNullOrEmpty(cultureCode)
 //                ? null
 //                : new CultureSelectorResult { Priority = -5, CultureCode = cultureCode };

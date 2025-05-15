@@ -16,7 +16,7 @@ public class EmbeddedScriptFileProvider : IFileProvider
         {
             if (embeddedScripts == null)
             {
-                var embeddedResourceResolver = EngineContext.Current.Resolve<IEmbeddedResourceResolver>();
+                var embeddedResourceResolver = DependoResolver.Instance.Resolve<IEmbeddedResourceResolver>();
                 embeddedScripts = embeddedResourceResolver.Scripts;
             }
             return embeddedScripts;

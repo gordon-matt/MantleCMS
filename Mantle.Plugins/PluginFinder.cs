@@ -105,7 +105,7 @@ public class PluginFinder : IPluginFinder
             return true;
         }
 
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
         var roles = AsyncHelper.RunSync(() => membershipService.GetRolesForUser(user.Id));
 
         //var roleIds = roles.Where(role => role.Active).Select(role => role.Id);

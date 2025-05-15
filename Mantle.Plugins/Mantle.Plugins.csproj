@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Events.Abstractions\Mantle.Events.Abstractions.csproj" />
-    <ProjectReference Include="..\Mantle.Infrastructure.Abstractions\Mantle.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle.Security\Mantle.Security.csproj" />
     <ProjectReference Include="..\Mantle.Web.Abstractions\Mantle.Web.Abstractions.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />

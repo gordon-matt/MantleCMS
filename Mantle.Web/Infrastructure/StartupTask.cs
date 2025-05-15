@@ -11,7 +11,7 @@ public class StartupTask : IStartupTask
     {
         EnsureTenant();
 
-        var tenantService = EngineContext.Current.Resolve<ITenantService>();
+        var tenantService = DependoResolver.Instance.Resolve<ITenantService>();
         IEnumerable<int> tenantIds = null;
 
         using (var connection = tenantService.OpenConnection())
@@ -19,7 +19,7 @@ public class StartupTask : IStartupTask
             tenantIds = connection.Query().Select(x => x.Id).ToList();
         }
 
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
 
         AsyncHelper.RunSync(() => EnsurePermissions(membershipService, tenantIds));
         AsyncHelper.RunSync(() => EnsureMembership(membershipService, tenantIds));
@@ -33,7 +33,7 @@ public class StartupTask : IStartupTask
 
     private static void EnsureTenant()
     {
-        var tenantService = EngineContext.Current.Resolve<ITenantService>();
+        var tenantService = DependoResolver.Instance.Resolve<ITenantService>();
 
         if (tenantService.Count() == 0)
         {
@@ -52,7 +52,7 @@ public class StartupTask : IStartupTask
         {
             #region NULL Tenant
 
-            var permissionProviders = EngineContext.Current.ResolveAll<IPermissionProvider>();
+            var permissionProviders = DependoResolver.Instance.ResolveAll<IPermissionProvider>();
 
             var allPermissions = permissionProviders.SelectMany(x => x.GetPermissions());
             var allPermissionNames = allPermissions.Select(x => x.Name).ToHashSet();
@@ -136,7 +136,7 @@ public class StartupTask : IStartupTask
             return;
         }
 
-        var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+        var dataSettings = DependoResolver.Instance.Resolve<DataSettings>();
 
         var adminUser = await membershipService.GetUserByEmail(null, dataSettings.AdminEmail);
         if (adminUser == null)
@@ -194,8 +194,8 @@ public class StartupTask : IStartupTask
 
     private static void EnsureSettings(IEnumerable<int> tenantIds)
     {
-        var settingsRepository = EngineContext.Current.Resolve<IRepository<Setting>>();
-        var allSettings = EngineContext.Current.ResolveAll<ISettings>();
+        var settingsRepository = DependoResolver.Instance.Resolve<IRepository<Setting>>();
+        var allSettings = DependoResolver.Instance.ResolveAll<ISettings>();
         var allSettingNames = allSettings.Select(x => x.Name).ToList();
 
         #region NULL Tenant (In case we want default settings)

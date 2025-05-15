@@ -40,7 +40,7 @@ public class FullCalendar<TModel>
 
     public IEnumerable<SelectListItem> GetCalendarSelectList(int? selectedValue = null, string emptyText = null)
     {
-        var repository = EngineContext.Current.Resolve<IRepository<Calendar>>();
+        var repository = DependoResolver.Instance.Resolve<IRepository<Calendar>>();
 
         using var connection = repository.OpenConnection();
         return connection.Query()

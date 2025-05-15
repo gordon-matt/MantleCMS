@@ -35,7 +35,7 @@ public partial class MantleCssMinifier : Processor
 
             if (result.HasErrors)
             {
-                EngineContext.Current.Resolve<ILogger<MantleCssMinifier>>()
+                DependoResolver.Instance.Resolve<ILogger<MantleCssMinifier>>()
                     .LogWarning(new Exception(string.Join(Environment.NewLine, result.Errors)), $"Stylesheet minification: {key}");
             }
 

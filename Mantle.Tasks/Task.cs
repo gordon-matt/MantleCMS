@@ -39,14 +39,14 @@ public partial class Task
                 object instance = null;
                 try
                 {
-                    instance = EngineContext.Current.Resolve(type2);
+                    instance = DependoResolver.Instance.Resolve(type2);
                 }
                 catch
                 {
                     //try resolve
                 }
                 //not resolved
-                instance ??= EngineContext.Current.ResolveUnregistered(type2);
+                instance ??= DependoResolver.Instance.ResolveUnregistered(type2);
 
                 task = instance as ITask;
             }
@@ -68,9 +68,9 @@ public partial class Task
         //that's why we get one single scope here
         //this way we can also dispose resources once a task is completed
 
-        //var scope = EngineContext.Current.ContainerManager.Scope();
-        //var scheduledTaskService = EngineContext.Current.ContainerManager.Resolve<IScheduledTaskService>("", scope);
-        var scheduledTaskService = EngineContext.Current.Resolve<IScheduledTaskService>();
+        //var scope = DependoResolver.Instance.ContainerManager.Scope();
+        //var scheduledTaskService = DependoResolver.Instance.ContainerManager.Resolve<IScheduledTaskService>("", scope);
+        var scheduledTaskService = DependoResolver.Instance.Resolve<IScheduledTaskService>();
         var scheduledTask = scheduledTaskService.GetTaskByType(Type);
 
         try
@@ -98,7 +98,7 @@ public partial class Task
             LastEndUtc = DateTime.UtcNow;
 
             //log error
-            var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+            var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger<Task>();
             logger.LogError(new EventId(), x, $"Error while running the '{Name}' scheduled task. {x.Message}");
             if (throwException)

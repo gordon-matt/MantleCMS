@@ -18,7 +18,7 @@ public static class InstallationHelper
 
     public static void Install<TContext>(InstallationModel model) where TContext : DbContext, ISupportSeed
     {
-        var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+        var dataSettings = DependoResolver.Instance.Resolve<DataSettings>();
 
         string connectionString = model.EnterConnectionString
             ? model.ConnectionString
@@ -43,7 +43,7 @@ public static class InstallationHelper
 
         DataSettingsManager.SaveSettings(dataSettings);
 
-        var contextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+        var contextFactory = DependoResolver.Instance.Resolve<IDbContextFactory>();
         using (var context = contextFactory.GetContext(connectionString))
         {
             context.Database.Migrate(); // TODO: Test
@@ -107,7 +107,7 @@ public static class InstallationHelper
 
         DataSettingsHelper.ResetCache();
 
-        var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+        var webHelper = DependoResolver.Instance.Resolve<IWebHelper>();
         webHelper.RestartAppDomain();
     }
 

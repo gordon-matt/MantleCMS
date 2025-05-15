@@ -17,7 +17,7 @@ public class MantleMessaging<TModel>
 
     public IHtmlContent EditorDropDownList(string name, string selectedValue = null, object htmlAttributes = null, string emptyText = null)
     {
-        var messageTemplateEditors = EngineContext.Current.ResolveAll<IMessageTemplateEditor>();
+        var messageTemplateEditors = DependoResolver.Instance.ResolveAll<IMessageTemplateEditor>();
 
         var selectList = messageTemplateEditors
             .ToSelectList(

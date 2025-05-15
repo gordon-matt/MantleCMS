@@ -1,6 +1,5 @@
-﻿using Autofac;
+﻿using Dependo;
 using Extenso.AspNetCore.OData;
-using Mantle.Infrastructure;
 using Mantle.Localization;
 using Mantle.Plugins.Widgets.FullCalendar.ContentBlocks;
 using Mantle.Plugins.Widgets.FullCalendar.Services;
@@ -11,6 +10,7 @@ using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Themes;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Plugins.Widgets.FullCalendar.Infrastructure;
 
@@ -18,27 +18,27 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
         {
             return;
         }
 
-        builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
+        builder.Register<IDurandalRouteProvider, DurandalRouteProvider>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
+        builder.Register<ILanguagePack, LanguagePackInvariant>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<FullCalendarPermissions>().As<IPermissionProvider>().SingleInstance();
-        builder.RegisterType<LocationFormatProvider>().As<ILocationFormatProvider>().SingleInstance();
-        builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
-        builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+        builder.Register<IPermissionProvider, FullCalendarPermissions>(ServiceLifetime.Singleton);
+        builder.Register<ILocationFormatProvider, LocationFormatProvider>(ServiceLifetime.Singleton);
+        builder.Register<INavigationProvider, NavigationProvider>(ServiceLifetime.Singleton);
+        builder.Register<IODataRegistrar, ODataRegistrar>(ServiceLifetime.Singleton);
 
-        builder.RegisterType<FullCalendarBlock>().As<IContentBlock>().InstancePerDependency();
+        builder.Register<IContentBlock, FullCalendarBlock>(ServiceLifetime.Transient);
 
-        builder.RegisterType<CalendarService>().As<ICalendarService>().InstancePerDependency();
-        builder.RegisterType<CalendarEventService>().As<ICalendarEventService>().InstancePerDependency();
-        builder.RegisterType<FullCalendarPluginSettings>().As<ISettings>().InstancePerLifetimeScope();
+        builder.Register<ICalendarService, CalendarService>(ServiceLifetime.Transient);
+        builder.Register<ICalendarEventService, CalendarEventService>(ServiceLifetime.Transient);
+        builder.Register<ISettings, FullCalendarPluginSettings>(ServiceLifetime.Scoped);
     }
 
     public int Order => 9999;

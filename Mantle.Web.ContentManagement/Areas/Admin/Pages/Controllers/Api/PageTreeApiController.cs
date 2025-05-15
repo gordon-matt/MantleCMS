@@ -83,7 +83,7 @@ public class PageTreeApiController : ODataController
 
     protected virtual bool CheckPermission(Permission permission)
     {
-        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        var authorizationService = DependoResolver.Instance.Resolve<IMantleAuthorizationService>();
         return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
     }
 

@@ -3,7 +3,7 @@
 @model JQueryFormBuilderBlock
 
 @{
-    //var captchaSettings = EngineContext.Current.Resolve<CaptchaSettings>();
+    //var captchaSettings = DependoResolver.Instance.Resolve<CaptchaSettings>();
     string formId = "form-block-" + Model.Id;
 }
 

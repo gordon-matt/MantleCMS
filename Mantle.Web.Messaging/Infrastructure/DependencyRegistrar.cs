@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Dependo;
 using Extenso.AspNetCore.OData;
 using Mantle.Localization;
 using Mantle.Messaging;
@@ -8,6 +8,7 @@ using Mantle.Web.Infrastructure;
 using Mantle.Web.Messaging.Configuration;
 using Mantle.Web.Navigation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Web.Messaging.Infrastructure;
 
@@ -15,42 +16,42 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         // Navigation
-        builder.RegisterType<DurandalRouteProvider>().As<IDurandalRouteProvider>().SingleInstance();
-        builder.RegisterType<NavigationProvider>().As<INavigationProvider>().SingleInstance();
+        builder.Register<IDurandalRouteProvider, DurandalRouteProvider>(ServiceLifetime.Singleton);
+        builder.Register<INavigationProvider, NavigationProvider>(ServiceLifetime.Singleton);
 
         // Embedded File Provider
-        builder.RegisterType<EmbeddedFileProviderRegistrar>().As<IEmbeddedFileProviderRegistrar>().InstancePerLifetimeScope();
+        builder.Register<IEmbeddedFileProviderRegistrar, EmbeddedFileProviderRegistrar>(ServiceLifetime.Scoped);
 
         // Configuration
-        builder.RegisterType<SmtpSettings>().As<ISettings>().InstancePerLifetimeScope();
+        builder.Register<ISettings, SmtpSettings>(ServiceLifetime.Scoped);
 
         // OData
-        builder.RegisterType<ODataRegistrar>().As<IODataRegistrar>().SingleInstance();
+        builder.Register<IODataRegistrar, ODataRegistrar>(ServiceLifetime.Singleton);
 
         // Services
-        builder.RegisterType<MessageService>().As<IMessageService>().InstancePerDependency();
-        builder.RegisterType<MessageService>().As<IQueuedMessageProvider>().InstancePerDependency();
-        builder.RegisterType<MessageTemplateService>().As<IMessageTemplateService>().InstancePerDependency();
-        builder.RegisterType<MessageTemplateVersionService>().As<IMessageTemplateVersionService>().InstancePerDependency();
-        builder.RegisterType<QueuedEmailService>().As<IQueuedEmailService>().InstancePerDependency();
+        builder.Register<IMessageService, MessageService>(ServiceLifetime.Transient);
+        builder.Register<IQueuedMessageProvider, MessageService>(ServiceLifetime.Transient);
+        builder.Register<IMessageTemplateService, MessageTemplateService>(ServiceLifetime.Transient);
+        builder.Register<IMessageTemplateVersionService, MessageTemplateVersionService>(ServiceLifetime.Transient);
+        builder.Register<IQueuedEmailService, QueuedEmailService>(ServiceLifetime.Transient);
 
         // Tasks
-        builder.RegisterType<ProcessQueuedMailTask>().As<ITask>().SingleInstance();
+        builder.Register<ITask, ProcessQueuedMailTask>(ServiceLifetime.Singleton);
 
         // Localization
-        builder.RegisterType<LanguagePackInvariant>().As<ILanguagePack>().SingleInstance();
+        builder.Register<ILanguagePack, LanguagePackInvariant>(ServiceLifetime.Singleton);
 
         // Security
-        builder.RegisterType<MessagingPermissions>().As<IPermissionProvider>().SingleInstance();
+        builder.Register<IPermissionProvider, MessagingPermissions>(ServiceLifetime.Singleton);
 
         // Other
-        builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerDependency();
+        builder.Register<ITokenizer, Tokenizer>(ServiceLifetime.Transient);
 
-        builder.RegisterType<DefaultMessageTemplateEditor>().As<IMessageTemplateEditor>().SingleInstance();
-        builder.RegisterType<GrapesJsMessageTemplateEditor>().As<IMessageTemplateEditor>().SingleInstance();
+        builder.Register<IMessageTemplateEditor, DefaultMessageTemplateEditor>(ServiceLifetime.Singleton);
+        builder.Register<IMessageTemplateEditor, GrapesJsMessageTemplateEditor>(ServiceLifetime.Singleton);
     }
 
     public int Order => 1;

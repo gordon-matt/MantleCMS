@@ -55,7 +55,7 @@ public class GenericDataService<TEntity> : IGenericDataService<TEntity> where TE
         CacheManager = cacheManager;
         this.repository = repository;
 
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         Logger = loggerFactory.CreateLogger<GenericDataService<TEntity>>();
     }
 

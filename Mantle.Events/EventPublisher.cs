@@ -34,7 +34,7 @@ public class EventPublisher : IEventPublisher
         catch (Exception ex)
         {
             //log error
-            var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+            var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(this.GetType());
 
             //we put in to nested try-catch to prevent possible cyclic (if some error occurs)

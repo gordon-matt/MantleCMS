@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Mantle.Caching.Infrastructure;
 
@@ -7,10 +6,10 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
-        builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().Named<ICacheManager>("Mantle_Cache_Static").SingleInstance();
-        builder.RegisterType<ClearCacheTask>().As<ITask>().SingleInstance();
+        builder.RegisterNamed<ICacheManager, MemoryCacheManager>("Mantle_Cache_Static", ServiceLifetime.Singleton);
+        builder.Register<ITask, ClearCacheTask>(ServiceLifetime.Singleton);
     }
 
     public int Order => 0;

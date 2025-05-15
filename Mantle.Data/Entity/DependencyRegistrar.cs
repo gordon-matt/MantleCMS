@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Autofac;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Data.Entity;
 
@@ -8,7 +8,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 {
     #region IDependencyRegistrar Members
 
-    public void Register(ContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         var entityTypeConfigurations = typeFinder
             .FindClassesOfType(typeof(IMantleEntityTypeConfiguration))
@@ -25,7 +25,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 
             if (isEnabled)
             {
-                builder.RegisterType(config).As(typeof(IMantleEntityTypeConfiguration)).InstancePerLifetimeScope();
+                builder.Register(typeof(IMantleEntityTypeConfiguration), config, ServiceLifetime.Scoped);
             }
         }
     }

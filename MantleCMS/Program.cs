@@ -1,4 +1,5 @@
-﻿using NLog.Web;
+﻿using Mantle.Infrastructure.Autofac;
+using NLog.Web;
 
 namespace MantleCMS;
 
@@ -20,6 +21,6 @@ public class Program
                 webBuilder.UseStartup<Startup>();
                 webBuilder.UseNLog();
             })
-            .UseServiceProviderFactory(new MantleAutofacServiceProviderFactory())
+            .UseServiceProviderFactory(new MantleDependoAutofacServiceProviderFactory())
             .UseNLog();
 }

@@ -1,4 +1,5 @@
-﻿global using Extenso;
+﻿global using Dependo;
+global using Extenso;
 global using Extenso.AspNetCore.Mvc.Rendering;
 global using Extenso.AspNetCore.OData;
 global using Extenso.Collections;

@@ -12,9 +12,9 @@ public class MantleStringLocalizerFactory : IStringLocalizerFactory
     {
         if (stringLocalizer == null)
         {
-            var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
-            var localizableStringService = EngineContext.Current.Resolve<ILocalizableStringService>();
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            var cacheManager = DependoResolver.Instance.Resolve<ICacheManager>();
+            var localizableStringService = DependoResolver.Instance.Resolve<ILocalizableStringService>();
+            var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
             stringLocalizer = new MantleStringLocalizer(cacheManager, workContext, localizableStringService);
         }
         return stringLocalizer;

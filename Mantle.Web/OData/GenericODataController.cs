@@ -22,15 +22,15 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
     public GenericODataController(IGenericDataService<TEntity> service)
     {
         Service = service;
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         Logger = loggerFactory.CreateLogger(GetType());
     }
 
     public GenericODataController(IRepository<TEntity> repository)
     {
-        var cacheManager = EngineContext.Current.Resolve<ICacheManager>();
+        var cacheManager = DependoResolver.Instance.Resolve<ICacheManager>();
         Service = new GenericDataService<TEntity>(cacheManager, repository);
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         Logger = loggerFactory.CreateLogger(GetType());
     }
 
@@ -256,8 +256,8 @@ public abstract class GenericODataController<TEntity, TKey> : ODataController, I
             return true;
         }
 
-        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var authorizationService = DependoResolver.Instance.Resolve<IMantleAuthorizationService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
         return authorizationService.TryCheckAccess(permission, workContext.CurrentUser);
     }
 

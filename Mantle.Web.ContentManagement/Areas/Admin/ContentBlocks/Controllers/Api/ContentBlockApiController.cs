@@ -68,7 +68,7 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
     public override async Task<IActionResult> Put([FromODataUri] Guid key, [FromBody] ContentBlock entity)
     {
         var blockType = Type.GetType(entity.BlockType);
-        var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
+        var contentBlocks = DependoResolver.Instance.ResolveAll<IContentBlock>();
         var contentBlock = contentBlocks.First(x => x.GetType() == blockType);
         entity.BlockName = contentBlock.Name;
         return await base.Put(key, entity);
@@ -77,7 +77,7 @@ public class ContentBlockApiController : GenericODataController<ContentBlock, Gu
     public override async Task<IActionResult> Post([FromBody] ContentBlock entity)
     {
         var blockType = Type.GetType(entity.BlockType);
-        var contentBlocks = EngineContext.Current.ResolveAll<IContentBlock>();
+        var contentBlocks = DependoResolver.Instance.ResolveAll<IContentBlock>();
         var contentBlock = contentBlocks.First(x => x.GetType() == blockType);
         entity.BlockName = contentBlock.Name;
         return await base.Post(entity);

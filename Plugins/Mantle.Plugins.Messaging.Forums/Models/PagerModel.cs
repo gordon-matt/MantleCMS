@@ -31,7 +31,7 @@ public class PagerModel
     {
         get
         {
-            localizer ??= EngineContext.Current.Resolve<IStringLocalizer>();
+            localizer ??= DependoResolver.Instance.Resolve<IStringLocalizer>();
             return localizer;
         }
     }

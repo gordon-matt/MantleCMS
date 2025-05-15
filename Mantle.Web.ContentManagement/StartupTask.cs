@@ -11,8 +11,8 @@ public class StartupTask : IStartupTask
 
     private static void EnsurePageTypes()
     {
-        var pageTypeService = EngineContext.Current.Resolve<IPageTypeService>();
-        var pageTypeRepository = EngineContext.Current.Resolve<IRepository<PageType>>();
+        var pageTypeService = DependoResolver.Instance.Resolve<IPageTypeService>();
+        var pageTypeRepository = DependoResolver.Instance.Resolve<IRepository<PageType>>();
 
         var allPageTypes = pageTypeService.GetMantlePageTypes();
 

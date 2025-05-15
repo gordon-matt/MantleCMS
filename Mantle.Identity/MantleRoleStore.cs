@@ -20,7 +20,7 @@ public abstract class MantleRoleStore<TRole, TContext> : RoleStore<TRole, TConte
     {
         get
         {
-            workContext ??= EngineContext.Current.Resolve<IWorkContext>();
+            workContext ??= DependoResolver.Instance.Resolve<IWorkContext>();
             return workContext;
         }
     }

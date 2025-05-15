@@ -16,7 +16,7 @@ public class FullCalendarPlugin : BasePlugin
     {
         UninstallLanguagePack<LanguagePackInvariant>();
 
-        var dbContextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+        var dbContextFactory = DependoResolver.Instance.Resolve<IDbContextFactory>();
         using var dbContext = dbContextFactory.GetContext();
 
         //DropTable(dbContext, Constants.Tables.Events);

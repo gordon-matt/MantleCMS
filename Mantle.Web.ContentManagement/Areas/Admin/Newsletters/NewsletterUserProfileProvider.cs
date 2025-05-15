@@ -29,7 +29,7 @@ public class NewsletterUserProfileProvider : IUserProfileProvider
 
     public void PopulateFields(string userId)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
         string subscribeToNewsletters = AsyncHelper.RunSync(() => membershipService.GetProfileEntry(userId, Fields.SubscribeToNewsletters));
         SubscribeToNewsletters = !string.IsNullOrEmpty(subscribeToNewsletters) && bool.Parse(subscribeToNewsletters);
     }

@@ -12,11 +12,11 @@ public class MantleController : Controller
 
     protected MantleController()
     {
-        WorkContext = EngineContext.Current.Resolve<IWorkContext>();
-        T = EngineContext.Current.Resolve<IStringLocalizer>();
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        WorkContext = DependoResolver.Instance.Resolve<IWorkContext>();
+        T = DependoResolver.Instance.Resolve<IStringLocalizer>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         Logger = loggerFactory.CreateLogger(GetType());
-        SiteSettings = new Lazy<SiteSettings>(() => EngineContext.Current.Resolve<SiteSettings>());
+        SiteSettings = new Lazy<SiteSettings>(() => DependoResolver.Instance.Resolve<SiteSettings>());
     }
 
     protected virtual bool CheckPermission(Permission permission)
@@ -26,7 +26,7 @@ public class MantleController : Controller
             return true;
         }
 
-        var authorizationService = EngineContext.Current.Resolve<IMantleAuthorizationService>();
+        var authorizationService = DependoResolver.Instance.Resolve<IMantleAuthorizationService>();
         return authorizationService.TryCheckAccess(permission, WorkContext.CurrentUser);
     }
 

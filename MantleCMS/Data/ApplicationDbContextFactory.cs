@@ -23,7 +23,7 @@ public class ApplicationDbContextFactory : IDbContextFactory
 
                 if (DataSettingsHelper.IsDatabaseInstalled)
                 {
-                    var dataSettings = EngineContext.Current.Resolve<DataSettings>();
+                    var dataSettings = DependoResolver.Instance.Resolve<DataSettings>();
                     optionsBuilder.UseSqlServer(dataSettings.ConnectionString);
                 }
                 else

@@ -9,7 +9,7 @@ public static class PageSecurityHelper
 {
     public static async Task<bool> CheckUserHasAccessToBlog(IPrincipal user)
     {
-        var blogSettings = EngineContext.Current.Resolve<BlogSettings>();
+        var blogSettings = DependoResolver.Instance.Resolve<BlogSettings>();
 
         if (!string.IsNullOrEmpty(blogSettings.AccessRestrictions))
         {
@@ -18,7 +18,7 @@ public static class PageSecurityHelper
 
             if (!string.IsNullOrEmpty(roleIds))
             {
-                var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+                var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
                 var roles = await membershipService.GetRolesByIds(roleIds.Split(','));
 
                 var roleNames = roles
@@ -50,7 +50,7 @@ public static class PageSecurityHelper
 
             if (!string.IsNullOrEmpty(selectedRoles))
             {
-                var membershipService = EngineContext.Current.Resolve<IMembershipService>();
+                var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
 
                 string[] roleIds = selectedRoles.Split(',');
                 var roles = await membershipService.GetRolesByIds(roleIds);

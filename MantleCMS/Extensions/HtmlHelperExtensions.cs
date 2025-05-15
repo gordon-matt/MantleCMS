@@ -26,8 +26,8 @@ public class DemoApp<TModel>
         bool isCurrent = currentUrl.EndsWith(menuItem.Url);
         var childItems = menuItems.Where(x => x.ParentId == menuItem.Id).OrderBy(x => x.Position).ThenBy(x => x.Text).ToList();
 
-        var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
-        var actionContextAccessor = EngineContext.Current.Resolve<IActionContextAccessor>();
+        var urlHelperFactory = DependoResolver.Instance.Resolve<IUrlHelperFactory>();
+        var actionContextAccessor = DependoResolver.Instance.Resolve<IActionContextAccessor>();
         var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
 
         string url = menuItem.IsExternalUrl ? menuItem.Url : urlHelper.Content(menuItem.Url);
@@ -94,8 +94,8 @@ public class DemoApp<TModel>
     {
         bool isCurrent = currentUrl.EndsWith(menuItem.Url);
 
-        var urlHelperFactory = EngineContext.Current.Resolve<IUrlHelperFactory>();
-        var actionContextAccessor = EngineContext.Current.Resolve<IActionContextAccessor>();
+        var urlHelperFactory = DependoResolver.Instance.Resolve<IUrlHelperFactory>();
+        var actionContextAccessor = DependoResolver.Instance.Resolve<IActionContextAccessor>();
         var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
 
         string url = menuItem.IsExternalUrl ? menuItem.Url : urlHelper.Content(menuItem.Url);

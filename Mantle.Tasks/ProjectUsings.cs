@@ -1,5 +1,6 @@
 ﻿global using System.Collections.ObjectModel;
 global using Autofac;
+global using Dependo;
 global using Extenso;
 global using Extenso.Collections;
 global using Extenso.Data.Entity;

@@ -1,5 +1,6 @@
 ﻿global using System.Globalization;
 global using System.Text.RegularExpressions;
+global using Dependo;
 global using Extenso.Data.Entity;
 global using Mantle.Caching;
 global using Mantle.Data.Entity;

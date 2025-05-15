@@ -51,7 +51,7 @@ public class EmbeddedResourceFileInfo : IFileInfo
 
     protected virtual Assembly GetResourceAssembly()
     {
-        var typeFinder = EngineContext.Current.Resolve<ITypeFinder>();
+        var typeFinder = DependoResolver.Instance.Resolve<ITypeFinder>();
 
         return typeFinder.GetAssemblies().FirstOrDefault(assembly =>
             string.Equals(assembly.FullName, metadata.AssemblyFullName, StringComparison.OrdinalIgnoreCase));

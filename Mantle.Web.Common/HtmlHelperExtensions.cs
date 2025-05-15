@@ -119,8 +119,8 @@ public class MantleCommon<TModel>
 
     private static IEnumerable<SelectListItem> GetContinents(int? selectedValue = null, string emptyText = null)
     {
-        var service = EngineContext.Current.Resolve<IRegionService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var service = DependoResolver.Instance.Resolve<IRegionService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var records = service.GetContinents(workContext.CurrentTenant.Id, workContext.CurrentCultureCode)
             .OrderBy(x => x.Order == null)
@@ -136,8 +136,8 @@ public class MantleCommon<TModel>
 
     private static IEnumerable<SelectListItem> GetCountries(int? selectedValue = null, string emptyText = null)
     {
-        var service = EngineContext.Current.Resolve<IRegionService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var service = DependoResolver.Instance.Resolve<IRegionService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var records = service.GetCountries(workContext.CurrentTenant.Id, workContext.CurrentCultureCode)
             .OrderBy(x => x.Order == null)

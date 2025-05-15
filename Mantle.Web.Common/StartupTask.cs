@@ -10,7 +10,7 @@ public class StartupTask : IStartupTask
 
     public void Execute()
     {
-        var dbContextFactory = EngineContext.Current.Resolve<IDbContextFactory>();
+        var dbContextFactory = DependoResolver.Instance.Resolve<IDbContextFactory>();
         using var dbContext = dbContextFactory.GetContext();
         EnsureData(dbContext);
     }
@@ -21,7 +21,7 @@ public class StartupTask : IStartupTask
 
     private void EnsureData(DbContext dbContext)
     {
-        var regionService = EngineContext.Current.Resolve<IRegionService>();
+        var regionService = DependoResolver.Instance.Resolve<IRegionService>();
         int count = regionService.Count();
 
         if (count > 0)
@@ -48,7 +48,7 @@ public class StartupTask : IStartupTask
             antarctica
         });
 
-        //var dataSettings = EngineContext.Current.Resolve<DataSettings>();//TODO
+        //var dataSettings = DependoResolver.Instance.Resolve<DataSettings>();//TODO
         //if (dataSettings.CreateSampleData)
         //{
 

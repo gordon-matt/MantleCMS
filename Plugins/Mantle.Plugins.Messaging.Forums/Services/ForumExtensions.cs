@@ -11,7 +11,7 @@ public static class ForumExtensions
             return string.Empty;
         }
 
-        var editor = EngineContext.Current.Resolve<ForumSettings>().ForumEditor;
+        var editor = DependoResolver.Instance.Resolve<ForumSettings>().ForumEditor;
         switch (editor)
         {
             case EditorType.SimpleTextBox:
@@ -37,7 +37,7 @@ public static class ForumExtensions
             return subject;
         }
 
-        int strippedTopicMaxLength = EngineContext.Current.Resolve<ForumSettings>().StrippedTopicMaxLength;
+        int strippedTopicMaxLength = DependoResolver.Instance.Resolve<ForumSettings>().StrippedTopicMaxLength;
         if (strippedTopicMaxLength > 0)
         {
             if (subject.Length > strippedTopicMaxLength)

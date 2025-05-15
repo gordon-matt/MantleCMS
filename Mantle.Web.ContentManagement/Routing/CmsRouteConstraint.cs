@@ -10,8 +10,8 @@
 //    {
 //        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
 //        {
-//            var workContext = EngineContext.Current.Resolve<IWorkContext>();
-//            var pageVersionService = EngineContext.Current.Resolve<IPageVersionService>();
+//            var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
+//            var pageVersionService = DependoResolver.Instance.Resolve<IPageVersionService>();
 
 //            if (values[routeKey] != null)
 //            {

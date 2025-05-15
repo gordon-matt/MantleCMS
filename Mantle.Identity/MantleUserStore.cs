@@ -35,7 +35,7 @@ public abstract class MantleUserStore<TUser, TRole, TContext>
     {
         get
         {
-            workContext ??= EngineContext.Current.Resolve<IWorkContext>();
+            workContext ??= DependoResolver.Instance.Resolve<IWorkContext>();
             return workContext;
         }
     }

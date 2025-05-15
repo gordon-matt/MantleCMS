@@ -28,7 +28,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
     {
         TenantContext<Tenant> tenantContext = null;
 
-        var loggerFactory = EngineContext.Current.Resolve<ILoggerFactory>();
+        var loggerFactory = DependoResolver.Instance.Resolve<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger(this.GetType());
 
         try

@@ -193,13 +193,13 @@ public class Mantle<TModel>
         object labelHtmlAttributes = null,
         object checkboxHtmlAttributes = null)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
-        var permissionProviders = EngineContext.Current.ResolveAll<IPermissionProvider>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
+        var permissionProviders = DependoResolver.Instance.ResolveAll<IPermissionProvider>();
         var permissions = permissionProviders.SelectMany(x => x.GetPermissions()).ToList();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var allPermissions = AsyncHelper.RunSync(() => membershipService.GetAllPermissions(workContext.CurrentTenant.Id)).ToHashSet();
-        var T = EngineContext.Current.Resolve<IStringLocalizer>();
+        var T = DependoResolver.Instance.Resolve<IStringLocalizer>();
 
         #region First check if all permissions are in the DB
 
@@ -247,8 +247,8 @@ public class Mantle<TModel>
         object labelHtmlAttributes = null,
         object checkboxHtmlAttributes = null)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var selectList = AsyncHelper.RunSync(() => membershipService.GetAllRoles(workContext.CurrentTenant.Id))
             .ToSelectList(
@@ -263,8 +263,8 @@ public class Mantle<TModel>
 
     public IHtmlContent RolesDropDownList(string name, string selectedValue = null, object htmlAttributes = null, string emptyText = null)
     {
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var selectList = AsyncHelper.RunSync(() => membershipService.GetAllRoles(workContext.CurrentTenant.Id))
             .ToSelectList(
@@ -281,8 +281,8 @@ public class Mantle<TModel>
         var func = expression.Compile();
         string selectedValue = func(html.ViewData.Model);
 
-        var membershipService = EngineContext.Current.Resolve<IMembershipService>();
-        var workContext = EngineContext.Current.Resolve<IWorkContext>();
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
 
         var selectList = AsyncHelper.RunSync(() => membershipService.GetAllRoles(workContext.CurrentTenant.Id))
             .ToSelectList(
@@ -302,7 +302,7 @@ public class Mantle<TModel>
     /// <returns></returns>
     public IHtmlContent ThemesDropDownListFor(Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
     {
-        var themeProvider = EngineContext.Current.Resolve<IThemeProvider>();
+        var themeProvider = DependoResolver.Instance.Resolve<IThemeProvider>();
         var func = expression.Compile();
         string selectedValue = func(html.ViewData.Model);
 
@@ -334,7 +334,7 @@ public class Mantle<TModel>
 
     private static IEnumerable<SelectListItem> GetTenantsMultiSelectList(IEnumerable<string> selectedValues = null, string emptyText = null)
     {
-        var service = EngineContext.Current.Resolve<ITenantService>();
+        var service = DependoResolver.Instance.Resolve<ITenantService>();
 
         using var connection = service.OpenConnection();
         return connection.Query()
@@ -349,7 +349,7 @@ public class Mantle<TModel>
 
     private static IEnumerable<SelectListItem> GetTenantsSelectList(string selectedValue = null, string emptyText = null)
     {
-        var service = EngineContext.Current.Resolve<ITenantService>();
+        var service = DependoResolver.Instance.Resolve<ITenantService>();
 
         using var connection = service.OpenConnection();
         return connection.Query()
@@ -365,7 +365,7 @@ public class Mantle<TModel>
     //TODO: Test this (should be different per tenant). Use the "UsePerTenant" feature in SaaSKit when registering RequestLocalizationOptions.
     private static IEnumerable<SelectListItem> GetLanguages(string selectedValue = null, string emptyText = null, bool includeInvariant = false, string invariantText = null)
     {
-        var requestLocalizationOptions = EngineContext.Current.Resolve<IOptions<RequestLocalizationOptions>>();
+        var requestLocalizationOptions = DependoResolver.Instance.Resolve<IOptions<RequestLocalizationOptions>>();
         var languages = requestLocalizationOptions.Value.SupportedCultures.Select(x => new
         {
             CultureCode = x.Name,
@@ -394,8 +394,8 @@ public class Mantle<TModel>
 
     //private static IEnumerable<SelectListItem> GetLanguages(string selectedValue = null, string emptyText = null, bool includeInvariant = false, string invariantText = null)
     //{
-    //    var languageManager = EngineContext.Current.Resolve<ILanguageManager>();
-    //    var workContext = EngineContext.Current.Resolve<IWorkContext>();
+    //    var languageManager = DependoResolver.Instance.Resolve<ILanguageManager>();
+    //    var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
     //    var languages = languageManager.GetActiveLanguages(workContext.CurrentTenant.Id).ToList();
 
     //    if (includeInvariant)
@@ -420,7 +420,7 @@ public class Mantle<TModel>
 
     public async Task<IHtmlContent> EmbeddedPartialAsync(EmbeddedPartialType type, string viewName = null, object model = null)
     {
-        var razorViewRenderService = EngineContext.Current.Resolve<IRazorViewRenderService>();
+        var razorViewRenderService = DependoResolver.Instance.Resolve<IRazorViewRenderService>();
 
         return type switch
         {
@@ -446,7 +446,7 @@ public class Mantle<TModel>
 
         if (!tenantId.HasValue)
         {
-            var workContext = EngineContext.Current.Resolve<IWorkContext>();
+            var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
             tenantId = workContext.CurrentTenant.Id;
         }
 

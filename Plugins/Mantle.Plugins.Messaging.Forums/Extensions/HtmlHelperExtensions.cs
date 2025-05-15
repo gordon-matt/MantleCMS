@@ -21,7 +21,7 @@ public static class HtmlHelperExtensions
             return HtmlString.Empty;
         }
 
-        var localizer = EngineContext.Current.Resolve<IStringLocalizer>();
+        var localizer = DependoResolver.Instance.Resolve<IStringLocalizer>();
 
         var links = new StringBuilder();
         if (model.ShowTotalSummary && (model.TotalPages > 0))
@@ -147,7 +147,7 @@ public static class HtmlHelperExtensions
 
     public static IHtmlContent ForumTopicSmallPager<TModel>(this IHtmlHelper<TModel> html, ForumTopicRowModel model)
     {
-        var localizer = EngineContext.Current.Resolve<IStringLocalizer>();
+        var localizer = DependoResolver.Instance.Resolve<IStringLocalizer>();
 
         int forumTopicId = model.Id;
         string forumTopicSlug = model.SeName;
