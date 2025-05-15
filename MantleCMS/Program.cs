@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Autofac;
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
@@ -203,7 +202,8 @@ builder.Services.ConfigureMantleOptions(builder.Configuration);
 builder.Services.ConfigureMantleCommonResourceOptions(builder.Configuration);
 builder.Services.AddMantleWebOptimizer(builder.Configuration);
 
-// Configure Autofac
+// Configure Service Provider
+//builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for Autofac, etc)
 builder.Host.UseServiceProviderFactory(new MantleDependoAutofacServiceProviderFactory());
 
 var app = builder.Build();

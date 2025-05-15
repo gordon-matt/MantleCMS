@@ -1,0 +1,11 @@
+﻿global using System.Data;
+global using System.Net;
+global using System.Reflection;
+global using Lamar;
+global using Mantle.Helpers;
+global using Mantle.Infrastructure.Configuration;
+global using Mantle.Plugins;
+global using Mantle.Plugins.Configuration;
+global using Microsoft.AspNetCore.Mvc.ApplicationParts;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;

@@ -1,22 +1,29 @@
 ﻿using Dependo;
-using Dependo.Autofac;
+using Dependo.DotNetDefault;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Mantle.Infrastructure.Autofac;
+namespace Mantle.Infrastructure.DotNetDefault;
 
-public class MantleDependoAutofacServiceProviderFactory : DependoAutofacServiceProviderFactory
+public class MantleDependoDotNetDefaultServiceProviderFactory : DependoDotNetDefaultServiceProviderFactory
 {
     /// <inheritdoc />
-    public override IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
+    public override IServiceProvider CreateServiceProvider(IServiceCollection serviceCollection)
     {
-        ArgumentNullException.ThrowIfNull(containerBuilder);
+        ArgumentNullException.ThrowIfNull(serviceCollection);
+
+        if (serviceCollection == null)
+        {
+            throw new InvalidOperationException("CreateBuilder must be called before CreateServiceProvider.");
+        }
 
         //most of API providers require TLS 1.2 nowadays
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-        //set base application path
+#pragma warning disable DF0010  // Should not be disposed here.
         var provider = services.BuildServiceProvider();
+#pragma warning restore DF0010
+
         var hostEnvironment = provider.GetRequiredService<IHostEnvironment>();
         var pluginOptions = provider.GetRequiredService<IOptions<MantlePluginOptions>>();
         CommonHelper.BaseDirectory = hostEnvironment.ContentRootPath;
@@ -29,10 +36,10 @@ public class MantleDependoAutofacServiceProviderFactory : DependoAutofacServiceP
         var configuration = provider.GetService<IConfiguration>();
 
 #pragma warning disable DF0010 // Should not be disposed here.
-        var dependoContainer = new MantleAutofacDependoContainer();
+        var dependoContainer = new MantleDotNetDefaultDependoContainer();
 #pragma warning restore DF0010
 
-        var serviceProvider = dependoContainer.ConfigureServices(containerBuilder, configuration);
+        var serviceProvider = dependoContainer.ConfigureServices(serviceCollection, configuration);
 
 #pragma warning disable DF0001 // Should not be disposed here.
         DependoResolver.Create(dependoContainer);
@@ -52,6 +59,6 @@ public class MantleDependoAutofacServiceProviderFactory : DependoAutofacServiceP
         //TaskManager.Instance.Start();
         ////}
 
-        return serviceProvider; // AutofacServiceProvider
+        return serviceProvider;
     }
 }
