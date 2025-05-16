@@ -2,13 +2,12 @@
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
-using Mantle.Infrastructure.Autofac;
+using Mantle.Infrastructure.DryIoc;
+using Mantle.Plugins;
 using Mantle.Tenants.Entities;
 using Mantle.Web.CommonResources.Infrastructure;
 using Mantle.Web.Infrastructure;
-using Mantle.Web.Mvc.EmbeddedResources;
 using Mantle.Web.Mvc.Razor;
-using Mantle.Web.Mvc.Routing;
 using Mantle.Web.Tenants;
 using MantleCMS.Identity;
 using MantleCMS.Services;
@@ -17,16 +16,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Service Provider
+//builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for DryIoc, etc)
+builder.Host.UseServiceProviderFactory(new MantleDependoDryIocServiceProviderFactory());
 
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -66,7 +66,7 @@ if (builder.Environment.IsDevelopment())
 }
 
 // This must be added BEFORE we call AddIdentity.
-builder.Services.AddScoped(typeof(IRoleValidator<ApplicationRole>), typeof(ApplicationRoleValidator));
+builder.Services.AddScoped<IRoleValidator<ApplicationRole>, ApplicationRoleValidator>();
 
 #region Account / Identity
 
@@ -116,7 +116,8 @@ builder.Services.AddRouting(routeOptions =>
 builder.Services.AddMultitenancy<Tenant, MantleTenantResolver>();
 builder.Services.AddMantleLocalization();
 
-var mvcBuilder = builder.Services.AddControllersWithViews()
+var mvcBuilder = builder.Services
+    .AddControllersWithViews()
     .AddNewtonsoftJson(jsonOptions =>
     {
         if (builder.Environment.IsDevelopment())
@@ -142,16 +143,8 @@ var mvcBuilder = builder.Services.AddControllersWithViews()
         {
             registrar.Register(options);
         }
-    });
-
-var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-    .Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
-
-// View Components won't work unless we do this.
-foreach (var assembly in assemblies)
-{
-    mvcBuilder.AddApplicationPart(assembly);
-}
+    })
+    .AddMantleEmbeddedFileProviders();
 
 builder.Services.AddRazorPages();
 builder.Services.AddResponsiveFileManager(options => options.MaxSizeUpload = 32);
@@ -177,34 +170,15 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 #endregion RequestLocalizationOptions
 
-#region RazorViewEngineOptions
-
-builder.Services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
-{
-    options.FileProviders.Add(new EmbeddedViewFileProvider());
-
-    var embeddedFileProviders = DependoResolver.Instance.ResolveAll<IEmbeddedFileProviderRegistrar>()
-        .SelectMany(x => x.EmbeddedFileProviders);
-
-    foreach (var embeddedFileProvider in embeddedFileProviders)
-    {
-        options.FileProviders.Add(embeddedFileProvider);
-    }
-});
-
+builder.Services.ConfigureMantleEmbeddedFileProviders();
 builder.Services.Configure<RazorViewEngineOptions>(options => options.ViewLocationExpanders.Add(new TenantViewLocationExpander()));
 
-#endregion RazorViewEngineOptions
-
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-builder.Services.ConfigureMantleOptions(builder.Configuration);
-builder.Services.ConfigureMantleCommonResourceOptions(builder.Configuration);
-builder.Services.AddMantleWebOptimizer(builder.Configuration);
-
-// Configure Service Provider
-//builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for Autofac, etc)
-builder.Host.UseServiceProviderFactory(new MantleDependoAutofacServiceProviderFactory());
+builder.Services
+    .AddHttpContextAccessor()
+    .AddSingleton<IActionContextAccessor, ActionContextAccessor>()
+    .ConfigureMantleOptions(builder.Configuration)
+    .ConfigureMantleCommonResourceOptions(builder.Configuration)
+    .AddMantleWebOptimizer(builder.Configuration);
 
 var app = builder.Build();
 
@@ -232,31 +206,8 @@ app.UseSession();
 #region Static Files
 
 app.UseDefaultFiles(); // For PeachPie
-
-// embedded files
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new CompositeFileProvider(
-        new EmbeddedScriptFileProvider(),
-        new EmbeddedContentFileProvider(),
-        app.Environment.WebRootFileProvider),
-    OnPrepareResponse = (context) =>
-    {
-        var headers = context.Context.Response.GetTypedHeaders();
-        headers.CacheControl = new CacheControlHeaderValue
-        {
-            MaxAge = TimeSpan.FromDays(7)
-        };
-    }
-});
-
-// plugins
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
-    RequestPath = new PathString("/Plugins"),
-    OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800")
-});
+app.UseMantleWebEmbeddedFileProviders();
+app.UseMantlePlugins();
 
 //// Add support for node_modules but only during development
 //if (env.IsDevelopment())
@@ -300,8 +251,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-
-var routePublisher = app.Services.GetRequiredService<IRoutePublisher>();
-routePublisher.RegisterEndpoints(app);
+app.MapMantleEndpoints();
 
 app.Run();

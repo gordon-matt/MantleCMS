@@ -6,7 +6,7 @@ namespace Mantle.Infrastructure.DryIoc;
 public class MantleDryIocDependoContainer : DryIocDependoContainer
 {
     /// <inheritdoc />
-    public override IServiceProvider ConfigureServices(IContainer containerBuilder, IConfiguration configuration)
+    public override IServiceProvider ConfigureServices(IContainer container, IConfiguration configuration)
     {
         //find startup configurations provided by other assemblies
         var typeFinder = new WebAppTypeFinder();
@@ -20,11 +20,12 @@ public class MantleDryIocDependoContainer : DryIocDependoContainer
         //configure services
         foreach (var startupConfig in startupConfigs)
         {
-            startupConfig.ConfigureServices(new DryIocContainerBuilder(containerBuilder), configuration);
+            startupConfig.ConfigureServices(new DryIocContainerBuilder(container), configuration);
         }
 
         //register dependencies
-        RegisterDependencies(containerBuilder, typeFinder, configuration);
+        ServiceProvider = RegisterDependencies(container, typeFinder, configuration);
+        _container = container;
 
         //resolve assemblies here. otherwise, plugins can throw an exception when rendering views
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;

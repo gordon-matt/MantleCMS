@@ -27,8 +27,9 @@ public static class ConfigurationModule
             .GetMethod(nameof(GetSettingsGeneric), BindingFlags.Static | BindingFlags.NonPublic)
             .MakeGenericMethod(settingsType);
 
-        var workContext = resolver.Resolve<IWorkContext>();
-        var settingService = resolver.Resolve<ISettingService>();
+        using var scope = resolver.OpenScope();
+        var workContext = scope.Resolve<IWorkContext>();
+        var settingService = scope.Resolve<ISettingService>();
 
         return method.Invoke(null, [workContext, settingService]);
     }
