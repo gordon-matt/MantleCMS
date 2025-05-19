@@ -2,7 +2,7 @@
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
-using Mantle.Infrastructure.DryIoc;
+using Mantle.Infrastructure.Autofac;
 using Mantle.Plugins;
 using Mantle.Tenants.Entities;
 using Mantle.Web.CommonResources.Infrastructure;
@@ -25,8 +25,8 @@ using NLog.Web;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Service Provider
-//builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for DryIoc, etc)
-builder.Host.UseServiceProviderFactory(new MantleDependoDryIocServiceProviderFactory());
+//builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for Autofac, etc)
+builder.Host.UseServiceProviderFactory(new MantleDependoAutofacServiceProviderFactory());
 
 builder.Configuration
     .SetBasePath(builder.Environment.ContentRootPath)

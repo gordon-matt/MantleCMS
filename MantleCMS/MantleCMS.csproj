@@ -23,7 +23,7 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="Peachpie.AspNetCore.Web" Version="1.1.11" />
-    <PackageReference Include="ResponsiveFileManager.AspNetCore" Version="1.6.0" />
+    <PackageReference Include="ResponsiveFileManager.AspNetCore" Version="2.0.0" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
@@ -49,7 +49,7 @@
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Events\Mantle.Events.csproj" />
     <ProjectReference Include="..\Mantle.Identity\Mantle.Identity.csproj" />
-    <ProjectReference Include="..\Mantle.Infrastructure.DryIoc\Mantle.Infrastructure.DryIoc.csproj" />
+    <ProjectReference Include="..\Mantle.Infrastructure.Autofac\Mantle.Infrastructure.Autofac.csproj" />
     <ProjectReference Include="..\Mantle.Infrastructure\Mantle.Infrastructure.csproj" />
     <ProjectReference Include="..\Mantle.Localization\Mantle.Localization.csproj" />
     <ProjectReference Include="..\Mantle.Logging\Mantle.Logging.csproj" />
@@ -61,7 +61,7 @@
     <ProjectReference Include="..\Mantle.Web.CommonResources\Mantle.Web.CommonResources.csproj" />
     <ProjectReference Include="..\Mantle.Web.Common\Mantle.Web.Common.csproj" />
     <ProjectReference Include="..\Mantle.Web.ContentManagement\Mantle.Web.ContentManagement.csproj" />
-    <ProjectReference Include="..\Mantle.Web.Infrastructure.DryIoc\Mantle.Web.Infrastructure.DryIoc.csproj" />
+    <ProjectReference Include="..\Mantle.Web.Infrastructure.Autofac\Mantle.Web.Infrastructure.Autofac.csproj" />
     <ProjectReference Include="..\Mantle.Web.Messaging\Mantle.Web.Messaging.csproj" />
     <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
     <ProjectReference Include="..\Mantle\Mantle.csproj" />

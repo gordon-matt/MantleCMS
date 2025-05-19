@@ -4,6 +4,7 @@ using Mantle.Localization;
 using Mantle.Localization.Entities;
 using Mantle.Logging.Entities;
 using Mantle.Tasks.Entities;
+using Mantle.Tenants.Services;
 using Mantle.Web.Configuration.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -109,11 +110,8 @@ public abstract class MantleIdentityDbContext<TUser, TRole>
         Tenants.Add(tenant);
         SaveChanges();
 
-        var mediaFolder = new DirectoryInfo(CommonHelper.MapPath("~/Media/Uploads/Tenant_" + tenant.Id));
-        if (!mediaFolder.Exists)
-        {
-            mediaFolder.Create();
-        }
+        var tenantService = DependoResolver.Instance.Resolve<ITenantService>();
+        tenantService.EnsureTenantMediaFolderExists(tenant.Id);
 
         InitializeLocalizableStrings();
 

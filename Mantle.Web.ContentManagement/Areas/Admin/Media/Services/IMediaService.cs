@@ -26,7 +26,7 @@ public class MediaService : IMediaService
             directoryPath = directoryPath.Substring(6, directoryPath.Length);
         }
 
-        directoryPath = directoryPath.TrimStart(new[] { '/', '\\' });
+        directoryPath = directoryPath.TrimStart(['/', '\\']);
         //relativePath = relativePath.Replace("/", "\\");
         var files = new DirectoryInfo(directoryPath).GetFiles();
         return files.Select(file => BuildMediaFile(directoryPath, file)).ToList();

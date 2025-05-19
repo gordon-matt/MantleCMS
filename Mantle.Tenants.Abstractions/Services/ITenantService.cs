@@ -5,4 +5,5 @@ namespace Mantle.Tenants.Services;
 
 public interface ITenantService : IGenericDataService<Tenant>
 {
+    void EnsureTenantMediaFolderExists(int tenantId);
 }

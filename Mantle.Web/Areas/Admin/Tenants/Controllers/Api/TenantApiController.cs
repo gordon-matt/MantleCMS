@@ -24,12 +24,7 @@ public class TenantApiController : GenericODataController<Tenant, int>
         int tenantId = entity.Id; // EF should have populated the ID in base.Post()
         await membershipService.EnsureAdminRoleForTenant(tenantId);
 
-        //TOOD: Create tenant media folder:
-        var mediaFolder = new DirectoryInfo(CommonHelper.MapPath("~/Media/Uploads/Tenant_" + tenantId));
-        if (!mediaFolder.Exists)
-        {
-            mediaFolder.Create();
-        }
+        ((ITenantService)Service).EnsureTenantMediaFolderExists(tenantId);
 
         return result;
     }
