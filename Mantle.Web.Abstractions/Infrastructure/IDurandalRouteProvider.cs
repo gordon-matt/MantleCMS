@@ -86,6 +86,14 @@ public class DurandalRouteProvider : IDurandalRouteProvider
                     Route = "configuration/themes",
                     JsPath = "/_content/MantleFramework.Web/js/app/themes",
                     Title = T[MantleWebLocalizableStrings.General.Themes]
+                },
+
+                new()
+                {
+                    ModuleId = "viewmodels/admin/log",
+                    Route = "log",
+                    JsPath = "/_content/MantleFramework.Web/js/app/log",
+                    Title = T[MantleWebLocalizableStrings.Log.Title]
                 }
             };
 

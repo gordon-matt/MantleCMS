@@ -289,3 +289,6 @@ __pycache__/
 
 ### VisualStudio Patch ###
 build/
+
+!Mantle.Web/Areas/Admin/Log/
+!Mantle.Web/Areas/Admin/Log/Views/Log/

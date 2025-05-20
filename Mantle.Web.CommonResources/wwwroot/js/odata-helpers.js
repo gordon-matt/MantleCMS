@@ -1,14 +1,6 @@
 ﻿class ODataHelper {
     static #defaultOptions = {
         messages: {
-            //getRecordError: "Error when trying to retrieve record!",
-            //deleteRecordConfirm: "Are you sure that you want to delete this record?",
-            //deleteRecordSuccess: "Successfully deleted record!",
-            //deleteRecordError: "Error when trying to retrieve record!",
-            //insertRecordSuccess: "Successfully inserted record!",
-            //insertRecordError: "Error when trying to insert record!",
-            //updateRecordSuccess: "Successfully updated record!",
-            //updateRecordError: "Error when trying to update record!"
             getRecordError: MantleI18N.t('Mantle.Web/General.GetRecordError'),
             deleteRecordConfirm: MantleI18N.t('Mantle.Web/General.ConfirmDeleteRecord'),
             deleteRecordSuccess: MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'),

@@ -1,0 +1,70 @@
+﻿@Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
+
+<div id="grid-section" class="row">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full mb-3">
+        <mantle-ko-button state="Warning" ko-click="clear" icon="fa fa-warning" text="@T[MantleWebLocalizableStrings.General.Clear]" />
+    </div>
+    <mantle-grid />
+</div>
+
+<div id="details-section" class="row" style="display:none">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
+        {
+            using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
+            using (var body = panel.BeginBody())
+            {
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventDateTime]</th>
+                            <td data-bind="text: eventDateTime"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventLevel]</th>
+                            <td data-bind="text: eventLevel"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.UserName]</th>
+                            <td data-bind="text: userName"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.MachineName]</th>
+                            <td data-bind="text: machineName"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventMessage]</th>
+                            <td data-bind="text: eventMessage"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorSource]</th>
+                            <td data-bind="text: errorSource"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorClass]</th>
+                            <td data-bind="text: errorClass"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorMethod]</th>
+                            <td data-bind="text: errorMethod"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorMessage]</th>
+                            <td data-bind="text: errorMessage"></td>
+                        </tr>
+                        <tr>
+                            <th>@T[MantleWebLocalizableStrings.Log.Model.InnerErrorMessage]</th>
+                            <td data-bind="text: innerErrorMessage"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="mb-3 float-end">
+                    <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                        <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

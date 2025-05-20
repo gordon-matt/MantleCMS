@@ -9,6 +9,7 @@ using Mantle.Web.CommonResources.Infrastructure;
 using Mantle.Web.Infrastructure;
 using Mantle.Web.Mvc.Razor;
 using Mantle.Web.Tenants;
+using MantleCMS;
 using MantleCMS.Identity;
 using MantleCMS.Services;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -182,8 +183,8 @@ builder.Services
 
 var app = builder.Build();
 
-//// Configure NLog with database connection after DI is ready
-//NLogStartup.ConfigureNLog(app.Services);
+// Configure NLog with database connection after DI is ready
+NLogStartup.ConfigureNLog(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
