@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
-    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="9.2.0" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="9.3.0" />
     <PackageReference Include="Npgsql" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>

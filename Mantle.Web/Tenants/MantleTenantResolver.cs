@@ -17,7 +17,10 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
         : base(cache, loggerFactory)
     {
         this.tenantService = tenantService;
-        tenants = tenantService.Find();
+        tenants = tenantService.Find(new SearchOptions<Tenant>
+        {
+            Query = x => true
+        });
     }
 
     protected override string GetContextIdentifier(HttpContext context) => context.Request.Host.Value.ToLower();
@@ -46,7 +49,10 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
 
             if (tenants.IsNullOrEmpty())
             {
-                tenants = tenantService.Find();
+                tenants = tenantService.Find(new SearchOptions<Tenant>
+                {
+                    Query = x => true
+                });
             }
 
             if (tenants.IsNullOrEmpty())

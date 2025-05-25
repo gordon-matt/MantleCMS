@@ -79,7 +79,10 @@ public class BlogPostApiController : GenericTenantODataController<BlogPost, Guid
         if (!entity.Tags.IsNullOrEmpty())
         {
             var chosenTagIds = entity.Tags.Select(x => x.TagId);
-            var existingTags = await postTagService.Value.FindAsync(x => x.PostId == entity.Id);
+            var existingTags = await postTagService.Value.FindAsync(new SearchOptions<BlogPostTag>
+            {
+                Query = x => x.PostId == entity.Id
+            });
             var existingTagIds = existingTags.Select(x => x.TagId);
 
             var toDelete = existingTags.Where(x => !chosenTagIds.Contains(x.TagId));

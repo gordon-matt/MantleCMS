@@ -12,5 +12,8 @@ public class MessageTemplateService : GenericDataService<MessageTemplate>, IMess
     {
     }
 
-    public MessageTemplate Find(int tenantId, string name) => FindOne(x => x.TenantId == tenantId && x.Name == name);
+    public MessageTemplate Find(int tenantId, string name) => FindOne(new SearchOptions<MessageTemplate>
+    {
+        Query = x => x.TenantId == tenantId && x.Name == name
+    });
 }

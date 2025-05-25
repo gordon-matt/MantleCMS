@@ -1,4 +1,5 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
+﻿using Mantle.Localization.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 
 namespace Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 
@@ -32,9 +33,12 @@ public class EntityTypeContentBlockService : GenericDataService<EntityTypeConten
         string entityType = typeof(EntityTypeContentBlock).FullName;
         string entityId = entity.Id.ToString();
 
-        var localizedRecords = localizablePropertyService.Value.Find(x =>
-            x.EntityType == entityType &&
-            x.EntityId == entityId);
+        var localizedRecords = localizablePropertyService.Value.Find(new SearchOptions<LocalizableProperty>
+        {
+            Query = x =>
+                x.EntityType == entityType &&
+                x.EntityId == entityId
+        });
 
         int rowsAffected = localizablePropertyService.Value.Delete(localizedRecords);
         rowsAffected += base.Delete(entity);
@@ -59,7 +63,10 @@ public class EntityTypeContentBlockService : GenericDataService<EntityTypeConten
 
         var records = CacheManager.Get(key, () =>
         {
-            var zone = zoneRepository.Value.FindOne(x => x.TenantId == tenantId && x.Name == zoneName);
+            var zone = zoneRepository.Value.FindOne(new SearchOptions<Zone>
+            {
+                Query = x => x.TenantId == tenantId && x.Name == zoneName
+            });
 
             if (zone == null)
             {
@@ -102,11 +109,14 @@ public class EntityTypeContentBlockService : GenericDataService<EntityTypeConten
         string entityType = typeof(EntityTypeContentBlock).FullName;
         var ids = records.Select(x => x.Id.ToString());
 
-        var localizedRecords = localizablePropertyService.Value.Find(x =>
-            x.CultureCode == cultureCode &&
-            x.EntityType == entityType &&
-            ids.Contains(x.EntityId) &&
-            x.Property == "BlockValues");
+        var localizedRecords = localizablePropertyService.Value.Find(new SearchOptions<LocalizableProperty>
+        {
+            Query = x =>
+                x.CultureCode == cultureCode &&
+                x.EntityType == entityType &&
+                ids.Contains(x.EntityId) &&
+                x.Property == "BlockValues"
+        });
 
         var result = new List<IContentBlock>();
         foreach (var record in records)

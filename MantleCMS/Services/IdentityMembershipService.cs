@@ -825,18 +825,24 @@ public abstract class IdentityMembershipService : IMembershipService
 
     public async Task<string> GetProfileEntry(string userId, string key)
     {
-        var entry = await userProfileRepository.FindOneAsync(x =>
-            x.UserId == userId &&
-            x.Key == key);
+        var entry = await userProfileRepository.FindOneAsync(new SearchOptions<UserProfileEntry>
+        {
+            Query = x =>
+                x.UserId == userId &&
+                x.Key == key
+        });
 
         return entry?.Value;
     }
 
     public async Task SaveProfileEntry(string userId, string key, string value)
     {
-        var entry = await userProfileRepository.FindOneAsync(x =>
-            x.UserId == userId &&
-            x.Key == key);
+        var entry = await userProfileRepository.FindOneAsync(new SearchOptions<UserProfileEntry>
+        {
+            Query = x =>
+                x.UserId == userId &&
+                x.Key == key
+        });
 
         if (entry != null)
         {
@@ -856,9 +862,12 @@ public abstract class IdentityMembershipService : IMembershipService
 
     public async Task DeleteProfileEntry(string userId, string key)
     {
-        var entry = await userProfileRepository.FindOneAsync(x =>
-            x.UserId == userId &&
-            x.Key == key);
+        var entry = await userProfileRepository.FindOneAsync(new SearchOptions<UserProfileEntry>
+        {
+            Query = x =>
+                x.UserId == userId &&
+                x.Key == key
+        });
 
         if (entry != null)
         {

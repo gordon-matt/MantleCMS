@@ -113,7 +113,10 @@ public class LanguageController : MantleController
 
             // Ignore strings that don't have an invariant version
             var allInvariantStrings = localizableStringService.Value
-                .Find(x => x.TenantId == tenantId && x.CultureCode == null)
+                .Find(new SearchOptions<LocalizableString>
+                {
+                    Query = x => x.TenantId == tenantId && x.CultureCode == null
+                })
                 .Select(x => x.TextKey);
 
             var toInsert = localizedStrings.Where(x => allInvariantStrings.Contains(x.TextKey));

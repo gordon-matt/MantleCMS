@@ -62,7 +62,10 @@ public partial class WorkContext : IWorkContext
                 }
 
                 var tenantService = DependoResolver.Instance.Resolve<ITenantService>();
-                var allTenants = tenantService.Find();
+                var allTenants = tenantService.Find(new SearchOptions<Tenant>
+                {
+                    Query = x => true
+                });
                 var tenant = allTenants.FirstOrDefault(s => s.ContainsHostValue(host));
 
                 // Load the first found tenant

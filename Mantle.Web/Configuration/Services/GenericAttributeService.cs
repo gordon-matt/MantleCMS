@@ -13,7 +13,10 @@ public class GenericAttributeService : GenericDataService<GenericAttribute>, IGe
     public virtual IEnumerable<GenericAttribute> GetAttributesForEntity(string entityId, string entityType)
     {
         string cacheKey = string.Format(GenericAttributeKeyFormat, entityId, entityType);
-        return CacheManager.Get(cacheKey, () => Find(x => x.EntityId == entityId && x.EntityType == entityType));
+        return CacheManager.Get(cacheKey, () => Find(new SearchOptions<GenericAttribute>
+        {
+            Query = x => x.EntityId == entityId && x.EntityType == entityType
+        }));
     }
 
     public virtual TPropType GetAttribute<TPropType>(IEntity entity, string property)

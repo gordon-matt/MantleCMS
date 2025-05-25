@@ -1,4 +1,5 @@
-﻿using Mantle.Web.Common.Areas.Admin.Regions.Entities;
+﻿using Mantle.Localization.Entities;
+using Mantle.Web.Common.Areas.Admin.Regions.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mantle.Web.Common.Areas.Admin.Regions.Services;
@@ -54,11 +55,14 @@ public class RegionService : GenericDataService<Region>, IRegionService
             string entityType = typeof(Region).FullName;
             string entityId = region.Id.ToString();
 
-            var localizedRecord = localizablePropertyService.Value.FindOne(x =>
-                x.CultureCode == cultureCode &&
-                x.EntityType == entityType &&
-                x.Property == "Name" &&
-                x.EntityId == entityId);
+            var localizedRecord = localizablePropertyService.Value.FindOne(new SearchOptions<LocalizableProperty>
+            {
+                Query = x =>
+                    x.CultureCode == cultureCode &&
+                    x.EntityType == entityType &&
+                    x.Property == "Name" &&
+                    x.EntityId == entityId
+            });
 
             if (localizedRecord != null)
             {

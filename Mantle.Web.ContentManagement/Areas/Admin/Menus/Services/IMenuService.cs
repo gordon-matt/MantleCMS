@@ -17,14 +17,23 @@ public class MenuService : GenericDataService<Menu>, IMenuService
     #region IMenuService Members
 
     public Menu FindByName(int tenantId, string name, string urlFilter = null) => string.IsNullOrEmpty(urlFilter)
-        ? FindOne(x =>
-            x.TenantId == tenantId
-            && x.Name == name
-            && (x.UrlFilter == null || x.UrlFilter == ""))
-        : FindOne(x =>
-            x.TenantId == tenantId
-            && x.Name == name
-            && x.UrlFilter.Contains(urlFilter));
+        ? FindOne(new SearchOptions<Menu>
+        {
+            Query = x =>
+                x.TenantId == tenantId &&
+                x.Name == name &&
+                (
+                    x.UrlFilter == null ||
+                    x.UrlFilter == ""
+                )
+        })
+        : FindOne(new SearchOptions<Menu>
+        {
+            Query = x =>
+                x.TenantId == tenantId &&
+                x.Name == name &&
+                x.UrlFilter.Contains(urlFilter)
+        });
 
     #endregion IMenuService Members
 }

@@ -1,8 +1,10 @@
-﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
+﻿using Mantle.Web.ContentManagement.Areas.Admin.Blog.Entities;
+using Mantle.Web.ContentManagement.Areas.Admin.Blog.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
+using Mantle.Web.Mvc.KendoUI;
 
 namespace Mantle.Web.ContentManagement;
 
@@ -124,7 +126,7 @@ public class MantleCMS<TModel>
     {
         var categoryService = DependoResolver.Instance.Resolve<IBlogCategoryService>();
 
-        return categoryService.Find()
+        return categoryService.Find(new SearchOptions<BlogCategory> { Query = x => true })
             .ToSelectList(
                 value => value.Id,
                 text => text.Name,
@@ -136,7 +138,7 @@ public class MantleCMS<TModel>
     {
         var tagService = DependoResolver.Instance.Resolve<IBlogTagService>();
 
-        return tagService.Find()
+        return tagService.Find(new SearchOptions<BlogTag> { Query = x => true })
             .ToSelectList(
                 value => value.Id,
                 text => text.Name,

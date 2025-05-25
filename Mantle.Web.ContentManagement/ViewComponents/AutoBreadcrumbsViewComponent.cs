@@ -46,7 +46,10 @@ public class AutoBreadcrumbsViewComponent : ViewComponent
                 .FirstOrDefault(x => x.TenantId == tenantId && x.Slug == currentUrlSlug);
         }
 
-        var allPages = pageService.Find(x => x.TenantId == tenantId && x.IsEnabled);
+        var allPages = pageService.Find(new SearchOptions<Page>
+        {
+            Query = x => x.TenantId == tenantId && x.IsEnabled
+        });
 
         if (currentPageVersion != null)
         {

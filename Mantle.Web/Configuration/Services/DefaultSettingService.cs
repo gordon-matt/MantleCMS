@@ -18,8 +18,14 @@ public class DefaultSettingService : ISettingService
         return cacheManager.Get(key, () =>
         {
             var settings = tenantId.HasValue
-                ? repository.FindOne(x => x.TenantId == tenantId && x.Type == type)
-                : repository.FindOne(x => x.TenantId == null && x.Type == type);
+                ? repository.FindOne(new SearchOptions<Setting>
+                {
+                    Query = x => x.TenantId == tenantId && x.Type == type
+                })
+                : repository.FindOne(new SearchOptions<Setting>
+                {
+                    Query = x => x.TenantId == null && x.Type == type
+                });
             return settings == null || string.IsNullOrEmpty(settings.Value) ? new TSettings() : settings.Value.JsonDeserialize<TSettings>();
         });
     }
@@ -31,8 +37,14 @@ public class DefaultSettingService : ISettingService
         return cacheManager.Get(key, () =>
         {
             var settings = tenantId.HasValue
-                ? repository.FindOne(x => x.TenantId == tenantId && x.Type == type)
-                : repository.FindOne(x => x.TenantId == null && x.Type == type);
+                ? repository.FindOne(new SearchOptions<Setting>
+                {
+                    Query = x => x.TenantId == tenantId && x.Type == type
+                })
+                : repository.FindOne(new SearchOptions<Setting>
+                {
+                    Query = x => x.TenantId == null && x.Type == type
+                });
             return settings == null || string.IsNullOrEmpty(settings.Value)
                 ? (ISettings)Activator.CreateInstance(settingsType)
                 : (ISettings)settings.Value.JsonDeserialize(settingsType);
@@ -42,8 +54,14 @@ public class DefaultSettingService : ISettingService
     public void SaveSettings(string key, string value, int? tenantId = null)
     {
         var setting = tenantId.HasValue
-            ? repository.FindOne(x => x.TenantId == tenantId && x.Type == key)
-            : repository.FindOne(x => x.TenantId == null && x.Type == key);
+            ? repository.FindOne(new SearchOptions<Setting>
+            {
+                Query = x => x.TenantId == tenantId && x.Type == key
+            })
+            : repository.FindOne(new SearchOptions<Setting>
+            {
+                Query = x => x.TenantId == null && x.Type == key
+            });
         if (setting == null)
         {
             var iSettings = DependoResolver.Instance.ResolveAll<ISettings>().FirstOrDefault(x => x.GetType().FullName == key);

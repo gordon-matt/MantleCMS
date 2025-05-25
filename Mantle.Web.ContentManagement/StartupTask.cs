@@ -17,7 +17,10 @@ public class StartupTask : IStartupTask
         var allPageTypes = pageTypeService.GetMantlePageTypes();
 
         var allPageTypeNames = allPageTypes.Select(x => x.Name).ToList();
-        var installedPageTypes = pageTypeRepository.Find();
+        var installedPageTypes = pageTypeRepository.Find(new SearchOptions<PageType>
+        {
+            Query = x => true
+        });
         var installedPageTypeNames = installedPageTypes.Select(x => x.Name).ToList();
 
         var pageTypesToAdd = allPageTypes

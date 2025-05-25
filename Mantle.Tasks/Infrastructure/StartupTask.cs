@@ -16,7 +16,10 @@ public class StartupTask : IStartupTask
             var taskRepository = DependoResolver.Instance.Resolve<IRepository<ScheduledTask>>();
             var allTasks = DependoResolver.Instance.ResolveAll<ITask>();
             var allTaskNames = allTasks.Select(x => x.Name).ToList();
-            var installedTasks = taskRepository.Find();
+            var installedTasks = taskRepository.Find(new SearchOptions<ScheduledTask>
+            {
+                Query = x => true
+            });
             var installedTaskNames = installedTasks.Select(x => x.Name).ToList();
 
             var tasksToAdd = allTasks

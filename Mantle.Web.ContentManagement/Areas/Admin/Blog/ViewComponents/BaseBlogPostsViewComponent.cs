@@ -38,7 +38,10 @@ public abstract class BaseBlogPostsViewComponent : ViewComponent
         ViewBag.PageIndex = pageIndex;
         ViewBag.UserNames = userNames;
 
-        var tags = await TagService.Value.FindAsync();
+        var tags = await TagService.Value.FindAsync(new SearchOptions<BlogTag>
+        {
+            Query = x => true
+        });
         ViewBag.Tags = tags.ToDictionary(k => k.Id, v => v.Name);
         ViewBag.TagUrls = tags.ToDictionary(k => k.Id, v => v.UrlSlug);
 

@@ -25,11 +25,11 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="9.2.0" />
-    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="9.2.0" />
-    <PackageReference Include="Extenso.AspNetCore.OData" Version="9.2.0" />
-    <PackageReference Include="Extenso.Core" Version="9.2.0" />
-    <PackageReference Include="Extenso.Data" Version="9.2.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="9.3.0" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="9.3.0" />
+    <PackageReference Include="Extenso.AspNetCore.OData" Version="9.3.0" />
+    <PackageReference Include="Extenso.Core" Version="9.3.0" />
+    <PackageReference Include="Extenso.Data" Version="9.3.0" />
     <PackageReference Include="KendoGridBinder.AspNetCore" Version="3.2.1" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.436" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.5" />

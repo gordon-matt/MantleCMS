@@ -1,4 +1,6 @@
-﻿namespace Mantle.Data.Services;
+﻿using Extenso.Collections.Generic;
+
+namespace Mantle.Data.Services;
 
 public interface IGenericDataService<TEntity> where TEntity : class
 {
@@ -17,29 +19,25 @@ public interface IGenericDataService<TEntity> where TEntity : class
 
     #region Find
 
-    /// <summary>
-    /// Retrieve all entities
-    /// </summary>
-    /// <returns></returns>
-    IEnumerable<TEntity> Find(params Expression<Func<TEntity, dynamic>>[] includePaths);
+    IPagedCollection<TEntity> Find(SearchOptions<TEntity> options);
 
-    IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    IPagedCollection<TResult> Find<TResult>(SearchOptions<TEntity> options, Expression<Func<TEntity, TResult>> projection);
 
-    Task<IEnumerable<TEntity>> FindAsync(params Expression<Func<TEntity, dynamic>>[] includePaths);
+    Task<IPagedCollection<TEntity>> FindAsync(SearchOptions<TEntity> options);
 
-    Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    Task<IPagedCollection<TResult>> FindAsync<TResult>(SearchOptions<TEntity> options, Expression<Func<TEntity, TResult>> projection);
 
     TEntity FindOne(params object[] keyValues);
 
-    //TEntity FindOne(object[] keyValues, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    TEntity FindOne(SearchOptions<TEntity> options);
 
-    TEntity FindOne(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    TResult FindOne<TResult>(SearchOptions<TEntity> options, Expression<Func<TEntity, TResult>> projection);
 
     Task<TEntity> FindOneAsync(params object[] keyValues);
 
-    //Task<TEntity> FindOneAsync(object[] keyValues, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    Task<TEntity> FindOneAsync(SearchOptions<TEntity> options);
 
-    Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filterExpression, params Expression<Func<TEntity, dynamic>>[] includePaths);
+    Task<TResult> FindOneAsync<TResult>(SearchOptions<TEntity> options, Expression<Func<TEntity, TResult>> projection);
 
     #endregion Find
 

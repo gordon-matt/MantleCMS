@@ -1,6 +1,7 @@
 ﻿@using Extenso
 @using Mantle.Infrastructure
 @using Mantle.Plugins.Widgets.FullCalendar
+@using Mantle.Plugins.Widgets.FullCalendar.Data.Entities
 @using Mantle.Plugins.Widgets.FullCalendar.Services
 @using Mantle.Web
 @using Mantle.Web.Configuration
@@ -14,8 +15,11 @@
 
 @{
     string lang = WorkContext.CurrentCultureCode.LeftOf('-');
-    
-    var events = eventService.Find(x => x.CalendarId == Model.CalendarId);
+
+    var events = eventService.Find(new SearchOptions<CalendarEvent>
+    {
+        Query = x => x.CalendarId == Model.CalendarId
+    });
     string json = events.Select(x => new
     {
         title = x.Name,

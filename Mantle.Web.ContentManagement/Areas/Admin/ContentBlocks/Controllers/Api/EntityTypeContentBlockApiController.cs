@@ -51,11 +51,14 @@ public class EntityTypeContentBlockApiController : GenericODataController<Entity
         string entityType = typeof(EntityTypeContentBlock).FullName;
         string entityId = entity.Id.ToString();
 
-        var localizedRecord = await localizablePropertyService.Value.FindOneAsync(x =>
-            x.CultureCode == cultureCode &&
-            x.EntityType == entityType &&
-            x.EntityId == entityId &&
-            x.Property == "BlockValues");
+        var localizedRecord = await localizablePropertyService.Value.FindOneAsync(new SearchOptions<LocalizableProperty>
+        {
+            Query = x =>
+                x.CultureCode == cultureCode &&
+                x.EntityType == entityType &&
+                x.EntityId == entityId &&
+                x.Property == "BlockValues"
+        });
 
         if (localizedRecord != null)
         {
@@ -88,11 +91,14 @@ public class EntityTypeContentBlockApiController : GenericODataController<Entity
         string entityType = typeof(EntityTypeContentBlock).FullName;
         string entityId = entity.Id.ToString();
 
-        var localizedRecord = await localizablePropertyService.Value.FindOneAsync(x =>
-            x.CultureCode == cultureCode &&
-            x.EntityType == entityType &&
-            x.EntityId == entityId &&
-            x.Property == "BlockValues");
+        var localizedRecord = await localizablePropertyService.Value.FindOneAsync(new SearchOptions<LocalizableProperty>
+        {
+            Query = x =>
+                x.CultureCode == cultureCode &&
+                x.EntityType == entityType &&
+                x.EntityId == entityId &&
+                x.Property == "BlockValues"
+        });
 
         if (localizedRecord == null)
         {

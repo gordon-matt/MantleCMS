@@ -65,7 +65,10 @@ public abstract class BasePlugin : IPlugin
 
         var localizableStringRepository = DependoResolver.Instance.Resolve<IRepository<LocalizableString>>();
 
-        var toDelete = localizableStringRepository.Find(x => distinctKeys.Contains(x.TextKey));
+        var toDelete = localizableStringRepository.Find(new SearchOptions<LocalizableString>
+        {
+            Query = x => distinctKeys.Contains(x.TextKey)
+        });
 
         localizableStringRepository.Delete(toDelete);
 

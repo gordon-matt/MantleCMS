@@ -45,7 +45,10 @@ public class PageService : GenericDataService<Page>, IPageService
         rowsAffected += base.Delete(entities);
 
         // Ensure No Orphans
-        var pages = Find(x => pageIds.Contains(x.Id));
+        var pages = Find(new SearchOptions<Page>
+        {
+            Query = x => pageIds.Contains(x.Id)
+        });
         EnsureNoOrphans(pages);
 
         ClearCache();
@@ -67,7 +70,10 @@ public class PageService : GenericDataService<Page>, IPageService
         rowsAffected += base.Delete(query);
 
         // Ensure No Orphans
-        var pages = Find(x => pageIds.Contains(x.Id));
+        var pages = Find(new SearchOptions<Page>
+        {
+            Query = x => pageIds.Contains(x.Id)
+        });
         EnsureNoOrphans(pages);
 
         ClearCache();
@@ -95,7 +101,10 @@ public class PageService : GenericDataService<Page>, IPageService
 
     public override int Delete(Expression<Func<Page, bool>> filterExpression)
     {
-        var pages = Find(filterExpression);
+        var pages = Find(new SearchOptions<Page>
+        {
+            Query = filterExpression
+        });
         var pageIds = pages.Select(x => x.Id).ToArray();
 
         // Delete Content Blocks
@@ -117,7 +126,10 @@ public class PageService : GenericDataService<Page>, IPageService
 
     public override int DeleteAll()
     {
-        var pages = Find();
+        var pages = Find(new SearchOptions<Page>
+        {
+            Query = x => true
+        });
         var pageIds = pages.Select(x => x.Id).ToArray();
 
         // Delete Content Blocks
@@ -139,7 +151,10 @@ public class PageService : GenericDataService<Page>, IPageService
 
     public override async Task<int> DeleteAllAsync()
     {
-        var pages = await FindAsync();
+        var pages = await FindAsync(new SearchOptions<Page>
+        {
+            Query = x => true
+        });
         var pageIds = pages.Select(x => x.Id).ToArray();
 
         // Delete Content Blocks
@@ -174,7 +189,10 @@ public class PageService : GenericDataService<Page>, IPageService
         rowsAffected += await base.DeleteAsync(entities);
 
         // Ensure No Orphans
-        var pages = await FindAsync(x => pageIds.Contains(x.Id));
+        var pages = await FindAsync(new SearchOptions<Page>
+        {
+            Query = x => pageIds.Contains(x.Id)
+        });
         await EnsureNoOrphansAsync(pages);
 
         ClearCache();
@@ -196,7 +214,10 @@ public class PageService : GenericDataService<Page>, IPageService
         rowsAffected += await base.DeleteAsync(query);
 
         // Ensure No Orphans
-        var pages = await FindAsync(x => pageIds.Contains(x.Id));
+        var pages = await FindAsync(new SearchOptions<Page>
+        {
+            Query = x => pageIds.Contains(x.Id)
+        });
         await EnsureNoOrphansAsync(pages);
 
         ClearCache();
@@ -224,7 +245,10 @@ public class PageService : GenericDataService<Page>, IPageService
 
     public override async Task<int> DeleteAsync(Expression<Func<Page, bool>> filterExpression)
     {
-        var pages = await FindAsync(filterExpression);
+        var pages = await FindAsync(new SearchOptions<Page>
+        {
+            Query = filterExpression
+        });
         var pageIds = pages.Select(x => x.Id).ToArray();
 
         // Delete Content Blocks
@@ -340,7 +364,10 @@ public class PageService : GenericDataService<Page>, IPageService
     {
         var toUpdate = new List<Page>();
 
-        var subPages = Find(x => x.ParentId == page.Id);
+        var subPages = Find(new SearchOptions<Page>
+        {
+            Query = x => x.ParentId == page.Id
+        });
         subPages.ForEach(x =>
         {
             x.ParentId = page.ParentId;
@@ -355,7 +382,10 @@ public class PageService : GenericDataService<Page>, IPageService
         var toUpdate = new List<Page>();
         foreach (var page in pages)
         {
-            var subPages = Find(x => x.ParentId == page.Id);
+            var subPages = Find(new SearchOptions<Page>
+            {
+                Query = x => x.ParentId == page.Id
+            });
 
             subPages.ForEach(x =>
             {
@@ -370,7 +400,10 @@ public class PageService : GenericDataService<Page>, IPageService
     {
         var toUpdate = new List<Page>();
 
-        var subPages = await FindAsync(x => x.ParentId == page.Id);
+        var subPages = await FindAsync(new SearchOptions<Page>
+        {
+            Query = x => x.ParentId == page.Id
+        });
         subPages.ForEach(x =>
         {
             x.ParentId = page.ParentId;
@@ -385,7 +418,10 @@ public class PageService : GenericDataService<Page>, IPageService
         var toUpdate = new List<Page>();
         foreach (var page in pages)
         {
-            var subPages = await FindAsync(x => x.ParentId == page.Id);
+            var subPages = await FindAsync(new SearchOptions<Page>
+            {
+                Query = x => x.ParentId == page.Id
+            });
 
             subPages.ForEach(x =>
             {

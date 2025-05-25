@@ -75,7 +75,11 @@ public class BlogContentController : MantleController
 
         int tenantId = WorkContext.CurrentTenant.Id;
 
-        var category = await categoryService.Value.FindOneAsync(x => x.TenantId == tenantId && x.UrlSlug == categorySlug)
+        var category = await categoryService.Value
+            .FindOneAsync(new SearchOptions<BlogCategory>
+            {
+                Query = x => x.TenantId == tenantId && x.UrlSlug == categorySlug
+            })
             ?? throw new EntityNotFoundException(string.Concat(
                 "Could not find a blog category with slug, '", categorySlug, "'"));
 
@@ -108,9 +112,12 @@ public class BlogContentController : MantleController
     {
         int tenantId = WorkContext.CurrentTenant.Id;
 
-        var tag = await tagService.Value.FindOneAsync(x =>
-            x.TenantId == tenantId
-            && x.UrlSlug == tagSlug);
+        var tag = await tagService.Value.FindOneAsync(new SearchOptions<BlogTag>
+        {
+            Query = x =>
+                x.TenantId == tenantId
+                && x.UrlSlug == tagSlug
+        });
 
         if (tag == null)
         {
@@ -159,7 +166,10 @@ public class BlogContentController : MantleController
         ViewBag.PageIndex = pageIndex;
         ViewBag.UserNames = userNames;
 
-        var tags = await tagService.Value.FindAsync();
+        var tags = await tagService.Value.FindAsync(new SearchOptions<BlogTag>
+        {
+            Query = x => true
+        });
         ViewBag.Tags = tags.ToDictionary(k => k.Id, v => v.Name);
         ViewBag.TagUrls = tags.ToDictionary(k => k.Id, v => v.UrlSlug);
 
@@ -223,16 +233,25 @@ public class BlogContentController : MantleController
         WorkContext.Breadcrumbs.Add(model.Headline);
 
         ViewBag.PreviousEntrySlug = previousEntryDate.HasValue
-            ? (await postService.Value.FindOneAsync(x => x.TenantId == tenantId && x.DateCreatedUtc == previousEntryDate)).Slug
+            ? (await postService.Value.FindOneAsync(new SearchOptions<BlogPost>
+            {
+                Query = x => x.TenantId == tenantId && x.DateCreatedUtc == previousEntryDate
+            })).Slug
             : null;
 
         ViewBag.NextEntrySlug = nextEntryDate.HasValue
-            ? (await postService.Value.FindOneAsync(x => x.TenantId == tenantId && x.DateCreatedUtc == nextEntryDate)).Slug
+            ? (await postService.Value.FindOneAsync(new SearchOptions<BlogPost>
+            {
+                Query = x => x.TenantId == tenantId && x.DateCreatedUtc == nextEntryDate
+            })).Slug
             : null;
 
         ViewBag.UserName = (await membershipService.Value.GetUserById(model.UserId)).UserName;
 
-        var tags = await tagService.Value.FindAsync(x => x.TenantId == tenantId);
+        var tags = await tagService.Value.FindAsync(new SearchOptions<BlogTag>
+        {
+            Query = x => x.TenantId == tenantId
+        });
         ViewBag.Tags = tags.ToDictionary(k => k.Id, v => v.Name);
         ViewBag.TagUrls = tags.ToDictionary(k => k.Id, v => v.UrlSlug);
 

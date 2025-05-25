@@ -161,7 +161,10 @@ public class PageContentController : MantleController
             string zoneName = match.Groups["Zone"].Value;
 
             int tenantId = WorkContext.CurrentTenant.Id;
-            var zone = zoneRepository.FindOne(x => x.TenantId == tenantId && x.Name == zoneName);
+            var zone = zoneRepository.FindOne(new SearchOptions<Zone>
+            {
+                Query = x => x.TenantId == tenantId && x.Name == zoneName
+            });
 
             if (zone == null)
             {

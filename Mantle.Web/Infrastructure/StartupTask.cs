@@ -200,7 +200,10 @@ public class StartupTask : IStartupTask
 
         #region NULL Tenant (In case we want default settings)
 
-        var installedSettings = settingsRepository.Find(x => x.TenantId == null);
+        var installedSettings = settingsRepository.Find(new SearchOptions<Setting>
+        {
+            Query = x => x.TenantId == null
+        });
         var installedSettingNames = installedSettings.Select(x => x.Name).ToList();
 
         var settingsToAdd = allSettings
@@ -233,7 +236,10 @@ public class StartupTask : IStartupTask
 
         foreach (int tenantId in tenantIds)
         {
-            installedSettings = settingsRepository.Find(x => x.TenantId == tenantId);
+            installedSettings = settingsRepository.Find(new SearchOptions<Setting>
+            {
+                Query = x => x.TenantId == tenantId
+            });
             installedSettingNames = installedSettings.Select(x => x.Name).ToList();
 
             settingsToAdd = allSettings

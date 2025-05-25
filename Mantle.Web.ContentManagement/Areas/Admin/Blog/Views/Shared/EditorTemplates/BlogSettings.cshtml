@@ -9,7 +9,7 @@
     @*<mantle-input asp-for="UseAjax" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.UseAjax]" />*@
     <div class="mb-3">
         @Html.Label("Roles", "Roles", new { @class = "form-label" })
-        @Html.Mantle().RolesCheckBoxList("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: roles" })
+        @await Html.Mantle().RolesCheckBoxListAsync("Roles", null, new { @class = "checkbox" }, new { data_bind = "checked: roles" })
     </div>
     <mantle-input asp-for="LayoutPathOverride" asp-label="@T[MantleCmsLocalizableStrings.Settings.Blog.LayoutPathOverride]" asp-validation-msg="true" />
 

@@ -91,8 +91,14 @@ public class MantleStringLocalizer : IStringLocalizer
     }
 
     protected virtual Dictionary<string, string> LoadTranslationsForCulture(int tenantId, string cultureCode) => string.IsNullOrEmpty(cultureCode)
-        ? LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == null))
-        : LoadTranslations(localizableStringService.Find(x => x.TenantId == tenantId && x.CultureCode == cultureCode));
+        ? LoadTranslations(localizableStringService.Find(new SearchOptions<LocalizableString>
+        {
+            Query = x => x.TenantId == tenantId && x.CultureCode == null
+        }))
+        : LoadTranslations(localizableStringService.Find(new SearchOptions<LocalizableString>
+        {
+            Query = x => x.TenantId == tenantId && x.CultureCode == cultureCode
+        }));
 
     private static Dictionary<string, string> LoadTranslations(IEnumerable<LocalizableString> items)
     {

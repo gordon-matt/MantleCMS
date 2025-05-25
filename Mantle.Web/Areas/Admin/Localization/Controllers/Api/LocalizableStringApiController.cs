@@ -77,7 +77,10 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
         }
 
         int tenantId = GetTenantId();
-        var localizedString = await Service.FindOneAsync(x => x.TenantId == tenantId && x.CultureCode == cultureCode && x.TextKey == key);
+        var localizedString = await Service.FindOneAsync(new SearchOptions<LocalizableString>
+        {
+            Query = x => x.TenantId == tenantId && x.CultureCode == cultureCode && x.TextKey == key
+        });
 
         if (localizedString == null)
         {
@@ -114,7 +117,11 @@ public class LocalizableStringApiController : GenericTenantODataController<Local
         string key = (string)parameters["key"];
 
         int tenantId = GetTenantId();
-        var entity = await Service.FindOneAsync(x => x.TenantId == tenantId && x.CultureCode == cultureCode && x.TextKey == key);
+        var entity = await Service.FindOneAsync(new SearchOptions<LocalizableString>
+        {
+            Query = x => x.TenantId == tenantId && x.CultureCode == cultureCode && x.TextKey == key
+        });
+
         if (entity == null)
         {
             return NotFound();

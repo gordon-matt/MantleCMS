@@ -1,6 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
+using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
+using Mantle.Web.ContentManagement.Areas.Admin.Menus.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 
@@ -132,7 +134,11 @@ public class PageController : MantleController
         {
             string zoneName = match.Groups["Zone"].Value;
 
-            var zone = zoneService.Value.FindOne(x => x.Name == zoneName);
+            var zone = zoneService.Value.FindOne(new SearchOptions<Zone>
+            {
+                Query = x => x.Name == zoneName
+            });
+
             var contentBlocksByZone = contentBlocks.Where(x => x.ZoneId == zone.Id);
 
             string html = AsyncHelper.RunSync(() => razorViewRenderService.Value.RenderToStringAsync(

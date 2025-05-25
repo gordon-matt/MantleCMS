@@ -1,4 +1,5 @@
 ﻿using Mantle.Web.ContentManagement.Areas.Admin.Menus.Services;
+using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 
 namespace Mantle.Web.ContentManagement.ViewComponents;
@@ -25,7 +26,11 @@ public class MenuViewComponent : ViewComponent
 
         // Check if it's a CMS page or not.
         int tenantId = workContext.CurrentTenant.Id;
-        if (currentUrlSlug != null && await pageVersionService.FindAsync(x => x.TenantId == tenantId && x.Slug == currentUrlSlug) == null)
+
+        if (currentUrlSlug != null && await pageVersionService.FindAsync(new SearchOptions<PageVersion>
+        {
+            Query = x => x.TenantId == tenantId && x.Slug == currentUrlSlug
+        }) == null)
         {
             // It's not a CMS page, so don't try to filter by slug...
             // Set slug to null, to query for a menu without any URL filter

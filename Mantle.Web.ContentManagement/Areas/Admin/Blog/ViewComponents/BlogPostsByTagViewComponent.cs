@@ -24,9 +24,12 @@ public class BlogPostsByTagViewComponent : BaseBlogPostsViewComponent
     {
         int tenantId = WorkContext.CurrentTenant.Id;
 
-        var tag = await TagService.Value.FindOneAsync(x =>
-            x.TenantId == tenantId
-            && x.UrlSlug == tagSlug);
+        var tag = await TagService.Value.FindOneAsync(new SearchOptions<BlogTag>
+        {
+            Query = x =>
+                x.TenantId == tenantId
+                && x.UrlSlug == tagSlug
+        });
 
         if (tag == null)
         {

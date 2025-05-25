@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dependo.LightInject" Version="1.1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mantle.Infrastructure\Mantle.Infrastructure.csproj" />
+    <ProjectReference Include="..\Mantle.Plugins\Mantle.Plugins.csproj" />
+  </ItemGroup>
+
+</Project>

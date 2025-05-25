@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using Mantle.Helpers;
+using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Sitemap.Models;
@@ -51,7 +52,10 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
         int tenantId = GetTenantId();
 
         // First ensure that current pages are in the config
-        var config = await Service.FindAsync(x => x.TenantId == tenantId);
+        var config = await Service.FindAsync(new SearchOptions<SitemapConfig>
+        {
+            Query = x => x.TenantId == tenantId
+        });
         var configPageIds = config.Select(x => x.PageId).ToHashSet();
         var pageVersions = pageVersionService.GetCurrentVersions(tenantId, shownOnMenusOnly: false); // temp fix: since we don't support localized routes yet
         var pageVersionIds = pageVersions.Select(x => x.Id).ToHashSet();
@@ -78,7 +82,10 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
 
             await Service.InsertAsync(toInsert);
         }
-        config = await Service.FindAsync(x => x.TenantId == tenantId);
+        config = await Service.FindAsync(new SearchOptions<SitemapConfig>
+        {
+            Query = x => x.TenantId == tenantId
+        });
 
         var collection = new HashSet<SitemapConfigModel>();
         foreach (var item in config)
@@ -147,10 +154,16 @@ public class XmlSitemapApiController : GenericTenantODataController<SitemapConfi
 
         int tenantId = GetTenantId();
 
-        var config = await Service.FindAsync(x => x.TenantId == tenantId);
+        var config = await Service.FindAsync(new SearchOptions<SitemapConfig>
+        {
+            Query = x => x.TenantId == tenantId
+        });
         var file = new SitemapXmlFile();
 
-        var pageVersions = await pageVersionService.FindAsync(x => x.TenantId == tenantId);
+        var pageVersions = await pageVersionService.FindAsync(new SearchOptions<PageVersion>
+        {
+            Query = x => x.TenantId == tenantId
+        });
 
         var urls = new HashSet<UrlElement>();
 

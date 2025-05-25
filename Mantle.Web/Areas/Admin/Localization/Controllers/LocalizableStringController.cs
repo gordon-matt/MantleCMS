@@ -1,4 +1,6 @@
-﻿namespace Mantle.Web.Areas.Admin.Localization.Controllers;
+﻿using Mantle.Localization.Entities;
+
+namespace Mantle.Web.Areas.Admin.Localization.Controllers;
 
 [Authorize]
 [Area(MantleWebConstants.Areas.Localization)]
@@ -25,10 +27,13 @@ public class LocalizableStringController : MantleController
     {
         int tenantId = WorkContext.CurrentTenant.Id;
 
-        var localizedStrings = localizableStringService.Value.Find(x =>
-            x.TenantId == tenantId &&
-            x.CultureCode == cultureCode &&
-            x.TextValue != null);
+        var localizedStrings = localizableStringService.Value.Find(new SearchOptions<LocalizableString>
+        {
+            Query = x =>
+                x.TenantId == tenantId &&
+                x.CultureCode == cultureCode &&
+                x.TextValue != null
+        });
 
         var languagePack = new LanguagePackFile
         {

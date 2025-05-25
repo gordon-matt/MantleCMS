@@ -37,9 +37,12 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
         var instance = Activator.CreateInstance<T>();
         string settingsId = instance.Name.ToSlugUrl();
 
-        var settings = FindOne(x =>
-            x.SettingsId == settingsId &&
-            x.RegionId == regionId);
+        var settings = FindOne(new SearchOptions<RegionSettings>
+        {
+            Query = x =>
+                x.SettingsId == settingsId &&
+                x.RegionId == regionId
+        });
 
         return settings == null ? default : settings.Fields.JsonDeserialize<T>();
     }
@@ -50,10 +53,16 @@ public class RegionSettingsService : GenericDataService<RegionSettings>, IRegion
         string settingsId = instance.Name.ToSlugUrl();
 
         var settings = regionIds.IsNullOrEmpty()
-            ? Find(x => x.SettingsId == settingsId)
-            : Find(x =>
-               x.SettingsId == settingsId &&
-               regionIds.Contains(x.RegionId));
+            ? Find(new SearchOptions<RegionSettings>
+            {
+                Query = x => x.SettingsId == settingsId
+            })
+            : Find(new SearchOptions<RegionSettings>
+            {
+                Query = x =>
+                   x.SettingsId == settingsId &&
+                   regionIds.Contains(x.RegionId)
+            });
         return settings.ToDictionary(k => k.RegionId, v => v.Fields.JsonDeserialize<T>());
     }
 }

@@ -23,7 +23,10 @@ public class PageTreeApiController : ODataController
         }
 
         int tenantId = GetTenantId();
-        var pages = await service.FindAsync(x => x.TenantId == tenantId);
+        var pages = await service.FindAsync(new SearchOptions<Page>
+        {
+            Query = x => x.TenantId == tenantId
+        });
 
         var hierarchy = pages
             .Where(x => x.ParentId == null)
@@ -57,7 +60,10 @@ public class PageTreeApiController : ODataController
         }
 
         int tenantId = GetTenantId();
-        var pages = await service.FindAsync(x => x.TenantId == tenantId);
+        var pages = await service.FindAsync(new SearchOptions<Page>
+        {
+            Query = x => x.TenantId == tenantId
+        });
         var entity = pages.FirstOrDefault(x => x.Id == key);
 
         return SingleResult.Create(new[] { entity }.Select(x => new PageTreeItem

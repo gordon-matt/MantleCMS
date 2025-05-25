@@ -15,7 +15,7 @@
     <None Remove="Plugins\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Extenso.Data" Version="9.2.0" />
+    <PackageReference Include="Extenso.Data" Version="9.3.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="3.0.71" />

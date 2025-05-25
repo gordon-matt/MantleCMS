@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
-    <PackageReference Include="Extenso.Data.QueryBuilder" Version="9.2.0" />
+    <PackageReference Include="Extenso.Data.QueryBuilder" Version="9.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />

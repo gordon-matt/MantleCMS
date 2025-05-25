@@ -29,9 +29,12 @@ public class GrapesJsMessageTemplateController : MantleController
     {
         ViewBag.Title = "Email Template Editor";
 
-        var model = await messageTemplateVersionService.Value.FindOneAsync(x =>
-            x.MessageTemplateId == id &&
-            x.CultureCode == cultureCode);
+        var model = await messageTemplateVersionService.Value.FindOneAsync(new SearchOptions<MessageTemplateVersion>
+        {
+            Query = x =>
+                x.MessageTemplateId == id &&
+                x.CultureCode == cultureCode
+        });
 
         if (model == null)
         {
@@ -113,9 +116,12 @@ public class GrapesJsMessageTemplateController : MantleController
     [Route("load/{id}/{cultureCode?}")]
     public async Task<IActionResult> Load(int id, string cultureCode)
     {
-        var model = await messageTemplateVersionService.Value.FindOneAsync(x =>
-            x.MessageTemplateId == id &&
-            x.CultureCode == cultureCode);
+        var model = await messageTemplateVersionService.Value.FindOneAsync(new SearchOptions<MessageTemplateVersion>
+        {
+            Query = x =>
+                x.MessageTemplateId == id &&
+                x.CultureCode == cultureCode
+        });
 
         if (!string.IsNullOrEmpty(model.Data))
         {
@@ -132,9 +138,12 @@ public class GrapesJsMessageTemplateController : MantleController
     [Route("save/{id}/{cultureCode?}")]
     public async Task<IActionResult> Save(int id, string cultureCode, [FromBody] GrapesJsStorageData data)
     {
-        var entity = await messageTemplateVersionService.Value.FindOneAsync(x =>
-            x.MessageTemplateId == id &&
-            x.CultureCode == cultureCode);
+        var entity = await messageTemplateVersionService.Value.FindOneAsync(new SearchOptions<MessageTemplateVersion>
+        {
+            Query = x =>
+                x.MessageTemplateId == id &&
+                x.CultureCode == cultureCode
+        });
 
         entity.Data = data.JsonSerialize();
 

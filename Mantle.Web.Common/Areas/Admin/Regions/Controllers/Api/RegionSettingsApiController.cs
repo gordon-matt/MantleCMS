@@ -53,9 +53,12 @@ public class RegionSettingsApiController : ODataController
 
         var settings = dictionary[settingsId];
 
-        var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
-            x.RegionId == regionId &&
-            x.SettingsId == settingsId);
+        var dataEntity = await regionSettingsService.Value.FindOneAsync(new SearchOptions<RegionSettings>
+        {
+            Query = x =>
+                x.RegionId == regionId &&
+                x.SettingsId == settingsId
+        });
 
         return dataEntity != null
             ? new EdmRegionSettings
@@ -100,9 +103,12 @@ public class RegionSettingsApiController : ODataController
             return this.BadRequest(string.Format("SettingsId, '{0}' is not recognized.", settingsId));
         }
 
-        var dataEntity = await regionSettingsService.Value.FindOneAsync(x =>
-            x.RegionId == regionId &&
-            x.SettingsId == settingsId);
+        var dataEntity = await regionSettingsService.Value.FindOneAsync(new SearchOptions<RegionSettings>
+        {
+            Query = x =>
+                x.RegionId == regionId &&
+                x.SettingsId == settingsId
+        });
 
         if (dataEntity == null)
         {

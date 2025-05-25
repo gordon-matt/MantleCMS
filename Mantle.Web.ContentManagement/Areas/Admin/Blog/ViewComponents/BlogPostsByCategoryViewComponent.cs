@@ -32,7 +32,10 @@ public class BlogPostsByCategoryViewComponent : BaseBlogPostsViewComponent
         }
 
         int tenantId = WorkContext.CurrentTenant.Id;
-        var category = await categoryService.FindOneAsync(x => x.TenantId == tenantId && x.UrlSlug == categorySlug);
+        var category = await categoryService.FindOneAsync(new SearchOptions<BlogCategory>
+        {
+            Query = x => x.TenantId == tenantId && x.UrlSlug == categorySlug
+        });
 
         if (category == null)
         {

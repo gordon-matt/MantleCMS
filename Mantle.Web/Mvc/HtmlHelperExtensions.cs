@@ -261,6 +261,26 @@ public class Mantle<TModel>
         return html.CheckBoxList(name, selectList, selectedRoleIds, labelHtmlAttributes: labelHtmlAttributes, checkboxHtmlAttributes: checkboxHtmlAttributes);
     }
 
+    public async Task<IHtmlContent> RolesCheckBoxListAsync(
+        string name,
+        IEnumerable<string> selectedRoleIds,
+        object labelHtmlAttributes = null,
+        object checkboxHtmlAttributes = null)
+    {
+        var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
+        var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
+
+        var selectList = (await membershipService.GetAllRoles(workContext.CurrentTenant.Id))
+            .ToSelectList(
+                value => value.Id,
+                text => text.Name);
+
+        //TODO: problem when no roles, which happens now because current tenant does not have an admin role.. only NULL tenant has admin role.
+        //      need to auto create admin roles for each tenant
+
+        return html.CheckBoxList(name, selectList, selectedRoleIds, labelHtmlAttributes: labelHtmlAttributes, checkboxHtmlAttributes: checkboxHtmlAttributes);
+    }
+
     public IHtmlContent RolesDropDownList(string name, string selectedValue = null, object htmlAttributes = null, string emptyText = null)
     {
         var membershipService = DependoResolver.Instance.Resolve<IMembershipService>();
