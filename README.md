@@ -10,10 +10,29 @@ Mantle is both a CMS and just a general purpose .NET Core web framework, built u
 
 ## Tech
 
-| | | |
-| :---: | :---: | :---: |
-|[<br />![.NET Core](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/NetCore.png) ](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2)|[<br />![Durandal](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Durandal.jpg) ](https://github.com/BlueSpire/Durandal)|[<br />![Web API OData](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/OData.png) ](https://github.com/OData/WebApi)|
-| [<br />![Bootstrap](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Bootstrap.jpg) ](http://getbootstrap.com/) |[<br />![KendoUI](https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/KendoUI.png) ](https://github.com/telerik/kendo-ui-core)
+<p align="left">
+    <a href="https://docs.microsoft.com/en-us/aspnet/core" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/NetCore.png" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/BlueSpire/Durandal" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Durandal.jpg" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/OData/WebApi" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/OData.png" alt="dotnet" height="60"/>
+    </a>
+    <a href="http://getbootstrap.com/" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/Bootstrap.jpg" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/telerik/kendo-ui-core" target="_blank" rel="noreferrer">
+        <img src="https://raw.githubusercontent.com/gordon-matt/MantleCMS/master/_SolutionItems/Logos/KendoUI.png" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/gordon-matt/Dependo" target="_blank" rel="noreferrer">
+        <img src="https://github.com/gordon-matt/Dependo/raw/master/_Misc/Logo.png" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/gordon-matt/Extenso" target="_blank" rel="noreferrer">
+        <img src="https://github.com/gordon-matt/Extenso/raw/master/_Misc/ExtensoLogo.png" alt="dotnet" height="60"/>
+    </a>
+</p>
 
 ## Features
 
