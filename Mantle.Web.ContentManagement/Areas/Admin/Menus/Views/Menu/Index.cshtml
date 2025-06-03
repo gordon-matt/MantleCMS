@@ -1,4 +1,7 @@
-﻿@model Menu
+﻿@removeTagHelper Mantle.Web.Mvc.Razor.TagHelpers.MantleScriptTagHelper, Mantle.Web
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.ScriptTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model Menu
 
 @Html.Hidden("GridPageSize", SiteSettings.DefaultGridPageSize)
 
@@ -135,7 +138,7 @@
     </article>
 </div>
 
-<script asp-location="None" asp-exclude-from-bundle="true" type="text/x-kendo-template" id="items-template">
+<script type="text/x-kendo-template" id="items-template">
     <div class="tabstrip">
         <ul>
             <li class="k-state-active">

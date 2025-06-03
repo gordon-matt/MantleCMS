@@ -16,8 +16,38 @@
         return paramMap;
     };
 
-    static initKendoGrid(gridId, odataUrl, schemaModel, columns, pageSize, sort) {
-        $(`#${gridId}`).kendoGrid({
+    static odataParameterMapWithGuidFix = function (options, operation) {
+        let paramMap = GridHelper.odataParameterMap(options, operation);
+        if (paramMap.$filter) {
+            const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
+            paramMap.$filter = paramMap.$filter.replace(guid, "$1");
+        }
+        return paramMap;
+    };
+
+    static initKendoGrid(gridId, odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap) {
+        GridHelper.initKendoGridByElement($(`#${gridId}`), odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap);
+    };
+
+    static initKendoGridByElement(gridElement, odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap) {
+        const gridOptions = GridHelper.createGridOptions(odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap);
+        gridElement.kendoGrid(gridOptions);
+    }
+
+    static initKendoDetailGrid(gridId, odataUrl, schemaModel, columns, pageSize, sort, filter, detailTemplate, detailInit, parameterMap) {
+        GridHelper.initKendoDetailGridByElement($(`#${gridId}`), odataUrl, schemaModel, columns, pageSize, sort, filter, detailTemplate, detailInit, parameterMap);
+    };
+
+    static initKendoDetailGridByElement(gridElement, odataUrl, schemaModel, columns, pageSize, sort, filter, detailTemplate, detailInit, parameterMap) {
+        let gridOptions = GridHelper.createGridOptions(odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap);
+        gridOptions.detailTemplate = detailTemplate;
+        gridOptions.detailInit = detailInit;
+        gridElement.kendoGrid(gridOptions);
+        console.log(`initKendoDetailGridByElement for: ${gridElement} initialized with options:`, gridOptions);
+    };
+
+    static createGridOptions(odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap) {
+        return {
             data: null,
             dataSource: {
                 type: "odata",
@@ -26,7 +56,7 @@
                         url: odataUrl,
                         dataType: "json"
                     },
-                    parameterMap: GridHelper.odataParameterMap
+                    parameterMap: parameterMap ?? GridHelper.odataParameterMap
                 },
                 schema: {
                     data: function (data) {
@@ -41,7 +71,8 @@
                 serverPaging: true,
                 serverFiltering: true,
                 serverSorting: true,
-                sort: sort
+                sort: sort,
+                filter: filter
             },
             dataBound: function (e) {
                 let body = this.element.find("tbody")[0];
@@ -59,8 +90,8 @@
             },
             scrollable: false,
             columns: columns
-        });
-    };
+        };
+    }
 
     static defaultActionColumn(editText, deleteText, columnName, columnTitle) {
         return {

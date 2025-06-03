@@ -42,79 +42,19 @@
                 }
             });
 
-            $("#ItemsGrid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/cms/MenuItemApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-
-                                // Fix for GUIDs
-                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
-                                paramMap.$filter = paramMap.$filter.replace(guid, "$1");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            id: "Id",
-                            fields: {
-                                Text: { type: "string" },
-                                Url: { type: "string" },
-                                Position: { type: "number" },
-                                Enabled: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Text", dir: "asc" },
-                    filter: {
-                        logic: "and",
-                        filters: [
-                          { field: "MenuId", operator: "eq", value: self.parent.menuModel.id() },
-                          { field: "ParentId", operator: "eq", value: null }
-                        ]
+            GridHelper.initKendoDetailGrid(
+                "ItemsGrid",
+                "/odata/mantle/cms/MenuItemApi",
+                {
+                    id: "Id",
+                    fields: {
+                        Text: { type: "string" },
+                        Url: { type: "string" },
+                        Position: { type: "number" },
+                        Enabled: { type: "boolean" }
                     }
                 },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
-                    }
-                },
-                filterable: true,
-                sortable: {
-                    allowUnsort: false
-                },
-                pageable: {
-                    refresh: true
-                },
-                scrollable: false,
-                columns: [{
+                [{
                     field: "Text",
                     title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Text'),
                     filterable: true
@@ -148,9 +88,20 @@
                     filterable: false,
                     width: 220
                 }],
-                detailTemplate: kendo.template($("#items-template").html()),
-                detailInit: self.parent.menuItemModel.detailInit
-            });
+                self.gridPageSize,
+                { field: "Text", dir: "asc" }, // sort
+                // filter
+                {
+                    logic: "and",
+                    filters: [
+                        { field: "MenuId", operator: "eq", value: self.parent.menuModel.id() },
+                        { field: "ParentId", operator: "eq", value: null }
+                    ]
+                },
+                kendo.template($("#items-template").html()), // detailTemplate
+                self.parent.menuItemModel.detailInit, // detailInit
+                GridHelper.odataParameterMapWithGuidFix
+            );
         };
         self.create = function (menuId, parentId) {
             self.id(emptyGuid);
@@ -258,70 +209,19 @@
                 }
             });
 
-            detailRow.find(".detail-grid").kendoGrid({
-                data: null,
-                dataSource: {
-                    type: "odata",
-                    transport: {
-                        read: {
-                            url: "/odata/mantle/cms/MenuItemApi",
-                            dataType: "json"
-                        },
-                        parameterMap: function (options, operation) {
-                            let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
-                            if (paramMap.$inlinecount) {
-                                if (paramMap.$inlinecount == "allpages") {
-                                    paramMap.$count = true;
-                                }
-                                delete paramMap.$inlinecount;
-                            }
-                            if (paramMap.$filter) {
-                                paramMap.$filter = paramMap.$filter.replace(/substringof\((.+),(.*?)\)/, "contains($2,$1)");
-
-                                // Fix for GUIDs
-                                const guid = /'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/ig;
-                                paramMap.$filter = paramMap.$filter.replace(guid, "$1");
-                            }
-                            return paramMap;
-                        }
-                    },
-                    schema: {
-                        data: function (data) {
-                            return data.value;
-                        },
-                        total: function (data) {
-                            return data["@odata.count"];
-                        },
-                        model: {
-                            id: "Id",
-                            fields: {
-                                Text: { type: "string" },
-                                Url: { type: "string" },
-                                Position: { type: "number" },
-                                Enabled: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: self.gridPageSize,
-                    //serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true,
-                    sort: { field: "Text", dir: "asc" },
-                    filter: { field: "ParentId", operator: "eq", value: e.data.Id }
-                },
-                dataBound: function (e) {
-                    let body = this.element.find("tbody")[0];
-                    if (body) {
-                        ko.cleanNode(body);
-                        ko.applyBindings(ko.dataFor(body), body);
+            GridHelper.initKendoDetailGridByElement(
+                detailRow.find(".detail-grid"),
+                "/odata/mantle/cms/MenuItemApi",
+                {
+                    id: "Id",
+                    fields: {
+                        Text: { type: "string" },
+                        Url: { type: "string" },
+                        Position: { type: "number" },
+                        Enabled: { type: "boolean" }
                     }
                 },
-                pageable: false,
-                //pageable: {
-                //    refresh: true
-                //},
-                scrollable: false,
-                columns: [{
+                [{
                     field: "Text",
                     title: MantleI18N.t('Mantle.Web.ContentManagement/Menus.MenuItemModel.Text'),
                     filterable: true
@@ -355,9 +255,13 @@
                     filterable: false,
                     width: 220
                 }],
-                detailTemplate: kendo.template($("#items-template").html()),
-                detailInit: self.parent.menuItemModel.detailInit
-            });
+                self.gridPageSize,
+                { field: "Text", dir: "asc" }, // sort
+                { field: "ParentId", operator: "eq", value: e.data.Id }, // filter
+                kendo.template($("#items-template").html()), // detailTemplate
+                self.parent.menuItemModel.detailInit, // detailInit
+                GridHelper.odataParameterMapWithGuidFix
+            );
         }
     };
 
