@@ -1,5 +1,4 @@
-﻿using Mantle.Data.Entity;
-using Mantle.Data.Services;
+﻿using Mantle.Data.Services;
 using Mantle.Localization;
 using Mantle.Security.Membership;
 using Mantle.Web.CommonResources.ScriptBuilder.Toasts;
@@ -21,7 +20,7 @@ public class DependencyRegistrar : IDependencyRegistrar
 
         builder.Register<IDbContextFactory, ApplicationDbContextFactory>(ServiceLifetime.Singleton);
 
-        builder.RegisterGeneric(typeof(IRepository<>), typeof(MantleEntityFrameworkRepository<>), ServiceLifetime.Scoped);
+        builder.RegisterGeneric(typeof(IRepository<>), typeof(EntityFrameworkRepository<>), ServiceLifetime.Scoped);
 
         builder.Register<IMantleEntityFrameworkHelper, SqlServerEntityFrameworkHelper>(ServiceLifetime.Singleton);
 

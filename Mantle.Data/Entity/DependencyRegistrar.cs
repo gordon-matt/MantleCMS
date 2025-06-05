@@ -6,8 +6,6 @@ namespace Mantle.Data.Entity;
 
 public class DependencyRegistrar : IDependencyRegistrar
 {
-    #region IDependencyRegistrar Members
-
     public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
     {
         var entityTypeConfigurations = typeFinder
@@ -31,6 +29,4 @@ public class DependencyRegistrar : IDependencyRegistrar
     }
 
     public int Order => 0;
-
-    #endregion IDependencyRegistrar Members
 }

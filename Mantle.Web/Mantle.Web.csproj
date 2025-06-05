@@ -27,7 +27,7 @@
   <ItemGroup>
     <PackageReference Include="Extenso.AspNetCore.Mvc" Version="9.3.0" />
     <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="9.3.0" />
-    <PackageReference Include="Extenso.AspNetCore.OData" Version="9.3.0" />
+    <PackageReference Include="Extenso.AspNetCore.OData" Version="9.3.1" />
     <PackageReference Include="Extenso.Core" Version="9.3.0" />
     <PackageReference Include="Extenso.Data" Version="9.3.0" />
     <PackageReference Include="KendoGridBinder.AspNetCore" Version="3.2.1" />

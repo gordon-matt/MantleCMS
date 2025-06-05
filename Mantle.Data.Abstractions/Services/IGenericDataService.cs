@@ -91,19 +91,13 @@ public interface IGenericDataService<TEntity> where TEntity : class
 
     #region Update
 
-    int Update(TEntity entity);
+    TEntity Update(TEntity entity);
 
-    int Update(IEnumerable<TEntity> entities);
+    IEnumerable<TEntity> Update(IEnumerable<TEntity> entities);
 
-    Task<int> UpdateAsync(TEntity entity);
+    Task<TEntity> UpdateAsync(TEntity entity);
 
-    Task<int> UpdateAsync(IEnumerable<TEntity> entities);
-
-    //int Update(Expression<Func<TEntity, TEntity>> updateExpression);
-
-    //int Update(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression);
-
-    //int Update(IQueryable<TEntity> query, Expression<Func<TEntity, TEntity>> updateExpression);
+    Task<IEnumerable<TEntity>> UpdateAsync(IEnumerable<TEntity> entities);
 
     #endregion Update
 }
