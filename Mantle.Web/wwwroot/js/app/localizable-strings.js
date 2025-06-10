@@ -11,22 +11,22 @@
 
     const odataBaseUrl = "/odata/mantle/web/LocalizableStringApi/";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
+            this.cultureCode = null;
+        }
+        
+        activate = (cultureCode) => {
+            this.cultureCode = cultureCode;
 
-        self.gridPageSize = 10;
-        self.cultureCode = null;
-
-        self.activate = function (cultureCode) {
-            self.cultureCode = cultureCode;
-
-            if (!self.cultureCode) {
-                self.cultureCode = null;
+            if (!this.cultureCode) {
+                this.cultureCode = null;
             }
         };
-        self.attached = async function () {
 
-            self.gridPageSize = $("#GridPageSize").val();
+        attached = async () => {
+            this.gridPageSize = $("#GridPageSize").val();
 
             $("#Grid").kendoGrid({
                 data: null,
@@ -34,7 +34,7 @@
                     type: "odata",
                     transport: {
                         read: {
-                            url: odataBaseUrl + "Default.GetComparitiveTable(cultureCode='" + self.cultureCode + "')",
+                            url: odataBaseUrl + "Default.GetComparitiveTable(cultureCode='" + this.cultureCode + "')",
                             dataType: "json"
                         },
                         update: {
@@ -49,7 +49,7 @@
                             contentType: "application/json",
                             type: "POST"
                         },
-                        parameterMap: function (options, operation) {
+                        parameterMap: function(options, operation) {
                             if (operation === "read") {
                                 let paramMap = kendo.data.transports.odata.parameterMap(options);
                                 if (paramMap.$inlinecount) {
@@ -65,24 +65,24 @@
                             }
                             else if (operation === "update") {
                                 return kendo.stringify({
-                                    cultureCode: self.cultureCode,
+                                    cultureCode: this.cultureCode,
                                     key: options.Key,
                                     entity: options
                                 });
                             }
                             else if (operation === "destroy") {
                                 return kendo.stringify({
-                                    cultureCode: self.cultureCode,
+                                    cultureCode: this.cultureCode,
                                     key: options.Key
                                 });
                             }
                         }
                     },
                     schema: {
-                        data: function (data) {
+                        data: function(data) {
                             return data.value;
                         },
-                        total: function (data) {
+                        total: function(data) {
                             return data["@odata.count"];
                         },
                         model: {
@@ -95,13 +95,13 @@
                         }
                     },
                     batch: false,
-                    pageSize: self.gridPageSize,
+                    pageSize: this.gridPageSize,
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true,
                     sort: { field: "Key", dir: "asc" }
                 },
-                dataBound: function (e) {
+                dataBound: function(e) {
                     let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
@@ -113,14 +113,14 @@
                     $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
                     $(".k-grid-delete").addClass("btn btn-danger btn-sm");
                 },
-                edit: function (e) {
+                edit: function(e) {
                     $(".k-grid-update").html("Update");
                     $(".k-grid-cancel").html("Cancel");
                     $(".k-grid-update").addClass("btn btn-success btn-sm");
                     $(".k-grid-cancel").addClass("btn btn-secondary btn-sm");
                 },
-                cancel: function (e) {
-                    setTimeout(function () {
+                cancel: function(e) {
+                    setTimeout(function() {
                         $(".k-grid-edit").html("Edit");
                         $(".k-grid-delete").html("Delete");
                         $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
@@ -157,15 +157,16 @@
                 editable: "inline"
             });
         };
-        self.exportFile = function () {
+
+        exportFile = () => {
             const downloadForm = $("<form>")
                 .attr("method", "GET")
-                .attr("action", "/admin/localization/localizable-strings/export/" + self.cultureCode);
+                .attr("action", "/admin/localization/localizable-strings/export/" + this.cultureCode);
             $("body").append(downloadForm);
             downloadForm.submit();
             downloadForm.remove();
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

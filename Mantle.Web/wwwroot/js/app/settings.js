@@ -19,20 +19,20 @@
 
     ko.mapping = koMap;
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.id = ko.observable(emptyGuid);
+            this.name = ko.observable("");
+            this.type = ko.observable("");
+            this.value = ko.observable(null);
+        }
 
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable("");
-        self.type = ko.observable("");
-        self.value = ko.observable(null);
-
-        self.attached = async function () {
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
                 "Grid",
@@ -55,22 +55,23 @@
                     filterable: false,
                     width: 120
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.edit = async function (id) {
-            const data = await ODataHelper.getOData(`${apiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.type(data.Type);
-            self.value(data.Value);
 
-            await fetch(`/admin/configuration/settings/get-editor-ui/${self.type().replaceAll('.', '-')}`)
+        edit = async (id) => {
+            const data = await ODataHelper.getOData(`${apiUrl}(${id})`);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.type(data.Type);
+            this.value(data.Value);
+
+            await fetch(`/admin/configuration/settings/get-editor-ui/${this.type().replaceAll('.', '-')}`)
                 .then(response => response.json())
                 .then((data) => {
                     // Clean up from previously injected html/scripts
                     if (typeof cleanUp == 'function') {
-                        cleanUp(self);
+                        cleanUp(this);
                     }
 
                     // Remove Old Scripts
@@ -96,19 +97,19 @@
                     const scripts = result.filter('script');
 
                     for (const script of scripts) {
-                        $(script).attr("data-settings-script", "true");//for some reason, .data("settings-script", "true") doesn't work here
+                        $(script).attr("data-settings-script", "true"); //for some reason, .data("settings-script", "true") doesn't work here
                         $(script).appendTo('body');
                     }
 
                     // Update Bindings
                     // Ensure the function exists before calling it...
                     if (typeof updateModel == 'function') {
-                        const data = ko.toJS(ko.mapping.fromJSON(self.value()));
-                        updateModel(self, data);
-                        ko.applyBindings(self, elementToBind);
+                        const data = ko.toJS(ko.mapping.fromJSON(this.value()));
+                        updateModel(this, data);
+                        ko.applyBindings(this, elementToBind);
                     }
 
-                    //self.validator.resetForm();
+                    //this.validator.resetForm();
                     switchSection($("#form-section"));
                 })
                 .catch(error => {
@@ -116,25 +117,27 @@
                     console.error('Error: ', error);
                 });
         };
-        self.save = async function () {
+
+        save = async () => {
             // ensure the function exists before calling it...
             if (typeof onBeforeSave == 'function') {
-                onBeforeSave(self);
+                onBeforeSave(this);
             }
 
-            await ODataHelper.putOData(`${apiUrl}(${self.id()})`, {
-                Id: self.id(),
-                Name: self.name(),
-                Type: self.type(),
-                Value: self.value()
+            await ODataHelper.putOData(`${apiUrl}(${this.id()})`, {
+                Id: this.id(),
+                Name: this.name(),
+                Type: this.type(),
+                Value: this.value()
             });
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#grid-section"));
         };
 
-        self.setResources = function (resources) {
-            if (!self.resources) {
+        setResources = (resources) => {
+            if (!this.resources) {
                 console.error('Could not find an observable array named "resources".');
                 return;
             }
@@ -150,31 +153,31 @@
                 viewModel.resources.push(item);
             }
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;
 });
 
-const RequiredResourceModel = function (model) {
-    const self = this;
+class RequiredResourceModel {
+    constructor(model) {
+        this.Type = model.Type;
+        this.Order = model.Order;
+        this.Path = ko.observable(model.Path);
+    }
+}
 
-    self.Type = model.Type;
-    self.Order = model.Order;
-    self.Path = ko.observable(model.Path);
-};
+class RequiredResourceCollectionModel {
+    constructor() {
+        this.Name = null;
+        this.Resources = ko.observableArray([]);
+    }
 
-const RequiredResourceCollectionModel = function () {
-    const self = this;
-
-    self.Name = null;
-    self.Resources = ko.observableArray([]);
-
-    self.init = function (resource) {
-        self.Name = resource.Name;
+    init = (resource) => {
+        this.Name = resource.Name;
 
         for (const model of resource.Resources) {
-            self.Resources.push(new RequiredResourceModel(model));
+            this.Resources.push(new RequiredResourceModel(model));
         };
     };
-};
+}

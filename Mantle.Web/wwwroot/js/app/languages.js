@@ -17,26 +17,26 @@
 
     const apiUrl = "/odata/mantle/web/LanguageApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.id = ko.observable(emptyGuid);
+            this.name = ko.observable(null);
+            this.cultureCode = ko.observable(null);
+            this.isRTL = ko.observable(false);
+            this.isEnabled = ko.observable(false);
+            this.sortOrder = ko.observable(0);
 
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
-        self.cultureCode = ko.observable(null);
-        self.isRTL = ko.observable(false);
-        self.isEnabled = ko.observable(false);
-        self.sortOrder = ko.observable(0);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.attached = async function () {
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.validator = $("#form-section-form").validate({
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 },
                     CultureCode: { required: true, maxlength: 10 },
@@ -93,8 +93,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         `<a href="\\#localization/localizable-strings/#=CultureCode#" class="btn btn-primary btn-xs">${MantleI18N.t('Mantle.Web/Localization.Localize')}</a>` +
@@ -104,78 +103,78 @@
                     filterable: false,
                     width: 170
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
 
-        self.create = function () {
-            self.id(emptyGuid);
-            self.name(null);
-            self.cultureCode(null);
-            self.isRTL(false);
-            self.isEnabled(false);
-            self.sortOrder(0);
+        create = () => {
+            this.id(emptyGuid);
+            this.name(null);
+            this.cultureCode(null);
+            this.isRTL(false);
+            this.isEnabled(false);
+            this.sortOrder(0);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
-        self.edit = async function (id) {
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${apiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.cultureCode(data.CultureCode);
-            self.isRTL(data.IsRTL);
-            self.isEnabled(data.IsEnabled);
-            self.sortOrder(data.SortOrder);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.cultureCode(data.CultureCode);
+            this.isRTL(data.IsRTL);
+            this.isEnabled(data.IsEnabled);
+            this.sortOrder(data.SortOrder);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
-        self.remove = async function (id) {
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`);
         };
 
-        self.save = async function () {
+        save = async () => {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
-            let cultureCode = self.cultureCode();
+            let cultureCode = this.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
+                Id: this.id(),
+                Name: this.name(),
                 CultureCode: cultureCode,
-                IsRTL: self.isRTL(),
-                IsEnabled: self.isEnabled(),
-                SortOrder: self.sortOrder()
+                IsRTL: this.isRTL(),
+                IsEnabled: this.isEnabled(),
+                SortOrder: this.sortOrder()
             };
 
-            if (self.id() == emptyGuid) {
+            if (this.id() == emptyGuid) {
                 await ODataHelper.postOData(apiUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record);
+                await ODataHelper.putOData(`${apiUrl}(${this.id()})`, record);
             }
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#grid-section"));
         };
 
-        self.onCultureCodeChanged = function () {
+        onCultureCodeChanged = () => {
             const cultureName = $('#CultureCode option:selected').text();
-            self.name(cultureName);
+            this.name(cultureName);
         };
 
-        self.clear = async function () {
+        clear = async () => {
             if (confirm(MantleI18N.t('Mantle.Web/Localization.ResetLocalizableStringsConfirm'))) {
                 await ODataHelper.postOData(`${apiUrl}/Default.ResetLocalizableStrings`, null, () => {
                     MantleNotify.success(MantleI18N.t('Mantle.Web/Localization.ResetLocalizableStringsSuccess'));
@@ -188,10 +187,10 @@
             }
         };
 
-        self.importLanguagePack = function () {
+        importLanguagePack = () => {
             switchSection($("#upload-section"));
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

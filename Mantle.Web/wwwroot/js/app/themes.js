@@ -13,13 +13,13 @@
 
     const apiUrl = "/odata/mantle/web/ThemeApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
+        }
 
-        self.gridPageSize = 10;
-
-        self.attached = async function () {
-            self.gridPageSize = $("#GridPageSize").val();
+        attached = async () => {
+            this.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
                 "Grid",
@@ -53,17 +53,17 @@
                 }, {
                     field: "IsDefaultTheme",
                     title: MantleI18N.t('Mantle.Web/Themes.Model.IsDefaultTheme'),
-                    template:
-                        '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
+                    template: '# if(IsDefaultTheme) {# <i class="fa fa-check-circle fa-2x text-success"></i> #} ' +
                         'else {# <a href="javascript:void(0);" data-bind="click: setTheme.bind($data,\'#=Title#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Set') + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Title", dir: "asc" });
         };
-        self.setTheme = async function (name) {
+
+        setTheme = async (name) => {
             await ODataHelper.postOData(`${apiUrl}/Default.SetTheme`, { themeName: name }, () => {
                 GridHelper.refreshGrid();
                 MantleNotify.success(MantleI18N.t('Mantle.Web/Themes.SetThemeSuccess'));
@@ -71,7 +71,7 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Themes.SetThemeError'));
             });
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

@@ -13,17 +13,16 @@
 
     const odataBaseUrl = "/odata/mantle/cms/XmlSitemapApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
+            this.changeFrequencies = [];
+        }
 
-        self.gridPageSize = 10;
+        attached = async () => {
+            this.gridPageSize = $("#GridPageSize").val();
 
-        self.changeFrequencies = [];
-
-        self.attached = async function () {
-            self.gridPageSize = $("#GridPageSize").val();
-
-            self.changeFrequencies = [
+            this.changeFrequencies = [
                 { "Id": 0, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Always') },
                 { "Id": 1, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Hourly') },
                 { "Id": 2, "Name": MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.Model.ChangeFrequencies.Daily') },
@@ -48,7 +47,7 @@
                             contentType: "application/json",
                             type: "POST"
                         },
-                        parameterMap: function (options, operation) {
+                        parameterMap: function(options, operation) {
                             if (operation === "read") {
                                 let paramMap = kendo.data.transports.odata.parameterMap(options, operation);
                                 if (paramMap.$inlinecount) {
@@ -75,10 +74,10 @@
                         }
                     },
                     schema: {
-                        data: function (data) {
+                        data: function(data) {
                             return data.value;
                         },
-                        total: function (data) {
+                        total: function(data) {
                             return data["@odata.count"];
                         },
                         model: {
@@ -91,19 +90,19 @@
                             }
                         }
                     },
-                    sync: function (e) {
+                    sync: function(e) {
                         // Refresh grid after save (not ideal, but if we don't, then the enum column (ChangeFrequency) shows
                         //  a number instead of the name). Haven't found a better solution yet.
                         GridHelper.refreshGrid();
                     },
                     batch: false,
-                    pageSize: self.gridPageSize,
+                    pageSize: this.gridPageSize,
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true,
                     sort: { field: "Location", dir: "asc" }
                 },
-                dataBound: function (e) {
+                dataBound: function(e) {
                     let body = this.element.find("tbody")[0];
                     if (body) {
                         ko.cleanNode(body);
@@ -113,14 +112,14 @@
                     $(".k-grid-edit").html("Edit");
                     $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
                 },
-                edit: function (e) {
+                edit: function(e) {
                     $(".k-grid-update").html("Update");
                     $(".k-grid-cancel").html("Cancel");
                     $(".k-grid-update").addClass("btn btn-success btn-sm");
                     $(".k-grid-cancel").addClass("btn btn-secondary btn-sm");
                 },
-                cancel: function (e) {
-                    setTimeout(function () {
+                cancel: function(e) {
+                    setTimeout(function() {
                         $(".k-grid-edit").html("Edit");
                         $(".k-grid-edit").addClass("btn btn-secondary btn-sm");
                     }, 0);
@@ -145,7 +144,7 @@
                     field: "ChangeFrequency",
                     title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.ChangeFrequency'),
                     filterable: false,
-                    editor: self.changeFrequenciesDropDownEditor
+                    editor: this.changeFrequenciesDropDownEditor
                 }, {
                     field: "Priority",
                     title: MantleI18N.t('Mantle.Web.ContentManagement/SitemapModel.Priority'),
@@ -161,9 +160,9 @@
             });
         };
 
-        self.getChangeFrequencyIndex = function (name) {
-            for (let i = 0; i < self.changeFrequencies.length; i++) {
-                const item = self.changeFrequencies[i];
+        getChangeFrequencyIndex = (name) => {
+            for (let i = 0; i < this.changeFrequencies.length; i++) {
+                const item = this.changeFrequencies[i];
                 if (item.Name == name) {
                     return i;
                 }
@@ -171,25 +170,25 @@
             return 3;
         };
 
-        self.changeFrequenciesDropDownEditor = function (container, options) {
+        changeFrequenciesDropDownEditor = (container, options) => {
             $('<input id="test" required data-text-field="Name" data-value-field="Id" data-bind="value:' + options.field + '"/>')
                 .appendTo(container)
                 .kendoDropDownList({
                     autoBind: false,
                     dataSource: new kendo.data.DataSource({
-                        data: self.changeFrequencies
+                        data: this.changeFrequencies
                     }),
                     template: "#=data.Name#"
                 });
 
-            const selectedIndex = self.getChangeFrequencyIndex(options.model.ChangeFrequency);
-            setTimeout(function () {
+            const selectedIndex = this.getChangeFrequencyIndex(options.model.ChangeFrequency);
+            setTimeout(function() {
                 const dropdownlist = $("#test").data("kendoDropDownList");
                 dropdownlist.select(selectedIndex);
             }, 200);
-        }
+        };
 
-        self.generateFile = async function () {
+        generateFile = async () => {
             if (confirm(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.ConfirmGenerateFile'))) {
                 await ODataHelper.postOData(`${odataBaseUrl}/Default.Generate`, null, () => {
                     MantleNotify.success(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.GenerateFileSuccess'));
@@ -197,8 +196,8 @@
                     MantleNotify.error(MantleI18N.t('Mantle.Web.ContentManagement/Sitemap.GenerateFileError'));
                 });
             }
-        }
-    };
+        };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

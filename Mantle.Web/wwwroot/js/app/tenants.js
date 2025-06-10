@@ -15,24 +15,23 @@
 
     const odataBaseUrl = "/odata/mantle/web/TenantApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.url = ko.observable(null);
+            this.hosts = ko.observable(null);
 
-        self.gridPageSize = 10;
+            this.gridPageSize = 10;
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.url = ko.observable(null);
-        self.hosts = ko.observable(null);
-
-        self.attached = async function () {
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.validator = $("#form-section-form").validate({
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 },
                     Url: { required: true, maxlength: 255 },
@@ -52,66 +51,66 @@
                     title: MantleI18N.t('Mantle.Web/General.Name'),
                     filterable: true
                 },
-                    GridHelper.defaultActionColumn(
-                        MantleI18N.t('Mantle.Web/General.Edit'),
-                        MantleI18N.t('Mantle.Web/General.Delete'))
-                ],
-                self.gridPageSize,
+                GridHelper.defaultActionColumn(
+                    MantleI18N.t('Mantle.Web/General.Edit'),
+                    MantleI18N.t('Mantle.Web/General.Delete'))
+            ],
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
 
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.url(null);
-            self.hosts(null);
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.url(null);
+            this.hosts(null);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
-        self.edit = async function (id) {
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.url(data.Url);
-            self.hosts(data.Hosts);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.url(data.Url);
+            this.hosts(data.Hosts);
 
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
-        self.remove = async function (id) {
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${odataBaseUrl}(${id})`);
         };
 
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                Url: self.url(),
-                Hosts: self.hosts()
+                Id: this.id(),
+                Name: this.name(),
+                Url: this.url(),
+                Hosts: this.hosts()
             };
 
             if (isNew) {
                 await ODataHelper.postOData(odataBaseUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
+                await ODataHelper.putOData(`${odataBaseUrl}(${this.id()})`, record);
             }
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#grid-section"));
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

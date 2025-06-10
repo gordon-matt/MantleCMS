@@ -23,46 +23,45 @@
     const templateApiUrl = "/odata/mantle/web/messaging/MessageTemplateApi";
     const templateVersionApiUrl = "/odata/mantle/web/messaging/MessageTemplateVersionApi";
 
-    const TemplateVersionModel = function (parent) {
-        const self = this;
+    class TemplateVersionModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.messageTemplateId = ko.observable(0);
+            this.cultureCode = ko.observable(null);
+            this.subject = ko.observable(null);
+            this.data = ko.observable('');
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.messageTemplateId = ko.observable(0);
-        self.cultureCode = ko.observable(null);
-        self.subject = ko.observable(null);
-        self.data = ko.observable('');
+            this.tinyMCEConfig = mantleDefaultTinyMCEConfig;
+        }
 
-        self.tinyMCEConfig = mantleDefaultTinyMCEConfig;
-
-        self.init = function () {
-
+        init = () => {
         };
-    };
+    }
 
-    const TemplateModel = function (parent) {
-        const self = this;
+    class TemplateModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.editor = ko.observable("[Default]");
+            this.ownerId = ko.observable(null);
+            this.enabled = ko.observable(false);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.editor = ko.observable("[Default]");
-        self.ownerId = ko.observable(null);
-        self.enabled = ko.observable(false);
+            this.inEditMode = ko.observable(false);
 
-        self.inEditMode = ko.observable(false);
+            this.validator = false;
+            this.versionValidator = false;
+        }
 
-        self.validator = false;
-        self.versionValidator = false;
-
-        self.init = function () {
-            self.validator = $("#form-section-form").validate({
+        init = () => {
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 }
                 }
             });
 
-            self.versionValidator = $("#form-section-form").validate({
+            this.versionValidator = $("#form-section-form").validate({
                 rules: {
                     Subject: { required: true, maxlength: 255 },
                     Data: { required: true }
@@ -85,7 +84,7 @@
                     filterable: true
                 }, {
                     field: "Editor",
-                    title: MantleI18N.t('Mantle.Web.Messaging/MessageTemplate.Editor'), //TODO: Render as logo?
+                    title: MantleI18N.t('Mantle.Web.Messaging/MessageTemplate.Editor'),
                     filterable: true
                 }, {
                     field: "Enabled",
@@ -97,8 +96,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("templateModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("templateModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("templateModel.toggleEnabled", "fa fa-toggle-on", MantleI18N.t('Mantle.Web/General.Toggle'), 'secondary', `\'#=Id#\',#=Enabled#`) +
@@ -108,42 +106,45 @@
                     filterable: false,
                     width: 200
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.parent.currentCulture = null;
 
-            self.id(0);
-            self.name(null);
-            self.editor("[Default]");
-            self.ownerId(null);
-            self.enabled(false);
+        create = () => {
+            this.parent.currentCulture = null;
+
+            this.id(0);
+            this.name(null);
+            this.editor("[Default]");
+            this.ownerId(null);
+            this.enabled(false);
 
             $("#tokens-list").html("");
 
-            self.inEditMode(false);
+            this.inEditMode(false);
 
-            self.setupVersionCreateSection();
+            this.setupVersionCreateSection();
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.setupVersionCreateSection = function () {
-            self.parent.templateVersionModel.id(0);
-            self.parent.templateVersionModel.messageTemplateId(0);
-            self.parent.templateVersionModel.cultureCode(self.parent.currentCulture);
-            self.parent.templateVersionModel.subject(null);
-            self.parent.templateVersionModel.data('');
-            self.versionValidator.resetForm();
+
+        setupVersionCreateSection = () => {
+            this.parent.templateVersionModel.id(0);
+            this.parent.templateVersionModel.messageTemplateId(0);
+            this.parent.templateVersionModel.cultureCode(this.parent.currentCulture);
+            this.parent.templateVersionModel.subject(null);
+            this.parent.templateVersionModel.data('');
+            this.versionValidator.resetForm();
         };
-        self.edit = async function (id, cultureCode) {
+
+        edit = async (id, cultureCode) => {
             if (cultureCode && cultureCode != 'null') {
-                self.parent.currentCulture = cultureCode;
+                this.parent.currentCulture = cultureCode;
             }
             else {
-                self.parent.currentCulture = null;
+                this.parent.currentCulture = null;
             }
 
             //---------------------------------------------------------------------------------------
@@ -152,7 +153,7 @@
             const template = await ODataHelper.getOData(`${templateApiUrl}(${id})`);
 
             if (template.Editor != "[Default]") {
-                const editor = $.grep(parent.messageTemplateEditors, function (e) { return e.name == template.Editor; })[0];
+                const editor = $.grep(parent.messageTemplateEditors, function(e) { return e.name == template.Editor; })[0];
                 const url = editor.urlFormat.format(id, cultureCode == null ? "" : cultureCode);
 
                 if (editor.openInNewWindow) {
@@ -164,29 +165,29 @@
                 return;
             }
 
-            self.id(template.Id);
-            self.name(template.Name);
-            self.editor(template.Editor);
-            self.ownerId(template.OwnerId);
-            self.enabled(template.Enabled);
+            this.id(template.Id);
+            this.name(template.Name);
+            this.editor(template.Editor);
+            this.ownerId(template.OwnerId);
+            this.enabled(template.Enabled);
 
             //---------------------------------------------------------------------------------------
             // Get Template Version
             //---------------------------------------------------------------------------------------
             let getCurrentVersionUrl = "";
-            if (self.parent.currentCulture) {
-                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${self.id()},cultureCode='${self.parent.currentCulture}')`;
+            if (this.parent.currentCulture) {
+                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${this.id()},cultureCode='${this.parent.currentCulture}')`;
             }
             else {
-                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${self.id()},cultureCode=null)`;
+                getCurrentVersionUrl = `${templateVersionApiUrl}/Default.GetCurrentVersion(templateId=${this.id()},cultureCode=null)`;
             }
 
             const version = await ODataHelper.getOData(getCurrentVersionUrl);
-            self.setupVersionEditSection(version);
+            this.setupVersionEditSection(version);
 
             $("#tokens-list").html("");
 
-            const tokens = await ODataHelper.getOData(`${templateApiUrl}/Default.GetTokens(templateName='${self.name()}')`);
+            const tokens = await ODataHelper.getOData(`${templateApiUrl}/Default.GetTokens(templateName='${this.name()}')`);
             if (tokens.value && tokens.value.length > 0) {
                 let s = '';
                 for (const token of tokens.value) {
@@ -195,40 +196,42 @@
                 $("#tokens-list").html(s);
             }
 
-            self.inEditMode(true);
-            self.validator.resetForm();
+            this.inEditMode(true);
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
             //---------------------------------------------------------------------------------------
             // END: Get Template
             //---------------------------------------------------------------------------------------
         };
-        self.setupVersionEditSection = function (json) {
-            self.parent.templateVersionModel.id(json.Id);
-            self.parent.templateVersionModel.messageTemplateId(json.MessageTemplateId);
+
+        setupVersionEditSection = (json) => {
+            this.parent.templateVersionModel.id(json.Id);
+            this.parent.templateVersionModel.messageTemplateId(json.MessageTemplateId);
 
             // Don't do this, since API may return invariant version if localized does not exist yet...
-            //self.parent.templateVersionModel.cultureCode(json.CultureCode);
-
+            //this.parent.templateVersionModel.cultureCode(json.CultureCode);
             // So do this instead...
-            self.parent.templateVersionModel.cultureCode(self.parent.currentCulture);
+            this.parent.templateVersionModel.cultureCode(this.parent.currentCulture);
 
-            self.parent.templateVersionModel.subject(json.Subject);
+            this.parent.templateVersionModel.subject(json.Subject);
 
             if (json.Data == null) {
-                self.parent.templateVersionModel.data(''); // Bug fix for TinyMCE (it doesn't like NULLS and throws an error).
+                this.parent.templateVersionModel.data(''); // Bug fix for TinyMCE (it doesn't like NULLS and throws an error).
             }
             else {
-                self.parent.templateVersionModel.data(json.Data);
+                this.parent.templateVersionModel.data(json.Data);
             }
 
-            self.versionValidator.resetForm();
+            this.versionValidator.resetForm();
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${templateApiUrl}(${id})`);
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#form-section-form").valid()) {
                 return false;
@@ -241,93 +244,98 @@
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                Editor: self.editor(),
-                OwnerId: self.ownerId(),
-                Enabled: self.enabled()
+                Id: this.id(),
+                Name: this.name(),
+                Editor: this.editor(),
+                OwnerId: this.ownerId(),
+                Enabled: this.enabled()
             };
 
             if (isNew) {
                 await ODataHelper.postOData(templateApiUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${templateApiUrl}(${self.id()})`, record);
-                await self.saveVersion();
+                await ODataHelper.putOData(`${templateApiUrl}(${this.id()})`, record);
+                await this.saveVersion();
             }
 
             switchSection($("#grid-section"));
         };
-        self.saveVersion = async function () {
-            let cultureCode = self.parent.templateVersionModel.cultureCode();
+
+        saveVersion = async () => {
+            let cultureCode = this.parent.templateVersionModel.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
 
             const record = {
-                Id: self.parent.templateVersionModel.id(), // Should always create a new one, so don't send Id!
-                MessageTemplateId: self.parent.templateVersionModel.messageTemplateId(),
+                Id: this.parent.templateVersionModel.id(),
+                MessageTemplateId: this.parent.templateVersionModel.messageTemplateId(),
                 CultureCode: cultureCode,
-                Subject: self.parent.templateVersionModel.subject(),
-                Data: self.parent.templateVersionModel.data()
+                Subject: this.parent.templateVersionModel.subject(),
+                Data: this.parent.templateVersionModel.data()
             };
 
-            await ODataHelper.putOData(`${templateVersionApiUrl}(${self.parent.templateVersionModel.id() })`, record);
+            await ODataHelper.putOData(`${templateVersionApiUrl}(${this.parent.templateVersionModel.id()})`, record);
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#grid-section"));
         };
-        self.toggleEnabled = async function (id, isEnabled) {
+
+        toggleEnabled = async (id, isEnabled) => {
             await ODataHelper.patchOData(`${templateApiUrl}(${id})`, {
                 Enabled: !isEnabled
             });
         };
 
-        self.localize = function (id) {
+        localize = (id) => {
             $("#TemplateIdToLocalize").val(id);
             $("#cultureModal").modal("show");
         };
-        self.onCultureSelected = function () {
+
+        onCultureSelected = () => {
             const id = $("#TemplateIdToLocalize").val();
             const cultureCode = $("#CultureCode").val();
-            self.edit(id, cultureCode);
+            this.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
+            this.messageTemplateEditors = [];
+            this.currentCulture = null;
 
-        self.gridPageSize = 10;
-        self.messageTemplateEditors = [];
-        self.currentCulture = null;
+            this.templateModel = false;
+            this.templateVersionModel = false;
+        }
 
-        self.templateModel = false;
-        self.templateVersionModel = false;
-
-        self.activate = function () {
-            self.templateModel = new TemplateModel(self);
-            self.templateVersionModel = new TemplateVersionModel(self);
+        activate = () => {
+            this.templateModel = new TemplateModel(this);
+            this.templateVersionModel = new TemplateVersionModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#grid-section");
 
             // Load editors
             await fetch("/admin/messaging/templates/get-available-editors")
                 .then(response => response.json())
                 .then((data) => {
-                    self.messageTemplateEditors = data;
+                    this.messageTemplateEditors = data;
                 })
                 .catch(error => {
                     console.error('Error: ', error);
                 });
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.templateVersionModel.init();
-            self.templateModel.init();
+            this.templateVersionModel.init();
+            this.templateModel.init();
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

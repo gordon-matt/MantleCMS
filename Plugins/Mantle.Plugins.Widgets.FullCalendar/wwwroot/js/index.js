@@ -17,20 +17,20 @@
     const calendarApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarApi";
     const eventApiUrl = "/odata/Mantle/plugins/full-calendar/CalendarEventApi";
 
-    const EventModel = function (parent) {
-        const self = this;
+    class EventModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.calendarId = ko.observable(0);
+            this.name = ko.observable(null);
+            this.startDateTime = ko.observable('');
+            this.endDateTime = ko.observable('');
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.calendarId = ko.observable(0);
-        self.name = ko.observable(null);
-        self.startDateTime = ko.observable('');
-        self.endDateTime = ko.observable('');
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#events-form-section-form").validate({
+        init = () => {
+            this.validator = $("#events-form-section-form").validate({
                 rules: {
                     Event_Name: { required: true, maxlength: 255 },
                     Event_StartDateTime: { required: true, date: true },
@@ -61,8 +61,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("eventModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("eventModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
@@ -70,54 +69,58 @@
                     filterable: false,
                     width: 180
                 }],
-                self.gridPageSize,
+                this.parent.gridPageSize,
                 [
                     { field: "StartDateTime", dir: "desc" },
                     { field: "Name", dir: "asc" }
                 ]);
         };
-        self.create = function () {
-            self.id(0);
-            self.calendarId(self.parent.selectedCalendarId());
-            self.name(null);
-            self.startDateTime('');
-            self.endDateTime('');
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(0);
+            this.calendarId(this.parent.selectedCalendarId());
+            this.name(null);
+            this.startDateTime('');
+            this.endDateTime('');
+
+            this.validator.resetForm();
             switchSection($("#events-form-section"));
             $("#events-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
+
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${eventApiUrl}(${id})`);
-            self.id(data.Id);
-            self.calendarId(data.CalendarId);
-            self.name(data.Name);
-            self.startDateTime(data.StartDateTime);
-            self.endDateTime(data.EndDateTime);
-            self.validator.resetForm();
+            this.id(data.Id);
+            this.calendarId(data.CalendarId);
+            this.name(data.Name);
+            this.startDateTime(data.StartDateTime);
+            this.endDateTime(data.EndDateTime);
+            this.validator.resetForm();
             switchSection($("#events-form-section"));
             $("#events-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${eventApiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('EventGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#events-form-section-form").valid()) {
                 return false;
             }
 
-            const startDateTime = moment(self.startDateTime());
-            const endDateTime = moment(self.endDateTime());
+            const startDateTime = moment(this.startDateTime());
+            const endDateTime = moment(this.endDateTime());
 
             const record = {
-                Id: self.id(),
-                CalendarId: self.calendarId(),
-                Name: self.name(),
+                Id: this.id(),
+                CalendarId: this.calendarId(),
+                Name: this.name(),
                 StartDateTime: startDateTime.format('YYYY-MM-DDTHH:mm:00Z'),
                 EndDateTime: endDateTime.format('YYYY-MM-DDTHH:mm:00Z')
             };
@@ -130,32 +133,34 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${eventApiUrl}(${self.id()})`, record, () => {
+                await ODataHelper.putOData(`${eventApiUrl}(${this.id()})`, record, () => {
                     GridHelper.refreshGrid('EventGrid');
                     switchSection($("#events-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
-        self.goBack = function () {
+
+        goBack = () => {
             switchSection($("#grid-section"));
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#events-grid-section"));
         };
-    };
+    }
 
-    const CalendarModel = function (parent) {
-        const self = this;
+    class CalendarModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#form-section-form").validate({
+        init = () => {
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 }
                 }
@@ -174,8 +179,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("showEvents", 'fa fa-calendar', MantleI18N.t('Plugins.Widgets.FullCalendar/Events')) +
                         GridHelper.actionIconButton("calendarModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("calendarModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
@@ -184,75 +188,82 @@
                     filterable: false,
                     width: 180
                 }],
-                self.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(0);
+            this.name(null);
+
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
+
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${calendarApiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.validator.resetForm();
+            this.id(data.Id);
+            this.name(data.Name);
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${calendarApiUrl}(${id})`);
         };
-        self.save = async function () {
+
+        save = async () => {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name()
+                Id: this.id(),
+                Name: this.name()
             };
 
-            if (self.id() == 0) {
+            if (this.id() == 0) {
                 await ODataHelper.postOData(odataBaseUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
+                await ODataHelper.putOData(`${odataBaseUrl}(${this.id()})`, record);
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#grid-section"));
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.calendarModel = false;
+            this.eventModel = false;
 
-        self.calendarModel = false;
-        self.eventModel = false;
+            this.selectedCalendarId = ko.observable(0);
+        }
 
-        self.selectedCalendarId = ko.observable(0);
-
-        self.activate = function () {
-            self.calendarModel = new CalendarModel(self);
-            self.eventModel = new EventModel(self);
+        activate = () => {
+            this.calendarModel = new CalendarModel(this);
+            this.eventModel = new EventModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.calendarModel.init();
-            self.eventModel.init();
+            this.calendarModel.init();
+            this.eventModel.init();
 
             $("#Event_StartDateTime").kendoDateTimePicker();
             $("#Event_EndDateTime").kendoDateTimePicker();
         };
-        self.showEvents = function (calendarId) {
-            self.selectedCalendarId(calendarId);
+
+        showEvents = (calendarId) => {
+            this.selectedCalendarId(calendarId);
 
             const grid = $('#EventGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = `${eventApiUrl}?$filter=CalendarId eq ${calendarId}`;
@@ -260,7 +271,7 @@
 
             switchSection($("#events-grid-section"));
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

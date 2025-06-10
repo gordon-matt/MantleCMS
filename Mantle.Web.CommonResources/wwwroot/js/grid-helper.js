@@ -43,7 +43,6 @@
         gridOptions.detailTemplate = detailTemplate;
         gridOptions.detailInit = detailInit;
         gridElement.kendoGrid(gridOptions);
-        console.log(`initKendoDetailGridByElement for: ${gridElement} initialized with options:`, gridOptions);
     };
 
     static createGridOptions(odataUrl, schemaModel, columns, pageSize, sort, filter, parameterMap) {

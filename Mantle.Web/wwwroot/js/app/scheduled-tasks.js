@@ -15,29 +15,29 @@
 
     const odataBaseUrl = "/odata/mantle/web/ScheduledTaskApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.seconds = ko.observable(0);
+            this.enabled = ko.observable(false);
+            this.stopOnError = ko.observable(false);
 
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.seconds = ko.observable(0);
-        self.enabled = ko.observable(false);
-        self.stopOnError = ko.observable(false);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.attached = async function () {
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.validator = $("#form-section-form").validate({
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Seconds: { required: true }
                 }
             });
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
                 "Grid",
@@ -101,8 +101,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("runNow", 'fa fa-play', MantleI18N.t('Mantle.Web/ScheduledTasks.RunNow'), 'primary') +
                         GridHelper.actionIconButton("edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         '</div>',
@@ -110,44 +109,44 @@
                     filterable: false,
                     width: 150,
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
 
-        self.edit = async function (id) {
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.seconds(data.Seconds);
-            self.enabled(data.Enabled);
-            self.stopOnError(data.StopOnError);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.seconds(data.Seconds);
+            this.enabled(data.Enabled);
+            this.stopOnError(data.StopOnError);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
-        self.save = async function () {
+        save = async () => {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Seconds: self.seconds(),
-                Enabled: self.enabled(),
-                StopOnError: self.stopOnError()
+                Id: this.id(),
+                Seconds: this.seconds(),
+                Enabled: this.enabled(),
+                StopOnError: this.stopOnError()
             };
 
-            await ODataHelper.putOData(`${odataBaseUrl}(${self.id()})`, record);
+            await ODataHelper.putOData(`${odataBaseUrl}(${this.id()})`, record);
             switchSection($("#grid-section"));
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#grid-section"));
         };
 
-        self.runNow = async function (id) {
+        runNow = async (id) => {
             await fetch(`${odataBaseUrl}/Default.RunNow`, {
                 method: "POST",
                 headers: {

@@ -25,29 +25,29 @@
     const categoryApiUrl = "/odata/mantle/cms/BlogCategoryApi";
     const tagApiUrl = "/odata/mantle/cms/BlogTagApi";
 
-    const PostModel = function (parent) {
-        const self = this;
+    class PostModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.categoryId = ko.observable(0);
+            this.headline = ko.observable(null);
+            this.slug = ko.observable(null);
+            this.teaserImageUrl = ko.observable(null);
+            this.shortDescription = ko.observable(null);
+            this.fullDescription = ko.observable(null);
+            this.useExternalLink = ko.observable(false);
+            this.externalLink = ko.observable(null);
+            this.metaKeywords = ko.observable(null);
+            this.metaDescription = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.categoryId = ko.observable(0);
-        self.headline = ko.observable(null);
-        self.slug = ko.observable(null);
-        self.teaserImageUrl = ko.observable(null);
-        self.shortDescription = ko.observable(null);
-        self.fullDescription = ko.observable(null);
-        self.useExternalLink = ko.observable(false);
-        self.externalLink = ko.observable(null);
-        self.metaKeywords = ko.observable(null);
-        self.metaDescription = ko.observable(null);
+            this.availableTags = ko.observableArray([]);
+            this.chosenTags = ko.observableArray([]);
 
-        self.availableTags = ko.observableArray([]);
-        self.chosenTags = ko.observableArray([]);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = async function () {
-            self.validator = $("#post-form-section-form").validate({
+        init = async () => {
+            this.validator = $("#post-form-section-form").validate({
                 rules: {
                     CategoryId: { required: true },
                     Headline: { required: true, maxlength: 255 },
@@ -62,12 +62,11 @@
             await fetch('/odata/mantle/cms/BlogTagApi?$orderby=Name')
                 .then(response => response.json())
                 .then((data) => {
-                    self.availableTags([]);
-                    self.chosenTags([]);
+                    this.availableTags([]);
+                    this.chosenTags([]);
 
-                    $(data.value).each(function () {
-                        const current = this;
-                        self.availableTags.push({ Id: current.Id, Name: current.Name });
+                    data.value.forEach(item => {
+                        this.availableTags.push({ Id: item.Id, Name: item.Name });
                     });
                 })
                 .catch(error => {
@@ -95,8 +94,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("postModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("postModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
@@ -104,80 +102,87 @@
                     filterable: false,
                     width: 150
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "DateCreatedUtc", dir: "desc" });
         };
-        self.create = function () {
-            self.id(emptyGuid);
-            self.categoryId(0);
-            self.headline(null);
-            self.slug(null);
-            self.teaserImageUrl(null);
-            self.shortDescription(null);
-            self.fullDescription('');
-            self.useExternalLink(false);
-            self.externalLink(null);
-            self.metaKeywords(null);
-            self.metaDescription(null);
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(emptyGuid);
+            this.categoryId(0);
+            this.headline(null);
+            this.slug(null);
+            this.teaserImageUrl(null);
+            this.shortDescription(null);
+            this.fullDescription('');
+            this.useExternalLink(false);
+            this.externalLink(null);
+            this.metaKeywords(null);
+            this.metaDescription(null);
+
+            this.validator.resetForm();
             switchSection($("#post-form-section"));
             $("#post-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
+
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${postApiUrl}(${id})?$expand=Tags`);
-            self.id(data.Id);
-            self.categoryId(data.CategoryId);
-            self.headline(data.Headline);
-            self.slug(data.Slug);
-            self.teaserImageUrl(data.TeaserImageUrl);
-            self.shortDescription(data.ShortDescription);
-            self.fullDescription(data.FullDescription);
-            self.useExternalLink(data.UseExternalLink);
-            self.externalLink(data.ExternalLink);
-            self.metaKeywords(data.MetaKeywords);
-            self.metaDescription(data.MetaDescription);
+            this.id(data.Id);
+            this.categoryId(data.CategoryId);
+            this.headline(data.Headline);
+            this.slug(data.Slug);
+            this.teaserImageUrl(data.TeaserImageUrl);
+            this.shortDescription(data.ShortDescription);
+            this.fullDescription(data.FullDescription);
+            this.useExternalLink(data.UseExternalLink);
+            this.externalLink(data.ExternalLink);
+            this.metaKeywords(data.MetaKeywords);
+            this.metaDescription(data.MetaDescription);
 
-            self.chosenTags([]);
-            $(data.Tags).each(function (index, item) {
-                self.chosenTags.push(item.TagId);
-            });
+            this.chosenTags([]);
 
-            self.validator.resetForm();
+            if (data.Tags?.length > 0) {
+                data.Tags.forEach(item => {
+                    this.chosenTags.push(item.TagId);
+                });
+            }
+
+            this.validator.resetForm();
             switchSection($("#post-form-section"));
             $("#post-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${postApiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('PostGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == emptyGuid);
+
+        save = async () => {
+            const isNew = (this.id() == emptyGuid);
 
             if (!$("#post-form-section-form").valid()) {
                 return false;
             }
 
-            const tags = self.chosenTags().map(function (item) {
+            const tags = this.chosenTags().map(function (item) {
                 return {
                     TagId: item
-                }
+                };
             });
 
             const record = {
-                Id: self.id(),
-                CategoryId: self.categoryId(),
-                Headline: self.headline(),
-                Slug: self.slug(),
-                TeaserImageUrl: self.teaserImageUrl(),
-                ShortDescription: self.shortDescription(),
-                FullDescription: self.fullDescription(),
-                UseExternalLink: self.useExternalLink(),
-                ExternalLink: self.externalLink(),
-                MetaKeywords: self.metaKeywords(),
-                MetaDescription: self.metaDescription(),
+                Id: this.id(),
+                CategoryId: this.categoryId(),
+                Headline: this.headline(),
+                Slug: this.slug(),
+                TeaserImageUrl: this.teaserImageUrl(),
+                ShortDescription: this.shortDescription(),
+                FullDescription: this.fullDescription(),
+                UseExternalLink: this.useExternalLink(),
+                ExternalLink: this.externalLink(),
+                MetaKeywords: this.metaKeywords(),
+                MetaDescription: this.metaDescription(),
                 Tags: tags
             };
 
@@ -189,30 +194,31 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${postApiUrl}(${self.id()})`, record, () => {
+                await ODataHelper.putOData(`${postApiUrl}(${this.id()})`, record, () => {
                     GridHelper.refreshGrid('PostGrid');
                     switchSection($("#post-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#post-grid-section"));
         };
-    };
+    }
 
-    const CategoryModel = function (parent) {
-        const self = this;
+    class CategoryModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.urlSlug = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.urlSlug = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#category-form-section-form").validate({
+        init = () => {
+            this.validator = $("#category-form-section-form").validate({
                 rules: {
                     Category_Name: { required: true, maxlength: 255 },
                     Category_UrlSlug: { required: true, maxlength: 255 }
@@ -233,8 +239,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("categoryModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("categoryModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
@@ -242,45 +247,49 @@
                     filterable: false,
                     width: 150
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.urlSlug(null);
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.urlSlug(null);
+
+            this.validator.resetForm();
             switchSection($("#category-form-section"));
             $("#category-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
-            const data = await ODataHelper.getOData(`${categoryApiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.urlSlug(data.UrlSlug);
 
-            self.validator.resetForm();
+        edit = async (id) => {
+            const data = await ODataHelper.getOData(`${categoryApiUrl}(${id})`);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.urlSlug(data.UrlSlug);
+
+            this.validator.resetForm();
             switchSection($("#category-form-section"));
             $("#category-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${categoryApiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('CategoryGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#category-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                UrlSlug: self.urlSlug(),
+                Id: this.id(),
+                Name: this.name(),
+                UrlSlug: this.urlSlug(),
             };
 
             if (isNew) {
@@ -291,30 +300,31 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${categoryApiUrl}(${self.id()})`, record, () => {
+                await ODataHelper.putOData(`${categoryApiUrl}(${this.id()})`, record, () => {
                     GridHelper.refreshGrid('CategoryGrid');
                     switchSection($("#category-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#category-grid-section"));
         };
-    };
+    }
 
-    const TagModel = function (parent) {
-        const self = this;
+    class TagModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.urlSlug = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.urlSlug = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#tag-form-section-form").validate({
+        init = () => {
+            this.validator = $("#tag-form-section-form").validate({
                 rules: {
                     Tag_Name: { required: true, maxlength: 255 },
                     Tag_UrlSlug: { required: true, maxlength: 255 }
@@ -335,8 +345,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("tagModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("tagModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         '</div>',
@@ -344,45 +353,49 @@
                     filterable: false,
                     width: 150
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.urlSlug(null);
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.urlSlug(null);
+
+            this.validator.resetForm();
             switchSection($("#tag-form-section"));
             $("#tag-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
-            const data = await ODataHelper.getOData(`${tagApiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.urlSlug(data.UrlSlug);
 
-            self.validator.resetForm();
+        edit = async (id) => {
+            const data = await ODataHelper.getOData(`${tagApiUrl}(${id})`);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.urlSlug(data.UrlSlug);
+
+            this.validator.resetForm();
             switchSection($("#tag-form-section"));
             $("#tag-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${tagApiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('TagGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#tag-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                UrlSlug: self.urlSlug(),
+                Id: this.id(),
+                Name: this.name(),
+                UrlSlug: this.urlSlug(),
             };
 
             if (isNew) {
@@ -393,68 +406,72 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${tagApiUrl}(${self.id()})`, record, () => {
+                await ODataHelper.putOData(`${tagApiUrl}(${this.id()})`, record, () => {
                     GridHelper.refreshGrid('TagGrid');
                     switchSection($("#tag-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#tag-grid-section"));
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.postModel = false;
+            this.categoryModel = false;
+            this.tagModel = false;
+            this.tinyMCE_fullDescription = mantleDefaultTinyMCEConfig;
 
-        self.postModel = false;
-        self.categoryModel = false;
-        self.tagModel = false;
-        self.tinyMCE_fullDescription = mantleDefaultTinyMCEConfig;
+            this.modalDismissed = false;
+        }
 
-        self.modalDismissed = false;
-
-        self.activate = function () {
-            self.postModel = new PostModel(self);
-            self.categoryModel = new CategoryModel(self);
-            self.tagModel = new TagModel(self);
+        activate = () => {
+            this.postModel = new PostModel(this);
+            this.categoryModel = new CategoryModel(this);
+            this.tagModel = new TagModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#post-grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.postModel.init();
-            self.categoryModel.init();
-            self.tagModel.init();
+            this.postModel.init();
+            this.categoryModel.init();
+            this.tagModel.init();
 
             $('#myModal').on('hidden.bs.modal', function () {
-                if (!self.modalDismissed) {
+                if (!this.modalDismissed) {
                     const url = `/Media/Uploads/${$('#TeaserImageUrl').val()}`;
-                    self.postModel.teaserImageUrl(url);
+                    this.postModel.teaserImageUrl(url);
                 }
-                self.modalDismissed = false;
+                this.modalDismissed = false;
             });
         };
 
-        self.dismissModal = function() {
-            self.modalDismissed = true;
+        dismissModal = () => {
+            this.modalDismissed = true;
             $('#myModal').modal('hide');
         };
 
-        self.showCategories = function () {
+        showCategories = () => {
             switchSection($("#category-grid-section"));
         };
-        self.showPosts = function () {
+
+        showPosts = () => {
             switchSection($("#post-grid-section"));
         };
-        self.showTags = function () {
+
+        showTags = () => {
             switchSection($("#tag-grid-section"));
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

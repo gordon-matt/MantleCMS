@@ -16,24 +16,24 @@
     
     const apiUrl = "/odata/mantle/web/PluginApi";
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.systemName = ko.observable(null);
+            this.friendlyName = ko.observable(null);
+            this.displayOrder = ko.observable(0);
+            this.limitedToTenants = ko.observableArray([]);
 
-        self.systemName = ko.observable(null);
-        self.friendlyName = ko.observable(null);
-        self.displayOrder = ko.observable(0);
-        self.limitedToTenants = ko.observableArray([]);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.attached = async function () {
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.validator = $("#form-section-form").validate({
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     FriendlyName: { required: true, maxlength: 255 },
                     DisplayOrder: { required: true, digits: true }
@@ -67,54 +67,53 @@
                 }, {
                     field: "Installed",
                     title: " ",
-                    template:
-                        '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Uninstall') + '</a> #} ' +
+                    template: '# if(Installed) {# <a data-bind="click: uninstall.bind($data,\'#=SystemName#\')" class="btn btn-secondary btn-sm">' + MantleI18N.t('Mantle.Web/General.Uninstall') + '</a> #} ' +
                         'else {# <a data-bind="click: install.bind($data,\'#=SystemName#\')" class="btn btn-success btn-sm">' + MantleI18N.t('Mantle.Web/General.Install') + '</a> #} #',
                     attributes: { "class": "text-center" },
                     filterable: false,
                     width: 130
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Group", dir: "asc" });
         };
 
-        self.edit = async function (systemName) {
+        edit = async (systemName) => {
             systemName = systemName.replaceAll(".", "-");
 
-            self.limitedToTenants([]);
+            this.limitedToTenants([]);
 
             const data = await ODataHelper.getOData(`${apiUrl}('${systemName}')`);
-            self.systemName(systemName);
-            self.friendlyName(data.FriendlyName);
-            self.displayOrder(data.DisplayOrder);
-            $(data.LimitedToTenants).each(function () {
-                self.limitedToTenants.push(this);
+            this.systemName(systemName);
+            this.friendlyName(data.FriendlyName);
+            this.displayOrder(data.DisplayOrder);
+            $(data.LimitedToTenants).each(function() {
+                this.limitedToTenants.push(this);
             });
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
-        self.save = async function () {
+        save = async () => {
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
-            await ODataHelper.postOData(`${apiUrl}('${self.systemName()}')`, {
-                FriendlyName: self.friendlyName(),
-                DisplayOrder: self.displayOrder(),
-                LimitedToTenants: self.limitedToTenants()
+            await ODataHelper.postOData(`${apiUrl}('${this.systemName()}')`, {
+                FriendlyName: this.friendlyName(),
+                DisplayOrder: this.displayOrder(),
+                LimitedToTenants: this.limitedToTenants()
             });
 
             MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#grid-section"));
         };
 
-        self.install = async function (systemName) {
+        install = async (systemName) => {
             systemName = systemName.replaceAll(".", "-");
 
             await fetch(`/admin/plugins/install/${systemName}`, {
@@ -129,7 +128,7 @@
                     MantleNotify.error(data.Message);
                 }
 
-                setTimeout(function () {
+                setTimeout(function() {
                     window.location.reload();
                 }, 1000);
             })
@@ -137,8 +136,9 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Plugins.InstallPluginError'));
                 console.error('Error: ', error);
             });
-        }
-        self.uninstall = async function (systemName) {
+        };
+
+        uninstall = async (systemName) => {
             systemName = systemName.replaceAll(".", "-");
 
             await fetch(`/admin/plugins/uninstall/${systemName}`, {
@@ -153,7 +153,7 @@
                     MantleNotify.error(data.Message);
                 }
 
-                setTimeout(function () {
+                setTimeout(function() {
                     window.location.reload();
                 }, 1000);
             })
@@ -161,7 +161,7 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Plugins.UninstallPluginError'));
                 console.error('Error: ', error);
             });
-        }
+        };
     }
 
     const viewModel = new ViewModel();

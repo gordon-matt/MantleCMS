@@ -18,19 +18,19 @@
     const rolesApiUrl = "/odata/mantle/web/RoleApi";
     const usersApiUrl = "/odata/mantle/web/UserApi";
 
-    const RoleModel = function (parent) {
-        const self = this;
+    class RoleModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.name = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
+            this.permissions = ko.observableArray([]);
 
-        self.permissions = ko.observableArray([]);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#roles-form-section-form").validate({
+        init = () => {
+            this.validator = $("#roles-form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 }
                 }
@@ -50,8 +50,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("roleModel.editPermissions", 'fa fa-check-square-o', MantleI18N.t('Mantle.Web/Membership.Permissions')) +
                         GridHelper.actionIconButton("roleModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("roleModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
@@ -60,50 +59,50 @@
                     filterable: false,
                     width: 200
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
 
-        self.create = function () {
-            self.id(emptyGuid);
-            self.name(null);
+        create = () => {
+            this.id(emptyGuid);
+            this.name(null);
 
-            self.permissions([]);
+            this.permissions([]);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#roles-form-section"));
             $("#roles-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
 
-        self.edit = async function (id) {
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${rolesApiUrl}('${id}')`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.permissions([]);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.permissions([]);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#roles-form-section"));
             $("#roles-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
 
-        self.remove = async function (id) {
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${rolesApiUrl}('${id}')`, () => {
                 GridHelper.refreshGrid('RolesGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
 
-        self.save = async function () {
+        save = async () => {
             if (!$("#roles-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name()
+                Id: this.id(),
+                Name: this.name()
             };
 
-            if (self.id() == emptyGuid) {
+            if (this.id() == emptyGuid) {
                 await ODataHelper.postOData(rolesApiUrl, record, () => {
                     GridHelper.refreshGrid('RolesGrid');
                     switchSection($("#roles-grid-section"));
@@ -111,7 +110,7 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${rolesApiUrl}('${self.id()}')`, record, () => {
+                await ODataHelper.putOData(`${rolesApiUrl}('${this.id()}')`, record, () => {
                     GridHelper.refreshGrid('RolesGrid');
                     switchSection($("#roles-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -119,32 +118,32 @@
             }
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#roles-grid-section"));
         };
 
-        self.editPermissions = async function (id) {
-            self.id(id);
-            self.permissions([]);
+        editPermissions = async (id) => {
+            this.id(id);
+            this.permissions([]);
 
             const data = await ODataHelper.getOData(`${permissionsApiUrl}/Default.GetPermissionsForRole(roleId='${id}')`);
             if (data.value && data.value.length > 0) {
                 for (const item of data.value) {
-                    self.permissions.push(item.Id);
+                    this.permissions.push(item.Id);
                 }
             }
 
             switchSection($("#role-permissions-form-section"));
         };
 
-        self.editPermissions_cancel = function (id) {
+        editPermissions_cancel = (id) => {
             switchSection($("#roles-grid-section"));
         };
 
-        self.editPermissions_save = async function () {
+        editPermissions_save = async () => {
             const data = {
-                roleId: self.id(),
-                permissions: self.permissions()
+                roleId: this.id(),
+                permissions: this.permissions()
             };
 
             await ODataHelper.postOData(`${rolesApiUrl}/Default.AssignPermissionsToRole`, data, () => {
@@ -154,21 +153,21 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.SavePermissionsError'));
             });
         };
-    };
+    }
 
-    const ChangePasswordModel = function (parent) {
-        const self = this;
+    class ChangePasswordModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.userName = ko.observable(null);
+            this.password = ko.observable(null);
+            this.confirmPassword = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.userName = ko.observable(null);
-        self.password = ko.observable(null);
-        self.confirmPassword = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#change-password-form-section-form").validate({
+        init = () => {
+            this.validator = $("#change-password-form-section-form").validate({
                 rules: {
                     Change_Password: { required: true, maxlength: 128 },
                     Change_ConfirmPassword: { required: true, maxlength: 128, equalTo: "#Change_Password" },
@@ -176,18 +175,18 @@
             });
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#users-grid-section"));
         };
 
-        self.save = async function () {
+        save = async () => {
             if (!$("#change-password-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                userId: self.id(),
-                password: self.password()
+                userId: this.id(),
+                password: this.password()
             };
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.ChangePassword`, record, () => {
@@ -197,24 +196,24 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/Membership.ChangePasswordError'));
             });
         };
-    };
+    }
 
-    const UserModel = function (parent) {
-        const self = this;
+    class UserModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.userName = ko.observable(null);
+            this.email = ko.observable(null);
+            this.isLockedOut = ko.observable(false);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.userName = ko.observable(null);
-        self.email = ko.observable(null);
-        self.isLockedOut = ko.observable(false);
+            this.roles = ko.observableArray([]);
+            this.filterRoleId = ko.observable(emptyGuid);
 
-        self.roles = ko.observableArray([]);
-        self.filterRoleId = ko.observable(emptyGuid);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#users-edit-form-section-form").validate({
+        init = () => {
+            this.validator = $("#users-edit-form-section-form").validate({
                 rules: {
                     UserName: { required: true, maxlength: 128 },
                     Email: { required: true, maxlength: 255 },
@@ -248,8 +247,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("userModel.editRoles", 'fa fa-users', MantleI18N.t('Mantle.Web/Membership.Roles')) +
                         GridHelper.actionIconButton("userModel.changePassword", 'fa fa-key', MantleI18N.t('Mantle.Web/Membership.Password'), 'secondary', `\'#=Id#\', \'#=UserName#\'`) +
                         GridHelper.actionIconButton("userModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
@@ -259,55 +257,55 @@
                     filterable: false,
                     width: 230
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "UserName", dir: "asc" });
         };
 
-        self.create = function () {
-            self.id(emptyGuid);
-            self.userName(null);
-            self.email(null);
-            self.isLockedOut(false);
+        create = () => {
+            this.id(emptyGuid);
+            this.userName(null);
+            this.email(null);
+            this.isLockedOut(false);
 
-            self.roles([]);
-            self.filterRoleId(emptyGuid);
+            this.roles([]);
+            this.filterRoleId(emptyGuid);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#users-edit-form-section"));
         };
 
-        self.edit = async function (id) {
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${usersApiUrl}('${id}')`);
-            self.id(data.Id);
-            self.userName(data.UserName);
-            self.email(data.Email);
-            self.isLockedOut(data.IsLockedOut);
-            self.roles([]);
-            self.filterRoleId(emptyGuid);
+            this.id(data.Id);
+            this.userName(data.UserName);
+            this.email(data.Email);
+            this.isLockedOut(data.IsLockedOut);
+            this.roles([]);
+            this.filterRoleId(emptyGuid);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#users-edit-form-section"));
         };
 
-        self.remove = async function (id) {
+        remove = async (id) => {
             await ODataHelper.deleteOData(`${usersApiUrl}('${id}')`, () => {
                 GridHelper.refreshGrid('UsersGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
 
-        self.save = async function () {
-            const isNew = (self.id() == emptyGuid);
+        save = async () => {
+            const isNew = (this.id() == emptyGuid);
 
             if (!$("#users-edit-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                UserName: self.userName(),
-                Email: self.email(),
-                IsLockedOut: self.isLockedOut()
+                Id: this.id(),
+                UserName: this.userName(),
+                Email: this.email(),
+                IsLockedOut: this.isLockedOut()
             };
 
             if (isNew) {
@@ -320,7 +318,7 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${usersApiUrl}('${self.id()}')`, record, () => {
+                await ODataHelper.putOData(`${usersApiUrl}('${this.id()}')`, record, () => {
                     GridHelper.refreshGrid('UsersGrid');
                     switchSection($("#users-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -330,33 +328,33 @@
             }
         };
 
-        self.cancel = function () {
+        cancel = () => {
             switchSection($("#users-grid-section"));
         };
 
-        self.editRoles = async function (id) {
-            self.id(id);
-            self.roles([]);
-            self.filterRoleId(emptyGuid);
+        editRoles = async (id) => {
+            this.id(id);
+            this.roles([]);
+            this.filterRoleId(emptyGuid);
 
             const data = await ODataHelper.getOData(`${rolesApiUrl}/Default.GetRolesForUser(userId='${id}')`);
             if (data.value && data.value.length > 0) {
                 for (const item of data.value) {
-                    self.roles.push(item.Id);
+                    this.roles.push(item.Id);
                 }
             }
 
             switchSection($("#user-roles-form-section"));
         };
 
-        self.editRoles_cancel = function () {
+        editRoles_cancel = () => {
             switchSection($("#users-grid-section"));
         };
 
-        self.editRoles_save = async function () {
+        editRoles_save = async () => {
             const data = {
-                userId: self.id(),
-                roles: self.roles()
+                userId: this.id(),
+                roles: this.roles()
             };
 
             await ODataHelper.postOData(`${usersApiUrl}/Default.AssignUserToRoles`, data, () => {
@@ -367,17 +365,17 @@
             });
         };
 
-        self.changePassword = function (id, userName) {
-            self.parent.changePasswordModel.id(id);
-            self.parent.changePasswordModel.userName(userName);
-            self.parent.changePasswordModel.validator.resetForm();
+        changePassword = (id, userName) => {
+            this.parent.changePasswordModel.id(id);
+            this.parent.changePasswordModel.userName(userName);
+            this.parent.changePasswordModel.validator.resetForm();
             switchSection($("#change-password-form-section"));
         };
 
-        self.filterRole = function () {
+        filterRole = () => {
             const grid = $('#UsersGrid').data('kendoGrid');
 
-            if (self.filterRoleId() == "") {
+            if (this.filterRoleId() == "") {
                 grid.dataSource.transport.options.read.url = usersApiUrl;
                 grid.dataSource.transport.options.read.type = "GET";
                 delete grid.dataSource.transport.options.read.contentType;
@@ -434,44 +432,47 @@
                             queryString += `${param.field} ${param.operator} '${param.value}'`;
                         }
                     }
-                    return `${usersApiUrl}/Default.GetUsersInRole(roleId=${self.filterRoleId()})?${queryString}`;
+                    return `${usersApiUrl}/Default.GetUsersInRole(roleId=${this.filterRoleId()})?${queryString}`;
                 };
             }
             grid.dataSource.read();
             grid.refresh();
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.userModel = false;
+            this.roleModel = false;
+            this.changePasswordModel = false;
+        }
 
-        self.userModel = false;
-        self.roleModel = false;
-        self.changePasswordModel = false;
-
-        self.activate = function () {
-            self.userModel = new UserModel(self);
-            self.roleModel = new RoleModel(self);
-            self.changePasswordModel = new ChangePasswordModel(self);
+        activate = () => {
+            this.userModel = new UserModel(this);
+            this.roleModel = new RoleModel(this);
+            this.changePasswordModel = new ChangePasswordModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#users-grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.roleModel.init();
-            self.changePasswordModel.init();
-            self.userModel.init();
+            this.roleModel.init();
+            this.changePasswordModel.init();
+            this.userModel.init();
         };
-        self.viewUsers = function () {
+
+        viewUsers = () => {
             switchSection($("#users-grid-section"));
         };
-        self.viewRoles = function () {
+
+        viewRoles = () => {
             switchSection($("#roles-grid-section"));
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

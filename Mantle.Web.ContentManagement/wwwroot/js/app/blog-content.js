@@ -3,92 +3,93 @@
 const localStorageRootKey = "BlogContent_";
 const localStorageUsersKey = localStorageRootKey + "Users_";
 
-const BlogEntryModel = function () {
-    const self = this;
+class BlogEntryModel {
+    constructor() {
+        this.headline = ko.observable(null);
+        this.userId = ko.observable(null);
+        this.userName = ko.observable(null);
+        this.dateCreatedUtc = ko.observable(null);
+        this.teaserImageUrl = ko.observable(null);
+        this.shortDescription = ko.observable(null);
+        this.fullDescription = ko.observable(null);
+        this.useExternalLink = ko.observable(false);
+        this.externalLink = ko.observable(null);
+    }
 
-    self.headline = ko.observable(null);
-    self.userId = ko.observable(null);
-    self.userName = ko.observable(null);
-    self.dateCreatedUtc = ko.observable(null);
-    self.teaserImageUrl = ko.observable(null);
-    self.shortDescription = ko.observable(null);
-    self.fullDescription = ko.observable(null);
-    self.useExternalLink = ko.observable(false);
-    self.externalLink = ko.observable(null);
-
-    self.showDetails = function () {
-        viewModel.selected(self);
+    showDetails = () => {
+        viewModel.selected(this);
         switchSection($('#details-section'));
     };
-};
+}
 
-const ViewModel = function () {
-    const self = this;
-    self.entries = ko.observableArray([]);
-    self.selected = ko.observable(new BlogEntryModel());
+class ViewModel {
+    constructor() {
+        this.entries = ko.observableArray([]);
+        this.selected = ko.observable(new BlogEntryModel());
 
-    self.total = ko.observable(0);
-    self.pageIndex = ko.observable(1);
-    self.pageSize = settings.itemsPerPage;
+        this.total = ko.observable(0);
+        this.pageIndex = ko.observable(1);
+        this.pageSize = settings.itemsPerPage;
+    }
 
-    self.pageCount = function () {
-        return Math.ceil(self.total() / self.pageSize);
+    pageCount = () => {
+        return Math.ceil(this.total() / this.pageSize);
     };
 
-    self.showMain = function () {
+    showMain = () => {
         switchSection($('#main-section'));
     };
 
-    self.showPrevious = function () {
-        const selectedIndex = $.inArray(self.selected(), self.entries());
+    showPrevious = () => {
+        const selectedIndex = $.inArray(this.selected(), this.entries());
         if (selectedIndex == 0) {
-            if (self.pageIndex() > 1) {
-                $("li[data-lp=" + (self.pageIndex() - 1) + "] > a").click();
+            if (this.pageIndex() > 1) {
+                $("li[data-lp=" + (this.pageIndex() - 1) + "] > a").click();
                 setTimeout(function () {
-                    const previous = self.entries()[self.entries().length - 1];
-                    self.selected(previous);
+                    const previous = this.entries()[this.entries().length - 1];
+                    this.selected(previous);
                 }, 500);
             }
         }
         else {
-            const previous = self.entries()[selectedIndex - 1];
-            self.selected(previous);
+            const previous = this.entries()[selectedIndex - 1];
+            this.selected(previous);
         }
     };
 
-    self.showNext = function () {
-        const selectedIndex = $.inArray(self.selected(), self.entries());
-        if (selectedIndex == (self.entries().length - 1)) {
-            if (self.pageIndex() < self.pageCount()) {
-                $("li[data-lp=" + (self.pageIndex() + 1) + "] > a").click();
+    showNext = () => {
+        const selectedIndex = $.inArray(this.selected(), this.entries());
+        if (selectedIndex == (this.entries().length - 1)) {
+            if (this.pageIndex() < this.pageCount()) {
+                $("li[data-lp=" + (this.pageIndex() + 1) + "] > a").click();
                 setTimeout(function () {
-                    const next = self.entries()[0];
-                    self.selected(next);
+                    const next = this.entries()[0];
+                    this.selected(next);
                 }, 500);
             }
         }
         else {
-            const next = self.entries()[selectedIndex + 1];
-            self.selected(next);
+            const next = this.entries()[selectedIndex + 1];
+            this.selected(next);
         }
     };
 
-    self.canShowPrevious = function () {
-        const selectedIndex = $.inArray(self.selected(), self.entries());
-        if (self.pageIndex() == 1 && selectedIndex == 0) {
+    canShowPrevious = () => {
+        const selectedIndex = $.inArray(this.selected(), this.entries());
+        if (this.pageIndex() == 1 && selectedIndex == 0) {
             return false;
         }
         return true;
     };
 
-    self.canShowNext = function () {
-        const selectedIndex = $.inArray(self.selected(), self.entries());
-        if (self.pageIndex() == self.pageCount() && selectedIndex == (self.entries().length - 1)) {
+    canShowNext = () => {
+        const selectedIndex = $.inArray(this.selected(), this.entries());
+        if (this.pageIndex() == this.pageCount() && selectedIndex == (this.entries().length - 1)) {
             return false;
         }
         return true;
     };
-};
+}
 
 breeze.config.initializeAdapterInstances({ dataService: "OData" });
 const manager = new breeze.EntityManager('/odata/mantle/cms');
@@ -98,7 +99,7 @@ const userIds = [];
 
 let viewModel;
 $(document).ready(function () {
-    //TODO: Maybe clear this only after a certain amount of time (not very page load)?
+    //TODO: Maybe clear this only after a certain amount of time (not every page load)?
 
     const keys = getLocalStorageKeys();
     for (const i = 0; i < keys.length; i++) {
@@ -128,22 +129,21 @@ function getBlogs() {
         viewModel.selected(new BlogEntryModel());
         viewModel.total(data.inlineCount);
 
-        $(data.httpResponse.data.results).each(function () {
-            const current = this;
+        data.httpResponse.data.results.forEach(item => {
             const entry = new BlogEntryModel();
-            entry.headline(current.Headline);
-            entry.userId(current.UserId);
+            entry.headline(item.Headline);
+            entry.userId(item.UserId);
 
-            const date = moment(current.DateCreatedUtc);
+            const date = moment(item.DateCreatedUtc);
             entry.dateCreatedUtc(date.format(settings.dateFormat));
 
-            entry.teaserImageUrl(current.TeaserImageUrl);
-            entry.shortDescription(current.ShortDescription);
-            entry.fullDescription(current.FullDescription);
-            entry.useExternalLink(current.UseExternalLink);
-            entry.externalLink(current.ExternalLink);
+            entry.teaserImageUrl(item.TeaserImageUrl);
+            entry.shortDescription(item.ShortDescription);
+            entry.fullDescription(item.FullDescription);
+            entry.useExternalLink(item.UseExternalLink);
+            entry.externalLink(item.ExternalLink);
             viewModel.entries.push(entry);
-            userIds.push(current.UserId);
+            userIds.push(item.UserId);
         });
 
         if (!pagerInitialized) {
@@ -170,7 +170,8 @@ function getUserNames() {
 
     let predicate = null;
     let haveAnyNew = false;
-    $(userIds).each(function (index, userId) {
+
+    userIds.forEach(userId => {
         if (!localStorage.getItem(localStorageUsersKey + userId)) {
             haveAnyNew = true;
             if (predicate == null) {
@@ -188,10 +189,11 @@ function getUserNames() {
 
     if (haveAnyNew) {
         manager.executeQuery(query).then(function (data) {
-            $(data.httpResponse.data.results).each(function (index, item) {
+            data.httpResponse.data.results.forEach(item => {
                 localStorage.setItem(localStorageUsersKey + item.Id, item.UserName);
             });
-            $(viewModel.entries()).each(function (index, item) {
+
+            viewModel.entries().forEach(item => {
                 item.userName(localStorage.getItem(localStorageUsersKey + item.userId()));
             });
         }).fail(function (e) {
@@ -199,7 +201,7 @@ function getUserNames() {
         });
     }
     else {
-        $(viewModel.entries()).each(function (index, item) {
+        viewModel.entries().forEach(item => {
             item.userName(localStorage.getItem(localStorageUsersKey + item.userId()));
         });
     }

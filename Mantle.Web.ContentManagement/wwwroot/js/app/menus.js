@@ -14,26 +14,26 @@
     require('grid-helper');
     require('odata-helpers');
 
-    const MenuItemModel = function (parent) {
-        const self = this;
+    class MenuItemModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.menuId = ko.observable(emptyGuid);
+            this.text = ko.observable(null);
+            this.description = ko.observable(null);
+            this.url = ko.observable(null);
+            this.cssClass = ko.observable(null);
+            this.position = ko.observable(0);
+            this.parentId = ko.observable(null);
+            this.enabled = ko.observable(false);
+            this.isExternalUrl = ko.observable(false);
+            this.refId = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.menuId = ko.observable(emptyGuid);
-        self.text = ko.observable(null);
-        self.description = ko.observable(null);
-        self.url = ko.observable(null);
-        self.cssClass = ko.observable(null);
-        self.position = ko.observable(0);
-        self.parentId = ko.observable(null);
-        self.enabled = ko.observable(false);
-        self.isExternalUrl = ko.observable(false);
-        self.refId = ko.observable(null);
-
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#item-edit-section-form").validate({
+            this.validator = false;
+        }
+        
+        init = () => {
+            this.validator = $("#item-edit-section-form").validate({
                 rules: {
                     Item_Text: { required: true, maxlength: 255 },
                     Item_Description: { maxlength: 255 },
@@ -77,8 +77,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', MantleI18N.t('Mantle.Web.ContentManagement/Menus.NewItem'), 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
@@ -88,106 +87,114 @@
                     filterable: false,
                     width: 220
                 }],
-                self.gridPageSize,
-                { field: "Text", dir: "asc" }, // sort
+                this.gridPageSize,
+                { field: "Text", dir: "asc" },
+
                 // filter
                 {
                     logic: "and",
                     filters: [
-                        { field: "MenuId", operator: "eq", value: self.parent.menuModel.id() },
+                        { field: "MenuId", operator: "eq", value: this.parent.menuModel.id() },
                         { field: "ParentId", operator: "eq", value: null }
                     ]
                 },
-                kendo.template($("#items-template").html()), // detailTemplate
-                self.parent.menuItemModel.detailInit, // detailInit
+                kendo.template($("#items-template").html()),
+                this.parent.menuItemModel.detailInit,
                 GridHelper.odataParameterMapWithGuidFix
             );
         };
-        self.create = function (menuId, parentId) {
-            self.id(emptyGuid);
-            self.menuId(menuId);
-            self.text(null);
-            self.description(null);
-            self.url(null);
-            self.cssClass(null);
-            self.position(0);
-            self.parentId(parentId);
-            self.enabled(false);
-            self.isExternalUrl(false);
-            self.refId(null);
 
-            self.validator.resetForm();
+        create = (menuId, parentId) => {
+            this.id(emptyGuid);
+            this.menuId(menuId);
+            this.text(null);
+            this.description(null);
+            this.url(null);
+            this.cssClass(null);
+            this.position(0);
+            this.parentId(parentId);
+            this.enabled(false);
+            this.isExternalUrl(false);
+            this.refId(null);
+
+            this.validator.resetForm();
             switchSection($("#items-edit-section"));
         };
-        self.edit = async function (id) {
+
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuItemApi(${id})`);
-            self.id(data.Id);
-            self.menuId(data.MenuId);
-            self.text(data.Text);
-            self.description(data.Description);
-            self.url(data.Url);
-            self.cssClass(data.CssClass);
-            self.position(data.Position);
-            self.parentId(data.ParentId);
-            self.enabled(data.Enabled);
-            self.isExternalUrl(data.IsExternalUrl);
-            self.refId(data.RefId);
+            this.id(data.Id);
+            this.menuId(data.MenuId);
+            this.text(data.Text);
+            this.description(data.Description);
+            this.url(data.Url);
+            this.cssClass(data.CssClass);
+            this.position(data.Position);
+            this.parentId(data.ParentId);
+            this.enabled(data.Enabled);
+            this.isExternalUrl(data.IsExternalUrl);
+            this.refId(data.RefId);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#items-edit-section"));
         };
-        self.remove = async function (id, parentId) {
+
+        remove = async (id, parentId) => {
             await ODataHelper.deleteOData(`/odata/mantle/cms/MenuItemApi(${id})`);
         };
-        self.save = async function () {
+
+        save = async () => {
             if (!$("#item-edit-section-form").valid()) {
                 return false;
             }
 
-            const parentId = self.parentId();
+            const parentId = this.parentId();
 
             const record = {
-                Id: self.id(),
-                MenuId: self.menuId(),
-                Text: self.text(),
-                Description: self.description(),
-                Url: self.url(),
-                CssClass: self.cssClass(),
-                Position: self.position(),
+                Id: this.id(),
+                MenuId: this.menuId(),
+                Text: this.text(),
+                Description: this.description(),
+                Url: this.url(),
+                CssClass: this.cssClass(),
+                Position: this.position(),
                 ParentId: parentId,
-                Enabled: self.enabled(),
-                IsExternalUrl: self.isExternalUrl(),
-                RefId: self.refId()
+                Enabled: this.enabled(),
+                IsExternalUrl: this.isExternalUrl(),
+                RefId: this.refId()
             };
 
-            if (self.id() == emptyGuid) {
+            if (this.id() == emptyGuid) {
                 await ODataHelper.postOData("/odata/mantle/cms/MenuItemApi", record, () => {
-                    self.refreshGrid(parentId);
+                    this.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.InsertRecordSuccess'));
                 });
             }
             else {
-                await ODataHelper.putOData(`/odata/mantle/cms/MenuItemApi(${self.id()})`, record, () => {
-                    self.refreshGrid(parentId);
+                await ODataHelper.putOData(`/odata/mantle/cms/MenuItemApi(${this.id()})`, record, () => {
+                    this.refreshGrid(parentId);
                     switchSection($("#items-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
                 });
             }
         };
-        self.goBack = function () {
+
+        goBack = () => {
             switchSection($("#grid-section"));
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#items-grid-section"));
         };
-        self.toggleEnabled = async function (id, parentId, isEnabled) {
+
+        toggleEnabled = async (id, parentId, isEnabled) => {
             await ODataHelper.patchOData(`/odata/mantle/cms/MenuItemApi(${id})`, {
                 Enabled: !isEnabled
             });
         };
 
-        self.refreshGrid = function(parentId) {
+        refreshGrid = (parentId) => {
             if (parentId && (parentId != "null")) {
                 try {
                     GridHelper.refreshGrid(`items-grid-${parentId}`);
@@ -199,8 +206,9 @@
             else {
                 GridHelper.refreshGrid('ItemsGrid');
             }
-        }
-        self.detailInit = function(e) {
+        };
+
+        detailInit = (e) => {
             const detailRow = e.detailRow;
 
             detailRow.find(".tabstrip").kendoTabStrip({
@@ -244,8 +252,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("menuItemModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("menuItemModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',\'#=ParentId#\'`) +
                         GridHelper.actionIconButton("menuItemModel.create", 'fa fa-plus', MantleI18N.t('Mantle.Web.ContentManagement/Menus.NewItem'), 'primary', `\'#=MenuId#\', \'#=Id#\'`) +
@@ -255,28 +262,28 @@
                     filterable: false,
                     width: 220
                 }],
-                self.gridPageSize,
-                { field: "Text", dir: "asc" }, // sort
-                { field: "ParentId", operator: "eq", value: e.data.Id }, // filter
-                kendo.template($("#items-template").html()), // detailTemplate
-                self.parent.menuItemModel.detailInit, // detailInit
+                this.gridPageSize,
+                { field: "Text", dir: "asc" },
+                { field: "ParentId", operator: "eq", value: e.data.Id },
+                kendo.template($("#items-template").html()),
+                this.parent.menuItemModel.detailInit,
                 GridHelper.odataParameterMapWithGuidFix
             );
+        };
+    }
+
+    class MenuModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.name = ko.observable(null);
+            this.urlFilter = ko.observable(null);
+
+            this.validator = false;
         }
-    };
-
-    const MenuModel = function (parent) {
-        const self = this;
-
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
-        self.urlFilter = ko.observable(null);
-
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#form-section-form").validate({
+        
+        init = () => {
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 }
                 }
@@ -302,8 +309,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("menuModel.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit')) +
                         GridHelper.actionIconButton("menuModel.remove", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
                         GridHelper.actionIconButton("menuModel.items", 'fa fa-bars', "Items", 'primary') +
@@ -312,90 +318,97 @@
                     filterable: false,
                     width: 170
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(emptyGuid);
-            self.name(null);
-            self.urlFilter(null);
 
-            self.validator.resetForm();
+        create = () => {
+            this.id(emptyGuid);
+            this.name(null);
+            this.urlFilter(null);
+
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id) {
-            const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuApi(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.urlFilter(data.UrlFilter);
 
-            self.validator.resetForm();
+        edit = async (id) => {
+            const data = await ODataHelper.getOData(`/odata/mantle/cms/MenuApi(${id})`);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.urlFilter(data.UrlFilter);
+
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`/odata/mantle/cms/MenuApi(${id})`);
         };
-        self.save = async function () {
+
+        save = async () => {
 
             if (!$("#form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                UrlFilter: self.urlFilter()
+                Id: this.id(),
+                Name: this.name(),
+                UrlFilter: this.urlFilter()
             };
 
-            if (self.id() == emptyGuid) {
+            if (this.id() == emptyGuid) {
                 await ODataHelper.postOData("/odata/mantle/cms/MenuApi", record);
             }
             else {
-                await ODataHelper.putOData(`/odata/mantle/cms/MenuApi(${self.id()})`, record);
+                await ODataHelper.putOData(`/odata/mantle/cms/MenuApi(${this.id()})`, record);
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#grid-section"));
         };
-        self.items = function (id) {
-            self.id(id);// to support "Create" button for when parent ID is null (top level items)
+
+        items = (id) => {
+            this.id(id); // to support "Create" button for when parent ID is null (top level items)
             const itemsGrid = $("#ItemsGrid").data("kendoGrid");
             itemsGrid.dataSource.filter([{
                 logic: "and",
                 filters: [
-                  { field: "MenuId", operator: "eq", value: self.id() },
-                  { field: "ParentId", operator: "eq", value: null }
+                    { field: "MenuId", operator: "eq", value: this.id() },
+                    { field: "ParentId", operator: "eq", value: null }
                 ]
             }]);
             itemsGrid.dataSource.read();
             itemsGrid.refresh();
             switchSection($("#items-grid-section"));
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.menuModel = false;
+            this.menuItemModel = false;
+        }
 
-        self.menuModel = false;
-        self.menuItemModel = false;
-
-        self.activate = function () {
-            self.menuModel = new MenuModel(self);
-            self.menuItemModel = new MenuItemModel(self);
+        activate = () => {
+            this.menuModel = new MenuModel(this);
+            this.menuItemModel = new MenuItemModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
-            self.menuModel.init();
-            self.menuItemModel.init();
+            this.menuModel.init();
+            this.menuItemModel.init();
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

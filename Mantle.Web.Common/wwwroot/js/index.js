@@ -23,15 +23,15 @@
 
     ko.mapping = koMap;
 
-    const SettingsModel = function (parent) {
-        const self = this;
+    class SettingsModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.regionId = ko.observable(0);
+            this.settingsId = ko.observable('');
+            this.fields = ko.observable('');
+        }
 
-        self.parent = parent;
-        self.regionId = ko.observable(0);
-        self.settingsId = ko.observable('');
-        self.fields = ko.observable('');
-
-        self.init = function () {
+        init = () => {
             GridHelper.initKendoGrid(
                 "SettingsGrid",
                 settingsApiUrl,
@@ -51,38 +51,36 @@
                     filterable: false,
                     width: 120
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.edit = async function (id) {
-            self.settingsId(id);
 
-            const data = await ODataHelper.getOData(`${settingsApiUrl}/Default.GetSettings(settingsId='${id}',regionId=${self.regionId()})`);
-            self.fields(data.Fields);
+        edit = async (id) => {
+            this.settingsId(id);
+
+            const data = await ODataHelper.getOData(`${settingsApiUrl}/Default.GetSettings(settingsId='${id}',regionId=${this.regionId()})`);
+            this.fields(data.Fields);
 
             await fetch(`/admin/regions/get-editor-ui/${id}`)
                 .then(response => response.json())
                 .then((data) => {
                     // Clean up from previously injected html/scripts
                     if (typeof cleanUp == 'function') {
-                        cleanUp(self);
+                        cleanUp(this);
                     }
 
                     // Remove Old Scripts
                     //$('script[data-settings-script="true"]').remove();
-
-                    $('script[data-settings-script="true"]').each(function () {
+                    $('script[data-settings-script="true"]').each(function() {
                         $(this).remove();
                     });
 
                     //let oldScripts = $('script[data-settings-script="true"]');
-
                     //if (oldScripts.length > 0) {
                     //    $.each(oldScripts, function () {
                     //        $(this).remove();
                     //    });
                     //}
-
                     const elementToBind = $("#settings-form-section")[0];
                     ko.cleanNode(elementToBind);
 
@@ -97,19 +95,19 @@
                     const scripts = result.filter('script');
 
                     for (const script of scripts) {
-                        $(script).attr("data-settings-script", "true");//for some reason, .data("block-script", "true") doesn't work here
+                        $(script).attr("data-settings-script", "true"); //for some reason, .data("block-script", "true") doesn't work here
                         $(script).appendTo('body');
                     }
 
                     // Update Bindings
                     // Ensure the function exists before calling it...
                     if (typeof updateModel == 'function') {
-                        let data = ko.toJS(ko.mapping.fromJSON(self.fields()));
-                        updateModel(self, data);
-                        ko.applyBindings(self.parent, elementToBind);
+                        let data = ko.toJS(ko.mapping.fromJSON(this.fields()));
+                        updateModel(this, data);
+                        ko.applyBindings(this.parent, elementToBind);
                     }
 
-                    //self.validator.resetForm();
+                    //this.validator.resetForm();
                     switchSection($("#settings-form-section"));
                 })
                 .catch(error => {
@@ -117,16 +115,17 @@
                     console.error('Error: ', error);
                 });
         };
-        self.save = async function () {
+
+        save = async () => {
             // ensure the function exists before calling it...
             if (typeof onBeforeSave == 'function') {
-                onBeforeSave(self);
+                onBeforeSave(this);
             }
 
             const record = {
-                settingsId: self.settingsId(),
-                regionId: self.regionId(),
-                fields: self.fields()
+                settingsId: this.settingsId(),
+                regionId: this.regionId(),
+                fields: this.fields()
             };
 
             await ODataHelper.postOData(`${settingsApiUrl}/Default.SaveSettings`, record, () => {
@@ -136,31 +135,33 @@
                 MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
             });
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#settings-grid-section"));
         };
-        self.goBack = function () {
+
+        goBack = () => {
             switchSection($("#main-section"));
         };
-    };
+    }
 
-    const CountryModel = function (parent) {
-        const self = this;
+    class CountryModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.countryCode = ko.observable(null);
+            this.hasStates = ko.observable(false);
+            this.parentId = ko.observable(null);
+            this.order = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.countryCode = ko.observable(null);
-        self.hasStates = ko.observable(false);
-        self.parentId = ko.observable(null);
-        self.order = ko.observable(null);
+            this.cultureCode = ko.observable(null);
 
-        self.cultureCode = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#country-form-section-form").validate({
+        init = () => {
+            this.validator = $("#country-form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 },
                     CountryCode: { maxlength: 10 }
@@ -181,8 +182,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         `# if(HasStates) {# ${GridHelper.actionIconButton('country.showStates', 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.States'), 'primary')} #} ` +
                         `else {# ${GridHelper.actionIconButton('country.showCities', 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.Cities'), 'primary')} #} # ` +
 
@@ -195,76 +195,81 @@
                     filterable: false,
                     width: 280
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.countryCode(null);
-            self.hasStates(false);
-            self.parentId(self.parent.selectedContinentId());
-            self.order(null);
 
-            self.cultureCode(null);
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.countryCode(null);
+            this.hasStates(false);
+            this.parentId(this.parent.selectedContinentId());
+            this.order(null);
 
-            self.validator.resetForm();
+            this.cultureCode(null);
+
+            this.validator.resetForm();
             switchSection($("#country-form-section"));
             $("#country-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id, cultureCode) {
+
+        edit = async (id, cultureCode) => {
             let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
-                self.cultureCode(cultureCode);
+                this.cultureCode(cultureCode);
                 url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
-                self.cultureCode(null);
+                this.cultureCode(null);
             }
 
             const data = await ODataHelper.getOData(url);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.countryCode(data.CountryCode);
-            self.hasStates(data.HasStates);
-            self.parentId(data.ParentId);
-            self.order(data.Order);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.countryCode(data.CountryCode);
+            this.hasStates(data.HasStates);
+            this.parentId(data.ParentId);
+            this.order(data.Order);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#country-form-section"));
             $("#country-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.localize = function (id) {
+
+        localize = (id) => {
             $("#RegionType").val('Country');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = async function (id) {
+
+        removeItem = async (id) => {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('CountryGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#country-form-section-form").valid()) {
                 return false;
             }
 
-            let order = self.order();
+            let order = this.order();
             if (!order) {
                 order = null;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
+                Id: this.id(),
+                Name: this.name(),
                 RegionType: 'Country',
-                CountryCode: self.countryCode(),
-                HasStates: self.hasStates(),
-                ParentId: self.parentId(),
+                CountryCode: this.countryCode(),
+                HasStates: this.hasStates(),
+                ParentId: this.parentId(),
                 Order: order,
             };
 
@@ -276,7 +281,7 @@
                 });
             }
             else {
-                if (self.cultureCode() != null) {
+                if (this.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         GridHelper.refreshGrid('CountryGrid');
                         switchSection($("#country-grid-section"));
@@ -286,7 +291,7 @@
                     });
                 }
                 else {
-                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
+                    await ODataHelper.putOData(`${apiUrl}(${this.id()})`, record, () => {
                         GridHelper.refreshGrid('CountryGrid');
                         switchSection($("#country-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -294,57 +299,59 @@
                 }
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#country-grid-section"));
         };
-        self.goBack = function () {
-            self.parent.selectedCountryId(0);
+
+        goBack = () => {
+            this.parent.selectedCountryId(0);
             switchSection($("#main-section"));
         };
-        self.showStates = function (countryId) {
+
+        showStates = (countryId) => {
             //TODO: Filter states grid
-            self.parent.selectedCountryId(countryId);
-            self.parent.selectedStateId(0);
+            this.parent.selectedCountryId(countryId);
+            this.parent.selectedStateId(0);
 
             const grid = $('#StateGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'State' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
-
             switchSection($("#state-grid-section"));
         };
-        self.showCities = function (countryId) {
+
+        showCities = (countryId) => {
             //TODO: Filter states grid
-            self.parent.selectedCountryId(countryId);
-            self.parent.selectedStateId(0);
+            this.parent.selectedCountryId(countryId);
+            this.parent.selectedStateId(0);
 
             const grid = $('#CityGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'City' and ParentId eq " + countryId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
-
             switchSection($("#city-grid-section"));
         };
-    };
+    }
 
-    const StateModel = function (parent) {
-        const self = this;
+    class StateModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.stateCode = ko.observable(null);
+            this.parentId = ko.observable(null);
+            this.order = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.stateCode = ko.observable(null);
-        self.parentId = ko.observable(null);
-        self.order = ko.observable(null);
+            this.cultureCode = ko.observable(null);
 
-        self.cultureCode = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#state-form-section-form").validate({
+        init = () => {
+            this.validator = $("#state-form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 },
                     StateCode: { maxlength: 10 }
@@ -365,8 +372,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("state.showCities", 'fa fa-globe', MantleI18N.t('Mantle.Web.Common/Regions.Cities')) +
                         GridHelper.actionIconButton("state.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionIconButton("state.localize", 'fa fa-language', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
@@ -377,76 +383,81 @@
                     filterable: false,
                     width: 280
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.stateCode(null);
-            self.parentId(self.parent.selectedCountryId());
-            self.order(null);
 
-            self.cultureCode(null);
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.stateCode(null);
+            this.parentId(this.parent.selectedCountryId());
+            this.order(null);
 
-            self.validator.resetForm();
+            this.cultureCode(null);
+
+            this.validator.resetForm();
             switchSection($("#state-form-section"));
             $("#state-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id, cultureCode) {
+
+        edit = async (id, cultureCode) => {
             let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
-                self.cultureCode(cultureCode);
+                this.cultureCode(cultureCode);
                 url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
-                self.cultureCode(null);
+                this.cultureCode(null);
             }
 
             const data = await ODataHelper.getOData(url);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.stateCode(data.StateCode);
-            self.parentId(data.ParentId);
-            self.order(data.Order);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.stateCode(data.StateCode);
+            this.parentId(data.ParentId);
+            this.order(data.Order);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#state-form-section"));
             $("#state-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.localize = function (id) {
+
+        localize = (id) => {
             $("#RegionType").val('State');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = async function (id) {
+
+        removeItem = async (id) => {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('StateGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#state-form-section-form").valid()) {
                 return false;
             }
 
-            let order = self.order();
+            let order = this.order();
             if (!order) {
                 order = null;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
+                Id: this.id(),
+                Name: this.name(),
                 RegionType: 'State',
-                StateCode: self.stateCode(),
-                ParentId: self.parentId(),
+                StateCode: this.stateCode(),
+                ParentId: this.parentId(),
                 Order: order,
             };
-            
+
 
             if (isNew) {
                 await ODataHelper.postOData(apiUrl, record, () => {
@@ -456,7 +467,7 @@
                 });
             }
             else {
-                if (self.cultureCode() != null) {
+                if (this.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         GridHelper.refreshGrid('StateGrid');
                         switchSection($("#state-grid-section"));
@@ -466,7 +477,7 @@
                     });
                 }
                 else {
-                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
+                    await ODataHelper.putOData(`${apiUrl}(${this.id()})`, record, () => {
                         GridHelper.refreshGrid('StateGrid');
                         switchSection($("#state-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -474,42 +485,44 @@
                 }
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#state-grid-section"));
         };
-        self.goBack = function () {
-            self.parent.selectedStateId(0);
+
+        goBack = () => {
+            this.parent.selectedStateId(0);
             switchSection($("#country-grid-section"));
         };
-        self.showCities = function (stateId) {
+
+        showCities = (stateId) => {
             //TODO: Filter states grid
-            self.parent.selectedStateId(stateId);
+            this.parent.selectedStateId(stateId);
 
             const grid = $('#CityGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'City' and ParentId eq " + stateId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
-
             switchSection($("#city-grid-section"));
         };
-    };
+    }
 
-    const CityModel = function (parent) {
-        const self = this;
+    class CityModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(0);
+            this.name = ko.observable(null);
+            this.parentId = ko.observable(null);
+            this.order = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(0);
-        self.name = ko.observable(null);
-        self.parentId = ko.observable(null);
-        self.order = ko.observable(null);
+            this.cultureCode = ko.observable(null);
 
-        self.cultureCode = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#city-form-section-form").validate({
+        init = () => {
+            this.validator = $("#city-form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 }
                 }
@@ -529,8 +542,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("city.edit", 'fa fa-edit', MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\', null`) +
                         GridHelper.actionIconButton("city.localize", 'fa fa-language', MantleI18N.t('Mantle.Web/General.Localize'), 'success') +
                         GridHelper.actionIconButton("city.removeItem", 'fa fa-times', MantleI18N.t('Mantle.Web/General.Delete'), 'danger') +
@@ -540,76 +552,81 @@
                     filterable: false,
                     width: 250
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.create = function () {
-            self.id(0);
-            self.name(null);
-            self.order(null);
 
-            if (self.parent.selectedStateId()) {
-                self.parentId(self.parent.selectedStateId());
+        create = () => {
+            this.id(0);
+            this.name(null);
+            this.order(null);
+
+            if (this.parent.selectedStateId()) {
+                this.parentId(this.parent.selectedStateId());
             }
             else {
-                self.parentId(self.parent.selectedCountryId());
+                this.parentId(this.parent.selectedCountryId());
             }
 
-            self.cultureCode(null);
+            this.cultureCode(null);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#city-form-section"));
             $("#city-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.edit = async function (id, cultureCode) {
+
+        edit = async (id, cultureCode) => {
             let url = `${apiUrl}(${id})`;
 
             if (cultureCode) {
-                self.cultureCode(cultureCode);
+                this.cultureCode(cultureCode);
                 url = `${apiUrl}/Default.GetLocalized(id=${id},cultureCode='${cultureCode}')`;
             }
             else {
-                self.cultureCode(null);
+                this.cultureCode(null);
             }
 
             const data = await ODataHelper.getOData(url);
-            self.id(data.Id);
-            self.name(data.Name);
-            self.parentId(data.ParentId);
-            self.order(data.Order);
+            this.id(data.Id);
+            this.name(data.Name);
+            this.parentId(data.ParentId);
+            this.order(data.Order);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#city-form-section"));
             $("#city-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.localize = function (id) {
+
+        localize = (id) => {
             $("#RegionType").val('City');
             $("#SelectedId").val(id);
             $("#cultureModal").modal("show");
         };
-        self.removeItem = async function (id) {
+
+        removeItem = async (id) => {
             await ODataHelper.deleteOData(`${apiUrl}(${id})`, () => {
                 GridHelper.refreshGrid('CityGrid');
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == 0);
+
+        save = async () => {
+            const isNew = (this.id() == 0);
 
             if (!$("#city-form-section-form").valid()) {
                 return false;
             }
 
-            let order = self.order();
+            let order = this.order();
             if (!order) {
                 order = null;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
+                Id: this.id(),
+                Name: this.name(),
                 RegionType: 'City',
-                ParentId: self.parentId(),
+                ParentId: this.parentId(),
                 Order: order,
             };
 
@@ -621,7 +638,7 @@
                 });
             }
             else {
-                if (self.cultureCode() != null) {
+                if (this.cultureCode() != null) {
                     await ODataHelper.postOData(`${apiUrl}/Default.SaveLocalized`, record, () => {
                         GridHelper.refreshGrid('CityGrid');
                         switchSection($("#city-grid-section"));
@@ -631,7 +648,7 @@
                     });
                 }
                 else {
-                    await ODataHelper.putOData(`${apiUrl}(${self.id()})`, record, () => {
+                    await ODataHelper.putOData(`${apiUrl}(${this.id()})`, record, () => {
                         GridHelper.refreshGrid('CityGrid');
                         switchSection($("#city-grid-section"));
                         MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -639,48 +656,50 @@
                 }
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#city-grid-section"));
         };
-        self.goBack = function () {
-            if (self.parent.selectedStateId()) {
+
+        goBack = () => {
+            if (this.parent.selectedStateId()) {
                 switchSection($("#state-grid-section"));
             }
             else {
                 switchSection($("#country-grid-section"));
             }
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
 
-        self.gridPageSize = 10;
+            this.selectedContinentId = ko.observable(0);
+            this.selectedCountryId = ko.observable(0);
+            this.selectedStateId = ko.observable(0);
 
-        self.selectedContinentId = ko.observable(0);
-        self.selectedCountryId = ko.observable(0);
-        self.selectedStateId = ko.observable(0);
+            this.country = false;
+            this.state = false;
+            this.city = false;
+            this.settings = false;
+        }
 
-        self.country = false;
-        self.state = false;
-        self.city = false;
-        self.settings = false;
-
-        self.activate = function () {
-            self.country = new CountryModel(self);
-            self.state = new StateModel(self);
-            self.city = new CityModel(self);
-            self.settings = new SettingsModel(self);
+        activate = () => {
+            this.country = new CountryModel(this);
+            this.state = new StateModel(this);
+            this.city = new CityModel(this);
+            this.settings = new SettingsModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#main-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
+            this.gridPageSize = $("#GridPageSize").val();
 
             //$('#map').maphilight({
             //    fade: false
             //});
-
             $('#map').mapster({
                 fillColor: 'b2b2ff',
                 fillOpacity: 0.7,
@@ -691,42 +710,43 @@
 
             $("#regions-world-map div:first-child").addClass('center-block');
 
-            self.country.init();
-            self.state.init();
-            self.city.init();
-            self.settings.init();
+            this.country.init();
+            this.state.init();
+            this.city.init();
+            this.settings.init();
         };
-        self.showCountries = function (continentId) {
-            self.selectedContinentId(continentId);
+
+        showCountries = (continentId) => {
+            this.selectedContinentId(continentId);
 
             const grid = $('#CountryGrid').data('kendoGrid');
             grid.dataSource.transport.options.read.url = apiUrl + "?$filter=RegionType eq Mantle.Web.Common.Areas.Admin.Regions.Entities.RegionType'Country' and ParentId eq " + continentId;
             grid.dataSource.page(1);
             //grid.dataSource.read();
             //grid.refresh();
-
             switchSection($("#country-grid-section"));
         };
-        self.showSettings = function (regionId) {
-            self.settings.regionId(regionId);
+
+        showSettings = (regionId) => {
+            this.settings.regionId(regionId);
             switchSection($("#settings-grid-section"));
         };
 
-        self.onCultureSelected = function () {
+        onCultureSelected = () => {
             const regionType = $("#RegionType").val();
             const id = $("#SelectedId").val();
             const cultureCode = $("#CultureCode").val();
 
             switch (regionType) {
-                case 'Country': self.country.edit(id, cultureCode); break;
-                case 'State': self.state.edit(id, cultureCode); break;
-                case 'City': self.city.edit(id, cultureCode); break;
+                case 'Country': this.country.edit(id, cultureCode); break;
+                case 'State': this.state.edit(id, cultureCode); break;
+                case 'City': this.city.edit(id, cultureCode); break;
                 default: break;
             }
 
             $("#cultureModal").modal("hide");
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

@@ -26,18 +26,18 @@
 
     ko.mapping = koMap;
 
-    const PageTypeModel = function (parent) {
-        const self = this;
+    class PageTypeModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.name = ko.observable(null);
+            this.layoutPath = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
-        self.layoutPath = ko.observable(null);
+            this.validator = false;
+        }
 
-        self.validator = false;
-
-        self.init = function () {
-            self.validator = $("#page-type-form-section-form").validate({
+        init = () => {
+            this.validator = $("#page-type-form-section-form").validate({
                 rules: {
                     Name: { required: true, maxlength: 255 },
                     LayoutPath: { required: true, maxlength: 255 }
@@ -63,36 +63,38 @@
                     filterable: false,
                     width: 130
                 }],
-                self.parent.gridPageSize,
+                this.parent.gridPageSize,
                 { field: "Name", dir: "asc" });
         };
-        self.edit = async function (id) {
+
+        edit = async (id) => {
             const data = await ODataHelper.getOData(`${pageTypeApiUrl}(${id})`);
-            self.id(data.Id);
-            self.name(data.Name);
+            this.id(data.Id);
+            this.name(data.Name);
 
             if (data.LayoutPath) {
-                self.layoutPath(data.LayoutPath);
+                this.layoutPath(data.LayoutPath);
             }
             else {
-                self.layoutPath(self.parent.defaultFrontendLayoutPath);
+                this.layoutPath(this.parent.defaultFrontendLayoutPath);
             }
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#page-type-form-section"));
             $("#page-type-form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.save = async function () {
-            const isNew = (self.id() == emptyGuid);
+
+        save = async () => {
+            const isNew = (this.id() == emptyGuid);
 
             if (!$("#page-type-form-section-form").valid()) {
                 return false;
             }
 
             const record = {
-                Id: self.id(),
-                Name: self.name(),
-                LayoutPath: self.layoutPath()
+                Id: this.id(),
+                Name: this.name(),
+                LayoutPath: this.layoutPath()
             };
 
             if (isNew) {
@@ -105,7 +107,7 @@
                 });
             }
             else {
-                await ODataHelper.putOData(`${pageTypeApiUrl}(${self.id()})`, record, () => {
+                await ODataHelper.putOData(`${pageTypeApiUrl}(${this.id()})`, record, () => {
                     GridHelper.refreshGrid('PageTypesGrid');
                     switchSection($("#page-type-grid-section"));
                     MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
@@ -114,31 +116,33 @@
                 });
             }
         };
-        self.cancel = function () {
+
+        cancel = () => {
             switchSection($("#page-type-grid-section"));
         };
-        self.goBack = function () {
+
+        goBack = () => {
             switchSection($("#page-grid-section"));
         };
-    };
+    }
 
-    const PageVersionModel = function (parent) {
-        const self = this;
+    class PageVersionModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.pageId = ko.observable(emptyGuid);
+            this.cultureCode = ko.observable(null);
+            this.status = ko.observable('Draft');
+            this.title = ko.observable(null);
+            this.slug = ko.observable(null);
+            this.fields = ko.observable(null);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.pageId = ko.observable(emptyGuid);
-        self.cultureCode = ko.observable(null);
-        self.status = ko.observable('Draft');
-        self.title = ko.observable(null);
-        self.slug = ko.observable(null);
-        self.fields = ko.observable(null);
+            this.isDraft = ko.observable(true);
 
-        self.isDraft = ko.observable(true);
+            this.pageModelStub = null;
+        }
 
-        self.pageModelStub = null;
-
-        self.init = function () {
+        init = () => {
             GridHelper.initKendoGrid(
                 "PageVersionGrid",
                 `${pageVersionApiUrl}?$filter=CultureCode eq null`,
@@ -166,8 +170,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("pageVersionModel.restore", 'fa fa-undo', MantleI18N.t('Mantle.Web.ContentManagement/Pages.Restore'), 'warning') +
                         GridHelper.actionIconButton("pageVersionModel.preview", 'fa fa-search', MantleI18N.t('Mantle.Web/General.Preview')) +
                         '</div>',
@@ -175,10 +178,11 @@
                     filterable: false,
                     width: 130
                 }],
-                self.gridPageSize,
+                this.gridPageSize,
                 { field: "DateModifiedUtc", dir: "desc" });
         };
-        self.restore = async function (id) {
+
+        restore = async (id) => {
             if (confirm(MantleI18N.t('Mantle.Web.ContentManagement/Pages.PageHistoryRestoreConfirm'))) {
                 await ODataHelper.postOData(`${pageVersionApiUrl}(${id})/Default.RestoreVersion`, record, () => {
                     GridHelper.refreshGrid('PageVersionGrid');
@@ -189,7 +193,8 @@
                 });
             };
         };
-        self.preview = function (id) {
+
+        preview = (id) => {
             const win = window.open('/admin/pages/preview-version/' + id, '_blank');
             if (win) {
                 win.focus();
@@ -198,49 +203,50 @@
             }
             return false;
         };
-        self.goBack = function () {
+
+        goBack = () => {
             switchSection($("#page-grid-section"));
         };
-    };
+    }
 
-    const PageModel = function (parent) {
-        const self = this;
+    class PageModel {
+        constructor(parent) {
+            this.parent = parent;
+            this.id = ko.observable(emptyGuid);
+            this.parentId = ko.observable(null);
+            this.pageTypeId = ko.observable(emptyGuid);
+            this.name = ko.observable(null);
+            this.isEnabled = ko.observable(false);
+            this.order = ko.observable(0);
+            this.showOnMenus = ko.observable(true);
 
-        self.parent = parent;
-        self.id = ko.observable(emptyGuid);
-        self.parentId = ko.observable(null);
-        self.pageTypeId = ko.observable(emptyGuid);
-        self.name = ko.observable(null);
-        self.isEnabled = ko.observable(false);
-        self.order = ko.observable(0);
-        self.showOnMenus = ko.observable(true);
+            this.accessRestrictions = null;
+            this.roles = ko.observableArray([]);
 
-        self.accessRestrictions = null;
-        self.roles = ko.observableArray([]);
+            this.pageVersionGrid = null;
 
-        self.pageVersionGrid = null;
+            this.inEditMode = ko.observable(false);
 
-        self.inEditMode = ko.observable(false);
+            this.validator = false;
+            this.versionValidator = false;
+        }
 
-        self.validator = false;
-        self.versionValidator = false;
-
-        self.init = function () {
-            self.validator = $("#form-section-form").validate({
+        init = () => {
+            this.validator = $("#form-section-form").validate({
                 rules: {
                     Title: { required: true, maxlength: 255 },
                     Order: { required: true, digits: true }
                 }
             });
 
-            self.versionValidator = $("#form-section-version-form").validate({
+            this.versionValidator = $("#form-section-version-form").validate({
                 rules: {
                     Version_Title: { required: true, maxlength: 255 },
                     Version_Slug: { required: true, maxlength: 255 }
                 }
             });
 
-            self.reloadTopLevelPages();
+            this.reloadTopLevelPages();
 
             $("#PageGrid").kendoGrid({
                 data: null,
@@ -285,7 +291,7 @@
                             }
                         }
                     },
-                    pageSize: self.parent.gridPageSize,
+                    pageSize: this.parent.gridPageSize,
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true,
@@ -296,7 +302,7 @@
                     filter: {
                         logic: "and",
                         filters: [
-                          { field: "ParentId", operator: "eq", value: null }
+                            { field: "ParentId", operator: "eq", value: null }
                         ]
                     }
                 },
@@ -336,8 +342,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.create", "fa fa-plus", MantleI18N.t('Mantle.Web/General.Create'), 'primary') +
@@ -356,47 +361,49 @@
                     width: 320
                 }],
                 detailTemplate: kendo.template($("#pages-template").html()),
-                detailInit: self.detailInit
+                detailInit: this.detailInit
             });
 
-            self.pageVersionGrid = $('#PageVersionGrid').data('kendoGrid');
+            this.pageVersionGrid = $('#PageVersionGrid').data('kendoGrid');
         };
-        self.create = function (parentId) {
-            self.parent.currentCulture = null;
 
-            self.id(emptyGuid);
-            self.parentId(parentId);
-            self.pageTypeId(emptyGuid);
-            self.name(null);
-            self.isEnabled(false);
-            self.order(0);
-            self.showOnMenus(true);
-            self.accessRestrictions = null;
+        create = (parentId) => {
+            this.parent.currentCulture = null;
 
-            self.roles([]);
+            this.id(emptyGuid);
+            this.parentId(parentId);
+            this.pageTypeId(emptyGuid);
+            this.name(null);
+            this.isEnabled(false);
+            this.order(0);
+            this.showOnMenus(true);
+            this.accessRestrictions = null;
 
-            self.inEditMode(false);
+            this.roles([]);
 
-            self.setupVersionCreateSection();
+            this.inEditMode(false);
 
-            self.validator.resetForm();
+            this.setupVersionCreateSection();
+
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Create'));
         };
-        self.setupVersionCreateSection = function () {
-            self.parent.pageVersionModel.id(emptyGuid);
-            self.parent.pageVersionModel.pageId(emptyGuid);
-            self.parent.pageVersionModel.cultureCode(self.parent.currentCulture);
-            self.parent.pageVersionModel.status(0);
-            self.parent.pageVersionModel.title(null);
-            self.parent.pageVersionModel.slug(null);
-            self.parent.pageVersionModel.fields(null);
+
+        setupVersionCreateSection = () => {
+            this.parent.pageVersionModel.id(emptyGuid);
+            this.parent.pageVersionModel.pageId(emptyGuid);
+            this.parent.pageVersionModel.cultureCode(this.parent.currentCulture);
+            this.parent.pageVersionModel.status(0);
+            this.parent.pageVersionModel.title(null);
+            this.parent.pageVersionModel.slug(null);
+            this.parent.pageVersionModel.fields(null);
 
             // Clean up from previously injected html/scripts
-            if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
-                self.parent.pageVersionModel.pageModelStub.cleanUp(self.parent.pageVersionModel);
+            if (this.parent.pageVersionModel.pageModelStub != null && typeof this.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
+                this.parent.pageVersionModel.pageModelStub.cleanUp(this.parent.pageVersionModel);
             }
-            self.parent.pageVersionModel.pageModelStub = null;
+            this.parent.pageVersionModel.pageModelStub = null;
 
             // Remove Old Scripts
             const oldScripts = $('script[data-fields-script="true"]');
@@ -411,80 +418,82 @@
             ko.cleanNode(elementToBind);
             $("#fields-definition").html("");
 
-            self.versionValidator.resetForm();
+            this.versionValidator.resetForm();
         };
-        self.edit = async function (id, cultureCode) {
+
+        edit = async (id, cultureCode) => {
             if (cultureCode) {
-                self.parent.currentCulture = cultureCode;
+                this.parent.currentCulture = cultureCode;
             }
             else {
-                self.parent.currentCulture = null;
+                this.parent.currentCulture = null;
             }
 
             const data = await ODataHelper.getOData(`${pageApiUrl}(${id})`);
-            self.id(data.Id);
-            self.parentId(data.ParentId);
-            self.pageTypeId(data.PageTypeId);
-            self.name(data.Name);
-            self.isEnabled(data.IsEnabled);
-            self.order(data.Order);
-            self.showOnMenus(data.ShowOnMenus);
-            self.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
+            this.id(data.Id);
+            this.parentId(data.ParentId);
+            this.pageTypeId(data.PageTypeId);
+            this.name(data.Name);
+            this.isEnabled(data.IsEnabled);
+            this.order(data.Order);
+            this.showOnMenus(data.ShowOnMenus);
+            this.accessRestrictions = ko.mapping.fromJSON(data.AccessRestrictions);
 
-            if (self.accessRestrictions.Roles != null) {
-                const split = self.accessRestrictions.Roles().split(',');
-                self.roles(split);
+            if (this.accessRestrictions.Roles != null) {
+                const split = this.accessRestrictions.Roles().split(',');
+                this.roles(split);
             }
             else {
-                self.roles([]);
+                this.roles([]);
             }
 
             let getCurrentVersionUrl = "";
-            if (self.parent.currentCulture) {
-                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode='" + self.parent.currentCulture + "')";
+            if (this.parent.currentCulture) {
+                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + this.id() + ",cultureCode='" + this.parent.currentCulture + "')";
             }
             else {
-                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + self.id() + ",cultureCode=null)";
+                getCurrentVersionUrl = pageVersionApiUrl + "/Default.GetCurrentVersion(pageId=" + this.id() + ",cultureCode=null)";
             }
 
             const currentVersion = await ODataHelper.getOData(getCurrentVersionUrl);
-            self.setupVersionEditSection(currentVersion);
+            this.setupVersionEditSection(currentVersion);
 
-            self.inEditMode(true);
+            this.inEditMode(true);
 
-            self.validator.resetForm();
+            this.validator.resetForm();
             switchSection($("#form-section"));
             $("#form-section-legend").html(MantleI18N.t('Mantle.Web/General.Edit'));
         };
-        self.setupVersionEditSection = async function (json) {
-            self.parent.pageVersionModel.id(json.Id);
-            self.parent.pageVersionModel.pageId(json.PageId);
+
+        setupVersionEditSection = async (json) => {
+            this.parent.pageVersionModel.id(json.Id);
+            this.parent.pageVersionModel.pageId(json.PageId);
 
             // Don't do this, since API may return invariant version if localized does not exist yet...
-            //self.parent.pageVersionModel.cultureCode(json.CultureCode);
-
+            //this.parent.pageVersionModel.cultureCode(json.CultureCode);
             // So do this instead...
-            self.parent.pageVersionModel.cultureCode(self.parent.currentCulture);
+            this.parent.pageVersionModel.cultureCode(this.parent.currentCulture);
 
-            self.parent.pageVersionModel.status(json.Status);
-            self.parent.pageVersionModel.title(json.Title);
-            self.parent.pageVersionModel.slug(json.Slug);
-            self.parent.pageVersionModel.fields(json.Fields);
+            this.parent.pageVersionModel.status(json.Status);
+            this.parent.pageVersionModel.title(json.Title);
+            this.parent.pageVersionModel.slug(json.Slug);
+            this.parent.pageVersionModel.fields(json.Fields);
 
             if (json.Status == 'Draft') {
-                self.parent.pageVersionModel.isDraft(true);
+                this.parent.pageVersionModel.isDraft(true);
             }
             else {
-                self.parent.pageVersionModel.isDraft(false);
+                this.parent.pageVersionModel.isDraft(false);
             }
-            await fetch(`/admin/pages/get-editor-ui/${self.parent.pageVersionModel.id() }`)
+
+            await fetch(`/admin/pages/get-editor-ui/${this.parent.pageVersionModel.id()}`)
                 .then(response => response.json())
                 .then((data) => {
                     // Clean up from previously injected html/scripts
-                    if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
-                        self.parent.pageVersionModel.pageModelStub.cleanUp(self.parent.pageVersionModel);
+                    if (this.parent.pageVersionModel.pageModelStub != null && typeof this.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
+                        this.parent.pageVersionModel.pageModelStub.cleanUp(this.parent.pageVersionModel);
                     }
-                    self.parent.pageVersionModel.pageModelStub = null;
+                    this.parent.pageVersionModel.pageModelStub = null;
 
                     // Remove Old Scripts
                     const oldScripts = $('script[data-fields-script="true"]');
@@ -509,18 +518,18 @@
                     const scripts = result.filter('script');
 
                     for (const script of scripts) {
-                        $(script).attr("data-fields-script", "true");//for some reason, .data("fields-script", "true") doesn't work here
+                        $(script).attr("data-fields-script", "true"); //for some reason, .data("fields-script", "true") doesn't work here
                         $(script).appendTo('body');
                     };
 
                     // Update Bindings
                     // Ensure the function exists before calling it...
                     if (typeof pageModel != null) {
-                        self.parent.pageVersionModel.pageModelStub = pageModel;
-                        if (typeof self.parent.pageVersionModel.pageModelStub.updateModel === 'function') {
-                            self.parent.pageVersionModel.pageModelStub.updateModel(self.parent.pageVersionModel);
+                        this.parent.pageVersionModel.pageModelStub = pageModel;
+                        if (typeof this.parent.pageVersionModel.pageModelStub.updateModel === 'function') {
+                            this.parent.pageVersionModel.pageModelStub.updateModel(this.parent.pageVersionModel);
                         }
-                        ko.applyBindings(self.parent, elementToBind);
+                        ko.applyBindings(this.parent, elementToBind);
                     }
                 })
                 .catch(error => {
@@ -528,16 +537,18 @@
                     console.error('Error: ', error);
                 });
 
-            self.versionValidator.resetForm();
+            this.versionValidator.resetForm();
         };
-        self.remove = async function (id, parentId) {
+
+        remove = async (id, parentId) => {
             await ODataHelper.deleteOData(`${pageApiUrl}(${id})`, () => {
-                self.refreshGrid(parentId);
+                this.refreshGrid(parentId);
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.DeleteRecordSuccess'));
             });
         };
-        self.save = async function () {
-            const isNew = (self.id() == emptyGuid);
+
+        save = async () => {
+            const isNew = (this.id() == emptyGuid);
 
             if (!$("#form-section-form").valid()) {
                 return false;
@@ -549,18 +560,18 @@
                 }
             }
 
-            const parentId = self.parentId();
+            const parentId = this.parentId();
 
             const record = {
-                Id: self.id(),
+                Id: this.id(),
                 ParentId: parentId,
-                PageTypeId: self.pageTypeId(),
-                Name: self.name(),
-                IsEnabled: self.isEnabled(),
-                Order: self.order(),
-                ShowOnMenus: self.showOnMenus(),
+                PageTypeId: this.pageTypeId(),
+                Name: this.name(),
+                IsEnabled: this.isEnabled(),
+                Order: this.order(),
+                ShowOnMenus: this.showOnMenus(),
                 AccessRestrictions: JSON.stringify({
-                    Roles: self.roles().join()
+                    Roles: this.roles().join()
                 }),
             };
 
@@ -568,21 +579,22 @@
                 await ODataHelper.postOData(pageApiUrl, record);
             }
             else {
-                await ODataHelper.putOData(`${pageApiUrl}(${self.id()})`, record);
-                await self.saveVersion();
+                await ODataHelper.putOData(`${pageApiUrl}(${this.id()})`, record);
+                await this.saveVersion();
             }
 
-            self.refreshGrid(parentId);
+            this.refreshGrid(parentId);
             switchSection($("#page-grid-section"));
         };
-        self.saveVersion = async function () {
+
+        saveVersion = async () => {
 
             // ensure the function exists before calling it...
-            if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.onBeforeSave === 'function') {
-                self.parent.pageVersionModel.pageModelStub.onBeforeSave(self.parent.pageVersionModel);
+            if (this.parent.pageVersionModel.pageModelStub != null && typeof this.parent.pageVersionModel.pageModelStub.onBeforeSave === 'function') {
+                this.parent.pageVersionModel.pageModelStub.onBeforeSave(this.parent.pageVersionModel);
             }
 
-            let cultureCode = self.parent.pageVersionModel.cultureCode();
+            let cultureCode = this.parent.pageVersionModel.cultureCode();
             if (cultureCode == '') {
                 cultureCode = null;
             }
@@ -590,9 +602,9 @@
             let status = 'Draft';
 
             // if not preset to 'Archived' status...
-            if (self.parent.pageVersionModel.status() != 'Archived') {
+            if (this.parent.pageVersionModel.status() != 'Archived') {
                 // and checkbox for Draft has been set,
-                if (self.parent.pageVersionModel.isDraft()) {
+                if (this.parent.pageVersionModel.isDraft()) {
                     // then change status to 'Draft'
                     status = 'Draft';
                 }
@@ -603,23 +615,24 @@
             }
 
             const record = {
-                Id: self.parent.pageVersionModel.id(), // Should always create a new one, so don't send Id!
-                PageId: self.parent.pageVersionModel.pageId(),
+                Id: this.parent.pageVersionModel.id(),
+                PageId: this.parent.pageVersionModel.pageId(),
                 CultureCode: cultureCode,
                 Status: status,
-                Title: self.parent.pageVersionModel.title(),
-                Slug: self.parent.pageVersionModel.slug(),
-                Fields: self.parent.pageVersionModel.fields(),
+                Title: this.parent.pageVersionModel.title(),
+                Slug: this.parent.pageVersionModel.slug(),
+                Fields: this.parent.pageVersionModel.fields(),
             };
 
-            await ODataHelper.putOData(`${pageVersionApiUrl}(${self.parent.pageVersionModel.id()})`, record);
+            await ODataHelper.putOData(`${pageVersionApiUrl}(${this.parent.pageVersionModel.id()})`, record);
         };
-        self.cancel = function () {
+
+        cancel = () => {
             // Clean up from previously injected html/scripts
-            if (self.parent.pageVersionModel.pageModelStub != null && typeof self.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
-                self.parent.pageVersionModel.pageModelStub.cleanUp(self.parent.pageVersionModel);
+            if (this.parent.pageVersionModel.pageModelStub != null && typeof this.parent.pageVersionModel.pageModelStub.cleanUp === 'function') {
+                this.parent.pageVersionModel.pageModelStub.cleanUp(this.parent.pageVersionModel);
             }
-            self.parent.pageVersionModel.pageModelStub = null;
+            this.parent.pageVersionModel.pageModelStub = null;
 
             // Remove Old Scripts
             const oldScripts = $('script[data-fields-script="true"]');
@@ -636,31 +649,35 @@
 
             switchSection($("#page-grid-section"));
         };
-        self.toggleEnabled = async function (id, parentId, isEnabled) {
+
+        toggleEnabled = async (id, parentId, isEnabled) => {
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, {
                 IsEnabled: !isEnabled
             }, () => {
                 if (parentId) {
-                    self.refreshGrid(parentId);
+                    this.refreshGrid(parentId);
                 }
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
             });
         };
-        self.showPageHistory = function (id) {
-            if (self.parent.currentCulture == null || self.parent.currentCulture == "") {
-                self.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq null and PageId eq " + id;
+
+        showPageHistory = (id) => {
+            if (this.parent.currentCulture == null || this.parent.currentCulture == "") {
+                this.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq null and PageId eq " + id;
             }
             else {
-                self.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq '" + self.parent.currentCulture + "' and PageId eq " + id;
+                this.pageVersionGrid.dataSource.transport.options.read.url = pageVersionApiUrl + "?$filter=CultureCode eq '" + this.parent.currentCulture + "' and PageId eq " + id;
             }
-            self.pageVersionGrid.dataSource.page(1);
+            this.pageVersionGrid.dataSource.page(1);
 
             switchSection($("#version-grid-section"));
         };
-        self.showPageTypes = function () {
+
+        showPageTypes = () => {
             switchSection($("#page-type-grid-section"));
         };
-        self.refreshGrid = function (parentId) {
+
+        refreshGrid = (parentId) => {
             if (parentId && (parentId != "null")) {
                 try {
                     GridHelper.refreshGrid(`page-grid-${parentId}`);
@@ -671,11 +688,11 @@
             }
             else {
                 GridHelper.refreshGrid('PageGrid');
-                self.reloadTopLevelPages();
+                this.reloadTopLevelPages();
             }
         };
 
-        self.detailInit = function (e) {
+        detailInit = (e) => {
             const detailRow = e.detailRow;
 
             detailRow.find(".detail-grid").kendoGrid({
@@ -721,7 +738,7 @@
                             }
                         }
                     },
-                    pageSize: self.parent.gridPageSize,
+                    pageSize: this.parent.gridPageSize,
                     serverPaging: true,
                     serverFiltering: true,
                     serverSorting: true,
@@ -732,7 +749,7 @@
                     filter: {
                         logic: "and",
                         filters: [
-                          { field: "ParentId", operator: "eq", value: e.data.Id }
+                            { field: "ParentId", operator: "eq", value: e.data.Id }
                         ]
                     }
                 },
@@ -772,8 +789,7 @@
                 }, {
                     field: "Id",
                     title: " ",
-                    template:
-                        '<div class="btn-group">' +
+                    template: '<div class="btn-group">' +
                         GridHelper.actionIconButton("pageModel.edit", "fa fa-edit", MantleI18N.t('Mantle.Web/General.Edit'), 'secondary', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.remove", "fa fa-trash", MantleI18N.t('Mantle.Web/General.Delete'), 'danger', `\'#=Id#\',null`) +
                         GridHelper.actionIconButton("pageModel.create", "fa fa-plus", MantleI18N.t('Mantle.Web/General.Create'), 'primary') +
@@ -792,11 +808,11 @@
                     width: 320
                 }],
                 detailTemplate: kendo.template($("#pages-template").html()),
-                detailInit: self.detailInit
+                detailInit: this.detailInit
             });
         };
 
-        self.preview = function (id) {
+        preview = (id) => {
             const win = window.open('/admin/pages/preview/' + id, '_blank');
             if (win) {
                 win.focus();
@@ -805,11 +821,13 @@
             }
             return false;
         };
-        self.move = function (id) {
-            $("#PageIdToMove").val(id)
+
+        move = (id) => {
+            $("#PageIdToMove").val(id);
             $("#parentPageModal").modal("show");
         };
-        self.reloadTopLevelPages = async function () {
+
+        reloadTopLevelPages = async () => {
             const data = await ODataHelper.getOData(`${pageApiUrl}/Default.GetTopLevelPages()`);
             $('#ParentId').html('');
             $('#ParentId').append($('<option>', {
@@ -826,9 +844,10 @@
 
             const elementToBind = $("#ParentId")[0];
             ko.cleanNode(elementToBind);
-            ko.applyBindings(self.parent, elementToBind);
+            ko.applyBindings(this.parent, elementToBind);
         };
-        self.onParentSelected = async function () {
+
+        onParentSelected = async () => {
             const id = $("#PageIdToMove").val();
             let parentId = $("#ParentId").val();
 
@@ -846,55 +865,58 @@
 
             await ODataHelper.patchOData(`${pageApiUrl}(${id})`, { ParentId: parentId }, () => {
                 $("#parentPageModal").modal("hide");
-                self.refreshGrid(parentId);
+                this.refreshGrid(parentId);
                 MantleNotify.success(MantleI18N.t('Mantle.Web/General.UpdateRecordSuccess'));
             }, () => {
                 MantleNotify.error(MantleI18N.t('Mantle.Web/General.UpdateRecordError'));
             });
         };
-        self.localize = function (id) {
+
+        localize = (id) => {
             $("#PageIdToLocalize").val(id);
             $("#cultureModal").modal("show");
         };
-        self.onCultureSelected = function () {
+
+        onCultureSelected = () => {
             const id = $("#PageIdToLocalize").val();
             const cultureCode = $("#CultureCode").val();
-            self.edit(id, cultureCode);
+            this.edit(id, cultureCode);
             $("#cultureModal").modal("hide");
         };
-    };
+    }
 
-    const ViewModel = function () {
-        const self = this;
+    class ViewModel {
+        constructor() {
+            this.gridPageSize = 10;
+            this.currentCulture = null;
+            this.defaultFrontendLayoutPath = null;
 
-        self.gridPageSize = 10;
-        self.currentCulture = null;
-        self.defaultFrontendLayoutPath = null;
+            this.pageModel = false;
+            this.pageVersionModel = false;
+            this.pageTypeModel = false;
+        }
 
-        self.pageModel = false;
-        self.pageVersionModel = false;
-        self.pageTypeModel = false;
-
-        self.activate = function () {
-            self.pageModel = new PageModel(self);
-            self.pageVersionModel = new PageVersionModel(self);
-            self.pageTypeModel = new PageTypeModel(self);
+        activate = () => {
+            this.pageModel = new PageModel(this);
+            this.pageVersionModel = new PageVersionModel(this);
+            this.pageTypeModel = new PageTypeModel(this);
         };
-        self.attached = async function () {
+
+        attached = async () => {
             currentSection = $("#page-grid-section");
 
-            self.gridPageSize = $("#GridPageSize").val();
-            self.defaultFrontendLayoutPath = $("#DefaultFrontendLayoutPath").val();
+            this.gridPageSize = $("#GridPageSize").val();
+            this.defaultFrontendLayoutPath = $("#DefaultFrontendLayoutPath").val();
 
-            if (!self.defaultFrontendLayoutPath) {
-                self.defaultFrontendLayoutPath = null;
+            if (!this.defaultFrontendLayoutPath) {
+                this.defaultFrontendLayoutPath = null;
             }
 
-            self.pageTypeModel.init();
-            self.pageVersionModel.init();
-            self.pageModel.init(); // initialize this last, so that pageVersionGrid is not undefined
+            this.pageTypeModel.init();
+            this.pageVersionModel.init();
+            this.pageModel.init(); // initialize this last, so that pageVersionGrid is not undefined
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

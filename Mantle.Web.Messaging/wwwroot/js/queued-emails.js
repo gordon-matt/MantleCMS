@@ -11,12 +11,12 @@
     require('odata-helpers');
     require('mantle-translations');
 
-    const ViewModel = function () {
-        const self = this;
-
-        self.gridPageSize = 10;
-
-        self.attached = async function () {
+    class ViewModel {
+        constructor() {
+            self.gridPageSize = 10;
+        }
+        
+        attached = async () => {
             self.gridPageSize = $("#GridPageSize").val();
 
             GridHelper.initKendoGrid(
@@ -66,10 +66,11 @@
                 self.gridPageSize,
                 { field: "CreatedOnUtc", dir: "desc" });
         };
-        self.remove = async function (id) {
+
+        remove = async (id) => {
             await ODataHelper.deleteOData(`/odata/mantle/web/messaging/QueuedEmailApi(${id})`);
         };
-    };
+    }
 
     const viewModel = new ViewModel();
     return viewModel;

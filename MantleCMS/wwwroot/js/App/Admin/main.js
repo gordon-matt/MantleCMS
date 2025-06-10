@@ -8,7 +8,7 @@
     'chosen': '../../../lib/chosen-js/chosen.jquery',
     'jqueryval': '../../../lib/jquery-validation/dist/jquery.validate',
     'jqueryval-unobtrusive': '../../../lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive',
-    'kendo': '../../kendo/2014.1.318/kendo.web.min',
+    'kendo': '../../../_content/Extenso.WebAssets.KendoUI/js/kendo/2014.1.318/kendo.web.min',
     'kendo-knockout': '../../../lib/knockout-kendo/build/knockout-kendo',
     'knockout-mapping': '../../../lib/knockout.mapping/knockout.mapping',
     'notify': '../../../lib/notifyjs-browser/dist/notify.min',
