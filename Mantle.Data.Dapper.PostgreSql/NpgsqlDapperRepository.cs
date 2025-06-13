@@ -31,7 +31,7 @@ public class NpgsqlDapperRepository<TEntity, TKey> : DapperRepository<TEntity, T
         ? throw new ArgumentException("queryBuilder must be of type, 'NpgsqlSelectQueryBuilder'", nameof(queryBuilder))
         : base.Count(queryBuilder);
 
-    public override ISelectQueryBuilder CreateQuery() => new NpgsqlSelectQueryBuilder(schema);
+    public override ISelectQueryBuilder CreateQuery() => new NpgsqlSelectQueryBuilder();
 
     protected override string EncloseIdentifier(string identifier) => $"\"{identifier}\"";
 }

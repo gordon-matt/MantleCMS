@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dependo.DryIoc" Version="1.1.2" />
+    <PackageReference Include="Dependo.DryIoc" Version="1.1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
