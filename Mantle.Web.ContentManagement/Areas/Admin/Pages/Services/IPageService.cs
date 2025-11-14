@@ -272,9 +272,9 @@ public class PageService : GenericDataService<Page>, IPageService
 
     #region Insert
 
-    public override int Insert(IEnumerable<Page> entities)
+    public override IEnumerable<Page> Insert(IEnumerable<Page> entities)
     {
-        int rowsAffected = base.Insert(entities);
+        entities = base.Insert(entities);
 
         var pageVersions = entities.Select(x => new PageVersion
         {
@@ -288,17 +288,17 @@ public class PageService : GenericDataService<Page>, IPageService
             Title = x.Name,
             Slug = x.Name.ToSlugUrl()
         });
-        rowsAffected += pageVersionRepository.Value.Insert(pageVersions);
 
+        pageVersionRepository.Value.Insert(pageVersions);
         ClearCache();
-        return rowsAffected;
+        return entities;
     }
 
-    public override int Insert(Page entity)
+    public override Page Insert(Page entity)
     {
-        int rowsAffected = base.Insert(entity);
+        entity = base.Insert(entity);
 
-        rowsAffected += pageVersionRepository.Value.Insert(new PageVersion
+        pageVersionRepository.Value.Insert(new PageVersion
         {
             Id = Guid.NewGuid(),
             TenantId = entity.TenantId,
@@ -312,12 +312,12 @@ public class PageService : GenericDataService<Page>, IPageService
         });
 
         ClearCache();
-        return rowsAffected;
+        return entity;
     }
 
-    public override async Task<int> InsertAsync(IEnumerable<Page> entities)
+    public override async Task<IEnumerable<Page>> InsertAsync(IEnumerable<Page> entities)
     {
-        int rowsAffected = await base.InsertAsync(entities);
+        entities = await base.InsertAsync(entities);
 
         var pageVersions = entities.Select(x => new PageVersion
         {
@@ -331,17 +331,17 @@ public class PageService : GenericDataService<Page>, IPageService
             Title = x.Name,
             Slug = x.Name.ToSlugUrl()
         });
-        rowsAffected += await pageVersionRepository.Value.InsertAsync(pageVersions);
 
+        await pageVersionRepository.Value.InsertAsync(pageVersions);
         ClearCache();
-        return rowsAffected;
+        return entities;
     }
 
-    public override async Task<int> InsertAsync(Page entity)
+    public override async Task<Page> InsertAsync(Page entity)
     {
-        int rowsAffected = await base.InsertAsync(entity);
+        entity = await base.InsertAsync(entity);
 
-        rowsAffected += await pageVersionRepository.Value.InsertAsync(new PageVersion
+        await pageVersionRepository.Value.InsertAsync(new PageVersion
         {
             Id = Guid.NewGuid(),
             TenantId = entity.TenantId,
@@ -355,7 +355,7 @@ public class PageService : GenericDataService<Page>, IPageService
         });
 
         ClearCache();
-        return rowsAffected;
+        return entity;
     }
 
     #endregion Insert

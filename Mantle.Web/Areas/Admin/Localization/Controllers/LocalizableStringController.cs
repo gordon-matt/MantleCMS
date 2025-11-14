@@ -47,6 +47,7 @@ public class LocalizableStringController : MantleController
     }
 
     [AllowAnonymous]
+    [HttpGet]
     [Route("translations.js")]
     public IActionResult GetTranslationsJS()
     {

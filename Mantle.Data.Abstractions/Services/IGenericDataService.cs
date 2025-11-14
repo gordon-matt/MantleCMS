@@ -79,13 +79,13 @@ public interface IGenericDataService<TEntity> where TEntity : class
 
     #region Insert
 
-    int Insert(TEntity entity);
+    TEntity Insert(TEntity entity);
 
-    int Insert(IEnumerable<TEntity> entities);
+    IEnumerable<TEntity> Insert(IEnumerable<TEntity> entities);
 
-    Task<int> InsertAsync(TEntity entity);
+    Task<TEntity> InsertAsync(TEntity entity);
 
-    Task<int> InsertAsync(IEnumerable<TEntity> entities);
+    Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entities);
 
     #endregion Insert
 

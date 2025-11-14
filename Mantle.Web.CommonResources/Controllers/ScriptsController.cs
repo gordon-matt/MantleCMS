@@ -15,6 +15,7 @@ public class ScriptsController : MantleController
         this.toastsScriptBuilder = toastsScriptBuilder;
     }
 
+    [HttpGet]
     [Route("toasts.js")]
     public IActionResult Toasts()
     {

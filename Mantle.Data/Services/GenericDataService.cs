@@ -172,32 +172,32 @@ public class GenericDataService<TEntity> : IGenericDataService<TEntity> where TE
 
     #region Insert
 
-    public virtual int Insert(TEntity entity)
+    public virtual TEntity Insert(TEntity entity)
     {
-        int rowsAffected = repository.Insert(entity);
+        entity = repository.Insert(entity);
         ClearCache();
-        return rowsAffected;
+        return entity;
     }
 
-    public virtual int Insert(IEnumerable<TEntity> entities)
+    public virtual IEnumerable<TEntity> Insert(IEnumerable<TEntity> entities)
     {
-        int rowsAffected = repository.Insert(entities);
+        entities = repository.Insert(entities);
         ClearCache();
-        return rowsAffected;
+        return entities;
     }
 
-    public virtual async Task<int> InsertAsync(TEntity entity)
+    public virtual async Task<TEntity> InsertAsync(TEntity entity)
     {
-        int rowsAffected = await repository.InsertAsync(entity);
+        entity = await repository.InsertAsync(entity);
         ClearCache();
-        return rowsAffected;
+        return entity;
     }
 
-    public virtual async Task<int> InsertAsync(IEnumerable<TEntity> entities)
+    public virtual async Task<IEnumerable<TEntity>> InsertAsync(IEnumerable<TEntity> entities)
     {
-        int rowsAffected = await repository.InsertAsync(entities);
+        entities = await repository.InsertAsync(entities);
         ClearCache();
-        return rowsAffected;
+        return entities;
     }
 
     #endregion Insert
