@@ -5,41 +5,33 @@ namespace Mantle.Plugins;
 /// </summary>
 public static class PluginExtensions
 {
-    private static readonly List<string> SupportedLogoImageExtensions =
-    [
-        "jpg",
-        "png",
-        "gif"
-    ];
+    private static readonly List<string> SupportedLogoImageExtensions = ["jpg", "png", "gif"];
 
-    /// <summary>
-    /// Get logo URL
-    /// </summary>
-    /// <param name="pluginDescriptor">Plugin descriptor</param>
-    /// <param name="webHelper">Web helper</param>
-    /// <returns>Logo URL</returns>
-    public static string GetLogoUrl(this PluginDescriptor pluginDescriptor)
+    extension(PluginDescriptor pluginDescriptor)
     {
-        if (pluginDescriptor == null)
+        /// <summary>
+        /// Get logo URL
+        /// </summary>
+        /// <returns>Logo URL</returns>
+        public string GetLogoUrl()
         {
-            throw new ArgumentNullException(nameof(pluginDescriptor));
+            ArgumentNullException.ThrowIfNull(pluginDescriptor);
+
+            if (pluginDescriptor.OriginalAssemblyFile?.Directory is null)
+            {
+                return null;
+            }
+
+            var pluginDirectory = pluginDescriptor.OriginalAssemblyFile.Directory;
+
+            string logoExtension = SupportedLogoImageExtensions.FirstOrDefault(ext => File.Exists(Path.Combine(pluginDirectory.FullName, "logo." + ext)));
+
+            if (string.IsNullOrWhiteSpace(logoExtension))
+            {
+                return null; //No logo file was found with any of the supported extensions.
+            }
+
+            return $"{CommonHelper.BaseDirectory}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
         }
-
-        if (pluginDescriptor.OriginalAssemblyFile == null || pluginDescriptor.OriginalAssemblyFile.Directory == null)
-        {
-            return null;
-        }
-
-        var pluginDirectory = pluginDescriptor.OriginalAssemblyFile.Directory;
-
-        string logoExtension = SupportedLogoImageExtensions.FirstOrDefault(ext => File.Exists(Path.Combine(pluginDirectory.FullName, "logo." + ext)));
-
-        if (string.IsNullOrWhiteSpace(logoExtension))
-        {
-            return null; //No logo file was found with any of the supported extensions.
-        }
-
-        string logoUrl = $"{CommonHelper.BaseDirectory}plugins/{pluginDirectory.Name}/logo.{logoExtension}";
-        return logoUrl;
     }
 }

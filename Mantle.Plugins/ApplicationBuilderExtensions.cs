@@ -7,11 +7,14 @@ namespace Mantle.Plugins;
 
 public static class ApplicationBuilderExtensions
 {
-    public static IApplicationBuilder UseMantlePlugins(this IApplicationBuilder app) =>
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
-            RequestPath = new PathString("/Plugins"),
-            OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800")
-        });
+    extension(IApplicationBuilder app)
+    {
+        public IApplicationBuilder UseMantlePlugins() =>
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins")),
+                RequestPath = new PathString("/Plugins"),
+                OnPrepareResponse = ctx => ctx.Context.Response.Headers.Append(HeaderNames.CacheControl, "public,max-age=604800")
+            });
+    }
 }

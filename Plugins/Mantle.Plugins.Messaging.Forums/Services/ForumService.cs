@@ -456,7 +456,7 @@ public class ForumService : IForumService
 
         //delete topic if it was the first post
         bool deleteTopic = false;
-        var firstPost = forumTopic.GetFirstPost(this);
+        var firstPost = await forumTopic.GetFirstPostAsync(this);
         if (firstPost != null && firstPost.Id == forumPost.Id)
         {
             deleteTopic = true;

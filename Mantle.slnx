@@ -1,0 +1,68 @@
+<Solution>
+  <Folder Name="/Lib/">
+    <Project Path="Mantle.Caching.Abstractions/Mantle.Caching.Abstractions.csproj" />
+    <Project Path="Mantle.Caching/Mantle.Caching.csproj" />
+    <Project Path="Mantle.Data.Abstractions/Mantle.Data.Abstractions.csproj" />
+    <Project Path="Mantle.Data.Dapper.PostgreSql/Mantle.Data.Dapper.PostgreSql.csproj" />
+    <Project Path="Mantle.Data.Dapper/Mantle.Data.Dapper.csproj" />
+    <Project Path="Mantle.Data/Mantle.Data.csproj" />
+    <Project Path="Mantle.Events.Abstractions/Mantle.Events.Abstractions.csproj" />
+    <Project Path="Mantle.Events/Mantle.Events.csproj" />
+    <Project Path="Mantle.Identity/Mantle.Identity.csproj" />
+    <Project Path="Mantle.Localization.Abstractions/Mantle.Localization.Abstractions.csproj" />
+    <Project Path="Mantle.Localization/Mantle.Localization.csproj" />
+    <Project Path="Mantle.Logging/Mantle.Logging.csproj" />
+    <Project Path="Mantle.Messaging/Mantle.Messaging.csproj" />
+    <Project Path="Mantle.Plugins/Mantle.Plugins.csproj" />
+    <Project Path="Mantle.Security/Mantle.Security.csproj" />
+    <Project Path="Mantle.Tasks.Abstractions/Mantle.Tasks.Abstractions.csproj" />
+    <Project Path="Mantle.Tasks/Mantle.Tasks.csproj" />
+    <Project Path="Mantle.Tenants.Abstractions/Mantle.Tenants.Abstractions.csproj" />
+    <Project Path="Mantle.Tenants/Mantle.Tenants.csproj" />
+    <Project Path="Mantle/Mantle.csproj" />
+  </Folder>
+  <Folder Name="/Lib/Infrastructure/">
+    <Project Path="Mantle.Infrastructure.Abstractions/Mantle.Infrastructure.Abstractions.csproj" />
+    <Project Path="Mantle.Infrastructure.Autofac/Mantle.Infrastructure.Autofac.csproj" />
+    <Project Path="Mantle.Infrastructure.DotNetDefault/Mantle.Infrastructure.DotNetDefault.csproj" />
+    <Project Path="Mantle.Infrastructure.DryIoc/Mantle.Infrastructure.DryIoc.csproj" />
+    <Project Path="Mantle.Infrastructure.Lamar/Mantle.Infrastructure.Lamar.csproj" />
+    <Project Path="Mantle.Infrastructure.LightInject/Mantle.Infrastructure.LightInject.csproj" />
+    <Project Path="Mantle.Infrastructure/Mantle.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Plugins/">
+    <Project Path="Plugins/Mantle.Plugins.Caching.Redis/Mantle.Plugins.Caching.Redis.csproj" />
+    <Project Path="Plugins/Mantle.Plugins.Messaging.Forums/Mantle.Plugins.Messaging.Forums.csproj" />
+    <Project Path="Plugins/Mantle.Plugins.Widgets.FlexSlider/Mantle.Plugins.Widgets.FlexSlider.csproj" />
+    <Project Path="Plugins/Mantle.Plugins.Widgets.FullCalendar/Mantle.Plugins.Widgets.FullCalendar.csproj" />
+    <Project Path="Plugins/Mantle.Plugins.Widgets.JQueryFormBuilder/Mantle.Plugins.Widgets.JQueryFormBuilder.csproj" />
+    <Project Path="Plugins/Mantle.Plugins.Widgets.View360/Mantle.Plugins.Widgets.View360.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/Solution Items/_Misc/">
+    <File Path="_Misc/logo.png" />
+    <File Path="_Misc/TODO.txt" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Mantle.Web.ContentManagement.Tests/Mantle.Web.ContentManagement.Tests.csproj" />
+    <Project Path="Tests/Mantle.Web.Tests/Mantle.Web.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Web/">
+    <Project Path="Mantle.Web.Abstractions/Mantle.Web.Abstractions.csproj" />
+    <Project Path="Mantle.Web.Common/Mantle.Web.Common.csproj" />
+    <Project Path="Mantle.Web.CommonResources/Mantle.Web.CommonResources.csproj" />
+    <Project Path="Mantle.Web.ContentManagement/Mantle.Web.ContentManagement.csproj" />
+    <Project Path="Mantle.Web.Messaging/Mantle.Web.Messaging.csproj" />
+    <Project Path="Mantle.Web/Mantle.Web.csproj" />
+  </Folder>
+  <Folder Name="/Web/Infrastructure/">
+    <Project Path="Mantle.Web.Infrastructure.Autofac/Mantle.Web.Infrastructure.Autofac.csproj" />
+    <Project Path="Mantle.Web.Infrastructure.DotNetDefault/Mantle.Web.Infrastructure.DotNetDefault.csproj" />
+    <Project Path="Mantle.Web.Infrastructure.DryIoc/Mantle.Web.Infrastructure.DryIoc.csproj" />
+    <Project Path="Mantle.Web.Infrastructure.Lamar/Mantle.Web.Infrastructure.Lamar.csproj" />
+    <Project Path="Mantle.Web.Infrastructure.LightInject/Mantle.Web.Infrastructure.LightInject.csproj" />
+  </Folder>
+  <Project Path="MantleCMS/MantleCMS.csproj" />
+</Solution>

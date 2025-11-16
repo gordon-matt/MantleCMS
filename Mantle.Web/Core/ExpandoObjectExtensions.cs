@@ -4,28 +4,31 @@ namespace Mantle.Web;
 
 public static class ExpandoObjectExtensions
 {
-    public static string ToJson(this ExpandoObject expando)
+    extension(ExpandoObject expando)
     {
-        var json = new StringBuilder();
-        var keyPairs = new List<string>();
-        IDictionary<string, object> dictionary = expando;
-        json.Append('{');
-
-        foreach (var pair in dictionary)
+        public string ToJson()
         {
-            if (pair.Value is ExpandoObject)
+            var json = new StringBuilder();
+            var keyPairs = new List<string>();
+            IDictionary<string, object> dictionary = expando;
+            json.Append('{');
+
+            foreach (var pair in dictionary)
             {
-                keyPairs.Add($@"""{pair.Key}"": {(pair.Value as ExpandoObject).ToJson()}");
+                if (pair.Value is ExpandoObject)
+                {
+                    keyPairs.Add($@"""{pair.Key}"": {(pair.Value as ExpandoObject).ToJson()}");
+                }
+                else
+                {
+                    keyPairs.Add($@"""{pair.Key}"": {pair.Value.JsonSerialize()}");
+                }
             }
-            else
-            {
-                keyPairs.Add($@"""{pair.Key}"": {pair.Value.JsonSerialize()}");
-            }
+
+            json.Append(string.Join(",", keyPairs.ToArray()));
+            json.Append('}');
+
+            return json.ToString();
         }
-
-        json.Append(string.Join(",", keyPairs.ToArray()));
-        json.Append('}');
-
-        return json.ToString();
     }
 }

@@ -923,7 +923,7 @@ public class ForumsController : MantleController
             return RedirectToAction("Index");
         }
 
-        var firstPost = topic.GetFirstPost(forumService);
+        var firstPost = await topic.GetFirstPostAsync(forumService);
 
         var model = new EditForumTopicModel
         {
@@ -1019,7 +1019,7 @@ public class ForumsController : MantleController
                 await forumService.UpdateTopic(topic);
 
                 //forum post
-                var firstPost = topic.GetFirstPost(forumService);
+                var firstPost = await topic.GetFirstPostAsync(forumService);
                 if (firstPost != null)
                 {
                     firstPost.Text = text;

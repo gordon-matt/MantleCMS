@@ -8,16 +8,19 @@ namespace Mantle.Web.Infrastructure.DryIoc;
 
 public static class ConfigurationModule
 {
-    public static void RegisterSettings(this IRegistrator registrator, ITypeFinder typeFinder)
+    extension(IRegistrator registrator)
     {
-        var settingsTypes = typeFinder.FindClassesOfType<ISettings>();
-        foreach (var settingsType in settingsTypes)
+        public void RegisterSettings(ITypeFinder typeFinder)
         {
-            registrator.RegisterDelegate(
-                settingsType,
-                r => GetSettingsDynamic(r, settingsType),
-                setup: Setup.With(asResolutionCall: true)
-            );
+            var settingsTypes = typeFinder.FindClassesOfType<ISettings>();
+            foreach (var settingsType in settingsTypes)
+            {
+                registrator.RegisterDelegate(
+                    settingsType,
+                    r => GetSettingsDynamic(r, settingsType),
+                    setup: Setup.With(asResolutionCall: true)
+                );
+            }
         }
     }
 

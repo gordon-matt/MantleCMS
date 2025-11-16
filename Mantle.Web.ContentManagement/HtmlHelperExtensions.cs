@@ -4,13 +4,17 @@ using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks;
 using Mantle.Web.ContentManagement.Areas.Admin.ContentBlocks.Services;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Entities;
 using Mantle.Web.ContentManagement.Areas.Admin.Pages.Services;
+using Mantle.Web.Messaging;
 using Mantle.Web.Mvc.KendoUI;
 
 namespace Mantle.Web.ContentManagement;
 
 public static class HtmlHelperExtensions
 {
-    public static MantleCMS<TModel> MantleCMS<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
+    extension<TModel>(IHtmlHelper<TModel> html) where TModel : class
+    {
+        public MantleCMS<TModel> MantleCMS() => new(html);
+    }
 }
 
 public enum WidgetColumns : byte

@@ -14,135 +14,109 @@ public enum PageTarget : byte
 
 public static class HtmlHelperExtensions
 {
-    #region Html Link
-
-    public static IHtmlContent EmailLink(this IHtmlHelper helper, string emailAddress) => helper.Link(string.Concat("mailto:", emailAddress));
-
-    public static IHtmlContent Link(this IHtmlHelper helper, string href, PageTarget target = PageTarget.Default) => helper.Link(href, href, target);
-
-    public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, PageTarget target = PageTarget.Default) => helper.Link(linkText, href, null, target);
-
-    public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, object htmlAttributes, PageTarget target = PageTarget.Default)
+    extension(IHtmlHelper html)
     {
-        var builder = new TagBuilder("a");
-        builder.MergeAttribute("href", href);
-        builder.InnerHtml.Append(linkText);
+        #region Html Link
 
-        switch (target)
+        public IHtmlContent EmailLink(string emailAddress) => html.Link(string.Concat("mailto:", emailAddress));
+
+        public IHtmlContent Link(string href, PageTarget target = PageTarget.Default) => html.Link(href, href, target);
+
+        public IHtmlContent Link(string linkText, string href, PageTarget target = PageTarget.Default) => html.Link(linkText, href, null, target);
+
+        public IHtmlContent Link(string linkText, string href, object htmlAttributes, PageTarget target = PageTarget.Default)
         {
-            case PageTarget.Blank: builder.MergeAttribute("target", "_blank"); break;
-            case PageTarget.Parent: builder.MergeAttribute("target", "_parent"); break;
-            case PageTarget.Self: builder.MergeAttribute("target", "_self"); break;
-            case PageTarget.Top: builder.MergeAttribute("target", "_top"); break;
+            var builder = new TagBuilder("a");
+            builder.MergeAttribute("href", href);
+            builder.InnerHtml.Append(linkText);
+
+            switch (target)
+            {
+                case PageTarget.Blank: builder.MergeAttribute("target", "_blank"); break;
+                case PageTarget.Parent: builder.MergeAttribute("target", "_parent"); break;
+                case PageTarget.Self: builder.MergeAttribute("target", "_self"); break;
+                case PageTarget.Top: builder.MergeAttribute("target", "_top"); break;
+            }
+
+            builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+
+            return new HtmlString(builder.Build());
         }
 
-        builder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-
-        return new HtmlString(builder.Build());
-    }
-
-    public static IHtmlContent Link(this IHtmlHelper helper, string linkText, string href, RouteValueDictionary htmlAttributes, PageTarget target = PageTarget.Default)
-    {
-        var builder = new TagBuilder("a");
-        builder.MergeAttribute("href", href);
-        builder.InnerHtml.Append(linkText);
-
-        switch (target)
+        public IHtmlContent Link(string linkText, string href, RouteValueDictionary htmlAttributes, PageTarget target = PageTarget.Default)
         {
-            case PageTarget.Blank: builder.MergeAttribute("target", "_blank"); break;
-            case PageTarget.Parent: builder.MergeAttribute("target", "_parent"); break;
-            case PageTarget.Self: builder.MergeAttribute("target", "_self"); break;
-            case PageTarget.Top: builder.MergeAttribute("target", "_top"); break;
+            var builder = new TagBuilder("a");
+            builder.MergeAttribute("href", href);
+            builder.InnerHtml.Append(linkText);
+
+            switch (target)
+            {
+                case PageTarget.Blank: builder.MergeAttribute("target", "_blank"); break;
+                case PageTarget.Parent: builder.MergeAttribute("target", "_parent"); break;
+                case PageTarget.Self: builder.MergeAttribute("target", "_self"); break;
+                case PageTarget.Top: builder.MergeAttribute("target", "_top"); break;
+            }
+
+            builder.MergeAttributes(htmlAttributes);
+
+            return new HtmlString(builder.Build());
         }
 
-        builder.MergeAttributes(htmlAttributes);
+        #endregion Html Link
 
-        return new HtmlString(builder.Build());
-    }
-
-    #endregion Html Link
-
-    // PROBLEM: https://github.com/dotnet/corefx/issues/1669
-    //public static IHtmlContent CulturesDropDownList<TModel>(this IHtmlHelper<TModel> html, string name, string selectedValue = null, object htmlAttributes = null, string emptyText = null)
-    //{
-    //    var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-    //    var selectList = cultures
-    //        .OrderBy(x => x.DisplayName)
-    //        .ToSelectList(
-    //            value => value.Name,
-    //            text => text.DisplayName,
-    //            selectedValue,
-    //            emptyText);
-
-    //    return html.DropDownList(name, selectList, htmlAttributes);
-    //}
-
-    //public static IHtmlContent CulturesDropDownListFor<TModel>(this IHtmlHelper<TModel> html, Expression<Func<TModel, string>> expression, object htmlAttributes = null, string emptyText = null)
-    //{
-    //    var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-    //    var func = expression.Compile();
-    //    var selectedValue = func(html.ViewData.Model);
-
-    //    var selectList = cultures
-    //        .OrderBy(x => x.DisplayName)
-    //        .ToSelectList(
-    //            value => value.Name,
-    //            text => text.DisplayName,
-    //            selectedValue,
-    //            emptyText);
-
-    //    return html.DropDownListFor(expression, selectList, htmlAttributes);
-    //}
-
-    //public static IHtmlContent EnumDropDownListFor<TModel, TEnum>(this IHtmlHelper<TModel> html, Expression<Func<TModel, TEnum>> expression, string emptyText = null, object htmlAttributes = null) where TEnum : struct
-    //{
-    //    var func = expression.Compile();
-    //    var selectedValue = func(html.ViewData.Model);
-
-    //    var selectList = EnumExtensions.ToSelectList<TEnum>(selectedValue, emptyText);
-    //    return html.DropDownListFor(expression, selectList, htmlAttributes);
-    //}
-
-    public static IHtmlContent HelpText(this IHtmlHelper html, string helpText, object htmlAttributes = null)
-    {
-        var tagBuilder = new FluentTagBuilder("p")
-            .AddCssClass("help-block")
-            .MergeAttributes(htmlAttributes)
-            .SetInnerHtml(helpText);
-
-        return new HtmlString(tagBuilder.ToString());
-    }
-
-    public static IHtmlContent HelpTextFor<TModel, TProperty>(this IHtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, object htmlAttributes = null)
-    {
-        var memberExpression = expression.Body as MemberExpression;
-        var propertyInfo = memberExpression.Member as PropertyInfo;
-        var attribute = propertyInfo.GetCustomAttributes().OfType<LocalizedHelpTextAttribute>().FirstOrDefault();
-
-        if (attribute == null)
+        public IHtmlContent HelpText(string helpText, object htmlAttributes = null)
         {
-            return HtmlString.Empty;
+            var tagBuilder = new FluentTagBuilder("p")
+                .AddCssClass("help-block")
+                .MergeAttributes(htmlAttributes)
+                .SetInnerHtml(helpText);
+
+            return new HtmlString(tagBuilder.ToString());
         }
 
-        var tagBuilder = new FluentTagBuilder("p")
-            .AddCssClass("help-block")
-            .MergeAttributes(htmlAttributes)
-            .SetInnerHtml(attribute.HelpText);
+        ///// <summary>
+        ///// Create an HTML tree from a recursive collection of items
+        ///// </summary>
+        //public TreeView<T> TreeView<T>(IEnumerable<T> items)
+        //{
+        //    return new TreeView<T>(html, items);
+        //}
+    }
+    extension<TModel>(IHtmlHelper<TModel> html)
+    {
+        //public IHtmlContent EnumDropDownListFor<TEnum>(Expression<Func<TModel, TEnum>> expression, string emptyText = null, object htmlAttributes = null) where TEnum : struct
+        //{
+        //    var func = expression.Compile();
+        //    var selectedValue = func(html.ViewData.Model);
 
-        return new HtmlString(tagBuilder.ToString());
+        //    var selectList = EnumExtensions.ToSelectList<TEnum>(selectedValue, emptyText);
+        //    return html.DropDownListFor(expression, selectList, htmlAttributes);
+        //}
+
+        public IHtmlContent HelpTextFor<TProperty>(Expression<Func<TModel, TProperty>> expression, object htmlAttributes = null)
+        {
+            var memberExpression = expression.Body as MemberExpression;
+            var propertyInfo = memberExpression.Member as PropertyInfo;
+            var attribute = propertyInfo.GetCustomAttributes().OfType<LocalizedHelpTextAttribute>().FirstOrDefault();
+
+            if (attribute == null)
+            {
+                return HtmlString.Empty;
+            }
+
+            var tagBuilder = new FluentTagBuilder("p")
+                .AddCssClass("help-block")
+                .MergeAttributes(htmlAttributes)
+                .SetInnerHtml(attribute.HelpText);
+
+            return new HtmlString(tagBuilder.ToString());
+        }
     }
 
-    public static Mantle<TModel> Mantle<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
-
-    ///// <summary>
-    ///// Create an HTML tree from a recursive collection of items
-    ///// </summary>
-    //public static TreeView<T> TreeView<T>(this IHtmlHelper html, IEnumerable<T> items)
-    //{
-    //    return new TreeView<T>(html, items);
-    //}
+    extension<TModel>(IHtmlHelper<TModel> html) where TModel : class
+    {
+        public Mantle<TModel> Mantle() => new(html);
+    }
 }
 
 public class Mantle<TModel>

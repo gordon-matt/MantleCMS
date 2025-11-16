@@ -6,7 +6,10 @@ namespace Mantle.Plugins.Widgets.FullCalendar;
 
 public static class HtmlHelperExtensions
 {
-    public static FullCalendar<TModel> FullCalendar<TModel>(this IHtmlHelper<TModel> html) where TModel : class => new(html);
+    extension<TModel>(IHtmlHelper<TModel> html) where TModel : class
+    {
+        public FullCalendar<TModel> FullCalendar() => new(html);
+    }
 }
 
 public class FullCalendar<TModel>

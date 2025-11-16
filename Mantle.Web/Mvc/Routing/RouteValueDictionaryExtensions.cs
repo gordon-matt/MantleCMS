@@ -4,43 +4,46 @@ namespace Mantle.Web.Mvc.Routing;
 
 public static class RouteValueDictionaryExtensions
 {
-    public static RouteValueDictionary Merge(this RouteValueDictionary obj, object values, params string[] removeKeys)
+    extension(RouteValueDictionary source)
     {
-        var mergeValues = new RouteValueDictionary(values);
-
-        var result = new RouteValueDictionary(obj);
-        foreach (var value in mergeValues)
+        public RouteValueDictionary Merge(object values, params string[] removeKeys)
         {
-            result[value.Key.Replace("_", "-")] = value.Value;
-        }
+            var mergeValues = new RouteValueDictionary(values);
 
-        if (removeKeys != null && removeKeys.Length > 0)
-        {
-            foreach (string key in removeKeys.Where(result.ContainsKey))
+            var result = new RouteValueDictionary(source);
+            foreach (var value in mergeValues)
             {
-                result.Remove(key);
+                result[value.Key.Replace("_", "-")] = value.Value;
             }
-        }
 
-        return result;
-    }
-
-    public static RouteValueDictionary Merge(this RouteValueDictionary obj, NameValueCollection values, params string[] removeKeys)
-    {
-        var result = new RouteValueDictionary(obj);
-        foreach (string key in values.AllKeys)
-        {
-            result[key] = values[key];
-        }
-
-        if (removeKeys != null && removeKeys.Length > 0)
-        {
-            foreach (string key in removeKeys.Where(result.ContainsKey))
+            if (removeKeys != null && removeKeys.Length > 0)
             {
-                result.Remove(key);
+                foreach (string key in removeKeys.Where(result.ContainsKey))
+                {
+                    result.Remove(key);
+                }
             }
+
+            return result;
         }
 
-        return result;
+        public RouteValueDictionary Merge(NameValueCollection values, params string[] removeKeys)
+        {
+            var result = new RouteValueDictionary(source);
+            foreach (string key in values.AllKeys)
+            {
+                result[key] = values[key];
+            }
+
+            if (removeKeys != null && removeKeys.Length > 0)
+            {
+                foreach (string key in removeKeys.Where(result.ContainsKey))
+                {
+                    result.Remove(key);
+                }
+            }
+
+            return result;
+        }
     }
 }

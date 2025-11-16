@@ -15,6 +15,7 @@ public static class TypeExtensions
                 typeof(bool),
                 typeof(byte),
                 typeof(char),
+                typeof(DateOnly),
                 typeof(DateTime),
                 typeof(DateTimeOffset),
                 typeof(decimal),
@@ -28,6 +29,7 @@ public static class TypeExtensions
                 typeof(sbyte),
                 typeof(float),
                 typeof(string),
+                typeof(TimeOnly),
                 typeof(TimeSpan),
                 typeof(ushort),
                 typeof(uint),
@@ -44,14 +46,17 @@ public static class TypeExtensions
         });
     }
 
-    public static bool IsSimple(this Type type)
+    extension(Type type)
     {
-        if (type.GetTypeInfo().IsPrimitive || simpleTypes.Value.Any(x => x.GetTypeInfo().IsAssignableFrom(type)))
+        public bool IsSimple()
         {
-            return true;
-        }
+            if (type.GetTypeInfo().IsPrimitive || simpleTypes.Value.Any(x => x.GetTypeInfo().IsAssignableFrom(type)))
+            {
+                return true;
+            }
 
-        var nut = Nullable.GetUnderlyingType(type);
-        return nut != null && nut.GetTypeInfo().IsEnum;
+            var nut = Nullable.GetUnderlyingType(type);
+            return nut is not null && nut.GetTypeInfo().IsEnum;
+        }
     }
 }

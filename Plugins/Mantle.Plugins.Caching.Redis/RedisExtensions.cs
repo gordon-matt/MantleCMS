@@ -6,50 +6,52 @@ namespace Mantle.Plugins.Caching.Redis;
 
 public static class RedisExtensions
 {
-    public static HashEntry[] ToHashEntries<T>(this T obj)
+    extension<T>(T obj)
     {
-        var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite);
+        public HashEntry[] ToHashEntries()
+        {
+            var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite);
 
-        return properties
-            .Where(x => x.GetValue(obj) != null) // <-- PREVENT NullReferenceException
-            .Select(property => new HashEntry(property.Name, property.GetValue(obj).ToString()))
-            .ToArray();
+            return properties
+                .Where(x => x.GetValue(obj) != null) // <-- PREVENT NullReferenceException
+                .Select(property => new HashEntry(property.Name, property.GetValue(obj).ToString()))
+                .ToArray();
+        }
     }
 
-    public static T ConvertFromRedis<T>(this HashEntry[] hashEntries)
+    extension(HashEntry[] hashEntries)
     {
-        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite);
-        object obj = Activator.CreateInstance(typeof(T));
-        foreach (var property in properties)
+        public T ConvertFromRedis<T>()
         {
-            var entry = hashEntries.FirstOrDefault(g => g.Name.ToString().Equals(property.Name));
-
-            if (entry.Equals(new HashEntry()))
+            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(x => x.CanWrite);
+            object obj = Activator.CreateInstance<T>();
+            foreach (var property in properties)
             {
-                continue;
-            }
+                var entry = hashEntries.FirstOrDefault(g => g.Name.ToString().Equals(property.Name));
 
-            obj.SetPropertyValue(property, entry.Value);
+                if (entry.Equals(new HashEntry()))
+                {
+                    continue;
+                }
+
+                obj.SetPropertyValue(property, entry.Value);
+            }
+            return (T)obj;
         }
-        return (T)obj;
     }
 
-    public static void KeyDeleteByPattern(this IDatabase database, string prefix)
+    extension(IDatabase database)
     {
-        if (database == null)
+        public void KeyDeleteByPattern(string prefix)
         {
-            throw new ArgumentException("Database cannot be null", "database");
-        }
+            ArgumentNullException.ThrowIfNull(database, nameof(database));
+            ArgumentException.ThrowIfNullOrWhiteSpace(prefix, nameof(prefix));
 
-        if (string.IsNullOrWhiteSpace(prefix))
-        {
-            throw new ArgumentException("Prefix cannot be empty", "database");
-        }
-
-        database.ScriptEvaluate(@"
+            database.ScriptEvaluate(@"
             local keys = redis.call('keys', ARGV[1])
             for i=1,#keys,5000 do
             redis.call('del', unpack(keys, i, math.min(i+4999, #keys)))
-            end", values: new RedisValue[] { prefix });
+            end", values: [prefix]);
+        }
     }
 }

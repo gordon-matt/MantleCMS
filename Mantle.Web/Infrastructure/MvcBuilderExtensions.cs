@@ -4,17 +4,20 @@ namespace Mantle.Web.Infrastructure;
 
 public static class MvcBuilderExtensions
 {
-    public static IMvcBuilder AddMantleEmbeddedFileProviders(this IMvcBuilder builder)
+    extension(IMvcBuilder builder)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
-
-        // View Components won't work unless we do this.
-        foreach (var assembly in assemblies)
+        public IMvcBuilder AddMantleEmbeddedFileProviders()
         {
-            builder.AddApplicationPart(assembly);
-        }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
 
-        return builder;
+            // View Components won't work unless we do this.
+            foreach (var assembly in assemblies)
+            {
+                builder.AddApplicationPart(assembly);
+            }
+
+            return builder;
+        }
     }
 }

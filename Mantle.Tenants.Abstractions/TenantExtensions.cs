@@ -4,30 +4,33 @@ namespace Mantle.Tenants;
 
 public static class TenantExtensions
 {
-    public static IEnumerable<string> ParseHostValues(this Tenant tenant)
+    extension(Tenant tenant)
     {
-        if (tenant == null)
+        public IEnumerable<string> ParseHostValues()
         {
-            throw new ArgumentNullException(nameof(tenant));
-        }
-
-        var parsedValues = new List<string>();
-        if (!string.IsNullOrEmpty(tenant.Hosts))
-        {
-            string[] hosts = tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
-            foreach (string host in hosts)
+            if (tenant == null)
             {
-                string tmp = host.Trim();
-                if (!string.IsNullOrEmpty(tmp))
+                throw new ArgumentNullException(nameof(tenant));
+            }
+
+            var parsedValues = new List<string>();
+            if (!string.IsNullOrEmpty(tenant.Hosts))
+            {
+                string[] hosts = tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
+                foreach (string host in hosts)
                 {
-                    parsedValues.Add(tmp);
+                    string tmp = host.Trim();
+                    if (!string.IsNullOrEmpty(tmp))
+                    {
+                        parsedValues.Add(tmp);
+                    }
                 }
             }
+            return parsedValues;
         }
-        return parsedValues;
-    }
 
-    public static bool ContainsHostValue(this Tenant tenant, string host) => tenant == null
-        ? throw new ArgumentNullException(nameof(tenant))
-        : !string.IsNullOrEmpty(host) && tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
+        public bool ContainsHostValue(string host) => tenant == null
+            ? throw new ArgumentNullException(nameof(tenant))
+            : !string.IsNullOrEmpty(host) && tenant.ParseHostValues().Any(x => x.Equals(host, StringComparison.OrdinalIgnoreCase));
+    }
 }

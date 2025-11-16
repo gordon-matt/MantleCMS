@@ -5,16 +5,16 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class LocalizationServiceCollectionExtensions
 {
-    public static IServiceCollection AddMantleLocalization(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        if (services == null)
+        public IServiceCollection AddMantleLocalization()
         {
-            throw new ArgumentNullException(nameof(services));
+            ArgumentNullException.ThrowIfNull(services);
+
+            services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizerFactory), typeof(MantleStringLocalizerFactory), ServiceLifetime.Scoped));
+            services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizer), typeof(MantleStringLocalizer), ServiceLifetime.Scoped));
+
+            return services;
         }
-
-        services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizerFactory), typeof(MantleStringLocalizerFactory), ServiceLifetime.Scoped));
-        services.TryAdd(new ServiceDescriptor(typeof(IStringLocalizer), typeof(MantleStringLocalizer), ServiceLifetime.Scoped));
-
-        return services;
     }
 }

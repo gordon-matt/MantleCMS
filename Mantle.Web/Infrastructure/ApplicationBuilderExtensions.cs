@@ -8,33 +8,17 @@ namespace Mantle.Web.Infrastructure;
 
 public static class ApplicationBuilderExtensions
 {
-    public static IApplicationBuilder UseMantleWebEmbeddedFileProviders(this WebApplication app) =>
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new CompositeFileProvider(
-                new EmbeddedScriptFileProvider(),
-                new EmbeddedContentFileProvider(),
-                app.Environment.WebRootFileProvider),
-            OnPrepareResponse = (context) =>
-            {
-                var headers = context.Context.Response.GetTypedHeaders();
-                headers.CacheControl = new CacheControlHeaderValue
-                {
-                    MaxAge = TimeSpan.FromDays(7)
-                };
-            }
-        });
-
-    /// <summary>
-    /// Adds WebOptimizer to the <see cref="IApplicationBuilder"/> request execution pipeline
-    /// </summary>
-    /// <param name="app">Builder for configuring an application's request pipeline</param>
-    public static IApplicationBuilder UseMantleWebOptimizer(this IApplicationBuilder app)
+    extension(IApplicationBuilder app)
     {
-        var webHostEnvironment = DependoResolver.Instance.Resolve<IWebHostEnvironment>();
-
-        return app.UseWebOptimizer(webHostEnvironment, new[]
+        /// <summary>
+        /// Adds WebOptimizer to the <see cref="IApplicationBuilder"/> request execution pipeline
+        /// </summary>
+        public IApplicationBuilder UseMantleWebOptimizer()
         {
+            var webHostEnvironment = DependoResolver.Instance.Resolve<IWebHostEnvironment>();
+
+            return app.UseWebOptimizer(webHostEnvironment, new[]
+            {
             new FileProviderOptions
             {
                 RequestPath =  new PathString("/Plugins"),
@@ -46,12 +30,33 @@ public static class ApplicationBuilderExtensions
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Themes"))
             }
         });
+        }
     }
 
-    public static IApplicationBuilder MapMantleEndpoints(this WebApplication app)
+    extension(WebApplication app)
     {
-        var routePublisher = app.Services.GetRequiredService<IRoutePublisher>();
-        routePublisher.RegisterEndpoints(app);
-        return app;
+        public IApplicationBuilder UseMantleWebEmbeddedFileProviders() =>
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new CompositeFileProvider(
+                    new EmbeddedScriptFileProvider(),
+                    new EmbeddedContentFileProvider(),
+                    app.Environment.WebRootFileProvider),
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        MaxAge = TimeSpan.FromDays(7)
+                    };
+                }
+            });
+
+        public IApplicationBuilder MapMantleEndpoints()
+        {
+            var routePublisher = app.Services.GetRequiredService<IRoutePublisher>();
+            routePublisher.RegisterEndpoints(app);
+            return app;
+        }
     }
 }

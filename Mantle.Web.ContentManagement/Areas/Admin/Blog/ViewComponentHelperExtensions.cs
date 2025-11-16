@@ -2,15 +2,15 @@
 
 public static class ViewComponentHelperExtensions
 {
-    public static async Task<IHtmlContent> BlogPostsAsync(this IViewComponentHelper component) => await component.InvokeAsync("BlogPosts", null);
-
-    public static async Task<IHtmlContent> BlogPostsByCategoryAsync(this IViewComponentHelper component, string categorySlug) => await component.InvokeAsync("BlogPostsByCategory", new
+    extension(IViewComponentHelper component)
     {
-        categorySlug
-    });
+        public async Task<IHtmlContent> BlogPostsAsync() =>
+            await component.InvokeAsync("BlogPosts", null);
 
-    public static async Task<IHtmlContent> BlogPostsByTagAsync(this IViewComponentHelper component, string tagSlug) => await component.InvokeAsync("BlogPostsByTag", new
-    {
-        tagSlug
-    });
+        public async Task<IHtmlContent> BlogPostsByCategoryAsync(string categorySlug) =>
+            await component.InvokeAsync("BlogPostsByCategory", new { categorySlug });
+
+        public async Task<IHtmlContent> BlogPostsByTagAsync(string tagSlug) =>
+            await component.InvokeAsync("BlogPostsByTag", new { tagSlug });
+    }
 }

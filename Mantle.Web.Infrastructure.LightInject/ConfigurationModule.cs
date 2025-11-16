@@ -8,33 +8,36 @@ namespace Mantle.Web.Infrastructure.LightInject;
 
 public static class ConfigurationModule
 {
-    public static IServiceContainer RegisterSettings(this IServiceContainer container, ITypeFinder typeFinder)
+    extension(IServiceContainer container)
     {
-        // Get the method info FIRST with exact parameter types
-        var methodInfo = typeof(ConfigurationModule)
-            .GetMethod(
-                nameof(GetSettingsGeneric),
-                BindingFlags.Static | BindingFlags.NonPublic,
-                null,
-                [typeof(IWorkContext), typeof(ISettingService)],
-                null)
-            ?? throw new InvalidOperationException("GetSettingsGeneric method not found. Check method signature.");
-
-        var settingsTypes = typeFinder.FindClassesOfType<ISettings>(onlyConcreteClasses: true);
-
-        foreach (var settingsType in settingsTypes)
+        public IServiceContainer RegisterSettings(ITypeFinder typeFinder)
         {
-            container.Register(settingsType, factory =>
+            // Get the method info FIRST with exact parameter types
+            var methodInfo = typeof(ConfigurationModule)
+                .GetMethod(
+                    nameof(GetSettingsGeneric),
+                    BindingFlags.Static | BindingFlags.NonPublic,
+                    null,
+                    [typeof(IWorkContext), typeof(ISettingService)],
+                    null)
+                ?? throw new InvalidOperationException("GetSettingsGeneric method not found. Check method signature.");
+
+            var settingsTypes = typeFinder.FindClassesOfType<ISettings>(onlyConcreteClasses: true);
+
+            foreach (var settingsType in settingsTypes)
             {
-                var workContext = factory.GetInstance<IWorkContext>();
-                var settingService = factory.GetInstance<ISettingService>();
+                container.Register(settingsType, factory =>
+                {
+                    var workContext = factory.GetInstance<IWorkContext>();
+                    var settingService = factory.GetInstance<ISettingService>();
 
-                return methodInfo.MakeGenericMethod(settingsType)
-                    .Invoke(null, [workContext, settingService]);
-            }, new PerScopeLifetime());
+                    return methodInfo.MakeGenericMethod(settingsType)
+                        .Invoke(null, [workContext, settingService]);
+                }, new PerScopeLifetime());
+            }
+
+            return container;
         }
-
-        return container;
     }
 
     // Make sure this EXACTLY matches what we're searching for

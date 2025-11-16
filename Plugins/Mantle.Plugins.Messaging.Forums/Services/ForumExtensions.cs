@@ -2,108 +2,122 @@
 
 public static class ForumExtensions
 {
-    public static string FormatPostText(this ForumPost forumPost)
+    extension(Forum forum)
     {
-        string text = forumPost.Text;
+        public async Task<ForumTopic> GetLastTopicAsync(IForumService forumService) => forum == null
+            ? throw new ArgumentNullException(nameof(forum))
+            : await forumService.GetTopicById(forum.LastTopicId);
 
-        if (string.IsNullOrEmpty(text))
-        {
-            return string.Empty;
-        }
+        public async Task<ForumPost> GetLastPostAsync(IForumService forumService) => forum == null
+            ? throw new ArgumentNullException(nameof(forum))
+            : await forumService.GetPostById(forum.LastPostId);
 
-        var editor = DependoResolver.Instance.Resolve<ForumSettings>().ForumEditor;
-        switch (editor)
-        {
-            case EditorType.SimpleTextBox:
-                text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
-                break;
-
-            case EditorType.BBCodeEditor:
-                text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
-                break;
-
-            default:
-                break;
-        }
-
-        return text;
+        public async Task<MantleUser> GetLastPostCustomerAsync(IMembershipService membershipService) => forum == null
+            ? throw new ArgumentNullException(nameof(forum))
+            : await membershipService.GetUserById(forum.LastPostUserId);
     }
 
-    public static string StripTopicSubject(this ForumTopic forumTopic)
+    extension(ForumPost forumPost)
     {
-        string subject = forumTopic.Subject;
-        if (string.IsNullOrEmpty(subject))
+        public string FormatPostText()
         {
+            string text = forumPost.Text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            var editor = DependoResolver.Instance.Resolve<ForumSettings>().ForumEditor;
+            switch (editor)
+            {
+                case EditorType.SimpleTextBox:
+                    text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
+                    break;
+
+                case EditorType.BBCodeEditor:
+                    text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
+                    break;
+
+                default:
+                    break;
+            }
+
+            return text;
+        }
+    }
+
+    extension(ForumTopic forumTopic)
+    {
+        public string StripTopicSubject()
+        {
+            string subject = forumTopic.Subject;
+            if (string.IsNullOrEmpty(subject))
+            {
+                return subject;
+            }
+
+            int strippedTopicMaxLength = DependoResolver.Instance.Resolve<ForumSettings>().StrippedTopicMaxLength;
+            if (strippedTopicMaxLength > 0)
+            {
+                if (subject.Length > strippedTopicMaxLength)
+                {
+                    int index = subject.IndexOf(" ", strippedTopicMaxLength);
+                    if (index > 0)
+                    {
+                        subject = subject[..index];
+                        subject += "...";
+                    }
+                }
+            }
+
             return subject;
         }
 
-        int strippedTopicMaxLength = DependoResolver.Instance.Resolve<ForumSettings>().StrippedTopicMaxLength;
-        if (strippedTopicMaxLength > 0)
+        public async Task<ForumPost> GetFirstPostAsync(IForumService forumService)
         {
-            if (subject.Length > strippedTopicMaxLength)
+            ArgumentNullException.ThrowIfNull(forumTopic);
+            var forumPosts = await forumService.GetAllPosts(forumTopic.Id, null, string.Empty, 0, 1);
+            return forumPosts.Count > 0 ? forumPosts.First() : null;
+        }
+
+        public async Task<ForumPost> GetLastPostAsync(IForumService forumService) => forumTopic == null
+            ? throw new ArgumentNullException(nameof(forumTopic))
+            : await forumService.GetPostById(forumTopic.LastPostId);
+
+        public async Task<MantleUser> GetLastPostCustomerAsync(IMembershipService membershipService) => forumTopic == null
+            ? throw new ArgumentNullException(nameof(forumTopic))
+            : await membershipService.GetUserById(forumTopic.LastPostUserId);
+    }
+
+    extension(PrivateMessage pm)
+    {
+        public string FormatPrivateMessageText()
+        {
+            string text = pm.Text;
+
+            if (string.IsNullOrEmpty(text))
             {
-                int index = subject.IndexOf(" ", strippedTopicMaxLength);
-                if (index > 0)
-                {
-                    subject = subject[..index];
-                    subject += "...";
-                }
+                return string.Empty;
             }
-        }
 
-        return subject;
+            text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
+
+            return text;
+        }
     }
 
-    public static string FormatForumSignatureText(this string text)
+    extension(string text)
     {
-        if (string.IsNullOrEmpty(text))
+        public string FormatForumSignatureText()
         {
-            return string.Empty;
+            if (string.IsNullOrEmpty(text))
+            {
+                return string.Empty;
+            }
+
+            text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
+            return text;
         }
-
-        text = Html.HtmlHelper.FormatText(text, false, true, false, false, false, false);
-        return text;
     }
-
-    public static string FormatPrivateMessageText(this PrivateMessage pm)
-    {
-        string text = pm.Text;
-
-        if (string.IsNullOrEmpty(text))
-        {
-            return string.Empty;
-        }
-
-        text = Html.HtmlHelper.FormatText(text, false, true, false, true, false, false);
-
-        return text;
-    }
-
-    public static ForumTopic GetLastTopic(this Forum forum, IForumService forumService) => forum == null
-        ? throw new ArgumentNullException(nameof(forum))
-        : AsyncHelper.RunSync(() => forumService.GetTopicById(forum.LastTopicId));
-
-    public static ForumPost GetLastPost(this Forum forum, IForumService forumService) => forum == null
-        ? throw new ArgumentNullException(nameof(forum))
-        : AsyncHelper.RunSync(() => forumService.GetPostById(forum.LastPostId));
-
-    public static MantleUser GetLastPostCustomer(this Forum forum, IMembershipService membershipService) => forum == null
-        ? throw new ArgumentNullException(nameof(forum))
-        : AsyncHelper.RunSync(() => membershipService.GetUserById(forum.LastPostUserId));
-
-    public static ForumPost GetFirstPost(this ForumTopic forumTopic, IForumService forumService)
-    {
-        ArgumentNullException.ThrowIfNull(forumTopic);
-
-        var forumPosts = AsyncHelper.RunSync(() => forumService.GetAllPosts(forumTopic.Id, null, string.Empty, 0, 1));
-        return forumPosts.Count > 0 ? forumPosts.First() : null;
-    }
-
-    public static ForumPost GetLastPost(this ForumTopic forumTopic, IForumService forumService) => forumTopic == null
-        ? throw new ArgumentNullException(nameof(forumTopic))
-        : AsyncHelper.RunSync(() => forumService.GetPostById(forumTopic.LastPostId));
-
-    public static MantleUser GetLastPostCustomer(this ForumTopic forumTopic, IMembershipService membershipService) => forumTopic == null
-        ? throw new ArgumentNullException(nameof(forumTopic))
-        : AsyncHelper.RunSync(() => membershipService.GetUserById(forumTopic.LastPostUserId));
 }
