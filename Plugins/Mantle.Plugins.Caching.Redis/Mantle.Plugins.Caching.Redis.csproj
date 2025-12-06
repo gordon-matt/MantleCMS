@@ -12,7 +12,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="StackExchange.Redis" Version="2.9.32" />
+    <PackageReference Include="StackExchange.Redis" Version="2.10.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Mantle.Caching.Abstractions\Mantle.Caching.Abstractions.csproj" />

@@ -25,18 +25,17 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="10.0.0" />
-    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="10.0.0" />
-    <PackageReference Include="Extenso.AspNetCore.OData" Version="10.0.0" />
-    <PackageReference Include="Extenso.Core" Version="10.0.0" />
-    <PackageReference Include="Extenso.Data" Version="10.0.0" />
-    <PackageReference Include="KendoGridBinder.AspNetCore" Version="3.2.1" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="10.0.1" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="10.0.1" />
+    <PackageReference Include="Extenso.AspNetCore.OData" Version="10.0.1" />
+    <PackageReference Include="Extenso.Core" Version="10.0.1" />
+    <PackageReference Include="Extenso.Data" Version="10.0.1" />
+    <PackageReference Include="Extenso.KendoGridBinder" Version="1.0.0" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.477" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.4.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
     <PackageReference Include="Microsoft.OData.Core" Version="8.4.3" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Dynamic.Core;
-using KendoGridBinder.Containers;
-using KendoGridBinder.ModelBinder.Mvc;
+using Extenso.KendoGridBinder.Containers;
+using Extenso.KendoGridBinder.ModelBinder.Mvc;
 
 namespace Mantle.Web.Mvc.KendoUI;
 

@@ -1,9 +1,9 @@
 ﻿using System.Linq.Dynamic.Core;
-using KendoGridBinder;
-using KendoGridBinder.AutoMapperExtensions;
-using KendoGridBinder.Containers;
-using KendoGridBinder.Containers.Json;
-using KendoGridBinder.Extensions;
+using Extenso.KendoGridBinder;
+using Extenso.KendoGridBinder.AutoMapperExtensions;
+using Extenso.KendoGridBinder.Containers;
+using Extenso.KendoGridBinder.Containers.Json;
+using Extenso.KendoGridBinder.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

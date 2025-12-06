@@ -12,8 +12,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
-    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="10.0.0" />
-    <PackageReference Include="Npgsql" Version="9.0.4" />
+    <PackageReference Include="Extenso.Data.QueryBuilder.Npgsql" Version="10.0.1" />
+    <PackageReference Include="Npgsql" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Data.Dapper\Mantle.Data.Dapper.csproj" />
