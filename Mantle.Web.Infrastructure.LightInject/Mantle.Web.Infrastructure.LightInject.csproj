@@ -1,13 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>Mantle.Web.Infrastructure.LightInject</AssemblyName>
+		<PackageId>MantleFramework.Web.Infrastructure.LightInject</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<OutputTypeEx>library</OutputTypeEx>
+		<Authors>Matt Gordon</Authors>
+		<Version>1.1.0</Version>
+		<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Mantle.Infrastructure.LightInject\Mantle.Infrastructure.LightInject.csproj" />
-    <ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Mantle.Infrastructure.LightInject\Mantle.Infrastructure.LightInject.csproj" />
+		<ProjectReference Include="..\Mantle.Web\Mantle.Web.csproj" />
+	</ItemGroup>
 
 </Project>
