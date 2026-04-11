@@ -19,17 +19,17 @@ public static class ApplicationBuilderExtensions
 
             return app.UseWebOptimizer(webHostEnvironment, new[]
             {
-            new FileProviderOptions
-            {
-                RequestPath =  new PathString("/Plugins"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"))
-            },
-            new FileProviderOptions
-            {
-                RequestPath =  new PathString("/Themes"),
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Themes"))
-            }
-        });
+                new FileProviderOptions
+                {
+                    RequestPath =  new PathString("/Plugins"),
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"))
+                },
+                new FileProviderOptions
+                {
+                    RequestPath =  new PathString("/Themes"),
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Themes"))
+                }
+            });
         }
     }
 
