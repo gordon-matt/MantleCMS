@@ -1,16 +1,43 @@
-﻿<div id="applicationHost">
-    @await Html.PartialAsync("_splash")
+﻿<div id="page-host">
+    <div class="splash">
+        <div class="message">Loading...</div>
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
 </div>
 
 @section scripts {
+    <!-- Core Libraries -->
     <script src="~/lib/knockout/build/output/knockout-latest.js"></script>
-    <script type="text/javascript">
-        if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-            var msViewportStyle = document.createElement("style");
-            var mq = "@@-ms-viewport{width:auto!important}";
-            msViewportStyle.appendChild(document.createTextNode(mq));
-            document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-        }
+    <script src="~/lib/knockout.mapping/knockout.mapping.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+    <script src="~/_content/Extenso.WebAssets.KendoUI/js/kendo/2014.1.318/kendo.web.min.js"></script>
+    <script src="~/lib/knockout-kendo/build/knockout-kendo.js"></script>
+    <script src="~/lib/notifyjs-browser/dist/notify.min.js"></script>
+    <script src="~/lib/chosen-js/chosen.jquery.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script src="~/lib/tinymce/jquery.tinymce.min.js"></script>
+    <script src="~/lib/tinymce-knockout-binding/src/wysiwyg.min.js"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/moment-with-locales.min.js"></script>
+    <script src="~/_content/MantleFramework.Web.Common/js/jquery.imagemapster.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.js"></script>
+
+    <!-- Dynamic Scripts (controller-generated) -->
+    <script src="/mantle/common/scripts/toasts.js"></script>
+    <script src="/admin/localization/localizable-strings/translations.js"></script>
+
+    <!-- Mantle Shared Utilities -->
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/mantle-common.js" asp-append-version="true"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/mantle-section-switching.js" asp-append-version="true"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/grid-helper.js" asp-append-version="true"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/odata-helpers.js" asp-append-version="true"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/mantle-knockout-chosen.js" asp-append-version="true"></script>
+    <script src="~/_content/MantleFramework.Web.CommonResources/js/tinymce/mantle-tinymce.js" asp-append-version="true"></script>
+
+    <script>
+        window.__appVersion = '@(System.IO.File.GetLastWriteTimeUtc(System.Reflection.Assembly.GetExecutingAssembly().Location).Ticks)';
     </script>
-    <script type="text/javascript" src="~/lib/requirejs/require.js" data-main="/js/App/Admin/main"></script>
+
+    <!-- Admin Router (replaces Durandal) -->
+    <script type="module" src="~/js/App/Admin/admin-router.js" asp-append-version="true"></script>
 }

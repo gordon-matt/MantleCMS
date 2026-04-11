@@ -1,5 +1,4 @@
-﻿define(function () {
-    const viewModel = function () {
-    };
-    return viewModel;
-});
+﻿class ViewModel {}
+
+const viewModel = new ViewModel();
+export default viewModel;

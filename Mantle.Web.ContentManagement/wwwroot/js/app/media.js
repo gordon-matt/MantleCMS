@@ -1,9 +1,7 @@
-﻿define(function (require) {
-    'use strict'
+﻿'use strict'
 
-    const ViewModel = function () {
-    };
+const ViewModel = function () {
+};
 
-    const viewModel = new ViewModel();
-    return viewModel;
-});
+const viewModel = new ViewModel();
+export default viewModel;

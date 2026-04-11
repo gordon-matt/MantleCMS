@@ -48,18 +48,6 @@
       "destination": "wwwroot/lib/knockout-kendo/"
     },
     {
-      "library": "requirejs@2.3.6",
-      "destination": "wwwroot/lib/requirejs/"
-    },
-    {
-      "library": "requirejs-text@2.0.16",
-      "destination": "wwwroot/lib/requirejs-text/"
-    },
-    {
-      "library": "durandal@2.2.0",
-      "destination": "wwwroot/lib/durandal/"
-    },
-    {
       "library": "tinymce-knockout-binding@1.1.1",
       "destination": "wwwroot/lib/tinymce-knockout-binding/"
     },
