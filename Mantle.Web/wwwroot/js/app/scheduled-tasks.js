@@ -158,7 +158,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    refreshODataGrid();
+                    GridHelper.refreshGrid("Grid");
                     MantleNotify.success(MantleI18N.t('Mantle.Web/ScheduledTasks.ExecutedTaskSuccess'));
                 }
                 else {

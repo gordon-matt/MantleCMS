@@ -80,17 +80,17 @@
 
         view = async (id) => {
             const data = await ODataHelper.getOData(`${odataBaseUrl}(${id})`);
-            this.id(json.Id);
-            this.eventDateTime(json.EventDateTime);
-            this.eventLevel(json.EventLevel);
-            this.userName(json.UserName);
-            this.machineName(json.MachineName);
-            this.eventMessage(json.EventMessage);
-            this.errorSource(json.ErrorSource);
-            this.errorClass(json.ErrorClass);
-            this.errorMethod(json.ErrorMethod);
-            this.errorMessage(json.ErrorMessage);
-            this.innerErrorMessage(json.InnerErrorMessage);
+            this.id(data.Id);
+            this.eventDateTime(data.EventDateTime);
+            this.eventLevel(data.EventLevel);
+            this.userName(data.UserName);
+            this.machineName(data.MachineName);
+            this.eventMessage(data.EventMessage);
+            this.errorSource(data.ErrorSource);
+            this.errorClass(data.ErrorClass);
+            this.errorMethod(data.ErrorMethod);
+            this.errorMessage(data.ErrorMessage);
+            this.innerErrorMessage(data.InnerErrorMessage);
 
             switchSection($("#details-section"));
         };

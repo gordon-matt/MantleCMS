@@ -82,6 +82,7 @@ label.checkbox-list-group-label {
 
 body {
     padding-top: 70px;
+    background-color: #f5f6fa;
 }
 
 div.extenso-checkbox > label.checkbox > span {
@@ -89,5 +90,89 @@ div.extenso-checkbox > label.checkbox > span {
 }
 
 .mantle-permissions-list {
-    column-count: 3
+    column-count: 3;
+}
+
+/* Dashboard */
+.dashboard-header h2 {
+    font-weight: 300;
+    color: #333;
+}
+
+.dashboard-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12) !important;
+}
+
+.dashboard-card-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+/* Navbar improvements */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Grid action buttons */
+.btn-group .btn {
+    margin-right: 2px;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+
+/* Panel / card improvements */
+.card-header {
+    font-weight: 600;
+}
+
+/* Form sections */
+.page-host fieldset legend {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Kendo grid styling improvements */
+.k-grid {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.k-grid .k-grid-header {
+    background: #f8f9fa;
+}
+
+/* Log details table */
+#details-section .table th {
+    width: 200px;
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Loading spinner improvements */
+.splash .message {
+    font-size: 2.5em;
+    color: #666;
+    font-weight: 300;
+}
+
+.splash .fa-spinner {
+    font-size: 3em;
+    color: #999;
 }

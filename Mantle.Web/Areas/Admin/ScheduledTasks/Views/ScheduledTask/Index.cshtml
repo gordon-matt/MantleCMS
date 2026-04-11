@@ -16,19 +16,26 @@
                 <form id="form-section-form" role="form">
                     <fieldset>
                         <legend id="form-section-legend"></legend>
-                        <div class="mb-3">
-                            @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name], new { @class = "form-label" })
-                            <p class="form-control-static" data-bind="text: name"></p>
-                        </div>
-                        <mantle-input asp-for="Seconds" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds]" asp-icon="fa fa-clock-o" />
-                        <div class="mb-3">
-                            <label></label>
-                            <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled]" />
-                            <mantle-input asp-for="StopOnError" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError]" />
+                        <div class="row">
+                            <div class="@MantleWebConstants.AdminCss.Columns.Full">
+                                <div class="mb-3">
+                                    @Html.Label("Name", T[MantleWebLocalizableStrings.ScheduledTasks.Model.Name], new { @class = "form-label fw-bold" })
+                                    <p class="form-control-plaintext" data-bind="text: name"></p>
+                                </div>
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <mantle-input asp-for="Seconds" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Seconds]" asp-icon="fa fa-clock-o" />
+                            </div>
+                            <div class="@MantleWebConstants.AdminCss.Columns.Half">
+                                <div class="mb-3 mt-4">
+                                    <mantle-input asp-for="Enabled" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.Enabled]" />
+                                    <mantle-input asp-for="StopOnError" asp-label="@T[MantleWebLocalizableStrings.ScheduledTasks.Model.StopOnError]" />
+                                </div>
+                            </div>
                         </div>
                         <div class="@MantleWebConstants.AdminCss.Columns.Full">
                             <div class="mb-3 float-end">
-                                <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                                <mantle-ko-button state="Default" ko-click="cancel" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                                 <mantle-ko-button state="Primary" ko-click="save" icon="fa fa-save" text="@T[MantleWebLocalizableStrings.General.Save]" />
                             </div>
                         </div>

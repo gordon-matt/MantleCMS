@@ -40,6 +40,9 @@
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path="LICENSE.txt" />
+    <File Path="NuGet.Config" />
+    <File Path="README.md" />
   </Folder>
   <Folder Name="/Solution Items/_Misc/">
     <File Path="_Misc/logo.png" />

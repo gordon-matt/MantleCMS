@@ -36,7 +36,7 @@
             }
             @if (menuItem.Items.Any())
             {
-                <a class="nav-link dropdown-toggle @(menuItem.Selected ? "active" : string.Empty)" href="@menuItem.Href" role="button" data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle text-light @(menuItem.Selected ? "active" : string.Empty)" href="@menuItem.Href" role="button" data-bs-toggle="dropdown">
                     @if (iconCount == 1)
                     {
                         <i class="@menuItem.Icons.ElementAt(0)"></i>@:&nbsp;
@@ -64,7 +64,7 @@
             {
                 if (!string.IsNullOrEmpty(menuItem.Href))
                 {
-                    string cssClass = level == 0 ? "nav-link" : "dropdown-item";
+                    string cssClass = level == 0 ? "nav-link text-light" : "dropdown-item";
 
                     <a class="@cssClass" href="@menuItem.Href">
                         @if (iconCount == 1)

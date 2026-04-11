@@ -86,9 +86,11 @@
             this.systemName(systemName);
             this.friendlyName(data.FriendlyName);
             this.displayOrder(data.DisplayOrder);
-            $(data.LimitedToTenants).each(function() {
-                this.limitedToTenants.push(this);
-            });
+            if (data.LimitedToTenants) {
+                for (const tenant of data.LimitedToTenants) {
+                    this.limitedToTenants.push(tenant);
+                }
+            }
 
             this.validator.resetForm();
             switchSection($("#form-section"));

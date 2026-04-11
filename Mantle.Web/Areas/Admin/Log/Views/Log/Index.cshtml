@@ -8,61 +8,67 @@
 </div>
 
 <div id="details-section" class="row" style="display:none">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="@MantleWebConstants.AdminCss.Columns.Full">
         @using (var panel = Html.ExtensoUI().Begin(new Panel(state: State.Primary)))
         {
             using (var header = panel.BeginHeader(T[MantleWebLocalizableStrings.General.Details])) { }
             using (var body = panel.BeginBody())
             {
-                <table class="table table-striped">
-                    <tbody>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventDateTime]</th>
-                            <td data-bind="text: eventDateTime"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventLevel]</th>
-                            <td data-bind="text: eventLevel"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.UserName]</th>
-                            <td data-bind="text: userName"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.MachineName]</th>
-                            <td data-bind="text: machineName"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.EventMessage]</th>
-                            <td data-bind="text: eventMessage"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorSource]</th>
-                            <td data-bind="text: errorSource"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorClass]</th>
-                            <td data-bind="text: errorClass"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorMethod]</th>
-                            <td data-bind="text: errorMethod"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.ErrorMessage]</th>
-                            <td data-bind="text: errorMessage"></td>
-                        </tr>
-                        <tr>
-                            <th>@T[MantleWebLocalizableStrings.Log.Model.InnerErrorMessage]</th>
-                            <td data-bind="text: innerErrorMessage"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div class="mb-3 float-end">
-                    <div class="@MantleWebConstants.AdminCss.Columns.Full">
-                        <mantle-ko-button state="Default" ko-click="cancel" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.EventDateTime]</label>
+                        <p class="form-control-plaintext" data-bind="text: eventDateTime"></p>
                     </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.EventLevel]</label>
+                        <p class="form-control-plaintext" data-bind="text: eventLevel"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.UserName]</label>
+                        <p class="form-control-plaintext" data-bind="text: userName"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.MachineName]</label>
+                        <p class="form-control-plaintext" data-bind="text: machineName"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.ErrorSource]</label>
+                        <p class="form-control-plaintext" data-bind="text: errorSource"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.ErrorClass]</label>
+                        <p class="form-control-plaintext" data-bind="text: errorClass"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.ErrorMethod]</label>
+                        <p class="form-control-plaintext" data-bind="text: errorMethod"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.EventMessage]</label>
+                        <pre class="bg-light p-3 rounded border" style="white-space:pre-wrap;word-break:break-word;" data-bind="text: eventMessage"></pre>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.ErrorMessage]</label>
+                        <pre class="bg-light p-3 rounded border" style="white-space:pre-wrap;word-break:break-word;" data-bind="text: errorMessage"></pre>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">@T[MantleWebLocalizableStrings.Log.Model.InnerErrorMessage]</label>
+                        <pre class="bg-light p-3 rounded border" style="white-space:pre-wrap;word-break:break-word;" data-bind="text: innerErrorMessage"></pre>
+                    </div>
+                </div>
+
+                <div class="mb-3 float-end">
+                    <mantle-ko-button state="Default" ko-click="cancel" icon="fa fa-arrow-left" text="@T[MantleWebLocalizableStrings.General.Cancel]" />
                 </div>
             }
         }
