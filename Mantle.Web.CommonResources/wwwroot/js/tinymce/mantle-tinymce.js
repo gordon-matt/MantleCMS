@@ -1,64 +1,64 @@
-﻿tinymce.PluginManager.load('mantle_contentzone', '/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/mantle_contentzone/plugin.js');
-tinymce.PluginManager.load('responsivefilemanager', '/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/responsivefilemanager/plugin.js');
+﻿function mantlePickstackFilePicker(callback, value, meta) {
+    if (!window.Pickstack || !window.Pickstack.files) {
+        return;
+    }
 
-const mantleDefaultTinyMCEConfig = {
+    var rootField = document.getElementById('TinyMCE_RootFolder');
+    window.Pickstack.files.open({
+        type: meta && meta.filetype ? meta.filetype : 'file',
+        root: rootField && rootField.value ? rootField.value : '',
+        callback: function (file) {
+            callback(file.url, { alt: file.name || '', title: file.name || '' });
+        }
+    });
+}
+
+const mantleTinyMceFilePicker = {
+    file_picker_types: 'file image media',
+    file_picker_callback: mantlePickstackFilePicker,
+    relative_urls: false,
+    remove_script_host: true,
+    convert_urls: true
+};
+
+const mantleDefaultTinyMCEConfig = Object.assign({
+    theme: "silver",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table directionality",
+        "template paste"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor",
+    image_advtab: true,
+    image_dimensions: false,
+    height: 400,
+    allow_script_urls: true,
+    allow_events: true,
+    valid_elements: '+*[*]',
+    extended_valid_elements: '+*[*]',
+    valid_children: "+body[style]"
+}, mantleTinyMceFilePicker);
+
+const mantleAdvancedTinyMCEConfig = Object.assign({
     theme: "silver",
     plugins: [
         "advlist autolink lists link image charmap print preview hr anchor pagebreak",
         "searchreplace wordcount visualblocks visualchars code fullscreen",
         "insertdatetime media nonbreaking save table directionality",
         "template paste",
-        "responsivefilemanager"
+        "mantle_contentzone"
     ],
     toolbar1: "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
     toolbar2: "print preview media | forecolor backcolor",
-    toolbar3: "responsivefilemanager",
+    toolbar3: "contentzone",
     image_advtab: true,
     image_dimensions: false,
-    //templates: [
-    //    { title: 'Test template 1', content: 'Test 1' },
-    //    { title: 'Test template 2', content: 'Test 2' }
-    //],
-    //force_br_newlines: false,
-    //force_p_newlines: false,
-    //forced_root_block: '',
     height: 400,
     allow_script_urls: true,
     allow_events: true,
-    external_filemanager_path: "/filemanager/",
-    external_plugins: { "filemanager": "/filemanager/plugin.min.js" },
     valid_elements: '+*[*]',
     extended_valid_elements: '+*[*]',
     valid_children: "+body[style]"
-};
-
-const mantleAdvancedTinyMCEConfig = {
-    theme: "silver",
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table directionality",
-        "template paste",
-        "mantle_contentzone responsivefilemanager"
-    ],
-    toolbar1: "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-    toolbar2: "print preview media | forecolor backcolor",
-    toolbar3: "responsivefilemanager | contentzone",
-    image_advtab: true,
-    image_dimensions: false,
-    //templates: [
-    //    { title: 'Test template 1', content: 'Test 1' },
-    //    { title: 'Test template 2', content: 'Test 2' }
-    //],
-    //force_br_newlines: false,
-    //force_p_newlines: false,
-    //forced_root_block: '',
-    height: 400,
-    allow_script_urls: true,
-    allow_events: true,
-    external_filemanager_path: "/filemanager/",
-    external_plugins: { "filemanager": "/filemanager/plugin.min.js" },
-    valid_elements: '+*[*]',
-    extended_valid_elements: '+*[*]',
-    valid_children: "+body[style]"
-};
+}, mantleTinyMceFilePicker);

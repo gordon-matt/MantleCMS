@@ -15,8 +15,6 @@
     require('grid-helper');
     require('odata-helpers');
 
-    require('tinymce');
-    require('tinymce-jquery');
     require('tinymce-knockout');
     require('mantle-tinymce');
 

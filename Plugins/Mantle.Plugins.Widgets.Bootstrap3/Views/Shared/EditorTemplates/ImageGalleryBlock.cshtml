@@ -70,11 +70,14 @@
     $(document).ready(function () {
         $('#myModal').on('hidden.bs.modal', function () {
             if (!modalDismissed) {
-                let url = $('#MediaFolder').val();
-                const idx = url.indexOf("Uploads");
-                url = url.substring(idx);
+                let url = $('#MediaFolder').val() || '';
+                if (url.charAt(0) !== '/') {
+                    const idx = url.indexOf("Uploads");
+                    if (idx >= 0) {
+                        url = url.substring(idx);
+                    }
+                }
                 $('#MediaFolder').val(url);
-                //blockModel.mediaFolder(url);
             }
             modalDismissed = false;
         });

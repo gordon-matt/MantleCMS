@@ -45,10 +45,9 @@ public static class ApplicationBuilderExtensions
                 OnPrepareResponse = (context) =>
                 {
                     var headers = context.Context.Response.GetTypedHeaders();
-                    headers.CacheControl = new CacheControlHeaderValue
-                    {
-                        MaxAge = TimeSpan.FromDays(7)
-                    };
+                    headers.CacheControl = app.Environment.IsDevelopment()
+                        ? new CacheControlHeaderValue { NoCache = true }
+                        : new CacheControlHeaderValue { MaxAge = TimeSpan.FromDays(7) };
                 }
             });
 

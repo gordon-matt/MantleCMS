@@ -12,9 +12,7 @@
     'kendo-knockout': '../../../lib/knockout-kendo/build/knockout-kendo',
     'knockout-mapping': '../../../lib/knockout.mapping/knockout.mapping',
     'notify': '../../../lib/notifyjs-browser/dist/notify.min',
-    'tinymce': '../../../lib/tinymce/tinymce.min',
-    'tinymce-jquery': '../../../lib/tinymce/jquery.tinymce.min',
-    'tinymce-knockout': '../../../lib/tinymce-knockout-binding/src/wysiwyg.min'//,
+    'tinymce-knockout': '../../pickstack-wysiwyg'//,
 
     //'bootstrap-fileinput': '../../../lib/bootstrap-fileinput/js/fileinput'
 };
@@ -25,8 +23,7 @@ const shim = {
     'jqueryval-unobtrusive': ['jquery', 'jqueryval'],
     'kendo-knockout': ['kendo', 'knockout'],
     'knockout-mapping': ['knockout'],
-    'tinymce-jquery': ['jquery', 'tinymce'],
-    'tinymce-knockout': ['knockout', 'tinymce', 'tinymce-jquery'],
+    'tinymce-knockout': ['knockout'],
 
     //'bootstrap-fileinput': ['jquery', 'bootstrap'],
 };

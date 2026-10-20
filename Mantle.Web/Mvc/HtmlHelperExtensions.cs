@@ -426,34 +426,70 @@ public class Mantle<TModel>
 
     public IHtmlContent FileManager(string fieldId, FileFilterMode filterMode, int? tenantId = null)
     {
-        byte filterModeValue;
-        string extensions = null;
-        if (filterMode == FileFilterMode.Folder)
-        {
-            filterModeValue = 2;
-            extensions = "&extensions=[&quot;&quot;]";
-        }
-        else
-        {
-            filterModeValue = (byte)filterMode;
-        }
-
         if (!tenantId.HasValue)
         {
             var workContext = DependoResolver.Instance.Resolve<IWorkContext>();
             tenantId = workContext.CurrentTenant.Id;
         }
 
-        string src = $@"/filemanager/dialog.php?field_id={fieldId}&rootFolder=Tenant_{tenantId.Value}&type={filterModeValue}{extensions}&relative_url=1&fldr=&ignore_last_position=1";
+        bool folder = filterMode == FileFilterMode.Folder;
+        string type = filterMode switch
+        {
+            FileFilterMode.Image => "image",
+            FileFilterMode.File => "file",
+            FileFilterMode.Video => "media",
+            FileFilterMode.Folder => "folder",
+            _ => "any"
+        };
+
+        string src = $"/pickstack/webfilez?type={type}&select={(folder ? "false" : "true")}&root={Uri.EscapeDataString("Tenant_" + tenantId.Value)}";
 
         var tagBuilder = new FluentTagBuilder("iframe")
             .MergeAttribute("src", src)
+            .MergeAttribute("data-pickstack-field", fieldId)
+            .MergeAttribute("data-pickstack-folder", folder ? "true" : "false")
             .MergeAttribute("frameborder", 0)
             .MergeAttribute("height", "100%")
             .MergeAttribute("width", "100%")
             .MergeAttribute("style", "overflow:hidden;min-height:600px; height:100%;width:100%");
 
-        return new HtmlString(tagBuilder.ToString());
+        const string scriptKey = "Mantle.Pickstack.FileManagerScript";
+        if (html.ViewContext.HttpContext.Items.ContainsKey(scriptKey))
+        {
+            return new HtmlString(tagBuilder.ToString());
+        }
+
+        html.ViewContext.HttpContext.Items[scriptKey] = true;
+        return new HtmlString(tagBuilder.ToString() + """
+            <script>
+            (function () {
+                if (window.mantlePickstackFiles) return;
+                window.mantlePickstackFiles = true;
+                window.addEventListener("message", function (event) {
+                    if (event.origin !== location.origin || !event.data || event.data.source !== "pickstack-webfilez") return;
+                    var frames = document.querySelectorAll("iframe[data-pickstack-field]");
+                    for (var i = 0; i < frames.length; i++) {
+                        if (frames[i].contentWindow !== event.source) continue;
+                        var modal = frames[i].closest(".modal");
+                        if (modal && !modal.classList.contains("show")) return;
+                        var field = document.getElementById(frames[i].getAttribute("data-pickstack-field"));
+                        if (!field) return;
+                        var folder = frames[i].getAttribute("data-pickstack-folder") === "true";
+                        var url = "";
+                        if (!folder && event.data.type === "selected" && event.data.file) {
+                            url = event.data.file.url || "";
+                        } else if (folder && event.data.type === "navigated") {
+                            url = event.data.url || "";
+                        } else {
+                            return;
+                        }
+                        field.value = url;
+                        return;
+                    }
+                });
+            })();
+            </script>
+            """);
     }
 
     public ModalFileManager<TModel> ModalFileManager(string fieldId, FileFilterMode filterMode, string modalTitle, string knockoutBinding = null) => new(html)
@@ -552,7 +588,8 @@ function dismiss{ModalId}() {{
 
 $('#{ModalId}').on('hidden.bs.modal', function () {{
     if (!{variableName}) {{
-        const url = `/Media/Uploads/${{$('#{FieldId}').val()}}`;
+        const raw = $('#{FieldId}').val() || '';
+        const url = raw.charAt(0) === '/' ? raw : `/Media/Uploads/${{raw.replace(/^\/+/, '')}}`;
         {knockoutBinding}(url);
     }}
     {variableName} = false;

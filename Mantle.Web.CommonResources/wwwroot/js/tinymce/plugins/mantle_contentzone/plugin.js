@@ -1,18 +1,27 @@
-﻿tinymce.PluginManager.add('mantle_contentzone', function (editor, url) {
-    // Add a button that opens a window
+﻿tinymce.PluginManager.add('mantle_contentzone', function (editor) {
+    editor.ui.registry.addIcon('contentzone',
+        '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h18v16H3V4zm2 2v12h14V6H5zm2 2h6v4H7V8z"/></svg>');
+
     editor.ui.registry.addButton('contentzone', {
-        title: 'Content Zone',
-        image: '/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/mantle_contentzone/img/mantle_contentzone.png',
+        icon: 'contentzone',
+        tooltip: 'Content Zone',
         onAction: function () {
-            // Open window
             editor.windowManager.open({
                 title: 'Mantle Content Zone Plugin',
-                body: [
-                    { type: 'textbox', name: 'zone', label: 'Zone Name' }
+                body: {
+                    type: 'panel',
+                    items: [
+                        { type: 'input', name: 'zone', label: 'Zone Name' }
+                    ]
+                },
+                buttons: [
+                    { type: 'cancel', text: 'Cancel' },
+                    { type: 'submit', text: 'Insert', primary: true }
                 ],
-                onsubmit: function (e) {
-                    // Insert content when the window form is submitted
-                    editor.insertContent('[[ContentZone:' + e.data.zone + ']]');
+                onSubmit: function (api) {
+                    var data = api.getData();
+                    editor.insertContent('[[ContentZone:' + (data.zone || '') + ']]');
+                    api.close();
                 }
             });
         }

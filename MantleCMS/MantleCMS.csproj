@@ -7,6 +7,7 @@
     <UserSecretsId> </UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
+    <RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Plugins\**" />
@@ -23,8 +24,8 @@
     <PackageReference Include="NLog.Database" Version="6.0.3" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-    <PackageReference Include="Peachpie.AspNetCore.Web" Version="1.1.13" />
-    <PackageReference Include="ResponsiveFileManager.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Pickstack.FileManager.WebFilez" Version="1.0.1" />
+    <PackageReference Include="Pickstack.RichTextEditor.TinyMce5" Version="1.0.1" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />

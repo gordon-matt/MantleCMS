@@ -15,8 +15,6 @@
     require('odata-helpers');
 
     require('momentjs');
-    require('tinymce');
-    require('tinymce-jquery');
     require('tinymce-knockout');
     require('mantle-tinymce');
 

@@ -1,6 +1,63 @@
-﻿<iframe src="/filemanager/dialog.php?rootFolder=Tenant_@WorkContext.CurrentTenant.Id&type=0&ignore_last_position=1"
-    frameborder="0"
-    style="overflow:hidden;min-height:600px; height:100%;width:100%"
-    height="100%"
-    width="100%">
-</iframe>
+﻿<style>
+    body:has(.mantle-media-browser) {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        padding-top: 0 !important;
+        overflow: hidden;
+    }
+
+    body:has(.mantle-media-browser) > form {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+    }
+
+    body:has(.mantle-media-browser) > header {
+        flex: 0 0 auto;
+        position: relative;
+        z-index: 1030;
+    }
+
+    body:has(.mantle-media-browser) .navbar.fixed-top {
+        position: relative !important;
+    }
+
+    body:has(.mantle-media-browser) > .container {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        max-width: none !important;
+        min-height: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body:has(.mantle-media-browser) main,
+    body:has(.mantle-media-browser) #applicationHost,
+    body:has(.mantle-media-browser) #applicationHost > div,
+    body:has(.mantle-media-browser) .page-host,
+    body:has(.mantle-media-browser) .durandal-wrapper,
+    body:has(.mantle-media-browser) .mantle-media-browser {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 0;
+        padding: 0 !important;
+    }
+
+    .mantle-media-browser iframe {
+        flex: 1 1 auto;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        border: 0;
+    }
+</style>
+<div class="mantle-media-browser">
+    <iframe title="Media"
+            src="/pickstack/webfilez?root=Tenant_@WorkContext.CurrentTenant.Id&editors=true"></iframe>
+</div>

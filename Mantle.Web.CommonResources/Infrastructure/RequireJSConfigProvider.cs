@@ -21,7 +21,6 @@ public class RequireJSConfigProvider : IRequireJSConfigProvider
     public IDictionary<string, string[]> Shim => new Dictionary<string, string[]>
     {
         { "mantle-knockout-chosen", new[] { "chosen", "knockout" } },
-        { "mantle-tinymce", new[] { "tinymce" } },
         { "odata-helpers", new[] { "mantle-translations" } }
     };
 

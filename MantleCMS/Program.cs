@@ -22,6 +22,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog.Web;
+using Pickstack;
+using Pickstack.FileManager.WebFilez;
+using Pickstack.RichTextEditor.TinyMce5;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,13 +98,6 @@ builder.Services
     .AddMemoryCache()
     .AddDistributedMemoryCache();
 
-// Peachpie needs this
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-});
-
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p
     .AllowAnyOrigin()
     .AllowAnyMethod()
@@ -148,7 +144,27 @@ var mvcBuilder = builder.Services
     .AddMantleEmbeddedFileProviders();
 
 builder.Services.AddRazorPages();
-builder.Services.AddResponsiveFileManager(options => options.MaxSizeUpload = 32);
+builder.Services.AddPickstack(builder.Configuration)
+    .AddWebFilez(files => files.Server(server => server.MaxUploadBytes = 32 * 1024 * 1024))
+    .AddTinyMce5(editor => editor
+        .WithHeight(400)
+        .ShowMenubar()
+        .WithPlugins(
+            "advlist", "autolink", "lists", "link", "image", "charmap", "print", "preview", "hr", "anchor", "pagebreak",
+            "searchreplace", "wordcount", "visualblocks", "visualchars", "code", "fullscreen",
+            "insertdatetime", "media", "nonbreaking", "save", "table", "directionality",
+            "template", "paste", "textcolor")
+        .Set("toolbar1", "insertfile undo redo | styleselect | ltr rtl | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image")
+        .Set("toolbar2", "print preview media | forecolor backcolor")
+        .Set("image_advtab", true)
+        .Set("image_dimensions", false)
+        .Set("valid_elements", "+*[*]")
+        .Set("extended_valid_elements", "+*[*]")
+        .Set("valid_children", "+body[style]")
+        .Set("external_plugins", new Dictionary<string, string>
+        {
+            ["mantle_contentzone"] = "/_content/MantleFramework.Web.CommonResources/js/tinymce/plugins/mantle_contentzone/plugin.js"
+        }));
 
 #region RequestLocalizationOptions
 
@@ -202,11 +218,9 @@ app.UseCors("AllowAll");
 var requestLocalizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(requestLocalizationOptions.Value);
 
-app.UseSession();
-
 #region Static Files
 
-app.UseDefaultFiles(); // For PeachPie
+app.UseDefaultFiles();
 app.UseMantleWebEmbeddedFileProviders();
 app.UseMantlePlugins();
 
@@ -221,9 +235,6 @@ app.UseMantlePlugins();
 //}
 
 #endregion Static Files
-
-// PeachPie / Responsive File Manager
-app.UseResponsiveFileManager();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
@@ -242,6 +253,7 @@ app.UseAuthorization();
 app.UseMultitenancy<Tenant>();
 app.UseWebOptimizer();
 app.UseExtensoUI<Bootstrap5UIProvider>();
+app.UsePickstack();
 
 app.MapControllerRoute(
     name: "areaRoute",

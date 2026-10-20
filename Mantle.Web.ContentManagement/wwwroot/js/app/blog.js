@@ -16,8 +16,6 @@
 
     require('chosen');
     require('mantle-knockout-chosen');
-    require('tinymce');
-    require('tinymce-jquery');
     require('tinymce-knockout');
     require('mantle-tinymce');
 
@@ -446,12 +444,14 @@
             this.categoryModel.init();
             this.tagModel.init();
 
+            const self = this;
             $('#myModal').on('hidden.bs.modal', function () {
-                if (!this.modalDismissed) {
-                    const url = `/Media/Uploads/${$('#TeaserImageUrl').val()}`;
-                    this.postModel.teaserImageUrl(url);
+                if (!self.modalDismissed) {
+                    const raw = $('#TeaserImageUrl').val() || '';
+                    const url = raw.charAt(0) === '/' ? raw : `/Media/Uploads/${raw.replace(/^\/+/, '')}`;
+                    self.postModel.teaserImageUrl(url);
                 }
-                this.modalDismissed = false;
+                self.modalDismissed = false;
             });
         };
 

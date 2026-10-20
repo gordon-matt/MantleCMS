@@ -43,10 +43,6 @@
     <link rel="stylesheet" type="text/css" href="~/lib/durandal/css/durandal.css" />
     <link rel="stylesheet" type="text/css" href="~/css/durandal/starterkit.css" />
 
-    <!-- TinyMCE -->
-    <link rel="stylesheet" type="text/css" href="~/lib/tinymce/skins/ui/oxide/skin.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/lib/tinymce/skins/ui/oxide/content.min.css" />
-
     <style type="text/css">
         .toast:not(.show) {
             display: block !important;
@@ -148,6 +144,8 @@
             }
         });
     </script>
+
+    @Html.RenderPickstackScripts()
 
     @await RenderSectionAsync("scripts", required: false)
 </body>

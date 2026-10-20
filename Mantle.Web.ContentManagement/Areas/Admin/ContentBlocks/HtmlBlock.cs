@@ -21,4 +21,17 @@ public class HtmlBlock : ContentBlockBase
     [LocalizedDisplayName(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.Script)]
     [LocalizedHelpText(MantleCmsLocalizableStrings.ContentBlocks.HtmlBlock.HelpText.Script)]
     public string Script { get; set; }
+
+    public override string RenderKOUpdateModelFunction(IEnumerable<BlockPropertyInfo> blockProperties)
+    {
+        string script = base.RenderKOUpdateModelFunction(blockProperties);
+        const string End = "\t};";
+        int index = script.LastIndexOf(End, StringComparison.Ordinal);
+        if (index < 0)
+        {
+            return script;
+        }
+
+        return script.Insert(index, "\t\tblockModel.tinyMCEConfig = mantleDefaultTinyMCEConfig;\r\n");
+    }
 }

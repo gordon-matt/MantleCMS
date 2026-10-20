@@ -19,8 +19,6 @@ define(function (require) {
     require('odata-helpers');
 
     require('mantle-knockout-chosen');
-    require('tinymce');
-    require('tinymce-jquery');
     require('tinymce-knockout');
     require('mantle-tinymce');
 
