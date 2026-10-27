@@ -32,8 +32,11 @@ Mantle is both a CMS and just a general purpose .NET Core web framework, built u
     <a href="https://github.com/gordon-matt/Extenso" target="_blank" rel="noreferrer">
         <img src="https://github.com/gordon-matt/Extenso/raw/master/_Misc/ExtensoLogo.png" alt="dotnet" height="60"/>
     </a>&nbsp;
-    <a href="https://github.com/gordon-matt/peachpie-responsive-file-manager" target="_blank" rel="noreferrer">
-        <img src="https://github.com/gordon-matt/peachpie-responsive-file-manager/raw/master/Misc/logo.png" alt="dotnet" height="60"/>
+    <a href="https://github.com/gordon-matt/WebFilez" target="_blank" rel="noreferrer">
+        <img src="https://github.com/gordon-matt/WebFilez/blob/master/_Misc/Logo-Light.png" alt="dotnet" height="60"/>
+    </a>
+    <a href="https://github.com/gordon-matt/Pickstack" target="_blank" rel="noreferrer">
+        <img src="https://github.com/gordon-matt/Pickstack/raw/master/_Misc/Logo.png" alt="dotnet" height="60"/>
     </a>
 </p>
 
@@ -44,7 +47,7 @@ As a 1 man team, you'll find my CMS may not have quite as many features as many 
 - Multi-tenant solution
 - Plugins system
 - Theme Engine
-- File Manager (Responsive File Manager)
+- File Manager ([WebFilez](https://github.com/gordon-matt/WebFilez))
 - Membership Management (manage users and roles)
 - Localization
 - Pages (and page types)
