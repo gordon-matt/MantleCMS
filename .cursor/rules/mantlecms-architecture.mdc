@@ -1,0 +1,32 @@
+---
+description: MantleCMS-specific architecture - plugin DependencyRegistrars, Dependo container, IGenericDataService; overrides the shared SelfHosted conventions
+globs: **/*.cs
+alwaysApply: false
+---
+# MantleCMS conventions
+
+MantleCMS predates the SelfHosted layout, so the shared solution-structure and DI rules don't apply here.
+
+- Modular: `Mantle.*` libraries with `.Abstractions` splits, plus `Plugins/Mantle.Plugins.*`. The DI container is swappable (`Mantle.Infrastructure.Autofac`/`DryIoc`/`Lamar`/`LightInject`/`DotNetDefault`).
+- Register services through Dependo's `IDependencyRegistrar` in `Infrastructure/DependencyRegistrar.cs`, not `ServiceCollectionExtensions`:
+```csharp
+public class DependencyRegistrar : IDependencyRegistrar
+{
+    public void Register(IContainerBuilder builder, ITypeFinder typeFinder, IConfiguration configuration)
+    {
+        if (!PluginManager.IsPluginInstalled(Constants.PluginSystemName))
+        {
+            return;
+        }
+
+        builder.Register<ISettings, RedisCacheSettings>(ServiceLifetime.Scoped);
+        builder.RegisterNamed<ICacheManager, RedisCacheManager>("Mantle_Cache_Static", ServiceLifetime.Singleton);
+    }
+
+    public int Order => 99999;
+}
+```
+- Plugins check `PluginManager.IsPluginInstalled` before registering. Each plugin has its own `Constants.PluginSystemName`.
+- Data access goes through `IGenericDataService<T>` / `GenericDataService<T>` (Mantle.Data) on top of the Extenso repository. Entity maps implement `IMantleEntityTypeConfiguration`, and seeding uses `IDbSeeder`/`ISupportSeed`.
+- Some UI and grid code uses `Extenso.AspNetCore.Mvc.ExtensoUI`, Kendo (`Extenso.KendoGridBinder`) and OData.
+- Tests use xUnit.

@@ -1,0 +1,42 @@
+---
+description: Which of my other projects this repo depends on and where their source lives. Read before using or investigating any internal library/package.
+alwaysApply: false
+---
+
+Shared coding conventions live in Blueprint/.cursor/rules/conventions.mdc (absolute path: D:\Source\GitHub\Blueprint\.cursor\rules\conventions.mdc). Read it before writing or changing code.
+
+@../../Blueprint/.cursor/rules/conventions.mdc
+
+## Internal dependencies
+
+| Name | How it's consumed | Package ID and version | Source location |
+| --- | --- | --- | --- |
+| Dependo | NuGet PackageReference | Dependo 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.Autofac | NuGet PackageReference | Dependo.Autofac 1.2.1 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.DotNetDefault | NuGet PackageReference | Dependo.DotNetDefault 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.DryIoc | NuGet PackageReference | Dependo.DryIoc 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.Lamar | NuGet PackageReference | Dependo.Lamar 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.LightInject | NuGet PackageReference | Dependo.LightInject 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Extenso.AspNetCore.Mvc | NuGet PackageReference | Extenso.AspNetCore.Mvc 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.AspNetCore.Mvc.ExtensoUI | NuGet PackageReference | Extenso.AspNetCore.Mvc.ExtensoUI 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.AspNetCore.OData | NuGet PackageReference | Extenso.AspNetCore.OData 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.Core | NuGet PackageReference | Extenso.Core 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.Data | NuGet PackageReference | Extenso.Data 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.Data.Entity | NuGet PackageReference | Extenso.Data.Entity 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.Data.QueryBuilder | NuGet PackageReference | Extenso.Data.QueryBuilder 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.Data.QueryBuilder.Npgsql | NuGet PackageReference | Extenso.Data.QueryBuilder.Npgsql 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.KendoGridBinder | NuGet PackageReference | Extenso.KendoGridBinder 1.0.0 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Extenso.WebAssets.KendoUI | NuGet PackageReference | Extenso.WebAssets.KendoUI 1.0.0 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
+| Pickstack.FileManager.WebFilez | NuGet PackageReference | Pickstack.FileManager.WebFilez 1.0.1 | `D:\Source\GitHub\Libraries\Pickstack` (`..\..\Libraries\Pickstack`) |
+| Pickstack.RichTextEditor.TinyMce5 | NuGet PackageReference | Pickstack.RichTextEditor.TinyMce5 1.0.1 | `D:\Source\GitHub\Libraries\Pickstack` (`..\..\Libraries\Pickstack`) |
+| SaasKit.Multitenancy | NuGet PackageReference | SaasKit.Multitenancy 1.1.4 | `D:\Source\GitHub\Libraries\saaskit` (`..\..\Libraries\saaskit`) |
+
+## Unresolved
+
+None.
+
+## Reverse dependencies
+
+- `Websites\ZhongWenLearner` - MantleFramework.Caching 1.1.0 (NuGet PackageReference); MantleFramework.Data 1.1.0 (NuGet PackageReference); MantleFramework.Identity 1.1.0 (NuGet PackageReference); MantleFramework.Localization.Abstractions 1.1.0 (NuGet PackageReference); MantleFramework.Tenants 1.1.0 (NuGet PackageReference); MantleFramework.Web 1.1.0 (NuGet PackageReference); MantleFramework.Web.ContentManagement 1.1.0 (NuGet PackageReference); MantleFramework.Web.Infrastructure.Autofac 1.1.0 (NuGet PackageReference)
+
+When you need to understand an API, behavior, or bug in one of the internal packages above, read its source code at the listed location. Do NOT use reflection, decompilation, or inspect DLLs/NuGet cache. If a fix belongs in the library, say so rather than working around it in the consumer. Note that the consumer references a published package version, so local source may be newer than what the consumer actually uses; check the version.

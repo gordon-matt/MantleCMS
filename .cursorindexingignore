@@ -1,0 +1,3 @@
+# Excluded from indexing only. The agent can still read these files.
+*.min.js
+*.min.css
