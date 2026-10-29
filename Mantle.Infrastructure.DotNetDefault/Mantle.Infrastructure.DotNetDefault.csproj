@@ -16,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dependo.DotNetDefault" Version="1.2.0" />
+		<PackageReference Include="Dependo.DotNetDefault" Version="1.2.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -29,7 +29,7 @@ Shared coding conventions live in Blueprint/.cursor/rules/conventions.mdc (absol
 | Extenso.WebAssets.KendoUI | NuGet PackageReference | Extenso.WebAssets.KendoUI 1.0.0 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
 | Pickstack.FileManager.WebFilez | NuGet PackageReference | Pickstack.FileManager.WebFilez 1.0.1 | `D:\Source\GitHub\Libraries\Pickstack` (`..\..\Libraries\Pickstack`) |
 | Pickstack.RichTextEditor.TinyMce5 | NuGet PackageReference | Pickstack.RichTextEditor.TinyMce5 1.0.1 | `D:\Source\GitHub\Libraries\Pickstack` (`..\..\Libraries\Pickstack`) |
-| SaasKit.Multitenancy | NuGet PackageReference | SaasKit.Multitenancy 1.1.4 | `D:\Source\GitHub\Libraries\saaskit` (`..\..\Libraries\saaskit`) |
+| Flatmate | ProjectReference | Flatmate 1.0.0 | `D:\Source\GitHub\Libraries\Flatmate` (`..\..\Libraries\Flatmate`) |
 
 ## Unresolved
 

@@ -1,7 +1,7 @@
-﻿using Mantle.Tenants;
+﻿using Flatmate;
+using Mantle.Tenants;
 using Mantle.Tenants.Entities;
 using Microsoft.Extensions.Caching.Memory;
-using SaasKit.Multitenancy;
 
 namespace Mantle.Web.Tenants;
 
@@ -27,7 +27,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
 
     protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context) => context.Tenant.Hosts.Split([','], StringSplitOptions.RemoveEmptyEntries);
 
-    protected override Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
+    protected override Task<TenantContext<Tenant>> ResolveFromStoreAsync(HttpContext context, CancellationToken cancellationToken)
     {
         TenantContext<Tenant> tenantContext = null;
 
@@ -43,7 +43,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
                 host = "unknown-host";
             }
 
-            logger.LogInformation("[Host]: " + host);
+            logger.LogInformation("[Host]: {Host}", host);
 
             Tenant tenant;
 
@@ -73,7 +73,7 @@ public class MantleTenantResolver : MemoryCacheTenantResolver<Tenant>
 
             tenant ??= tenants.First();
 
-            logger.LogInformation("[Tenant]: ID: {0}, Name: {1}, Hosts: {2}", tenant.Id, tenant.Name, tenant.Hosts);
+            logger.LogInformation("[Tenant]: ID: {TenantID}, Name: {TenantName}, Hosts: {TenantHosts}", tenant.Id, tenant.Name, tenant.Hosts);
             tenantContext = new TenantContext<Tenant>(tenant);
         }
         catch (Exception x)

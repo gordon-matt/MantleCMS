@@ -12,6 +12,8 @@ using Mantle.Web.Tenants;
 using MantleCMS;
 using MantleCMS.Identity;
 using MantleCMS.Services;
+using Microsoft.ApplicationInsights.AspNetCore;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -49,8 +51,22 @@ builder.Host.UseNLog();
 //}
 
 // Add services to the container.
-builder.Services.AddApplicationInsightsTelemetry(options =>
-    options.DeveloperMode = builder.Environment.IsDevelopment());
+// Application Insights 3.x builds the Azure Monitor exporter during host start and throws
+// when no connection string is configured. Views still inject these services.
+string applicationInsightsConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"]
+    ?? builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+
+if (!string.IsNullOrWhiteSpace(applicationInsightsConnectionString))
+{
+    builder.Services.AddApplicationInsightsTelemetry();
+}
+else
+{
+    var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+    telemetryConfiguration.DisableTelemetry = true;
+    builder.Services.AddSingleton(telemetryConfiguration);
+    builder.Services.AddSingleton<JavaScriptSnippet>();
+}
 
 if (DataSettingsHelper.IsDatabaseInstalled)
 {
@@ -110,7 +126,8 @@ builder.Services.AddRouting(routeOptions =>
 });
 
 // Framework
-builder.Services.AddMultitenancy<Tenant, MantleTenantResolver>();
+builder.Services.AddFlatmate<Tenant, MantleTenantResolver>();
+builder.Services.AddFlatmateCircuit<Tenant>();
 builder.Services.AddMantleLocalization();
 
 var mvcBuilder = builder.Services
@@ -250,7 +267,7 @@ app.UseODataQueryRequest();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMultitenancy<Tenant>();
+app.UseFlatmate<Tenant>();
 app.UseWebOptimizer();
 app.UseExtensoUI<Bootstrap5UIProvider>();
 app.UsePickstack();
