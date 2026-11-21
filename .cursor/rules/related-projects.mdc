@@ -11,12 +11,12 @@ Shared coding conventions live in Blueprint/.cursor/rules/conventions.mdc (absol
 
 | Name | How it's consumed | Package ID and version | Source location |
 | --- | --- | --- | --- |
-| Dependo | NuGet PackageReference | Dependo 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
-| Dependo.Autofac | NuGet PackageReference | Dependo.Autofac 1.2.1 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
-| Dependo.DotNetDefault | NuGet PackageReference | Dependo.DotNetDefault 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
-| Dependo.DryIoc | NuGet PackageReference | Dependo.DryIoc 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
-| Dependo.Lamar | NuGet PackageReference | Dependo.Lamar 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
-| Dependo.LightInject | NuGet PackageReference | Dependo.LightInject 1.2.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo | NuGet PackageReference | Dependo 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.Autofac | NuGet PackageReference | Dependo.Autofac 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.DotNetDefault | NuGet PackageReference | Dependo.DotNetDefault 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.DryIoc | NuGet PackageReference | Dependo.DryIoc 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.Lamar | NuGet PackageReference | Dependo.Lamar 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
+| Dependo.LightInject | NuGet PackageReference | Dependo.LightInject 1.3.0 | `D:\Source\GitHub\Libraries\Dependo` (`..\..\Libraries\Dependo`) |
 | Extenso.AspNetCore.Mvc | NuGet PackageReference | Extenso.AspNetCore.Mvc 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
 | Extenso.AspNetCore.Mvc.ExtensoUI | NuGet PackageReference | Extenso.AspNetCore.Mvc.ExtensoUI 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |
 | Extenso.AspNetCore.OData | NuGet PackageReference | Extenso.AspNetCore.OData 10.0.1 | `D:\Source\GitHub\Libraries\Extenso` (`..\..\Libraries\Extenso`) |

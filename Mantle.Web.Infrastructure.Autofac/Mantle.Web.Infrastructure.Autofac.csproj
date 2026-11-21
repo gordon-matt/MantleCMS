@@ -11,6 +11,8 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputTypeEx>library</OutputTypeEx>
 		<Authors>Matt Gordon</Authors>
+		<!-- Dependo.Autofac already supplies the catalog generator through the referenced infrastructure project. -->
+		<DependoUseProjectGenerator>false</DependoUseProjectGenerator>
 		<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
 	</PropertyGroup>
 

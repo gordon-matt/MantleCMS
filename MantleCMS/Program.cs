@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Dependo;
 using Extenso.AspNetCore.Mvc.ExtensoUI;
 using Extenso.AspNetCore.Mvc.ExtensoUI.Providers;
 using Mantle.Identity.Services;
@@ -29,6 +30,28 @@ using Pickstack.FileManager.WebFilez;
 using Pickstack.RichTextEditor.TinyMce5;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// PluginManager loads plugin assemblies before the container is built, so Dependo does not also
+// load every DLL in the output folder while discovering registrars and startup types.
+DependoCatalog.ProbeBinFolder = false;
+
+// Third-party assemblies in the output folder. Microsoft, System, Autofac, AutoMapper, Newtonsoft,
+// and NLog are already skipped. Mantle, its plugins, and the application libraries stay included.
+DependoCatalog.SkipAssembliesStartingWith(
+    "Ardalis",
+    "Azure",
+    "Extenso",
+    "Humanizer",
+    "LinqKit",
+    "Mono.TextTemplating",
+    "Npgsql",
+    "NUglify",
+    "OpenTelemetry",
+    "Pickstack",
+    "SharpCompress",
+    "SkiaSharp",
+    "WebFilez",
+    "WebOptimizer");
 
 // Configure Service Provider
 //builder.Services.AddTransient(typeof(Lazy<>), typeof(LazyServiceWrapper<>)); // Needed for .NET Default DI (comment it out for Autofac, etc)

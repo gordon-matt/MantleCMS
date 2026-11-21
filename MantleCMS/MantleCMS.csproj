@@ -8,6 +8,8 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>Matt Gordon</Authors>
     <RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
+    <!-- Dependo.Autofac already supplies the catalog generator through the infrastructure project. -->
+    <DependoUseProjectGenerator>false</DependoUseProjectGenerator>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Plugins\**" />
@@ -18,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Extenso.Data" />
     <PackageReference Include="Extenso.WebAssets.KendoUI" />
+    <PackageReference Include="Flatmate" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
@@ -38,7 +41,6 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\Flatmate\Flatmate\Flatmate.csproj" />
     <ProjectReference Include="..\Mantle.Caching\Mantle.Caching.csproj" />
     <ProjectReference Include="..\Mantle.Data\Mantle.Data.csproj" />
     <ProjectReference Include="..\Mantle.Events\Mantle.Events.csproj" />

@@ -1,0 +1,16 @@
+<Project>
+	<!--
+	Dependo's catalog generator ships inside the container packages. It does not flow
+	through a ProjectReference, and most Mantle projects only use Dependo transitively.
+	This attaches the local generator for those projects.
+	The container projects, the web infrastructure projects, and the host already receive that
+	generator from the Dependo container package, so they set DependoUseProjectGenerator to false.
+	Otherwise the generator runs twice.
+	-->
+	<ItemGroup Condition="'$(DependoUseProjectGenerator)' != 'false'">
+		<ProjectReference Include="$(MSBuildThisFileDirectory)..\..\Libraries\Dependo\Dependo.Generator\Dependo.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" PrivateAssets="all" />
+	</ItemGroup>
+	<ItemGroup>
+		<CompilerVisibleProperty Include="DependoCatalog" />
+	</ItemGroup>
+</Project>

@@ -11,6 +11,8 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputTypeEx>library</OutputTypeEx>
 		<Authors>Matt Gordon</Authors>
+		<!-- Dependo.Lamar already supplies the catalog generator. -->
+		<DependoUseProjectGenerator>false</DependoUseProjectGenerator>
 		<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
 	</PropertyGroup>
 

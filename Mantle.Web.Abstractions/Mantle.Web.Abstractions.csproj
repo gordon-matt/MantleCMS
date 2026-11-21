@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dependo" />
     <PackageReference Include="Humanizer.Core" />
   </ItemGroup>
 

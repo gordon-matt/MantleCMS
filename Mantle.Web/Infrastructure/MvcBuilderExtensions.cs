@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Dependo;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Mantle.Web.Infrastructure;
 
@@ -8,10 +9,13 @@ public static class MvcBuilderExtensions
     {
         public IMvcBuilder AddMantleEmbeddedFileProviders()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => a.ExportedTypes.Any(t => t.GetInterfaces().Contains(typeof(IEmbeddedFileProviderRegistrar))));
+            // The registrar list comes from the Dependo catalog when the host was compiled with it.
+            // Plugin assemblies are added later by PluginManager.
+            var typeFinder = new WebAppTypeFinder();
+            var assemblies = typeFinder.FindClassesOfType<IEmbeddedFileProviderRegistrar>()
+                .Select(type => type.Assembly)
+                .Distinct();
 
-            // View Components won't work unless we do this.
             foreach (var assembly in assemblies)
             {
                 builder.AddApplicationPart(assembly);
