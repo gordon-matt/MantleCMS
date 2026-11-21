@@ -11,7 +11,6 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputTypeEx>library</OutputTypeEx>
 		<Authors>Matt Gordon</Authors>
-		<Version>1.1.0</Version>
 		<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
 	</PropertyGroup>
 

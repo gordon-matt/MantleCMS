@@ -5,11 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Mantle.Web</RootNamespace>
     <PackageId>MantleFramework.Web.Abstractions</PackageId>
-	<Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Humanizer.Core" Version="3.0.10" />
+    <PackageReference Include="Humanizer.Core" />
   </ItemGroup>
 
   <ItemGroup>

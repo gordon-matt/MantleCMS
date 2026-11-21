@@ -12,7 +12,6 @@
     <Authors>Matt Gordon</Authors>
     <Description>Mantle - Web. Includes admin pages for Membership, Localization, Configuration, Tenants, Scheduled Tasks, etc. Also includes many extensions and helper classes.</Description>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>1.1.0</Version>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
@@ -25,19 +24,19 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Extenso.AspNetCore.Mvc" Version="10.2.0" />
-    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" Version="10.2.0" />
-    <PackageReference Include="Extenso.AspNetCore.OData" Version="10.2.0" />
-    <PackageReference Include="Extenso.Core" Version="10.2.0" />
-    <PackageReference Include="Extenso.Data" Version="10.2.0" />
-    <PackageReference Include="Extenso.KendoGridBinder" Version="1.0.2" />
-    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.477" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.14" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.14" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.14" />
-    <PackageReference Include="Microsoft.OData.Core" Version="8.4.4" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc" />
+    <PackageReference Include="Extenso.AspNetCore.Mvc.ExtensoUI" />
+    <PackageReference Include="Extenso.AspNetCore.OData" />
+    <PackageReference Include="Extenso.Core" />
+    <PackageReference Include="Extenso.Data" />
+    <PackageReference Include="Extenso.KendoGridBinder" />
+    <PackageReference Include="LigerShark.WebOptimizer.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
+    <PackageReference Include="Microsoft.OData.Core" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\Flatmate\Flatmate\Flatmate.csproj" />

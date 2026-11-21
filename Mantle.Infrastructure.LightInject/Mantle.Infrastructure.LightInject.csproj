@@ -11,12 +11,11 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<OutputTypeEx>library</OutputTypeEx>
 		<Authors>Matt Gordon</Authors>
-		<Version>1.1.0</Version>
 		<RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dependo.LightInject" Version="1.2.2" />
+		<PackageReference Include="Dependo.LightInject" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -10,12 +10,11 @@
     <Authors>Matt Gordon</Authors>
     <Description>Mantle</Description>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>1.1.0</Version>
     <RepositoryUrl>https://github.com/gordon-matt/MantleCMS</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Extenso.Core" Version="10.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Extenso.Core" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mantle.Localization.Abstractions\Mantle.Localization.Abstractions.csproj" />

@@ -163,6 +163,7 @@ var mvcBuilder = builder.Services
 builder.Services.AddRazorPages();
 builder.Services.AddPickstack(builder.Configuration)
     .AddWebFilez(files => files.Server(server => server.MaxUploadBytes = 32 * 1024 * 1024))
+    .Pickstack
     .AddTinyMce5(editor => editor
         .WithHeight(400)
         .ShowMenubar()
